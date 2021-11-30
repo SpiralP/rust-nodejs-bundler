@@ -4,9 +4,12 @@
   "author": "SpiralP <spiral.palmer@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build --no-source-maps web/index.html"
+    "build": "esbuild web/index.ts --outfile=dist/index.js --bundle --sourcemap --target=chrome94",
+    "build:prod": "yarn build --minify"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.5"
+    "@types/node": "^16.11.11",
+    "esbuild": "^0.14.1",
+    "typescript": "^4.5.2"
   }
 }

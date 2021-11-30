@@ -4,11 +4,8 @@ package.json
 
 ```json
   "scripts": {
-    "build": "parcel build web/index.html"
+    "build": "esbuild web/index.ts --outfile=dist/index.js --bundle"
   },
-  "devDependencies": {
-    "parcel-bundler": "^1.12.3"
-  }
 ```
 
 Cargo.toml

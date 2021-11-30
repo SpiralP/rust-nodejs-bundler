@@ -47,6 +47,21 @@ pub struct Builder {
     ///
     /// default `false`
     pub npm: bool,
+
+    /// delete dist folder before building
+    ///
+    /// default `false`
+    pub clean_dist: bool,
+
+    /// package.json script name for when building debug
+    ///
+    /// default `"build"`
+    pub script_dev: String,
+
+    /// package.json script name for when building release
+    ///
+    /// default `"build"`
+    pub script_prod: String,
 }
 
 impl Default for Builder {
@@ -56,6 +71,9 @@ impl Default for Builder {
             web_dir: "web".into(),
             dist_dir: "dist".into(),
             npm: false,
+            clean_dist: false,
+            script_dev: "build".into(),
+            script_prod: "build".into(),
         }
     }
 }
@@ -99,24 +117,32 @@ impl Builder {
                 }
             }
 
-            let _ = fs::remove_dir_all(&dist_dir);
+            if self.clean_dist {
+                let _ = fs::remove_dir_all(&dist_dir);
+            }
 
-            if cfg!(debug_assertions) {
-                if yarn {
-                    assert!(run_envs(
-                        "yarn run build",
-                        vec![("NODE_ENV", "development")]
-                    ));
-                } else {
-                    assert!(run_envs(
-                        "npm run-script build",
-                        vec![("NODE_ENV", "development")]
-                    ));
-                }
-            } else if yarn {
-                assert!(run("yarn run build"));
+            let node_env = if cfg!(debug_assertions) {
+                "development"
             } else {
-                assert!(run("npm run-script build"));
+                "production"
+            };
+
+            let script_name = if cfg!(debug_assertions) {
+                self.script_dev
+            } else {
+                self.script_prod
+            };
+
+            if yarn {
+                assert!(run_envs(
+                    &format!("yarn run {}", script_name),
+                    vec![("NODE_ENV", node_env)]
+                ));
+            } else {
+                assert!(run_envs(
+                    &format!("npm run-script {}", script_name),
+                    vec![("NODE_ENV", node_env)]
+                ));
             }
         }
 
