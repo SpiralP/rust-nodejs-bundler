@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;buf_redux-0.8.4&#x2F;src&#x2F;policy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>policy.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../buf_redux/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input"name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `&#x2F;home&#x2F;runner&#x2F;.cargo&#x2F;registry&#x2F;src&#x2F;github.com-1ecc6299db9ec823&#x2F;buf_redux-0.8.4&#x2F;src&#x2F;policy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>policy.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../buf_redux/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -373,8 +374,7 @@
 <span id="373">373</span>
 <span id="374">374</span>
 <span id="375">375</span>
-</pre><pre class="rust">
-<span class="comment">// Copyright 2016-2018 Austin Bonander &lt;austin.bonander@gmail.com&gt;</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2016-2018 Austin Bonander &lt;austin.bonander@gmail.com&gt;</span>
 <span class="comment">//</span>
 <span class="comment">// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
 <span class="comment">// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
@@ -386,7 +386,7 @@
 <span class="doccomment">//! Some simple policies are provided for your convenience. You may prefer to create your own</span>
 <span class="doccomment">//! types and implement the traits for them instead.</span>
 
-<span class="kw">use</span> <span class="kw">super</span><span class="ident">::Buffer</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Buffer</span>;
 
 <span class="doccomment">/// Flag for `ReaderPolicy` methods to signal whether or not `BufReader` should read into</span>
 <span class="doccomment">/// the buffer.</span>
@@ -398,8 +398,8 @@
 <span class="doccomment">/// Shorthand for `return DoRead(bool)` or `return DoRead(true)` (empty invocation)</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">do_read</span> (
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ( <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::policy::DoRead</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>); );
-    () <span class="op">=</span><span class="op">&gt;</span> ( <span class="macro">do_read!</span>(<span class="bool-val">true</span>); )
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>:<span class="ident">expr</span>) =&gt; ( <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::policy::DoRead</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">val</span>); );
+    () =&gt; ( <span class="macro">do_read!</span>(<span class="bool-val">true</span>); )
 );
 
 <span class="doccomment">/// Default policy for both `BufReader` and `BufWriter` that reproduces the behaviors of their</span>
@@ -431,7 +431,7 @@
     <span class="doccomment">/// If the read will ignore the buffer entirely (if the buffer is empty and the amount to be</span>
     <span class="doccomment">/// read matches or exceeds its capacity) or if `BufReader::read_into_buf()` was called to force</span>
     <span class="doccomment">/// a read into the buffer manually, this method will not be called.</span>
-    <span class="kw">fn</span> <span class="ident">before_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DoRead</span> { <span class="ident">DoRead</span>(<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>) }
+    <span class="kw">fn</span> <span class="ident">before_read</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="ident">DoRead</span> { <span class="ident">DoRead</span>(<span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>) }
 
     <span class="doccomment">/// Called after bytes are consumed from the buffer.</span>
     <span class="doccomment">///</span>
@@ -439,7 +439,7 @@
     <span class="doccomment">/// was in excess.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is a no-op by default.</span>
-    <span class="kw">fn</span> <span class="ident">after_consume</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">_amt</span>: <span class="ident">usize</span>) {}
+    <span class="kw">fn</span> <span class="ident">after_consume</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_buffer</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">_amt</span>: <span class="ident">usize</span>) {}
 }
 
 <span class="doccomment">/// Behavior of `std::io::BufReader`: the buffer will only be read into if it is empty.</span>
@@ -483,13 +483,13 @@
 
 <span class="kw">impl</span> <span class="ident">MinBuffered</span> {
     <span class="doccomment">/// Set the number of bytes to ensure are in the buffer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_min</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">usize</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_min</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">min</span>: <span class="ident">usize</span>) {
         <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">min</span>;
     }
 }
 
 <span class="kw">impl</span> <span class="ident">ReaderPolicy</span> <span class="kw">for</span> <span class="ident">MinBuffered</span> {
-    <span class="kw">fn</span> <span class="ident">before_read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DoRead</span> {
+    <span class="kw">fn</span> <span class="ident">before_read</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>) -&gt; <span class="ident">DoRead</span> {
         <span class="comment">// do nothing if we have enough data</span>
         <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="number">0</span> { <span class="macro">do_read!</span>(<span class="bool-val">false</span>) }
 
@@ -516,8 +516,8 @@
 <span class="doccomment">/// Shorthand for `return FlushAmt(n)` or `return FlushAmt(0)` (empty invocation)</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">flush_amt</span> (
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ( <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span><span class="macro-nonterminal">::policy::FlushAmt</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>); );
-    () <span class="op">=</span><span class="op">&gt;</span> ( <span class="macro">flush_amt!</span>(<span class="number">0</span>); )
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>) =&gt; ( <span class="kw">return</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::policy::FlushAmt</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>); );
+    () =&gt; ( <span class="macro">flush_amt!</span>(<span class="number">0</span>); )
 );
 
 <span class="doccomment">/// A trait which tells `BufWriter` when to flush.</span>
@@ -530,7 +530,7 @@
     <span class="doccomment">/// the size of the buffer that will be written to the `BufWriter`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, flushes the buffer if the usable space is smaller than the incoming write.</span>
-    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">FlushAmt</span>(<span class="kw">if</span> <span class="ident">incoming</span> <span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">usable_space</span>() { <span class="ident">buf</span>.<span class="ident">len</span>() } <span class="kw">else</span> { <span class="number">0</span> })
     }
 
@@ -539,7 +539,7 @@
     <span class="doccomment">/// `buf` references the updated buffer after the read.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Default impl is a no-op.</span>
-    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">FlushAmt</span>(<span class="number">0</span>)
     }
 }
@@ -553,12 +553,12 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FlushAtLeast</span>(<span class="kw">pub</span> <span class="ident">usize</span>);
 
 <span class="kw">impl</span> <span class="ident">WriterPolicy</span> <span class="kw">for</span> <span class="ident">FlushAtLeast</span> {
-    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">ensure_capacity</span>(<span class="ident">buf</span>, <span class="self">self</span>.<span class="number">0</span>);
         <span class="ident">FlushAmt</span>(<span class="kw">if</span> <span class="ident">incoming</span> <span class="op">&gt;</span> <span class="ident">buf</span>.<span class="ident">usable_space</span>() { <span class="ident">buf</span>.<span class="ident">len</span>() } <span class="kw">else</span> { <span class="number">0</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">FlushAmt</span>(<span class="ident">::std::cmp::max</span>(<span class="ident">buf</span>.<span class="ident">len</span>(), <span class="self">self</span>.<span class="number">0</span>))
     }
 }
@@ -572,7 +572,7 @@
     <span class="doccomment">/// but only when the buffer contains at least `self.0` bytes.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Otherwise, calls [`Buffer::make_room()`](::Buffer::make_room)</span>
-    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">before_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">incoming</span>: <span class="ident">usize</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">ensure_capacity</span>(<span class="ident">buf</span>, <span class="self">self</span>.<span class="number">0</span>);
 
         <span class="comment">// don&#39;t have enough room to fit the additional bytes but we can&#39;t flush,</span>
@@ -585,7 +585,7 @@
     }
 
     <span class="doccomment">/// Flushes the given amount if possible, nothing otherwise.</span>
-    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">FlushAmt</span>(<span class="self">self</span>.<span class="number">0</span>)
     }
 }
@@ -597,7 +597,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FlushOn</span>(<span class="kw">pub</span> <span class="ident">u8</span>);
 
 <span class="kw">impl</span> <span class="ident">WriterPolicy</span> <span class="kw">for</span> <span class="ident">FlushOn</span> {
-    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="comment">// include the delimiter in the flush</span>
         <span class="ident">FlushAmt</span>(<span class="ident">::memchr::memrchr</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="ident">buf</span>.<span class="ident">buf</span>()).<span class="ident">map_or</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">n</span> <span class="op">+</span> <span class="number">1</span>))
     }
@@ -610,12 +610,12 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FlushOnNewline</span>;
 
 <span class="kw">impl</span> <span class="ident">WriterPolicy</span> <span class="kw">for</span> <span class="ident">FlushOnNewline</span> {
-    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FlushAmt</span> {
+    <span class="kw">fn</span> <span class="ident">after_write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) -&gt; <span class="ident">FlushAmt</span> {
         <span class="ident">FlushAmt</span>(<span class="ident">::memchr::memrchr</span>(<span class="string">b&#39;\n&#39;</span>, <span class="ident">buf</span>.<span class="ident">buf</span>()).<span class="ident">map_or</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">n</span> <span class="op">+</span> <span class="number">1</span>))
     }
 }
 
-<span class="kw">fn</span> <span class="ident">ensure_capacity</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="ident">min_cap</span>: <span class="ident">usize</span>) {
+<span class="kw">fn</span> <span class="ident">ensure_capacity</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Buffer</span>, <span class="ident">min_cap</span>: <span class="ident">usize</span>) {
     <span class="kw">let</span> <span class="ident">cap</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">capacity</span>();
 
     <span class="kw">if</span> <span class="ident">cap</span> <span class="op">&lt;</span> <span class="ident">min_cap</span> {
@@ -749,7 +749,6 @@
         <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">writer</span>.<span class="ident">get_ref</span>(), <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">b&#39;\n&#39;</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="string">b&#39;\n&#39;</span>, <span class="number">11</span>, <span class="number">12</span>, <span class="string">b&#39;\n&#39;</span>]);
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="buf_redux" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="buf_redux" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (6db0a0e9a 2021-11-29)" ></div>
 </body></html>
