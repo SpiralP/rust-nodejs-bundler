@@ -1,42 +1,27 @@
-#[cfg(feature = "actix")]
-use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse, Route};
-use failure::{Error, Fail};
 pub use phf;
-
-#[derive(Debug, Fail)]
-pub enum ParcelJsError {
-    #[fail(display = "path not found: {}", path)]
-    NotFound { path: String },
-}
 
 pub type Files = phf::Map<&'static str, &'static [u8]>;
 
-pub struct ParcelJs {
+pub struct NodeJsBundle {
     files: Files,
 }
 
-impl ParcelJs {
+impl NodeJsBundle {
     pub const fn new(files: Files) -> Self {
         Self { files }
     }
 
-    pub fn get_file(&'static self, mut file_path: &str) -> Result<Vec<u8>, Error> {
-        if let Some(c) = file_path.chars().next() {
-            if c == '/' {
-                file_path = &file_path[1..];
-            }
+    pub fn get_file(&'static self, mut file_path: &str) -> Option<Vec<u8>> {
+        if file_path.starts_with('/') {
+            file_path = file_path.get(1..)?;
         }
         if file_path.is_empty() {
             file_path = "index.html";
         }
 
-        let data = self.files.get(file_path).ok_or_else(|| {
-            Error::from(ParcelJsError::NotFound {
-                path: file_path.to_string(),
-            })
-        })?;
+        let data = self.files.get(file_path)?;
 
-        Ok(zstd::stream::decode_all(*data)?)
+        zstd::stream::decode_all(*data).ok()
     }
 
     pub fn get_content_type(file_path: &str) -> Option<String> {
@@ -52,21 +37,22 @@ impl ParcelJs {
     }
 
     #[cfg(feature = "actix")]
-    pub fn as_route(&'static self) -> Route {
+    pub fn as_route(&'static self) -> actix_web::Route {
+        use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
+
         web::get().to(move |req: HttpRequest| -> HttpResponse {
             let file_path = req.path();
 
-            match self.get_file(&file_path) {
-                Ok(bytes) => {
-                    let mut builder = HttpResponse::Ok();
+            if let Some(bytes) = self.get_file(&file_path) {
+                let mut builder = HttpResponse::Ok();
 
-                    if let Some(content_type) = Self::get_content_type(&file_path) {
-                        builder.set(ContentType(content_type.parse().unwrap()));
-                    }
-
-                    builder.body(bytes)
+                if let Some(content_type) = Self::get_content_type(&file_path) {
+                    builder.set(ContentType(content_type.parse().unwrap()));
                 }
-                Err(_) => HttpResponse::NotFound().finish(),
+
+                builder.body(bytes)
+            } else {
+                HttpResponse::NotFound().finish()
             }
         })
     }
@@ -86,7 +72,7 @@ impl ParcelJs {
 
         let path = path.as_str();
 
-        if let Ok(data) = self.get_file(path) {
+        if let Some(data) = self.get_file(path) {
             let mut response = Response::builder();
 
             if let Some(content_type) = Self::get_content_type(path) {

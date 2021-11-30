@@ -1,4 +1,4 @@
-# rust-parceljs
+# rust-nodejs-bundler
 
 package.json
 
@@ -16,42 +16,41 @@ Cargo.toml
 ```toml
 [dependencies]
 # optional features: actix, warp
-parceljs = { git = "https://github.com/SpiralP/rust-parceljs.git" }
+nodejs-bundler = { git = "https://github.com/SpiralP/rust-nodejs-bundler.git" }
 
 [build-dependencies]
-parceljs-builder = { git = "https://github.com/SpiralP/rust-parceljs.git" }
+nodejs-bundler-codegen = { git = "https://github.com/SpiralP/rust-nodejs-bundler.git" }
 ```
 
 build.rs
 
 ```rust
 fn main() {
-  parceljs_builder::build();
+  nodejs_bundler_codegen::build();
 }
 ```
 
 main.rs
 
 ```rust
-include!(concat!(env!("OUT_DIR"), "/parceljs.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs-bundler.rs"));
 
 fn main() {
-  println!(
-    "{}",
-    String::from_utf8_lossy(&PARCELJS.get_file("index.html").unwrap())
-  );
+  let data = NODEJS_BUNDLE.get_file("index.html").unwrap();
+  println!("{}", String::from_utf8_lossy(&data));
 }
+
 ```
 
 main.rs with [warp](https://github.com/seanmonstar/warp) feature enabled
 
 ```rust
-include!(concat!(env!("OUT_DIR"), "/parceljs.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs-bundler.rs"));
 
 #[tokio::main]
 async fn main() {
   println!("try http://127.0.0.1:3030/");
-  warp::serve(PARCELJS.as_filter())
+  warp::serve(NODEJS_BUNDLE.as_filter())
     .run(([127, 0, 0, 1], 3030))
     .await;
 }
@@ -60,14 +59,14 @@ async fn main() {
 main.rs with [actix](https://github.com/actix/actix-web) feature enabled
 
 ```rust
-include!(concat!(env!("OUT_DIR"), "/parceljs.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs-bundler.rs"));
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
   use actix_web::{App, HttpServer};
 
   println!("try http://127.0.0.1:8080/");
-  HttpServer::new(|| App::new().route("/*", PARCELJS.as_route()))
+  HttpServer::new(|| App::new().route("/*", NODEJS_BUNDLE.as_route()))
     .bind("127.0.0.1:8080")?
     .run()
     .await

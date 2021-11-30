@@ -127,11 +127,11 @@ impl Builder {
             "dist directory wasn't created"
         );
 
-        let path = Path::new(&out_dir).join("parceljs.rs");
+        let path = Path::new(&out_dir).join("nodejs_bundle.rs");
         let mut rust_code_file = File::create(&path).unwrap();
 
         let mut phf = phf_codegen::Map::new();
-        phf.phf_path("::parceljs::phf");
+        phf.phf_path("::nodejs_bundler::phf");
 
         let paths: Vec<_> = WalkDir::new(&dist_dir)
             .into_iter()
@@ -149,7 +149,9 @@ impl Builder {
 
         // compress files into OUT_DIR
         for (relative_path, path) in &paths {
-            let encoded_path = Path::new(&out_dir).join("parceljs").join(relative_path);
+            let encoded_path = Path::new(&out_dir)
+                .join("nodejs_bundler")
+                .join(relative_path);
 
             let encoded_path_dir = encoded_path.parent().unwrap();
             if !encoded_path_dir.exists() {
@@ -174,7 +176,8 @@ impl Builder {
 
         writeln!(
             rust_code_file,
-            "static PARCELJS: ::parceljs::ParcelJs = ::parceljs::ParcelJs::new({});",
+            "static NODEJS_BUNDLE: ::nodejs_bundler::NodeJsBundle = \
+             ::nodejs_bundler::NodeJsBundle::new({});",
             phf.build()
         )
         .unwrap();

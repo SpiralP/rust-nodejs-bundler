@@ -1,5 +1,5 @@
 #[cfg(feature = "with_actix")]
-include!(concat!(env!("OUT_DIR"), "/parceljs.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 
 #[cfg(feature = "with_actix")]
 #[actix_web::main]
@@ -7,7 +7,7 @@ async fn main() -> std::io::Result<()> {
     use actix_web::{App, HttpServer};
 
     println!("try http://127.0.0.1:8080/");
-    HttpServer::new(|| App::new().route("/*", PARCELJS.as_route()))
+    HttpServer::new(|| App::new().route("/*", NODEJS_BUNDLE.as_route()))
         .bind("127.0.0.1:8080")?
         .run()
         .await

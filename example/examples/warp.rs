@@ -1,11 +1,11 @@
 #[cfg(feature = "with_warp")]
-include!(concat!(env!("OUT_DIR"), "/parceljs.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 
 #[cfg(feature = "with_warp")]
 #[tokio::main]
 async fn main() {
     println!("try http://127.0.0.1:3030/");
-    warp::serve(PARCELJS.as_filter())
+    warp::serve(NODEJS_BUNDLE.as_filter())
         .run(([127, 0, 0, 1], 3030))
         .await;
 }

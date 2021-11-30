@@ -1,12 +1,10 @@
 [package]
-name = "parceljs"
-version = "0.1.0"
-authors = ["SpiralP <spiral.palmer@gmail.com>"]
-edition = "2018"
+name = "nodejs-bundler"
+version = "1.0.0"
+edition = "2021"
 
 [dependencies]
 actix-web = { version = "3", optional = true }
-failure = "0.1"
 phf = "0.10"
 warp = { version = "0.3", optional = true }
 zstd = "0.9"
