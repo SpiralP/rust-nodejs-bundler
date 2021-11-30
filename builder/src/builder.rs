@@ -1,210 +1,210 @@
 use std::{
-  env, fs,
-  fs::File,
-  io::Write,
-  path::{Path, PathBuf},
-  process::Command,
+    env, fs,
+    fs::File,
+    io::Write,
+    path::{Path, PathBuf},
+    process::Command,
 };
 use walkdir::WalkDir;
 
 fn run(cmd: &str) -> bool {
-  if cfg!(target_os = "windows") {
-    check_command(Command::new("cmd").arg("/C").arg(cmd))
-  } else {
-    check_command(Command::new("sh").arg("-c").arg(cmd))
-  }
+    if cfg!(target_os = "windows") {
+        check_command(Command::new("cmd").arg("/C").arg(cmd))
+    } else {
+        check_command(Command::new("sh").arg("-c").arg(cmd))
+    }
 }
 
 fn run_envs(cmd: &str, envs: Vec<(&str, &str)>) -> bool {
-  if cfg!(target_os = "windows") {
-    check_command(Command::new("cmd").arg("/C").arg(cmd).envs(envs))
-  } else {
-    check_command(Command::new("sh").arg("-c").arg(cmd).envs(envs))
-  }
+    if cfg!(target_os = "windows") {
+        check_command(Command::new("cmd").arg("/C").arg(cmd).envs(envs))
+    } else {
+        check_command(Command::new("sh").arg("-c").arg(cmd).envs(envs))
+    }
 }
 
 fn check_command(command: &mut Command) -> bool {
-  command.status().unwrap().success()
+    command.status().unwrap().success()
 
-  // npm likes to warn a lot so disabled
+    // npm likes to warn a lot so disabled
 
-  // if !command.status().unwrap().success() {
-  //   return false;
-  // }
+    // if !command.status().unwrap().success() {
+    //   return false;
+    // }
 
-  // let output = command.output().unwrap();
+    // let output = command.output().unwrap();
 
-  // output.stderr.is_empty()
+    // output.stderr.is_empty()
 }
 
 pub struct Builder {
-  /// optionally change directory before doing anything
-  ///
-  /// default `None`
-  pub current_dir: Option<PathBuf>,
+    /// optionally change directory before doing anything
+    ///
+    /// default `None`
+    pub current_dir: Option<PathBuf>,
 
-  /// directory containing index.html
-  ///
-  /// deafult `"web"`
-  pub web_dir: PathBuf,
+    /// directory containing index.html
+    ///
+    /// deafult `"web"`
+    pub web_dir: PathBuf,
 
-  /// output files go into this directory
-  ///
-  /// default `"dist"`
-  pub dist_dir: PathBuf,
+    /// output files go into this directory
+    ///
+    /// default `"dist"`
+    pub dist_dir: PathBuf,
 
-  /// use yarn?
-  ///
-  /// default `false`
-  pub yarn: bool,
+    /// use yarn?
+    ///
+    /// default `false`
+    pub yarn: bool,
 }
 
 impl Default for Builder {
-  fn default() -> Self {
-    Self {
-      current_dir: None,
-      web_dir: "web".into(),
-      dist_dir: "dist".into(),
-      yarn: false,
+    fn default() -> Self {
+        Self {
+            current_dir: None,
+            web_dir: "web".into(),
+            dist_dir: "dist".into(),
+            yarn: false,
+        }
     }
-  }
 }
 
 impl Builder {
-  pub fn build(self) {
-    let last_current_dir = env::current_dir().unwrap();
-    let out_dir = env::var("OUT_DIR").unwrap();
+    pub fn build(self) {
+        let last_current_dir = env::current_dir().unwrap();
+        let out_dir = env::var("OUT_DIR").unwrap();
 
-    let web_dir = &self.web_dir;
-    let dist_dir = &self.dist_dir;
-    let yarn = self.yarn;
+        let web_dir = &self.web_dir;
+        let dist_dir = &self.dist_dir;
+        let yarn = self.yarn;
 
-    if let Some(current_dir) = self.current_dir {
-      env::set_current_dir(current_dir).expect("changing directory to current_dir");
-    }
-
-    assert!(
-      fs::metadata("package.json")
-        .map(|meta| meta.is_file())
-        .unwrap_or(false),
-      "package.json not found"
-    );
-
-    println!("cargo:rerun-if-changed=package.json");
-
-    assert!(
-      fs::metadata(&web_dir)
-        .map(|meta| meta.is_dir())
-        .unwrap_or(false),
-      "web directory not found"
-    );
-
-    if !out_dir.contains("rls") {
-      // if no node_modules, run npm install
-      if fs::metadata("node_modules").is_err() {
-        if yarn {
-          assert!(run("yarn install"));
-        } else {
-          assert!(run("npm install"));
+        if let Some(current_dir) = self.current_dir {
+            env::set_current_dir(current_dir).expect("changing directory to current_dir");
         }
-      }
 
-      let _ = fs::remove_dir_all(&dist_dir);
+        assert!(
+            fs::metadata("package.json")
+                .map(|meta| meta.is_file())
+                .unwrap_or(false),
+            "package.json not found"
+        );
 
-      if cfg!(debug_assertions) {
-        if yarn {
-          assert!(run_envs(
-            "yarn run build",
-            vec![("NODE_ENV", "development")]
-          ));
-        } else {
-          assert!(run_envs(
-            "npm run-script build",
-            vec![("NODE_ENV", "development")]
-          ));
+        println!("cargo:rerun-if-changed=package.json");
+
+        assert!(
+            fs::metadata(&web_dir)
+                .map(|meta| meta.is_dir())
+                .unwrap_or(false),
+            "web directory not found"
+        );
+
+        if !out_dir.contains("rls") {
+            // if no node_modules, run npm install
+            if fs::metadata("node_modules").is_err() {
+                if yarn {
+                    assert!(run("yarn install"));
+                } else {
+                    assert!(run("npm install"));
+                }
+            }
+
+            let _ = fs::remove_dir_all(&dist_dir);
+
+            if cfg!(debug_assertions) {
+                if yarn {
+                    assert!(run_envs(
+                        "yarn run build",
+                        vec![("NODE_ENV", "development")]
+                    ));
+                } else {
+                    assert!(run_envs(
+                        "npm run-script build",
+                        vec![("NODE_ENV", "development")]
+                    ));
+                }
+            } else if yarn {
+                assert!(run("yarn run build"));
+            } else {
+                assert!(run("npm run-script build"));
+            }
         }
-      } else if yarn {
-        assert!(run("yarn run build"));
-      } else {
-        assert!(run("npm run-script build"));
-      }
-    }
 
-    assert!(
-      fs::metadata(&dist_dir)
-        .map(|meta| meta.is_dir())
-        .unwrap_or(false),
-      "dist directory wasn't created"
-    );
+        assert!(
+            fs::metadata(&dist_dir)
+                .map(|meta| meta.is_dir())
+                .unwrap_or(false),
+            "dist directory wasn't created"
+        );
 
-    for entry in WalkDir::new(&web_dir) {
-      match entry {
-        Ok(entry) if entry.file_type().is_file() => {
-          let path = entry.path().to_path_buf();
+        for entry in WalkDir::new(&web_dir) {
+            match entry {
+                Ok(entry) if entry.file_type().is_file() => {
+                    let path = entry.path().to_path_buf();
 
-          println!("cargo:rerun-if-changed={}", path.display());
+                    println!("cargo:rerun-if-changed={}", path.display());
+                }
+                _ => {}
+            }
         }
-        _ => {}
-      }
-    }
 
-    let path = Path::new(&out_dir).join("parceljs.rs");
-    let mut rust_code_file = File::create(&path).unwrap();
+        let path = Path::new(&out_dir).join("parceljs.rs");
+        let mut rust_code_file = File::create(&path).unwrap();
 
-    let mut phf = phf_codegen::Map::new();
-    phf.phf_path("::parceljs::phf");
+        let mut phf = phf_codegen::Map::new();
+        phf.phf_path("::parceljs::phf");
 
-    let paths: Vec<_> = WalkDir::new(&dist_dir)
-      .into_iter()
-      .filter_map(|entry| match entry {
-        Ok(entry) if entry.file_type().is_file() => {
-          let path = entry.path().to_path_buf();
-          let relative_path = path.strip_prefix(dist_dir).unwrap();
-          let relative_path = relative_path.to_str().unwrap().to_string();
-          let relative_path = relative_path.replace("\\", "/");
-          Some((relative_path, path))
+        let paths: Vec<_> = WalkDir::new(&dist_dir)
+            .into_iter()
+            .filter_map(|entry| match entry {
+                Ok(entry) if entry.file_type().is_file() => {
+                    let path = entry.path().to_path_buf();
+                    let relative_path = path.strip_prefix(dist_dir).unwrap();
+                    let relative_path = relative_path.to_str().unwrap().to_string();
+                    let relative_path = relative_path.replace("\\", "/");
+                    Some((relative_path, path))
+                }
+                _ => None,
+            })
+            .collect();
+
+        // compress files into OUT_DIR
+        for (relative_path, path) in &paths {
+            let encoded_path = Path::new(&out_dir).join("parceljs").join(relative_path);
+
+            let encoded_path_dir = encoded_path.parent().unwrap();
+            if !encoded_path_dir.exists() {
+                fs::create_dir_all(encoded_path_dir).unwrap();
+            }
+
+            zstd::stream::copy_encode(
+                File::open(path).unwrap(),
+                File::create(&encoded_path).unwrap(),
+                zstd::DEFAULT_COMPRESSION_LEVEL,
+            )
+            .unwrap();
+
+            let relative_path = relative_path.as_str();
+            phf.entry(
+                relative_path,
+                &format!("include_bytes!({:?}) as &'static [u8]", encoded_path),
+            );
         }
-        _ => None,
-      })
-      .collect();
 
-    // compress files into OUT_DIR
-    for (relative_path, path) in &paths {
-      let encoded_path = Path::new(&out_dir).join("parceljs").join(relative_path);
+        writeln!(rust_code_file, "#[allow(clippy::unreadable_literal)]").unwrap();
 
-      let encoded_path_dir = encoded_path.parent().unwrap();
-      if !encoded_path_dir.exists() {
-        fs::create_dir_all(encoded_path_dir).unwrap();
-      }
+        writeln!(
+            rust_code_file,
+            "static PARCELJS: ::parceljs::ParcelJs = ::parceljs::ParcelJs::new({});",
+            phf.build()
+        )
+        .unwrap();
 
-      zstd::stream::copy_encode(
-        File::open(path).unwrap(),
-        File::create(&encoded_path).unwrap(),
-        zstd::DEFAULT_COMPRESSION_LEVEL,
-      )
-      .unwrap();
-
-      let relative_path = relative_path.as_str();
-      phf.entry(
-        relative_path,
-        &format!("include_bytes!({:?}) as &'static [u8]", encoded_path),
-      );
+        env::set_current_dir(last_current_dir).unwrap();
     }
-
-    writeln!(rust_code_file, "#[allow(clippy::unreadable_literal)]").unwrap();
-
-    writeln!(
-      rust_code_file,
-      "static PARCELJS: ::parceljs::ParcelJs = ::parceljs::ParcelJs::new({});",
-      phf.build()
-    )
-    .unwrap();
-
-    env::set_current_dir(last_current_dir).unwrap();
-  }
 }
 
 /// Build with default options.
 pub fn build() {
-  Builder::default().build()
+    Builder::default().build()
 }
