@@ -7,6 +7,10 @@ use std::{
 };
 use walkdir::WalkDir;
 
+fn check_command(command: &mut Command) -> bool {
+    command.status().unwrap().success()
+}
+
 fn run(cmd: &str) -> bool {
     if cfg!(target_os = "windows") {
         check_command(Command::new("cmd").arg("/C").arg(cmd))
@@ -23,40 +27,26 @@ fn run_envs(cmd: &str, envs: Vec<(&str, &str)>) -> bool {
     }
 }
 
-fn check_command(command: &mut Command) -> bool {
-    command.status().unwrap().success()
-
-    // npm likes to warn a lot so disabled
-
-    // if !command.status().unwrap().success() {
-    //   return false;
-    // }
-
-    // let output = command.output().unwrap();
-
-    // output.stderr.is_empty()
-}
-
 pub struct Builder {
     /// optionally change directory before doing anything
     ///
     /// default `None`
     pub current_dir: Option<PathBuf>,
 
-    /// directory containing index.html
+    /// watch for changes in this directory
     ///
     /// deafult `"web"`
     pub web_dir: PathBuf,
 
-    /// output files go into this directory
+    /// directory to bundle files in
     ///
     /// default `"dist"`
     pub dist_dir: PathBuf,
 
-    /// use yarn?
+    /// use npm instead of yarn
     ///
     /// default `false`
-    pub yarn: bool,
+    pub npm: bool,
 }
 
 impl Default for Builder {
@@ -65,7 +55,7 @@ impl Default for Builder {
             current_dir: None,
             web_dir: "web".into(),
             dist_dir: "dist".into(),
-            yarn: false,
+            npm: false,
         }
     }
 }
@@ -77,12 +67,13 @@ impl Builder {
 
         let web_dir = &self.web_dir;
         let dist_dir = &self.dist_dir;
-        let yarn = self.yarn;
+        let yarn = !self.npm;
 
         if let Some(current_dir) = self.current_dir {
             env::set_current_dir(current_dir).expect("changing directory to current_dir");
         }
 
+        println!("cargo:rerun-if-changed=package.json");
         assert!(
             fs::metadata("package.json")
                 .map(|meta| meta.is_file())
@@ -90,8 +81,7 @@ impl Builder {
             "package.json not found"
         );
 
-        println!("cargo:rerun-if-changed=package.json");
-
+        println!("cargo:rerun-if-changed={}", web_dir.display());
         assert!(
             fs::metadata(&web_dir)
                 .map(|meta| meta.is_dir())
@@ -136,17 +126,6 @@ impl Builder {
                 .unwrap_or(false),
             "dist directory wasn't created"
         );
-
-        for entry in WalkDir::new(&web_dir) {
-            match entry {
-                Ok(entry) if entry.file_type().is_file() => {
-                    let path = entry.path().to_path_buf();
-
-                    println!("cargo:rerun-if-changed={}", path.display());
-                }
-                _ => {}
-            }
-        }
 
         let path = Path::new(&out_dir).join("parceljs.rs");
         let mut rust_code_file = File::create(&path).unwrap();
