@@ -6,9 +6,9 @@ include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 async fn main() -> std::io::Result<()> {
     use actix_web::{App, HttpServer};
 
-    println!("try http://127.0.0.1:8080/");
+    println!("try http://127.0.0.1:3030/");
     HttpServer::new(|| App::new().route("/*", NODEJS_BUNDLE.as_route()))
-        .bind("127.0.0.1:8080")?
+        .bind("127.0.0.1:3030")?
         .run()
         .await
 }
