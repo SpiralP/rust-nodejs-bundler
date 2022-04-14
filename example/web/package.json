@@ -4,7 +4,7 @@
   "author": "SpiralP <spiral.palmer@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild web/index.ts --outfile=dist/index.js --bundle --sourcemap --target=chrome94",
+    "build": "esbuild src/index.ts --outfile=dist/index.js --bundle --sourcemap --target=chrome94",
     "build:prod": "yarn build --minify"
   },
   "devDependencies": {

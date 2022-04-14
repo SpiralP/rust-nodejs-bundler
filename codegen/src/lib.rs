@@ -36,7 +36,7 @@ pub struct Builder {
     /// watch for changes in this directory
     ///
     /// deafult `"web"`
-    pub web_dir: PathBuf,
+    pub src_dir: PathBuf,
 
     /// directory to bundle files in
     ///
@@ -68,7 +68,7 @@ impl Default for Builder {
     fn default() -> Self {
         Self {
             current_dir: None,
-            web_dir: "web".into(),
+            src_dir: "web".into(),
             dist_dir: "dist".into(),
             npm: false,
             clean_dist: false,
@@ -83,15 +83,22 @@ impl Builder {
         let last_current_dir = env::current_dir().unwrap();
         let out_dir = env::var("OUT_DIR").unwrap();
 
-        let web_dir = &self.web_dir;
+        let src_dir = &self.src_dir;
         let dist_dir = &self.dist_dir;
         let yarn = !self.npm;
 
-        if let Some(current_dir) = self.current_dir {
+        if let Some(current_dir) = &self.current_dir {
             env::set_current_dir(current_dir).expect("changing directory to current_dir");
         }
 
-        println!("cargo:rerun-if-changed=package.json");
+        println!(
+            "cargo:rerun-if-changed={}",
+            self.current_dir
+                .clone()
+                .unwrap_or_default()
+                .join("package.json")
+                .display()
+        );
         assert!(
             fs::metadata("package.json")
                 .map(|meta| meta.is_file())
@@ -99,9 +106,12 @@ impl Builder {
             "package.json not found"
         );
 
-        println!("cargo:rerun-if-changed={}", web_dir.display());
+        println!(
+            "cargo:rerun-if-changed={}",
+            self.current_dir.unwrap_or_default().join(src_dir).display()
+        );
         assert!(
-            fs::metadata(&web_dir)
+            fs::metadata(&src_dir)
                 .map(|meta| meta.is_dir())
                 .unwrap_or(false),
             "web directory not found"
@@ -166,7 +176,7 @@ impl Builder {
                     let path = entry.path().to_path_buf();
                     let relative_path = path.strip_prefix(dist_dir).unwrap();
                     let relative_path = relative_path.to_str().unwrap().to_string();
-                    let relative_path = relative_path.replace("\\", "/");
+                    let relative_path = relative_path.replace('\\', "/");
                     Some((relative_path, path))
                 }
                 _ => None,
