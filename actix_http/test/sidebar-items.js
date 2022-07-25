@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["TestBuffer","Async io buffer"],["TestRequest","Test `Request` builder"]]});
+window.SIDEBAR_ITEMS = {"struct":[["TestBuffer","Async io buffer"],["TestRequest","Test `Request` builder"]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ErrorHandlerResponse","Error handler response"]],"struct":[["ErrorHandlers","`Middleware` for allowing custom handlers for responses."]]});
+window.SIDEBAR_ITEMS = {"enum":[["ErrorHandlerResponse","Error handler response"]],"struct":[["ErrorHandlers","`Middleware` for allowing custom handlers for responses."]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["factory","Create boxed service factory"],["service","Create boxed service"]],"struct":[["BoxServiceFactory",""]],"type":[["BoxFuture",""],["BoxService",""]]});
+window.SIDEBAR_ITEMS = {"fn":[["factory","Create boxed service factory"],["service","Create boxed service"]],"struct":[["BoxServiceFactory",""]],"type":[["BoxFuture",""],["BoxService",""]]};

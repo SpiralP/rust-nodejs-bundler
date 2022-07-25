@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["UnixDatagram","A Unix datagram socket."],["UnixListener","A structure representing a Unix domain socket server."],["UnixStream","A Unix stream socket."]]});
+window.SIDEBAR_ITEMS = {"struct":[["UnixDatagram","A Unix datagram socket."],["UnixListener","A structure representing a Unix domain socket server."],["UnixStream","A Unix stream socket."]]};

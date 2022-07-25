@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DnsResponse","A DNS response object"]]});
+window.SIDEBAR_ITEMS = {"struct":[["DnsResponse","A DNS response object"]]};

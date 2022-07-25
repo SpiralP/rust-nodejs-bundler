@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["build","Build with default options."]],"struct":[["Builder",""]]});
+window.SIDEBAR_ITEMS = {"fn":[["build","Build with default options."]],"struct":[["Builder",""]]};

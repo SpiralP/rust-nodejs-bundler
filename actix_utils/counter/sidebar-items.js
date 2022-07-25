@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Counter","Simple counter with ability to notify task on reaching specific number"],["CounterGuard",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["Counter","Simple counter with ability to notify task on reaching specific number"],["CounterGuard",""]]};

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["KeepAlive",""],["KeepAliveService",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["KeepAlive",""],["KeepAliveService",""]]};

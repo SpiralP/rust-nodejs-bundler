@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["NodeJsBundle",""]],"type":[["Files",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["NodeJsBundle",""]],"type":[["Files",""]]};

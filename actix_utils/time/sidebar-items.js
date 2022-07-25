@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["LowResTime",""],["LowResTimeService",""],["SystemTime",""],["SystemTimeService",""]]});
+window.SIDEBAR_ITEMS = {"struct":[["LowResTime",""],["LowResTimeService",""],["SystemTime",""],["SystemTimeService",""]]};

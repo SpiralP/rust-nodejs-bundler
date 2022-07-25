@@ -1,1 +1,1 @@
-initSidebarItems({"attr":[["const_fn","An attribute for easy generation of const functions with conditional compilations."]]});
+window.SIDEBAR_ITEMS = {"attr":[["const_fn","An attribute for easy generation of const functions with conditional compilations."]]};
