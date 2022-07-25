@@ -30,7 +30,7 @@ fn main() {
 main.rs
 
 ```rust
-include!(concat!(env!("OUT_DIR"), "/nodejs-bundler.rs"));
+include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 
 fn main() {
   let data = NODEJS_BUNDLE.get_file("index.html").unwrap();
