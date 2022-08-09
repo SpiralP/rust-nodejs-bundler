@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-3.3.3/src/route.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>route.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_web/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-4.1.0/src/route.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>route.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_web/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -432,51 +426,59 @@
 <span id="424">424</span>
 <span id="425">425</span>
 <span id="426">426</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::rc_buffer</span>)]</span> <span class="comment">// inner value is mutated before being shared (`Rc::get_mut`)</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">mem</span>, <span class="ident">rc::Rc</span>};
 
-<span class="kw">use</span> <span class="ident">std::future::Future</span>;
-<span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
-<span class="kw">use</span> <span class="ident">std::rc::Rc</span>;
-<span class="kw">use</span> <span class="ident">std::task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>};
+<span class="kw">use</span> <span class="ident">actix_http</span>::{<span class="ident">body::MessageBody</span>, <span class="ident">Method</span>};
+<span class="kw">use</span> <span class="ident">actix_service</span>::{
+    <span class="ident">apply</span>,
+    <span class="ident">boxed</span>::{<span class="self">self</span>, <span class="ident">BoxService</span>},
+    <span class="ident">fn_service</span>, <span class="ident">Service</span>, <span class="ident">ServiceFactory</span>, <span class="ident">ServiceFactoryExt</span>, <span class="ident">Transform</span>,
+};
+<span class="kw">use</span> <span class="ident">futures_core::future::LocalBoxFuture</span>;
 
-<span class="kw">use</span> <span class="ident">actix_http</span>::{<span class="ident">http::Method</span>, <span class="ident">Error</span>};
-<span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">Service</span>, <span class="ident">ServiceFactory</span>};
-<span class="kw">use</span> <span class="ident">futures_util::future</span>::{<span class="ident">ready</span>, <span class="ident">FutureExt</span>, <span class="ident">LocalBoxFuture</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">guard</span>::{<span class="self">self</span>, <span class="ident">Guard</span>},
+    <span class="ident">handler</span>::{<span class="ident">handler_service</span>, <span class="ident">Handler</span>},
+    <span class="ident">middleware::Compat</span>,
+    <span class="ident">service</span>::{<span class="ident">BoxedHttpServiceFactory</span>, <span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>},
+    <span class="ident">Error</span>, <span class="ident">FromRequest</span>, <span class="ident">HttpResponse</span>, <span class="ident">Responder</span>,
+};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::extract::FromRequest</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::guard</span>::{<span class="self">self</span>, <span class="ident">Guard</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::handler</span>::{<span class="ident">Extract</span>, <span class="ident">Factory</span>, <span class="ident">Handler</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::responder::Responder</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::service</span>::{<span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::HttpResponse</span>;
-
-<span class="kw">type</span> <span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">Req</span>, <span class="ident">Res</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span>
-    <span class="kw">dyn</span> <span class="ident">Service</span><span class="op">&lt;</span>
-        <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Req</span>,
-        <span class="ident">Response</span> <span class="op">=</span> <span class="ident">Res</span>,
-        <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>,
-        <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Res</span>, <span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="op">&gt;</span>,
-<span class="op">&gt;</span>;
-
-<span class="kw">type</span> <span class="ident">BoxedRouteNewService</span><span class="op">&lt;</span><span class="ident">Req</span>, <span class="ident">Res</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Box</span><span class="op">&lt;</span>
-    <span class="kw">dyn</span> <span class="ident">ServiceFactory</span><span class="op">&lt;</span>
-        <span class="ident">Config</span> <span class="op">=</span> (),
-        <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Req</span>,
-        <span class="ident">Response</span> <span class="op">=</span> <span class="ident">Res</span>,
-        <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>,
-        <span class="ident">InitError</span> <span class="op">=</span> (),
-        <span class="ident">Service</span> <span class="op">=</span> <span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">Req</span>, <span class="ident">Res</span><span class="op">&gt;</span>,
-        <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">Req</span>, <span class="ident">Res</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="op">&gt;</span>,
-<span class="op">&gt;</span>;
-
-<span class="doccomment">/// Resource route definition</span>
+<span class="doccomment">/// A request handler with [guards](guard).</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Route uses builder-like pattern for configuration.</span>
-<span class="doccomment">/// If handler is not explicitly set, default *404 Not Found* handler is used.</span>
+<span class="doccomment">/// Route uses a builder-like pattern for configuration. If handler is not set, a `404 Not Found`</span>
+<span class="doccomment">/// handler is used.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Route</span> {
-    <span class="ident">service</span>: <span class="ident">BoxedRouteNewService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span><span class="op">&gt;</span>,
+    <span class="ident">service</span>: <span class="ident">BoxedHttpServiceFactory</span>,
     <span class="ident">guards</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Guard</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
@@ -485,72 +487,74 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::new_without_default</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Route</span> {
         <span class="ident">Route</span> {
-            <span class="ident">service</span>: <span class="ident">Box::new</span>(<span class="ident">RouteNewService::new</span>(<span class="ident">Extract::new</span>(<span class="ident">Handler::new</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="ident">ready</span>(<span class="ident">HttpResponse::NotFound</span>())
-            })))),
+            <span class="ident">service</span>: <span class="ident">boxed::factory</span>(<span class="ident">fn_service</span>(<span class="op">|</span><span class="ident">req</span>: <span class="ident">ServiceRequest</span><span class="op">|</span> <span class="kw">async</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">req</span>.<span class="ident">into_response</span>(<span class="ident">HttpResponse::NotFound</span>()))
+            })),
             <span class="ident">guards</span>: <span class="ident">Rc::new</span>(<span class="ident">Vec::new</span>()),
         }
     }
 
+    <span class="doccomment">/// Registers a route middleware.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// `mw` is a middleware component (type), that can modify the requests and responses handled by</span>
+    <span class="doccomment">/// this `Route`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [`App::wrap`](crate::App::wrap) for more details.</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;middleware&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">alias</span> <span class="op">=</span> <span class="string">&quot;use&quot;</span>)]</span> <span class="comment">// nodejs terminology</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">wrap</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">mw</span>: <span class="ident">M</span>) -&gt; <span class="ident">Route</span>
+    <span class="kw">where</span>
+        <span class="ident">M</span>: <span class="ident">Transform</span><span class="op">&lt;</span>
+                <span class="ident">BoxService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>, <span class="ident">Error</span><span class="op">&gt;</span>,
+                <span class="ident">ServiceRequest</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+                <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>,
+                <span class="ident">InitError</span> <span class="op">=</span> (),
+            <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">B</span>: <span class="ident">MessageBody</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="ident">Route</span> {
+            <span class="ident">service</span>: <span class="ident">boxed::factory</span>(<span class="ident">apply</span>(<span class="ident">Compat::new</span>(<span class="ident">mw</span>), <span class="self">self</span>.<span class="ident">service</span>)),
+            <span class="ident">guards</span>: <span class="self">self</span>.<span class="ident">guards</span>,
+        }
+    }
+
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_guards</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Guard</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="ident">std::mem::take</span>(<span class="ident">Rc::get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">guards</span>).<span class="ident">unwrap</span>())
+        <span class="ident">mem::take</span>(<span class="ident">Rc::get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">guards</span>).<span class="ident">unwrap</span>())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">ServiceFactory</span> <span class="kw">for</span> <span class="ident">Route</span> {
-    <span class="kw">type</span> <span class="ident">Config</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>;
+<span class="kw">impl</span> <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Route</span> {
     <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>;
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
-    <span class="kw">type</span> <span class="ident">InitError</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">Config</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">Service</span> <span class="op">=</span> <span class="ident">RouteService</span>;
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">CreateRouteService</span>;
+    <span class="kw">type</span> <span class="ident">InitError</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Service</span>, <span class="ident"><span class="self">Self</span>::InitError</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
     <span class="kw">fn</span> <span class="ident">new_service</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="ident">CreateRouteService</span> {
-            <span class="ident">fut</span>: <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">new_service</span>(()),
-            <span class="ident">guards</span>: <span class="self">self</span>.<span class="ident">guards</span>.<span class="ident">clone</span>(),
-        }
-    }
-}
+        <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">new_service</span>(());
+        <span class="kw">let</span> <span class="ident">guards</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">guards</span>.<span class="ident">clone</span>();
 
-<span class="kw">type</span> <span class="ident">RouteFuture</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span>
-    <span class="lifetime">&#39;static</span>,
-    <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span><span class="op">&gt;</span>, ()<span class="op">&gt;</span>,
-<span class="op">&gt;</span>;
-
-<span class="attribute">#[<span class="ident">pin_project::pin_project</span>]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CreateRouteService</span> {
-    <span class="attribute">#[<span class="ident">pin</span>]</span>
-    <span class="ident">fut</span>: <span class="ident">RouteFuture</span>,
-    <span class="ident">guards</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Guard</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">CreateRouteService</span> {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">RouteService</span>, ()<span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Output</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
-
-        <span class="kw">match</span> <span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>)<span class="question-mark">?</span> {
-            <span class="ident">Poll::Ready</span>(<span class="ident">service</span>) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">RouteService</span> {
-                <span class="ident">service</span>,
-                <span class="ident">guards</span>: <span class="ident">this</span>.<span class="ident">guards</span>.<span class="ident">clone</span>(),
-            })),
-            <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
-        }
+        <span class="ident">Box::pin</span>(<span class="kw">async</span> <span class="kw">move</span> {
+            <span class="kw">let</span> <span class="ident">service</span> <span class="op">=</span> <span class="ident">fut</span>.<span class="kw">await</span><span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>(<span class="ident">RouteService</span> { <span class="ident">service</span>, <span class="ident">guards</span> })
+        })
     }
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RouteService</span> {
-    <span class="ident">service</span>: <span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span><span class="op">&gt;</span>,
+    <span class="ident">service</span>: <span class="ident">BoxService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>, <span class="ident">Error</span><span class="op">&gt;</span>,
     <span class="ident">guards</span>: <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Guard</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">RouteService</span> {
+    <span class="comment">// TODO: does this need to take &amp;mut ?</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceRequest</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">for</span> <span class="ident">f</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">guards</span>.<span class="ident">iter</span>() {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">f</span>.<span class="ident">check</span>(<span class="ident">req</span>.<span class="ident">head</span>()) {
+        <span class="kw">let</span> <span class="ident">guard_ctx</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">guard_ctx</span>();
+
+        <span class="kw">for</span> <span class="ident">guard</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">guards</span>.<span class="ident">iter</span>() {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">guard</span>.<span class="ident">check</span>(<span class="kw-2">&amp;</span><span class="ident">guard_ctx</span>) {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
@@ -558,25 +562,23 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Service</span> <span class="kw">for</span> <span class="ident">RouteService</span> {
-    <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>;
+<span class="kw">impl</span> <span class="ident">Service</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RouteService</span> {
     <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>;
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
     <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Response</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">poll_ready</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">poll_ready</span>(<span class="ident">cx</span>)
-    }
+    <span class="macro">actix_service::forward_ready!</span>(<span class="ident">service</span>);
 
-    <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">req</span>: <span class="ident">ServiceRequest</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="ident">boxed_local</span>()
+    <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="ident">ServiceRequest</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
+        <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">call</span>(<span class="ident">req</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Route</span> {
     <span class="doccomment">/// Add method guard to the route.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use actix_web::*;</span>
     <span class="doccomment">/// # fn main() {</span>
     <span class="doccomment">/// App::new().service(web::resource(&quot;/path&quot;).route(</span>
@@ -596,7 +598,8 @@
 
     <span class="doccomment">/// Add guard to the route.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use actix_web::*;</span>
     <span class="doccomment">/// # fn main() {</span>
     <span class="doccomment">/// App::new().service(web::resource(&quot;/path&quot;).route(</span>
@@ -614,9 +617,10 @@
 
     <span class="doccomment">/// Set handler function, use request extractors for parameters.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use actix_web::{web, http, App};</span>
-    <span class="doccomment">/// use serde_derive::Deserialize;</span>
+    <span class="doccomment">/// use serde::Deserialize;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// #[derive(Deserialize)]</span>
     <span class="doccomment">/// struct Info {</span>
@@ -628,19 +632,16 @@
     <span class="doccomment">///     format!(&quot;Welcome {}!&quot;, info.username)</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// fn main() {</span>
-    <span class="doccomment">///     let app = App::new().service(</span>
-    <span class="doccomment">///         web::resource(&quot;/{username}/index.html&quot;) // &lt;- define path parameters</span>
-    <span class="doccomment">///             .route(web::get().to(index))        // &lt;- register handler</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// let app = App::new().service(</span>
+    <span class="doccomment">///     web::resource(&quot;/{username}/index.html&quot;) // &lt;- define path parameters</span>
+    <span class="doccomment">///         .route(web::get().to(index))        // &lt;- register handler</span>
+    <span class="doccomment">/// );</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// It is possible to use multiple extractors for one handler function.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use std::collections::HashMap;</span>
-    <span class="doccomment">/// # use serde_derive::Deserialize;</span>
+    <span class="doccomment">/// # use serde::Deserialize;</span>
     <span class="doccomment">/// use actix_web::{web, App};</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// #[derive(Deserialize)]</span>
@@ -649,143 +650,95 @@
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// /// extract path info using serde</span>
-    <span class="doccomment">/// async fn index(path: web::Path&lt;Info&gt;, query: web::Query&lt;HashMap&lt;String, String&gt;&gt;, body: web::Json&lt;Info&gt;) -&gt; String {</span>
+    <span class="doccomment">/// async fn index(</span>
+    <span class="doccomment">///     path: web::Path&lt;Info&gt;,</span>
+    <span class="doccomment">///     query: web::Query&lt;HashMap&lt;String, String&gt;&gt;,</span>
+    <span class="doccomment">///     body: web::Json&lt;Info&gt;</span>
+    <span class="doccomment">/// ) -&gt; String {</span>
     <span class="doccomment">///     format!(&quot;Welcome {}!&quot;, path.username)</span>
     <span class="doccomment">/// }</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// fn main() {</span>
-    <span class="doccomment">///     let app = App::new().service(</span>
-    <span class="doccomment">///         web::resource(&quot;/{username}/index.html&quot;) // &lt;- define path parameters</span>
-    <span class="doccomment">///             .route(web::get().to(index))</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">/// }</span>
+    <span class="doccomment">/// let app = App::new().service(</span>
+    <span class="doccomment">///     web::resource(&quot;/{username}/index.html&quot;) // &lt;- define path parameters</span>
+    <span class="doccomment">///         .route(web::get().to(index))</span>
+    <span class="doccomment">/// );</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">T</span>, <span class="ident">R</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handler</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">Args</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handler</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span>
     <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Factory</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">R</span>, <span class="ident">U</span><span class="op">&gt;</span>,
-        <span class="ident">T</span>: <span class="ident">FromRequest</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">R</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">U</span>: <span class="ident">Responder</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">F</span>: <span class="ident">Handler</span><span class="op">&lt;</span><span class="ident">Args</span><span class="op">&gt;</span>,
+        <span class="ident">Args</span>: <span class="ident">FromRequest</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">F::Output</span>: <span class="ident">Responder</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
-        <span class="self">self</span>.<span class="ident">service</span> <span class="op">=</span>
-            <span class="ident">Box::new</span>(<span class="ident">RouteNewService::new</span>(<span class="ident">Extract::new</span>(<span class="ident">Handler::new</span>(<span class="ident">handler</span>))));
+        <span class="self">self</span>.<span class="ident">service</span> <span class="op">=</span> <span class="ident">handler_service</span>(<span class="ident">handler</span>);
         <span class="self">self</span>
     }
-}
 
-<span class="kw">struct</span> <span class="ident">RouteNewService</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>, <span class="ident">Error</span> <span class="op">=</span> (<span class="ident">Error</span>, <span class="ident">ServiceRequest</span>)<span class="op">&gt;</span>,
-{
-    <span class="ident">service</span>: <span class="ident">T</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">RouteNewService</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span>
-        <span class="ident">Config</span> <span class="op">=</span> (),
-        <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>,
-        <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>,
-        <span class="ident">Error</span> <span class="op">=</span> (<span class="ident">Error</span>, <span class="ident">ServiceRequest</span>),
-    <span class="op">&gt;</span>,
-    <span class="ident">T::Future</span>: <span class="lifetime">&#39;static</span>,
-    <span class="ident">T::Service</span>: <span class="lifetime">&#39;static</span>,
-    <span class="op">&lt;</span><span class="ident">T::Service</span> <span class="kw">as</span> <span class="ident">Service</span><span class="op">&gt;</span><span class="ident">::Future</span>: <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">service</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">RouteNewService</span> { <span class="ident">service</span> }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ServiceFactory</span> <span class="kw">for</span> <span class="ident">RouteNewService</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span>
-        <span class="ident">Config</span> <span class="op">=</span> (),
-        <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>,
-        <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>,
-        <span class="ident">Error</span> <span class="op">=</span> (<span class="ident">Error</span>, <span class="ident">ServiceRequest</span>),
-    <span class="op">&gt;</span>,
-    <span class="ident">T::Future</span>: <span class="lifetime">&#39;static</span>,
-    <span class="ident">T::Service</span>: <span class="lifetime">&#39;static</span>,
-    <span class="op">&lt;</span><span class="ident">T::Service</span> <span class="kw">as</span> <span class="ident">Service</span><span class="op">&gt;</span><span class="ident">::Future</span>: <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">type</span> <span class="ident">Config</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>;
-    <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>;
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
-    <span class="kw">type</span> <span class="ident">InitError</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Service</span> <span class="op">=</span> <span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span>, <span class="ident"><span class="self">Self</span>::Response</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Service</span>, <span class="ident"><span class="self">Self</span>::InitError</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">new_service</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="self">self</span>.<span class="ident">service</span>
-            .<span class="ident">new_service</span>(())
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">service</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">service</span>: <span class="ident">BoxedRouteService</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span>
-                        <span class="ident">Box::new</span>(<span class="ident">RouteServiceWrapper</span> { <span class="ident">service</span> });
-                    <span class="prelude-val">Ok</span>(<span class="ident">service</span>)
-                }
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(()),
-            })
-            .<span class="ident">boxed_local</span>()
-    }
-}
-
-<span class="kw">struct</span> <span class="ident">RouteServiceWrapper</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Service</span><span class="op">&gt;</span> {
-    <span class="ident">service</span>: <span class="ident">T</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Service</span> <span class="kw">for</span> <span class="ident">RouteServiceWrapper</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T::Future</span>: <span class="lifetime">&#39;static</span>,
-    <span class="ident">T</span>: <span class="ident">Service</span><span class="op">&lt;</span>
-        <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>,
-        <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>,
-        <span class="ident">Error</span> <span class="op">=</span> (<span class="ident">Error</span>, <span class="ident">ServiceRequest</span>),
-    <span class="op">&gt;</span>,
-{
-    <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">ServiceRequest</span>;
-    <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>;
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Response</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">poll_ready</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">service</span>.<span class="ident">poll_ready</span>(<span class="ident">cx</span>).<span class="ident">map_err</span>(<span class="op">|</span>(<span class="ident">e</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">e</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">req</span>: <span class="ident">ServiceRequest</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="comment">// let mut fut = self.service.call(req);</span>
-        <span class="self">self</span>.<span class="ident">service</span>
-            .<span class="ident">call</span>(<span class="ident">req</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">res</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">res</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">res</span>),
-                <span class="prelude-val">Err</span>((<span class="ident">err</span>, <span class="ident">req</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">req</span>.<span class="ident">error_response</span>(<span class="ident">err</span>)),
-            })
-            .<span class="ident">boxed_local</span>()
-
-        <span class="comment">// match fut.poll() {</span>
-        <span class="comment">//     Poll::Ready(Ok(res)) =&gt; Either::Left(ok(res)),</span>
-        <span class="comment">//     Poll::Ready(Err((e, req))) =&gt; Either::Left(ok(req.error_response(e))),</span>
-        <span class="comment">//     Poll::Pending =&gt; Either::Right(Box::new(fut.then(|res| match res {</span>
-        <span class="comment">//         Ok(res) =&gt; Ok(res),</span>
-        <span class="comment">//         Err((err, req)) =&gt; Ok(req.error_response(err)),</span>
-        <span class="comment">//     }))),</span>
-        <span class="comment">// }</span>
+    <span class="doccomment">/// Set raw service to be constructed and called as the request handler.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use std::convert::Infallible;</span>
+    <span class="doccomment">/// # use futures_util::future::LocalBoxFuture;</span>
+    <span class="doccomment">/// # use actix_web::{*, dev::*, http::header};</span>
+    <span class="doccomment">/// struct HelloWorld;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// impl Service&lt;ServiceRequest&gt; for HelloWorld {</span>
+    <span class="doccomment">///     type Response = ServiceResponse;</span>
+    <span class="doccomment">///     type Error = Infallible;</span>
+    <span class="doccomment">///     type Future = LocalBoxFuture&lt;&#39;static, Result&lt;Self::Response, Self::Error&gt;&gt;;</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     dev::always_ready!();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///     fn call(&amp;self, req: ServiceRequest) -&gt; Self::Future {</span>
+    <span class="doccomment">///         let (req, _) = req.into_parts();</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///         let res = HttpResponse::Ok()</span>
+    <span class="doccomment">///             .insert_header(header::ContentType::plaintext())</span>
+    <span class="doccomment">///             .body(&quot;Hello world!&quot;);</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///         Box::pin(async move { Ok(ServiceResponse::new(req, res)) })</span>
+    <span class="doccomment">///     }</span>
+    <span class="doccomment">/// }</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// App::new().route(</span>
+    <span class="doccomment">///     &quot;/&quot;,</span>
+    <span class="doccomment">///     web::get().service(fn_factory(|| async { Ok(HelloWorld) })),</span>
+    <span class="doccomment">/// );</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">service</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">service_factory</span>: <span class="ident">S</span>) -&gt; <span class="self">Self</span>
+    <span class="kw">where</span>
+        <span class="ident">S</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span>
+                <span class="ident">ServiceRequest</span>,
+                <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>,
+                <span class="ident">Error</span> <span class="op">=</span> <span class="ident">E</span>,
+                <span class="ident">InitError</span> <span class="op">=</span> (),
+                <span class="ident">Config</span> <span class="op">=</span> (),
+            <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">E</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="self">self</span>.<span class="ident">service</span> <span class="op">=</span> <span class="ident">boxed::factory</span>(<span class="ident">service_factory</span>.<span class="ident">map_err</span>(<span class="ident">Into::into</span>));
+        <span class="self">self</span>
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">std::time::Duration</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert::Infallible</span>, <span class="ident">time::Duration</span>};
 
-    <span class="kw">use</span> <span class="ident">actix_rt::time::delay_for</span>;
+    <span class="kw">use</span> <span class="ident">actix_rt::time::sleep</span>;
     <span class="kw">use</span> <span class="ident">bytes::Bytes</span>;
-    <span class="kw">use</span> <span class="ident">serde_derive::Serialize</span>;
+    <span class="kw">use</span> <span class="ident">futures_core::future::LocalBoxFuture</span>;
+    <span class="kw">use</span> <span class="ident">serde::Serialize</span>;
 
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::http</span>::{<span class="ident">Method</span>, <span class="ident">StatusCode</span>};
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::test</span>::{<span class="ident">call_service</span>, <span class="ident">init_service</span>, <span class="ident">read_body</span>, <span class="ident">TestRequest</span>};
-    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>, <span class="ident">web</span>, <span class="ident">App</span>, <span class="ident">HttpResponse</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::{
+        <span class="ident">dev</span>::{<span class="ident">always_ready</span>, <span class="ident">fn_factory</span>, <span class="ident">fn_service</span>, <span class="ident">Service</span>},
+        <span class="ident">error</span>,
+        <span class="ident">http</span>::{<span class="ident">header</span>, <span class="ident">Method</span>, <span class="ident">StatusCode</span>},
+        <span class="ident">middleware</span>::{<span class="ident">DefaultHeaders</span>, <span class="ident">Logger</span>},
+        <span class="ident">service</span>::{<span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>},
+        <span class="ident">test</span>::{<span class="ident">call_service</span>, <span class="ident">init_service</span>, <span class="ident">read_body</span>, <span class="ident">TestRequest</span>},
+        <span class="ident">web</span>, <span class="ident">App</span>, <span class="ident">HttpResponse</span>,
+    };
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">PartialEq</span>, <span class="ident">Debug</span>)]</span>
     <span class="kw">struct</span> <span class="ident">MyObject</span> {
@@ -794,7 +747,7 @@
 
     <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_route</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">init_service</span>(
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">init_service</span>(
             <span class="ident">App::new</span>()
                 .<span class="ident">service</span>(
                     <span class="ident">web::resource</span>(<span class="string">&quot;/test&quot;</span>)
@@ -803,16 +756,16 @@
                             <span class="prelude-val">Err</span>::<span class="op">&lt;</span><span class="ident">HttpResponse</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">error::ErrorBadRequest</span>(<span class="string">&quot;err&quot;</span>))
                         }))
                         .<span class="ident">route</span>(<span class="ident">web::post</span>().<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
-                            <span class="ident">delay_for</span>(<span class="ident">Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>;
-                            <span class="prelude-val">Ok</span>::<span class="op">&lt;</span><span class="kw">_</span>, ()<span class="op">&gt;</span>(<span class="ident">HttpResponse::Created</span>())
+                            <span class="ident">sleep</span>(<span class="ident">Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>;
+                            <span class="prelude-val">Ok</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Infallible</span><span class="op">&gt;</span>(<span class="ident">HttpResponse::Created</span>())
                         }))
                         .<span class="ident">route</span>(<span class="ident">web::delete</span>().<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
-                            <span class="ident">delay_for</span>(<span class="ident">Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>;
+                            <span class="ident">sleep</span>(<span class="ident">Duration::from_millis</span>(<span class="number">100</span>)).<span class="kw">await</span>;
                             <span class="prelude-val">Err</span>::<span class="op">&lt;</span><span class="ident">HttpResponse</span>, <span class="kw">_</span><span class="op">&gt;</span>(<span class="ident">error::ErrorBadRequest</span>(<span class="string">&quot;err&quot;</span>))
                         })),
                 )
                 .<span class="ident">service</span>(<span class="ident">web::resource</span>(<span class="string">&quot;/json&quot;</span>).<span class="ident">route</span>(<span class="ident">web::get</span>().<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
-                    <span class="ident">delay_for</span>(<span class="ident">Duration::from_millis</span>(<span class="number">25</span>)).<span class="kw">await</span>;
+                    <span class="ident">sleep</span>(<span class="ident">Duration::from_millis</span>(<span class="number">25</span>)).<span class="kw">await</span>;
                     <span class="ident">web::Json</span>(<span class="ident">MyObject</span> {
                         <span class="ident">name</span>: <span class="string">&quot;test&quot;</span>.<span class="ident">to_string</span>(),
                     })
@@ -823,41 +776,139 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/test&quot;</span>)
             .<span class="ident">method</span>(<span class="ident">Method::GET</span>)
             .<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/test&quot;</span>)
             .<span class="ident">method</span>(<span class="ident">Method::POST</span>)
             .<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::CREATED</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/test&quot;</span>)
             .<span class="ident">method</span>(<span class="ident">Method::PUT</span>)
             .<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/test&quot;</span>)
             .<span class="ident">method</span>(<span class="ident">Method::DELETE</span>)
             .<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/test&quot;</span>)
             .<span class="ident">method</span>(<span class="ident">Method::HEAD</span>)
             .<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::METHOD_NOT_ALLOWED</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/json&quot;</span>).<span class="ident">to_request</span>();
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;mut</span> <span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
 
         <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">read_body</span>(<span class="ident">resp</span>).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">body</span>, <span class="ident">Bytes::from_static</span>(<span class="string">b&quot;{\&quot;name\&quot;:\&quot;test\&quot;}&quot;</span>));
     }
+
+    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
+    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">route_middleware</span>() {
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">init_service</span>(
+            <span class="ident">App::new</span>()
+                .<span class="ident">route</span>(<span class="string">&quot;/&quot;</span>, <span class="ident">web::get</span>().<span class="ident">to</span>(<span class="ident">HttpResponse::Ok</span>).<span class="ident">wrap</span>(<span class="ident">Logger::default</span>()))
+                .<span class="ident">service</span>(
+                    <span class="ident">web::resource</span>(<span class="string">&quot;/test&quot;</span>)
+                        .<span class="ident">route</span>(<span class="ident">web::get</span>().<span class="ident">to</span>(<span class="ident">HttpResponse::Ok</span>))
+                        .<span class="ident">route</span>(
+                            <span class="ident">web::post</span>()
+                                .<span class="ident">to</span>(<span class="ident">HttpResponse::Created</span>)
+                                .<span class="ident">wrap</span>(<span class="ident">DefaultHeaders::new</span>().<span class="ident">add</span>((<span class="string">&quot;x-test&quot;</span>, <span class="string">&quot;x-posted&quot;</span>))),
+                        )
+                        .<span class="ident">route</span>(
+                            <span class="ident">web::delete</span>()
+                                .<span class="ident">to</span>(<span class="ident">HttpResponse::Accepted</span>)
+                                <span class="comment">// logger changes body type, proving Compat is not needed</span>
+                                .<span class="ident">wrap</span>(<span class="ident">Logger::default</span>()),
+                        ),
+                ),
+        )
+        .<span class="kw">await</span>;
+
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="string">&quot;x-test&quot;</span>));
+
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::post</span>().<span class="ident">uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::CREATED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;x-test&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;x-posted&quot;</span>);
+
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::delete</span>().<span class="ident">uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::ACCEPTED</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
+    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_service_handler</span>() {
+        <span class="kw">struct</span> <span class="ident">HelloWorld</span>;
+
+        <span class="kw">impl</span> <span class="ident">Service</span><span class="op">&lt;</span><span class="ident">ServiceRequest</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HelloWorld</span> {
+            <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ServiceResponse</span>;
+            <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::Error</span>;
+            <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">LocalBoxFuture</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Response</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+            <span class="macro">always_ready!</span>();
+
+            <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="ident">ServiceRequest</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
+                <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
+
+                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">HttpResponse::Ok</span>()
+                    .<span class="ident">insert_header</span>(<span class="ident">header::ContentType::plaintext</span>())
+                    .<span class="ident">body</span>(<span class="string">&quot;Hello world!&quot;</span>);
+
+                <span class="ident">Box::pin</span>(<span class="kw">async</span> <span class="kw">move</span> { <span class="prelude-val">Ok</span>(<span class="ident">ServiceResponse::new</span>(<span class="ident">req</span>, <span class="ident">res</span>)) })
+            }
+        }
+
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">init_service</span>(
+            <span class="ident">App::new</span>()
+                .<span class="ident">route</span>(
+                    <span class="string">&quot;/hello&quot;</span>,
+                    <span class="ident">web::get</span>().<span class="ident">service</span>(<span class="ident">fn_factory</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="prelude-val">Ok</span>(<span class="ident">HelloWorld</span>) })),
+                )
+                .<span class="ident">route</span>(
+                    <span class="string">&quot;/bye&quot;</span>,
+                    <span class="ident">web::get</span>().<span class="ident">service</span>(<span class="ident">fn_factory</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> {
+                        <span class="prelude-val">Ok</span>::<span class="op">&lt;</span><span class="kw">_</span>, ()<span class="op">&gt;</span>(<span class="ident">fn_service</span>(<span class="op">|</span><span class="ident">req</span>: <span class="ident">ServiceRequest</span><span class="op">|</span> <span class="kw">async</span> {
+                            <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
+
+                            <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">HttpResponse::Ok</span>()
+                                .<span class="ident">insert_header</span>(<span class="ident">header::ContentType::plaintext</span>())
+                                .<span class="ident">body</span>(<span class="string">&quot;Goodbye, and thanks for all the fish!&quot;</span>);
+
+                            <span class="prelude-val">Ok</span>::<span class="op">&lt;</span><span class="kw">_</span>, <span class="ident">Infallible</span><span class="op">&gt;</span>(<span class="ident">ServiceResponse::new</span>(<span class="ident">req</span>, <span class="ident">res</span>))
+                        }))
+                    })),
+                ),
+        )
+        .<span class="kw">await</span>;
+
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::get</span>().<span class="ident">uri</span>(<span class="string">&quot;/hello&quot;</span>).<span class="ident">to_request</span>();
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
+        <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">read_body</span>(<span class="ident">resp</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">body</span>, <span class="ident">Bytes::from_static</span>(<span class="string">b&quot;Hello world!&quot;</span>));
+
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::get</span>().<span class="ident">uri</span>(<span class="string">&quot;/bye&quot;</span>).<span class="ident">to_request</span>();
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
+        <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">read_body</span>(<span class="ident">resp</span>).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(
+            <span class="ident">body</span>,
+            <span class="ident">Bytes::from_static</span>(<span class="string">b&quot;Goodbye, and thanks for all the fish!&quot;</span>)
+        );
+    }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (7fe022f5a 2022-07-24)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>

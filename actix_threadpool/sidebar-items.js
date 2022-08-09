@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":[["BlockingError","Blocking operation execution error"]],"fn":[["run","Execute blocking function on a thread pool, returns future that resolves to result of the function execution."]],"struct":[["CpuFuture","Blocking operation completion future. It resolves with results of blocking function execution."]]};

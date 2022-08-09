@@ -1,12 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-3.3.3/src/types/query.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>query.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../actix_web/index.html"><div class="logo-container">
-                    <img src="https://actix.rs/img/logo.png" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_web/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
-                                <a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-4.1.0/src/types/query.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>query.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_web/index.html"><div class="logo-container">
+                    <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_web/index.html">
+                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -279,56 +273,30 @@
 <span id="271">271</span>
 <span id="272">272</span>
 <span id="273">273</span>
-<span id="274">274</span>
-<span id="275">275</span>
-<span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Query extractor</span>
+</pre><pre class="rust"><code><span class="doccomment">//! For query parameter extractor documentation, see [`Query`].</span>
 
-<span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">ops</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">ops</span>, <span class="ident">sync::Arc</span>};
 
-<span class="kw">use</span> <span class="ident">actix_http::error::Error</span>;
-<span class="kw">use</span> <span class="ident">futures_util::future</span>::{<span class="ident">err</span>, <span class="ident">ok</span>, <span class="ident">Ready</span>};
-<span class="kw">use</span> <span class="ident">serde::de</span>;
+<span class="kw">use</span> <span class="ident">actix_utils::future</span>::{<span class="ident">err</span>, <span class="ident">ok</span>, <span class="ident">Ready</span>};
+<span class="kw">use</span> <span class="ident">serde::de::DeserializeOwned</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::dev::Payload</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::QueryPayloadError</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::extract::FromRequest</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request::HttpRequest</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">dev::Payload</span>, <span class="ident">error::QueryPayloadError</span>, <span class="ident">Error</span>, <span class="ident">FromRequest</span>, <span class="ident">HttpRequest</span>};
 
 <span class="doccomment">/// Extract typed information from the request&#39;s query.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Note**: A query string consists of unordered `key=value` pairs, therefore it cannot</span>
-<span class="doccomment">/// be decoded into any type which depends upon data ordering e.g. tuples or tuple-structs.</span>
-<span class="doccomment">/// Attempts to do so will *fail at runtime*.</span>
+<span class="doccomment">/// To extract typed data from the URL query string, the inner type `T` must implement the</span>
+<span class="doccomment">/// [`DeserializeOwned`] trait.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// [**QueryConfig**](struct.QueryConfig.html) allows to configure extraction process.</span>
+<span class="doccomment">/// Use [`QueryConfig`] to configure extraction process.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Example</span>
+<span class="doccomment">/// # Panics</span>
+<span class="doccomment">/// A query string consists of unordered `key=value` pairs, therefore it cannot be decoded into any</span>
+<span class="doccomment">/// type which depends upon data ordering (eg. tuples). Trying to do so will result in a panic.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// use actix_web::{web, App};</span>
-<span class="doccomment">/// use serde_derive::Deserialize;</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use actix_web::{get, web};</span>
+<span class="doccomment">/// use serde::Deserialize;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Debug, Deserialize)]</span>
 <span class="doccomment">/// pub enum ResponseType {</span>
@@ -336,41 +304,59 @@
 <span class="doccomment">///    Code</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// #[derive(Deserialize)]</span>
+<span class="doccomment">/// #[derive(Debug, Deserialize)]</span>
 <span class="doccomment">/// pub struct AuthRequest {</span>
 <span class="doccomment">///    id: u64,</span>
 <span class="doccomment">///    response_type: ResponseType,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// // Use `Query` extractor for query information (and destructure it within the signature).</span>
-<span class="doccomment">/// // This handler gets called only if the request&#39;s query string contains `id` and `response_type` fields.</span>
-<span class="doccomment">/// // The correct request for this handler would be `/index.html?id=64&amp;response_type=Code&quot;`.</span>
-<span class="doccomment">/// async fn index(web::Query(info): web::Query&lt;AuthRequest&gt;) -&gt; String {</span>
-<span class="doccomment">///     format!(&quot;Authorization request for client with id={} and type={:?}!&quot;, info.id, info.response_type)</span>
+<span class="doccomment">/// // Deserialize `AuthRequest` struct from query string.</span>
+<span class="doccomment">/// // This handler gets called only if the request&#39;s query parameters contain both fields.</span>
+<span class="doccomment">/// // A valid request path for this handler would be `/?id=64&amp;response_type=Code&quot;`.</span>
+<span class="doccomment">/// #[get(&quot;/&quot;)]</span>
+<span class="doccomment">/// async fn index(info: web::Query&lt;AuthRequest&gt;) -&gt; String {</span>
+<span class="doccomment">///     format!(&quot;Authorization request for id={} and type={:?}!&quot;, info.id, info.response_type)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn main() {</span>
-<span class="doccomment">///     let app = App::new().service(</span>
-<span class="doccomment">///        web::resource(&quot;/index.html&quot;).route(web::get().to(index))); // &lt;- use `Query` extractor</span>
+<span class="doccomment">/// // To access the entire underlying query struct, use `.into_inner()`.</span>
+<span class="doccomment">/// #[get(&quot;/debug1&quot;)]</span>
+<span class="doccomment">/// async fn debug1(info: web::Query&lt;AuthRequest&gt;) -&gt; String {</span>
+<span class="doccomment">///     dbg!(&quot;Authorization object = {:?}&quot;, info.into_inner());</span>
+<span class="doccomment">///     &quot;OK&quot;.to_string()</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Or use destructuring, which is equivalent to `.into_inner()`.</span>
+<span class="doccomment">/// #[get(&quot;/debug2&quot;)]</span>
+<span class="doccomment">/// async fn debug2(web::Query(info): web::Query&lt;AuthRequest&gt;) -&gt; String {</span>
+<span class="doccomment">///     dbg!(&quot;Authorization object = {:?}&quot;, info);</span>
+<span class="doccomment">///     &quot;OK&quot;.to_string()</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">T</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Deconstruct to a inner value</span>
+    <span class="doccomment">/// Unwrap into inner `T` value.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) -&gt; <span class="ident">T</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
+}
 
-    <span class="doccomment">/// Get query parameters from the path</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_query</span>(<span class="ident">query_str</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">QueryPayloadError</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">de::DeserializeOwned</span>,
-    {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DeserializeOwned</span><span class="op">&gt;</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Deserialize a `T` from the URL encoded query parameter string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// # use std::collections::HashMap;</span>
+    <span class="doccomment">/// # use actix_web::web::Query;</span>
+    <span class="doccomment">/// let numbers = Query::&lt;HashMap&lt;String, u32&gt;&gt;::from_query(&quot;one=1&amp;two=2&quot;).unwrap();</span>
+    <span class="doccomment">/// assert_eq!(numbers.get(&quot;one&quot;), Some(&amp;1));</span>
+    <span class="doccomment">/// assert_eq!(numbers.get(&quot;two&quot;), Some(&amp;2));</span>
+    <span class="doccomment">/// assert!(numbers.get(&quot;three&quot;).is_none());</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_query</span>(<span class="ident">query_str</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">QueryPayloadError</span><span class="op">&gt;</span> {
         <span class="ident">serde_urlencoded::from_str</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">query_str</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Query</span>(<span class="ident">val</span>)))
-            .<span class="ident">unwrap_or_else</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">QueryPayloadError::Deserialize</span>(<span class="ident">e</span>)))
+            .<span class="ident">map</span>(<span class="self">Self</span>)
+            .<span class="ident">map_err</span>(<span class="ident">QueryPayloadError::Deserialize</span>)
     }
 }
 
@@ -388,65 +374,22 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt::Debug</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
-    }
-}
-
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt::Display</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
     }
 }
 
-<span class="doccomment">/// Extract typed information from the request&#39;s query.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ## Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// use actix_web::{web, App};</span>
-<span class="doccomment">/// use serde_derive::Deserialize;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #[derive(Debug, Deserialize)]</span>
-<span class="doccomment">/// pub enum ResponseType {</span>
-<span class="doccomment">///    Token,</span>
-<span class="doccomment">///    Code</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #[derive(Deserialize)]</span>
-<span class="doccomment">/// pub struct AuthRequest {</span>
-<span class="doccomment">///    id: u64,</span>
-<span class="doccomment">///    response_type: ResponseType,</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Use `Query` extractor for query information.</span>
-<span class="doccomment">/// // This handler get called only if request&#39;s query contains `id` and `response_type` fields.</span>
-<span class="doccomment">/// // The correct request for this handler would be `/index.html?id=64&amp;response_type=Code&quot;`</span>
-<span class="doccomment">/// async fn index(info: web::Query&lt;AuthRequest&gt;) -&gt; String {</span>
-<span class="doccomment">///     format!(&quot;Authorization request for client with id={} and type={:?}!&quot;, info.id, info.response_type)</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// fn main() {</span>
-<span class="doccomment">///     let app = App::new().service(</span>
-<span class="doccomment">///        web::resource(&quot;/index.html&quot;)</span>
-<span class="doccomment">///            .route(web::get().to(index))); // &lt;- use `Query` extractor</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">FromRequest</span> <span class="kw">for</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">de::DeserializeOwned</span>,
-{
+<span class="doccomment">/// See [here](#Examples) for example of usage as an extractor.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DeserializeOwned</span><span class="op">&gt;</span> <span class="ident">FromRequest</span> <span class="kw">for</span> <span class="ident">Query</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
     <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">Ready</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="kw">type</span> <span class="ident">Config</span> <span class="op">=</span> <span class="ident">QueryConfig</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">from_request</span>(<span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="ident">HttpRequest</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Payload</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
         <span class="kw">let</span> <span class="ident">error_handler</span> <span class="op">=</span> <span class="ident">req</span>
-            .<span class="ident">app_data</span>::<span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Config</span><span class="op">&gt;</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">ehandler</span>.<span class="ident">clone</span>())
-            .<span class="ident">unwrap_or</span>(<span class="prelude-val">None</span>);
+            .<span class="ident">app_data</span>::<span class="op">&lt;</span><span class="ident">QueryConfig</span><span class="op">&gt;</span>()
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>.<span class="ident">err_handler</span>.<span class="ident">clone</span>());
 
         <span class="ident">serde_urlencoded::from_str</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">req</span>.<span class="ident">query_string</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> <span class="ident">ok</span>(<span class="ident">Query</span>(<span class="ident">val</span>)))
@@ -470,13 +413,12 @@
     }
 }
 
-<span class="doccomment">/// Query extractor configuration</span>
+<span class="doccomment">/// Query extractor configuration.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// ## Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// use actix_web::{error, web, App, FromRequest, HttpResponse};</span>
-<span class="doccomment">/// use serde_derive::Deserialize;</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use actix_web::{error, get, web, App, FromRequest, HttpResponse};</span>
+<span class="doccomment">/// use serde::Deserialize;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// #[derive(Deserialize)]</span>
 <span class="doccomment">/// struct Info {</span>
@@ -484,28 +426,25 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// /// deserialize `Info` from request&#39;s querystring</span>
+<span class="doccomment">/// #[get(&quot;/&quot;)]</span>
 <span class="doccomment">/// async fn index(info: web::Query&lt;Info&gt;) -&gt; String {</span>
 <span class="doccomment">///     format!(&quot;Welcome {}!&quot;, info.username)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// fn main() {</span>
-<span class="doccomment">///     let app = App::new().service(</span>
-<span class="doccomment">///         web::resource(&quot;/index.html&quot;).app_data(</span>
-<span class="doccomment">///             // change query extractor configuration</span>
-<span class="doccomment">///             web::QueryConfig::default()</span>
-<span class="doccomment">///                 .error_handler(|err, req| {  // &lt;- create custom error response</span>
-<span class="doccomment">///                     error::InternalError::from_response(</span>
-<span class="doccomment">///                         err, HttpResponse::Conflict().finish()).into()</span>
-<span class="doccomment">///                 })</span>
-<span class="doccomment">///             )</span>
-<span class="doccomment">///             .route(web::post().to(index))</span>
-<span class="doccomment">///     );</span>
-<span class="doccomment">/// }</span>
+<span class="doccomment">/// // custom `Query` extractor configuration</span>
+<span class="doccomment">/// let query_cfg = web::QueryConfig::default()</span>
+<span class="doccomment">///     // use custom error handler</span>
+<span class="doccomment">///     .error_handler(|err, req| {</span>
+<span class="doccomment">///         error::InternalError::from_response(err, HttpResponse::Conflict().finish()).into()</span>
+<span class="doccomment">///     });</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// App::new()</span>
+<span class="doccomment">///     .app_data(query_cfg)</span>
+<span class="doccomment">///     .service(index);</span>
 <span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueryConfig</span> {
-    <span class="ident">ehandler</span>:
-        <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">QueryPayloadError</span>, <span class="kw-2">&amp;</span><span class="ident">HttpRequest</span>) -&gt; <span class="ident">Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">err_handler</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="ident">QueryPayloadError</span>, <span class="kw-2">&amp;</span><span class="ident">HttpRequest</span>) -&gt; <span class="ident">Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">QueryConfig</span> {
@@ -514,27 +453,19 @@
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">QueryPayloadError</span>, <span class="kw-2">&amp;</span><span class="ident">HttpRequest</span>) -&gt; <span class="ident">Error</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
-        <span class="self">self</span>.<span class="ident">ehandler</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Arc::new</span>(<span class="ident">f</span>));
+        <span class="self">self</span>.<span class="ident">err_handler</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Arc::new</span>(<span class="ident">f</span>));
         <span class="self">self</span>
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">QueryConfig</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">QueryConfig</span> { <span class="ident">ehandler</span>: <span class="prelude-val">None</span> }
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">actix_http::http::StatusCode</span>;
+    <span class="kw">use</span> <span class="ident">actix_http::StatusCode</span>;
     <span class="kw">use</span> <span class="ident">derive_more::Display</span>;
-    <span class="kw">use</span> <span class="ident">serde_derive::Deserialize</span>;
+    <span class="kw">use</span> <span class="ident">serde::Deserialize</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::InternalError</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::test::TestRequest</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::HttpResponse</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error::InternalError</span>, <span class="ident">test::TestRequest</span>, <span class="ident">HttpResponse</span>};
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>)]</span>
     <span class="kw">struct</span> <span class="ident">Id</span> {
@@ -544,13 +475,16 @@
     <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_service_request_extract</span>() {
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/name/user1/&quot;</span>).<span class="ident">to_srv_request</span>();
-        <span class="macro">assert!</span>(<span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span><span class="ident">::from_query</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>.<span class="ident">query_string</span>()).<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span><span class="ident">::from_query</span>(<span class="ident">req</span>.<span class="ident">query_string</span>()).<span class="ident">is_err</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/name/user1/?id=test&quot;</span>).<span class="ident">to_srv_request</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span><span class="ident">::from_query</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>.<span class="ident">query_string</span>()).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span><span class="ident">::from_query</span>(<span class="ident">req</span>.<span class="ident">query_string</span>()).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">id</span>, <span class="string">&quot;test&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>), <span class="string">&quot;test, Id { id: \&quot;test\&quot; }&quot;</span>);
+        <span class="macro">assert_eq!</span>(
+            <span class="macro">format!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>),
+            <span class="string">&quot;test, Query(Id { id: \&quot;test\&quot; })&quot;</span>
+        );
 
         <span class="ident">s</span>.<span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;test1&quot;</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">into_inner</span>();
@@ -568,11 +502,25 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Query</span>::<span class="op">&lt;</span><span class="ident">Id</span><span class="op">&gt;</span><span class="ident">::from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">id</span>, <span class="string">&quot;test&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>), <span class="string">&quot;test, Id { id: \&quot;test\&quot; }&quot;</span>);
+        <span class="macro">assert_eq!</span>(
+            <span class="macro">format!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>),
+            <span class="string">&quot;test, Query(Id { id: \&quot;test\&quot; })&quot;</span>
+        );
 
         <span class="ident">s</span>.<span class="ident">id</span> <span class="op">=</span> <span class="string">&quot;test1&quot;</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">into_inner</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">id</span>, <span class="string">&quot;test1&quot;</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
+    <span class="attribute">#[<span class="ident">should_panic</span>]</span>
+    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_tuple_panic</span>() {
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/?one=1&amp;two=2&quot;</span>).<span class="ident">to_srv_request</span>();
+        <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw-2">mut</span> <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
+
+        <span class="ident">Query</span>::<span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span><span class="ident">::from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;mut</span> <span class="ident">pl</span>)
+            .<span class="kw">await</span>
+            .<span class="ident">unwrap</span>();
     }
 
     <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
@@ -599,5 +547,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (7fe022f5a 2022-07-24)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
