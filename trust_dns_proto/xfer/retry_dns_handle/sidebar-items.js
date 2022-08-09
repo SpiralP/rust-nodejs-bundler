@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["RetryDnsHandle","Can be used to reattempt a queries if they fail"]]};

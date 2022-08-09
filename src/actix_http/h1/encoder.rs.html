@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-http-3.2.1/src/h1/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_http/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_http/index.html"><div class="logo-container">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-http-2.2.2/src/h1/encoder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>encoder.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../actix_http/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../actix_http/index.html"><div class="logo-container">
                     <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../actix_http/index.html">
                         <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -671,32 +671,66 @@
 <span id="669">669</span>
 <span id="670">670</span>
 <span id="671">671</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">cmp</span>,
-    <span class="ident">io</span>::{<span class="self">self</span>, <span class="ident">Write</span> <span class="kw">as</span> <span class="kw">_</span>},
-    <span class="ident">marker::PhantomData</span>,
-    <span class="ident">ptr::copy_nonoverlapping</span>,
-    <span class="ident">slice::from_raw_parts_mut</span>,
-};
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::io::Write</span>;
+<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
+<span class="kw">use</span> <span class="ident">std::ptr::copy_nonoverlapping</span>;
+<span class="kw">use</span> <span class="ident">std::slice::from_raw_parts_mut</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cmp</span>, <span class="ident">io</span>};
 
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">BufMut</span>, <span class="ident">BytesMut</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">body::BodySize</span>,
-    <span class="ident">header</span>::{
-        <span class="ident">map::Value</span>, <span class="ident">HeaderMap</span>, <span class="ident">HeaderName</span>, <span class="ident">CONNECTION</span>, <span class="ident">CONTENT_LENGTH</span>, <span class="ident">DATE</span>, <span class="ident">TRANSFER_ENCODING</span>,
-    },
-    <span class="ident">helpers</span>, <span class="ident">ConnectionType</span>, <span class="ident">RequestHeadType</span>, <span class="ident">Response</span>, <span class="ident">ServiceConfig</span>, <span class="ident">StatusCode</span>, <span class="ident">Version</span>,
-};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::body::BodySize</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::config::ServiceConfig</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::header::map</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::helpers</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::http::header</span>::{<span class="ident">CONNECTION</span>, <span class="ident">CONTENT_LENGTH</span>, <span class="ident">DATE</span>, <span class="ident">TRANSFER_ENCODING</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::http</span>::{<span class="ident">HeaderMap</span>, <span class="ident">StatusCode</span>, <span class="ident">Version</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::message</span>::{<span class="ident">ConnectionType</span>, <span class="ident">RequestHeadType</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::response::Response</span>;
 
 <span class="kw">const</span> <span class="ident">AVERAGE_HEADER_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">30</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">MessageEncoder</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">MessageType</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
     <span class="kw">pub</span> <span class="ident">length</span>: <span class="ident">BodySize</span>,
     <span class="kw">pub</span> <span class="ident">te</span>: <span class="ident">TransferEncoding</span>,
-    <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+    <span class="ident">_t</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">MessageType</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">MessageEncoder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
@@ -704,7 +738,7 @@
         <span class="ident">MessageEncoder</span> {
             <span class="ident">length</span>: <span class="ident">BodySize::None</span>,
             <span class="ident">te</span>: <span class="ident">TransferEncoding::empty</span>(),
-            <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>,
+            <span class="ident">_t</span>: <span class="ident">PhantomData</span>,
         }
     }
 }
@@ -729,7 +763,7 @@
         <span class="ident">dst</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>,
         <span class="ident">version</span>: <span class="ident">Version</span>,
         <span class="kw-2">mut</span> <span class="ident">length</span>: <span class="ident">BodySize</span>,
-        <span class="ident">conn_type</span>: <span class="ident">ConnectionType</span>,
+        <span class="ident">ctype</span>: <span class="ident">ConnectionType</span>,
         <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">ServiceConfig</span>,
     ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">chunked</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">chunked</span>();
@@ -744,24 +778,14 @@
                 <span class="op">|</span> <span class="ident">StatusCode::PROCESSING</span>
                 <span class="op">|</span> <span class="ident">StatusCode::NO_CONTENT</span> =&gt; {
                     <span class="comment">// skip content-length and transfer-encoding headers</span>
-                    <span class="comment">// see https://datatracker.ietf.org/doc/html/rfc7230#section-3.3.1</span>
-                    <span class="comment">// and https://datatracker.ietf.org/doc/html/rfc7230#section-3.3.2</span>
+                    <span class="comment">// See https://tools.ietf.org/html/rfc7230#section-3.3.1</span>
+                    <span class="comment">// and https://tools.ietf.org/html/rfc7230#section-3.3.2</span>
                     <span class="ident">skip_len</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     <span class="ident">length</span> <span class="op">=</span> <span class="ident">BodySize::None</span>
                 }
-
-                <span class="ident">StatusCode::NOT_MODIFIED</span> =&gt; {
-                    <span class="comment">// 304 responses should never have a body but should retain a manually set</span>
-                    <span class="comment">// content-length header</span>
-                    <span class="comment">// see https://datatracker.ietf.org/doc/html/rfc7232#section-4.1</span>
-                    <span class="ident">skip_len</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                    <span class="ident">length</span> <span class="op">=</span> <span class="ident">BodySize::None</span>;
-                }
-
                 <span class="kw">_</span> =&gt; {}
             }
         }
-
         <span class="kw">match</span> <span class="ident">length</span> {
             <span class="ident">BodySize::Stream</span> =&gt; {
                 <span class="kw">if</span> <span class="ident">chunked</span> {
@@ -776,14 +800,19 @@
                     <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\n&quot;</span>);
                 }
             }
-            <span class="ident">BodySize::Sized</span>(<span class="number">0</span>) <span class="kw">if</span> <span class="ident">camel_case</span> =&gt; <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\nContent-Length: 0\r\n&quot;</span>),
-            <span class="ident">BodySize::Sized</span>(<span class="number">0</span>) =&gt; <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\ncontent-length: 0\r\n&quot;</span>),
-            <span class="ident">BodySize::Sized</span>(<span class="ident">len</span>) =&gt; <span class="ident">helpers::write_content_length</span>(<span class="ident">len</span>, <span class="ident">dst</span>, <span class="ident">camel_case</span>),
+            <span class="ident">BodySize::Empty</span> =&gt; {
+                <span class="kw">if</span> <span class="ident">camel_case</span> {
+                    <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\nContent-Length: 0\r\n&quot;</span>);
+                } <span class="kw">else</span> {
+                    <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\ncontent-length: 0\r\n&quot;</span>);
+                }
+            }
+            <span class="ident">BodySize::Sized</span>(<span class="ident">len</span>) =&gt; <span class="ident">helpers::write_content_length</span>(<span class="ident">len</span>, <span class="ident">dst</span>),
             <span class="ident">BodySize::None</span> =&gt; <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;\r\n&quot;</span>),
         }
 
         <span class="comment">// Connection</span>
-        <span class="kw">match</span> <span class="ident">conn_type</span> {
+        <span class="kw">match</span> <span class="ident">ctype</span> {
             <span class="ident">ConnectionType::Upgrade</span> =&gt; <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;connection: upgrade\r\n&quot;</span>),
             <span class="ident">ConnectionType::KeepAlive</span> <span class="kw">if</span> <span class="ident">version</span> <span class="op">&lt;</span> <span class="ident">Version::HTTP_11</span> =&gt; {
                 <span class="kw">if</span> <span class="ident">camel_case</span> {
@@ -799,14 +828,24 @@
                     <span class="ident">dst</span>.<span class="ident">put_slice</span>(<span class="string">b&quot;connection: close\r\n&quot;</span>)
                 }
             }
-            <span class="kw">_</span> =&gt; {}
+            <span class="kw">_</span> =&gt; (),
         }
+
+        <span class="comment">// merging headers from head and extra headers. HeaderMap::new() does not allocate.</span>
+        <span class="kw">let</span> <span class="ident">empty_headers</span> <span class="op">=</span> <span class="ident">HeaderMap::new</span>();
+        <span class="kw">let</span> <span class="ident">extra_headers</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">extra_headers</span>().<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">empty_headers</span>);
+        <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">headers</span>()
+            .<span class="ident">inner</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">filter</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="op">!</span><span class="ident">extra_headers</span>.<span class="ident">contains_key</span>(<span class="kw-2">*</span><span class="ident">name</span>))
+            .<span class="ident">chain</span>(<span class="ident">extra_headers</span>.<span class="ident">inner</span>.<span class="ident">iter</span>());
 
         <span class="comment">// write headers</span>
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_date</span> <span class="op">=</span> <span class="bool-val">false</span>;
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">chunk_mut</span>().<span class="ident">as_mut_ptr</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">bytes_mut</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">capacity</span>() <span class="op">-</span> <span class="ident">dst</span>.<span class="ident">len</span>();
 
         <span class="comment">// tracks bytes written since last buffer resize</span>
@@ -814,66 +853,117 @@
         <span class="comment">// container&#39;s knowledge, this is used to sync the containers cursor after data is written</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
 
-        <span class="self">self</span>.<span class="ident">write_headers</span>(<span class="op">|</span><span class="ident">key</span>, <span class="ident">value</span><span class="op">|</span> {
+        <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">headers</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">key</span> {
-                <span class="ident">CONNECTION</span> =&gt; <span class="kw">return</span>,
-                <span class="ident">TRANSFER_ENCODING</span> <span class="op">|</span> <span class="ident">CONTENT_LENGTH</span> <span class="kw">if</span> <span class="ident">skip_len</span> =&gt; <span class="kw">return</span>,
+                <span class="ident">CONNECTION</span> =&gt; <span class="kw">continue</span>,
+                <span class="ident">TRANSFER_ENCODING</span> <span class="op">|</span> <span class="ident">CONTENT_LENGTH</span> <span class="kw">if</span> <span class="ident">skip_len</span> =&gt; <span class="kw">continue</span>,
                 <span class="ident">DATE</span> =&gt; <span class="ident">has_date</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="kw">_</span> =&gt; {}
+                <span class="kw">_</span> =&gt; (),
             }
 
             <span class="kw">let</span> <span class="ident">k</span> <span class="op">=</span> <span class="ident">key</span>.<span class="ident">as_str</span>().<span class="ident">as_bytes</span>();
             <span class="kw">let</span> <span class="ident">k_len</span> <span class="op">=</span> <span class="ident">k</span>.<span class="ident">len</span>();
 
-            <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="ident">value</span>.<span class="ident">iter</span>() {
-                <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">val</span>.<span class="ident">as_ref</span>();
-                <span class="kw">let</span> <span class="ident">v_len</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">len</span>();
+            <span class="kw">match</span> <span class="ident">value</span> {
+                <span class="ident">map::Value::One</span>(<span class="kw-2">ref</span> <span class="ident">val</span>) =&gt; {
+                    <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">val</span>.<span class="ident">as_ref</span>();
+                    <span class="kw">let</span> <span class="ident">v_len</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">len</span>();
 
-                <span class="comment">// key length + value length + colon + space + \r\n</span>
-                <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">k_len</span> <span class="op">+</span> <span class="ident">v_len</span> <span class="op">+</span> <span class="number">4</span>;
+                    <span class="comment">// key length + value length + colon + space + \r\n</span>
+                    <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">k_len</span> <span class="op">+</span> <span class="ident">v_len</span> <span class="op">+</span> <span class="number">4</span>;
 
-                <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="ident">remaining</span> {
-                    <span class="comment">// SAFETY: all the bytes written up to position &quot;pos&quot; are initialized</span>
-                    <span class="comment">// the written byte count and pointer advancement are kept in sync</span>
-                    <span class="kw">unsafe</span> {
-                        <span class="ident">dst</span>.<span class="ident">advance_mut</span>(<span class="ident">pos</span>);
+                    <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="ident">remaining</span> {
+                        <span class="comment">// not enough room in buffer for this header; reserve more space</span>
+
+                        <span class="comment">// SAFETY: all the bytes written up to position &quot;pos&quot; are initialized</span>
+                        <span class="comment">// the written byte count and pointer advancement are kept in sync</span>
+                        <span class="kw">unsafe</span> {
+                            <span class="ident">dst</span>.<span class="ident">advance_mut</span>(<span class="ident">pos</span>);
+                        }
+
+                        <span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
+                        <span class="ident">dst</span>.<span class="ident">reserve</span>(<span class="ident">len</span> <span class="op">*</span> <span class="number">2</span>);
+                        <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">capacity</span>() <span class="op">-</span> <span class="ident">dst</span>.<span class="ident">len</span>();
+
+                        <span class="comment">// re-assign buf raw pointer since it&#39;s possible that the buffer was</span>
+                        <span class="comment">// reallocated and/or resized</span>
+                        <span class="ident">buf</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">bytes_mut</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>;
                     }
 
-                    <span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
-                    <span class="ident">dst</span>.<span class="ident">reserve</span>(<span class="ident">len</span> <span class="op">*</span> <span class="number">2</span>);
-                    <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">capacity</span>() <span class="op">-</span> <span class="ident">dst</span>.<span class="ident">len</span>();
+                    <span class="comment">// SAFETY: on each write, it is enough to ensure that the advancement of the</span>
+                    <span class="comment">// cursor matches the number of bytes written</span>
+                    <span class="kw">unsafe</span> {
+                        <span class="comment">// use upper Camel-Case</span>
+                        <span class="kw">if</span> <span class="ident">camel_case</span> {
+                            <span class="ident">write_camel_case</span>(<span class="ident">k</span>, <span class="ident">from_raw_parts_mut</span>(<span class="ident">buf</span>, <span class="ident">k_len</span>))
+                        } <span class="kw">else</span> {
+                            <span class="ident">write_data</span>(<span class="ident">k</span>, <span class="ident">buf</span>, <span class="ident">k_len</span>)
+                        }
 
-                    <span class="comment">// re-assign buf raw pointer since it&#39;s possible that the buffer was</span>
-                    <span class="comment">// reallocated and/or resized</span>
-                    <span class="ident">buf</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">chunk_mut</span>().<span class="ident">as_mut_ptr</span>();
+                        <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">k_len</span>);
+
+                        <span class="ident">write_data</span>(<span class="string">b&quot;: &quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
+                        <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
+
+                        <span class="ident">write_data</span>(<span class="ident">v</span>, <span class="ident">buf</span>, <span class="ident">v_len</span>);
+                        <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">v_len</span>);
+
+                        <span class="ident">write_data</span>(<span class="string">b&quot;\r\n&quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
+                        <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
+                    }
+
+                    <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">len</span>;
+                    <span class="ident">remaining</span> <span class="op">-</span><span class="op">=</span> <span class="ident">len</span>;
                 }
 
-                <span class="comment">// SAFETY: on each write, it is enough to ensure that the advancement of</span>
-                <span class="comment">// the cursor matches the number of bytes written</span>
-                <span class="kw">unsafe</span> {
-                    <span class="kw">if</span> <span class="ident">camel_case</span> {
-                        <span class="comment">// use Camel-Case headers</span>
-                        <span class="ident">write_camel_case</span>(<span class="ident">k</span>, <span class="ident">buf</span>, <span class="ident">k_len</span>);
-                    } <span class="kw">else</span> {
-                        <span class="ident">write_data</span>(<span class="ident">k</span>, <span class="ident">buf</span>, <span class="ident">k_len</span>);
+                <span class="ident">map::Value::Multi</span>(<span class="kw-2">ref</span> <span class="ident">vec</span>) =&gt; {
+                    <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="ident">vec</span> {
+                        <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">val</span>.<span class="ident">as_ref</span>();
+                        <span class="kw">let</span> <span class="ident">v_len</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">len</span>();
+                        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">k_len</span> <span class="op">+</span> <span class="ident">v_len</span> <span class="op">+</span> <span class="number">4</span>;
+
+                        <span class="kw">if</span> <span class="ident">len</span> <span class="op">&gt;</span> <span class="ident">remaining</span> {
+                            <span class="comment">// SAFETY: all the bytes written up to position &quot;pos&quot; are initialized</span>
+                            <span class="comment">// the written byte count and pointer advancement are kept in sync</span>
+                            <span class="kw">unsafe</span> {
+                                <span class="ident">dst</span>.<span class="ident">advance_mut</span>(<span class="ident">pos</span>);
+                            }
+                            <span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
+                            <span class="ident">dst</span>.<span class="ident">reserve</span>(<span class="ident">len</span> <span class="op">*</span> <span class="number">2</span>);
+                            <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">capacity</span>() <span class="op">-</span> <span class="ident">dst</span>.<span class="ident">len</span>();
+
+                            <span class="comment">// re-assign buf raw pointer since it&#39;s possible that the buffer was</span>
+                            <span class="comment">// reallocated and/or resized</span>
+                            <span class="ident">buf</span> <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">bytes_mut</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>;
+                        }
+
+                        <span class="comment">// SAFETY: on each write, it is enough to ensure that the advancement of</span>
+                        <span class="comment">// the cursor matches the number of bytes written</span>
+                        <span class="kw">unsafe</span> {
+                            <span class="kw">if</span> <span class="ident">camel_case</span> {
+                                <span class="ident">write_camel_case</span>(<span class="ident">k</span>, <span class="ident">from_raw_parts_mut</span>(<span class="ident">buf</span>, <span class="ident">k_len</span>));
+                            } <span class="kw">else</span> {
+                                <span class="ident">write_data</span>(<span class="ident">k</span>, <span class="ident">buf</span>, <span class="ident">k_len</span>);
+                            }
+
+                            <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">k_len</span>);
+
+                            <span class="ident">write_data</span>(<span class="string">b&quot;: &quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
+                            <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
+
+                            <span class="ident">write_data</span>(<span class="ident">v</span>, <span class="ident">buf</span>, <span class="ident">v_len</span>);
+                            <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">v_len</span>);
+
+                            <span class="ident">write_data</span>(<span class="string">b&quot;\r\n&quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
+                            <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
+                        };
+
+                        <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">len</span>;
+                        <span class="ident">remaining</span> <span class="op">-</span><span class="op">=</span> <span class="ident">len</span>;
                     }
-
-                    <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">k_len</span>);
-
-                    <span class="ident">write_data</span>(<span class="string">b&quot;: &quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
-                    <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
-
-                    <span class="ident">write_data</span>(<span class="ident">v</span>, <span class="ident">buf</span>, <span class="ident">v_len</span>);
-                    <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="ident">v_len</span>);
-
-                    <span class="ident">write_data</span>(<span class="string">b&quot;\r\n&quot;</span>, <span class="ident">buf</span>, <span class="number">2</span>);
-                    <span class="ident">buf</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">add</span>(<span class="number">2</span>);
-                };
-
-                <span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">len</span>;
-                <span class="ident">remaining</span> <span class="op">-</span><span class="op">=</span> <span class="ident">len</span>;
+                }
             }
-        });
+        }
 
         <span class="comment">// final cursor synchronization with the bytes container</span>
         <span class="comment">//</span>
@@ -883,33 +973,15 @@
             <span class="ident">dst</span>.<span class="ident">advance_mut</span>(<span class="ident">pos</span>);
         }
 
+        <span class="comment">// optimized date header, set_date writes \r\n</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident">has_date</span> {
-            <span class="comment">// optimized date header, write_date_header writes its own \r\n</span>
-            <span class="ident">config</span>.<span class="ident">write_date_header</span>(<span class="ident">dst</span>, <span class="ident">camel_case</span>);
+            <span class="ident">config</span>.<span class="ident">set_date</span>(<span class="ident">dst</span>);
+        } <span class="kw">else</span> {
+            <span class="comment">// msg eof</span>
+            <span class="ident">dst</span>.<span class="ident">extend_from_slice</span>(<span class="string">b&quot;\r\n&quot;</span>);
         }
-
-        <span class="comment">// end-of-headers marker</span>
-        <span class="ident">dst</span>.<span class="ident">extend_from_slice</span>(<span class="string">b&quot;\r\n&quot;</span>);
 
         <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="kw">fn</span> <span class="ident">write_headers</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">F</span>)
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderName</span>, <span class="kw-2">&amp;</span><span class="ident">Value</span>),
-    {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">extra_headers</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">headers</span>) =&gt; {
-                <span class="comment">// merging headers from head and extra headers.</span>
-                <span class="self">self</span>.<span class="ident">headers</span>()
-                    .<span class="ident">inner</span>
-                    .<span class="ident">iter</span>()
-                    .<span class="ident">filter</span>(<span class="op">|</span>(<span class="ident">name</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="op">!</span><span class="ident">headers</span>.<span class="ident">contains_key</span>(<span class="kw-2">*</span><span class="ident">name</span>))
-                    .<span class="ident">chain</span>(<span class="ident">headers</span>.<span class="ident">inner</span>.<span class="ident">iter</span>())
-                    .<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="ident">f</span>(<span class="ident">k</span>, <span class="ident">v</span>))
-            }
-            <span class="prelude-val">None</span> =&gt; <span class="self">self</span>.<span class="ident">headers</span>().<span class="ident">inner</span>.<span class="ident">iter</span>().<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">k</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="ident">f</span>(<span class="ident">k</span>, <span class="ident">v</span>)),
-        }
     }
 }
 
@@ -928,12 +1000,6 @@
 
     <span class="kw">fn</span> <span class="ident">extra_headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">HeaderMap</span><span class="op">&gt;</span> {
         <span class="prelude-val">None</span>
-    }
-
-    <span class="kw">fn</span> <span class="ident">camel_case</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">head</span>()
-            .<span class="ident">flags</span>
-            .<span class="ident">contains</span>(<span class="ident"><span class="kw">crate</span>::message::Flags::CAMEL_CASE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">encode_status</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">dst</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
@@ -973,7 +1039,7 @@
         <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_ref</span>();
         <span class="ident">dst</span>.<span class="ident">reserve</span>(<span class="number">256</span> <span class="op">+</span> <span class="ident">head</span>.<span class="ident">headers</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="ident">AVERAGE_HEADER_SIZE</span>);
         <span class="macro">write!</span>(
-            <span class="ident">helpers::MutWriter</span>(<span class="ident">dst</span>),
+            <span class="ident">Writer</span>(<span class="ident">dst</span>),
             <span class="string">&quot;{} {} {}&quot;</span>,
             <span class="ident">head</span>.<span class="ident">method</span>,
             <span class="ident">head</span>.<span class="ident">uri</span>.<span class="ident">path_and_query</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">u</span><span class="op">|</span> <span class="ident">u</span>.<span class="ident">as_str</span>()).<span class="ident">unwrap_or</span>(<span class="string">&quot;/&quot;</span>),
@@ -983,7 +1049,11 @@
                 <span class="ident">Version::HTTP_11</span> =&gt; <span class="string">&quot;HTTP/1.1&quot;</span>,
                 <span class="ident">Version::HTTP_2</span> =&gt; <span class="string">&quot;HTTP/2.0&quot;</span>,
                 <span class="ident">Version::HTTP_3</span> =&gt; <span class="string">&quot;HTTP/3.0&quot;</span>,
-                <span class="kw">_</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;unsupported version&quot;</span>)),
+                <span class="kw">_</span> =&gt;
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(
+                        <span class="ident">io::ErrorKind::Other</span>,
+                        <span class="string">&quot;unsupported version&quot;</span>
+                    )),
             }
         )
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="ident">e</span>))
@@ -991,17 +1061,16 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">MessageType</span><span class="op">&gt;</span> <span class="ident">MessageEncoder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Encode chunk.</span>
+    <span class="doccomment">/// Encode message</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_chunk</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">te</span>.<span class="ident">encode</span>(<span class="ident">msg</span>, <span class="ident">buf</span>)
     }
 
-    <span class="doccomment">/// Encode EOF.</span>
+    <span class="doccomment">/// Encode eof</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_eof</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">te</span>.<span class="ident">encode_eof</span>(<span class="ident">buf</span>)
     }
 
-    <span class="doccomment">/// Encode message.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">dst</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>,
@@ -1010,13 +1079,13 @@
         <span class="ident">stream</span>: <span class="ident">bool</span>,
         <span class="ident">version</span>: <span class="ident">Version</span>,
         <span class="ident">length</span>: <span class="ident">BodySize</span>,
-        <span class="ident">conn_type</span>: <span class="ident">ConnectionType</span>,
+        <span class="ident">ctype</span>: <span class="ident">ConnectionType</span>,
         <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="ident">ServiceConfig</span>,
     ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// transfer encoding</span>
         <span class="kw">if</span> <span class="op">!</span><span class="ident">head</span> {
             <span class="self">self</span>.<span class="ident">te</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">length</span> {
-                <span class="ident">BodySize::Sized</span>(<span class="number">0</span>) =&gt; <span class="ident">TransferEncoding::empty</span>(),
+                <span class="ident">BodySize::Empty</span> =&gt; <span class="ident">TransferEncoding::empty</span>(),
                 <span class="ident">BodySize::Sized</span>(<span class="ident">len</span>) =&gt; <span class="ident">TransferEncoding::length</span>(<span class="ident">len</span>),
                 <span class="ident">BodySize::Stream</span> =&gt; {
                     <span class="kw">if</span> <span class="ident">message</span>.<span class="ident">chunked</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">stream</span> {
@@ -1032,7 +1101,7 @@
         }
 
         <span class="ident">message</span>.<span class="ident">encode_status</span>(<span class="ident">dst</span>)<span class="question-mark">?</span>;
-        <span class="ident">message</span>.<span class="ident">encode_headers</span>(<span class="ident">dst</span>, <span class="ident">version</span>, <span class="ident">length</span>, <span class="ident">conn_type</span>, <span class="ident">config</span>)
+        <span class="ident">message</span>.<span class="ident">encode_headers</span>(<span class="ident">dst</span>, <span class="ident">version</span>, <span class="ident">length</span>, <span class="ident">ctype</span>, <span class="ident">config</span>)
     }
 }
 
@@ -1046,12 +1115,10 @@
 <span class="kw">enum</span> <span class="ident">TransferEncodingKind</span> {
     <span class="doccomment">/// An Encoder for when Transfer-Encoding includes `chunked`.</span>
     <span class="ident">Chunked</span>(<span class="ident">bool</span>),
-
     <span class="doccomment">/// An Encoder for when Content-Length is set.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Enforces that the body is not longer than the Content-Length header.</span>
     <span class="ident">Length</span>(<span class="ident">u64</span>),
-
     <span class="doccomment">/// An Encoder for when Content-Length is not known.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Application decides when to stop writing.</span>
@@ -1105,7 +1172,7 @@
                     <span class="kw-2">*</span><span class="ident">eof</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     <span class="ident">buf</span>.<span class="ident">extend_from_slice</span>(<span class="string">b&quot;0\r\n\r\n&quot;</span>);
                 } <span class="kw">else</span> {
-                    <span class="macro">writeln!</span>(<span class="ident">helpers::MutWriter</span>(<span class="ident">buf</span>), <span class="string">&quot;{:X}\r&quot;</span>, <span class="ident">msg</span>.<span class="ident">len</span>())
+                    <span class="macro">writeln!</span>(<span class="ident">Writer</span>(<span class="ident">buf</span>), <span class="string">&quot;{:X}\r&quot;</span>, <span class="ident">msg</span>.<span class="ident">len</span>())
                         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
 
                     <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="ident">msg</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span>);
@@ -1155,45 +1222,50 @@
     }
 }
 
+<span class="kw">struct</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">BytesMut</span>);
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">io::Write</span> <span class="kw">for</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">extend_from_slice</span>(<span class="ident">buf</span>);
+        <span class="prelude-val">Ok</span>(<span class="ident">buf</span>.<span class="ident">len</span>())
+    }
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
 <span class="doccomment">/// # Safety</span>
-<span class="doccomment">/// Callers must ensure that the given `len` matches the given `value` length and that `buf` is</span>
-<span class="doccomment">/// valid for writes of at least `len` bytes.</span>
+<span class="doccomment">/// Callers must ensure that the given length matches given value length.</span>
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_data</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">usize</span>) {
     <span class="macro">debug_assert_eq!</span>(<span class="ident">value</span>.<span class="ident">len</span>(), <span class="ident">len</span>);
     <span class="ident">copy_nonoverlapping</span>(<span class="ident">value</span>.<span class="ident">as_ptr</span>(), <span class="ident">buf</span>, <span class="ident">len</span>);
 }
 
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">/// Callers must ensure that the given `len` matches the given `value` length and that `buf` is</span>
-<span class="doccomment">/// valid for writes of at least `len` bytes.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_camel_case</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">usize</span>) {
-    <span class="comment">// first copy entire (potentially wrong) slice to output</span>
-    <span class="ident">write_data</span>(<span class="ident">value</span>, <span class="ident">buf</span>, <span class="ident">len</span>);
+<span class="kw">fn</span> <span class="ident">write_camel_case</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buffer</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">0</span>;
+    <span class="kw">let</span> <span class="ident">key</span> <span class="op">=</span> <span class="ident">value</span>;
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">key_iter</span> <span class="op">=</span> <span class="ident">key</span>.<span class="ident">iter</span>();
 
-    <span class="comment">// SAFETY: We just initialized the buffer with `value`</span>
-    <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">from_raw_parts_mut</span>(<span class="ident">buf</span>, <span class="ident">len</span>);
-
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">iter</span>();
-
-    <span class="comment">// first character should be uppercase</span>
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span> @ <span class="string">b&#39;a&#39;</span>..<span class="op">=</span><span class="string">b&#39;z&#39;</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
-        <span class="ident">buffer</span>[<span class="number">0</span>] <span class="op">=</span> <span class="ident">c</span> <span class="op">&amp;</span> <span class="number">0b1101_1111</span>;
-    }
-
-    <span class="comment">// track 1 ahead of the current position since that&#39;s the location being assigned to</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index</span> <span class="op">=</span> <span class="number">2</span>;
-
-    <span class="comment">// remaining characters after hyphens should also be uppercase</span>
-    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">c</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
-        <span class="kw">if</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;-&#39;</span> {
-            <span class="comment">// advance iter by one and uppercase if needed</span>
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span> @ <span class="string">b&#39;a&#39;</span>..<span class="op">=</span><span class="string">b&#39;z&#39;</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
-                <span class="ident">buffer</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="ident">c</span> <span class="op">&amp;</span> <span class="number">0b1101_1111</span>;
-            }
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">key_iter</span>.<span class="ident">next</span>() {
+        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">&gt;</span><span class="op">=</span> <span class="string">b&#39;a&#39;</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">&lt;</span><span class="op">=</span> <span class="string">b&#39;z&#39;</span> {
+            <span class="ident">buffer</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">^</span> <span class="string">b&#39; &#39;</span>;
             <span class="ident">index</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         }
+    } <span class="kw">else</span> {
+        <span class="kw">return</span>;
+    }
 
+    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">key_iter</span>.<span class="ident">next</span>() {
+        <span class="ident">buffer</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">c</span>;
         <span class="ident">index</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">==</span> <span class="string">b&#39;-&#39;</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">c</span>) <span class="op">=</span> <span class="ident">key_iter</span>.<span class="ident">next</span>() {
+                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">&gt;</span><span class="op">=</span> <span class="string">b&#39;a&#39;</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">&lt;</span><span class="op">=</span> <span class="string">b&#39;z&#39;</span> {
+                    <span class="ident">buffer</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="kw-2">*</span><span class="ident">c</span> <span class="op">^</span> <span class="string">b&#39; &#39;</span>;
+                    <span class="ident">index</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                }
+            }
+        }
     }
 }
 
@@ -1202,13 +1274,11 @@
     <span class="kw">use</span> <span class="ident">std::rc::Rc</span>;
 
     <span class="kw">use</span> <span class="ident">bytes::Bytes</span>;
-    <span class="kw">use</span> <span class="ident">http::header</span>::{<span class="ident">AUTHORIZATION</span>, <span class="ident">UPGRADE_INSECURE_REQUESTS</span>};
+    <span class="kw">use</span> <span class="ident">http::header::AUTHORIZATION</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span>::{
-        <span class="ident">header</span>::{<span class="ident">HeaderValue</span>, <span class="ident">CONTENT_TYPE</span>},
-        <span class="ident">RequestHead</span>,
-    };
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::http::header</span>::{<span class="ident">HeaderValue</span>, <span class="ident">CONTENT_TYPE</span>};
+    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::RequestHead</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_chunked_te</span>() {
@@ -1224,8 +1294,8 @@
         );
     }
 
-    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
-    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_camel_case</span>() {
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_camel_case</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">BytesMut::with_capacity</span>(<span class="number">2048</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">head</span> <span class="op">=</span> <span class="ident">RequestHead::default</span>();
         <span class="ident">head</span>.<span class="ident">set_camel_case_headers</span>(<span class="bool-val">true</span>);
@@ -1233,25 +1303,21 @@
         <span class="ident">head</span>.<span class="ident">headers</span>
             .<span class="ident">insert</span>(<span class="ident">CONTENT_TYPE</span>, <span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;plain/text&quot;</span>));
 
-        <span class="ident">head</span>.<span class="ident">headers</span>
-            .<span class="ident">insert</span>(<span class="ident">UPGRADE_INSECURE_REQUESTS</span>, <span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;1&quot;</span>));
-
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">head</span> <span class="op">=</span> <span class="ident">RequestHeadType::Owned</span>(<span class="ident">head</span>);
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">head</span>.<span class="ident">encode_headers</span>(
             <span class="kw-2">&amp;mut</span> <span class="ident">bytes</span>,
             <span class="ident">Version::HTTP_11</span>,
-            <span class="ident">BodySize::Sized</span>(<span class="number">0</span>),
+            <span class="ident">BodySize::Empty</span>,
             <span class="ident">ConnectionType::Close</span>,
             <span class="kw-2">&amp;</span><span class="ident">ServiceConfig::default</span>(),
         );
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
-
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
+            <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Length: 0\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Connection: close\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
-        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Upgrade-Insecure-Requests: 1\r\n&quot;</span>));
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">head</span>.<span class="ident">encode_headers</span>(
             <span class="kw-2">&amp;mut</span> <span class="ident">bytes</span>,
@@ -1260,7 +1326,8 @@
             <span class="ident">ConnectionType::KeepAlive</span>,
             <span class="kw-2">&amp;</span><span class="ident">ServiceConfig::default</span>(),
         );
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
+            <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Transfer-Encoding: chunked\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
@@ -1281,15 +1348,16 @@
             <span class="ident">ConnectionType::KeepAlive</span>,
             <span class="kw-2">&amp;</span><span class="ident">ServiceConfig::default</span>(),
         );
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
+            <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: xml\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: plain/text\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
     }
 
-    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
-    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_extra_headers</span>() {
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_extra_headers</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">BytesMut::with_capacity</span>(<span class="number">2048</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">head</span> <span class="op">=</span> <span class="ident">RequestHead::default</span>();
@@ -1310,25 +1378,28 @@
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">head</span>.<span class="ident">encode_headers</span>(
             <span class="kw-2">&amp;mut</span> <span class="ident">bytes</span>,
             <span class="ident">Version::HTTP_11</span>,
-            <span class="ident">BodySize::Sized</span>(<span class="number">0</span>),
+            <span class="ident">BodySize::Empty</span>,
             <span class="ident">ConnectionType::Close</span>,
             <span class="kw-2">&amp;</span><span class="ident">ServiceConfig::default</span>(),
         );
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
+            <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;connection: close\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;authorization: another authorization\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
     }
 
-    <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
-    <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_no_content_length</span>() {
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">test_no_content_length</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">BytesMut::with_capacity</span>(<span class="number">2048</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::with_body</span>(<span class="ident">StatusCode::SWITCHING_PROTOCOLS</span>, ());
-        <span class="ident">res</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(<span class="ident">DATE</span>, <span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;&quot;</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">Response</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span>
+            <span class="ident">Response::new</span>(<span class="ident">StatusCode::SWITCHING_PROTOCOLS</span>).<span class="ident">into_body</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>();
         <span class="ident">res</span>.<span class="ident">headers_mut</span>()
-            .<span class="ident">insert</span>(<span class="ident">CONTENT_LENGTH</span>, <span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;0&quot;</span>));
+            .<span class="ident">insert</span>(<span class="ident">DATE</span>, <span class="ident">HeaderValue::from_static</span>(<span class="kw-2">&amp;</span><span class="string">&quot;&quot;</span>));
+        <span class="ident">res</span>.<span class="ident">headers_mut</span>()
+            .<span class="ident">insert</span>(<span class="ident">CONTENT_LENGTH</span>, <span class="ident">HeaderValue::from_static</span>(<span class="kw-2">&amp;</span><span class="string">&quot;0&quot;</span>));
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">encode_headers</span>(
             <span class="kw-2">&amp;mut</span> <span class="ident">bytes</span>,
@@ -1337,7 +1408,8 @@
             <span class="ident">ConnectionType::Upgrade</span>,
             <span class="kw-2">&amp;</span><span class="ident">ServiceConfig::default</span>(),
         );
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
+            <span class="ident">String::from_utf8</span>(<span class="ident">Vec::from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
         <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
     }
