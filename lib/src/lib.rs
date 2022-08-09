@@ -43,10 +43,10 @@ impl NodeJsBundle {
         web::get().to(move |req: HttpRequest| -> HttpResponse {
             let file_path = req.path();
 
-            if let Some(bytes) = self.get_file(&file_path) {
+            if let Some(bytes) = self.get_file(file_path) {
                 let mut builder = HttpResponse::Ok();
 
-                if let Some(content_type) = Self::get_content_type(&file_path) {
+                if let Some(content_type) = Self::get_content_type(file_path) {
                     builder.set(ContentType(content_type.parse().unwrap()));
                 }
 
