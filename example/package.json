@@ -1,10 +1,9 @@
 {
   "name": "rust-nodejs-bundler-example",
+  "private": true,
   "version": "1.0.0",
-  "author": "SpiralP <spiral.palmer@gmail.com>",
-  "license": "MIT",
   "scripts": {
-    "build": "esbuild src/index.ts --outfile=dist/index.js --bundle --sourcemap --target=chrome94",
+    "build": "cd web && esbuild ./src/index.ts --outfile=./dist/index.js --bundle --sourcemap --target=chrome94",
     "build:prod": "yarn build --minify"
   },
   "devDependencies": {

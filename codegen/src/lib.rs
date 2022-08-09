@@ -5,6 +5,7 @@ use std::{
     path::{Path, PathBuf},
     process::Command,
 };
+
 use walkdir::WalkDir;
 
 fn check_command(command: &mut Command) -> bool {
