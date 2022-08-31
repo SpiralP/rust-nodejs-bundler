@@ -121,6 +121,24 @@
 <span id="121">121</span>
 <span id="122">122</span>
 <span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
 </pre><pre class="rust"><code><span class="kw">pub use </span>phf;
 
 <span class="kw">pub type </span>Files = phf::Map&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[u8]&gt;;
@@ -160,12 +178,14 @@
     }
 
     <span class="attribute">#[cfg(feature = <span class="string">&quot;actix&quot;</span>)]
-    </span><span class="kw">pub fn </span>as_actix_route(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="self">self</span>) -&gt; actix_web::Route {
+    </span><span class="kw">pub fn </span>as_actix_handler(
+        <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="self">self</span>,
+    ) -&gt; <span class="kw">impl </span>actix_web::Handler&lt;(actix_web::HttpRequest,), Output = actix_web::HttpResponse&gt; {
         <span class="kw">use </span>std::future;
 
-        <span class="kw">use </span>actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
+        <span class="kw">use </span>actix_web::{http::header::ContentType, HttpRequest, HttpResponse};
 
-        web::get().to(|req: HttpRequest| -&gt; future::Ready&lt;HttpResponse&gt; {
+        |req: HttpRequest| -&gt; future::Ready&lt;HttpResponse&gt; {
             <span class="kw">let </span>file_path = req.path();
 
             future::ready(<span class="kw">if let </span><span class="prelude-val">Some</span>(bytes) = <span class="self">self</span>.get_file(file_path) {
@@ -179,7 +199,23 @@
             } <span class="kw">else </span>{
                 HttpResponse::NotFound().finish()
             })
-        })
+        }
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;actix&quot;</span>)]
+    </span><span class="kw">pub fn </span>as_actix_route(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="self">self</span>) -&gt; actix_web::Route {
+        <span class="kw">use </span>actix_web::web;
+
+        web::get().to(<span class="self">self</span>.as_actix_handler())
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;actix&quot;</span>)]
+    </span><span class="kw">pub fn </span>as_actix_resource(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="self">self</span>) -&gt; actix_web::Resource {
+        <span class="kw">use </span>actix_web::Resource;
+
+        Resource::new(<span class="string">&quot;/{path}*&quot;</span>)
+            .name(<span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_NAME&quot;</span>))
+            .to(<span class="self">self</span>.as_actix_handler())
     }
 
     <span class="attribute">#[cfg(feature = <span class="string">&quot;warp&quot;</span>)]
