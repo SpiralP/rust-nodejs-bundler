@@ -1,6 +1,6 @@
 [package]
 name = "nodejs-bundler"
-version = "1.0.0"
+version = "2.0.0"
 edition = "2021"
 publish = false
 
@@ -10,5 +10,6 @@ actix = ["actix-web"]
 [dependencies]
 actix-web = { version = "3", optional = true }
 phf = "0.11"
+rocket = { version = "0.5.0-rc.2", optional = true }
 warp = { version = "0.3", optional = true }
 zstd = "0.11"

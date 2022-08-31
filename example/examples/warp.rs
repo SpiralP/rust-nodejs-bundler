@@ -5,7 +5,7 @@ include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 #[tokio::main]
 async fn main() {
     println!("try http://127.0.0.1:3030/");
-    warp::serve(NODEJS_BUNDLE.as_filter())
+    warp::serve(NODEJS_BUNDLE.as_warp_filter())
         .run(([127, 0, 0, 1], 3030))
         .await;
 }
