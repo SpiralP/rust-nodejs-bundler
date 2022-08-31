@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/util/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/util/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -85,92 +85,92 @@
 <span id="85">85</span>
 <span id="86">86</span>
 <span id="87">87</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">HeaderValue</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>HeaderValue;
 
-<span class="comment">//pub use self::charset::Charset;</span>
-<span class="comment">//pub use self::encoding::Encoding;</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::entity</span>::{<span class="ident">EntityTag</span>, <span class="ident">EntityTagRange</span>};
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::flat_csv</span>::{<span class="ident">FlatCsv</span>, <span class="ident">SemiColon</span>};
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::fmt::fmt</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::http_date::HttpDate</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::iter::IterExt</span>;
-<span class="comment">//pub use language_tags::LanguageTag;</span>
-<span class="comment">//pub use self::quality_value::{Quality, QualityValue};</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::seconds::Seconds</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::value_string::HeaderValueString</span>;
+<span class="comment">//pub use self::charset::Charset;
+//pub use self::encoding::Encoding;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::entity::{EntityTag, EntityTagRange};
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::flat_csv::{FlatCsv, SemiColon};
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::fmt::fmt;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::http_date::HttpDate;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::iter::IterExt;
+<span class="comment">//pub use language_tags::LanguageTag;
+//pub use self::quality_value::{Quality, QualityValue};
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::seconds::Seconds;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::value_string::HeaderValueString;
 
-<span class="comment">//mod charset;</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">csv</span>;
-<span class="comment">//mod encoding;</span>
-<span class="kw">mod</span> <span class="ident">entity</span>;
-<span class="kw">mod</span> <span class="ident">flat_csv</span>;
-<span class="kw">mod</span> <span class="ident">fmt</span>;
-<span class="kw">mod</span> <span class="ident">http_date</span>;
-<span class="kw">mod</span> <span class="ident">iter</span>;
-<span class="comment">//mod quality_value;</span>
-<span class="kw">mod</span> <span class="ident">seconds</span>;
-<span class="kw">mod</span> <span class="ident">value_string</span>;
+<span class="comment">//mod charset;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>csv;
+<span class="comment">//mod encoding;
+</span><span class="kw">mod </span>entity;
+<span class="kw">mod </span>flat_csv;
+<span class="kw">mod </span>fmt;
+<span class="kw">mod </span>http_date;
+<span class="kw">mod </span>iter;
+<span class="comment">//mod quality_value;
+</span><span class="kw">mod </span>seconds;
+<span class="kw">mod </span>value_string;
 
-<span class="macro">macro_rules!</span> <span class="ident">error_type</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>) =&gt; {
-        <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="ident">_inner</span>: (),
+<span class="macro">macro_rules! </span>error_type {
+    (<span class="macro-nonterminal">$name</span>:ident) =&gt; {
+        <span class="attribute">#[doc(hidden)]
+        </span><span class="kw">pub struct </span><span class="macro-nonterminal">$name </span>{
+            _inner: (),
         }
 
-        <span class="kw">impl</span> <span class="ident">::std::fmt::Debug</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="ident">::std::fmt::Result</span> {
-                <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>)).<span class="ident">finish</span>()
+        <span class="kw">impl </span>::std::fmt::Debug <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::std::fmt::Formatter) -&gt; ::std::fmt::Result {
+                f.debug_struct(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>)).finish()
             }
         }
 
-        <span class="kw">impl</span> <span class="ident">::std::fmt::Display</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="ident">::std::fmt::Result</span> {
-                <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>))
+        <span class="kw">impl </span>::std::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$name </span>{
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::std::fmt::Formatter) -&gt; ::std::fmt::Result {
+                f.write_str(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>))
             }
         }
 
-        <span class="kw">impl</span> <span class="ident">::std::error::Error</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {}
+        <span class="kw">impl </span>::std::error::Error <span class="kw">for </span><span class="macro-nonterminal">$name </span>{}
     };
 }
 
-<span class="macro">macro_rules!</span> <span class="ident">derive_header</span> {
-    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ident</span>(<span class="kw">_</span>), <span class="ident">name</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>) =&gt; {
-        <span class="kw">impl</span> <span class="ident"><span class="kw">crate</span>::Header</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="kw">type</span> {
-            <span class="kw">fn</span> <span class="macro-nonterminal">name</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">::http::header::HeaderName</span> {
-                <span class="kw-2">&amp;</span><span class="ident">::http::header</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>
-            }
+<span class="macro">macro_rules! </span>derive_header {
+    (<span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ident</span>(<span class="kw">_</span>), name: <span class="macro-nonterminal">$name</span>:ident) =&gt; {
+        <span class="kw">impl </span><span class="kw">crate</span>::Header <span class="kw">for </span><span class="macro-nonterminal">$</span><span class="kw">type </span>{
+            <span class="kw">fn </span><span class="macro-nonterminal">name</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>::http::header::HeaderName {
+                <span class="kw-2">&amp;</span>::http::header::<span class="macro-nonterminal">$name
+            </span>}
 
-            <span class="kw">fn</span> <span class="ident">decode</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;mut</span> <span class="ident">I</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">::Error</span><span class="op">&gt;</span>
-            <span class="kw">where</span>
-                <span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">::http::header::HeaderValue</span><span class="op">&gt;</span>,
+            <span class="kw">fn </span>decode&lt;<span class="lifetime">&#39;i</span>, I&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt;
+            <span class="kw">where
+                </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>::http::header::HeaderValue&gt;,
             {
-                <span class="ident">::util::TryFromValues::try_from_values</span>(<span class="ident">values</span>).<span class="ident">map</span>(<span class="macro-nonterminal">$</span><span class="kw">type</span>)
+                ::util::TryFromValues::try_from_values(values).map(<span class="macro-nonterminal">$</span><span class="kw">type</span>)
             }
 
-            <span class="kw">fn</span> <span class="macro-nonterminal">encode</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Extend</span><span class="op">&lt;</span><span class="ident">::HeaderValue</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">values</span>: <span class="kw-2">&amp;mut</span> <span class="ident">E</span>) {
-                <span class="ident">values</span>.<span class="ident">extend</span>(<span class="ident">::std::iter::once</span>((<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).<span class="ident">into</span>()));
+            <span class="kw">fn </span><span class="macro-nonterminal">encode</span>&lt;E: Extend&lt;::HeaderValue&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, values: <span class="kw-2">&amp;mut </span>E) {
+                values.extend(::std::iter::once((<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).into()));
             }
         }
     };
 }
 
-<span class="doccomment">/// A helper trait for use when deriving `Header`.</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">TryFromValues</span>: <span class="ident">Sized</span> {
-    <span class="doccomment">/// Try to convert from the values into an instance of `Self`.</span>
-    <span class="kw">fn</span> <span class="ident">try_from_values</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;mut</span> <span class="ident">I</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">::Error</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="self">Self</span>: <span class="ident">Sized</span>,
-        <span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">HeaderValue</span><span class="op">&gt;</span>;
+<span class="doccomment">/// A helper trait for use when deriving `Header`.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>TryFromValues: Sized {
+    <span class="doccomment">/// Try to convert from the values into an instance of `Self`.
+    </span><span class="kw">fn </span>try_from_values&lt;<span class="lifetime">&#39;i</span>, I&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
+        I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>HeaderValue&gt;;
 }
 
-<span class="kw">impl</span> <span class="ident">TryFromValues</span> <span class="kw">for</span> <span class="ident">HeaderValue</span> {
-    <span class="kw">fn</span> <span class="ident">try_from_values</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;mut</span> <span class="ident">I</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">::Error</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">HeaderValue</span><span class="op">&gt;</span>,
+<span class="kw">impl </span>TryFromValues <span class="kw">for </span>HeaderValue {
+    <span class="kw">fn </span>try_from_values&lt;<span class="lifetime">&#39;i</span>, I&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt;
+    <span class="kw">where
+        </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>HeaderValue&gt;,
     {
-        <span class="ident">values</span>.<span class="ident">next</span>().<span class="ident">cloned</span>().<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">::Error::invalid</span>())
+        values.next().cloned().ok_or_else(|| ::Error::invalid())
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

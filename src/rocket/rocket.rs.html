@@ -1,0 +1,1844 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/rocket.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>rocket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../rocket/index.html"><div class="logo-container"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../rocket/index.html"><div class="logo-container">
+                    <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../rocket/index.html">
+                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::ops::{Deref, DerefMut};
+<span class="kw">use </span>std::net::SocketAddr;
+
+<span class="kw">use </span>yansi::Paint;
+<span class="kw">use </span>either::Either;
+<span class="kw">use </span>figment::{Figment, Provider};
+
+<span class="kw">use crate</span>::{Catcher, Config, Route, Shutdown, sentinel, shield::Shield};
+<span class="kw">use </span><span class="kw">crate</span>::router::Router;
+<span class="kw">use </span><span class="kw">crate</span>::trip_wire::TripWire;
+<span class="kw">use </span><span class="kw">crate</span>::fairing::{Fairing, Fairings};
+<span class="kw">use </span><span class="kw">crate</span>::phase::{Phase, Build, Building, Ignite, Igniting, Orbit, Orbiting};
+<span class="kw">use </span><span class="kw">crate</span>::phase::{Stateful, StateRef, State};
+<span class="kw">use </span><span class="kw">crate</span>::http::uri::{<span class="self">self</span>, Origin};
+<span class="kw">use </span><span class="kw">crate</span>::http::ext::IntoOwned;
+<span class="kw">use </span><span class="kw">crate</span>::error::{Error, ErrorKind};
+<span class="kw">use </span><span class="kw">crate</span>::log::PaintExt;
+
+<span class="doccomment">/// The application server itself.
+///
+/// # Phases
+///
+/// A `Rocket` instance represents a web server and its state. It progresses
+/// through three statically-enforced phases: build, ignite, orbit.
+///
+/// * **Build**: _application and server configuration_
+///
+///   This phase enables:
+///
+///     * setting configuration options
+///     * mounting/registering routes/catchers
+///     * managing state
+///     * attaching fairings
+///
+///   This is the _only_ phase in which an instance can be modified. To finalize
+///   changes, an instance is ignited via [`Rocket::ignite()`], progressing it
+///   into the _ignite_ phase, or directly launched into orbit with
+///   [`Rocket::launch()`] which progress the instance through ignite into
+///   orbit.
+///
+/// * **Ignite**: _verification and finalization of configuration_
+///
+///   An instance in the [`Ignite`] phase is in its final configuration,
+///   available via [`Rocket::config()`]. Barring user-supplied iterior
+///   mutation, application state is guaranteed to remain unchanged beyond this
+///   point. An instance in the ignite phase can be launched into orbit to serve
+///   requests via [`Rocket::launch()`].
+///
+/// * **Orbit**: _a running web server_
+///
+///   An instance in the [`Orbit`] phase represents a _running_ application,
+///   actively serving requests.
+///
+/// # Launching
+///
+/// To launch a `Rocket` application, the suggested approach is to return an
+/// instance of `Rocket&lt;Build&gt;` from a function named `rocket` marked with the
+/// [`#[launch]`](crate::launch) attribute:
+///
+///   ```rust,no_run
+///   # use rocket::launch;
+///   #[launch]
+///   fn rocket() -&gt; _ {
+///       rocket::build()
+///   }
+///   ```
+///
+/// This generates a `main` funcion with an `async` runtime that runs the
+/// returned `Rocket` instance.
+///
+/// * **Manual Launching**
+///
+///   To launch an instance of `Rocket`, it _must_ progress through all three
+///   phases. To progress into the ignite or launch phases, a tokio `async`
+///   runtime is required. The [`#[main]`](crate::main) attribute initializes a
+///   Rocket-specific tokio runtime and runs the attributed `async fn` inside of
+///   it:
+///
+///   ```rust,no_run
+///   #[rocket::main]
+///   async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
+///       let _rocket = rocket::build()
+///           .ignite().await?
+///           .launch().await?;
+///
+///       Ok(())
+///   }
+///   ```
+///
+///   Note that [`Rocket::launch()`] automatically progresses an instance of
+///   `Rocket` from any phase into orbit:
+///
+///   ```rust,no_run
+///   #[rocket::main]
+///   async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
+///       let _rocket = rocket::build().launch().await?;
+///       Ok(())
+///   }
+///   ```
+///
+///   For extreme and rare cases in which [`#[main]`](crate::main) imposes
+///   obstinate restrictions, use [`rocket::execute()`](crate::execute()) to
+///   execute Rocket&#39;s `launch()` future.
+///
+/// * **Automatic Launching**
+///
+///   Manually progressing an instance of Rocket though its phases is only
+///   necessary when either an instance&#39;s finalized state is to be inspected (in
+///   the _ignite_ phase) or the instance is expected to deorbit due to
+///   [`Rocket::shutdown()`]. In the more common case when neither is required,
+///   the [`#[launch]`](crate::launch) attribute can be used. When applied to a
+///   function that returns a `Rocket&lt;Build&gt;`, it automatically initializes an
+///   `async` runtime and launches the function&#39;s returned instance:
+///
+///   ```rust,no_run
+///   # use rocket::launch;
+///   use rocket::{Rocket, Build};
+///
+///   #[launch]
+///   fn rocket() -&gt; Rocket&lt;Build&gt; {
+///       rocket::build()
+///   }
+///   ```
+///
+///   To avoid needing to import _any_ items in the common case, the `launch`
+///   attribute will infer a return type written as `_` as `Rocket&lt;Build&gt;`:
+///
+///   ```rust,no_run
+///   # use rocket::launch;
+///   #[launch]
+///   fn rocket() -&gt; _ {
+///       rocket::build()
+///   }
+///   ```
+</span><span class="attribute">#[must_use]
+</span><span class="kw">pub struct </span>Rocket&lt;P: Phase&gt;(<span class="kw">pub</span>(<span class="kw">crate</span>) P::State);
+
+<span class="kw">impl </span>Rocket&lt;Build&gt; {
+    <span class="doccomment">/// Create a new `Rocket` application using the default configuration
+    /// provider, [`Config::figment()`].
+    ///
+    /// This method is typically called through the
+    /// [`rocket::build()`](crate::build) alias.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// # use rocket::launch;
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build()
+    /// }
+    /// ```
+    </span><span class="attribute">#[inline(always)]
+    </span><span class="kw">pub fn </span>build() -&gt; <span class="self">Self </span>{
+        Rocket::custom(Config::figment())
+    }
+
+    <span class="doccomment">/// Creates a new `Rocket` application using the supplied configuration
+    /// provider.
+    ///
+    /// This method is typically called through the
+    /// [`rocket::custom()`](crate::custom()) alias.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use rocket::launch;
+    /// use rocket::figment::{Figment, providers::{Toml, Env, Format}};
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     let figment = Figment::from(rocket::Config::default())
+    ///         .merge(Toml::file(&quot;MyApp.toml&quot;).nested())
+    ///         .merge(Env::prefixed(&quot;MY_APP_&quot;).global());
+    ///
+    ///     rocket::custom(figment)
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>custom&lt;T: Provider&gt;(provider: T) -&gt; <span class="self">Self </span>{
+        <span class="comment">// We initialize the logger here so that logging from fairings and so on
+        // are visible; we use the final config to set a max log-level in ignite
+        </span><span class="kw">crate</span>::log::init_default();
+
+        <span class="kw">let </span>rocket: Rocket&lt;Build&gt; = Rocket(Building {
+            figment: Figment::from(provider),
+            ..Default::default()
+        });
+
+        rocket.attach(Shield::default())
+    }
+
+    <span class="doccomment">/// Sets the configuration provider in `self` to `provider`.
+    ///
+    /// A [`Figment`] generated from the current `provider` can _always_ be
+    /// retrieved via [`Rocket::figment()`]. However, because the provider can
+    /// be changed at any point prior to ignition, a [`Config`] can only be
+    /// retrieved in the ignite or orbit phases, or by manually extracing one
+    /// from a particular figment.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::Config;
+    /// # use std::net::Ipv4Addr;
+    /// # use std::path::{Path, PathBuf};
+    /// # type Result = std::result::Result&lt;(), rocket::Error&gt;;
+    ///
+    /// let config = Config {
+    ///     port: 7777,
+    ///     address: Ipv4Addr::new(18, 127, 0, 1).into(),
+    ///     temp_dir: &quot;/tmp/config-example&quot;.into(),
+    ///     ..Config::debug_default()
+    /// };
+    ///
+    /// # let _: Result = rocket::async_test(async move {
+    /// let rocket = rocket::custom(&amp;config).ignite().await?;
+    /// assert_eq!(rocket.config().port, 7777);
+    /// assert_eq!(rocket.config().address, Ipv4Addr::new(18, 127, 0, 1));
+    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new(&quot;/tmp/config-example&quot;));
+    ///
+    /// // Create a new figment which modifies _some_ keys the existing figment:
+    /// let figment = rocket.figment().clone()
+    ///     .merge((Config::PORT, 8888))
+    ///     .merge((Config::ADDRESS, &quot;171.64.200.10&quot;));
+    ///
+    /// let rocket = rocket::custom(&amp;config)
+    ///     .configure(figment)
+    ///     .ignite().await?;
+    ///
+    /// assert_eq!(rocket.config().port, 8888);
+    /// assert_eq!(rocket.config().address, Ipv4Addr::new(171, 64, 200, 10));
+    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new(&quot;/tmp/config-example&quot;));
+    /// # Ok(())
+    /// # });
+    /// ```
+    </span><span class="kw">pub fn </span>configure&lt;T: Provider&gt;(<span class="kw-2">mut </span><span class="self">self</span>, provider: T) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.figment = Figment::from(provider);
+        <span class="self">self
+    </span>}
+
+    <span class="attribute">#[track_caller]
+    </span><span class="kw">fn </span>load&lt;<span class="lifetime">&#39;a</span>, B, T, F, M&gt;(<span class="kw-2">mut </span><span class="self">self</span>, kind: <span class="kw-2">&amp;</span>str, base: B, items: Vec&lt;T&gt;, m: M, f: F) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+              B::Error: fmt::Display,
+              M: Fn(<span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;a</span>&gt;, T) -&gt; <span class="prelude-ty">Result</span>&lt;T, uri::Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
+              F: Fn(<span class="kw-2">&amp;mut </span><span class="self">Self</span>, T),
+              T: Clone + fmt::Display,
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>base = <span class="kw">match </span>base.clone().try_into() {
+            <span class="prelude-val">Ok</span>(origin) =&gt; origin.into_owned(),
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="macro">error!</span>(<span class="string">&quot;invalid {} base: {}&quot;</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
+                <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, e);
+                <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, Paint::white(<span class="string">&quot;in&quot;</span>), std::panic::Location::caller());
+                <span class="macro">panic!</span>(<span class="string">&quot;aborting due to {} base error&quot;</span>, kind);
+            }
+        };
+
+        <span class="kw">if </span>base.query().is_some() {
+            <span class="macro">warn!</span>(<span class="string">&quot;query in {} base &#39;{}&#39; is ignored&quot;</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
+            base.clear_query();
+        }
+
+        <span class="kw">for </span>unmounted_item <span class="kw">in </span>items {
+            <span class="kw">let </span>item = <span class="kw">match </span>m(<span class="kw-2">&amp;</span>base, unmounted_item.clone()) {
+                <span class="prelude-val">Ok</span>(item) =&gt; item,
+                <span class="prelude-val">Err</span>(e) =&gt; {
+                    <span class="macro">error!</span>(<span class="string">&quot;malformed URI in {} {}&quot;</span>, kind, unmounted_item);
+                    <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, e);
+                    <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, Paint::white(<span class="string">&quot;in&quot;</span>), std::panic::Location::caller());
+                    <span class="macro">panic!</span>(<span class="string">&quot;aborting due to invalid {} URI&quot;</span>, kind);
+                }
+            };
+
+            f(<span class="kw-2">&amp;mut </span><span class="self">self</span>, item)
+        }
+
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Mounts all of the routes in the supplied vector at the given `base`
+    /// path. Mounting a route with path `path` at path `base` makes the route
+    /// available at `base/path`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if either:
+    ///   * the `base` mount point is not a valid static path: a valid origin
+    ///     URI without dynamic parameters.
+    ///
+    ///   * any route&#39;s URI is not a valid origin URI.
+    ///
+    ///     **Note:** _This kind of panic is guaranteed not to occur if the routes
+    ///     were generated using Rocket&#39;s code generation._
+    ///
+    /// # Examples
+    ///
+    /// Use the `routes!` macro to mount routes created using the code
+    /// generation facilities. Requests to the `/hello/world` URI will be
+    /// dispatched to the `hi` route.
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// #
+    /// #[get(&quot;/world&quot;)]
+    /// fn hi() -&gt; &amp;&#39;static str {
+    ///     &quot;Hello!&quot;
+    /// }
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build().mount(&quot;/hello&quot;, routes![hi])
+    /// }
+    /// ```
+    ///
+    /// Manually create a route named `hi` at path `&quot;/world&quot;` mounted at base
+    /// `&quot;/hello&quot;`. Requests to the `/hello/world` URI will be dispatched to the
+    /// `hi` route.
+    ///
+    /// ```rust
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::{Request, Route, Data, route};
+    /// use rocket::http::Method;
+    ///
+    /// fn hi&lt;&#39;r&gt;(req: &amp;&#39;r Request, _: Data&lt;&#39;r&gt;) -&gt; route::BoxFuture&lt;&#39;r&gt; {
+    ///     route::Outcome::from(req, &quot;Hello!&quot;).pin()
+    /// }
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     let hi_route = Route::new(Method::Get, &quot;/world&quot;, hi);
+    ///     rocket::build().mount(&quot;/hello&quot;, vec![hi_route])
+    /// }
+    /// ```
+    </span><span class="attribute">#[track_caller]
+    </span><span class="kw">pub fn </span>mount&lt;<span class="lifetime">&#39;a</span>, B, R&gt;(<span class="self">self</span>, base: B, routes: R) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+              B::Error: fmt::Display,
+              R: Into&lt;Vec&lt;Route&gt;&gt;
+    {
+        <span class="self">self</span>.load(<span class="string">&quot;route&quot;</span>, base, routes.into(),
+            |base, route| route.map_base(|old| <span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, base, old)),
+            |r, route| r.<span class="number">0</span>.routes.push(route))
+    }
+
+    <span class="doccomment">/// Registers all of the catchers in the supplied vector, scoped to `base`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `base` is not a valid static path: a valid origin URI without
+    /// dynamic parameters.
+    ///
+    /// # Examples
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::Request;
+    ///
+    /// #[catch(500)]
+    /// fn internal_error() -&gt; &amp;&#39;static str {
+    ///     &quot;Whoops! Looks like we messed up.&quot;
+    /// }
+    ///
+    /// #[catch(400)]
+    /// fn not_found(req: &amp;Request) -&gt; String {
+    ///     format!(&quot;I couldn&#39;t find &#39;{}&#39;. Try something else?&quot;, req.uri())
+    /// }
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build().register(&quot;/&quot;, catchers![internal_error, not_found])
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>register&lt;<span class="lifetime">&#39;a</span>, B, C&gt;(<span class="self">self</span>, base: B, catchers: C) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+              B::Error: fmt::Display,
+              C: Into&lt;Vec&lt;Catcher&gt;&gt;
+    {
+        <span class="self">self</span>.load(<span class="string">&quot;catcher&quot;</span>, base, catchers.into(),
+            |base, catcher| catcher.map_base(|old| <span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, base, old)),
+            |r, catcher| r.<span class="number">0</span>.catchers.push(catcher))
+    }
+
+    <span class="doccomment">/// Add `state` to the state managed by this instance of Rocket.
+    ///
+    /// This method can be called any number of times as long as each call
+    /// refers to a different `T`.
+    ///
+    /// Managed state can be retrieved by any request handler via the
+    /// [`State`](crate::State) request guard. In particular, if a value of type `T`
+    /// is managed by Rocket, adding `State&lt;T&gt;` to the list of arguments in a
+    /// request handler instructs Rocket to retrieve the managed value.
+    ///
+    /// # Panics
+    ///
+    /// Panics if state of type `T` is already being managed.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::State;
+    ///
+    /// struct MyInt(isize);
+    /// struct MyString(String);
+    ///
+    /// #[get(&quot;/int&quot;)]
+    /// fn int(state: &amp;State&lt;MyInt&gt;) -&gt; String {
+    ///     format!(&quot;The stateful int is: {}&quot;, state.0)
+    /// }
+    ///
+    /// #[get(&quot;/string&quot;)]
+    /// fn string(state: &amp;State&lt;MyString&gt;) -&gt; &amp;str {
+    ///     &amp;state.0
+    /// }
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build()
+    ///         .manage(MyInt(10))
+    ///         .manage(MyString(&quot;Hello, managed state!&quot;.to_string()))
+    ///         .mount(&quot;/&quot;, routes![int, string])
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>manage&lt;T&gt;(<span class="self">self</span>, state: T) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>T: Send + Sync + <span class="lifetime">&#39;static
+    </span>{
+        <span class="kw">let </span>type_name = std::any::type_name::&lt;T&gt;();
+        <span class="kw">if </span>!<span class="self">self</span>.state.set(state) {
+            <span class="macro">error!</span>(<span class="string">&quot;state for type &#39;{}&#39; is already being managed&quot;</span>, type_name);
+            <span class="macro">panic!</span>(<span class="string">&quot;aborting due to duplicately managed state&quot;</span>);
+        }
+
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Attaches a fairing to this instance of Rocket. No fairings are eagerly
+    /// excuted; fairings are executed at their appropriate time.
+    ///
+    /// If the attached fairing is _fungible_ and a fairing of the same name
+    /// already exists, this fairing replaces it.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::Rocket;
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build()
+    ///         .attach(AdHoc::on_liftoff(&quot;Liftoff Message&quot;, |_| Box::pin(async {
+    ///             println!(&quot;We have liftoff!&quot;);
+    ///         })))
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>attach&lt;F: Fairing&gt;(<span class="kw-2">mut </span><span class="self">self</span>, fairing: F) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.fairings.add(Box::new(fairing));
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns a `Future` that transitions this instance of `Rocket` into the
+    /// _ignite_ phase.
+    ///
+    /// When `await`ed, the future runs all _ignite_ fairings in serial,
+    /// [attach](Rocket::attach()) order, and verifies that `self` represents a
+    /// valid instance of `Rocket` ready for launch. This means that:
+    ///
+    ///   * All ignite fairings succeeded.
+    ///   * A valid [`Config`] was extracted from [`Rocket::figment()`].
+    ///   * If `secrets` are enabled, the extracted `Config` contains a safe
+    ///     secret key.
+    ///   * There are no [`Route#collisions`] or [`Catcher#collisions`]
+    ///     collisions.
+    ///   * No [`Sentinel`](crate::Sentinel) triggered an abort.
+    ///
+    /// If any of these conditions fail to be met, a respective [`Error`] is
+    /// returned.
+    ///
+    /// [configured]: Rocket::figment()
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[rocket::main]
+    /// async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
+    ///     let rocket = rocket::build()
+    ///         # .configure(rocket::Config::debug_default())
+    ///         .attach(AdHoc::on_ignite(&quot;Manage State&quot;, |rocket| async move {
+    ///             rocket.manage(String::from(&quot;managed string&quot;))
+    ///         }));
+    ///
+    ///     // No fairings are run until ignition occurs.
+    ///     assert!(rocket.state::&lt;String&gt;().is_none());
+    ///
+    ///     let rocket = rocket.ignite().await?;
+    ///     assert_eq!(rocket.state::&lt;String&gt;().unwrap(), &quot;managed string&quot;);
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
+    </span><span class="kw">pub async fn </span>ignite(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Ignite&gt;, Error&gt; {
+        <span class="self">self </span>= Fairings::handle_ignite(<span class="self">self</span>).<span class="kw">await</span>;
+        <span class="self">self</span>.fairings.audit().map_err(|f| ErrorKind::FailedFairings(f.to_vec()))<span class="question-mark">?</span>;
+
+        <span class="comment">// Extract the configuration; initialize the logger.
+        </span><span class="attribute">#[allow(unused_mut)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>config = Config::try_from(<span class="kw-2">&amp;</span><span class="self">self</span>.figment).map_err(ErrorKind::Config)<span class="question-mark">?</span>;
+        <span class="kw">crate</span>::log::init(<span class="kw-2">&amp;</span>config);
+
+        <span class="comment">// Check for safely configured secrets.
+        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+        </span><span class="kw">if </span>!config.secret_key.is_provided() {
+            <span class="kw">if </span>config.profile != Config::DEBUG_PROFILE {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::new(ErrorKind::InsecureSecretKey(config.profile.clone())));
+            }
+
+            <span class="kw">if </span>config.secret_key.is_zero() {
+                config.secret_key = <span class="kw">crate</span>::config::SecretKey::generate()
+                    .unwrap_or_else(<span class="kw">crate</span>::config::SecretKey::zero);
+            }
+        };
+
+        <span class="comment">// Initialize the router; check for collisions.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>router = Router::new();
+        <span class="self">self</span>.routes.clone().into_iter().for_each(|r| router.add_route(r));
+        <span class="self">self</span>.catchers.clone().into_iter().for_each(|c| router.add_catcher(c));
+        router.finalize().map_err(ErrorKind::Collisions)<span class="question-mark">?</span>;
+
+        <span class="comment">// Finally, freeze managed state.
+        </span><span class="self">self</span>.state.freeze();
+
+        <span class="comment">// Log everything we know: config, routes, catchers, fairings.
+        // TODO: Store/print managed state type names?
+        </span>config.pretty_print(<span class="self">self</span>.figment());
+        log_items(<span class="string">&quot;📬 &quot;</span>, <span class="string">&quot;Routes&quot;</span>, <span class="self">self</span>.routes(), |r| <span class="kw-2">&amp;</span>r.uri.base, |r| <span class="kw-2">&amp;</span>r.uri);
+        log_items(<span class="string">&quot;🥅 &quot;</span>, <span class="string">&quot;Catchers&quot;</span>, <span class="self">self</span>.catchers(), |c| <span class="kw-2">&amp;</span>c.base, |c| <span class="kw-2">&amp;</span>c.base);
+        <span class="self">self</span>.fairings.pretty_print();
+
+        <span class="comment">// Ignite the rocket.
+        </span><span class="kw">let </span>rocket: Rocket&lt;Ignite&gt; = Rocket(Igniting {
+            router, config,
+            shutdown: Shutdown(TripWire::new()),
+            figment: <span class="self">self</span>.<span class="number">0</span>.figment,
+            fairings: <span class="self">self</span>.<span class="number">0</span>.fairings,
+            state: <span class="self">self</span>.<span class="number">0</span>.state,
+        });
+
+        <span class="comment">// Query the sentinels, abort if requested.
+        </span><span class="kw">let </span>sentinels = rocket.routes().flat_map(|r| r.sentinels.iter());
+        sentinel::query(sentinels, <span class="kw-2">&amp;</span>rocket).map_err(ErrorKind::SentinelAborts)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(rocket)
+    }
+}
+
+<span class="kw">fn </span>log_items&lt;T, I, B, O&gt;(e: <span class="kw-2">&amp;</span>str, t: <span class="kw-2">&amp;</span>str, items: I, base: B, origin: O)
+    <span class="kw">where </span>T: fmt::Display + Copy, I: Iterator&lt;Item = T&gt;,
+          B: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;, O: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;
+{
+    <span class="kw">let </span><span class="kw-2">mut </span>items: Vec&lt;<span class="kw">_</span>&gt; = items.collect();
+    <span class="kw">if </span>!items.is_empty() {
+        <span class="macro">launch_info!</span>(<span class="string">&quot;{}{}:&quot;</span>, Paint::emoji(e), Paint::magenta(t));
+    }
+
+    items.sort_by_key(|i| origin(i).path().as_str().chars().count());
+    items.sort_by_key(|i| origin(i).path().segments().len());
+    items.sort_by_key(|i| base(i).path().as_str().chars().count());
+    items.sort_by_key(|i| base(i).path().segments().len());
+    items.iter().for_each(|i| <span class="macro">launch_info_!</span>(<span class="string">&quot;{}&quot;</span>, i));
+}
+
+<span class="kw">impl </span>Rocket&lt;Ignite&gt; {
+    <span class="doccomment">/// Returns the finalized, active configuration. This is guaranteed to
+    /// remain stable through ignition and into orbit.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// #[rocket::main]
+    /// async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
+    ///     let rocket = rocket::build().ignite().await?;
+    ///     let config = rocket.config();
+    ///     Ok(())
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Config {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.config
+    }
+
+    <span class="doccomment">/// Returns a handle which can be used to trigger a shutdown and detect a
+    /// triggered shutdown.
+    ///
+    /// A completed graceful shutdown resolves the future returned by
+    /// [`Rocket::launch()`]. If [`Shutdown::notify()`] is called _before_ an
+    /// instance is launched, it will be immediately shutdown after liftoff. See
+    /// [`Shutdown`] and [`config::Shutdown`](crate::config::Shutdown) for
+    /// details on graceful shutdown.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # use std::time::Duration;
+    /// use rocket::tokio::{self, time};
+    ///
+    /// #[rocket::main]
+    /// async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
+    ///     let rocket = rocket::build().ignite().await?;
+    ///
+    ///     let shutdown = rocket.shutdown();
+    ///     tokio::spawn(async move {
+    ///         time::sleep(time::Duration::from_secs(5)).await;
+    ///         shutdown.notify();
+    ///     });
+    ///
+    ///     // The `launch()` future resolves after ~5 seconds.
+    ///     let result = rocket.launch().await;
+    ///     assert!(result.is_ok());
+    ///
+    ///     Ok(())
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>shutdown(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Shutdown {
+        <span class="self">self</span>.shutdown.clone()
+    }
+
+    <span class="kw">fn </span>into_orbit(<span class="self">self</span>) -&gt; Rocket&lt;Orbit&gt; {
+        Rocket(Orbiting {
+            router: <span class="self">self</span>.<span class="number">0</span>.router,
+            fairings: <span class="self">self</span>.<span class="number">0</span>.fairings,
+            figment: <span class="self">self</span>.<span class="number">0</span>.figment,
+            config: <span class="self">self</span>.<span class="number">0</span>.config,
+            state: <span class="self">self</span>.<span class="number">0</span>.state,
+            shutdown: <span class="self">self</span>.<span class="number">0</span>.shutdown,
+        })
+    }
+
+    <span class="kw">async fn </span>_local_launch(<span class="self">self</span>) -&gt; Rocket&lt;Orbit&gt; {
+        <span class="kw">let </span>rocket = <span class="self">self</span>.into_orbit();
+        rocket.fairings.handle_liftoff(<span class="kw-2">&amp;</span>rocket).<span class="kw">await</span>;
+        <span class="macro">launch_info!</span>(<span class="string">&quot;{}{}&quot;</span>, Paint::emoji(<span class="string">&quot;🚀 &quot;</span>),
+            Paint::default(<span class="string">&quot;Rocket has launched into local orbit&quot;</span>).bold());
+
+        rocket
+    }
+
+    <span class="kw">async fn </span>_launch(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Ignite&gt;, Error&gt; {
+        <span class="self">self</span>.into_orbit()
+            .default_tcp_http_server(|rkt| Box::pin(<span class="kw">async move </span>{
+                rkt.fairings.handle_liftoff(<span class="kw-2">&amp;</span>rkt).<span class="kw">await</span>;
+
+                <span class="kw">let </span>proto = rkt.config.tls_enabled().then(|| <span class="string">&quot;https&quot;</span>).unwrap_or(<span class="string">&quot;http&quot;</span>);
+                <span class="kw">let </span>socket_addr = SocketAddr::new(rkt.config.address, rkt.config.port);
+                <span class="kw">let </span>addr = <span class="macro">format!</span>(<span class="string">&quot;{}://{}&quot;</span>, proto, socket_addr);
+                <span class="macro">launch_info!</span>(<span class="string">&quot;{}{} {}&quot;</span>,
+                    Paint::emoji(<span class="string">&quot;🚀 &quot;</span>),
+                    Paint::default(<span class="string">&quot;Rocket has launched from&quot;</span>).bold(),
+                    Paint::default(addr).bold().underline());
+            }))
+            .<span class="kw">await
+            </span>.map(|rocket| rocket.into_ignite())
+    }
+}
+
+<span class="kw">impl </span>Rocket&lt;Orbit&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_ignite(<span class="self">self</span>) -&gt; Rocket&lt;Ignite&gt; {
+        Rocket(Igniting {
+            router: <span class="self">self</span>.<span class="number">0</span>.router,
+            fairings: <span class="self">self</span>.<span class="number">0</span>.fairings,
+            figment: <span class="self">self</span>.<span class="number">0</span>.figment,
+            config: <span class="self">self</span>.<span class="number">0</span>.config,
+            state: <span class="self">self</span>.<span class="number">0</span>.state,
+            shutdown: <span class="self">self</span>.<span class="number">0</span>.shutdown,
+        })
+    }
+
+    <span class="doccomment">/// Returns the finalized, active configuration. This is guaranteed to
+    /// remain stable after [`Rocket::ignite()`], through ignition and into
+    /// orbit.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build()
+    ///         .attach(AdHoc::on_liftoff(&quot;Config&quot;, |rocket| Box::pin(async move {
+    ///             println!(&quot;Rocket launch config: {:?}&quot;, rocket.config());
+    ///         })))
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Config {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.config
+    }
+
+    <span class="doccomment">/// Returns a handle which can be used to trigger a shutdown and detect a
+    /// triggered shutdown.
+    ///
+    /// A completed graceful shutdown resolves the future returned by
+    /// [`Rocket::launch()`]. See [`Shutdown`] and
+    /// [`config::Shutdown`](crate::config::Shutdown) for details on graceful
+    /// shutdown.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::tokio::{self, time};
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[launch]
+    /// fn rocket() -&gt; _ {
+    ///     rocket::build()
+    ///         .attach(AdHoc::on_liftoff(&quot;Shutdown&quot;, |rocket| Box::pin(async move {
+    ///             let shutdown = rocket.shutdown();
+    ///             tokio::spawn(async move {
+    ///                 time::sleep(time::Duration::from_secs(5)).await;
+    ///                 shutdown.notify();
+    ///             });
+    ///         })))
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>shutdown(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Shutdown {
+        <span class="self">self</span>.shutdown.clone()
+    }
+}
+
+<span class="kw">impl</span>&lt;P: Phase&gt; Rocket&lt;P&gt; {
+    <span class="doccomment">/// Returns an iterator over all of the routes mounted on this instance of
+    /// Rocket. The order is unspecified.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use rocket::*;
+    /// use rocket::Rocket;
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[get(&quot;/hello&quot;)]
+    /// fn hello() -&gt; &amp;&#39;static str {
+    ///     &quot;Hello, world!&quot;
+    /// }
+    ///
+    /// let rocket = rocket::build()
+    ///     .mount(&quot;/&quot;, routes![hello])
+    ///     .mount(&quot;/hi&quot;, routes![hello]);
+    ///
+    /// assert_eq!(rocket.routes().count(), 2);
+    /// assert!(rocket.routes().any(|r| r.uri == &quot;/hello&quot;));
+    /// assert!(rocket.routes().any(|r| r.uri == &quot;/hi/hello&quot;));
+    /// ```
+    </span><span class="kw">pub fn </span>routes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Route&gt; {
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
+            StateRef::Build(p) =&gt; Either::Left(p.routes.iter()),
+            StateRef::Ignite(p) =&gt; Either::Right(p.router.routes()),
+            StateRef::Orbit(p) =&gt; Either::Right(p.router.routes()),
+        }
+    }
+
+    <span class="doccomment">/// Returns an iterator over all of the catchers registered on this instance
+    /// of Rocket. The order is unspecified.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use rocket::*;
+    /// use rocket::Rocket;
+    /// use rocket::fairing::AdHoc;
+    ///
+    /// #[catch(404)] fn not_found() -&gt; &amp;&#39;static str { &quot;Nothing here, sorry!&quot; }
+    /// #[catch(500)] fn just_500() -&gt; &amp;&#39;static str { &quot;Whoops!?&quot; }
+    /// #[catch(default)] fn some_default() -&gt; &amp;&#39;static str { &quot;Everything else.&quot; }
+    ///
+    /// let rocket = rocket::build()
+    ///     .register(&quot;/foo&quot;, catchers![not_found])
+    ///     .register(&quot;/&quot;, catchers![just_500, some_default]);
+    ///
+    /// assert_eq!(rocket.catchers().count(), 3);
+    /// assert!(rocket.catchers().any(|c| c.code == Some(404) &amp;&amp; c.base == &quot;/foo&quot;));
+    /// assert!(rocket.catchers().any(|c| c.code == Some(500) &amp;&amp; c.base == &quot;/&quot;));
+    /// assert!(rocket.catchers().any(|c| c.code == None &amp;&amp; c.base == &quot;/&quot;));
+    /// ```
+    </span><span class="kw">pub fn </span>catchers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Catcher&gt; {
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
+            StateRef::Build(p) =&gt; Either::Left(p.catchers.iter()),
+            StateRef::Ignite(p) =&gt; Either::Right(p.router.catchers()),
+            StateRef::Orbit(p) =&gt; Either::Right(p.router.catchers()),
+        }
+    }
+
+    <span class="doccomment">/// Returns `Some` of the managed state value for the type `T` if it is
+    /// being managed by `self`. Otherwise, returns `None`.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// #[derive(PartialEq, Debug)]
+    /// struct MyState(&amp;&#39;static str);
+    ///
+    /// let rocket = rocket::build().manage(MyState(&quot;hello!&quot;));
+    /// assert_eq!(rocket.state::&lt;MyState&gt;().unwrap(), &amp;MyState(&quot;hello!&quot;));
+    /// ```
+    </span><span class="kw">pub fn </span>state&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
+            StateRef::Build(p) =&gt; p.state.try_get(),
+            StateRef::Ignite(p) =&gt; p.state.try_get(),
+            StateRef::Orbit(p) =&gt; p.state.try_get(),
+        }
+    }
+
+    <span class="doccomment">/// Returns the figment derived from the configuration provider set for
+    /// `self`. To extract a typed config, prefer to use
+    /// [`AdHoc::config()`](crate::fairing::AdHoc::config()).
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// let rocket = rocket::build();
+    /// let figment = rocket.figment();
+    /// ```
+    </span><span class="kw">pub fn </span>figment(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Figment {
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
+            StateRef::Build(p) =&gt; <span class="kw-2">&amp;</span>p.figment,
+            StateRef::Ignite(p) =&gt; <span class="kw-2">&amp;</span>p.figment,
+            StateRef::Orbit(p) =&gt; <span class="kw-2">&amp;</span>p.figment,
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>local_launch(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Orbit&gt;, Error&gt; {
+        <span class="kw">let </span>rocket = <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.into_state() {
+            State::Build(s) =&gt; Rocket::from(s).ignite().<span class="kw">await</span><span class="question-mark">?</span>._local_launch().<span class="kw">await</span>,
+            State::Ignite(s) =&gt; Rocket::from(s)._local_launch().<span class="kw">await</span>,
+            State::Orbit(s) =&gt; Rocket::from(s)
+        };
+
+        <span class="prelude-val">Ok</span>(rocket)
+    }
+
+    <span class="doccomment">/// Returns a `Future` that transitions this instance of `Rocket` from any
+    /// phase into the _orbit_ phase. When `await`ed, the future drives the
+    /// server forward, listening for and dispatching requests to mounted routes
+    /// and catchers.
+    ///
+    /// In addition to all of the processes that occur during
+    /// [ignition](Rocket::ignite()), a successful launch results in _liftoff_
+    /// fairings being executed _after_ binding to any respective network
+    /// interfaces but before serving the first request. Liftoff fairings are
+    /// run concurrently; resolution of all fairings is `await`ed before
+    /// resuming request serving.
+    ///
+    /// The `Future` resolves as an `Err` if any of the following occur:
+    ///
+    ///   * there is an error igniting; see [`Rocket::ignite()`].
+    ///   * there is an I/O error starting the server.
+    ///   * an unrecoverable, system-level error occurs while running.
+    ///
+    /// The `Future` resolves as an `Ok` if any of the following occur:
+    ///
+    ///   * graceful shutdown via [`Shutdown::notify()`] completes.
+    ///
+    /// The returned value on `Ok(())` is previously running instance.
+    ///
+    /// The `Future` does not resolve otherwise.
+    ///
+    /// # Error
+    ///
+    /// If there is a problem starting the application or the application fails
+    /// unexpectedly while running, an [`Error`] is returned. Note that a value
+    /// of type `Error` panics if dropped without first being inspected. See the
+    /// [`Error`] documentation for more information.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// #[rocket::main]
+    /// async fn main() {
+    ///     let result = rocket::build().launch().await;
+    ///
+    ///     // this is reachable only after `Shutdown::notify()` or `Ctrl+C`.
+    ///     println!(&quot;Rocket: deorbit.&quot;);
+    /// }
+    /// ```
+    </span><span class="kw">pub async fn </span>launch(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Ignite&gt;, Error&gt; {
+        <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.into_state() {
+            State::Build(s) =&gt; Rocket::from(s).ignite().<span class="kw">await</span><span class="question-mark">?</span>._launch().<span class="kw">await</span>,
+            State::Ignite(s) =&gt; Rocket::from(s)._launch().<span class="kw">await</span>,
+            State::Orbit(s) =&gt; <span class="prelude-val">Ok</span>(Rocket::from(s).into_ignite())
+        }
+    }
+}
+
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">impl</span>&lt;P: Phase&gt; Deref <span class="kw">for </span>Rocket&lt;P&gt; {
+    <span class="kw">type </span>Target = P::State;
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
+    </span>}
+}
+
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">impl</span>&lt;P: Phase&gt; DerefMut <span class="kw">for </span>Rocket&lt;P&gt; {
+    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
+    </span>}
+}
+
+<span class="kw">impl</span>&lt;P: Phase&gt; fmt::Debug <span class="kw">for </span>Rocket&lt;P&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt(f)
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="rocket" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

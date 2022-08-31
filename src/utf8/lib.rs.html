@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/utf-8-0.7.6/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../utf8/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../utf8/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../utf8/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/utf-8-0.7.6/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../utf8/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../utf8/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../utf8/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -184,185 +184,185 @@
 <span id="184">184</span>
 <span id="185">185</span>
 <span id="186">186</span>
-</pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">lossy</span>;
-<span class="kw">mod</span> <span class="ident">read</span>;
+</pre><pre class="rust"><code><span class="kw">mod </span>lossy;
+<span class="kw">mod </span>read;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">lossy::LossyDecoder</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">read</span>::{<span class="ident">BufReadDecoder</span>, <span class="ident">BufReadDecoderError</span>};
+<span class="kw">pub use </span>lossy::LossyDecoder;
+<span class="kw">pub use </span>read::{BufReadDecoder, BufReadDecoderError};
 
-<span class="kw">use</span> <span class="ident">std::cmp</span>;
-<span class="kw">use</span> <span class="ident">std::error::Error</span>;
-<span class="kw">use</span> <span class="ident">std::fmt</span>;
-<span class="kw">use</span> <span class="ident">std::str</span>;
+<span class="kw">use </span>std::cmp;
+<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::str;
 
-<span class="doccomment">/// The replacement character, U+FFFD. In lossy decoding, insert it for every decoding error.</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">REPLACEMENT_CHARACTER</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;\u{FFFD}&quot;</span>;
+<span class="doccomment">/// The replacement character, U+FFFD. In lossy decoding, insert it for every decoding error.
+</span><span class="kw">pub const </span>REPLACEMENT_CHARACTER: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;\u{FFFD}&quot;</span>;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DecodeError</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// In lossy decoding insert `valid_prefix`, then `&quot;\u{FFFD}&quot;`,</span>
-    <span class="doccomment">/// then call `decode()` again with `remaining_input`.</span>
-    <span class="ident">Invalid</span> {
-        <span class="ident">valid_prefix</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-        <span class="ident">invalid_sequence</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
-        <span class="ident">remaining_input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
+<span class="attribute">#[derive(Debug, Copy, Clone)]
+</span><span class="kw">pub enum </span>DecodeError&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// In lossy decoding insert `valid_prefix`, then `&quot;\u{FFFD}&quot;`,
+    /// then call `decode()` again with `remaining_input`.
+    </span>Invalid {
+        valid_prefix: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+        invalid_sequence: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+        remaining_input: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
     },
 
-    <span class="doccomment">/// Call the `incomplete_suffix.try_complete` method with more input when available.</span>
-    <span class="doccomment">/// If no more input is available, this is an invalid byte sequence.</span>
-    <span class="ident">Incomplete</span> {
-        <span class="ident">valid_prefix</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-        <span class="ident">incomplete_suffix</span>: <span class="ident">Incomplete</span>,
+    <span class="doccomment">/// Call the `incomplete_suffix.try_complete` method with more input when available.
+    /// If no more input is available, this is an invalid byte sequence.
+    </span>Incomplete {
+        valid_prefix: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+        incomplete_suffix: Incomplete,
     },
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DecodeError</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">DecodeError::Invalid</span> {
-                <span class="ident">valid_prefix</span>,
-                <span class="ident">invalid_sequence</span>,
-                <span class="ident">remaining_input</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DecodeError&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            DecodeError::Invalid {
+                valid_prefix,
+                invalid_sequence,
+                remaining_input,
             } =&gt; <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;found invalid byte sequence {invalid_sequence:02x?} after \
                  {valid_byte_count} valid bytes, followed by {unprocessed_byte_count} more \
                  unprocessed bytes&quot;</span>,
-                <span class="ident">invalid_sequence</span> <span class="op">=</span> <span class="ident">invalid_sequence</span>,
-                <span class="ident">valid_byte_count</span> <span class="op">=</span> <span class="ident">valid_prefix</span>.<span class="ident">len</span>(),
-                <span class="ident">unprocessed_byte_count</span> <span class="op">=</span> <span class="ident">remaining_input</span>.<span class="ident">len</span>()
+                invalid_sequence = invalid_sequence,
+                valid_byte_count = valid_prefix.len(),
+                unprocessed_byte_count = remaining_input.len()
             ),
-            <span class="ident">DecodeError::Incomplete</span> {
-                <span class="ident">valid_prefix</span>,
-                <span class="ident">incomplete_suffix</span>,
+            DecodeError::Incomplete {
+                valid_prefix,
+                incomplete_suffix,
             } =&gt; <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;found incomplete byte sequence {incomplete_suffix:02x?} after \
                  {valid_byte_count} bytes&quot;</span>,
-                <span class="ident">incomplete_suffix</span> <span class="op">=</span> <span class="ident">incomplete_suffix</span>,
-                <span class="ident">valid_byte_count</span> <span class="op">=</span> <span class="ident">valid_prefix</span>.<span class="ident">len</span>()
+                incomplete_suffix = incomplete_suffix,
+                valid_byte_count = valid_prefix.len()
             ),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">DecodeError</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Error <span class="kw">for </span>DecodeError&lt;<span class="lifetime">&#39;a</span>&gt; {}
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Incomplete</span> {
-    <span class="kw">pub</span> <span class="ident">buffer</span>: [<span class="ident">u8</span>; <span class="number">4</span>],
-    <span class="kw">pub</span> <span class="ident">buffer_len</span>: <span class="ident">u8</span>,
+<span class="attribute">#[derive(Debug, Copy, Clone)]
+</span><span class="kw">pub struct </span>Incomplete {
+    <span class="kw">pub </span>buffer: [u8; <span class="number">4</span>],
+    <span class="kw">pub </span>buffer_len: u8,
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">DecodeError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">error</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">str::from_utf8</span>(<span class="ident">input</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">valid</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">valid</span>),
-        <span class="prelude-val">Err</span>(<span class="ident">error</span>) =&gt; <span class="ident">error</span>,
+<span class="kw">pub fn </span>decode(input: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, DecodeError&gt; {
+    <span class="kw">let </span>error = <span class="kw">match </span>str::from_utf8(input) {
+        <span class="prelude-val">Ok</span>(valid) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(valid),
+        <span class="prelude-val">Err</span>(error) =&gt; error,
     };
 
-    <span class="comment">// FIXME: separate function from here to guide inlining?</span>
-    <span class="kw">let</span> (<span class="ident">valid</span>, <span class="ident">after_valid</span>) <span class="op">=</span> <span class="ident">input</span>.<span class="ident">split_at</span>(<span class="ident">error</span>.<span class="ident">valid_up_to</span>());
-    <span class="kw">let</span> <span class="ident">valid</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-        <span class="ident">str::from_utf8_unchecked</span>(<span class="ident">valid</span>)
+    <span class="comment">// FIXME: separate function from here to guide inlining?
+    </span><span class="kw">let </span>(valid, after_valid) = input.split_at(error.valid_up_to());
+    <span class="kw">let </span>valid = <span class="kw">unsafe </span>{
+        str::from_utf8_unchecked(valid)
     };
 
-    <span class="kw">match</span> <span class="ident">error</span>.<span class="ident">error_len</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">invalid_sequence_length</span>) =&gt; {
-            <span class="kw">let</span> (<span class="ident">invalid</span>, <span class="ident">rest</span>) <span class="op">=</span> <span class="ident">after_valid</span>.<span class="ident">split_at</span>(<span class="ident">invalid_sequence_length</span>);
-            <span class="prelude-val">Err</span>(<span class="ident">DecodeError::Invalid</span> {
-                <span class="ident">valid_prefix</span>: <span class="ident">valid</span>,
-                <span class="ident">invalid_sequence</span>: <span class="ident">invalid</span>,
-                <span class="ident">remaining_input</span>: <span class="ident">rest</span>
+    <span class="kw">match </span>error.error_len() {
+        <span class="prelude-val">Some</span>(invalid_sequence_length) =&gt; {
+            <span class="kw">let </span>(invalid, rest) = after_valid.split_at(invalid_sequence_length);
+            <span class="prelude-val">Err</span>(DecodeError::Invalid {
+                valid_prefix: valid,
+                invalid_sequence: invalid,
+                remaining_input: rest
             })
         }
-        <span class="prelude-val">None</span> =&gt; {
-            <span class="prelude-val">Err</span>(<span class="ident">DecodeError::Incomplete</span> {
-                <span class="ident">valid_prefix</span>: <span class="ident">valid</span>,
-                <span class="ident">incomplete_suffix</span>: <span class="ident">Incomplete::new</span>(<span class="ident">after_valid</span>),
+        <span class="prelude-val">None </span>=&gt; {
+            <span class="prelude-val">Err</span>(DecodeError::Incomplete {
+                valid_prefix: valid,
+                incomplete_suffix: Incomplete::new(after_valid),
             })
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Incomplete</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">Incomplete</span> {
-            <span class="ident">buffer</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
-            <span class="ident">buffer_len</span>: <span class="number">0</span>,
+<span class="kw">impl </span>Incomplete {
+    <span class="kw">pub fn </span>empty() -&gt; <span class="self">Self </span>{
+        Incomplete {
+            buffer: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
+            buffer_len: <span class="number">0</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">==</span> <span class="number">0</span>
-    }
+    <span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.buffer_len == <span class="number">0
+    </span>}
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">len</span>();
-        <span class="ident">buffer</span>[..<span class="ident">len</span>].<span class="ident">copy_from_slice</span>(<span class="ident">bytes</span>);
-        <span class="ident">Incomplete</span> {
-            <span class="ident">buffer</span>: <span class="ident">buffer</span>,
-            <span class="ident">buffer_len</span>: <span class="ident">len</span> <span class="kw">as</span> <span class="ident">u8</span>,
+    <span class="kw">pub fn </span>new(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
+        <span class="kw">let </span>len = bytes.len();
+        buffer[..len].copy_from_slice(bytes);
+        Incomplete {
+            buffer: buffer,
+            buffer_len: len <span class="kw">as </span>u8,
         }
     }
 
-    <span class="doccomment">/// * `None`: still incomplete, call `try_complete` again with more input.</span>
-    <span class="doccomment">///   If no more input is available, this is invalid byte sequence.</span>
-    <span class="doccomment">/// * `Some((result, remaining_input))`: We’re done with this `Incomplete`.</span>
-    <span class="doccomment">///   To keep decoding, pass `remaining_input` to `decode()`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_complete</span><span class="op">&lt;</span><span class="lifetime">&#39;input</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;input</span> [<span class="ident">u8</span>])
-                                -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;input</span> [<span class="ident">u8</span>])<span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">consumed</span>, <span class="ident">opt_result</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">try_complete_offsets</span>(<span class="ident">input</span>);
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">opt_result</span><span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">remaining_input</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>[<span class="ident">consumed</span>..];
-        <span class="kw">let</span> <span class="ident">result_bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">take_buffer</span>();
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">result</span> {
-            <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">str::from_utf8_unchecked</span>(<span class="ident">result_bytes</span>) }),
-            <span class="prelude-val">Err</span>(()) =&gt; <span class="prelude-val">Err</span>(<span class="ident">result_bytes</span>),
+    <span class="doccomment">/// * `None`: still incomplete, call `try_complete` again with more input.
+    ///   If no more input is available, this is invalid byte sequence.
+    /// * `Some((result, remaining_input))`: We’re done with this `Incomplete`.
+    ///   To keep decoding, pass `remaining_input` to `decode()`.
+    </span><span class="kw">pub fn </span>try_complete&lt;<span class="lifetime">&#39;input</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, input: <span class="kw-2">&amp;</span><span class="lifetime">&#39;input </span>[u8])
+                                -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>[u8]&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;input </span>[u8])&gt; {
+        <span class="kw">let </span>(consumed, opt_result) = <span class="self">self</span>.try_complete_offsets(input);
+        <span class="kw">let </span>result = opt_result<span class="question-mark">?</span>;
+        <span class="kw">let </span>remaining_input = <span class="kw-2">&amp;</span>input[consumed..];
+        <span class="kw">let </span>result_bytes = <span class="self">self</span>.take_buffer();
+        <span class="kw">let </span>result = <span class="kw">match </span>result {
+            <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ str::from_utf8_unchecked(result_bytes) }),
+            <span class="prelude-val">Err</span>(()) =&gt; <span class="prelude-val">Err</span>(result_bytes),
         };
-        <span class="prelude-val">Some</span>((<span class="ident">result</span>, <span class="ident">remaining_input</span>))
+        <span class="prelude-val">Some</span>((result, remaining_input))
     }
 
-    <span class="kw">fn</span> <span class="ident">take_buffer</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] {
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">buffer</span>[..<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>]
+    <span class="kw">fn </span>take_buffer(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw">let </span>len = <span class="self">self</span>.buffer_len <span class="kw">as </span>usize;
+        <span class="self">self</span>.buffer_len = <span class="number">0</span>;
+        <span class="kw-2">&amp;</span><span class="self">self</span>.buffer[..len <span class="kw">as </span>usize]
     }
 
-    <span class="doccomment">/// (consumed_from_input, None): not enough input</span>
-    <span class="doccomment">/// (consumed_from_input, Some(Err(()))): error bytes in buffer</span>
-    <span class="doccomment">/// (consumed_from_input, Some(Ok(()))): UTF-8 string in buffer</span>
-    <span class="kw">fn</span> <span class="ident">try_complete_offsets</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), ()<span class="op">&gt;</span><span class="op">&gt;</span>) {
-        <span class="kw">let</span> <span class="ident">initial_buffer_len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="kw">as</span> <span class="ident">usize</span>;
-        <span class="kw">let</span> <span class="ident">copied_from_input</span>;
+    <span class="doccomment">/// (consumed_from_input, None): not enough input
+    /// (consumed_from_input, Some(Err(()))): error bytes in buffer
+    /// (consumed_from_input, Some(Ok(()))): UTF-8 string in buffer
+    </span><span class="kw">fn </span>try_complete_offsets(<span class="kw-2">&amp;mut </span><span class="self">self</span>, input: <span class="kw-2">&amp;</span>[u8]) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;(), ()&gt;&gt;) {
+        <span class="kw">let </span>initial_buffer_len = <span class="self">self</span>.buffer_len <span class="kw">as </span>usize;
+        <span class="kw">let </span>copied_from_input;
         {
-            <span class="kw">let</span> <span class="ident">unwritten</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">buffer</span>[<span class="ident">initial_buffer_len</span>..];
-            <span class="ident">copied_from_input</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">unwritten</span>.<span class="ident">len</span>(), <span class="ident">input</span>.<span class="ident">len</span>());
-            <span class="ident">unwritten</span>[..<span class="ident">copied_from_input</span>].<span class="ident">copy_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">input</span>[..<span class="ident">copied_from_input</span>]);
+            <span class="kw">let </span>unwritten = <span class="kw-2">&amp;mut </span><span class="self">self</span>.buffer[initial_buffer_len..];
+            copied_from_input = cmp::min(unwritten.len(), input.len());
+            unwritten[..copied_from_input].copy_from_slice(<span class="kw-2">&amp;</span>input[..copied_from_input]);
         }
-        <span class="kw">let</span> <span class="ident">spliced</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">buffer</span>[..<span class="ident">initial_buffer_len</span> <span class="op">+</span> <span class="ident">copied_from_input</span>];
-        <span class="kw">match</span> <span class="ident">str::from_utf8</span>(<span class="ident">spliced</span>) {
+        <span class="kw">let </span>spliced = <span class="kw-2">&amp;</span><span class="self">self</span>.buffer[..initial_buffer_len + copied_from_input];
+        <span class="kw">match </span>str::from_utf8(spliced) {
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
-                <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">=</span> <span class="ident">spliced</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u8</span>;
-                (<span class="ident">copied_from_input</span>, <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())))
+                <span class="self">self</span>.buffer_len = spliced.len() <span class="kw">as </span>u8;
+                (copied_from_input, <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())))
             }
-            <span class="prelude-val">Err</span>(<span class="ident">error</span>) =&gt; {
-                <span class="kw">let</span> <span class="ident">valid_up_to</span> <span class="op">=</span> <span class="ident">error</span>.<span class="ident">valid_up_to</span>();
-                <span class="kw">if</span> <span class="ident">valid_up_to</span> <span class="op">&gt;</span> <span class="number">0</span> {
-                    <span class="kw">let</span> <span class="ident">consumed</span> <span class="op">=</span> <span class="ident">valid_up_to</span>.<span class="ident">checked_sub</span>(<span class="ident">initial_buffer_len</span>).<span class="ident">unwrap</span>();
-                    <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">=</span> <span class="ident">valid_up_to</span> <span class="kw">as</span> <span class="ident">u8</span>;
-                    (<span class="ident">consumed</span>, <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())))
-                } <span class="kw">else</span> {
-                    <span class="kw">match</span> <span class="ident">error</span>.<span class="ident">error_len</span>() {
-                        <span class="prelude-val">Some</span>(<span class="ident">invalid_sequence_length</span>) =&gt; {
-                            <span class="kw">let</span> <span class="ident">consumed</span> <span class="op">=</span> <span class="ident">invalid_sequence_length</span>
-                                .<span class="ident">checked_sub</span>(<span class="ident">initial_buffer_len</span>).<span class="ident">unwrap</span>();
-                            <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">=</span> <span class="ident">invalid_sequence_length</span> <span class="kw">as</span> <span class="ident">u8</span>;
-                            (<span class="ident">consumed</span>, <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(())))
+            <span class="prelude-val">Err</span>(error) =&gt; {
+                <span class="kw">let </span>valid_up_to = error.valid_up_to();
+                <span class="kw">if </span>valid_up_to &gt; <span class="number">0 </span>{
+                    <span class="kw">let </span>consumed = valid_up_to.checked_sub(initial_buffer_len).unwrap();
+                    <span class="self">self</span>.buffer_len = valid_up_to <span class="kw">as </span>u8;
+                    (consumed, <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(())))
+                } <span class="kw">else </span>{
+                    <span class="kw">match </span>error.error_len() {
+                        <span class="prelude-val">Some</span>(invalid_sequence_length) =&gt; {
+                            <span class="kw">let </span>consumed = invalid_sequence_length
+                                .checked_sub(initial_buffer_len).unwrap();
+                            <span class="self">self</span>.buffer_len = invalid_sequence_length <span class="kw">as </span>u8;
+                            (consumed, <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(())))
                         }
-                        <span class="prelude-val">None</span> =&gt; {
-                            <span class="self">self</span>.<span class="ident">buffer_len</span> <span class="op">=</span> <span class="ident">spliced</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u8</span>;
-                            (<span class="ident">copied_from_input</span>, <span class="prelude-val">None</span>)
+                        <span class="prelude-val">None </span>=&gt; {
+                            <span class="self">self</span>.buffer_len = spliced.len() <span class="kw">as </span>u8;
+                            (copied_from_input, <span class="prelude-val">None</span>)
                         }
                     }
                 }
@@ -371,4 +371,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="utf8" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="utf8" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

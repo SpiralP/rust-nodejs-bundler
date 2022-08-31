@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/phf_codegen-0.11.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../phf_codegen/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../phf_codegen/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../phf_codegen/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/phf_codegen-0.11.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../phf_codegen/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../phf_codegen/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../phf_codegen/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -490,497 +490,497 @@
 <span id="490">490</span>
 <span id="491">491</span>
 <span id="492">492</span>
-</pre><pre class="rust"><code><span class="doccomment">//! A set of builders to generate Rust source for PHF data structures at</span>
-<span class="doccomment">//! compile time.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The provided builders are intended to be used in a Cargo build script to</span>
-<span class="doccomment">//! generate a Rust source file that will be included in a library at build</span>
-<span class="doccomment">//! time.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! For more information about `rust-phf` crates, see [the `phf` crate&#39;s documentation][phf].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [phf]: https://docs.rs/phf</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Examples</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! build.rs:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,no_run</span>
-<span class="doccomment">//! use std::env;</span>
-<span class="doccomment">//! use std::fs::File;</span>
-<span class="doccomment">//! use std::io::{BufWriter, Write};</span>
-<span class="doccomment">//! use std::path::Path;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);</span>
-<span class="doccomment">//!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     writeln!(</span>
-<span class="doccomment">//!         &amp;mut file,</span>
-<span class="doccomment">//!          &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static str, Keyword&gt; = \n{};\n&quot;,</span>
-<span class="doccomment">//!          phf_codegen::Map::new()</span>
-<span class="doccomment">//!              .entry(&quot;loop&quot;, &quot;Keyword::Loop&quot;)</span>
-<span class="doccomment">//!              .entry(&quot;continue&quot;, &quot;Keyword::Continue&quot;)</span>
-<span class="doccomment">//!              .entry(&quot;break&quot;, &quot;Keyword::Break&quot;)</span>
-<span class="doccomment">//!              .entry(&quot;fn&quot;, &quot;Keyword::Fn&quot;)</span>
-<span class="doccomment">//!              .entry(&quot;extern&quot;, &quot;Keyword::Extern&quot;)</span>
-<span class="doccomment">//!              .build()</span>
-<span class="doccomment">//!     ).unwrap();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! lib.rs:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```ignore</span>
-<span class="doccomment">//! #[derive(Clone)]</span>
-<span class="doccomment">//! enum Keyword {</span>
-<span class="doccomment">//!     Loop,</span>
-<span class="doccomment">//!     Continue,</span>
-<span class="doccomment">//!     Break,</span>
-<span class="doccomment">//!     Fn,</span>
-<span class="doccomment">//!     Extern,</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! pub fn parse_keyword(keyword: &amp;str) -&gt; Option&lt;Keyword&gt; {</span>
-<span class="doccomment">//!     KEYWORDS.get(keyword).cloned()</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Byte-String Keys</span>
-<span class="doccomment">//! Byte strings by default produce references to fixed-size arrays; the compiler needs a hint</span>
-<span class="doccomment">//! to coerce them to slices:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! build.rs:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,no_run</span>
-<span class="doccomment">//! use std::env;</span>
-<span class="doccomment">//! use std::fs::File;</span>
-<span class="doccomment">//! use std::io::{BufWriter, Write};</span>
-<span class="doccomment">//! use std::path::Path;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);</span>
-<span class="doccomment">//!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     writeln!(</span>
-<span class="doccomment">//!         &amp;mut file,</span>
-<span class="doccomment">//!          &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static [u8], Keyword&gt; = \n{};\n&quot;,</span>
-<span class="doccomment">//!          phf_codegen::Map::&lt;&amp;[u8]&gt;::new()</span>
-<span class="doccomment">//!              .entry(b&quot;loop&quot;, &quot;Keyword::Loop&quot;)</span>
-<span class="doccomment">//!              .entry(b&quot;continue&quot;, &quot;Keyword::Continue&quot;)</span>
-<span class="doccomment">//!              .entry(b&quot;break&quot;, &quot;Keyword::Break&quot;)</span>
-<span class="doccomment">//!              .entry(b&quot;fn&quot;, &quot;Keyword::Fn&quot;)</span>
-<span class="doccomment">//!              .entry(b&quot;extern&quot;, &quot;Keyword::Extern&quot;)</span>
-<span class="doccomment">//!              .build()</span>
-<span class="doccomment">//!     ).unwrap();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! lib.rs:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,ignore</span>
-<span class="doccomment">//! #[derive(Clone)]</span>
-<span class="doccomment">//! enum Keyword {</span>
-<span class="doccomment">//!     Loop,</span>
-<span class="doccomment">//!     Continue,</span>
-<span class="doccomment">//!     Break,</span>
-<span class="doccomment">//!     Fn,</span>
-<span class="doccomment">//!     Extern,</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! pub fn parse_keyword(keyword: &amp;[u8]) -&gt; Option&lt;Keyword&gt; {</span>
-<span class="doccomment">//!     KEYWORDS.get(keyword).cloned()</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Note</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The compiler&#39;s stack will overflow when processing extremely long method</span>
-<span class="doccomment">//! chains (500+ calls). When generating large PHF data structures, consider</span>
-<span class="doccomment">//! looping over the entries or making each call a separate statement:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! let entries = [(&quot;hello&quot;, &quot;1&quot;), (&quot;world&quot;, &quot;2&quot;)];</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let mut builder = phf_codegen::Map::new();</span>
-<span class="doccomment">//! for &amp;(key, value) in &amp;entries {</span>
-<span class="doccomment">//!     builder.entry(key, value);</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! // ...</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! let mut builder = phf_codegen::Map::new();</span>
-<span class="doccomment">//! builder.entry(&quot;hello&quot;, &quot;1&quot;);</span>
-<span class="doccomment">//! builder.entry(&quot;world&quot;, &quot;2&quot;);</span>
-<span class="doccomment">//! // ...</span>
-<span class="doccomment">//! ```</span>
+</pre><pre class="rust"><code><span class="doccomment">//! A set of builders to generate Rust source for PHF data structures at
+//! compile time.
+//!
+//! The provided builders are intended to be used in a Cargo build script to
+//! generate a Rust source file that will be included in a library at build
+//! time.
+//!
+//! For more information about `rust-phf` crates, see [the `phf` crate&#39;s documentation][phf].
+//!
+//! [phf]: https://docs.rs/phf
+//!
+//! ## Examples
+//!
+//! build.rs:
+//!
+//! ```rust,no_run
+//! use std::env;
+//! use std::fs::File;
+//! use std::io::{BufWriter, Write};
+//! use std::path::Path;
+//!
+//! fn main() {
+//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);
+//!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());
+//!
+//!     writeln!(
+//!         &amp;mut file,
+//!          &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static str, Keyword&gt; = \n{};\n&quot;,
+//!          phf_codegen::Map::new()
+//!              .entry(&quot;loop&quot;, &quot;Keyword::Loop&quot;)
+//!              .entry(&quot;continue&quot;, &quot;Keyword::Continue&quot;)
+//!              .entry(&quot;break&quot;, &quot;Keyword::Break&quot;)
+//!              .entry(&quot;fn&quot;, &quot;Keyword::Fn&quot;)
+//!              .entry(&quot;extern&quot;, &quot;Keyword::Extern&quot;)
+//!              .build()
+//!     ).unwrap();
+//! }
+//! ```
+//!
+//! lib.rs:
+//!
+//! ```ignore
+//! #[derive(Clone)]
+//! enum Keyword {
+//!     Loop,
+//!     Continue,
+//!     Break,
+//!     Fn,
+//!     Extern,
+//! }
+//!
+//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));
+//!
+//! pub fn parse_keyword(keyword: &amp;str) -&gt; Option&lt;Keyword&gt; {
+//!     KEYWORDS.get(keyword).cloned()
+//! }
+//! ```
+//!
+//! ### Byte-String Keys
+//! Byte strings by default produce references to fixed-size arrays; the compiler needs a hint
+//! to coerce them to slices:
+//!
+//! build.rs:
+//!
+//! ```rust,no_run
+//! use std::env;
+//! use std::fs::File;
+//! use std::io::{BufWriter, Write};
+//! use std::path::Path;
+//!
+//! fn main() {
+//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);
+//!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());
+//!
+//!     writeln!(
+//!         &amp;mut file,
+//!          &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static [u8], Keyword&gt; = \n{};\n&quot;,
+//!          phf_codegen::Map::&lt;&amp;[u8]&gt;::new()
+//!              .entry(b&quot;loop&quot;, &quot;Keyword::Loop&quot;)
+//!              .entry(b&quot;continue&quot;, &quot;Keyword::Continue&quot;)
+//!              .entry(b&quot;break&quot;, &quot;Keyword::Break&quot;)
+//!              .entry(b&quot;fn&quot;, &quot;Keyword::Fn&quot;)
+//!              .entry(b&quot;extern&quot;, &quot;Keyword::Extern&quot;)
+//!              .build()
+//!     ).unwrap();
+//! }
+//! ```
+//!
+//! lib.rs:
+//!
+//! ```rust,ignore
+//! #[derive(Clone)]
+//! enum Keyword {
+//!     Loop,
+//!     Continue,
+//!     Break,
+//!     Fn,
+//!     Extern,
+//! }
+//!
+//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));
+//!
+//! pub fn parse_keyword(keyword: &amp;[u8]) -&gt; Option&lt;Keyword&gt; {
+//!     KEYWORDS.get(keyword).cloned()
+//! }
+//! ```
+//!
+//! ## Note
+//!
+//! The compiler&#39;s stack will overflow when processing extremely long method
+//! chains (500+ calls). When generating large PHF data structures, consider
+//! looping over the entries or making each call a separate statement:
+//!
+//! ```rust
+//! let entries = [(&quot;hello&quot;, &quot;1&quot;), (&quot;world&quot;, &quot;2&quot;)];
+//!
+//! let mut builder = phf_codegen::Map::new();
+//! for &amp;(key, value) in &amp;entries {
+//!     builder.entry(key, value);
+//! }
+//! // ...
+//! ```
+//!
+//! ```rust
+//! let mut builder = phf_codegen::Map::new();
+//! builder.entry(&quot;hello&quot;, &quot;1&quot;);
+//! builder.entry(&quot;world&quot;, &quot;2&quot;);
+//! // ...
+//! ```
 
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/phf_codegen/0.11&quot;</span>)]</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::new_without_default</span>)]</span>
+</span><span class="attribute">#![doc(html_root_url = <span class="string">&quot;https://docs.rs/phf_codegen/0.11&quot;</span>)]
+#![allow(clippy::new_without_default)]
 
-<span class="kw">use</span> <span class="ident">phf_shared</span>::{<span class="ident">FmtConst</span>, <span class="ident">PhfHash</span>};
-<span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
-<span class="kw">use</span> <span class="ident">std::fmt</span>;
-<span class="kw">use</span> <span class="ident">std::hash::Hash</span>;
+</span><span class="kw">use </span>phf_shared::{FmtConst, PhfHash};
+<span class="kw">use </span>std::collections::HashSet;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::hash::Hash;
 
-<span class="kw">use</span> <span class="ident">phf_generator::HashState</span>;
+<span class="kw">use </span>phf_generator::HashState;
 
-<span class="kw">struct</span> <span class="ident">Delegate</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">T</span>);
+<span class="kw">struct </span>Delegate&lt;T&gt;(T);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">FmtConst</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Delegate</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fmt_const</span>(<span class="ident">f</span>)
+<span class="kw">impl</span>&lt;T: FmtConst&gt; fmt::Display <span class="kw">for </span>Delegate&lt;T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt_const(f)
     }
 }
 
-<span class="doccomment">/// A builder for the `phf::Map` type.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="ident">keys</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>,
-    <span class="ident">values</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">path</span>: <span class="ident">String</span>,
+<span class="doccomment">/// A builder for the `phf::Map` type.
+</span><span class="kw">pub struct </span>Map&lt;K&gt; {
+    keys: Vec&lt;K&gt;,
+    values: Vec&lt;String&gt;,
+    path: String,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">K</span>: <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PhfHash</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">FmtConst</span><span class="op">&gt;</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a new `phf::Map` builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="comment">// FIXME rust#27438</span>
-        <span class="comment">//</span>
-        <span class="comment">// On Windows/MSVC there are major problems with the handling of dllimport.</span>
-        <span class="comment">// Here, because downstream build scripts only invoke generics from phf_codegen,</span>
-        <span class="comment">// the linker ends up throwing a way a bunch of static symbols we actually need.</span>
-        <span class="comment">// This works around the problem, assuming that all clients call `Map::new` by</span>
-        <span class="comment">// calling a non-generic function.</span>
-        <span class="kw">fn</span> <span class="ident">noop_fix_for_27438</span>() {}
-        <span class="ident">noop_fix_for_27438</span>();
+<span class="kw">impl</span>&lt;K: Hash + PhfHash + Eq + FmtConst&gt; Map&lt;K&gt; {
+    <span class="doccomment">/// Creates a new `phf::Map` builder.
+    </span><span class="kw">pub fn </span>new() -&gt; Map&lt;K&gt; {
+        <span class="comment">// FIXME rust#27438
+        //
+        // On Windows/MSVC there are major problems with the handling of dllimport.
+        // Here, because downstream build scripts only invoke generics from phf_codegen,
+        // the linker ends up throwing a way a bunch of static symbols we actually need.
+        // This works around the problem, assuming that all clients call `Map::new` by
+        // calling a non-generic function.
+        </span><span class="kw">fn </span>noop_fix_for_27438() {}
+        noop_fix_for_27438();
 
-        <span class="ident">Map</span> {
-            <span class="ident">keys</span>: <span class="macro">vec!</span>[],
-            <span class="ident">values</span>: <span class="macro">vec!</span>[],
-            <span class="ident">path</span>: <span class="ident">String::from</span>(<span class="string">&quot;::phf&quot;</span>),
+        Map {
+            keys: <span class="macro">vec!</span>[],
+            values: <span class="macro">vec!</span>[],
+            path: String::from(<span class="string">&quot;::phf&quot;</span>),
         }
     }
 
-    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">phf_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_owned</span>();
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace
+    </span><span class="kw">pub fn </span>phf_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>Map&lt;K&gt; {
+        <span class="self">self</span>.path = path.to_owned();
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Adds an entry to the builder.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `value` will be written exactly as provided in the constructed source.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">keys</span>.<span class="ident">push</span>(<span class="ident">key</span>);
-        <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">push</span>(<span class="ident">value</span>.<span class="ident">to_owned</span>());
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Adds an entry to the builder.
+    ///
+    /// `value` will be written exactly as provided in the constructed source.
+    </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: K, value: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>Map&lt;K&gt; {
+        <span class="self">self</span>.keys.push(key);
+        <span class="self">self</span>.values.push(value.to_owned());
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing</span>
-    <span class="doccomment">/// [`Display`](::std::fmt::Display) which will print the constructed `phf::Map`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if there are any duplicate keys.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">DisplayMap</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
-        <span class="kw">for</span> <span class="ident">key</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">set</span>.<span class="ident">insert</span>(<span class="ident">key</span>) {
-                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, <span class="ident">Delegate</span>(<span class="ident">key</span>));
+    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing
+    /// [`Display`](::std::fmt::Display) which will print the constructed `phf::Map`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if there are any duplicate keys.
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayMap&lt;<span class="lifetime">&#39;_</span>, K&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::new();
+        <span class="kw">for </span>key <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.keys {
+            <span class="kw">if </span>!set.insert(key) {
+                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, Delegate(key));
             }
         }
 
-        <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">phf_generator::generate_hash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span>);
+        <span class="kw">let </span>state = phf_generator::generate_hash(<span class="kw-2">&amp;</span><span class="self">self</span>.keys);
 
-        <span class="ident">DisplayMap</span> {
-            <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>,
-            <span class="ident">keys</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span>,
-            <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">values</span>,
-            <span class="ident">state</span>,
+        DisplayMap {
+            path: <span class="kw-2">&amp;</span><span class="self">self</span>.path,
+            keys: <span class="kw-2">&amp;</span><span class="self">self</span>.keys,
+            values: <span class="kw-2">&amp;</span><span class="self">self</span>.values,
+            state,
         }
     }
 }
 
-<span class="doccomment">/// An adapter for printing a [`Map`](Map).</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisplayMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-    <span class="ident">state</span>: <span class="ident">HashState</span>,
-    <span class="ident">keys</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">K</span>],
-    <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">String</span>],
+<span class="doccomment">/// An adapter for printing a [`Map`](Map).
+</span><span class="kw">pub struct </span>DisplayMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
+    path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+    state: HashState,
+    keys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[K],
+    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[String],
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span>: <span class="ident">FmtConst</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DisplayMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="comment">// funky formatting here for nice output</span>
-        <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, K: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="comment">// funky formatting here for nice output
+        </span><span class="macro">write!</span>(
+            f,
             <span class="string">&quot;{}::Map {{
     key: {:?},
     disps: &amp;[&quot;</span>,
-            <span class="self">self</span>.<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">key</span>
+            <span class="self">self</span>.path, <span class="self">self</span>.state.key
         )<span class="question-mark">?</span>;
 
-        <span class="comment">// write map displacements</span>
-        <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">d1</span>, <span class="ident">d2</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">disps</span> {
+        <span class="comment">// write map displacements
+        </span><span class="kw">for </span><span class="kw-2">&amp;</span>(d1, d2) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.disps {
             <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;
         ({}, {}),&quot;</span>,
-                <span class="ident">d1</span>, <span class="ident">d2</span>
+                d1, d2
             )<span class="question-mark">?</span>;
         }
 
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;
     ],
     entries: &amp;[&quot;</span>,
         )<span class="question-mark">?</span>;
 
-        <span class="comment">// write map entries</span>
-        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">idx</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">map</span> {
+        <span class="comment">// write map entries
+        </span><span class="kw">for </span><span class="kw-2">&amp;</span>idx <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.map {
             <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;
         ({}, {}),&quot;</span>,
-                <span class="ident">Delegate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span>[<span class="ident">idx</span>]),
-                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">values</span>[<span class="ident">idx</span>]
+                Delegate(<span class="kw-2">&amp;</span><span class="self">self</span>.keys[idx]),
+                <span class="kw-2">&amp;</span><span class="self">self</span>.values[idx]
             )<span class="question-mark">?</span>;
         }
 
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;
     ],
-}}&quot;</span>
-        )
+}}&quot;
+        </span>)
     }
 }
 
-<span class="doccomment">/// A builder for the `phf::Set` type.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">map</span>: <span class="ident">Map</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A builder for the `phf::Set` type.
+</span><span class="kw">pub struct </span>Set&lt;T&gt; {
+    map: Map&lt;T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PhfHash</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">FmtConst</span><span class="op">&gt;</span> <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Constructs a new `phf::Set` builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">Set</span> { <span class="ident">map</span>: <span class="ident">Map::new</span>() }
+<span class="kw">impl</span>&lt;T: Hash + PhfHash + Eq + FmtConst&gt; Set&lt;T&gt; {
+    <span class="doccomment">/// Constructs a new `phf::Set` builder.
+    </span><span class="kw">pub fn </span>new() -&gt; Set&lt;T&gt; {
+        Set { map: Map::new() }
     }
 
-    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">phf_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">phf_path</span>(<span class="ident">path</span>);
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace
+    </span><span class="kw">pub fn </span>phf_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>Set&lt;T&gt; {
+        <span class="self">self</span>.map.phf_path(path);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Adds an entry to the builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">entry</span>: <span class="ident">T</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Set</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">entry</span>, <span class="string">&quot;()&quot;</span>);
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Adds an entry to the builder.
+    </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, entry: T) -&gt; <span class="kw-2">&amp;mut </span>Set&lt;T&gt; {
+        <span class="self">self</span>.map.entry(entry, <span class="string">&quot;()&quot;</span>);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing</span>
-    <span class="doccomment">/// [`Display`](::std::fmt::Display) which will print the constructed `phf::Set`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if there are any duplicate keys.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">DisplaySet</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">DisplaySet</span> {
-            <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">build</span>(),
+    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing
+    /// [`Display`](::std::fmt::Display) which will print the constructed `phf::Set`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if there are any duplicate keys.
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplaySet&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+        DisplaySet {
+            inner: <span class="self">self</span>.map.build(),
         }
     }
 }
 
-<span class="doccomment">/// An adapter for printing a [`Set`](Set).</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisplaySet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="ident">DisplayMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// An adapter for printing a [`Set`](Set).
+</span><span class="kw">pub struct </span>DisplaySet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    inner: DisplayMap&lt;<span class="lifetime">&#39;a</span>, T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">FmtConst</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DisplaySet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}::Set {{ map: {} }}&quot;</span>, <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">inner</span>)
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplaySet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;{}::Set {{ map: {} }}&quot;</span>, <span class="self">self</span>.inner.path, <span class="self">self</span>.inner)
     }
 }
 
-<span class="doccomment">/// A builder for the `phf::OrderedMap` type.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="ident">keys</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>,
-    <span class="ident">values</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">path</span>: <span class="ident">String</span>,
+<span class="doccomment">/// A builder for the `phf::OrderedMap` type.
+</span><span class="kw">pub struct </span>OrderedMap&lt;K&gt; {
+    keys: Vec&lt;K&gt;,
+    values: Vec&lt;String&gt;,
+    path: String,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">K</span>: <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PhfHash</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">FmtConst</span><span class="op">&gt;</span> <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Constructs a enw `phf::OrderedMap` builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="ident">OrderedMap</span> {
-            <span class="ident">keys</span>: <span class="macro">vec!</span>[],
-            <span class="ident">values</span>: <span class="macro">vec!</span>[],
-            <span class="ident">path</span>: <span class="ident">String::from</span>(<span class="string">&quot;::phf&quot;</span>),
+<span class="kw">impl</span>&lt;K: Hash + PhfHash + Eq + FmtConst&gt; OrderedMap&lt;K&gt; {
+    <span class="doccomment">/// Constructs a enw `phf::OrderedMap` builder.
+    </span><span class="kw">pub fn </span>new() -&gt; OrderedMap&lt;K&gt; {
+        OrderedMap {
+            keys: <span class="macro">vec!</span>[],
+            values: <span class="macro">vec!</span>[],
+            path: String::from(<span class="string">&quot;::phf&quot;</span>),
         }
     }
 
-    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">phf_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_owned</span>();
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace
+    </span><span class="kw">pub fn </span>phf_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>OrderedMap&lt;K&gt; {
+        <span class="self">self</span>.path = path.to_owned();
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Adds an entry to the builder.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// `value` will be written exactly as provided in the constructed source.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">keys</span>.<span class="ident">push</span>(<span class="ident">key</span>);
-        <span class="self">self</span>.<span class="ident">values</span>.<span class="ident">push</span>(<span class="ident">value</span>.<span class="ident">to_owned</span>());
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Adds an entry to the builder.
+    ///
+    /// `value` will be written exactly as provided in the constructed source.
+    </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: K, value: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>OrderedMap&lt;K&gt; {
+        <span class="self">self</span>.keys.push(key);
+        <span class="self">self</span>.values.push(value.to_owned());
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing</span>
-    <span class="doccomment">/// [`Display`](::std::fmt::Display) which will print the constructed</span>
-    <span class="doccomment">/// `phf::OrderedMap`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if there are any duplicate keys.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">DisplayOrderedMap</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
-        <span class="kw">for</span> <span class="ident">key</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">set</span>.<span class="ident">insert</span>(<span class="ident">key</span>) {
-                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, <span class="ident">Delegate</span>(<span class="ident">key</span>));
+    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing
+    /// [`Display`](::std::fmt::Display) which will print the constructed
+    /// `phf::OrderedMap`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if there are any duplicate keys.
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedMap&lt;<span class="lifetime">&#39;_</span>, K&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::new();
+        <span class="kw">for </span>key <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.keys {
+            <span class="kw">if </span>!set.insert(key) {
+                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, Delegate(key));
             }
         }
 
-        <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">phf_generator::generate_hash</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span>);
+        <span class="kw">let </span>state = phf_generator::generate_hash(<span class="kw-2">&amp;</span><span class="self">self</span>.keys);
 
-        <span class="ident">DisplayOrderedMap</span> {
-            <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>,
-            <span class="ident">state</span>,
-            <span class="ident">keys</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">keys</span>,
-            <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">values</span>,
+        DisplayOrderedMap {
+            path: <span class="kw-2">&amp;</span><span class="self">self</span>.path,
+            state,
+            keys: <span class="kw-2">&amp;</span><span class="self">self</span>.keys,
+            values: <span class="kw-2">&amp;</span><span class="self">self</span>.values,
         }
     }
 }
 
-<span class="doccomment">/// An adapter for printing a [`OrderedMap`](OrderedMap).</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisplayOrderedMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-    <span class="ident">state</span>: <span class="ident">HashState</span>,
-    <span class="ident">keys</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">K</span>],
-    <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">String</span>],
+<span class="doccomment">/// An adapter for printing a [`OrderedMap`](OrderedMap).
+</span><span class="kw">pub struct </span>DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
+    path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+    state: HashState,
+    keys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[K],
+    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[String],
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span>: <span class="ident">FmtConst</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DisplayOrderedMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">K</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, K: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;{}::OrderedMap {{
     key: {:?},
     disps: &amp;[&quot;</span>,
-            <span class="self">self</span>.<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">key</span>
+            <span class="self">self</span>.path, <span class="self">self</span>.state.key
         )<span class="question-mark">?</span>;
-        <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">d1</span>, <span class="ident">d2</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">disps</span> {
+        <span class="kw">for </span><span class="kw-2">&amp;</span>(d1, d2) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.disps {
             <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;
         ({}, {}),&quot;</span>,
-                <span class="ident">d1</span>, <span class="ident">d2</span>
+                d1, d2
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;
     ],
     idxs: &amp;[&quot;</span>,
         )<span class="question-mark">?</span>;
-        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">idx</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">map</span> {
+        <span class="kw">for </span><span class="kw-2">&amp;</span>idx <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.map {
             <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;
         {},&quot;</span>,
-                <span class="ident">idx</span>
+                idx
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;
     ],
     entries: &amp;[&quot;</span>,
         )<span class="question-mark">?</span>;
-        <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">keys</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="self">self</span>.<span class="ident">values</span>.<span class="ident">iter</span>()) {
+        <span class="kw">for </span>(key, value) <span class="kw">in </span><span class="self">self</span>.keys.iter().zip(<span class="self">self</span>.values.iter()) {
             <span class="macro">write!</span>(
-                <span class="ident">f</span>,
+                f,
                 <span class="string">&quot;
         ({}, {}),&quot;</span>,
-                <span class="ident">Delegate</span>(<span class="ident">key</span>),
-                <span class="ident">value</span>
+                Delegate(key),
+                value
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;
     ],
-}}&quot;</span>
-        )
+}}&quot;
+        </span>)
     }
 }
 
-<span class="doccomment">/// A builder for the `phf::OrderedSet` type.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">OrderedSet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">map</span>: <span class="ident">OrderedMap</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A builder for the `phf::OrderedSet` type.
+</span><span class="kw">pub struct </span>OrderedSet&lt;T&gt; {
+    map: OrderedMap&lt;T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Hash</span> <span class="op">+</span> <span class="ident">PhfHash</span> <span class="op">+</span> <span class="ident">Eq</span> <span class="op">+</span> <span class="ident">FmtConst</span><span class="op">&gt;</span> <span class="ident">OrderedSet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Constructs a new `phf::OrderedSet` builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">OrderedSet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">OrderedSet</span> {
-            <span class="ident">map</span>: <span class="ident">OrderedMap::new</span>(),
+<span class="kw">impl</span>&lt;T: Hash + PhfHash + Eq + FmtConst&gt; OrderedSet&lt;T&gt; {
+    <span class="doccomment">/// Constructs a new `phf::OrderedSet` builder.
+    </span><span class="kw">pub fn </span>new() -&gt; OrderedSet&lt;T&gt; {
+        OrderedSet {
+            map: OrderedMap::new(),
         }
     }
 
-    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">phf_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">OrderedSet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">phf_path</span>(<span class="ident">path</span>);
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set the path to the `phf` crate from the global namespace
+    </span><span class="kw">pub fn </span>phf_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;mut </span>OrderedSet&lt;T&gt; {
+        <span class="self">self</span>.map.phf_path(path);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Adds an entry to the builder.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">entry</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">entry</span>: <span class="ident">T</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">OrderedSet</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">entry</span>(<span class="ident">entry</span>, <span class="string">&quot;()&quot;</span>);
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Adds an entry to the builder.
+    </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, entry: T) -&gt; <span class="kw-2">&amp;mut </span>OrderedSet&lt;T&gt; {
+        <span class="self">self</span>.map.entry(entry, <span class="string">&quot;()&quot;</span>);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing</span>
-    <span class="doccomment">/// [`Display`](::std::fmt::Display) which will print the constructed</span>
-    <span class="doccomment">/// `phf::OrderedSet`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if there are any duplicate keys.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">DisplayOrderedSet</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">DisplayOrderedSet</span> {
-            <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">build</span>(),
+    <span class="doccomment">/// Calculate the hash parameters and return a struct implementing
+    /// [`Display`](::std::fmt::Display) which will print the constructed
+    /// `phf::OrderedSet`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if there are any duplicate keys.
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedSet&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+        DisplayOrderedSet {
+            inner: <span class="self">self</span>.map.build(),
         }
     }
 }
 
-<span class="doccomment">/// An adapter for printing a [`OrderedSet`](OrderedSet).</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DisplayOrderedSet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="ident">DisplayOrderedMap</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// An adapter for printing a [`OrderedSet`](OrderedSet).
+</span><span class="kw">pub struct </span>DisplayOrderedSet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    inner: DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">FmtConst</span> <span class="op">+</span> <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">DisplayOrderedSet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedSet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;{}::OrderedSet {{ map: {} }}&quot;</span>,
-            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">path</span>, <span class="self">self</span>.<span class="ident">inner</span>
+            <span class="self">self</span>.inner.path, <span class="self">self</span>.inner
         )
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="phf_codegen" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="phf_codegen" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

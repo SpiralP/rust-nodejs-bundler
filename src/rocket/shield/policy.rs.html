@@ -1,0 +1,1802 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/shield/policy.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>policy.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../rocket/index.html"><div class="logo-container"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../rocket/index.html"><div class="logo-container">
+                    <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../rocket/index.html">
+                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
+<span id="889">889</span>
+<span id="890">890</span>
+<span id="891">891</span>
+<span id="892">892</span>
+<span id="893">893</span>
+<span id="894">894</span>
+<span id="895">895</span>
+<span id="896">896</span>
+<span id="897">897</span>
+<span id="898">898</span>
+<span id="899">899</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Module containing the [`Policy`] trait and types that implement it.
+
+</span><span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::borrow::Cow;
+
+<span class="kw">use </span>indexmap::IndexMap;
+<span class="kw">use </span>rocket_http::{ext::IntoCollection, private::SmallVec};
+<span class="kw">use </span>time::Duration;
+
+<span class="kw">use </span><span class="kw">crate</span>::http::{Header, uri::Absolute, uncased::{UncasedStr, Uncased}};
+
+<span class="doccomment">/// Trait implemented by security and privacy policy headers.
+///
+/// Types that implement this trait can be [`enable()`]d and [`disable()`]d on
+/// instances of [`Shield`].
+///
+/// [`Shield`]: crate::shield::Shield
+/// [`enable()`]: crate::shield::Shield::enable()
+/// [`disable()`]: crate::shield::Shield::disable()
+</span><span class="kw">pub trait </span>Policy: Default + Send + Sync + <span class="lifetime">&#39;static </span>{
+    <span class="doccomment">/// The actual name of the HTTP header.
+    ///
+    /// This name must uniquely identify the header as it is used to determine
+    /// whether two implementations of `Policy` are for the same header. Use the
+    /// real HTTP header&#39;s name.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # extern crate rocket;
+    /// # use rocket::http::Header;
+    /// use rocket::shield::Policy;
+    ///
+    /// #[derive(Default)]
+    /// struct MyPolicy;
+    ///
+    /// impl Policy for MyPolicy {
+    ///     const NAME: &amp;&#39;static str = &quot;X-My-Policy&quot;;
+    /// #   fn header(&amp;self) -&gt; Header&lt;&#39;static&gt; { unimplemented!() }
+    /// }
+    /// ```
+    </span><span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
+
+    <span class="doccomment">/// Returns the [`Header`](../../rocket/http/struct.Header.html) to attach
+    /// to all outgoing responses.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # extern crate rocket;
+    /// use rocket::http::Header;
+    /// use rocket::shield::Policy;
+    ///
+    /// #[derive(Default)]
+    /// struct MyPolicy;
+    ///
+    /// impl Policy for MyPolicy {
+    /// #   const NAME: &amp;&#39;static str = &quot;X-My-Policy&quot;;
+    ///     fn header(&amp;self) -&gt; Header&lt;&#39;static&gt; {
+    ///         Header::new(Self::NAME, &quot;value-to-enable&quot;)
+    ///     }
+    /// }
+    /// ```
+    </span><span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt;;
+}
+
+<span class="doccomment">/// Hack to make `Policy` Object-Safe.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>SubPolicy: Send + Sync {
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>UncasedStr;
+    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt;;
+}
+
+<span class="kw">impl</span>&lt;P: Policy&gt; SubPolicy <span class="kw">for </span>P {
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>UncasedStr {
+        P::NAME.into()
+    }
+
+    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+        Policy::header(<span class="self">self</span>)
+    }
+}
+
+<span class="macro">macro_rules! </span>impl_policy {
+    (<span class="macro-nonterminal">$T</span>:ty, <span class="macro-nonterminal">$name</span>:expr) =&gt; (
+        <span class="kw">impl </span>Policy <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
+            <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="macro-nonterminal">$name</span>;
+
+            <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+                <span class="self">self</span>.into()
+            }
+        }
+    )
+}
+
+<span class="comment">// Keep this in-sync with the top-level module docs.
+</span><span class="macro">impl_policy!</span>(XssFilter, <span class="string">&quot;X-XSS-Protection&quot;</span>);
+<span class="macro">impl_policy!</span>(NoSniff, <span class="string">&quot;X-Content-Type-Options&quot;</span>);
+<span class="macro">impl_policy!</span>(Frame, <span class="string">&quot;X-Frame-Options&quot;</span>);
+<span class="macro">impl_policy!</span>(Hsts, <span class="string">&quot;Strict-Transport-Security&quot;</span>);
+<span class="macro">impl_policy!</span>(ExpectCt, <span class="string">&quot;Expect-CT&quot;</span>);
+<span class="macro">impl_policy!</span>(Referrer, <span class="string">&quot;Referrer-Policy&quot;</span>);
+<span class="macro">impl_policy!</span>(Prefetch, <span class="string">&quot;X-DNS-Prefetch-Control&quot;</span>);
+<span class="macro">impl_policy!</span>(Permission, <span class="string">&quot;Permissions-Policy&quot;</span>);
+
+<span class="doccomment">/// The [Referrer-Policy] header: controls the value set by the browser for the
+/// [Referer] header.
+///
+/// Tells the browser if it should send all or part of URL of the current page
+/// to the next site the user navigates to via the [Referer] header. This can be
+/// important for security as the URL itself might expose sensitive data, such
+/// as a hidden file path or personal identifier.
+///
+/// [Referrer-Policy]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+/// [Referer]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
+</span><span class="kw">pub enum </span>Referrer {
+    <span class="doccomment">/// Omits the `Referer` header (returned by [`Referrer::default()`]).
+    </span>NoReferrer,
+
+    <span class="doccomment">/// Omits the `Referer` header on connection downgrade i.e. following HTTP
+    /// link from HTTPS site (_Browser default_).
+    </span>NoReferrerWhenDowngrade,
+
+    <span class="doccomment">/// Only send the origin of part of the URL, e.g. the origin of
+    /// `https://foo.com/bob.html` is `https://foo.com`.
+    </span>Origin,
+
+    <span class="doccomment">/// Send full URL for same-origin requests, only send origin part when
+    /// replying to [cross-origin] requests.
+    ///
+    /// [cross-origin]: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    </span>OriginWhenCrossOrigin,
+
+    <span class="doccomment">/// Send full URL for same-origin requests only.
+    </span>SameOrigin,
+
+    <span class="doccomment">/// Only send origin part of URL, only send if protocol security level
+    /// remains the same e.g. HTTPS to HTTPS.
+    </span>StrictOrigin,
+
+    <span class="doccomment">/// Send full URL for same-origin requests. For cross-origin requests, only
+    /// send origin part of URL if protocol security level remains the same e.g.
+    /// HTTPS to HTTPS.
+    </span>StrictOriginWhenCrossOrigin,
+
+    <span class="doccomment">/// Send full URL for same-origin or cross-origin requests. _This will leak
+    /// the full URL of TLS protected resources to insecure origins. Use with
+    /// caution._
+    </span>UnsafeUrl,
+ }
+
+<span class="doccomment">/// Defaults to [`Referrer::NoReferrer`]. Tells the browser to omit the
+/// `Referer` header.
+</span><span class="kw">impl </span>Default <span class="kw">for </span>Referrer {
+    <span class="kw">fn </span>default() -&gt; Referrer {
+        Referrer::NoReferrer
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Referrer&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(referrer: <span class="kw-2">&amp;</span>Referrer) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>policy_string = <span class="kw">match </span>referrer {
+            Referrer::NoReferrer =&gt; <span class="string">&quot;no-referrer&quot;</span>,
+            Referrer::NoReferrerWhenDowngrade =&gt; <span class="string">&quot;no-referrer-when-downgrade&quot;</span>,
+            Referrer::Origin =&gt; <span class="string">&quot;origin&quot;</span>,
+            Referrer::OriginWhenCrossOrigin =&gt; <span class="string">&quot;origin-when-cross-origin&quot;</span>,
+            Referrer::SameOrigin =&gt; <span class="string">&quot;same-origin&quot;</span>,
+            Referrer::StrictOrigin =&gt; <span class="string">&quot;strict-origin&quot;</span>,
+            Referrer::StrictOriginWhenCrossOrigin =&gt; <span class="string">&quot;strict-origin-when-cross-origin&quot;</span>,
+            Referrer::UnsafeUrl =&gt; <span class="string">&quot;unsafe-url&quot;</span>,
+        };
+
+        Header::new(Referrer::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [Expect-CT] header: enables reporting and/or enforcement of [Certificate
+/// Transparency].
+///
+/// [Certificate Transparency] can detect and prevent the use of misissued,
+/// malicious, or revoked TLS certificates. It solves a variety of problems with
+/// public TLS/SSL certificate management and is valuable measure for all public
+/// TLS applications.
+///
+/// If you&#39;re just [getting started] with certificate transparency, ensure that
+/// your [site is in compliance][getting started] before you enable enforcement
+/// with [`ExpectCt::Enforce`] or [`ExpectCt::ReportAndEnforce`]. Failure to do
+/// so will result in the browser refusing to communicate with your application.
+/// _You have been warned_.
+///
+/// [Expect-CT]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT
+/// [Certificate Transparency]: http://www.certificate-transparency.org/what-is-ct
+/// [getting started]: http://www.certificate-transparency.org/getting-started
+</span><span class="kw">pub enum </span>ExpectCt {
+    <span class="doccomment">/// Enforce certificate compliance for the next [`Duration`]. Ensure that
+    /// your certificates are in compliance before turning on enforcement.
+    /// (_Shield_ default).
+    </span>Enforce(Duration),
+
+    <span class="doccomment">/// Report to `Absolute`, but do not enforce, compliance violations for the
+    /// next [`Duration`]. Doesn&#39;t provide any protection but is a good way make
+    /// sure things are working correctly before turning on enforcement in
+    /// production.
+    </span>Report(Duration, Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+
+    <span class="doccomment">/// Enforce compliance and report violations to `Absolute` for the next
+    /// [`Duration`].
+    </span>ReportAndEnforce(Duration, Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+}
+
+<span class="doccomment">/// Defaults to [`ExpectCt::Enforce`] with a 30 day duration, enforce CT
+/// compliance, see [draft] standard for more.
+///
+/// [draft]: https://tools.ietf.org/html/draft-ietf-httpbis-expect-ct-03#page-15
+</span><span class="kw">impl </span>Default <span class="kw">for </span>ExpectCt {
+    <span class="kw">fn </span>default() -&gt; ExpectCt {
+        ExpectCt::Enforce(Duration::days(<span class="number">30</span>))
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>ExpectCt&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(expect: <span class="kw-2">&amp;</span>ExpectCt) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>policy_string =  <span class="kw">match </span>expect {
+            ExpectCt::Enforce(age) =&gt; <span class="macro">format!</span>(<span class="string">&quot;max-age={}, enforce&quot;</span>, age.whole_seconds()),
+            ExpectCt::Report(age, uri) =&gt; {
+                <span class="macro">format!</span>(<span class="string">r#&quot;max-age={}, report-uri=&quot;{}&quot;&quot;#</span>, age.whole_seconds(), uri)
+            }
+            ExpectCt::ReportAndEnforce(age, uri) =&gt; {
+                <span class="macro">format!</span>(<span class="string">&quot;max-age={}, enforce, report-uri=\&quot;{}\&quot;&quot;</span>, age.whole_seconds(), uri)
+            }
+        };
+
+        Header::new(ExpectCt::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [X-Content-Type-Options] header: turns off [mime sniffing] which can
+/// prevent certain [attacks].
+///
+/// [mime sniffing]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#MIME_sniffing
+/// [X-Content-Type-Options]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+/// [attacks]: https://blog.mozilla.org/security/2016/08/26/mitigating-mime-confusion-attacks-in-firefox/
+</span><span class="kw">pub enum </span>NoSniff {
+    <span class="doccomment">/// Turns off mime sniffing.
+    </span>Enable,
+}
+
+<span class="doccomment">/// Defaults to [`NoSniff::Enable`], turns off mime sniffing.
+</span><span class="kw">impl </span>Default <span class="kw">for </span>NoSniff {
+    <span class="kw">fn </span>default() -&gt; NoSniff {
+        NoSniff::Enable
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>NoSniff&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(<span class="kw">_</span>: <span class="kw-2">&amp;</span>NoSniff) -&gt; <span class="self">Self </span>{
+        Header::new(NoSniff::NAME, <span class="string">&quot;nosniff&quot;</span>)
+    }
+}
+
+<span class="doccomment">/// The HTTP [Strict-Transport-Security] (HSTS) header: enforces strict HTTPS
+/// usage.
+///
+/// HSTS tells the browser that the site should only be accessed using HTTPS
+/// instead of HTTP. HSTS prevents a variety of downgrading attacks and should
+/// always be used when [TLS] is enabled. `Shield` will turn HSTS on and issue a
+/// warning if you enable TLS without enabling HSTS when the application is run
+/// in non-debug profiles.
+///
+/// While HSTS is important for HTTPS security, incorrectly configured HSTS can
+/// lead to problems as you are disallowing access to non-HTTPS enabled parts of
+/// your site. [Yelp engineering] has good discussion of potential challenges
+/// that can arise and how to roll this out in a large scale setting. So, if
+/// you use TLS, use HSTS, but roll it out with care.
+///
+/// [TLS]: https://rocket.rs/guide/configuration/#configuring-tls
+/// [Strict-Transport-Security]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+/// [Yelp engineering]: https://engineeringblog.yelp.com/2017/09/the-road-to-hsts.html
+</span><span class="attribute">#[derive(PartialEq, Copy, Clone)]
+</span><span class="kw">pub enum </span>Hsts {
+    <span class="doccomment">/// Browser should only permit this site to be accesses by HTTPS for the
+    /// next [`Duration`].
+    </span>Enable(Duration),
+
+    <span class="doccomment">/// Like [`Hsts::Enable`], but also apply to all of the site&#39;s subdomains.
+    </span>IncludeSubDomains(Duration),
+
+    <span class="doccomment">/// Send a &quot;preload&quot; HSTS header, which requests inclusion in the HSTS
+    /// preload list. This variant implies [`Hsts::IncludeSubDomains`], which
+    /// implies [`Hsts::Enable`].
+    ///
+    /// The provided `Duration` must be _at least_ 365 days. If the duration
+    /// provided is less than 365 days, the header will be written out with a
+    /// `max-age` of 365 days.
+    ///
+    /// # Details
+    ///
+    /// Google maintains an [HSTS preload service] that can be used to prevent
+    /// the browser from ever connecting to your site over an insecure
+    /// connection. Read more at [MDN]. Don&#39;t enable this before you have
+    /// registered your site and you ensure that it meets the requirements
+    /// specified by the preload service.
+    ///
+    /// [HSTS preload service]: https://hstspreload.org/
+    /// [MDN]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security#Preloading_Strict_Transport_Security
+    </span>Preload(Duration),
+}
+
+<span class="doccomment">/// Defaults to `Hsts::Enable(Duration::days(365))`.
+</span><span class="kw">impl </span>Default <span class="kw">for </span>Hsts {
+    <span class="kw">fn </span>default() -&gt; Hsts {
+        Hsts::Enable(Duration::days(<span class="number">365</span>))
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Hsts&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(hsts: <span class="kw-2">&amp;</span>Hsts) -&gt; <span class="self">Self </span>{
+        <span class="kw">if </span>hsts == <span class="kw-2">&amp;</span>Hsts::default() {
+            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">&#39;static</span>&gt; = Header {
+                name: Uncased::from_borrowed(Hsts::NAME),
+                value: Cow::Borrowed(<span class="string">&quot;max-age=31536000&quot;</span>)
+            };
+
+            <span class="kw">return </span>DEFAULT.clone();
+        }
+
+        <span class="kw">let </span>policy_string = <span class="kw">match </span>hsts {
+            Hsts::Enable(age) =&gt; <span class="macro">format!</span>(<span class="string">&quot;max-age={}&quot;</span>, age.whole_seconds()),
+            Hsts::IncludeSubDomains(age) =&gt; {
+                <span class="macro">format!</span>(<span class="string">&quot;max-age={}; includeSubDomains&quot;</span>, age.whole_seconds())
+            }
+            Hsts::Preload(age) =&gt; {
+                <span class="comment">// Google says it needs to be &gt;= 365 days for preload list.
+                </span><span class="kw">static </span>YEAR: Duration = Duration::seconds(<span class="number">31536000</span>);
+
+                <span class="macro">format!</span>(<span class="string">&quot;max-age={}; includeSubDomains; preload&quot;</span>, age.max(<span class="kw-2">&amp;</span>YEAR).whole_seconds())
+            }
+        };
+
+        Header::new(Hsts::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [X-Frame-Options] header: helps prevent [clickjacking] attacks.
+///
+/// Controls whether the browser should allow the page to render in a `&lt;frame&gt;`,
+/// [`&lt;iframe&gt;`][iframe] or `&lt;object&gt;`. This can be used to prevent
+/// [clickjacking] attacks.
+///
+/// [X-Frame-Options]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+/// [clickjacking]: https://en.wikipedia.org/wiki/Clickjacking
+/// [owasp-clickjacking]: https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
+/// [iframe]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+</span><span class="kw">pub enum </span>Frame {
+    <span class="doccomment">/// Page cannot be displayed in a frame.
+    </span>Deny,
+
+    <span class="doccomment">/// Page can only be displayed in a frame if the page trying to render it is
+    /// in the same origin. Interpretation of same-origin is [browser
+    /// dependent][X-Frame-Options].
+    ///
+    /// [X-Frame-Options]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+    </span>SameOrigin,
+}
+
+<span class="doccomment">/// Defaults to [`Frame::SameOrigin`].
+</span><span class="kw">impl </span>Default <span class="kw">for </span>Frame {
+    <span class="kw">fn </span>default() -&gt; Frame {
+        Frame::SameOrigin
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Frame&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(frame: <span class="kw-2">&amp;</span>Frame) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw">match </span>frame {
+            Frame::Deny =&gt; <span class="string">&quot;DENY&quot;</span>,
+            Frame::SameOrigin =&gt; <span class="string">&quot;SAMEORIGIN&quot;</span>,
+        };
+
+        Header::new(Frame::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [X-XSS-Protection] header: filters some forms of reflected [XSS]
+/// attacks. Modern browsers do not support or enforce this header.
+///
+/// [X-XSS-Protection]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
+/// [XSS]: https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting
+</span><span class="kw">pub enum </span>XssFilter {
+    <span class="doccomment">/// Disables XSS filtering.
+    </span>Disable,
+
+    <span class="doccomment">/// Enables XSS filtering. If XSS is detected, the browser will sanitize
+    /// before rendering the page (_Shield default_).
+    </span>Enable,
+
+    <span class="doccomment">/// Enables XSS filtering. If XSS is detected, the browser will not
+    /// render the page.
+    </span>EnableBlock,
+}
+
+<span class="doccomment">/// Defaults to [`XssFilter::Enable`].
+</span><span class="kw">impl </span>Default <span class="kw">for </span>XssFilter {
+    <span class="kw">fn </span>default() -&gt; XssFilter {
+        XssFilter::Enable
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>XssFilter&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(filter: <span class="kw-2">&amp;</span>XssFilter) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw">match </span>filter {
+            XssFilter::Disable =&gt; <span class="string">&quot;0&quot;</span>,
+            XssFilter::Enable =&gt; <span class="string">&quot;1&quot;</span>,
+            XssFilter::EnableBlock =&gt; <span class="string">&quot;1; mode=block&quot;</span>,
+        };
+
+        Header::new(XssFilter::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [X-DNS-Prefetch-Control] header: controls browser DNS prefetching.
+///
+/// Tells the browser if it should perform domain name resolution on both links
+/// that the user may choose to follow as well as URLs for items referenced by
+/// the document including images, CSS, JavaScript, and so forth. Disabling
+/// prefetching is useful if you don&#39;t control the link on the pages, or know
+/// that you don&#39;t want to leak information to these domains.
+///
+/// [X-DNS-Prefetch-Control]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
+</span><span class="kw">pub enum </span>Prefetch {
+    <span class="doccomment">/// Enables DNS prefetching. This is the browser default.
+    </span>On,
+    <span class="doccomment">/// Disables DNS prefetching. This is the shield policy default.
+    </span>Off,
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>Prefetch {
+    <span class="kw">fn </span>default() -&gt; Prefetch {
+        Prefetch::Off
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Prefetch&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(prefetch: <span class="kw-2">&amp;</span>Prefetch) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>policy_string = <span class="kw">match </span>prefetch {
+            Prefetch::On =&gt; <span class="string">&quot;on&quot;</span>,
+            Prefetch::Off =&gt; <span class="string">&quot;off&quot;</span>,
+        };
+
+        Header::new(Prefetch::NAME, policy_string)
+    }
+}
+
+<span class="doccomment">/// The [Permissions-Policy] header: allow or block the use of browser features.
+///
+/// Tells the browser to allow or block the use of a browser feature in the
+/// top-level page as well as allow or block _requesting access to_ (via the
+/// `allow` `iframe` attribute) features in embedded iframes.
+///
+/// By default, the top-level page may access ~all features and any embedded
+/// iframes may request access to ~any feature. This header allows the server to
+/// control exactly _which_ (if any) origins may access or request access to
+/// browser features.
+///
+/// Features are enabled via the [`Permission::allowed()`] contructor and
+/// chainable [`allow()`](Self::allow()) build method. Features can be blocked
+/// via the [`Permission::blocked()`] and chainable [`block()`](Self::block())
+/// builder method.
+///
+/// ```rust
+    /// # #[macro_use] extern crate rocket;
+/// use rocket::shield::{Shield, Permission, Feature, Allow};
+///
+/// // In addition to defaults, block access to geolocation and USB features.
+/// // Enable camera and microphone features only for the serving origin. Enable
+/// // payment request access for the current origin and `https://rocket.rs`.
+/// let permission = Permission::default()
+///     .block(Feature::Geolocation)
+///     .block(Feature::Usb)
+///     .allow(Feature::Camera, Allow::This)
+///     .allow(Feature::Microphone, Allow::This)
+///     .allow(Feature::Payment, [Allow::This, Allow::Origin(uri!(&quot;https://rocket.rs&quot;))]);
+///
+/// rocket::build().attach(Shield::default().enable(permission));
+/// ```
+///
+/// # Default
+///
+/// The default returned via [`Permission::default()`] blocks access to the
+/// `interest-cohort` feature, otherwise known as FLoC, which disables using the
+/// current site in ad targeting tracking computations.
+///
+/// [Permissions-Policy]: https://github.com/w3c/webappsec-permissions-policy/blob/a45df7b237e2a85e1909d7f226ca4eb4ce5095ba/permissions-policy-explainer.md
+</span><span class="attribute">#[derive(PartialEq, Clone)]
+</span><span class="kw">pub struct </span>Permission(IndexMap&lt;Feature, <span class="prelude-ty">Option</span>&lt;SmallVec&lt;[Allow; <span class="number">1</span>]&gt;&gt;&gt;);
+
+<span class="kw">impl </span>Default <span class="kw">for </span>Permission {
+    <span class="doccomment">/// The default `Permission` policy blocks access to the `interest-cohort`
+    /// feature, otherwise known as FLoC, which disables using the current site
+    /// in ad targeting tracking computations.
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        Permission::blocked(Feature::InterestCohort)
+    }
+}
+
+<span class="kw">impl </span>Permission {
+    <span class="doccomment">/// Constructs a new `Permission` policy with only `feature` allowed for the
+    /// set of origins in `allow` which may be a single [`Allow`], a slice
+    /// (`[Allow]` or `&amp;[Allow]`), or a vector (`Vec&lt;Allow&gt;`).
+    ///
+    /// If `allow` is empty, the use of the feature is blocked unless another
+    /// call to `allow()` allows it. If `allow` contains [`Allow::Any`], the
+    /// feature is allowable for all origins. Otherwise, the feature is
+    /// allowable only for the origin specified in `allow`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if an `Absolute` URI in an `Allow::Origin` does not contain a
+    /// host part.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::shield::{Permission, Feature, Allow};
+    ///
+    /// let rocket = Allow::Origin(uri!(&quot;https://rocket.rs&quot;));
+    ///
+    /// let perm = Permission::allowed(Feature::Usb, Allow::This);
+    /// let perm = Permission::allowed(Feature::Usb, Allow::Any);
+    /// let perm = Permission::allowed(Feature::Usb, [Allow::This, rocket]);
+    /// ```
+    </span><span class="kw">pub fn </span>allowed&lt;L&gt;(feature: Feature, allow: L) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>L: IntoCollection&lt;Allow&gt;
+    {
+        Permission(IndexMap::new()).allow(feature, allow)
+    }
+
+    <span class="doccomment">/// Constructs a new `Permission` policy with only `feature` blocked.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::shield::{Permission, Feature};
+    ///
+    /// let perm = Permission::blocked(Feature::Usb);
+    /// let perm = Permission::blocked(Feature::Payment);
+    /// ```
+    </span><span class="kw">pub fn </span>blocked(feature: Feature) -&gt; <span class="self">Self </span>{
+        Permission(IndexMap::new()).block(feature)
+    }
+
+    <span class="doccomment">/// Adds `feature` as allowable for the set of origins in `allow` which may
+    /// be a single [`Allow`], a slice (`[Allow]` or `&amp;[Allow]`), or a vector
+    /// (`Vec&lt;Allow&gt;`).
+    ///
+    /// This policy supercedes any previous policy set for `feature`.
+    ///
+    /// If `allow` is empty, the use of the feature is blocked unless another
+    /// call to `allow()` allows it. If `allow` contains [`Allow::Any`], the
+    /// feature is allowable for all origins. Otherwise, the feature is
+    /// allowable only for the origin specified in `allow`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if an `Absolute` URI in an `Allow::Origin` does not contain a
+    /// host part.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::shield::{Permission, Feature, Allow};
+    ///
+    /// let rocket = Allow::Origin(uri!(&quot;https://rocket.rs&quot;));
+    /// let perm = Permission::allowed(Feature::Usb, Allow::This)
+    ///     .allow(Feature::Payment, [rocket, Allow::This]);
+    /// ```
+    </span><span class="kw">pub fn </span>allow&lt;L&gt;(<span class="kw-2">mut </span><span class="self">self</span>, feature: Feature, allow: L) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>L: IntoCollection&lt;Allow&gt;
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>allow = allow.into_collection();
+
+        <span class="kw">if </span>allow.contains(<span class="kw-2">&amp;</span>Allow::Any) {
+            allow = Allow::Any.into_collection();
+        }
+
+        <span class="kw">for </span>allow <span class="kw">in </span><span class="kw-2">&amp;</span>allow {
+            <span class="kw">if let </span>Allow::Origin(absolute) = allow {
+                <span class="kw">let </span>auth = absolute.authority();
+                <span class="kw">if </span>auth.is_none() || <span class="macro">matches!</span>(auth, <span class="prelude-val">Some</span>(a) <span class="kw">if </span>a.host().is_empty()) {
+                    <span class="macro">panic!</span>(<span class="string">&quot;...&quot;</span>)
+                }
+            }
+        }
+
+        <span class="self">self</span>.<span class="number">0</span>.insert(feature, <span class="prelude-val">Some</span>(allow));
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Blocks `feature`. This policy supercedes any previous policy set for
+    /// `feature`.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::shield::{Permission, Feature};
+    ///
+    /// let perm = Permission::default()
+    ///     .block(Feature::Usb)
+    ///     .block(Feature::Payment);
+    /// ```
+    </span><span class="kw">pub fn </span>block(<span class="kw-2">mut </span><span class="self">self</span>, feature: Feature) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.<span class="number">0</span>.insert(feature, <span class="prelude-val">None</span>);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns the allow list (so far) for `feature` if feature is allowed.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::shield::{Permission, Feature, Allow};
+    ///
+    /// let perm = Permission::default();
+    /// assert!(perm.get(Feature::Usb).is_none());
+    ///
+    /// let perm = perm.allow(Feature::Usb, Allow::Any);
+    /// assert_eq!(perm.get(Feature::Usb).unwrap(), &amp;[Allow::Any]);
+    /// ```
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, feature: Feature) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[Allow]&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.get(<span class="kw-2">&amp;</span>feature)<span class="question-mark">?</span>.as_deref()
+    }
+
+    <span class="doccomment">/// Returns an iterator over the pairs of features and their allow lists,
+    /// `None` if the feature is blocked.
+    ///
+    /// Features are returned in the order in which they were first added.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::shield::{Permission, Feature, Allow};
+    ///
+    /// let foo = uri!(&quot;https://foo.com:1234&quot;);
+    /// let perm = Permission::blocked(Feature::Camera)
+    ///     .allow(Feature::Gyroscope, [Allow::This, Allow::Origin(foo.clone())])
+    ///     .block(Feature::Payment)
+    ///     .allow(Feature::Camera, Allow::Any);
+    ///
+    /// let perms: Vec&lt;_&gt; = perm.iter().collect();
+    /// assert_eq!(perms.len(), 3);
+    /// assert_eq!(perms, vec![
+    ///     (Feature::Camera, Some(&amp;[Allow::Any][..])),
+    ///     (Feature::Gyroscope, Some(&amp;[Allow::This, Allow::Origin(foo)][..])),
+    ///     (Feature::Payment, None),
+    /// ]);
+    /// ```
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (Feature, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[Allow]&gt;)&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.iter().map(|(feature, list)| (<span class="kw-2">*</span>feature, list.as_deref()))
+    }
+}
+
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Permission&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>from(perm: <span class="kw-2">&amp;</span>Permission) -&gt; <span class="self">Self </span>{
+        <span class="kw">if </span>perm == <span class="kw-2">&amp;</span>Permission::default() {
+            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">&#39;static</span>&gt; = Header {
+                name: Uncased::from_borrowed(Permission::NAME),
+                value: Cow::Borrowed(<span class="string">&quot;interest-cohort=()&quot;</span>)
+            };
+
+            <span class="kw">return </span>DEFAULT.clone();
+        }
+
+        <span class="kw">let </span>value = perm.<span class="number">0</span>.iter()
+            .map(|(feature, allow)| {
+                <span class="kw">let </span>list = allow.as_ref()
+                    .into_iter()
+                    .flatten()
+                    .map(|origin| origin.rendered())
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+                    .join(<span class="string">&quot; &quot;</span>);
+
+                <span class="macro">format!</span>(<span class="string">&quot;{}=({})&quot;</span>, feature, list)
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+            .join(<span class="string">&quot;, &quot;</span>);
+
+        Header::new(Permission::NAME, value)
+    }
+}
+
+<span class="doccomment">/// Specifies the origin(s) allowed to access a browser [`Feature`] via
+/// [`Permission`].
+</span><span class="attribute">#[derive(Debug, PartialEq, Clone)]
+</span><span class="kw">pub enum </span>Allow {
+    <span class="doccomment">/// Allow this specific origin. The feature is allowed only for this
+    /// specific origin.
+    ///
+    /// The `user_info`, `path`, and `query` parts of the URI, if any, are
+    /// ignored.
+    </span>Origin(Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+    <span class="doccomment">/// Any origin at all.
+    ///
+    /// The feature will be allowed in all browsing contexts regardless of their
+    /// origin.
+    </span>Any,
+    <span class="doccomment">/// The current origin.
+    ///
+    /// The feature will be allowed in the immediately returned document and in
+    /// all nested browsing contexts (iframes) in the same origin.
+    </span>This,
+}
+
+<span class="kw">impl </span>Allow {
+    <span class="kw">fn </span>rendered(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, str&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Allow::Origin(uri) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>string = String::with_capacity(<span class="number">32</span>);
+                string.push(<span class="string">&#39;&quot;&#39;</span>);
+                string.push_str(uri.scheme());
+
+                <span class="comment">// This should never fail when rendering a header for `Shield`
+                // due to `panic` in `.allow()`.
+                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(auth) = uri.authority() {
+                    <span class="kw">use </span>std::fmt::Write;
+
+                    <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">&quot;://{}&quot;</span>, auth.host());
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(port) = auth.port() {
+                        <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">&quot;:{}&quot;</span>, port);
+                    }
+                }
+
+                string.push(<span class="string">&#39;&quot;&#39;</span>);
+                string.into()
+            }
+            Allow::Any =&gt; <span class="string">&quot;*&quot;</span>.into(),
+            Allow::This =&gt; <span class="string">&quot;self&quot;</span>.into(),
+        }
+    }
+}
+
+<span class="doccomment">/// A browser feature that can be enabled or blocked via [`Permission`].
+</span><span class="attribute">#[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>Feature {
+    <span class="comment">// Standardized.
+
+    </span><span class="doccomment">/// The &quot;accelerometer&quot; feature.
+    </span>Accelerometer,
+    <span class="doccomment">/// The &quot;ambient-light-sensor&quot; feature.
+    </span>AmbientLightSensor,
+    <span class="doccomment">/// The &quot;autoplay&quot; feature.
+    </span>Autoplay,
+    <span class="doccomment">/// The &quot;battery&quot; feature.
+    </span>Battery,
+    <span class="doccomment">/// The &quot;camera&quot; feature.
+    </span>Camera,
+    <span class="doccomment">/// The &quot;cross-origin-isolated&quot; feature.
+    </span>CrossOriginIsolated,
+    <span class="doccomment">/// The &quot;display-capture&quot; feature.
+    </span>Displaycapture,
+    <span class="doccomment">/// The &quot;document-domain&quot; feature.
+    </span>DocumentDomain,
+    <span class="doccomment">/// The &quot;encrypted-media&quot; feature.
+    </span>EncryptedMedia,
+    <span class="doccomment">/// The &quot;execution-while-not-rendered&quot; feature.
+    </span>ExecutionWhileNotRendered,
+    <span class="doccomment">/// The &quot;execution-while-out-of-viewport&quot; feature.
+    </span>ExecutionWhileOutOfviewport,
+    <span class="doccomment">/// The &quot;fullscreen&quot; feature.
+    </span>Fullscreen,
+    <span class="doccomment">/// The &quot;geolocation&quot; feature.
+    </span>Geolocation,
+    <span class="doccomment">/// The &quot;gyroscope&quot; feature.
+    </span>Gyroscope,
+    <span class="doccomment">/// The &quot;magnetometer&quot; feature.
+    </span>Magnetometer,
+    <span class="doccomment">/// The &quot;microphone&quot; feature.
+    </span>Microphone,
+    <span class="doccomment">/// The &quot;midi&quot; feature.
+    </span>Midi,
+    <span class="doccomment">/// The &quot;navigation-override&quot; feature.
+    </span>NavigationOverride,
+    <span class="doccomment">/// The &quot;payment&quot; feature.
+    </span>Payment,
+    <span class="doccomment">/// The &quot;picture-in-picture&quot; feature.
+    </span>PictureInPicture,
+    <span class="doccomment">/// The &quot;publickey-credentials-get&quot; feature.
+    </span>PublickeyCredentialsGet,
+    <span class="doccomment">/// The &quot;screen-wake-lock&quot; feature.
+    </span>ScreenWakeLock,
+    <span class="doccomment">/// The &quot;sync-xhr&quot; feature.
+    </span>SyncXhr,
+    <span class="doccomment">/// The &quot;usb&quot; feature.
+    </span>Usb,
+    <span class="doccomment">/// The &quot;web-share&quot; feature.
+    </span>WebShare,
+    <span class="doccomment">/// The &quot;xr-spatial-tracking&quot; feature.
+    </span>XrSpatialTracking,
+
+    <span class="comment">// Proposed.
+
+    </span><span class="doccomment">/// The &quot;clipboard-read&quot; feature.
+    </span>ClipboardRead,
+    <span class="doccomment">/// The &quot;clipboard-write&quot; feature.
+    </span>ClipboardWrite,
+    <span class="doccomment">/// The &quot;gamepad&quot; feature.
+    </span>Gamepad,
+    <span class="doccomment">/// The &quot;speaker-selection&quot; feature.
+    </span>SpeakerSelection,
+    <span class="doccomment">/// The &quot;interest-cohort&quot; feature.
+    </span>InterestCohort,
+
+    <span class="comment">// Experimental.
+
+    </span><span class="doccomment">/// The &quot;conversion-measurement&quot; feature.
+    </span>ConversionMeasurement,
+    <span class="doccomment">/// The &quot;focus-without-user-activation&quot; feature.
+    </span>FocusWithoutUserActivation,
+    <span class="doccomment">/// The &quot;hid&quot; feature.
+    </span>Hid,
+    <span class="doccomment">/// The &quot;idle-detection&quot; feature.
+    </span>IdleDetection,
+    <span class="doccomment">/// The &quot;serial&quot; feature.
+    </span>Serial,
+    <span class="doccomment">/// The &quot;sync-script&quot; feature.
+    </span>SyncScript,
+    <span class="doccomment">/// The &quot;trust-token-redemption&quot; feature.
+    </span>TrustTokenRedemption,
+    <span class="doccomment">/// The &quot;vertical-scroll&quot; feature.
+    </span>VerticalScroll,
+}
+
+<span class="kw">impl </span>Feature {
+    <span class="doccomment">/// Returns the feature string as it appears in the header.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use rocket::shield::Feature;
+    ///
+    /// assert_eq!(Feature::Camera.as_str(), &quot;camera&quot;);
+    /// assert_eq!(Feature::SyncScript.as_str(), &quot;sync-script&quot;);
+    /// ```
+    </span><span class="kw">pub const fn </span>as_str(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+        <span class="kw">use </span>Feature::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="self">self </span>{
+            Accelerometer =&gt; <span class="string">&quot;accelerometer&quot;</span>,
+            AmbientLightSensor =&gt; <span class="string">&quot;ambient-light-sensor&quot;</span>,
+            Autoplay =&gt; <span class="string">&quot;autoplay&quot;</span>,
+            Battery =&gt; <span class="string">&quot;battery&quot;</span>,
+            Camera =&gt; <span class="string">&quot;camera&quot;</span>,
+            CrossOriginIsolated =&gt; <span class="string">&quot;cross-origin-isolated&quot;</span>,
+            Displaycapture =&gt; <span class="string">&quot;display-capture&quot;</span>,
+            DocumentDomain =&gt; <span class="string">&quot;document-domain&quot;</span>,
+            EncryptedMedia =&gt; <span class="string">&quot;encrypted-media&quot;</span>,
+            ExecutionWhileNotRendered =&gt; <span class="string">&quot;execution-while-not-rendered&quot;</span>,
+            ExecutionWhileOutOfviewport =&gt; <span class="string">&quot;execution-while-out-of-viewport&quot;</span>,
+            Fullscreen =&gt; <span class="string">&quot;fullscreen&quot;</span>,
+            Geolocation =&gt; <span class="string">&quot;geolocation&quot;</span>,
+            Gyroscope =&gt; <span class="string">&quot;gyroscope&quot;</span>,
+            Magnetometer =&gt; <span class="string">&quot;magnetometer&quot;</span>,
+            Microphone =&gt; <span class="string">&quot;microphone&quot;</span>,
+            Midi =&gt; <span class="string">&quot;midi&quot;</span>,
+            NavigationOverride =&gt; <span class="string">&quot;navigation-override&quot;</span>,
+            Payment =&gt; <span class="string">&quot;payment&quot;</span>,
+            PictureInPicture =&gt; <span class="string">&quot;picture-in-picture&quot;</span>,
+            PublickeyCredentialsGet =&gt; <span class="string">&quot;publickey-credentials-get&quot;</span>,
+            ScreenWakeLock =&gt; <span class="string">&quot;screen-wake-lock&quot;</span>,
+            SyncXhr =&gt; <span class="string">&quot;sync-xhr&quot;</span>,
+            Usb =&gt; <span class="string">&quot;usb&quot;</span>,
+            WebShare =&gt; <span class="string">&quot;web-share&quot;</span>,
+            XrSpatialTracking =&gt; <span class="string">&quot;xr-spatial-tracking&quot;</span>,
+
+            ClipboardRead =&gt; <span class="string">&quot;clipboard-read&quot;</span>,
+            ClipboardWrite =&gt; <span class="string">&quot;clipboard-write&quot;</span>,
+            Gamepad =&gt; <span class="string">&quot;gamepad&quot;</span>,
+            SpeakerSelection =&gt; <span class="string">&quot;speaker-selection&quot;</span>,
+            InterestCohort =&gt; <span class="string">&quot;interest-cohort&quot;</span>,
+
+            ConversionMeasurement =&gt; <span class="string">&quot;conversion-measurement&quot;</span>,
+            FocusWithoutUserActivation =&gt; <span class="string">&quot;focus-without-user-activation&quot;</span>,
+            Hid =&gt; <span class="string">&quot;hid&quot;</span>,
+            IdleDetection =&gt; <span class="string">&quot;idle-detection&quot;</span>,
+            Serial =&gt; <span class="string">&quot;serial&quot;</span>,
+            SyncScript =&gt; <span class="string">&quot;sync-script&quot;</span>,
+            TrustTokenRedemption =&gt; <span class="string">&quot;trust-token-redemption&quot;</span>,
+            VerticalScroll =&gt; <span class="string">&quot;vertical-scroll&quot;</span>,
+        }
+    }
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Feature {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.as_str().fmt(f)
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rocket" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

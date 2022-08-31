@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/route.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>route.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../warp/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/route.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>route.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../warp/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -138,145 +138,145 @@
 <span id="138">138</span>
 <span id="139">139</span>
 <span id="140">140</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">scoped_tls::scoped_thread_local</span>;
-<span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
-<span class="kw">use</span> <span class="ident">std::mem</span>;
-<span class="kw">use</span> <span class="ident">std::net::SocketAddr</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>scoped_tls::scoped_thread_local;
+<span class="kw">use </span>std::cell::RefCell;
+<span class="kw">use </span>std::mem;
+<span class="kw">use </span>std::net::SocketAddr;
 
-<span class="kw">use</span> <span class="ident">hyper::Body</span>;
+<span class="kw">use </span>hyper::Body;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Request</span>;
+<span class="kw">use </span><span class="kw">crate</span>::Request;
 
-<span class="macro">scoped_thread_local!</span>(<span class="kw">static</span> <span class="ident">ROUTE</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>);
+<span class="macro">scoped_thread_local!</span>(<span class="kw">static </span>ROUTE: RefCell&lt;Route&gt;);
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="kw-2">&amp;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span>, <span class="ident">func</span>: <span class="ident">F</span>) -&gt; <span class="ident">U</span>
-<span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">FnOnce</span>() -&gt; <span class="ident">U</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set&lt;F, U&gt;(r: <span class="kw-2">&amp;</span>RefCell&lt;Route&gt;, func: F) -&gt; U
+<span class="kw">where
+    </span>F: FnOnce() -&gt; U,
 {
-    <span class="ident">ROUTE</span>.<span class="ident">set</span>(<span class="ident">r</span>, <span class="ident">func</span>)
+    ROUTE.set(r, func)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_set</span>() -&gt; <span class="ident">bool</span> {
-    <span class="ident">ROUTE</span>.<span class="ident">is_set</span>()
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_set() -&gt; bool {
+    ROUTE.is_set()
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">with</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">func</span>: <span class="ident">F</span>) -&gt; <span class="ident">R</span>
-<span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;mut</span> <span class="ident">Route</span>) -&gt; <span class="ident">R</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with&lt;F, R&gt;(func: F) -&gt; R
+<span class="kw">where
+    </span>F: FnOnce(<span class="kw-2">&amp;mut </span>Route) -&gt; R,
 {
-    <span class="ident">ROUTE</span>.<span class="ident">with</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">route</span><span class="op">|</span> <span class="ident">func</span>(<span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">route</span>.<span class="ident">borrow_mut</span>()))
+    ROUTE.with(<span class="kw">move </span>|route| func(<span class="kw-2">&amp;mut *</span>route.borrow_mut()))
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Route</span> {
-    <span class="ident">body</span>: <span class="ident">BodyState</span>,
-    <span class="ident">remote_addr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>,
-    <span class="ident">req</span>: <span class="ident">Request</span>,
-    <span class="ident">segments_index</span>: <span class="ident">usize</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Route {
+    body: BodyState,
+    remote_addr: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;,
+    req: Request,
+    segments_index: usize,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">enum</span> <span class="ident">BodyState</span> {
-    <span class="ident">Ready</span>,
-    <span class="ident">Taken</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">enum </span>BodyState {
+    Ready,
+    Taken,
 }
 
-<span class="kw">impl</span> <span class="ident">Route</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">req</span>: <span class="ident">Request</span>, <span class="ident">remote_addr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>) -&gt; <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Route</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">segments_index</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>().<span class="ident">starts_with</span>(<span class="string">&#39;/&#39;</span>) {
-            <span class="comment">// Skip the beginning slash.</span>
-            <span class="number">1</span>
-        } <span class="kw">else</span> {
-            <span class="number">0</span>
-        };
+<span class="kw">impl </span>Route {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(req: Request, remote_addr: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;) -&gt; RefCell&lt;Route&gt; {
+        <span class="kw">let </span>segments_index = <span class="kw">if </span>req.uri().path().starts_with(<span class="string">&#39;/&#39;</span>) {
+            <span class="comment">// Skip the beginning slash.
+            </span><span class="number">1
+        </span>} <span class="kw">else </span>{
+            <span class="number">0
+        </span>};
 
-        <span class="ident">RefCell::new</span>(<span class="ident">Route</span> {
-            <span class="ident">body</span>: <span class="ident">BodyState::Ready</span>,
-            <span class="ident">remote_addr</span>,
-            <span class="ident">req</span>,
-            <span class="ident">segments_index</span>,
+        RefCell::new(Route {
+            body: BodyState::Ready,
+            remote_addr,
+            req,
+            segments_index,
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">http::Method</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">method</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>method(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>http::Method {
+        <span class="self">self</span>.req.method()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">headers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">http::HeaderMap</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">headers</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>headers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>http::HeaderMap {
+        <span class="self">self</span>.req.headers()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">http::Version</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">version</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; http::Version {
+        <span class="self">self</span>.req.version()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">extensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">http::Extensions</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">extensions</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>extensions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>http::Extensions {
+        <span class="self">self</span>.req.extensions()
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">extensions_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">http::Extensions</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">extensions_mut</span>()
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>extensions_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>http::Extensions {
+        <span class="self">self</span>.req.extensions_mut()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">uri</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">http::Uri</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>uri(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>http::Uri {
+        <span class="self">self</span>.req.uri()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>()[<span class="self">self</span>.<span class="ident">segments_index</span>..]
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.req.uri().path()[<span class="self">self</span>.segments_index..]
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">full_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>full_path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.req.uri().path()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_unmatched_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) {
-        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">segments_index</span> <span class="op">+</span> <span class="ident">index</span>;
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>();
-        <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_empty</span>() {
-            <span class="comment">// malformed path</span>
-            <span class="kw">return</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="ident">index</span> {
-            <span class="self">self</span>.<span class="ident">segments_index</span> <span class="op">=</span> <span class="ident">index</span>;
-        } <span class="kw">else</span> {
-            <span class="macro">debug_assert_eq!</span>(<span class="ident">path</span>.<span class="ident">as_bytes</span>()[<span class="ident">index</span>], <span class="string">b&#39;/&#39;</span>);
-            <span class="self">self</span>.<span class="ident">segments_index</span> <span class="op">=</span> <span class="ident">index</span> <span class="op">+</span> <span class="number">1</span>;
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_unmatched_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) {
+        <span class="kw">let </span>index = <span class="self">self</span>.segments_index + index;
+        <span class="kw">let </span>path = <span class="self">self</span>.req.uri().path();
+        <span class="kw">if </span>path.is_empty() {
+            <span class="comment">// malformed path
+            </span><span class="kw">return</span>;
+        } <span class="kw">else if </span>path.len() == index {
+            <span class="self">self</span>.segments_index = index;
+        } <span class="kw">else </span>{
+            <span class="macro">debug_assert_eq!</span>(path.as_bytes()[index], <span class="string">b&#39;/&#39;</span>);
+            <span class="self">self</span>.segments_index = index + <span class="number">1</span>;
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">query</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">query</span>()
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
+        <span class="self">self</span>.req.uri().query()
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">matched_path_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
-        <span class="self">self</span>.<span class="ident">segments_index</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matched_path_index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.segments_index
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">reset_matched_path_index</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>reset_matched_path_index(<span class="kw-2">&amp;mut </span><span class="self">self</span>, index: usize) {
         <span class="macro">debug_assert!</span>(
-            <span class="ident">index</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">segments_index</span>,
+            index &lt;= <span class="self">self</span>.segments_index,
             <span class="string">&quot;reset_match_path_index should not be bigger: current={}, arg={}&quot;</span>,
-            <span class="self">self</span>.<span class="ident">segments_index</span>,
-            <span class="ident">index</span>,
+            <span class="self">self</span>.segments_index,
+            index,
         );
-        <span class="self">self</span>.<span class="ident">segments_index</span> <span class="op">=</span> <span class="ident">index</span>;
+        <span class="self">self</span>.segments_index = index;
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">remote_addr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">remote_addr</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>remote_addr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;SocketAddr&gt; {
+        <span class="self">self</span>.remote_addr
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_body</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Body</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">body</span> {
-            <span class="ident">BodyState::Ready</span> =&gt; {
-                <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">mem::replace</span>(<span class="self">self</span>.<span class="ident">req</span>.<span class="ident">body_mut</span>(), <span class="ident">Body::empty</span>());
-                <span class="self">self</span>.<span class="ident">body</span> <span class="op">=</span> <span class="ident">BodyState::Taken</span>;
-                <span class="prelude-val">Some</span>(<span class="ident">body</span>)
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>take_body(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Body&gt; {
+        <span class="kw">match </span><span class="self">self</span>.body {
+            BodyState::Ready =&gt; {
+                <span class="kw">let </span>body = mem::replace(<span class="self">self</span>.req.body_mut(), Body::empty());
+                <span class="self">self</span>.body = BodyState::Taken;
+                <span class="prelude-val">Some</span>(body)
             }
-            <span class="ident">BodyState::Taken</span> =&gt; <span class="prelude-val">None</span>,
+            BodyState::Taken =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

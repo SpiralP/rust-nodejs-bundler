@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Executes a `future` to completion on a new tokio-based Rocket async runtime."><meta name="keywords" content="rust, rustlang, rust-lang, execute"><title>execute in rocket - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc fn"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../rocket/index.html"><div class="logo-container"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../rocket/index.html"><div class="logo-container">
+                    <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In rocket</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../rocket/index.html">
+                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Function <a href="index.html">rocket</a>::<wbr><a class="fn" href="#">execute</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/rocket/lib.rs.html#345-349">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust fn"><code>pub fn execute&lt;R, F&gt;(future: F) -&gt; R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/future/future/trait.Future.html" title="trait core::future::future::Future">Future</a>&lt;Output = R&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Executes a <code>future</code> to completion on a new tokio-based Rocket async runtime.</p>
+<p>The runtime is terminated on shutdown, and the future’s resolved value is
+returned.</p>
+<h2 id="considerations"><a href="#considerations">Considerations</a></h2>
+<p>This function is a low-level mechanism intended to be used to execute the
+future returned by <a href="struct.Rocket.html#method.launch" title="Rocket::launch()"><code>Rocket::launch()</code></a> in a self-contained async runtime
+designed for Rocket. It runs futures in exactly the same manner as
+<a href="attr.launch.html"><code>#[launch]</code></a> and <a href="attr.main.html"><code>#[main]</code></a> do and is thus
+<em>never</em> the preferred mechanism for running a Rocket application. <em>Always</em>
+prefer to use the <a href="attr.launch.html"><code>#[launch]</code></a> or <a href="attr.main.html"><code>#[main]</code></a>
+attributes. For example <a href="attr.main.html"><code>#[main]</code></a> can be used even when
+Rocket is just a small part of a bigger application:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[rocket::main]
+</span><span class="kw">async fn </span>main() {
+    <span class="kw">let </span>rocket = rocket::build();
+    <span class="kw">if </span>should_start_server_in_foreground {
+        rocket::build().launch().<span class="kw">await</span>;
+    } <span class="kw">else if </span>should_start_server_in_background {
+        rocket::tokio::spawn(rocket.launch());
+    } <span class="kw">else </span>{
+        <span class="comment">// do something else
+    </span>}
+}</code></pre></div>
+<p>See <a href="struct.Rocket.html#launching" title="Rocket">Rocket</a> for more on using these attributes.</p>
+<h2 id="example"><a href="#example">Example</a></h2>
+<p>Build an instance of Rocket, launch it, and wait for shutdown:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::fairing::AdHoc;
+
+<span class="kw">let </span>rocket = rocket::build()
+    .attach(AdHoc::on_liftoff(<span class="string">&quot;Liftoff Printer&quot;</span>, |<span class="kw">_</span>| Box::pin(<span class="kw">async move </span>{
+        <span class="macro">println!</span>(<span class="string">&quot;Stalling liftoff for a second...&quot;</span>);
+        rocket::tokio::time::sleep(std::time::Duration::from_secs(<span class="number">1</span>)).<span class="kw">await</span>;
+        <span class="macro">println!</span>(<span class="string">&quot;And we&#39;re off!&quot;</span>);
+    })));
+
+rocket::execute(rocket.launch());</code></pre></div>
+<p>Launch a pre-built instance of Rocket and wait for it to shutdown:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::{Rocket, Ignite, Phase, Error};
+
+<span class="kw">fn </span>launch&lt;P: Phase&gt;(rocket: Rocket&lt;P&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Ignite&gt;, Error&gt; {
+    rocket::execute(rocket.launch())
+}</code></pre></div>
+<p>Do async work to build an instance of Rocket, launch, and wait for shutdown:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::fairing::AdHoc;
+
+<span class="comment">// This line can also be inside of the `async` block.
+</span><span class="kw">let </span>rocket = rocket::build();
+
+rocket::execute(<span class="kw">async move </span>{
+    <span class="kw">let </span>rocket = rocket.ignite().<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>config = rocket.config();
+    rocket.launch().<span class="kw">await
+</span>});</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="rocket" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

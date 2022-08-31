@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/common/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/common/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -188,195 +188,195 @@
 <span id="188">188</span>
 <span id="189">189</span>
 <span id="190">190</span>
-</pre><pre class="rust"><code><span class="doccomment">//! A Collection of Header implementations for common HTTP Headers.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Mime</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Several header fields use MIME values for their contents. Keeping with the</span>
-<span class="doccomment">//! strongly-typed theme, the [mime](https://docs.rs/mime) crate</span>
-<span class="doccomment">//! is used, such as `ContentType(pub Mime)`.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! A Collection of Header implementations for common HTTP Headers.
+//!
+//! ## Mime
+//!
+//! Several header fields use MIME values for their contents. Keeping with the
+//! strongly-typed theme, the [mime](https://docs.rs/mime) crate
+//! is used, such as `ContentType(pub Mime)`.
 
-<span class="comment">//pub use self::accept_charset::AcceptCharset;</span>
-<span class="comment">//pub use self::accept_encoding::AcceptEncoding;</span>
-<span class="comment">//pub use self::accept_language::AcceptLanguage;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::accept_ranges::AcceptRanges</span>;
-<span class="comment">//pub use self::accept::Accept;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_allow_credentials::AccessControlAllowCredentials</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_allow_headers::AccessControlAllowHeaders</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_allow_methods::AccessControlAllowMethods</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_allow_origin::AccessControlAllowOrigin</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_expose_headers::AccessControlExposeHeaders</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_max_age::AccessControlMaxAge</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_request_headers::AccessControlRequestHeaders</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::access_control_request_method::AccessControlRequestMethod</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::age::Age</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::allow::Allow</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::authorization::Authorization</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::cache_control::CacheControl</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::connection::Connection</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_disposition::ContentDisposition</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_encoding::ContentEncoding</span>;
-<span class="comment">//pub use self::content_language::ContentLanguage;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_length::ContentLength</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_location::ContentLocation</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_range::ContentRange</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::content_type::ContentType</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::cookie::Cookie</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::date::Date</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::etag::ETag</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::expect::Expect</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::expires::Expires</span>;
-<span class="comment">//pub use self::from::From;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::host::Host</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::if_match::IfMatch</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::if_modified_since::IfModifiedSince</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::if_none_match::IfNoneMatch</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::if_range::IfRange</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::if_unmodified_since::IfUnmodifiedSince</span>;
-<span class="comment">//pub use self::last_event_id::LastEventId;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::last_modified::LastModified</span>;
-<span class="comment">//pub use self::link::{Link, LinkValue, RelationType, MediaDesc};</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::location::Location</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::origin::Origin</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::pragma::Pragma</span>;
-<span class="comment">//pub use self::prefer::{Prefer, Preference};</span>
-<span class="comment">//pub use self::preference_applied::PreferenceApplied;</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::proxy_authorization::ProxyAuthorization</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::range::Range</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::referer::Referer</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::referrer_policy::ReferrerPolicy</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::retry_after::RetryAfter</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sec_websocket_accept::SecWebsocketAccept</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sec_websocket_key::SecWebsocketKey</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::sec_websocket_version::SecWebsocketVersion</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::server::Server</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::set_cookie::SetCookie</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::strict_transport_security::StrictTransportSecurity</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::te::Te</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::transfer_encoding::TransferEncoding</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::upgrade::Upgrade</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::user_agent::UserAgent</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="self">self</span>::vary::Vary</span>;
-<span class="comment">//pub use self::warning::Warning;</span>
+</span><span class="comment">//pub use self::accept_charset::AcceptCharset;
+//pub use self::accept_encoding::AcceptEncoding;
+//pub use self::accept_language::AcceptLanguage;
+</span><span class="kw">pub use </span><span class="self">self</span>::accept_ranges::AcceptRanges;
+<span class="comment">//pub use self::accept::Accept;
+</span><span class="kw">pub use </span><span class="self">self</span>::access_control_allow_credentials::AccessControlAllowCredentials;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_allow_headers::AccessControlAllowHeaders;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_allow_methods::AccessControlAllowMethods;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_allow_origin::AccessControlAllowOrigin;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_expose_headers::AccessControlExposeHeaders;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_max_age::AccessControlMaxAge;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_request_headers::AccessControlRequestHeaders;
+<span class="kw">pub use </span><span class="self">self</span>::access_control_request_method::AccessControlRequestMethod;
+<span class="kw">pub use </span><span class="self">self</span>::age::Age;
+<span class="kw">pub use </span><span class="self">self</span>::allow::Allow;
+<span class="kw">pub use </span><span class="self">self</span>::authorization::Authorization;
+<span class="kw">pub use </span><span class="self">self</span>::cache_control::CacheControl;
+<span class="kw">pub use </span><span class="self">self</span>::connection::Connection;
+<span class="kw">pub use </span><span class="self">self</span>::content_disposition::ContentDisposition;
+<span class="kw">pub use </span><span class="self">self</span>::content_encoding::ContentEncoding;
+<span class="comment">//pub use self::content_language::ContentLanguage;
+</span><span class="kw">pub use </span><span class="self">self</span>::content_length::ContentLength;
+<span class="kw">pub use </span><span class="self">self</span>::content_location::ContentLocation;
+<span class="kw">pub use </span><span class="self">self</span>::content_range::ContentRange;
+<span class="kw">pub use </span><span class="self">self</span>::content_type::ContentType;
+<span class="kw">pub use </span><span class="self">self</span>::cookie::Cookie;
+<span class="kw">pub use </span><span class="self">self</span>::date::Date;
+<span class="kw">pub use </span><span class="self">self</span>::etag::ETag;
+<span class="kw">pub use </span><span class="self">self</span>::expect::Expect;
+<span class="kw">pub use </span><span class="self">self</span>::expires::Expires;
+<span class="comment">//pub use self::from::From;
+</span><span class="kw">pub use </span><span class="self">self</span>::host::Host;
+<span class="kw">pub use </span><span class="self">self</span>::if_match::IfMatch;
+<span class="kw">pub use </span><span class="self">self</span>::if_modified_since::IfModifiedSince;
+<span class="kw">pub use </span><span class="self">self</span>::if_none_match::IfNoneMatch;
+<span class="kw">pub use </span><span class="self">self</span>::if_range::IfRange;
+<span class="kw">pub use </span><span class="self">self</span>::if_unmodified_since::IfUnmodifiedSince;
+<span class="comment">//pub use self::last_event_id::LastEventId;
+</span><span class="kw">pub use </span><span class="self">self</span>::last_modified::LastModified;
+<span class="comment">//pub use self::link::{Link, LinkValue, RelationType, MediaDesc};
+</span><span class="kw">pub use </span><span class="self">self</span>::location::Location;
+<span class="kw">pub use </span><span class="self">self</span>::origin::Origin;
+<span class="kw">pub use </span><span class="self">self</span>::pragma::Pragma;
+<span class="comment">//pub use self::prefer::{Prefer, Preference};
+//pub use self::preference_applied::PreferenceApplied;
+</span><span class="kw">pub use </span><span class="self">self</span>::proxy_authorization::ProxyAuthorization;
+<span class="kw">pub use </span><span class="self">self</span>::range::Range;
+<span class="kw">pub use </span><span class="self">self</span>::referer::Referer;
+<span class="kw">pub use </span><span class="self">self</span>::referrer_policy::ReferrerPolicy;
+<span class="kw">pub use </span><span class="self">self</span>::retry_after::RetryAfter;
+<span class="kw">pub use </span><span class="self">self</span>::sec_websocket_accept::SecWebsocketAccept;
+<span class="kw">pub use </span><span class="self">self</span>::sec_websocket_key::SecWebsocketKey;
+<span class="kw">pub use </span><span class="self">self</span>::sec_websocket_version::SecWebsocketVersion;
+<span class="kw">pub use </span><span class="self">self</span>::server::Server;
+<span class="kw">pub use </span><span class="self">self</span>::set_cookie::SetCookie;
+<span class="kw">pub use </span><span class="self">self</span>::strict_transport_security::StrictTransportSecurity;
+<span class="kw">pub use </span><span class="self">self</span>::te::Te;
+<span class="kw">pub use </span><span class="self">self</span>::transfer_encoding::TransferEncoding;
+<span class="kw">pub use </span><span class="self">self</span>::upgrade::Upgrade;
+<span class="kw">pub use </span><span class="self">self</span>::user_agent::UserAgent;
+<span class="kw">pub use </span><span class="self">self</span>::vary::Vary;
+<span class="comment">//pub use self::warning::Warning;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">fn</span> <span class="ident">test_decode</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">::Header</span><span class="op">&gt;</span>(<span class="ident">values</span>: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">str</span>]) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">HeaderMapExt</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">::http::HeaderMap::new</span>();
-    <span class="kw">for</span> <span class="ident">val</span> <span class="kw">in</span> <span class="ident">values</span> {
-        <span class="ident">map</span>.<span class="ident">append</span>(<span class="ident">T::name</span>(), <span class="ident">val</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+</span><span class="attribute">#[cfg(test)]
+</span><span class="kw">fn </span>test_decode&lt;T: ::Header&gt;(values: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; <span class="prelude-ty">Option</span>&lt;T&gt; {
+    <span class="kw">use </span>HeaderMapExt;
+    <span class="kw">let </span><span class="kw-2">mut </span>map = ::http::HeaderMap::new();
+    <span class="kw">for </span>val <span class="kw">in </span>values {
+        map.append(T::name(), val.parse().unwrap());
     }
-    <span class="ident">map</span>.<span class="ident">typed_get</span>()
+    map.typed_get()
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">fn</span> <span class="ident">test_encode</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">::Header</span><span class="op">&gt;</span>(<span class="ident">header</span>: <span class="ident">T</span>) -&gt; <span class="ident">::http::HeaderMap</span> {
-    <span class="kw">use</span> <span class="ident">HeaderMapExt</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">::http::HeaderMap::new</span>();
-    <span class="ident">map</span>.<span class="ident">typed_insert</span>(<span class="ident">header</span>);
-    <span class="ident">map</span>
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">fn </span>test_encode&lt;T: ::Header&gt;(header: T) -&gt; ::http::HeaderMap {
+    <span class="kw">use </span>HeaderMapExt;
+    <span class="kw">let </span><span class="kw-2">mut </span>map = ::http::HeaderMap::new();
+    map.typed_insert(header);
+    map
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="macro">macro_rules!</span> <span class="ident">bench_header</span> {
-    (<span class="macro-nonterminal">$</span><span class="kw">mod</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>) =&gt; {
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;nightly&quot;</span>)]</span>
-        <span class="kw">mod</span> <span class="macro-nonterminal">$</span><span class="kw">mod</span> {
-            <span class="kw">use</span> <span class="kw">super</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span>;
-            <span class="kw">use</span> <span class="ident">HeaderMapExt</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="macro">macro_rules! </span>bench_header {
+    (<span class="macro-nonterminal">$</span><span class="kw">mod</span>:<span class="macro-nonterminal">ident</span>, <span class="macro-nonterminal">$ty</span>:ident, <span class="macro-nonterminal">$value</span>:expr) =&gt; {
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+        </span><span class="kw">mod </span><span class="macro-nonterminal">$</span><span class="kw">mod </span>{
+            <span class="kw">use super</span>::<span class="macro-nonterminal">$ty</span>;
+            <span class="kw">use </span>HeaderMapExt;
 
-            <span class="attribute">#[<span class="ident">bench</span>]</span>
-            <span class="kw">fn</span> <span class="ident">bench_decode</span>(<span class="ident">b</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::test::Bencher</span>) {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">::http::HeaderMap::new</span>();
-                <span class="ident">map</span>.<span class="ident">append</span>(
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> <span class="kw">as</span> <span class="ident">::Header</span><span class="op">&gt;</span><span class="ident">::name</span>(),
-                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;HeaderValue::from_str($value)&quot;</span>),
+            <span class="attribute">#[bench]
+            </span><span class="kw">fn </span>bench_decode(b: <span class="kw-2">&amp;mut </span>::test::Bencher) {
+                <span class="kw">let </span><span class="kw-2">mut </span>map = ::http::HeaderMap::new();
+                map.append(
+                    &lt;<span class="macro-nonterminal">$ty </span><span class="kw">as </span>::Header&gt;::name(),
+                    <span class="macro-nonterminal">$value</span>.parse().expect(<span class="string">&quot;HeaderValue::from_str($value)&quot;</span>),
                 );
-                <span class="ident">b</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-                <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> {
-                    <span class="ident">map</span>.<span class="ident">typed_get</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
+                b.bytes = <span class="macro-nonterminal">$value</span>.len() <span class="kw">as </span>u64;
+                b.iter(|| {
+                    map.typed_get::&lt;<span class="macro-nonterminal">$ty</span>&gt;().unwrap();
                 });
             }
 
-            <span class="attribute">#[<span class="ident">bench</span>]</span>
-            <span class="kw">fn</span> <span class="ident">bench_encode</span>(<span class="ident">b</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::test::Bencher</span>) {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">::http::HeaderMap::new</span>();
-                <span class="ident">map</span>.<span class="ident">append</span>(
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> <span class="kw">as</span> <span class="ident">::Header</span><span class="op">&gt;</span><span class="ident">::name</span>(),
-                    <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;HeaderValue::from_str($value)&quot;</span>),
+            <span class="attribute">#[bench]
+            </span><span class="kw">fn </span>bench_encode(b: <span class="kw-2">&amp;mut </span>::test::Bencher) {
+                <span class="kw">let </span><span class="kw-2">mut </span>map = ::http::HeaderMap::new();
+                map.append(
+                    &lt;<span class="macro-nonterminal">$ty </span><span class="kw">as </span>::Header&gt;::name(),
+                    <span class="macro-nonterminal">$value</span>.parse().expect(<span class="string">&quot;HeaderValue::from_str($value)&quot;</span>),
                 );
-                <span class="kw">let</span> <span class="ident">typed</span> <span class="op">=</span> <span class="ident">map</span>.<span class="ident">typed_get</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-                <span class="ident">b</span>.<span class="ident">bytes</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-                <span class="ident">b</span>.<span class="ident">iter</span>(<span class="op">|</span><span class="op">|</span> {
-                    <span class="ident">map</span>.<span class="ident">typed_insert</span>(<span class="ident">typed</span>.<span class="ident">clone</span>());
-                    <span class="ident">map</span>.<span class="ident">clear</span>();
+                <span class="kw">let </span>typed = map.typed_get::&lt;<span class="macro-nonterminal">$ty</span>&gt;().unwrap();
+                b.bytes = <span class="macro-nonterminal">$value</span>.len() <span class="kw">as </span>u64;
+                b.iter(|| {
+                    map.typed_insert(typed.clone());
+                    map.clear();
                 });
             }
         }
     };
 }
 
-<span class="comment">//mod accept;</span>
-<span class="comment">//mod accept_charset;</span>
-<span class="comment">//mod accept_encoding;</span>
-<span class="comment">//mod accept_language;</span>
-<span class="kw">mod</span> <span class="ident">accept_ranges</span>;
-<span class="kw">mod</span> <span class="ident">access_control_allow_credentials</span>;
-<span class="kw">mod</span> <span class="ident">access_control_allow_headers</span>;
-<span class="kw">mod</span> <span class="ident">access_control_allow_methods</span>;
-<span class="kw">mod</span> <span class="ident">access_control_allow_origin</span>;
-<span class="kw">mod</span> <span class="ident">access_control_expose_headers</span>;
-<span class="kw">mod</span> <span class="ident">access_control_max_age</span>;
-<span class="kw">mod</span> <span class="ident">access_control_request_headers</span>;
-<span class="kw">mod</span> <span class="ident">access_control_request_method</span>;
-<span class="kw">mod</span> <span class="ident">age</span>;
-<span class="kw">mod</span> <span class="ident">allow</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">authorization</span>;
-<span class="kw">mod</span> <span class="ident">cache_control</span>;
-<span class="kw">mod</span> <span class="ident">connection</span>;
-<span class="kw">mod</span> <span class="ident">content_disposition</span>;
-<span class="kw">mod</span> <span class="ident">content_encoding</span>;
-<span class="comment">//mod content_language;</span>
-<span class="kw">mod</span> <span class="ident">content_length</span>;
-<span class="kw">mod</span> <span class="ident">content_location</span>;
-<span class="kw">mod</span> <span class="ident">content_range</span>;
-<span class="kw">mod</span> <span class="ident">content_type</span>;
-<span class="kw">mod</span> <span class="ident">cookie</span>;
-<span class="kw">mod</span> <span class="ident">date</span>;
-<span class="kw">mod</span> <span class="ident">etag</span>;
-<span class="kw">mod</span> <span class="ident">expect</span>;
-<span class="kw">mod</span> <span class="ident">expires</span>;
-<span class="comment">//mod from;</span>
-<span class="kw">mod</span> <span class="ident">host</span>;
-<span class="kw">mod</span> <span class="ident">if_match</span>;
-<span class="kw">mod</span> <span class="ident">if_modified_since</span>;
-<span class="kw">mod</span> <span class="ident">if_none_match</span>;
-<span class="kw">mod</span> <span class="ident">if_range</span>;
-<span class="kw">mod</span> <span class="ident">if_unmodified_since</span>;
-<span class="comment">//mod last_event_id;</span>
-<span class="kw">mod</span> <span class="ident">last_modified</span>;
-<span class="comment">//mod link;</span>
-<span class="kw">mod</span> <span class="ident">location</span>;
-<span class="kw">mod</span> <span class="ident">origin</span>;
-<span class="kw">mod</span> <span class="ident">pragma</span>;
-<span class="comment">//mod prefer;</span>
-<span class="comment">//mod preference_applied;</span>
-<span class="kw">mod</span> <span class="ident">proxy_authorization</span>;
-<span class="kw">mod</span> <span class="ident">range</span>;
-<span class="kw">mod</span> <span class="ident">referer</span>;
-<span class="kw">mod</span> <span class="ident">referrer_policy</span>;
-<span class="kw">mod</span> <span class="ident">retry_after</span>;
-<span class="kw">mod</span> <span class="ident">sec_websocket_accept</span>;
-<span class="kw">mod</span> <span class="ident">sec_websocket_key</span>;
-<span class="kw">mod</span> <span class="ident">sec_websocket_version</span>;
-<span class="kw">mod</span> <span class="ident">server</span>;
-<span class="kw">mod</span> <span class="ident">set_cookie</span>;
-<span class="kw">mod</span> <span class="ident">strict_transport_security</span>;
-<span class="kw">mod</span> <span class="ident">te</span>;
-<span class="kw">mod</span> <span class="ident">transfer_encoding</span>;
-<span class="kw">mod</span> <span class="ident">upgrade</span>;
-<span class="kw">mod</span> <span class="ident">user_agent</span>;
-<span class="kw">mod</span> <span class="ident">vary</span>;
-<span class="comment">//mod warning;</span>
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+<span class="comment">//mod accept;
+//mod accept_charset;
+//mod accept_encoding;
+//mod accept_language;
+</span><span class="kw">mod </span>accept_ranges;
+<span class="kw">mod </span>access_control_allow_credentials;
+<span class="kw">mod </span>access_control_allow_headers;
+<span class="kw">mod </span>access_control_allow_methods;
+<span class="kw">mod </span>access_control_allow_origin;
+<span class="kw">mod </span>access_control_expose_headers;
+<span class="kw">mod </span>access_control_max_age;
+<span class="kw">mod </span>access_control_request_headers;
+<span class="kw">mod </span>access_control_request_method;
+<span class="kw">mod </span>age;
+<span class="kw">mod </span>allow;
+<span class="kw">pub mod </span>authorization;
+<span class="kw">mod </span>cache_control;
+<span class="kw">mod </span>connection;
+<span class="kw">mod </span>content_disposition;
+<span class="kw">mod </span>content_encoding;
+<span class="comment">//mod content_language;
+</span><span class="kw">mod </span>content_length;
+<span class="kw">mod </span>content_location;
+<span class="kw">mod </span>content_range;
+<span class="kw">mod </span>content_type;
+<span class="kw">mod </span>cookie;
+<span class="kw">mod </span>date;
+<span class="kw">mod </span>etag;
+<span class="kw">mod </span>expect;
+<span class="kw">mod </span>expires;
+<span class="comment">//mod from;
+</span><span class="kw">mod </span>host;
+<span class="kw">mod </span>if_match;
+<span class="kw">mod </span>if_modified_since;
+<span class="kw">mod </span>if_none_match;
+<span class="kw">mod </span>if_range;
+<span class="kw">mod </span>if_unmodified_since;
+<span class="comment">//mod last_event_id;
+</span><span class="kw">mod </span>last_modified;
+<span class="comment">//mod link;
+</span><span class="kw">mod </span>location;
+<span class="kw">mod </span>origin;
+<span class="kw">mod </span>pragma;
+<span class="comment">//mod prefer;
+//mod preference_applied;
+</span><span class="kw">mod </span>proxy_authorization;
+<span class="kw">mod </span>range;
+<span class="kw">mod </span>referer;
+<span class="kw">mod </span>referrer_policy;
+<span class="kw">mod </span>retry_after;
+<span class="kw">mod </span>sec_websocket_accept;
+<span class="kw">mod </span>sec_websocket_key;
+<span class="kw">mod </span>sec_websocket_version;
+<span class="kw">mod </span>server;
+<span class="kw">mod </span>set_cookie;
+<span class="kw">mod </span>strict_transport_security;
+<span class="kw">mod </span>te;
+<span class="kw">mod </span>transfer_encoding;
+<span class="kw">mod </span>upgrade;
+<span class="kw">mod </span>user_agent;
+<span class="kw">mod </span>vary;
+<span class="comment">//mod warning;
+</span></code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

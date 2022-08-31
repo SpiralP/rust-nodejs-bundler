@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/common/connection.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/headers-0.3.7/src/common/connection.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>connection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../headers/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../headers/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -134,141 +134,141 @@
 <span id="134">134</span>
 <span id="135">135</span>
 <span id="136">136</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::iter::FromIterator</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>std::iter::FromIterator;
 
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::sealed::AsConnectionOption</span>;
-<span class="kw">use</span> <span class="ident">util::FlatCsv</span>;
-<span class="kw">use</span> {<span class="ident">HeaderName</span>, <span class="ident">HeaderValue</span>};
+<span class="kw">use </span><span class="self">self</span>::sealed::AsConnectionOption;
+<span class="kw">use </span>util::FlatCsv;
+<span class="kw">use </span>{HeaderName, HeaderValue};
 
-<span class="doccomment">/// `Connection` header, defined in</span>
-<span class="doccomment">/// [RFC7230](http://tools.ietf.org/html/rfc7230#section-6.1)</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The `Connection` header field allows the sender to indicate desired</span>
-<span class="doccomment">/// control options for the current connection.  In order to avoid</span>
-<span class="doccomment">/// confusing downstream recipients, a proxy or gateway MUST remove or</span>
-<span class="doccomment">/// replace any received connection options before forwarding the</span>
-<span class="doccomment">/// message.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # ABNF</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```text</span>
-<span class="doccomment">/// Connection        = 1#connection-option</span>
-<span class="doccomment">/// connection-option = token</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Example values</span>
-<span class="doccomment">/// * `close`</span>
-<span class="doccomment">/// * `keep-alive`</span>
-<span class="doccomment">/// * `upgrade`</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// # extern crate headers;</span>
-<span class="doccomment">/// use headers::Connection;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let keep_alive = Connection::keep_alive();</span>
-<span class="doccomment">/// ```</span>
-<span class="comment">// This is frequently just 1 or 2 values, so optimize for that case.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Connection</span>(<span class="ident">FlatCsv</span>);
+<span class="doccomment">/// `Connection` header, defined in
+/// [RFC7230](http://tools.ietf.org/html/rfc7230#section-6.1)
+///
+/// The `Connection` header field allows the sender to indicate desired
+/// control options for the current connection.  In order to avoid
+/// confusing downstream recipients, a proxy or gateway MUST remove or
+/// replace any received connection options before forwarding the
+/// message.
+///
+/// # ABNF
+///
+/// ```text
+/// Connection        = 1#connection-option
+/// connection-option = token
+///
+/// # Example values
+/// * `close`
+/// * `keep-alive`
+/// * `upgrade`
+/// ```
+///
+/// # Examples
+///
+/// ```
+/// # extern crate headers;
+/// use headers::Connection;
+///
+/// let keep_alive = Connection::keep_alive();
+/// ```
+</span><span class="comment">// This is frequently just 1 or 2 values, so optimize for that case.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Connection(FlatCsv);
 
-<span class="macro">derive_header!</span> {
-    <span class="ident">Connection</span>(<span class="kw">_</span>),
-    <span class="ident">name</span>: <span class="ident">CONNECTION</span>
+<span class="macro">derive_header! </span>{
+    Connection(<span class="kw">_</span>),
+    name: CONNECTION
 }
 
-<span class="kw">impl</span> <span class="ident">Connection</span> {
-    <span class="doccomment">/// A constructor to easily create a `Connection: close` header.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>() -&gt; <span class="ident">Connection</span> {
-        <span class="ident">Connection</span>(<span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;close&quot;</span>).<span class="ident">into</span>())
+<span class="kw">impl </span>Connection {
+    <span class="doccomment">/// A constructor to easily create a `Connection: close` header.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>close() -&gt; Connection {
+        Connection(HeaderValue::from_static(<span class="string">&quot;close&quot;</span>).into())
     }
 
-    <span class="doccomment">/// A constructor to easily create a `Connection: keep-alive` header.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keep_alive</span>() -&gt; <span class="ident">Connection</span> {
-        <span class="ident">Connection</span>(<span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;keep-alive&quot;</span>).<span class="ident">into</span>())
+    <span class="doccomment">/// A constructor to easily create a `Connection: keep-alive` header.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>keep_alive() -&gt; Connection {
+        Connection(HeaderValue::from_static(<span class="string">&quot;keep-alive&quot;</span>).into())
     }
 
-    <span class="doccomment">/// A constructor to easily create a `Connection: Upgrade` header.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>() -&gt; <span class="ident">Connection</span> {
-        <span class="ident">Connection</span>(<span class="ident">HeaderValue::from_static</span>(<span class="string">&quot;upgrade&quot;</span>).<span class="ident">into</span>())
+    <span class="doccomment">/// A constructor to easily create a `Connection: Upgrade` header.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>upgrade() -&gt; Connection {
+        Connection(HeaderValue::from_static(<span class="string">&quot;upgrade&quot;</span>).into())
     }
 
-    <span class="doccomment">/// Check if this header contains a given &quot;connection option&quot;.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be used with various argument types:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - `&amp;str`</span>
-    <span class="doccomment">/// - `&amp;HeaderName`</span>
-    <span class="doccomment">/// - `HeaderName`</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// # extern crate headers;</span>
-    <span class="doccomment">/// extern crate http;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// use http::header::UPGRADE;</span>
-    <span class="doccomment">/// use headers::Connection;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let conn = Connection::keep_alive();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// assert!(!conn.contains(&quot;close&quot;));</span>
-    <span class="doccomment">/// assert!(!conn.contains(UPGRADE));</span>
-    <span class="doccomment">/// assert!(conn.contains(&quot;keep-alive&quot;));</span>
-    <span class="doccomment">/// assert!(conn.contains(&quot;Keep-Alive&quot;));</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw">impl</span> <span class="ident">AsConnectionOption</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">as_connection_option</span>();
-        <span class="self">self</span>.<span class="number">0</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">opt</span><span class="op">|</span> <span class="ident">opt</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="ident">s</span>))
-            .<span class="ident">is_some</span>()
+    <span class="doccomment">/// Check if this header contains a given &quot;connection option&quot;.
+    ///
+    /// This can be used with various argument types:
+    ///
+    /// - `&amp;str`
+    /// - `&amp;HeaderName`
+    /// - `HeaderName`
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate headers;
+    /// extern crate http;
+    ///
+    /// use http::header::UPGRADE;
+    /// use headers::Connection;
+    ///
+    /// let conn = Connection::keep_alive();
+    ///
+    /// assert!(!conn.contains(&quot;close&quot;));
+    /// assert!(!conn.contains(UPGRADE));
+    /// assert!(conn.contains(&quot;keep-alive&quot;));
+    /// assert!(conn.contains(&quot;Keep-Alive&quot;));
+    /// ```
+    </span><span class="kw">pub fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw">impl </span>AsConnectionOption) -&gt; bool {
+        <span class="kw">let </span>s = name.as_connection_option();
+        <span class="self">self</span>.<span class="number">0
+            </span>.iter()
+            .find(|<span class="kw-2">&amp;</span>opt| opt.eq_ignore_ascii_case(s))
+            .is_some()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">FromIterator</span><span class="op">&lt;</span><span class="ident">HeaderName</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Connection</span> {
-    <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">I</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">HeaderName</span><span class="op">&gt;</span>,
+<span class="kw">impl </span>FromIterator&lt;HeaderName&gt; <span class="kw">for </span>Connection {
+    <span class="kw">fn </span>from_iter&lt;I&gt;(iter: I) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: IntoIterator&lt;Item = HeaderName&gt;,
     {
-        <span class="kw">let</span> <span class="ident">flat</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="ident">HeaderValue::from</span>).<span class="ident">collect</span>();
-        <span class="ident">Connection</span>(<span class="ident">flat</span>)
+        <span class="kw">let </span>flat = iter.into_iter().map(HeaderValue::from).collect();
+        Connection(flat)
     }
 }
 
-<span class="kw">mod</span> <span class="ident">sealed</span> {
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AsConnectionOption</span>: <span class="ident">Sealed</span> {
-        <span class="kw">fn</span> <span class="ident">as_connection_option</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span>;
+<span class="kw">mod </span>sealed {
+    <span class="kw">pub trait </span>AsConnectionOption: Sealed {
+        <span class="kw">fn </span>as_connection_option(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str;
     }
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Sealed</span> {}
+    <span class="kw">pub trait </span>Sealed {}
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AsConnectionOption</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
-        <span class="kw">fn</span> <span class="ident">as_connection_option</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-            <span class="kw-2">*</span><span class="self">self</span>
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; AsConnectionOption <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+        <span class="kw">fn </span>as_connection_option(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+            <span class="kw-2">*</span><span class="self">self
+        </span>}
+    }
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Sealed <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {}
+
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; AsConnectionOption <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>::HeaderName {
+        <span class="kw">fn </span>as_connection_option(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+            <span class="self">self</span>.as_ref()
         }
     }
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {}
+    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Sealed <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>::HeaderName {}
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AsConnectionOption</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">::HeaderName</span> {
-        <span class="kw">fn</span> <span class="ident">as_connection_option</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-            <span class="self">self</span>.<span class="ident">as_ref</span>()
+    <span class="kw">impl </span>AsConnectionOption <span class="kw">for </span>::HeaderName {
+        <span class="kw">fn </span>as_connection_option(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+            <span class="self">self</span>.as_ref()
         }
     }
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">::HeaderName</span> {}
-
-    <span class="kw">impl</span> <span class="ident">AsConnectionOption</span> <span class="kw">for</span> <span class="ident">::HeaderName</span> {
-        <span class="kw">fn</span> <span class="ident">as_connection_option</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-            <span class="self">self</span>.<span class="ident">as_ref</span>()
-        }
-    }
-
-    <span class="kw">impl</span> <span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">::HeaderName</span> {}
+    <span class="kw">impl </span>Sealed <span class="kw">for </span>::HeaderName {}
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="headers" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

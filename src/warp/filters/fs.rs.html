@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/filters/fs.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>fs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../warp/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/filters/fs.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>fs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../warp/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -534,541 +534,541 @@
 <span id="534">534</span>
 <span id="535">535</span>
 <span id="536">536</span>
-</pre><pre class="rust"><code><span class="doccomment">//! File System Filters</span>
+</pre><pre class="rust"><code><span class="doccomment">//! File System Filters
 
-<span class="kw">use</span> <span class="ident">std::cmp</span>;
-<span class="kw">use</span> <span class="ident">std::convert::Infallible</span>;
-<span class="kw">use</span> <span class="ident">std::fs::Metadata</span>;
-<span class="kw">use</span> <span class="ident">std::future::Future</span>;
-<span class="kw">use</span> <span class="ident">std::io</span>;
-<span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
-<span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
-<span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
-<span class="kw">use</span> <span class="ident">std::task::Poll</span>;
+</span><span class="kw">use </span>std::cmp;
+<span class="kw">use </span>std::convert::Infallible;
+<span class="kw">use </span>std::fs::Metadata;
+<span class="kw">use </span>std::future::Future;
+<span class="kw">use </span>std::io;
+<span class="kw">use </span>std::path::{Path, PathBuf};
+<span class="kw">use </span>std::pin::Pin;
+<span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::task::Poll;
 
-<span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Bytes</span>, <span class="ident">BytesMut</span>};
-<span class="kw">use</span> <span class="ident">futures_util::future::Either</span>;
-<span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">future</span>, <span class="ident">ready</span>, <span class="ident">stream</span>, <span class="ident">FutureExt</span>, <span class="ident">Stream</span>, <span class="ident">StreamExt</span>, <span class="ident">TryFutureExt</span>};
-<span class="kw">use</span> <span class="ident">headers</span>::{
-    <span class="ident">AcceptRanges</span>, <span class="ident">ContentLength</span>, <span class="ident">ContentRange</span>, <span class="ident">ContentType</span>, <span class="ident">HeaderMapExt</span>, <span class="ident">IfModifiedSince</span>, <span class="ident">IfRange</span>,
-    <span class="ident">IfUnmodifiedSince</span>, <span class="ident">LastModified</span>, <span class="ident">Range</span>,
+<span class="kw">use </span>bytes::{Bytes, BytesMut};
+<span class="kw">use </span>futures_util::future::Either;
+<span class="kw">use </span>futures_util::{future, ready, stream, FutureExt, Stream, StreamExt, TryFutureExt};
+<span class="kw">use </span>headers::{
+    AcceptRanges, ContentLength, ContentRange, ContentType, HeaderMapExt, IfModifiedSince, IfRange,
+    IfUnmodifiedSince, LastModified, Range,
 };
-<span class="kw">use</span> <span class="ident">http::StatusCode</span>;
-<span class="kw">use</span> <span class="ident">hyper::Body</span>;
-<span class="kw">use</span> <span class="ident">mime_guess</span>;
-<span class="kw">use</span> <span class="ident">percent_encoding::percent_decode_str</span>;
-<span class="kw">use</span> <span class="ident">tokio::fs::File</span> <span class="kw">as</span> <span class="ident">TkFile</span>;
-<span class="kw">use</span> <span class="ident">tokio::io::AsyncSeekExt</span>;
-<span class="kw">use</span> <span class="ident">tokio_util::io::poll_read_buf</span>;
+<span class="kw">use </span>http::StatusCode;
+<span class="kw">use </span>hyper::Body;
+<span class="kw">use </span>mime_guess;
+<span class="kw">use </span>percent_encoding::percent_decode_str;
+<span class="kw">use </span>tokio::fs::File <span class="kw">as </span>TkFile;
+<span class="kw">use </span>tokio::io::AsyncSeekExt;
+<span class="kw">use </span>tokio_util::io::poll_read_buf;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::filter</span>::{<span class="ident">Filter</span>, <span class="ident">FilterClone</span>, <span class="ident">One</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::reject</span>::{<span class="self">self</span>, <span class="ident">Rejection</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::reply</span>::{<span class="ident">Reply</span>, <span class="ident">Response</span>};
+<span class="kw">use </span><span class="kw">crate</span>::filter::{Filter, FilterClone, One};
+<span class="kw">use </span><span class="kw">crate</span>::reject::{<span class="self">self</span>, Rejection};
+<span class="kw">use </span><span class="kw">crate</span>::reply::{Reply, Response};
 
-<span class="doccomment">/// Creates a `Filter` that serves a File at the `path`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Does not filter out based on any information of the request. Always serves</span>
-<span class="doccomment">/// the file at the exact `path` provided. Thus, this can be used to serve a</span>
-<span class="doccomment">/// single file with `GET`s, but could also be used in combination with other</span>
-<span class="doccomment">/// filters, such as after validating in `POST` request, wanting to return a</span>
-<span class="doccomment">/// specific file as the body.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For serving a directory, see [dir](dir).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// // Always serves this file from the file system.</span>
-<span class="doccomment">/// let route = warp::fs::file(&quot;/www/static/app.js&quot;);</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="ident">path</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>) -&gt; <span class="kw">impl</span> <span class="ident">FilterClone</span><span class="op">&lt;</span><span class="ident">Extract</span> <span class="op">=</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Rejection</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">path</span>.<span class="ident">into</span>());
-    <span class="ident"><span class="kw">crate</span>::any</span>()
-        .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;file: {:?}&quot;</span>, <span class="ident">path</span>);
-            <span class="ident">ArcPath</span>(<span class="ident">path</span>.<span class="ident">clone</span>())
+<span class="doccomment">/// Creates a `Filter` that serves a File at the `path`.
+///
+/// Does not filter out based on any information of the request. Always serves
+/// the file at the exact `path` provided. Thus, this can be used to serve a
+/// single file with `GET`s, but could also be used in combination with other
+/// filters, such as after validating in `POST` request, wanting to return a
+/// specific file as the body.
+///
+/// For serving a directory, see [dir](dir).
+///
+/// # Example
+///
+/// ```
+/// // Always serves this file from the file system.
+/// let route = warp::fs::file(&quot;/www/static/app.js&quot;);
+/// ```
+</span><span class="kw">pub fn </span>file(path: <span class="kw">impl </span>Into&lt;PathBuf&gt;) -&gt; <span class="kw">impl </span>FilterClone&lt;Extract = One&lt;File&gt;, Error = Rejection&gt; {
+    <span class="kw">let </span>path = Arc::new(path.into());
+    <span class="kw">crate</span>::any()
+        .map(<span class="kw">move </span>|| {
+            <span class="macro">tracing::trace!</span>(<span class="string">&quot;file: {:?}&quot;</span>, path);
+            ArcPath(path.clone())
         })
-        .<span class="ident">and</span>(<span class="ident">conditionals</span>())
-        .<span class="ident">and_then</span>(<span class="ident">file_reply</span>)
+        .and(conditionals())
+        .and_then(file_reply)
 }
 
-<span class="doccomment">/// Creates a `Filter` that serves a directory at the base `path` joined</span>
-<span class="doccomment">/// by the request path.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This can be used to serve &quot;static files&quot; from a directory. By far the most</span>
-<span class="doccomment">/// common pattern of serving static files is for `GET` requests, so this</span>
-<span class="doccomment">/// filter automatically includes a `GET` check.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use warp::Filter;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Matches requests that start with `/static`,</span>
-<span class="doccomment">/// // and then uses the rest of that path to lookup</span>
-<span class="doccomment">/// // and serve a file from `/www/static`.</span>
-<span class="doccomment">/// let route = warp::path(&quot;static&quot;)</span>
-<span class="doccomment">///     .and(warp::fs::dir(&quot;/www/static&quot;));</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // For example:</span>
-<span class="doccomment">/// // - `GET /static/app.js` would serve the file `/www/static/app.js`</span>
-<span class="doccomment">/// // - `GET /static/css/app.css` would serve the file `/www/static/css/app.css`</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dir</span>(<span class="ident">path</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>) -&gt; <span class="kw">impl</span> <span class="ident">FilterClone</span><span class="op">&lt;</span><span class="ident">Extract</span> <span class="op">=</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Rejection</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">path</span>.<span class="ident">into</span>());
-    <span class="ident"><span class="kw">crate</span>::get</span>()
-        .<span class="ident">or</span>(<span class="ident"><span class="kw">crate</span>::head</span>())
-        .<span class="ident">unify</span>()
-        .<span class="ident">and</span>(<span class="ident">path_from_tail</span>(<span class="ident">base</span>))
-        .<span class="ident">and</span>(<span class="ident">conditionals</span>())
-        .<span class="ident">and_then</span>(<span class="ident">file_reply</span>)
+<span class="doccomment">/// Creates a `Filter` that serves a directory at the base `path` joined
+/// by the request path.
+///
+/// This can be used to serve &quot;static files&quot; from a directory. By far the most
+/// common pattern of serving static files is for `GET` requests, so this
+/// filter automatically includes a `GET` check.
+///
+/// # Example
+///
+/// ```
+/// use warp::Filter;
+///
+/// // Matches requests that start with `/static`,
+/// // and then uses the rest of that path to lookup
+/// // and serve a file from `/www/static`.
+/// let route = warp::path(&quot;static&quot;)
+///     .and(warp::fs::dir(&quot;/www/static&quot;));
+///
+/// // For example:
+/// // - `GET /static/app.js` would serve the file `/www/static/app.js`
+/// // - `GET /static/css/app.css` would serve the file `/www/static/css/app.css`
+/// ```
+</span><span class="kw">pub fn </span>dir(path: <span class="kw">impl </span>Into&lt;PathBuf&gt;) -&gt; <span class="kw">impl </span>FilterClone&lt;Extract = One&lt;File&gt;, Error = Rejection&gt; {
+    <span class="kw">let </span>base = Arc::new(path.into());
+    <span class="kw">crate</span>::get()
+        .or(<span class="kw">crate</span>::head())
+        .unify()
+        .and(path_from_tail(base))
+        .and(conditionals())
+        .and_then(file_reply)
 }
 
-<span class="kw">fn</span> <span class="ident">path_from_tail</span>(
-    <span class="ident">base</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>,
-) -&gt; <span class="kw">impl</span> <span class="ident">FilterClone</span><span class="op">&lt;</span><span class="ident">Extract</span> <span class="op">=</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">ArcPath</span><span class="op">&gt;</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Rejection</span><span class="op">&gt;</span> {
-    <span class="ident"><span class="kw">crate</span>::path::tail</span>().<span class="ident">and_then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">tail</span>: <span class="ident"><span class="kw">crate</span>::path::Tail</span><span class="op">|</span> {
-        <span class="ident">future::ready</span>(<span class="ident">sanitize_path</span>(<span class="ident">base</span>.<span class="ident">as_ref</span>(), <span class="ident">tail</span>.<span class="ident">as_str</span>())).<span class="ident">and_then</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">buf</span><span class="op">|</span> <span class="kw">async</span> {
-            <span class="kw">let</span> <span class="ident">is_dir</span> <span class="op">=</span> <span class="ident">tokio::fs::metadata</span>(<span class="ident">buf</span>.<span class="ident">clone</span>())
-                .<span class="kw">await</span>
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">m</span><span class="op">|</span> <span class="ident">m</span>.<span class="ident">is_dir</span>())
-                .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>);
+<span class="kw">fn </span>path_from_tail(
+    base: Arc&lt;PathBuf&gt;,
+) -&gt; <span class="kw">impl </span>FilterClone&lt;Extract = One&lt;ArcPath&gt;, Error = Rejection&gt; {
+    <span class="kw">crate</span>::path::tail().and_then(<span class="kw">move </span>|tail: <span class="kw">crate</span>::path::Tail| {
+        future::ready(sanitize_path(base.as_ref(), tail.as_str())).and_then(|<span class="kw-2">mut </span>buf| <span class="kw">async </span>{
+            <span class="kw">let </span>is_dir = tokio::fs::metadata(buf.clone())
+                .<span class="kw">await
+                </span>.map(|m| m.is_dir())
+                .unwrap_or(<span class="bool-val">false</span>);
 
-            <span class="kw">if</span> <span class="ident">is_dir</span> {
+            <span class="kw">if </span>is_dir {
                 <span class="macro">tracing::debug!</span>(<span class="string">&quot;dir: appending index.html to directory path&quot;</span>);
-                <span class="ident">buf</span>.<span class="ident">push</span>(<span class="string">&quot;index.html&quot;</span>);
+                buf.push(<span class="string">&quot;index.html&quot;</span>);
             }
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir: {:?}&quot;</span>, <span class="ident">buf</span>);
-            <span class="prelude-val">Ok</span>(<span class="ident">ArcPath</span>(<span class="ident">Arc::new</span>(<span class="ident">buf</span>)))
+            <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir: {:?}&quot;</span>, buf);
+            <span class="prelude-val">Ok</span>(ArcPath(Arc::new(buf)))
         })
     })
 }
 
-<span class="kw">fn</span> <span class="ident">sanitize_path</span>(<span class="ident">base</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>, <span class="ident">tail</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">Rejection</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">base</span>.<span class="ident">as_ref</span>());
-    <span class="kw">let</span> <span class="ident">p</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">percent_decode_str</span>(<span class="ident">tail</span>).<span class="ident">decode_utf8</span>() {
-        <span class="prelude-val">Ok</span>(<span class="ident">p</span>) =&gt; <span class="ident">p</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;dir: failed to decode route={:?}: {:?}&quot;</span>, <span class="ident">tail</span>, <span class="ident">err</span>);
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">reject::not_found</span>());
+<span class="kw">fn </span>sanitize_path(base: <span class="kw">impl </span>AsRef&lt;Path&gt;, tail: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf, Rejection&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = PathBuf::from(base.as_ref());
+    <span class="kw">let </span>p = <span class="kw">match </span>percent_decode_str(tail).decode_utf8() {
+        <span class="prelude-val">Ok</span>(p) =&gt; p,
+        <span class="prelude-val">Err</span>(err) =&gt; {
+            <span class="macro">tracing::debug!</span>(<span class="string">&quot;dir: failed to decode route={:?}: {:?}&quot;</span>, tail, err);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
         }
     };
-    <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir? base={:?}, route={:?}&quot;</span>, <span class="ident">base</span>.<span class="ident">as_ref</span>(), <span class="ident">p</span>);
-    <span class="kw">for</span> <span class="ident">seg</span> <span class="kw">in</span> <span class="ident">p</span>.<span class="ident">split</span>(<span class="string">&#39;/&#39;</span>) {
-        <span class="kw">if</span> <span class="ident">seg</span>.<span class="ident">starts_with</span>(<span class="string">&quot;..&quot;</span>) {
+    <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir? base={:?}, route={:?}&quot;</span>, base.as_ref(), p);
+    <span class="kw">for </span>seg <span class="kw">in </span>p.split(<span class="string">&#39;/&#39;</span>) {
+        <span class="kw">if </span>seg.starts_with(<span class="string">&quot;..&quot;</span>) {
             <span class="macro">tracing::warn!</span>(<span class="string">&quot;dir: rejecting segment starting with &#39;..&#39;&quot;</span>);
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">reject::not_found</span>());
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">seg</span>.<span class="ident">contains</span>(<span class="string">&#39;\\&#39;</span>) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
+        } <span class="kw">else if </span>seg.contains(<span class="string">&#39;\\&#39;</span>) {
             <span class="macro">tracing::warn!</span>(<span class="string">&quot;dir: rejecting segment containing with backslash (\\)&quot;</span>);
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">reject::not_found</span>());
-        } <span class="kw">else</span> {
-            <span class="ident">buf</span>.<span class="ident">push</span>(<span class="ident">seg</span>);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
+        } <span class="kw">else </span>{
+            buf.push(seg);
         }
     }
-    <span class="prelude-val">Ok</span>(<span class="ident">buf</span>)
+    <span class="prelude-val">Ok</span>(buf)
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">struct</span> <span class="ident">Conditionals</span> {
-    <span class="ident">if_modified_since</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">IfModifiedSince</span><span class="op">&gt;</span>,
-    <span class="ident">if_unmodified_since</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">IfUnmodifiedSince</span><span class="op">&gt;</span>,
-    <span class="ident">if_range</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">IfRange</span><span class="op">&gt;</span>,
-    <span class="ident">range</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>Conditionals {
+    if_modified_since: <span class="prelude-ty">Option</span>&lt;IfModifiedSince&gt;,
+    if_unmodified_since: <span class="prelude-ty">Option</span>&lt;IfUnmodifiedSince&gt;,
+    if_range: <span class="prelude-ty">Option</span>&lt;IfRange&gt;,
+    range: <span class="prelude-ty">Option</span>&lt;Range&gt;,
 }
 
-<span class="kw">enum</span> <span class="ident">Cond</span> {
-    <span class="ident">NoBody</span>(<span class="ident">Response</span>),
-    <span class="ident">WithBody</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&gt;</span>),
+<span class="kw">enum </span>Cond {
+    NoBody(Response),
+    WithBody(<span class="prelude-ty">Option</span>&lt;Range&gt;),
 }
 
-<span class="kw">impl</span> <span class="ident">Conditionals</span> {
-    <span class="kw">fn</span> <span class="ident">check</span>(<span class="self">self</span>, <span class="ident">last_modified</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">LastModified</span><span class="op">&gt;</span>) -&gt; <span class="ident">Cond</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">since</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">if_unmodified_since</span> {
-            <span class="kw">let</span> <span class="ident">precondition</span> <span class="op">=</span> <span class="ident">last_modified</span>
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">time</span><span class="op">|</span> <span class="ident">since</span>.<span class="ident">precondition_passes</span>(<span class="ident">time</span>.<span class="ident">into</span>()))
-                .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>);
+<span class="kw">impl </span>Conditionals {
+    <span class="kw">fn </span>check(<span class="self">self</span>, last_modified: <span class="prelude-ty">Option</span>&lt;LastModified&gt;) -&gt; Cond {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(since) = <span class="self">self</span>.if_unmodified_since {
+            <span class="kw">let </span>precondition = last_modified
+                .map(|time| since.precondition_passes(time.into()))
+                .unwrap_or(<span class="bool-val">false</span>);
 
             <span class="macro">tracing::trace!</span>(
                 <span class="string">&quot;if-unmodified-since? {:?} vs {:?} = {}&quot;</span>,
-                <span class="ident">since</span>,
-                <span class="ident">last_modified</span>,
-                <span class="ident">precondition</span>
+                since,
+                last_modified,
+                precondition
             );
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">precondition</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="ident">Body::empty</span>());
-                <span class="kw-2">*</span><span class="ident">res</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">StatusCode::PRECONDITION_FAILED</span>;
-                <span class="kw">return</span> <span class="ident">Cond::NoBody</span>(<span class="ident">res</span>);
+            <span class="kw">if </span>!precondition {
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Response::new(Body::empty());
+                <span class="kw-2">*</span>res.status_mut() = StatusCode::PRECONDITION_FAILED;
+                <span class="kw">return </span>Cond::NoBody(res);
             }
         }
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">since</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">if_modified_since</span> {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(since) = <span class="self">self</span>.if_modified_since {
             <span class="macro">tracing::trace!</span>(
                 <span class="string">&quot;if-modified-since? header = {:?}, file = {:?}&quot;</span>,
-                <span class="ident">since</span>,
-                <span class="ident">last_modified</span>
+                since,
+                last_modified
             );
-            <span class="kw">let</span> <span class="ident">unmodified</span> <span class="op">=</span> <span class="ident">last_modified</span>
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">time</span><span class="op">|</span> <span class="op">!</span><span class="ident">since</span>.<span class="ident">is_modified</span>(<span class="ident">time</span>.<span class="ident">into</span>()))
-                <span class="comment">// no last_modified means its always modified</span>
-                .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>);
-            <span class="kw">if</span> <span class="ident">unmodified</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="ident">Body::empty</span>());
-                <span class="kw-2">*</span><span class="ident">res</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">StatusCode::NOT_MODIFIED</span>;
-                <span class="kw">return</span> <span class="ident">Cond::NoBody</span>(<span class="ident">res</span>);
+            <span class="kw">let </span>unmodified = last_modified
+                .map(|time| !since.is_modified(time.into()))
+                <span class="comment">// no last_modified means its always modified
+                </span>.unwrap_or(<span class="bool-val">false</span>);
+            <span class="kw">if </span>unmodified {
+                <span class="kw">let </span><span class="kw-2">mut </span>res = Response::new(Body::empty());
+                <span class="kw-2">*</span>res.status_mut() = StatusCode::NOT_MODIFIED;
+                <span class="kw">return </span>Cond::NoBody(res);
             }
         }
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">if_range</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">if_range</span> {
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;if-range? {:?} vs {:?}&quot;</span>, <span class="ident">if_range</span>, <span class="ident">last_modified</span>);
-            <span class="kw">let</span> <span class="ident">can_range</span> <span class="op">=</span> <span class="op">!</span><span class="ident">if_range</span>.<span class="ident">is_modified</span>(<span class="prelude-val">None</span>, <span class="ident">last_modified</span>.<span class="ident">as_ref</span>());
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(if_range) = <span class="self">self</span>.if_range {
+            <span class="macro">tracing::trace!</span>(<span class="string">&quot;if-range? {:?} vs {:?}&quot;</span>, if_range, last_modified);
+            <span class="kw">let </span>can_range = !if_range.is_modified(<span class="prelude-val">None</span>, last_modified.as_ref());
 
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">can_range</span> {
-                <span class="kw">return</span> <span class="ident">Cond::WithBody</span>(<span class="prelude-val">None</span>);
+            <span class="kw">if </span>!can_range {
+                <span class="kw">return </span>Cond::WithBody(<span class="prelude-val">None</span>);
             }
         }
 
-        <span class="ident">Cond::WithBody</span>(<span class="self">self</span>.<span class="ident">range</span>)
+        Cond::WithBody(<span class="self">self</span>.range)
     }
 }
 
-<span class="kw">fn</span> <span class="ident">conditionals</span>() -&gt; <span class="kw">impl</span> <span class="ident">Filter</span><span class="op">&lt;</span><span class="ident">Extract</span> <span class="op">=</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">Conditionals</span><span class="op">&gt;</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Infallible</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Copy</span> {
-    <span class="ident"><span class="kw">crate</span>::header::optional2</span>()
-        .<span class="ident">and</span>(<span class="ident"><span class="kw">crate</span>::header::optional2</span>())
-        .<span class="ident">and</span>(<span class="ident"><span class="kw">crate</span>::header::optional2</span>())
-        .<span class="ident">and</span>(<span class="ident"><span class="kw">crate</span>::header::optional2</span>())
-        .<span class="ident">map</span>(
-            <span class="op">|</span><span class="ident">if_modified_since</span>, <span class="ident">if_unmodified_since</span>, <span class="ident">if_range</span>, <span class="ident">range</span><span class="op">|</span> <span class="ident">Conditionals</span> {
-                <span class="ident">if_modified_since</span>,
-                <span class="ident">if_unmodified_since</span>,
-                <span class="ident">if_range</span>,
-                <span class="ident">range</span>,
+<span class="kw">fn </span>conditionals() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;Conditionals&gt;, Error = Infallible&gt; + Copy {
+    <span class="kw">crate</span>::header::optional2()
+        .and(<span class="kw">crate</span>::header::optional2())
+        .and(<span class="kw">crate</span>::header::optional2())
+        .and(<span class="kw">crate</span>::header::optional2())
+        .map(
+            |if_modified_since, if_unmodified_since, if_range, range| Conditionals {
+                if_modified_since,
+                if_unmodified_since,
+                if_range,
+                range,
             },
         )
 }
 
-<span class="doccomment">/// A file response.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">File</span> {
-    <span class="ident">resp</span>: <span class="ident">Response</span>,
-    <span class="ident">path</span>: <span class="ident">ArcPath</span>,
+<span class="doccomment">/// A file response.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>File {
+    resp: Response,
+    path: ArcPath,
 }
 
-<span class="kw">impl</span> <span class="ident">File</span> {
-    <span class="doccomment">/// Extract the `&amp;Path` of the file this `Response` delivers.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The example below changes the Content-Type response header for every file called `video.mp4`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use warp::{Filter, reply::Reply};</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let route = warp::path(&quot;static&quot;)</span>
-    <span class="doccomment">///     .and(warp::fs::dir(&quot;/www/static&quot;))</span>
-    <span class="doccomment">///     .map(|reply: warp::filters::fs::File| {</span>
-    <span class="doccomment">///         if reply.path().ends_with(&quot;video.mp4&quot;) {</span>
-    <span class="doccomment">///             warp::reply::with_header(reply, &quot;Content-Type&quot;, &quot;video/mp4&quot;).into_response()</span>
-    <span class="doccomment">///         } else {</span>
-    <span class="doccomment">///             reply.into_response()</span>
-    <span class="doccomment">///         }</span>
-    <span class="doccomment">///     });</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span> {
-        <span class="self">self</span>.<span class="ident">path</span>.<span class="ident">as_ref</span>()
+<span class="kw">impl </span>File {
+    <span class="doccomment">/// Extract the `&amp;Path` of the file this `Response` delivers.
+    ///
+    /// # Example
+    ///
+    /// The example below changes the Content-Type response header for every file called `video.mp4`.
+    ///
+    /// ```
+    /// use warp::{Filter, reply::Reply};
+    ///
+    /// let route = warp::path(&quot;static&quot;)
+    ///     .and(warp::fs::dir(&quot;/www/static&quot;))
+    ///     .map(|reply: warp::filters::fs::File| {
+    ///         if reply.path().ends_with(&quot;video.mp4&quot;) {
+    ///             warp::reply::with_header(reply, &quot;Content-Type&quot;, &quot;video/mp4&quot;).into_response()
+    ///         } else {
+    ///             reply.into_response()
+    ///         }
+    ///     });
+    /// ```
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path {
+        <span class="self">self</span>.path.as_ref()
     }
 }
 
-<span class="comment">// Silly wrapper since Arc&lt;PathBuf&gt; doesn&#39;t implement AsRef&lt;Path&gt; ;_;</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">struct</span> <span class="ident">ArcPath</span>(<span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>);
+<span class="comment">// Silly wrapper since Arc&lt;PathBuf&gt; doesn&#39;t implement AsRef&lt;Path&gt; ;_;
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">struct </span>ArcPath(Arc&lt;PathBuf&gt;);
 
-<span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ArcPath</span> {
-    <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span> {
-        (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>).<span class="ident">as_ref</span>()
+<span class="kw">impl </span>AsRef&lt;Path&gt; <span class="kw">for </span>ArcPath {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path {
+        (<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>).as_ref()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Reply</span> <span class="kw">for</span> <span class="ident">File</span> {
-    <span class="kw">fn</span> <span class="ident">into_response</span>(<span class="self">self</span>) -&gt; <span class="ident">Response</span> {
-        <span class="self">self</span>.<span class="ident">resp</span>
+<span class="kw">impl </span>Reply <span class="kw">for </span>File {
+    <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; Response {
+        <span class="self">self</span>.resp
     }
 }
 
-<span class="kw">fn</span> <span class="ident">file_reply</span>(
-    <span class="ident">path</span>: <span class="ident">ArcPath</span>,
-    <span class="ident">conditionals</span>: <span class="ident">Conditionals</span>,
-) -&gt; <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">File</span>, <span class="ident">Rejection</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
-    <span class="ident">TkFile::open</span>(<span class="ident">path</span>.<span class="ident">clone</span>()).<span class="ident">then</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">res</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">res</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">f</span>) =&gt; <span class="ident">Either::Left</span>(<span class="ident">file_conditional</span>(<span class="ident">f</span>, <span class="ident">path</span>, <span class="ident">conditionals</span>)),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-            <span class="kw">let</span> <span class="ident">rej</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
-                <span class="ident">io::ErrorKind::NotFound</span> =&gt; {
-                    <span class="macro">tracing::debug!</span>(<span class="string">&quot;file not found: {:?}&quot;</span>, <span class="ident">path</span>.<span class="ident">as_ref</span>().<span class="ident">display</span>());
-                    <span class="ident">reject::not_found</span>()
+<span class="kw">fn </span>file_reply(
+    path: ArcPath,
+    conditionals: Conditionals,
+) -&gt; <span class="kw">impl </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;File, Rejection&gt;&gt; + Send {
+    TkFile::open(path.clone()).then(<span class="kw">move </span>|res| <span class="kw">match </span>res {
+        <span class="prelude-val">Ok</span>(f) =&gt; Either::Left(file_conditional(f, path, conditionals)),
+        <span class="prelude-val">Err</span>(err) =&gt; {
+            <span class="kw">let </span>rej = <span class="kw">match </span>err.kind() {
+                io::ErrorKind::NotFound =&gt; {
+                    <span class="macro">tracing::debug!</span>(<span class="string">&quot;file not found: {:?}&quot;</span>, path.as_ref().display());
+                    reject::not_found()
                 }
-                <span class="ident">io::ErrorKind::PermissionDenied</span> =&gt; {
-                    <span class="macro">tracing::warn!</span>(<span class="string">&quot;file permission denied: {:?}&quot;</span>, <span class="ident">path</span>.<span class="ident">as_ref</span>().<span class="ident">display</span>());
-                    <span class="ident">reject::known</span>(<span class="ident">FilePermissionError</span> { <span class="ident">_p</span>: () })
+                io::ErrorKind::PermissionDenied =&gt; {
+                    <span class="macro">tracing::warn!</span>(<span class="string">&quot;file permission denied: {:?}&quot;</span>, path.as_ref().display());
+                    reject::known(FilePermissionError { _p: () })
                 }
-                <span class="kw">_</span> =&gt; {
+                <span class="kw">_ </span>=&gt; {
                     <span class="macro">tracing::error!</span>(
                         <span class="string">&quot;file open error (path={:?}): {} &quot;</span>,
-                        <span class="ident">path</span>.<span class="ident">as_ref</span>().<span class="ident">display</span>(),
-                        <span class="ident">err</span>
+                        path.as_ref().display(),
+                        err
                     );
-                    <span class="ident">reject::known</span>(<span class="ident">FileOpenError</span> { <span class="ident">_p</span>: () })
+                    reject::known(FileOpenError { _p: () })
                 }
             };
-            <span class="ident">Either::Right</span>(<span class="ident">future::err</span>(<span class="ident">rej</span>))
+            Either::Right(future::err(rej))
         }
     })
 }
 
-<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">file_metadata</span>(<span class="ident">f</span>: <span class="ident">TkFile</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">TkFile</span>, <span class="ident">Metadata</span>), <span class="ident">Rejection</span><span class="op">&gt;</span> {
-    <span class="kw">match</span> <span class="ident">f</span>.<span class="ident">metadata</span>().<span class="kw">await</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">meta</span>) =&gt; <span class="prelude-val">Ok</span>((<span class="ident">f</span>, <span class="ident">meta</span>)),
-        <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;file metadata error: {}&quot;</span>, <span class="ident">err</span>);
-            <span class="prelude-val">Err</span>(<span class="ident">reject::not_found</span>())
+<span class="kw">async fn </span>file_metadata(f: TkFile) -&gt; <span class="prelude-ty">Result</span>&lt;(TkFile, Metadata), Rejection&gt; {
+    <span class="kw">match </span>f.metadata().<span class="kw">await </span>{
+        <span class="prelude-val">Ok</span>(meta) =&gt; <span class="prelude-val">Ok</span>((f, meta)),
+        <span class="prelude-val">Err</span>(err) =&gt; {
+            <span class="macro">tracing::debug!</span>(<span class="string">&quot;file metadata error: {}&quot;</span>, err);
+            <span class="prelude-val">Err</span>(reject::not_found())
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">file_conditional</span>(
-    <span class="ident">f</span>: <span class="ident">TkFile</span>,
-    <span class="ident">path</span>: <span class="ident">ArcPath</span>,
-    <span class="ident">conditionals</span>: <span class="ident">Conditionals</span>,
-) -&gt; <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">File</span>, <span class="ident">Rejection</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
-    <span class="ident">file_metadata</span>(<span class="ident">f</span>).<span class="ident">map_ok</span>(<span class="kw">move</span> <span class="op">|</span>(<span class="ident">file</span>, <span class="ident">meta</span>)<span class="op">|</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">meta</span>.<span class="ident">len</span>();
-        <span class="kw">let</span> <span class="ident">modified</span> <span class="op">=</span> <span class="ident">meta</span>.<span class="ident">modified</span>().<span class="ident">ok</span>().<span class="ident">map</span>(<span class="ident">LastModified::from</span>);
+<span class="kw">fn </span>file_conditional(
+    f: TkFile,
+    path: ArcPath,
+    conditionals: Conditionals,
+) -&gt; <span class="kw">impl </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;File, Rejection&gt;&gt; + Send {
+    file_metadata(f).map_ok(<span class="kw">move </span>|(file, meta)| {
+        <span class="kw">let </span><span class="kw-2">mut </span>len = meta.len();
+        <span class="kw">let </span>modified = meta.modified().ok().map(LastModified::from);
 
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">conditionals</span>.<span class="ident">check</span>(<span class="ident">modified</span>) {
-            <span class="ident">Cond::NoBody</span>(<span class="ident">resp</span>) =&gt; <span class="ident">resp</span>,
-            <span class="ident">Cond::WithBody</span>(<span class="ident">range</span>) =&gt; {
-                <span class="ident">bytes_range</span>(<span class="ident">range</span>, <span class="ident">len</span>)
-                    .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">start</span>, <span class="ident">end</span>)<span class="op">|</span> {
-                        <span class="kw">let</span> <span class="ident">sub_len</span> <span class="op">=</span> <span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>;
-                        <span class="kw">let</span> <span class="ident">buf_size</span> <span class="op">=</span> <span class="ident">optimal_buf_size</span>(<span class="kw-2">&amp;</span><span class="ident">meta</span>);
-                        <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">file_stream</span>(<span class="ident">file</span>, <span class="ident">buf_size</span>, (<span class="ident">start</span>, <span class="ident">end</span>));
-                        <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">Body::wrap_stream</span>(<span class="ident">stream</span>);
+        <span class="kw">let </span>resp = <span class="kw">match </span>conditionals.check(modified) {
+            Cond::NoBody(resp) =&gt; resp,
+            Cond::WithBody(range) =&gt; {
+                bytes_range(range, len)
+                    .map(|(start, end)| {
+                        <span class="kw">let </span>sub_len = end - start;
+                        <span class="kw">let </span>buf_size = optimal_buf_size(<span class="kw-2">&amp;</span>meta);
+                        <span class="kw">let </span>stream = file_stream(file, buf_size, (start, end));
+                        <span class="kw">let </span>body = Body::wrap_stream(stream);
 
-                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="ident">body</span>);
+                        <span class="kw">let </span><span class="kw-2">mut </span>resp = Response::new(body);
 
-                        <span class="kw">if</span> <span class="ident">sub_len</span> <span class="op">!</span><span class="op">=</span> <span class="ident">len</span> {
-                            <span class="kw-2">*</span><span class="ident">resp</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">StatusCode::PARTIAL_CONTENT</span>;
-                            <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">typed_insert</span>(
-                                <span class="ident">ContentRange::bytes</span>(<span class="ident">start</span>..<span class="ident">end</span>, <span class="ident">len</span>).<span class="ident">expect</span>(<span class="string">&quot;valid ContentRange&quot;</span>),
+                        <span class="kw">if </span>sub_len != len {
+                            <span class="kw-2">*</span>resp.status_mut() = StatusCode::PARTIAL_CONTENT;
+                            resp.headers_mut().typed_insert(
+                                ContentRange::bytes(start..end, len).expect(<span class="string">&quot;valid ContentRange&quot;</span>),
                             );
 
-                            <span class="ident">len</span> <span class="op">=</span> <span class="ident">sub_len</span>;
+                            len = sub_len;
                         }
 
-                        <span class="kw">let</span> <span class="ident">mime</span> <span class="op">=</span> <span class="ident">mime_guess::from_path</span>(<span class="ident">path</span>.<span class="ident">as_ref</span>()).<span class="ident">first_or_octet_stream</span>();
+                        <span class="kw">let </span>mime = mime_guess::from_path(path.as_ref()).first_or_octet_stream();
 
-                        <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">typed_insert</span>(<span class="ident">ContentLength</span>(<span class="ident">len</span>));
-                        <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">typed_insert</span>(<span class="ident">ContentType::from</span>(<span class="ident">mime</span>));
-                        <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">typed_insert</span>(<span class="ident">AcceptRanges::bytes</span>());
+                        resp.headers_mut().typed_insert(ContentLength(len));
+                        resp.headers_mut().typed_insert(ContentType::from(mime));
+                        resp.headers_mut().typed_insert(AcceptRanges::bytes());
 
-                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">last_modified</span>) <span class="op">=</span> <span class="ident">modified</span> {
-                            <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">typed_insert</span>(<span class="ident">last_modified</span>);
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(last_modified) = modified {
+                            resp.headers_mut().typed_insert(last_modified);
                         }
 
-                        <span class="ident">resp</span>
+                        resp
                     })
-                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">BadRange</span><span class="op">|</span> {
-                        <span class="comment">// bad byte range</span>
-                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="ident">Body::empty</span>());
-                        <span class="kw-2">*</span><span class="ident">resp</span>.<span class="ident">status_mut</span>() <span class="op">=</span> <span class="ident">StatusCode::RANGE_NOT_SATISFIABLE</span>;
-                        <span class="ident">resp</span>.<span class="ident">headers_mut</span>()
-                            .<span class="ident">typed_insert</span>(<span class="ident">ContentRange::unsatisfied_bytes</span>(<span class="ident">len</span>));
-                        <span class="ident">resp</span>
+                    .unwrap_or_else(|BadRange| {
+                        <span class="comment">// bad byte range
+                        </span><span class="kw">let </span><span class="kw-2">mut </span>resp = Response::new(Body::empty());
+                        <span class="kw-2">*</span>resp.status_mut() = StatusCode::RANGE_NOT_SATISFIABLE;
+                        resp.headers_mut()
+                            .typed_insert(ContentRange::unsatisfied_bytes(len));
+                        resp
                     })
             }
         };
 
-        <span class="ident">File</span> { <span class="ident">resp</span>, <span class="ident">path</span> }
+        File { resp, path }
     })
 }
 
-<span class="kw">struct</span> <span class="ident">BadRange</span>;
+<span class="kw">struct </span>BadRange;
 
-<span class="kw">fn</span> <span class="ident">bytes_range</span>(<span class="ident">range</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&gt;</span>, <span class="ident">max_len</span>: <span class="ident">u64</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">u64</span>, <span class="ident">u64</span>), <span class="ident">BadRange</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">std::ops::Bound</span>;
+<span class="kw">fn </span>bytes_range(range: <span class="prelude-ty">Option</span>&lt;Range&gt;, max_len: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(u64, u64), BadRange&gt; {
+    <span class="kw">use </span>std::ops::Bound;
 
-    <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">range</span>) <span class="op">=</span> <span class="ident">range</span> {
-        <span class="ident">range</span>
-    } <span class="kw">else</span> {
-        <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="number">0</span>, <span class="ident">max_len</span>));
+    <span class="kw">let </span>range = <span class="kw">if let </span><span class="prelude-val">Some</span>(range) = range {
+        range
+    } <span class="kw">else </span>{
+        <span class="kw">return </span><span class="prelude-val">Ok</span>((<span class="number">0</span>, max_len));
     };
 
-    <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">range</span>
-        .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">start</span>, <span class="ident">end</span>)<span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">start</span> {
-                <span class="ident">Bound::Unbounded</span> =&gt; <span class="number">0</span>,
-                <span class="ident">Bound::Included</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>,
-                <span class="ident">Bound::Excluded</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span> <span class="op">+</span> <span class="number">1</span>,
+    <span class="kw">let </span>ret = range
+        .iter()
+        .map(|(start, end)| {
+            <span class="kw">let </span>start = <span class="kw">match </span>start {
+                Bound::Unbounded =&gt; <span class="number">0</span>,
+                Bound::Included(s) =&gt; s,
+                Bound::Excluded(s) =&gt; s + <span class="number">1</span>,
             };
 
-            <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">end</span> {
-                <span class="ident">Bound::Unbounded</span> =&gt; <span class="ident">max_len</span>,
-                <span class="ident">Bound::Included</span>(<span class="ident">s</span>) =&gt; {
-                    <span class="comment">// For the special case where s == the file size</span>
-                    <span class="kw">if</span> <span class="ident">s</span> <span class="op">==</span> <span class="ident">max_len</span> {
-                        <span class="ident">s</span>
-                    } <span class="kw">else</span> {
-                        <span class="ident">s</span> <span class="op">+</span> <span class="number">1</span>
-                    }
+            <span class="kw">let </span>end = <span class="kw">match </span>end {
+                Bound::Unbounded =&gt; max_len,
+                Bound::Included(s) =&gt; {
+                    <span class="comment">// For the special case where s == the file size
+                    </span><span class="kw">if </span>s == max_len {
+                        s
+                    } <span class="kw">else </span>{
+                        s + <span class="number">1
+                    </span>}
                 }
-                <span class="ident">Bound::Excluded</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>,
+                Bound::Excluded(s) =&gt; s,
             };
 
-            <span class="kw">if</span> <span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">end</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">max_len</span> {
-                <span class="prelude-val">Ok</span>((<span class="ident">start</span>, <span class="ident">end</span>))
-            } <span class="kw">else</span> {
-                <span class="macro">tracing::trace!</span>(<span class="string">&quot;unsatisfiable byte range: {}-{}/{}&quot;</span>, <span class="ident">start</span>, <span class="ident">end</span>, <span class="ident">max_len</span>);
-                <span class="prelude-val">Err</span>(<span class="ident">BadRange</span>)
+            <span class="kw">if </span>start &lt; end &amp;&amp; end &lt;= max_len {
+                <span class="prelude-val">Ok</span>((start, end))
+            } <span class="kw">else </span>{
+                <span class="macro">tracing::trace!</span>(<span class="string">&quot;unsatisfiable byte range: {}-{}/{}&quot;</span>, start, end, max_len);
+                <span class="prelude-val">Err</span>(BadRange)
             }
         })
-        .<span class="ident">next</span>()
-        .<span class="ident">unwrap_or</span>(<span class="prelude-val">Ok</span>((<span class="number">0</span>, <span class="ident">max_len</span>)));
-    <span class="ident">ret</span>
+        .next()
+        .unwrap_or(<span class="prelude-val">Ok</span>((<span class="number">0</span>, max_len)));
+    ret
 }
 
-<span class="kw">fn</span> <span class="ident">file_stream</span>(
-    <span class="kw-2">mut</span> <span class="ident">file</span>: <span class="ident">TkFile</span>,
-    <span class="ident">buf_size</span>: <span class="ident">usize</span>,
-    (<span class="ident">start</span>, <span class="ident">end</span>): (<span class="ident">u64</span>, <span class="ident">u64</span>),
-) -&gt; <span class="kw">impl</span> <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Bytes</span>, <span class="ident">io::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
-    <span class="kw">use</span> <span class="ident">std::io::SeekFrom</span>;
+<span class="kw">fn </span>file_stream(
+    <span class="kw-2">mut </span>file: TkFile,
+    buf_size: usize,
+    (start, end): (u64, u64),
+) -&gt; <span class="kw">impl </span>Stream&lt;Item = <span class="prelude-ty">Result</span>&lt;Bytes, io::Error&gt;&gt; + Send {
+    <span class="kw">use </span>std::io::SeekFrom;
 
-    <span class="kw">let</span> <span class="ident">seek</span> <span class="op">=</span> <span class="kw">async</span> <span class="kw">move</span> {
-        <span class="kw">if</span> <span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="ident">file</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom::Start</span>(<span class="ident">start</span>)).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">let </span>seek = <span class="kw">async move </span>{
+        <span class="kw">if </span>start != <span class="number">0 </span>{
+            file.seek(SeekFrom::Start(start)).<span class="kw">await</span><span class="question-mark">?</span>;
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">file</span>)
+        <span class="prelude-val">Ok</span>(file)
     };
 
-    <span class="ident">seek</span>.<span class="ident">into_stream</span>()
-        .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">result</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut::new</span>();
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>;
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">result</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">f</span>) =&gt; <span class="ident">f</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">f</span>) =&gt; <span class="kw">return</span> <span class="ident">Either::Left</span>(<span class="ident">stream::once</span>(<span class="ident">future::err</span>(<span class="ident">f</span>))),
+    seek.into_stream()
+        .map(<span class="kw">move </span>|result| {
+            <span class="kw">let </span><span class="kw-2">mut </span>buf = BytesMut::new();
+            <span class="kw">let </span><span class="kw-2">mut </span>len = end - start;
+            <span class="kw">let </span><span class="kw-2">mut </span>f = <span class="kw">match </span>result {
+                <span class="prelude-val">Ok</span>(f) =&gt; f,
+                <span class="prelude-val">Err</span>(f) =&gt; <span class="kw">return </span>Either::Left(stream::once(future::err(f))),
             };
 
-            <span class="ident">Either::Right</span>(<span class="ident">stream::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">cx</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">len</span> <span class="op">==</span> <span class="number">0</span> {
-                    <span class="kw">return</span> <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>);
+            Either::Right(stream::poll_fn(<span class="kw">move </span>|cx| {
+                <span class="kw">if </span>len == <span class="number">0 </span>{
+                    <span class="kw">return </span>Poll::Ready(<span class="prelude-val">None</span>);
                 }
-                <span class="ident">reserve_at_least</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="ident">buf_size</span>);
+                reserve_at_least(<span class="kw-2">&amp;mut </span>buf, buf_size);
 
-                <span class="kw">let</span> <span class="ident">n</span> <span class="op">=</span> <span class="kw">match</span> <span class="macro">ready!</span>(<span class="ident">poll_read_buf</span>(<span class="ident">Pin::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">f</span>), <span class="ident">cx</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)) {
-                    <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u64</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;file read error: {}&quot;</span>, <span class="ident">err</span>);
-                        <span class="kw">return</span> <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)));
+                <span class="kw">let </span>n = <span class="kw">match </span><span class="macro">ready!</span>(poll_read_buf(Pin::new(<span class="kw-2">&amp;mut </span>f), cx, <span class="kw-2">&amp;mut </span>buf)) {
+                    <span class="prelude-val">Ok</span>(n) =&gt; n <span class="kw">as </span>u64,
+                    <span class="prelude-val">Err</span>(err) =&gt; {
+                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;file read error: {}&quot;</span>, err);
+                        <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)));
                     }
                 };
 
-                <span class="kw">if</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> {
+                <span class="kw">if </span>n == <span class="number">0 </span>{
                     <span class="macro">tracing::debug!</span>(<span class="string">&quot;file read found EOF before expected length&quot;</span>);
-                    <span class="kw">return</span> <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>);
+                    <span class="kw">return </span>Poll::Ready(<span class="prelude-val">None</span>);
                 }
 
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">split</span>().<span class="ident">freeze</span>();
-                <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;</span> <span class="ident">len</span> {
-                    <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">split_to</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                    <span class="ident">len</span> <span class="op">=</span> <span class="number">0</span>;
-                } <span class="kw">else</span> {
-                    <span class="ident">len</span> <span class="op">-</span><span class="op">=</span> <span class="ident">n</span>;
+                <span class="kw">let </span><span class="kw-2">mut </span>chunk = buf.split().freeze();
+                <span class="kw">if </span>n &gt; len {
+                    chunk = chunk.split_to(len <span class="kw">as </span>usize);
+                    len = <span class="number">0</span>;
+                } <span class="kw">else </span>{
+                    len -= n;
                 }
 
-                <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">chunk</span>)))
+                Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(chunk)))
             }))
         })
-        .<span class="ident">flatten</span>()
+        .flatten()
 }
 
-<span class="kw">fn</span> <span class="ident">reserve_at_least</span>(<span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">BytesMut</span>, <span class="ident">cap</span>: <span class="ident">usize</span>) {
-    <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">capacity</span>() <span class="op">-</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">cap</span> {
-        <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="ident">cap</span>);
+<span class="kw">fn </span>reserve_at_least(buf: <span class="kw-2">&amp;mut </span>BytesMut, cap: usize) {
+    <span class="kw">if </span>buf.capacity() - buf.len() &lt; cap {
+        buf.reserve(cap);
     }
 }
 
-<span class="kw">const</span> <span class="ident">DEFAULT_READ_BUF_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">8_192</span>;
+<span class="kw">const </span>DEFAULT_READ_BUF_SIZE: usize = <span class="number">8_192</span>;
 
-<span class="kw">fn</span> <span class="ident">optimal_buf_size</span>(<span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Metadata</span>) -&gt; <span class="ident">usize</span> {
-    <span class="kw">let</span> <span class="ident">block_size</span> <span class="op">=</span> <span class="ident">get_block_size</span>(<span class="ident">metadata</span>);
+<span class="kw">fn </span>optimal_buf_size(metadata: <span class="kw-2">&amp;</span>Metadata) -&gt; usize {
+    <span class="kw">let </span>block_size = get_block_size(metadata);
 
-    <span class="comment">// If file length is smaller than block size, don&#39;t waste space</span>
-    <span class="comment">// reserving a bigger-than-needed buffer.</span>
-    <span class="ident">cmp::min</span>(<span class="ident">block_size</span> <span class="kw">as</span> <span class="ident">u64</span>, <span class="ident">metadata</span>.<span class="ident">len</span>()) <span class="kw">as</span> <span class="ident">usize</span>
+    <span class="comment">// If file length is smaller than block size, don&#39;t waste space
+    // reserving a bigger-than-needed buffer.
+    </span>cmp::min(block_size <span class="kw">as </span>u64, metadata.len()) <span class="kw">as </span>usize
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">fn</span> <span class="ident">get_block_size</span>(<span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Metadata</span>) -&gt; <span class="ident">usize</span> {
-    <span class="kw">use</span> <span class="ident">std::os::unix::fs::MetadataExt</span>;
-    <span class="comment">//TODO: blksize() returns u64, should handle bad cast...</span>
-    <span class="comment">//(really, a block size bigger than 4gb?)</span>
+<span class="attribute">#[cfg(unix)]
+</span><span class="kw">fn </span>get_block_size(metadata: <span class="kw-2">&amp;</span>Metadata) -&gt; usize {
+    <span class="kw">use </span>std::os::unix::fs::MetadataExt;
+    <span class="comment">//TODO: blksize() returns u64, should handle bad cast...
+    //(really, a block size bigger than 4gb?)
 
-    <span class="comment">// Use device blocksize unless it&#39;s really small.</span>
-    <span class="ident">cmp::max</span>(<span class="ident">metadata</span>.<span class="ident">blksize</span>() <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">DEFAULT_READ_BUF_SIZE</span>)
+    // Use device blocksize unless it&#39;s really small.
+    </span>cmp::max(metadata.blksize() <span class="kw">as </span>usize, DEFAULT_READ_BUF_SIZE)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">unix</span>))]</span>
-<span class="kw">fn</span> <span class="ident">get_block_size</span>(<span class="ident">_metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Metadata</span>) -&gt; <span class="ident">usize</span> {
-    <span class="ident">DEFAULT_READ_BUF_SIZE</span>
+<span class="attribute">#[cfg(not(unix))]
+</span><span class="kw">fn </span>get_block_size(_metadata: <span class="kw-2">&amp;</span>Metadata) -&gt; usize {
+    DEFAULT_READ_BUF_SIZE
 }
 
-<span class="comment">// ===== Rejections =====</span>
+<span class="comment">// ===== Rejections =====
 
-<span class="macro">unit_error!</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">FileOpenError</span>: <span class="string">&quot;file open error&quot;</span>
-}
+</span><span class="macro">unit_error! </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) FileOpenError: <span class="string">&quot;file open error&quot;
+</span>}
 
-<span class="macro">unit_error!</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">FilePermissionError</span>: <span class="string">&quot;file perimission error&quot;</span>
-}
+<span class="macro">unit_error! </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) FilePermissionError: <span class="string">&quot;file perimission error&quot;
+</span>}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::sanitize_path</span>;
-    <span class="kw">use</span> <span class="ident">bytes::BytesMut</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span><span class="kw">super</span>::sanitize_path;
+    <span class="kw">use </span>bytes::BytesMut;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_sanitize_path</span>() {
-        <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="string">&quot;/var/www&quot;</span>;
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_sanitize_path() {
+        <span class="kw">let </span>base = <span class="string">&quot;/var/www&quot;</span>;
 
-        <span class="kw">fn</span> <span class="ident">p</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">::std::path::Path</span> {
-            <span class="ident">s</span>.<span class="ident">as_ref</span>()
+        <span class="kw">fn </span>p(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>::std::path::Path {
+            s.as_ref()
         }
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">sanitize_path</span>(<span class="ident">base</span>, <span class="string">&quot;/foo.html&quot;</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">p</span>(<span class="string">&quot;/var/www/foo.html&quot;</span>)
+            sanitize_path(base, <span class="string">&quot;/foo.html&quot;</span>).unwrap(),
+            p(<span class="string">&quot;/var/www/foo.html&quot;</span>)
         );
 
-        <span class="comment">// bad paths</span>
-        <span class="ident">sanitize_path</span>(<span class="ident">base</span>, <span class="string">&quot;/../foo.html&quot;</span>).<span class="ident">expect_err</span>(<span class="string">&quot;dot dot&quot;</span>);
+        <span class="comment">// bad paths
+        </span>sanitize_path(base, <span class="string">&quot;/../foo.html&quot;</span>).expect_err(<span class="string">&quot;dot dot&quot;</span>);
 
-        <span class="ident">sanitize_path</span>(<span class="ident">base</span>, <span class="string">&quot;/C:\\/foo.html&quot;</span>).<span class="ident">expect_err</span>(<span class="string">&quot;C:\\&quot;</span>);
+        sanitize_path(base, <span class="string">&quot;/C:\\/foo.html&quot;</span>).expect_err(<span class="string">&quot;C:\\&quot;</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_reserve_at_least</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut::new</span>();
-        <span class="kw">let</span> <span class="ident">cap</span> <span class="op">=</span> <span class="number">8_192</span>;
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_reserve_at_least() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = BytesMut::new();
+        <span class="kw">let </span>cap = <span class="number">8_192</span>;
 
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">len</span>(), <span class="number">0</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">capacity</span>(), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(buf.len(), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(buf.capacity(), <span class="number">0</span>);
 
-        <span class="ident"><span class="kw">super</span>::reserve_at_least</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="ident">cap</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">len</span>(), <span class="number">0</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>.<span class="ident">capacity</span>(), <span class="ident">cap</span>);
+        <span class="kw">super</span>::reserve_at_least(<span class="kw-2">&amp;mut </span>buf, cap);
+        <span class="macro">assert_eq!</span>(buf.len(), <span class="number">0</span>);
+        <span class="macro">assert_eq!</span>(buf.capacity(), cap);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

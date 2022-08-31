@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-3.3.3/src/server.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-4.1.0/src/server.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
                     <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_web/index.html">
                         <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -675,680 +675,702 @@
 <span id="673">673</span>
 <span id="674">674</span>
 <span id="675">675</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">any::Any</span>,
-    <span class="ident">fmt</span>, <span class="ident">io</span>,
-    <span class="ident">marker::PhantomData</span>,
-    <span class="ident">net</span>,
-    <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>},
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    any::Any,
+    cmp, fmt, io,
+    marker::PhantomData,
+    net,
+    sync::{Arc, Mutex},
+    time::Duration,
 };
 
-<span class="kw">use</span> <span class="ident">actix_http</span>::{
-    <span class="ident">body::MessageBody</span>, <span class="ident">Error</span>, <span class="ident">Extensions</span>, <span class="ident">HttpService</span>, <span class="ident">KeepAlive</span>, <span class="ident">Request</span>, <span class="ident">Response</span>,
+<span class="kw">use </span>actix_http::{body::MessageBody, Extensions, HttpService, KeepAlive, Request, Response};
+<span class="kw">use </span>actix_server::{Server, ServerBuilder};
+<span class="kw">use </span>actix_service::{
+    map_config, IntoServiceFactory, Service, ServiceFactory, ServiceFactoryExt <span class="kw">as _</span>,
 };
-<span class="kw">use</span> <span class="ident">actix_server</span>::{<span class="ident">Server</span>, <span class="ident">ServerBuilder</span>};
-<span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">map_config</span>, <span class="ident">IntoServiceFactory</span>, <span class="ident">Service</span>, <span class="ident">ServiceFactory</span>};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">use</span> <span class="ident">actix_http::Protocol</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">use</span> <span class="ident">actix_service::pipeline_factory</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">use</span> <span class="ident">futures_util::future::ok</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;openssl&quot;</span>)]
+</span><span class="kw">use </span>actix_tls::accept::openssl::reexports::{AlpnError, SslAcceptor, SslAcceptorBuilder};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;rustls&quot;</span>)]
+</span><span class="kw">use </span>actix_tls::accept::rustls::reexports::ServerConfig <span class="kw">as </span>RustlsServerConfig;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">actix_tls::openssl</span>::{<span class="ident">AlpnError</span>, <span class="ident">SslAcceptor</span>, <span class="ident">SslAcceptorBuilder</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">actix_tls::rustls::ServerConfig</span> <span class="kw">as</span> <span class="ident">RustlsServerConfig</span>;
+<span class="kw">use crate</span>::{config::AppConfig, Error};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::config::AppConfig</span>;
-
-<span class="kw">struct</span> <span class="ident">Socket</span> {
-    <span class="ident">scheme</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="ident">addr</span>: <span class="ident">net::SocketAddr</span>,
+<span class="kw">struct </span>Socket {
+    scheme: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    addr: net::SocketAddr,
 }
 
-<span class="kw">struct</span> <span class="ident">Config</span> {
-    <span class="ident">host</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="ident">keep_alive</span>: <span class="ident">KeepAlive</span>,
-    <span class="ident">client_timeout</span>: <span class="ident">u64</span>,
-    <span class="ident">client_shutdown</span>: <span class="ident">u64</span>,
+<span class="kw">struct </span>Config {
+    host: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    keep_alive: KeepAlive,
+    client_request_timeout: Duration,
+    client_disconnect_timeout: Duration,
 }
 
-<span class="doccomment">/// An HTTP Server.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Create new http server with application factory.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust,no_run</span>
-<span class="doccomment">/// use actix_web::{web, App, HttpResponse, HttpServer};</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #[actix_rt::main]</span>
-<span class="doccomment">/// async fn main() -&gt; std::io::Result&lt;()&gt; {</span>
-<span class="doccomment">///     HttpServer::new(</span>
-<span class="doccomment">///         || App::new()</span>
-<span class="doccomment">///             .service(web::resource(&quot;/&quot;).to(|| HttpResponse::Ok())))</span>
-<span class="doccomment">///         .bind(&quot;127.0.0.1:59090&quot;)?</span>
-<span class="doccomment">///         .run()</span>
-<span class="doccomment">///         .await</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">HttpServer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">Fn</span>() -&gt; <span class="ident">I</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">I</span>: <span class="ident">IntoServiceFactory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
-    <span class="ident">S</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">Config</span> <span class="op">=</span> <span class="ident">AppConfig</span>, <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Request</span><span class="op">&gt;</span>,
-    <span class="ident">S::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span>,
-    <span class="ident">S::InitError</span>: <span class="ident">fmt::Debug</span>,
-    <span class="ident">S::Response</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">B</span>: <span class="ident">MessageBody</span>,
+<span class="doccomment">/// An HTTP Server.
+///
+/// Create new HTTP server with application factory.
+///
+/// ```no_run
+/// use actix_web::{web, App, HttpResponse, HttpServer};
+///
+/// #[actix_rt::main]
+/// async fn main() -&gt; std::io::Result&lt;()&gt; {
+///     HttpServer::new(
+///         || App::new()
+///             .service(web::resource(&quot;/&quot;).to(|| HttpResponse::Ok())))
+///         .bind(&quot;127.0.0.1:59090&quot;)?
+///         .run()
+///         .await
+/// }
+/// ```
+</span><span class="kw">pub struct </span>HttpServer&lt;F, I, S, B&gt;
+<span class="kw">where
+    </span>F: Fn() -&gt; I + Send + Clone + <span class="lifetime">&#39;static</span>,
+    I: IntoServiceFactory&lt;S, Request&gt;,
+    S: ServiceFactory&lt;Request, Config = AppConfig&gt;,
+    S::Error: Into&lt;Error&gt;,
+    S::InitError: fmt::Debug,
+    S::Response: Into&lt;Response&lt;B&gt;&gt;,
+    B: MessageBody,
 {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="ident">factory</span>: <span class="ident">F</span>,
-    <span class="ident">config</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Config</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">backlog</span>: <span class="ident">i32</span>,
-    <span class="ident">sockets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Socket</span><span class="op">&gt;</span>,
-    <span class="ident">builder</span>: <span class="ident">ServerBuilder</span>,
-    <span class="ident">on_connect_fn</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="kw-2">&amp;mut</span> <span class="ident">Extensions</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">_t</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span>(<span class="ident">S</span>, <span class="ident">B</span>)<span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">super</span>) factory: F,
+    config: Arc&lt;Mutex&lt;Config&gt;&gt;,
+    backlog: u32,
+    sockets: Vec&lt;Socket&gt;,
+    builder: ServerBuilder,
+    <span class="attribute">#[allow(clippy::type_complexity)]
+    </span>on_connect_fn: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>Fn(<span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, <span class="kw-2">&amp;mut </span>Extensions) + Send + Sync&gt;&gt;,
+    _phantom: PhantomData&lt;(S, B)&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">HttpServer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">Fn</span>() -&gt; <span class="ident">I</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">I</span>: <span class="ident">IntoServiceFactory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
-    <span class="ident">S</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">Config</span> <span class="op">=</span> <span class="ident">AppConfig</span>, <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Request</span><span class="op">&gt;</span>,
-    <span class="ident">S::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">S::InitError</span>: <span class="ident">fmt::Debug</span>,
-    <span class="ident">S::Response</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="op">&lt;</span><span class="ident">S::Service</span> <span class="kw">as</span> <span class="ident">Service</span><span class="op">&gt;</span><span class="ident">::Future</span>: <span class="lifetime">&#39;static</span>,
-    <span class="ident">B</span>: <span class="ident">MessageBody</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="kw">impl</span>&lt;F, I, S, B&gt; HttpServer&lt;F, I, S, B&gt;
+<span class="kw">where
+    </span>F: Fn() -&gt; I + Send + Clone + <span class="lifetime">&#39;static</span>,
+    I: IntoServiceFactory&lt;S, Request&gt;,
+
+    S: ServiceFactory&lt;Request, Config = AppConfig&gt; + <span class="lifetime">&#39;static</span>,
+    S::Error: Into&lt;Error&gt; + <span class="lifetime">&#39;static</span>,
+    S::InitError: fmt::Debug,
+    S::Response: Into&lt;Response&lt;B&gt;&gt; + <span class="lifetime">&#39;static</span>,
+    &lt;S::Service <span class="kw">as </span>Service&lt;Request&gt;&gt;::Future: <span class="lifetime">&#39;static</span>,
+    S::Service: <span class="lifetime">&#39;static</span>,
+
+    B: MessageBody + <span class="lifetime">&#39;static</span>,
 {
-    <span class="doccomment">/// Create new http server with application factory</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">factory</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">HttpServer</span> {
-            <span class="ident">factory</span>,
-            <span class="ident">config</span>: <span class="ident">Arc::new</span>(<span class="ident">Mutex::new</span>(<span class="ident">Config</span> {
-                <span class="ident">host</span>: <span class="prelude-val">None</span>,
-                <span class="ident">keep_alive</span>: <span class="ident">KeepAlive::Timeout</span>(<span class="number">5</span>),
-                <span class="ident">client_timeout</span>: <span class="number">5000</span>,
-                <span class="ident">client_shutdown</span>: <span class="number">5000</span>,
+    <span class="doccomment">/// Create new HTTP server with application factory
+    </span><span class="kw">pub fn </span>new(factory: F) -&gt; <span class="self">Self </span>{
+        HttpServer {
+            factory,
+            config: Arc::new(Mutex::new(Config {
+                host: <span class="prelude-val">None</span>,
+                keep_alive: KeepAlive::default(),
+                client_request_timeout: Duration::from_secs(<span class="number">5</span>),
+                client_disconnect_timeout: Duration::from_secs(<span class="number">1</span>),
             })),
-            <span class="ident">backlog</span>: <span class="number">1024</span>,
-            <span class="ident">sockets</span>: <span class="ident">Vec::new</span>(),
-            <span class="ident">builder</span>: <span class="ident">ServerBuilder::default</span>(),
-            <span class="ident">on_connect_fn</span>: <span class="prelude-val">None</span>,
-            <span class="ident">_t</span>: <span class="ident">PhantomData</span>,
+            backlog: <span class="number">1024</span>,
+            sockets: Vec::new(),
+            builder: ServerBuilder::default(),
+            on_connect_fn: <span class="prelude-val">None</span>,
+            _phantom: PhantomData,
         }
     }
 
-    <span class="doccomment">/// Sets function that will be called once before each connection is handled.</span>
-    <span class="doccomment">/// It will receive a `&amp;std::any::Any`, which contains underlying connection type and an</span>
-    <span class="doccomment">/// [Extensions] container so that request-local data can be passed to middleware and handlers.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For example:</span>
-    <span class="doccomment">/// - `actix_tls::openssl::SslStream&lt;actix_web::rt::net::TcpStream&gt;` when using openssl.</span>
-    <span class="doccomment">/// - `actix_tls::rustls::TlsStream&lt;actix_web::rt::net::TcpStream&gt;` when using rustls.</span>
-    <span class="doccomment">/// - `actix_web::rt::net::TcpStream` when no encryption is used.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `on_connect` example for additional details.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">on_connect</span><span class="op">&lt;</span><span class="ident">CB</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">CB</span>) -&gt; <span class="ident">HttpServer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">CB</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="kw-2">&amp;mut</span> <span class="ident">Extensions</span>) <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="doccomment">/// Sets function that will be called once before each connection is handled.
+    /// It will receive a `&amp;std::any::Any`, which contains underlying connection type and an
+    /// [Extensions] container so that connection data can be accessed in middleware and handlers.
+    ///
+    /// # Connection Types
+    /// - `actix_tls::accept::openssl::TlsStream&lt;actix_web::rt::net::TcpStream&gt;` when using openssl.
+    /// - `actix_tls::accept::rustls::TlsStream&lt;actix_web::rt::net::TcpStream&gt;` when using rustls.
+    /// - `actix_web::rt::net::TcpStream` when no encryption is used.
+    ///
+    /// See the `on_connect` example for additional details.
+    </span><span class="kw">pub fn </span>on_connect&lt;CB&gt;(<span class="self">self</span>, f: CB) -&gt; HttpServer&lt;F, I, S, B&gt;
+    <span class="kw">where
+        </span>CB: Fn(<span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, <span class="kw-2">&amp;mut </span>Extensions) + Send + Sync + <span class="lifetime">&#39;static</span>,
     {
-        <span class="ident">HttpServer</span> {
-            <span class="ident">factory</span>: <span class="self">self</span>.<span class="ident">factory</span>,
-            <span class="ident">config</span>: <span class="self">self</span>.<span class="ident">config</span>,
-            <span class="ident">backlog</span>: <span class="self">self</span>.<span class="ident">backlog</span>,
-            <span class="ident">sockets</span>: <span class="self">self</span>.<span class="ident">sockets</span>,
-            <span class="ident">builder</span>: <span class="self">self</span>.<span class="ident">builder</span>,
-            <span class="ident">on_connect_fn</span>: <span class="prelude-val">Some</span>(<span class="ident">Arc::new</span>(<span class="ident">f</span>)),
-            <span class="ident">_t</span>: <span class="ident">PhantomData</span>,
+        HttpServer {
+            factory: <span class="self">self</span>.factory,
+            config: <span class="self">self</span>.config,
+            backlog: <span class="self">self</span>.backlog,
+            sockets: <span class="self">self</span>.sockets,
+            builder: <span class="self">self</span>.builder,
+            on_connect_fn: <span class="prelude-val">Some</span>(Arc::new(f)),
+            _phantom: PhantomData,
         }
     }
 
-    <span class="doccomment">/// Set number of workers to start.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default http server uses number of available logical cpu as threads</span>
-    <span class="doccomment">/// count.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">workers</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">num</span>: <span class="ident">usize</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">workers</span>(<span class="ident">num</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// Set number of workers to start.
+    ///
+    /// By default, the number of available physical CPUs is used as the worker count.
+    </span><span class="kw">pub fn </span>workers(<span class="kw-2">mut </span><span class="self">self</span>, num: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.workers(num);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set the maximum number of pending connections.
+    ///
+    /// This refers to the number of clients that can be waiting to be served.
+    /// Exceeding this number results in the client getting an error when
+    /// attempting to connect. It should only affect servers under significant
+    /// load.
+    ///
+    /// Generally set in the 64-2048 range. Default value is 2048.
+    ///
+    /// This method should be called before `bind()` method call.
+    </span><span class="kw">pub fn </span>backlog(<span class="kw-2">mut </span><span class="self">self</span>, backlog: u32) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.backlog = backlog;
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.backlog(backlog);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Sets the maximum per-worker number of concurrent connections.
+    ///
+    /// All socket listeners will stop accepting connections when this limit is reached for
+    /// each worker.
+    ///
+    /// By default max connections is set to a 25k.
+    </span><span class="kw">pub fn </span>max_connections(<span class="kw-2">mut </span><span class="self">self</span>, num: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.max_concurrent_connections(num);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Sets the maximum per-worker concurrent connection establish process.
+    ///
+    /// All listeners will stop accepting connections when this limit is reached. It can be used to
+    /// limit the global TLS CPU usage.
+    ///
+    /// By default max connections is set to a 256.
+    </span><span class="attribute">#[allow(unused_variables)]
+    </span><span class="kw">pub fn </span>max_connection_rate(<span class="self">self</span>, num: usize) -&gt; <span class="self">Self </span>{
+        <span class="attribute">#[cfg(any(feature = <span class="string">&quot;rustls&quot;</span>, feature = <span class="string">&quot;openssl&quot;</span>))]
+        </span>actix_tls::accept::max_concurrent_tls_connect(num);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set max number of threads for each worker&#39;s blocking task thread pool.
+    ///
+    /// One thread pool is set up **per worker**; not shared across workers.
+    ///
+    /// By default set to 512 / workers.
+    </span><span class="kw">pub fn </span>worker_max_blocking_threads(<span class="kw-2">mut </span><span class="self">self</span>, num: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.worker_max_blocking_threads(num);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set server keep-alive setting.
+    ///
+    /// By default keep alive is set to a 5 seconds.
+    </span><span class="kw">pub fn </span>keep_alive&lt;T: Into&lt;KeepAlive&gt;&gt;(<span class="self">self</span>, val: T) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.config.lock().unwrap().keep_alive = val.into();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set server client timeout in milliseconds for first request.
+    ///
+    /// Defines a timeout for reading client request header. If a client does not transmit
+    /// the entire set headers within this time, the request is terminated with
+    /// the 408 (Request Time-out) error.
+    ///
+    /// To disable timeout set value to 0.
+    ///
+    /// By default client timeout is set to 5000 milliseconds.
+    </span><span class="kw">pub fn </span>client_request_timeout(<span class="self">self</span>, dur: Duration) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.config.lock().unwrap().client_request_timeout = dur;
+        <span class="self">self
+    </span>}
+
+    <span class="attribute">#[doc(hidden)]
+    #[deprecated(since = <span class="string">&quot;4.0.0&quot;</span>, note = <span class="string">&quot;Renamed to `client_request_timeout`.&quot;</span>)]
+    </span><span class="kw">pub fn </span>client_timeout(<span class="self">self</span>, dur: Duration) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.client_request_timeout(dur)
     }
 
-    <span class="doccomment">/// Set the maximum number of pending connections.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This refers to the number of clients that can be waiting to be served.</span>
-    <span class="doccomment">/// Exceeding this number results in the client getting an error when</span>
-    <span class="doccomment">/// attempting to connect. It should only affect servers under significant</span>
-    <span class="doccomment">/// load.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Generally set in the 64-2048 range. Default value is 2048.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method should be called before `bind()` method call.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">backlog</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">backlog</span>: <span class="ident">i32</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">backlog</span> <span class="op">=</span> <span class="ident">backlog</span>;
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">backlog</span>(<span class="ident">backlog</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// Set server connection shutdown timeout in milliseconds.
+    ///
+    /// Defines a timeout for shutdown connection. If a shutdown procedure does not complete
+    /// within this time, the request is dropped.
+    ///
+    /// To disable timeout set value to 0.
+    ///
+    /// By default client timeout is set to 5000 milliseconds.
+    </span><span class="kw">pub fn </span>client_disconnect_timeout(<span class="self">self</span>, dur: Duration) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.config.lock().unwrap().client_disconnect_timeout = dur;
+        <span class="self">self
+    </span>}
+
+    <span class="attribute">#[doc(hidden)]
+    #[deprecated(since = <span class="string">&quot;4.0.0&quot;</span>, note = <span class="string">&quot;Renamed to `client_disconnect_timeout`.&quot;</span>)]
+    </span><span class="kw">pub fn </span>client_shutdown(<span class="self">self</span>, dur: u64) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.client_disconnect_timeout(Duration::from_millis(dur))
     }
 
-    <span class="doccomment">/// Sets the maximum per-worker number of concurrent connections.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// All socket listeners will stop accepting connections when this limit is reached for</span>
-    <span class="doccomment">/// each worker.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default max connections is set to a 25k.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_connections</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">num</span>: <span class="ident">usize</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">maxconn</span>(<span class="ident">num</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// Set server host name.
+    ///
+    /// Host name is used by application router as a hostname for url generation.
+    /// Check [ConnectionInfo](super::dev::ConnectionInfo::host())
+    /// documentation for more information.
+    ///
+    /// By default host name is set to a &quot;localhost&quot; value.
+    </span><span class="kw">pub fn </span>server_hostname&lt;T: AsRef&lt;str&gt;&gt;(<span class="self">self</span>, val: T) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.config.lock().unwrap().host = <span class="prelude-val">Some</span>(val.as_ref().to_owned());
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Stop Actix `System` after server shutdown.
+    </span><span class="kw">pub fn </span>system_exit(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.system_exit();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Disable signal handling
+    </span><span class="kw">pub fn </span>disable_signals(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.disable_signals();
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Timeout for graceful workers shutdown.
+    ///
+    /// After receiving a stop signal, workers have this much time to finish
+    /// serving requests. Workers still alive after the timeout are force
+    /// dropped.
+    ///
+    /// By default shutdown timeout sets to 30 seconds.
+    </span><span class="kw">pub fn </span>shutdown_timeout(<span class="kw-2">mut </span><span class="self">self</span>, sec: u64) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.shutdown_timeout(sec);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Get addresses of bound sockets.
+    </span><span class="kw">pub fn </span>addrs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;net::SocketAddr&gt; {
+        <span class="self">self</span>.sockets.iter().map(|s| s.addr).collect()
     }
 
-    <span class="doccomment">/// Sets the maximum per-worker concurrent connection establish process.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// All listeners will stop accepting connections when this limit is reached. It can be used to</span>
-    <span class="doccomment">/// limit the global TLS CPU usage.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default max connections is set to a 256.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_connection_rate</span>(<span class="self">self</span>, <span class="ident">num</span>: <span class="ident">usize</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">actix_tls::max_concurrent_tls_connect</span>(<span class="ident">num</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// Get addresses of bound sockets and the scheme for it.
+    ///
+    /// This is useful when the server is bound from different sources
+    /// with some sockets listening on HTTP and some listening on HTTPS
+    /// and the user should be presented with an enumeration of which
+    /// socket requires which protocol.
+    </span><span class="kw">pub fn </span>addrs_with_scheme(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;(net::SocketAddr, <span class="kw-2">&amp;</span>str)&gt; {
+        <span class="self">self</span>.sockets.iter().map(|s| (s.addr, s.scheme)).collect()
     }
 
-    <span class="doccomment">/// Set server keep-alive setting.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default keep alive is set to a 5 seconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keep_alive</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">KeepAlive</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">keep_alive</span> <span class="op">=</span> <span class="ident">val</span>.<span class="ident">into</span>();
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Set server client timeout in milliseconds for first request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Defines a timeout for reading client request header. If a client does not transmit</span>
-    <span class="doccomment">/// the entire set headers within this time, the request is terminated with</span>
-    <span class="doccomment">/// the 408 (Request Time-out) error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To disable timeout set value to 0.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default client timeout is set to 5000 milliseconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">client_timeout</span>(<span class="self">self</span>, <span class="ident">val</span>: <span class="ident">u64</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">client_timeout</span> <span class="op">=</span> <span class="ident">val</span>;
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Set server connection shutdown timeout in milliseconds.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Defines a timeout for shutdown connection. If a shutdown procedure does not complete</span>
-    <span class="doccomment">/// within this time, the request is dropped.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To disable timeout set value to 0.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default client timeout is set to 5000 milliseconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">client_shutdown</span>(<span class="self">self</span>, <span class="ident">val</span>: <span class="ident">u64</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">client_shutdown</span> <span class="op">=</span> <span class="ident">val</span>;
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Set server host name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Host name is used by application router as a hostname for url generation.</span>
-    <span class="doccomment">/// Check [ConnectionInfo](./dev/struct.ConnectionInfo.html#method.host)</span>
-    <span class="doccomment">/// documentation for more information.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default host name is set to a &quot;localhost&quot; value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">server_hostname</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">val</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">host</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">val</span>.<span class="ident">as_ref</span>().<span class="ident">to_owned</span>());
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Stop actix system.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">system_exit</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">system_exit</span>();
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Disable signal handling</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disable_signals</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">disable_signals</span>();
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Timeout for graceful workers shutdown.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// After receiving a stop signal, workers have this much time to finish</span>
-    <span class="doccomment">/// serving requests. Workers still alive after the timeout are force</span>
-    <span class="doccomment">/// dropped.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default shutdown timeout sets to 30 seconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shutdown_timeout</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sec</span>: <span class="ident">u64</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">shutdown_timeout</span>(<span class="ident">sec</span>);
-        <span class="self">self</span>
-    }
-
-    <span class="doccomment">/// Get addresses of bound sockets.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">addrs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">net::SocketAddr</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">addr</span>).<span class="ident">collect</span>()
-    }
-
-    <span class="doccomment">/// Get addresses of bound sockets and the scheme for it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is useful when the server is bound from different sources</span>
-    <span class="doccomment">/// with some sockets listening on http and some listening on https</span>
-    <span class="doccomment">/// and the user should be presented with an enumeration of which</span>
-    <span class="doccomment">/// socket requires which protocol.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">addrs_with_scheme</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">net::SocketAddr</span>, <span class="kw-2">&amp;</span><span class="ident">str</span>)<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> (<span class="ident">s</span>.<span class="ident">addr</span>, <span class="ident">s</span>.<span class="ident">scheme</span>)).<span class="ident">collect</span>()
-    }
-
-    <span class="doccomment">/// Use listener for accepting incoming connection requests</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// HttpServer does not change any configuration for TcpListener,</span>
-    <span class="doccomment">/// it needs to be configured before passing it to listen() method.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">listen</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">lst</span>: <span class="ident">net::TcpListener</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">factory</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">lst</span>.<span class="ident">local_addr</span>().<span class="ident">unwrap</span>();
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">Socket</span> {
-            <span class="ident">addr</span>,
-            <span class="ident">scheme</span>: <span class="string">&quot;http&quot;</span>,
+    <span class="doccomment">/// Use listener for accepting incoming connection requests
+    ///
+    /// HttpServer does not change any configuration for TcpListener,
+    /// it needs to be configured before passing it to listen() method.
+    </span><span class="kw">pub fn </span>listen(<span class="kw-2">mut </span><span class="self">self</span>, lst: net::TcpListener) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>cfg = <span class="self">self</span>.config.clone();
+        <span class="kw">let </span>factory = <span class="self">self</span>.factory.clone();
+        <span class="kw">let </span>addr = lst.local_addr().unwrap();
+        <span class="self">self</span>.sockets.push(Socket {
+            addr,
+            scheme: <span class="string">&quot;http&quot;</span>,
         });
-        <span class="kw">let</span> <span class="ident">on_connect_fn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">on_connect_fn</span>.<span class="ident">clone</span>();
+        <span class="kw">let </span>on_connect_fn = <span class="self">self</span>.on_connect_fn.clone();
 
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">listen</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, <span class="ident">addr</span>),
-            <span class="ident">lst</span>,
-            <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="ident">AppConfig::new</span>(
-                    <span class="bool-val">false</span>,
-                    <span class="ident">addr</span>,
-                    <span class="ident">c</span>.<span class="ident">host</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">addr</span>)),
-                );
+        <span class="self">self</span>.builder =
+            <span class="self">self</span>.builder
+                .listen(<span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, addr), lst, <span class="kw">move </span>|| {
+                    <span class="kw">let </span>c = cfg.lock().unwrap();
+                    <span class="kw">let </span>host = c.host.clone().unwrap_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, addr));
 
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="ident">HttpService::build</span>()
-                    .<span class="ident">keep_alive</span>(<span class="ident">c</span>.<span class="ident">keep_alive</span>)
-                    .<span class="ident">client_timeout</span>(<span class="ident">c</span>.<span class="ident">client_timeout</span>)
-                    .<span class="ident">local_addr</span>(<span class="ident">addr</span>);
+                    <span class="kw">let </span><span class="kw-2">mut </span>svc = HttpService::build()
+                        .keep_alive(c.keep_alive)
+                        .client_request_timeout(c.client_request_timeout)
+                        .client_disconnect_timeout(c.client_disconnect_timeout)
+                        .local_addr(addr);
 
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">handler</span>) <span class="op">=</span> <span class="ident">on_connect_fn</span>.<span class="ident">clone</span>() {
-                    <span class="ident">svc</span>.<span class="ident">on_connect_ext</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="kw">_</span>, <span class="ident">ext</span>: <span class="kw">_</span><span class="op">|</span> {
-                        (<span class="ident">handler</span>)(<span class="ident">io</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="ident">ext</span>)
-                    })
-                } <span class="kw">else</span> {
-                    <span class="ident">svc</span>
-                };
-
-                <span class="ident">svc</span>.<span class="ident">finish</span>(<span class="ident">map_config</span>(<span class="ident">factory</span>(), <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">cfg</span>.<span class="ident">clone</span>()))
-                    .<span class="ident">tcp</span>()
-            },
-        )<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-    <span class="doccomment">/// Use listener for accepting incoming tls connection requests</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">listen_openssl</span>(
-        <span class="self">self</span>,
-        <span class="ident">lst</span>: <span class="ident">net::TcpListener</span>,
-        <span class="ident">builder</span>: <span class="ident">SslAcceptorBuilder</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">listen_ssl_inner</span>(<span class="ident">lst</span>, <span class="ident">openssl_acceptor</span>(<span class="ident">builder</span>)<span class="question-mark">?</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">listen_ssl_inner</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">lst</span>: <span class="ident">net::TcpListener</span>,
-        <span class="ident">acceptor</span>: <span class="ident">SslAcceptor</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">factory</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">lst</span>.<span class="ident">local_addr</span>().<span class="ident">unwrap</span>();
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">Socket</span> {
-            <span class="ident">addr</span>,
-            <span class="ident">scheme</span>: <span class="string">&quot;https&quot;</span>,
-        });
-
-        <span class="kw">let</span> <span class="ident">on_connect_fn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">on_connect_fn</span>.<span class="ident">clone</span>();
-
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">listen</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, <span class="ident">addr</span>),
-            <span class="ident">lst</span>,
-            <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="ident">AppConfig::new</span>(
-                    <span class="bool-val">true</span>,
-                    <span class="ident">addr</span>,
-                    <span class="ident">c</span>.<span class="ident">host</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">addr</span>)),
-                );
-
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="ident">HttpService::build</span>()
-                    .<span class="ident">keep_alive</span>(<span class="ident">c</span>.<span class="ident">keep_alive</span>)
-                    .<span class="ident">client_timeout</span>(<span class="ident">c</span>.<span class="ident">client_timeout</span>)
-                    .<span class="ident">client_disconnect</span>(<span class="ident">c</span>.<span class="ident">client_shutdown</span>);
-
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">handler</span>) <span class="op">=</span> <span class="ident">on_connect_fn</span>.<span class="ident">clone</span>() {
-                    <span class="ident">svc</span>.<span class="ident">on_connect_ext</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="kw">_</span>, <span class="ident">ext</span>: <span class="kw">_</span><span class="op">|</span> {
-                        (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">handler</span>)(<span class="ident">io</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="ident">ext</span>)
-                    })
-                } <span class="kw">else</span> {
-                    <span class="ident">svc</span>
-                };
-
-                <span class="ident">svc</span>.<span class="ident">finish</span>(<span class="ident">map_config</span>(<span class="ident">factory</span>(), <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">cfg</span>.<span class="ident">clone</span>()))
-                    .<span class="ident">openssl</span>(<span class="ident">acceptor</span>.<span class="ident">clone</span>())
-            },
-        )<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-    <span class="doccomment">/// Use listener for accepting incoming tls connection requests</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">listen_rustls</span>(
-        <span class="self">self</span>,
-        <span class="ident">lst</span>: <span class="ident">net::TcpListener</span>,
-        <span class="ident">config</span>: <span class="ident">RustlsServerConfig</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">listen_rustls_inner</span>(<span class="ident">lst</span>, <span class="ident">config</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">listen_rustls_inner</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">lst</span>: <span class="ident">net::TcpListener</span>,
-        <span class="ident">config</span>: <span class="ident">RustlsServerConfig</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">factory</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">lst</span>.<span class="ident">local_addr</span>().<span class="ident">unwrap</span>();
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">Socket</span> {
-            <span class="ident">addr</span>,
-            <span class="ident">scheme</span>: <span class="string">&quot;https&quot;</span>,
-        });
-
-        <span class="kw">let</span> <span class="ident">on_connect_fn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">on_connect_fn</span>.<span class="ident">clone</span>();
-
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">listen</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, <span class="ident">addr</span>),
-            <span class="ident">lst</span>,
-            <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="ident">AppConfig::new</span>(
-                    <span class="bool-val">true</span>,
-                    <span class="ident">addr</span>,
-                    <span class="ident">c</span>.<span class="ident">host</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">addr</span>)),
-                );
-
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="ident">HttpService::build</span>()
-                    .<span class="ident">keep_alive</span>(<span class="ident">c</span>.<span class="ident">keep_alive</span>)
-                    .<span class="ident">client_timeout</span>(<span class="ident">c</span>.<span class="ident">client_timeout</span>)
-                    .<span class="ident">client_disconnect</span>(<span class="ident">c</span>.<span class="ident">client_shutdown</span>);
-
-                <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">handler</span>) <span class="op">=</span> <span class="ident">on_connect_fn</span>.<span class="ident">clone</span>() {
-                    <span class="ident">svc</span>.<span class="ident">on_connect_ext</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="kw">_</span>, <span class="ident">ext</span>: <span class="kw">_</span><span class="op">|</span> {
-                        (<span class="ident">handler</span>)(<span class="ident">io</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="ident">ext</span>)
-                    })
-                } <span class="kw">else</span> {
-                    <span class="ident">svc</span>
-                };
-
-                <span class="ident">svc</span>.<span class="ident">finish</span>(<span class="ident">map_config</span>(<span class="ident">factory</span>(), <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">cfg</span>.<span class="ident">clone</span>()))
-                    .<span class="ident">rustls</span>(<span class="ident">config</span>.<span class="ident">clone</span>())
-            },
-        )<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="doccomment">/// The socket address to bind</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To bind multiple addresses this method can be called multiple times.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">net::ToSocketAddrs</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addr</span>: <span class="ident">A</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">sockets</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bind2</span>(<span class="ident">addr</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">for</span> <span class="ident">lst</span> <span class="kw">in</span> <span class="ident">sockets</span> {
-            <span class="self">self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">listen</span>(<span class="ident">lst</span>)<span class="question-mark">?</span>;
-        }
-
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="kw">fn</span> <span class="ident">bind2</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">net::ToSocketAddrs</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">addr</span>: <span class="ident">A</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">net::TcpListener</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">err</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">success</span> <span class="op">=</span> <span class="bool-val">false</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sockets</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-
-        <span class="kw">for</span> <span class="ident">addr</span> <span class="kw">in</span> <span class="ident">addr</span>.<span class="ident">to_socket_addrs</span>()<span class="question-mark">?</span> {
-            <span class="kw">match</span> <span class="ident">create_tcp_listener</span>(<span class="ident">addr</span>, <span class="self">self</span>.<span class="ident">backlog</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">lst</span>) =&gt; {
-                    <span class="ident">success</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                    <span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">lst</span>);
-                }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="ident">err</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>),
-            }
-        }
-
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">success</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">err</span>.<span class="ident">take</span>() {
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>)
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(
-                    <span class="ident">io::ErrorKind::Other</span>,
-                    <span class="string">&quot;Can not bind to address.&quot;</span>,
-                ))
-            }
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">sockets</span>)
-        }
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-    <span class="doccomment">/// Start listening for incoming tls connections.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind_openssl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">addr</span>: <span class="ident">A</span>,
-        <span class="ident">builder</span>: <span class="ident">SslAcceptorBuilder</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">A</span>: <span class="ident">net::ToSocketAddrs</span>,
-    {
-        <span class="kw">let</span> <span class="ident">sockets</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bind2</span>(<span class="ident">addr</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">acceptor</span> <span class="op">=</span> <span class="ident">openssl_acceptor</span>(<span class="ident">builder</span>)<span class="question-mark">?</span>;
-
-        <span class="kw">for</span> <span class="ident">lst</span> <span class="kw">in</span> <span class="ident">sockets</span> {
-            <span class="self">self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">listen_ssl_inner</span>(<span class="ident">lst</span>, <span class="ident">acceptor</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-        }
-
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustls&quot;</span>)]</span>
-    <span class="doccomment">/// Start listening for incoming tls connections.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind_rustls</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">net::ToSocketAddrs</span><span class="op">&gt;</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">addr</span>: <span class="ident">A</span>,
-        <span class="ident">config</span>: <span class="ident">RustlsServerConfig</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">sockets</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bind2</span>(<span class="ident">addr</span>)<span class="question-mark">?</span>;
-        <span class="kw">for</span> <span class="ident">lst</span> <span class="kw">in</span> <span class="ident">sockets</span> {
-            <span class="self">self</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">listen_rustls_inner</span>(<span class="ident">lst</span>, <span class="ident">config</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-        }
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
-    }
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-    <span class="doccomment">/// Start listening for unix domain (UDS) connections on existing listener.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">listen_uds</span>(
-        <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">lst</span>: <span class="ident">std::os::unix::net::UnixListener</span>,
-    ) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">actix_rt::net::UnixStream</span>;
-
-        <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">factory</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">socket_addr</span> <span class="op">=</span> <span class="ident">net::SocketAddr::new</span>(
-            <span class="ident">net::IpAddr::V4</span>(<span class="ident">net::Ipv4Addr::new</span>(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)),
-            <span class="number">8080</span>,
-        );
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">Socket</span> {
-            <span class="ident">scheme</span>: <span class="string">&quot;http&quot;</span>,
-            <span class="ident">addr</span>: <span class="ident">socket_addr</span>,
-        });
-
-        <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{:?}&quot;</span>, <span class="ident">lst</span>.<span class="ident">local_addr</span>()<span class="question-mark">?</span>);
-        <span class="kw">let</span> <span class="ident">on_connect_fn</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">on_connect_fn</span>.<span class="ident">clone</span>();
-
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">listen_uds</span>(<span class="ident">addr</span>, <span class="ident">lst</span>, <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">AppConfig::new</span>(
-                <span class="bool-val">false</span>,
-                <span class="ident">socket_addr</span>,
-                <span class="ident">c</span>.<span class="ident">host</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">socket_addr</span>)),
-            );
-
-            <span class="ident">pipeline_factory</span>(<span class="op">|</span><span class="ident">io</span>: <span class="ident">UnixStream</span><span class="op">|</span> <span class="ident">ok</span>((<span class="ident">io</span>, <span class="ident">Protocol::Http1</span>, <span class="prelude-val">None</span>))).<span class="ident">and_then</span>(
-                {
-                    <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="ident">HttpService::build</span>()
-                        .<span class="ident">keep_alive</span>(<span class="ident">c</span>.<span class="ident">keep_alive</span>)
-                        .<span class="ident">client_timeout</span>(<span class="ident">c</span>.<span class="ident">client_timeout</span>);
-
-                    <span class="kw">let</span> <span class="ident">svc</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">handler</span>) <span class="op">=</span> <span class="ident">on_connect_fn</span>.<span class="ident">clone</span>() {
-                        <span class="ident">svc</span>.<span class="ident">on_connect_ext</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">io</span>: <span class="kw-2">&amp;</span><span class="kw">_</span>, <span class="ident">ext</span>: <span class="kw">_</span><span class="op">|</span> {
-                            (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">handler</span>)(<span class="ident">io</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span>, <span class="ident">ext</span>)
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(handler) = on_connect_fn.clone() {
+                        svc = svc.on_connect_ext(<span class="kw">move </span>|io: <span class="kw-2">&amp;</span><span class="kw">_</span>, ext: <span class="kw">_</span>| {
+                            (handler)(io <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, ext)
                         })
-                    } <span class="kw">else</span> {
-                        <span class="ident">svc</span>
                     };
 
-                    <span class="ident">svc</span>.<span class="ident">finish</span>(<span class="ident">map_config</span>(<span class="ident">factory</span>(), <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">config</span>.<span class="ident">clone</span>()))
-                },
-            )
+                    <span class="kw">let </span>fac = factory()
+                        .into_factory()
+                        .map_err(|err| err.into().error_response());
+
+                    svc.finish(map_config(fac, <span class="kw">move </span>|<span class="kw">_</span>| {
+                        AppConfig::new(<span class="bool-val">false</span>, host.clone(), addr)
+                    }))
+                    .tcp()
+                })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;openssl&quot;</span>)]
+    </span><span class="doccomment">/// Use listener for accepting incoming tls connection requests
+    ///
+    /// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;
+    </span><span class="kw">pub fn </span>listen_openssl(
+        <span class="self">self</span>,
+        lst: net::TcpListener,
+        builder: SslAcceptorBuilder,
+    ) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="self">self</span>.listen_ssl_inner(lst, openssl_acceptor(builder)<span class="question-mark">?</span>)
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;openssl&quot;</span>)]
+    </span><span class="kw">fn </span>listen_ssl_inner(
+        <span class="kw-2">mut </span><span class="self">self</span>,
+        lst: net::TcpListener,
+        acceptor: SslAcceptor,
+    ) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>factory = <span class="self">self</span>.factory.clone();
+        <span class="kw">let </span>cfg = <span class="self">self</span>.config.clone();
+        <span class="kw">let </span>addr = lst.local_addr().unwrap();
+        <span class="self">self</span>.sockets.push(Socket {
+            addr,
+            scheme: <span class="string">&quot;https&quot;</span>,
+        });
+
+        <span class="kw">let </span>on_connect_fn = <span class="self">self</span>.on_connect_fn.clone();
+
+        <span class="self">self</span>.builder =
+            <span class="self">self</span>.builder
+                .listen(<span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, addr), lst, <span class="kw">move </span>|| {
+                    <span class="kw">let </span>c = cfg.lock().unwrap();
+                    <span class="kw">let </span>host = c.host.clone().unwrap_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, addr));
+
+                    <span class="kw">let </span>svc = HttpService::build()
+                        .keep_alive(c.keep_alive)
+                        .client_request_timeout(c.client_request_timeout)
+                        .client_disconnect_timeout(c.client_disconnect_timeout)
+                        .local_addr(addr);
+
+                    <span class="kw">let </span>svc = <span class="kw">if let </span><span class="prelude-val">Some</span>(handler) = on_connect_fn.clone() {
+                        svc.on_connect_ext(<span class="kw">move </span>|io: <span class="kw-2">&amp;</span><span class="kw">_</span>, ext: <span class="kw">_</span>| (handler)(io <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, ext))
+                    } <span class="kw">else </span>{
+                        svc
+                    };
+
+                    <span class="kw">let </span>fac = factory()
+                        .into_factory()
+                        .map_err(|err| err.into().error_response());
+
+                    svc.finish(map_config(fac, <span class="kw">move </span>|<span class="kw">_</span>| {
+                        AppConfig::new(<span class="bool-val">true</span>, host.clone(), addr)
+                    }))
+                    .openssl(acceptor.clone())
+                })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;rustls&quot;</span>)]
+    </span><span class="doccomment">/// Use listener for accepting incoming tls connection requests
+    ///
+    /// This method prepends alpn protocols &quot;h2&quot; and &quot;http/1.1&quot; to configured ones
+    </span><span class="kw">pub fn </span>listen_rustls(
+        <span class="self">self</span>,
+        lst: net::TcpListener,
+        config: RustlsServerConfig,
+    ) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="self">self</span>.listen_rustls_inner(lst, config)
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;rustls&quot;</span>)]
+    </span><span class="kw">fn </span>listen_rustls_inner(
+        <span class="kw-2">mut </span><span class="self">self</span>,
+        lst: net::TcpListener,
+        config: RustlsServerConfig,
+    ) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>factory = <span class="self">self</span>.factory.clone();
+        <span class="kw">let </span>cfg = <span class="self">self</span>.config.clone();
+        <span class="kw">let </span>addr = lst.local_addr().unwrap();
+        <span class="self">self</span>.sockets.push(Socket {
+            addr,
+            scheme: <span class="string">&quot;https&quot;</span>,
+        });
+
+        <span class="kw">let </span>on_connect_fn = <span class="self">self</span>.on_connect_fn.clone();
+
+        <span class="self">self</span>.builder =
+            <span class="self">self</span>.builder
+                .listen(<span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{}&quot;</span>, addr), lst, <span class="kw">move </span>|| {
+                    <span class="kw">let </span>c = cfg.lock().unwrap();
+                    <span class="kw">let </span>host = c.host.clone().unwrap_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, addr));
+
+                    <span class="kw">let </span>svc = HttpService::build()
+                        .keep_alive(c.keep_alive)
+                        .client_request_timeout(c.client_request_timeout)
+                        .client_disconnect_timeout(c.client_disconnect_timeout);
+
+                    <span class="kw">let </span>svc = <span class="kw">if let </span><span class="prelude-val">Some</span>(handler) = on_connect_fn.clone() {
+                        svc.on_connect_ext(<span class="kw">move </span>|io: <span class="kw-2">&amp;</span><span class="kw">_</span>, ext: <span class="kw">_</span>| (handler)(io <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, ext))
+                    } <span class="kw">else </span>{
+                        svc
+                    };
+
+                    <span class="kw">let </span>fac = factory()
+                        .into_factory()
+                        .map_err(|err| err.into().error_response());
+
+                    svc.finish(map_config(fac, <span class="kw">move </span>|<span class="kw">_</span>| {
+                        AppConfig::new(<span class="bool-val">true</span>, host.clone(), addr)
+                    }))
+                    .rustls(config.clone())
+                })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// The socket address to bind
+    ///
+    /// To bind multiple addresses this method can be called multiple times.
+    </span><span class="kw">pub fn </span>bind&lt;A: net::ToSocketAddrs&gt;(<span class="kw-2">mut </span><span class="self">self</span>, addr: A) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>sockets = <span class="self">self</span>.bind2(addr)<span class="question-mark">?</span>;
+
+        <span class="kw">for </span>lst <span class="kw">in </span>sockets {
+            <span class="self">self </span>= <span class="self">self</span>.listen(lst)<span class="question-mark">?</span>;
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="kw">fn </span>bind2&lt;A: net::ToSocketAddrs&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, addr: A) -&gt; io::Result&lt;Vec&lt;net::TcpListener&gt;&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>err = <span class="prelude-val">None</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>success = <span class="bool-val">false</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sockets = Vec::new();
+
+        <span class="kw">for </span>addr <span class="kw">in </span>addr.to_socket_addrs()<span class="question-mark">? </span>{
+            <span class="kw">match </span>create_tcp_listener(addr, <span class="self">self</span>.backlog) {
+                <span class="prelude-val">Ok</span>(lst) =&gt; {
+                    success = <span class="bool-val">true</span>;
+                    sockets.push(lst);
+                }
+                <span class="prelude-val">Err</span>(e) =&gt; err = <span class="prelude-val">Some</span>(e),
+            }
+        }
+
+        <span class="kw">if </span>success {
+            <span class="prelude-val">Ok</span>(sockets)
+        } <span class="kw">else if let </span><span class="prelude-val">Some</span>(e) = err.take() {
+            <span class="prelude-val">Err</span>(e)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(io::Error::new(
+                io::ErrorKind::Other,
+                <span class="string">&quot;Can not bind to address.&quot;</span>,
+            ))
+        }
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;openssl&quot;</span>)]
+    </span><span class="doccomment">/// Start listening for incoming tls connections.
+    ///
+    /// This method sets alpn protocols to &quot;h2&quot; and &quot;http/1.1&quot;
+    </span><span class="kw">pub fn </span>bind_openssl&lt;A&gt;(<span class="kw-2">mut </span><span class="self">self</span>, addr: A, builder: SslAcceptorBuilder) -&gt; io::Result&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span>A: net::ToSocketAddrs,
+    {
+        <span class="kw">let </span>sockets = <span class="self">self</span>.bind2(addr)<span class="question-mark">?</span>;
+        <span class="kw">let </span>acceptor = openssl_acceptor(builder)<span class="question-mark">?</span>;
+
+        <span class="kw">for </span>lst <span class="kw">in </span>sockets {
+            <span class="self">self </span>= <span class="self">self</span>.listen_ssl_inner(lst, acceptor.clone())<span class="question-mark">?</span>;
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;rustls&quot;</span>)]
+    </span><span class="doccomment">/// Start listening for incoming tls connections.
+    ///
+    /// This method prepends alpn protocols &quot;h2&quot; and &quot;http/1.1&quot; to configured ones
+    </span><span class="kw">pub fn </span>bind_rustls&lt;A: net::ToSocketAddrs&gt;(
+        <span class="kw-2">mut </span><span class="self">self</span>,
+        addr: A,
+        config: RustlsServerConfig,
+    ) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>sockets = <span class="self">self</span>.bind2(addr)<span class="question-mark">?</span>;
+        <span class="kw">for </span>lst <span class="kw">in </span>sockets {
+            <span class="self">self </span>= <span class="self">self</span>.listen_rustls_inner(lst, config.clone())<span class="question-mark">?</span>;
+        }
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>)
+    }
+
+    <span class="attribute">#[cfg(unix)]
+    </span><span class="doccomment">/// Start listening for unix domain (UDS) connections on existing listener.
+    </span><span class="kw">pub fn </span>listen_uds(<span class="kw-2">mut </span><span class="self">self</span>, lst: std::os::unix::net::UnixListener) -&gt; io::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">use </span>actix_http::Protocol;
+        <span class="kw">use </span>actix_rt::net::UnixStream;
+        <span class="kw">use </span>actix_service::{fn_service, ServiceFactoryExt <span class="kw">as _</span>};
+
+        <span class="kw">let </span>cfg = <span class="self">self</span>.config.clone();
+        <span class="kw">let </span>factory = <span class="self">self</span>.factory.clone();
+        <span class="kw">let </span>socket_addr =
+            net::SocketAddr::new(net::IpAddr::V4(net::Ipv4Addr::new(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)), <span class="number">8080</span>);
+        <span class="self">self</span>.sockets.push(Socket {
+            scheme: <span class="string">&quot;http&quot;</span>,
+            addr: socket_addr,
+        });
+
+        <span class="kw">let </span>addr = lst.local_addr()<span class="question-mark">?</span>;
+        <span class="kw">let </span>name = <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{:?}&quot;</span>, addr);
+        <span class="kw">let </span>on_connect_fn = <span class="self">self</span>.on_connect_fn.clone();
+
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.listen_uds(name, lst, <span class="kw">move </span>|| {
+            <span class="kw">let </span>c = cfg.lock().unwrap();
+            <span class="kw">let </span>config = AppConfig::new(
+                <span class="bool-val">false</span>,
+                c.host.clone().unwrap_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, socket_addr)),
+                socket_addr,
+            );
+
+            fn_service(|io: UnixStream| <span class="kw">async </span>{ <span class="prelude-val">Ok</span>((io, Protocol::Http1, <span class="prelude-val">None</span>)) }).and_then({
+                <span class="kw">let </span><span class="kw-2">mut </span>svc = HttpService::build()
+                    .keep_alive(c.keep_alive)
+                    .client_request_timeout(c.client_request_timeout)
+                    .client_disconnect_timeout(c.client_disconnect_timeout);
+
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(handler) = on_connect_fn.clone() {
+                    svc = svc
+                        .on_connect_ext(<span class="kw">move </span>|io: <span class="kw-2">&amp;</span><span class="kw">_</span>, ext: <span class="kw">_</span>| (handler)(io <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>Any, ext));
+                }
+
+                <span class="kw">let </span>fac = factory()
+                    .into_factory()
+                    .map_err(|err| err.into().error_response());
+
+                svc.finish(map_config(fac, <span class="kw">move </span>|<span class="kw">_</span>| config.clone()))
+            })
         })<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-    <span class="doccomment">/// Start listening for incoming unix domain connections.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind_uds</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addr</span>: <span class="ident">A</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">A</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">std::path::Path</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Start listening for incoming unix domain connections.
+    </span><span class="attribute">#[cfg(unix)]
+    </span><span class="kw">pub fn </span>bind_uds&lt;A&gt;(<span class="kw-2">mut </span><span class="self">self</span>, addr: A) -&gt; io::Result&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span>A: AsRef&lt;std::path::Path&gt;,
     {
-        <span class="kw">use</span> <span class="ident">actix_rt::net::UnixStream</span>;
+        <span class="kw">use </span>actix_http::Protocol;
+        <span class="kw">use </span>actix_rt::net::UnixStream;
+        <span class="kw">use </span>actix_service::{fn_service, ServiceFactoryExt <span class="kw">as _</span>};
 
-        <span class="kw">let</span> <span class="ident">cfg</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">factory</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">factory</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="ident">socket_addr</span> <span class="op">=</span> <span class="ident">net::SocketAddr::new</span>(
-            <span class="ident">net::IpAddr::V4</span>(<span class="ident">net::Ipv4Addr::new</span>(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)),
-            <span class="number">8080</span>,
-        );
-        <span class="self">self</span>.<span class="ident">sockets</span>.<span class="ident">push</span>(<span class="ident">Socket</span> {
-            <span class="ident">scheme</span>: <span class="string">&quot;http&quot;</span>,
-            <span class="ident">addr</span>: <span class="ident">socket_addr</span>,
+        <span class="kw">let </span>cfg = <span class="self">self</span>.config.clone();
+        <span class="kw">let </span>factory = <span class="self">self</span>.factory.clone();
+        <span class="kw">let </span>socket_addr =
+            net::SocketAddr::new(net::IpAddr::V4(net::Ipv4Addr::new(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)), <span class="number">8080</span>);
+
+        <span class="self">self</span>.sockets.push(Socket {
+            scheme: <span class="string">&quot;http&quot;</span>,
+            addr: socket_addr,
         });
 
-        <span class="self">self</span>.<span class="ident">builder</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">bind_uds</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{:?}&quot;</span>, <span class="ident">addr</span>.<span class="ident">as_ref</span>()),
-            <span class="ident">addr</span>,
-            <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">cfg</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">AppConfig::new</span>(
+        <span class="self">self</span>.builder = <span class="self">self</span>.builder.bind_uds(
+            <span class="macro">format!</span>(<span class="string">&quot;actix-web-service-{:?}&quot;</span>, addr.as_ref()),
+            addr,
+            <span class="kw">move </span>|| {
+                <span class="kw">let </span>c = cfg.lock().unwrap();
+                <span class="kw">let </span>config = AppConfig::new(
                     <span class="bool-val">false</span>,
-                    <span class="ident">socket_addr</span>,
-                    <span class="ident">c</span>.<span class="ident">host</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">socket_addr</span>)),
+                    c.host.clone().unwrap_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, socket_addr)),
+                    socket_addr,
                 );
-                <span class="ident">pipeline_factory</span>(<span class="op">|</span><span class="ident">io</span>: <span class="ident">UnixStream</span><span class="op">|</span> <span class="ident">ok</span>((<span class="ident">io</span>, <span class="ident">Protocol::Http1</span>, <span class="prelude-val">None</span>)))
-                    .<span class="ident">and_then</span>(
-                        <span class="ident">HttpService::build</span>()
-                            .<span class="ident">keep_alive</span>(<span class="ident">c</span>.<span class="ident">keep_alive</span>)
-                            .<span class="ident">client_timeout</span>(<span class="ident">c</span>.<span class="ident">client_timeout</span>)
-                            .<span class="ident">finish</span>(<span class="ident">map_config</span>(<span class="ident">factory</span>(), <span class="kw">move</span> <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">config</span>.<span class="ident">clone</span>())),
-                    )
+
+                <span class="kw">let </span>fac = factory()
+                    .into_factory()
+                    .map_err(|err| err.into().error_response());
+
+                fn_service(|io: UnixStream| <span class="kw">async </span>{ <span class="prelude-val">Ok</span>((io, Protocol::Http1, <span class="prelude-val">None</span>)) }).and_then(
+                    HttpService::build()
+                        .keep_alive(c.keep_alive)
+                        .client_request_timeout(c.client_request_timeout)
+                        .client_disconnect_timeout(c.client_disconnect_timeout)
+                        .finish(map_config(fac, <span class="kw">move </span>|<span class="kw">_</span>| config.clone())),
+                )
             },
         )<span class="question-mark">?</span>;
+
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span> <span class="ident">HttpServer</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">I</span>, <span class="ident">S</span>, <span class="ident">B</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">F</span>: <span class="ident">Fn</span>() -&gt; <span class="ident">I</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-    <span class="ident">I</span>: <span class="ident">IntoServiceFactory</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
-    <span class="ident">S</span>: <span class="ident">ServiceFactory</span><span class="op">&lt;</span><span class="ident">Config</span> <span class="op">=</span> <span class="ident">AppConfig</span>, <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Request</span><span class="op">&gt;</span>,
-    <span class="ident">S::Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span>,
-    <span class="ident">S::InitError</span>: <span class="ident">fmt::Debug</span>,
-    <span class="ident">S::Response</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">S::Service</span>: <span class="lifetime">&#39;static</span>,
-    <span class="ident">B</span>: <span class="ident">MessageBody</span>,
+<span class="kw">impl</span>&lt;F, I, S, B&gt; HttpServer&lt;F, I, S, B&gt;
+<span class="kw">where
+    </span>F: Fn() -&gt; I + Send + Clone + <span class="lifetime">&#39;static</span>,
+    I: IntoServiceFactory&lt;S, Request&gt;,
+    S: ServiceFactory&lt;Request, Config = AppConfig&gt;,
+    S::Error: Into&lt;Error&gt;,
+    S::InitError: fmt::Debug,
+    S::Response: Into&lt;Response&lt;B&gt;&gt;,
+    S::Service: <span class="lifetime">&#39;static</span>,
+    B: MessageBody,
 {
-    <span class="doccomment">/// Start listening for incoming connections.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method starts number of http workers in separate threads.</span>
-    <span class="doccomment">/// For each address this method starts separate thread which does</span>
-    <span class="doccomment">/// `accept()` in a loop.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This methods panics if no socket address can be bound or an `Actix` system is not yet</span>
-    <span class="doccomment">/// configured.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust,no_run</span>
-    <span class="doccomment">/// use std::io;</span>
-    <span class="doccomment">/// use actix_web::{web, App, HttpResponse, HttpServer};</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #[actix_rt::main]</span>
-    <span class="doccomment">/// async fn main() -&gt; io::Result&lt;()&gt; {</span>
-    <span class="doccomment">///     HttpServer::new(|| App::new().service(web::resource(&quot;/&quot;).to(|| HttpResponse::Ok())))</span>
-    <span class="doccomment">///         .bind(&quot;127.0.0.1:0&quot;)?</span>
-    <span class="doccomment">///         .run()</span>
-    <span class="doccomment">///         .await</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span>(<span class="self">self</span>) -&gt; <span class="ident">Server</span> {
-        <span class="self">self</span>.<span class="ident">builder</span>.<span class="ident">start</span>()
+    <span class="doccomment">/// Start listening for incoming connections.
+    ///
+    /// This method starts number of HTTP workers in separate threads.
+    /// For each address this method starts separate thread which does
+    /// `accept()` in a loop.
+    ///
+    /// This methods panics if no socket address can be bound or an `Actix` system is not yet
+    /// configured.
+    ///
+    /// ```no_run
+    /// use std::io;
+    /// use actix_web::{web, App, HttpResponse, HttpServer};
+    ///
+    /// #[actix_rt::main]
+    /// async fn main() -&gt; io::Result&lt;()&gt; {
+    ///     HttpServer::new(|| App::new().service(web::resource(&quot;/&quot;).to(|| HttpResponse::Ok())))
+    ///         .bind(&quot;127.0.0.1:0&quot;)?
+    ///         .run()
+    ///         .await
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>run(<span class="self">self</span>) -&gt; Server {
+        <span class="self">self</span>.builder.run()
     }
 }
 
-<span class="kw">fn</span> <span class="ident">create_tcp_listener</span>(
-    <span class="ident">addr</span>: <span class="ident">net::SocketAddr</span>,
-    <span class="ident">backlog</span>: <span class="ident">i32</span>,
-) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">net::TcpListener</span><span class="op">&gt;</span> {
-    <span class="kw">use</span> <span class="ident">socket2</span>::{<span class="ident">Domain</span>, <span class="ident">Protocol</span>, <span class="ident">Socket</span>, <span class="ident">Type</span>};
-    <span class="kw">let</span> <span class="ident">domain</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">addr</span> {
-        <span class="ident">net::SocketAddr::V4</span>(<span class="kw">_</span>) =&gt; <span class="ident">Domain::ipv4</span>(),
-        <span class="ident">net::SocketAddr::V6</span>(<span class="kw">_</span>) =&gt; <span class="ident">Domain::ipv6</span>(),
-    };
-    <span class="kw">let</span> <span class="ident">socket</span> <span class="op">=</span> <span class="ident">Socket::new</span>(<span class="ident">domain</span>, <span class="ident">Type::stream</span>(), <span class="prelude-val">Some</span>(<span class="ident">Protocol::tcp</span>()))<span class="question-mark">?</span>;
-    <span class="ident">socket</span>.<span class="ident">set_reuse_address</span>(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
-    <span class="ident">socket</span>.<span class="ident">bind</span>(<span class="kw-2">&amp;</span><span class="ident">addr</span>.<span class="ident">into</span>())<span class="question-mark">?</span>;
-    <span class="ident">socket</span>.<span class="ident">listen</span>(<span class="ident">backlog</span>)<span class="question-mark">?</span>;
-    <span class="prelude-val">Ok</span>(<span class="ident">socket</span>.<span class="ident">into_tcp_listener</span>())
+<span class="kw">fn </span>create_tcp_listener(addr: net::SocketAddr, backlog: u32) -&gt; io::Result&lt;net::TcpListener&gt; {
+    <span class="kw">use </span>socket2::{Domain, Protocol, Socket, Type};
+    <span class="kw">let </span>domain = Domain::for_address(addr);
+    <span class="kw">let </span>socket = Socket::new(domain, Type::STREAM, <span class="prelude-val">Some</span>(Protocol::TCP))<span class="question-mark">?</span>;
+    socket.set_reuse_address(<span class="bool-val">true</span>)<span class="question-mark">?</span>;
+    socket.bind(<span class="kw-2">&amp;</span>addr.into())<span class="question-mark">?</span>;
+    <span class="comment">// clamp backlog to max u32 that fits in i32 range
+    </span><span class="kw">let </span>backlog = cmp::min(backlog, i32::MAX <span class="kw">as </span>u32) <span class="kw">as </span>i32;
+    socket.listen(backlog)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(net::TcpListener::from(socket))
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-<span class="doccomment">/// Configure `SslAcceptorBuilder` with custom server flags.</span>
-<span class="kw">fn</span> <span class="ident">openssl_acceptor</span>(<span class="kw-2">mut</span> <span class="ident">builder</span>: <span class="ident">SslAcceptorBuilder</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">SslAcceptor</span><span class="op">&gt;</span> {
-    <span class="ident">builder</span>.<span class="ident">set_alpn_select_callback</span>(<span class="op">|</span><span class="kw">_</span>, <span class="ident">protocols</span><span class="op">|</span> {
-        <span class="kw">const</span> <span class="ident">H2</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;\x02h2&quot;</span>;
-        <span class="kw">const</span> <span class="ident">H11</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;\x08http/1.1&quot;</span>;
+<span class="doccomment">/// Configure `SslAcceptorBuilder` with custom server flags.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;openssl&quot;</span>)]
+</span><span class="kw">fn </span>openssl_acceptor(<span class="kw-2">mut </span>builder: SslAcceptorBuilder) -&gt; io::Result&lt;SslAcceptor&gt; {
+    builder.set_alpn_select_callback(|<span class="kw">_</span>, protocols| {
+        <span class="kw">const </span>H2: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;\x02h2&quot;</span>;
+        <span class="kw">const </span>H11: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;\x08http/1.1&quot;</span>;
 
-        <span class="kw">if</span> <span class="ident">protocols</span>.<span class="ident">windows</span>(<span class="number">3</span>).<span class="ident">any</span>(<span class="op">|</span><span class="ident">window</span><span class="op">|</span> <span class="ident">window</span> <span class="op">==</span> <span class="ident">H2</span>) {
+        <span class="kw">if </span>protocols.windows(<span class="number">3</span>).any(|window| window == H2) {
             <span class="prelude-val">Ok</span>(<span class="string">b&quot;h2&quot;</span>)
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">protocols</span>.<span class="ident">windows</span>(<span class="number">9</span>).<span class="ident">any</span>(<span class="op">|</span><span class="ident">window</span><span class="op">|</span> <span class="ident">window</span> <span class="op">==</span> <span class="ident">H11</span>) {
+        } <span class="kw">else if </span>protocols.windows(<span class="number">9</span>).any(|window| window == H11) {
             <span class="prelude-val">Ok</span>(<span class="string">b&quot;http/1.1&quot;</span>)
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">AlpnError::NOACK</span>)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(AlpnError::NOACK)
         }
     });
 
-    <span class="ident">builder</span>.<span class="ident">set_alpn_protos</span>(<span class="string">b&quot;\x08http/1.1\x02h2&quot;</span>)<span class="question-mark">?</span>;
+    builder.set_alpn_protos(<span class="string">b&quot;\x08http/1.1\x02h2&quot;</span>)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>(<span class="ident">builder</span>.<span class="ident">build</span>())
+    <span class="prelude-val">Ok</span>(builder.build())
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

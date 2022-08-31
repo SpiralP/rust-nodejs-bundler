@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tungstenite-0.14.0/src/protocol/frame/coding.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>coding.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../tungstenite/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../tungstenite/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../tungstenite/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tungstenite-0.14.0/src/protocol/frame/coding.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>coding.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../tungstenite/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../tungstenite/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../tungstenite/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -289,296 +289,296 @@
 <span id="289">289</span>
 <span id="290">290</span>
 <span id="291">291</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Various codes defined in RFC 6455.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Various codes defined in RFC 6455.
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">convert</span>::{<span class="ident">From</span>, <span class="ident">Into</span>},
-    <span class="ident">fmt</span>,
+</span><span class="kw">use </span>std::{
+    convert::{From, Into},
+    fmt,
 };
 
-<span class="doccomment">/// WebSocket message opcode as in RFC 6455.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OpCode</span> {
-    <span class="doccomment">/// Data (text or binary).</span>
-    <span class="ident">Data</span>(<span class="ident">Data</span>),
-    <span class="doccomment">/// Control message (close, ping, pong).</span>
-    <span class="ident">Control</span>(<span class="ident">Control</span>),
+<span class="doccomment">/// WebSocket message opcode as in RFC 6455.
+</span><span class="attribute">#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+</span><span class="kw">pub enum </span>OpCode {
+    <span class="doccomment">/// Data (text or binary).
+    </span>Data(Data),
+    <span class="doccomment">/// Control message (close, ping, pong).
+    </span>Control(Control),
 }
 
-<span class="doccomment">/// Data opcodes as in RFC 6455</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Data</span> {
-    <span class="doccomment">/// 0x0 denotes a continuation frame</span>
-    <span class="ident">Continue</span>,
-    <span class="doccomment">/// 0x1 denotes a text frame</span>
-    <span class="ident">Text</span>,
-    <span class="doccomment">/// 0x2 denotes a binary frame</span>
-    <span class="ident">Binary</span>,
-    <span class="doccomment">/// 0x3-7 are reserved for further non-control frames</span>
-    <span class="ident">Reserved</span>(<span class="ident">u8</span>),
+<span class="doccomment">/// Data opcodes as in RFC 6455
+</span><span class="attribute">#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+</span><span class="kw">pub enum </span>Data {
+    <span class="doccomment">/// 0x0 denotes a continuation frame
+    </span>Continue,
+    <span class="doccomment">/// 0x1 denotes a text frame
+    </span>Text,
+    <span class="doccomment">/// 0x2 denotes a binary frame
+    </span>Binary,
+    <span class="doccomment">/// 0x3-7 are reserved for further non-control frames
+    </span>Reserved(u8),
 }
 
-<span class="doccomment">/// Control opcodes as in RFC 6455</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Control</span> {
-    <span class="doccomment">/// 0x8 denotes a connection close</span>
-    <span class="ident">Close</span>,
-    <span class="doccomment">/// 0x9 denotes a ping</span>
-    <span class="ident">Ping</span>,
-    <span class="doccomment">/// 0xa denotes a pong</span>
-    <span class="ident">Pong</span>,
-    <span class="doccomment">/// 0xb-f are reserved for further control frames</span>
-    <span class="ident">Reserved</span>(<span class="ident">u8</span>),
+<span class="doccomment">/// Control opcodes as in RFC 6455
+</span><span class="attribute">#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+</span><span class="kw">pub enum </span>Control {
+    <span class="doccomment">/// 0x8 denotes a connection close
+    </span>Close,
+    <span class="doccomment">/// 0x9 denotes a ping
+    </span>Ping,
+    <span class="doccomment">/// 0xa denotes a pong
+    </span>Pong,
+    <span class="doccomment">/// 0xb-f are reserved for further control frames
+    </span>Reserved(u8),
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Data</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Data::Continue</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;CONTINUE&quot;</span>),
-            <span class="ident">Data::Text</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;TEXT&quot;</span>),
-            <span class="ident">Data::Binary</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;BINARY&quot;</span>),
-            <span class="ident">Data::Reserved</span>(<span class="ident">x</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;RESERVED_DATA_{}&quot;</span>, <span class="ident">x</span>),
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Data {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Data::Continue =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CONTINUE&quot;</span>),
+            Data::Text =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;TEXT&quot;</span>),
+            Data::Binary =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;BINARY&quot;</span>),
+            Data::Reserved(x) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;RESERVED_DATA_{}&quot;</span>, x),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Control</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Control::Close</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;CLOSE&quot;</span>),
-            <span class="ident">Control::Ping</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;PING&quot;</span>),
-            <span class="ident">Control::Pong</span> =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;PONG&quot;</span>),
-            <span class="ident">Control::Reserved</span>(<span class="ident">x</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;RESERVED_CONTROL_{}&quot;</span>, <span class="ident">x</span>),
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Control {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Control::Close =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;CLOSE&quot;</span>),
+            Control::Ping =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;PING&quot;</span>),
+            Control::Pong =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;PONG&quot;</span>),
+            Control::Reserved(x) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;RESERVED_CONTROL_{}&quot;</span>, x),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">OpCode</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">OpCode::Data</span>(<span class="ident">d</span>) =&gt; <span class="ident">d</span>.<span class="ident">fmt</span>(<span class="ident">f</span>),
-            <span class="ident">OpCode::Control</span>(<span class="ident">c</span>) =&gt; <span class="ident">c</span>.<span class="ident">fmt</span>(<span class="ident">f</span>),
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>OpCode {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            OpCode::Data(d) =&gt; d.fmt(f),
+            OpCode::Control(c) =&gt; c.fmt(f),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">OpCode</span> {
-    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) -&gt; <span class="ident">u8</span> {
-        <span class="kw">use</span> <span class="self">self</span>::{
-            <span class="ident">Control</span>::{<span class="ident">Close</span>, <span class="ident">Ping</span>, <span class="ident">Pong</span>},
-            <span class="ident">Data</span>::{<span class="ident">Binary</span>, <span class="ident">Continue</span>, <span class="ident">Text</span>},
-            <span class="ident">OpCode</span>::<span class="kw-2">*</span>,
+<span class="kw">impl </span>Into&lt;u8&gt; <span class="kw">for </span>OpCode {
+    <span class="kw">fn </span>into(<span class="self">self</span>) -&gt; u8 {
+        <span class="kw">use </span><span class="self">self</span>::{
+            Control::{Close, Ping, Pong},
+            Data::{Binary, Continue, Text},
+            OpCode::<span class="kw-2">*</span>,
         };
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Data</span>(<span class="ident">Continue</span>) =&gt; <span class="number">0</span>,
-            <span class="ident">Data</span>(<span class="ident">Text</span>) =&gt; <span class="number">1</span>,
-            <span class="ident">Data</span>(<span class="ident">Binary</span>) =&gt; <span class="number">2</span>,
-            <span class="ident">Data</span>(<span class="ident"><span class="self">self</span>::Data::Reserved</span>(<span class="ident">i</span>)) =&gt; <span class="ident">i</span>,
+        <span class="kw">match </span><span class="self">self </span>{
+            Data(Continue) =&gt; <span class="number">0</span>,
+            Data(Text) =&gt; <span class="number">1</span>,
+            Data(Binary) =&gt; <span class="number">2</span>,
+            Data(<span class="self">self</span>::Data::Reserved(i)) =&gt; i,
 
-            <span class="ident">Control</span>(<span class="ident">Close</span>) =&gt; <span class="number">8</span>,
-            <span class="ident">Control</span>(<span class="ident">Ping</span>) =&gt; <span class="number">9</span>,
-            <span class="ident">Control</span>(<span class="ident">Pong</span>) =&gt; <span class="number">10</span>,
-            <span class="ident">Control</span>(<span class="ident"><span class="self">self</span>::Control::Reserved</span>(<span class="ident">i</span>)) =&gt; <span class="ident">i</span>,
+            Control(Close) =&gt; <span class="number">8</span>,
+            Control(Ping) =&gt; <span class="number">9</span>,
+            Control(Pong) =&gt; <span class="number">10</span>,
+            Control(<span class="self">self</span>::Control::Reserved(i)) =&gt; i,
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">OpCode</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">byte</span>: <span class="ident">u8</span>) -&gt; <span class="ident">OpCode</span> {
-        <span class="kw">use</span> <span class="self">self</span>::{
-            <span class="ident">Control</span>::{<span class="ident">Close</span>, <span class="ident">Ping</span>, <span class="ident">Pong</span>},
-            <span class="ident">Data</span>::{<span class="ident">Binary</span>, <span class="ident">Continue</span>, <span class="ident">Text</span>},
-            <span class="ident">OpCode</span>::<span class="kw-2">*</span>,
+<span class="kw">impl </span>From&lt;u8&gt; <span class="kw">for </span>OpCode {
+    <span class="kw">fn </span>from(byte: u8) -&gt; OpCode {
+        <span class="kw">use </span><span class="self">self</span>::{
+            Control::{Close, Ping, Pong},
+            Data::{Binary, Continue, Text},
+            OpCode::<span class="kw-2">*</span>,
         };
-        <span class="kw">match</span> <span class="ident">byte</span> {
-            <span class="number">0</span> =&gt; <span class="ident">Data</span>(<span class="ident">Continue</span>),
-            <span class="number">1</span> =&gt; <span class="ident">Data</span>(<span class="ident">Text</span>),
-            <span class="number">2</span> =&gt; <span class="ident">Data</span>(<span class="ident">Binary</span>),
-            <span class="ident">i</span> @ <span class="number">3</span>..<span class="op">=</span><span class="number">7</span> =&gt; <span class="ident">Data</span>(<span class="ident"><span class="self">self</span>::Data::Reserved</span>(<span class="ident">i</span>)),
-            <span class="number">8</span> =&gt; <span class="ident">Control</span>(<span class="ident">Close</span>),
-            <span class="number">9</span> =&gt; <span class="ident">Control</span>(<span class="ident">Ping</span>),
-            <span class="number">10</span> =&gt; <span class="ident">Control</span>(<span class="ident">Pong</span>),
-            <span class="ident">i</span> @ <span class="number">11</span>..<span class="op">=</span><span class="number">15</span> =&gt; <span class="ident">Control</span>(<span class="ident"><span class="self">self</span>::Control::Reserved</span>(<span class="ident">i</span>)),
-            <span class="kw">_</span> =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Bug: OpCode out of range&quot;</span>),
+        <span class="kw">match </span>byte {
+            <span class="number">0 </span>=&gt; Data(Continue),
+            <span class="number">1 </span>=&gt; Data(Text),
+            <span class="number">2 </span>=&gt; Data(Binary),
+            i @ <span class="number">3</span>..=<span class="number">7 </span>=&gt; Data(<span class="self">self</span>::Data::Reserved(i)),
+            <span class="number">8 </span>=&gt; Control(Close),
+            <span class="number">9 </span>=&gt; Control(Ping),
+            <span class="number">10 </span>=&gt; Control(Pong),
+            i @ <span class="number">11</span>..=<span class="number">15 </span>=&gt; Control(<span class="self">self</span>::Control::Reserved(i)),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Bug: OpCode out of range&quot;</span>),
         }
     }
 }
 
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::CloseCode</span>::<span class="kw-2">*</span>;
-<span class="doccomment">/// Status code used to indicate why an endpoint is closing the WebSocket connection.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CloseCode</span> {
-    <span class="doccomment">/// Indicates a normal closure, meaning that the purpose for</span>
-    <span class="doccomment">/// which the connection was established has been fulfilled.</span>
-    <span class="ident">Normal</span>,
-    <span class="doccomment">/// Indicates that an endpoint is &quot;going away&quot;, such as a server</span>
-    <span class="doccomment">/// going down or a browser having navigated away from a page.</span>
-    <span class="ident">Away</span>,
-    <span class="doccomment">/// Indicates that an endpoint is terminating the connection due</span>
-    <span class="doccomment">/// to a protocol error.</span>
-    <span class="ident">Protocol</span>,
-    <span class="doccomment">/// Indicates that an endpoint is terminating the connection</span>
-    <span class="doccomment">/// because it has received a type of data it cannot accept (e.g., an</span>
-    <span class="doccomment">/// endpoint that understands only text data MAY send this if it</span>
-    <span class="doccomment">/// receives a binary message).</span>
-    <span class="ident">Unsupported</span>,
-    <span class="doccomment">/// Indicates that no status code was included in a closing frame. This</span>
-    <span class="doccomment">/// close code makes it possible to use a single method, `on_close` to</span>
-    <span class="doccomment">/// handle even cases where no close code was provided.</span>
-    <span class="ident">Status</span>,
-    <span class="doccomment">/// Indicates an abnormal closure. If the abnormal closure was due to an</span>
-    <span class="doccomment">/// error, this close code will not be used. Instead, the `on_error` method</span>
-    <span class="doccomment">/// of the handler will be called with the error. However, if the connection</span>
-    <span class="doccomment">/// is simply dropped, without an error, this close code will be sent to the</span>
-    <span class="doccomment">/// handler.</span>
-    <span class="ident">Abnormal</span>,
-    <span class="doccomment">/// Indicates that an endpoint is terminating the connection</span>
-    <span class="doccomment">/// because it has received data within a message that was not</span>
-    <span class="doccomment">/// consistent with the type of the message (e.g., non-UTF-8 \[RFC3629\]</span>
-    <span class="doccomment">/// data within a text message).</span>
-    <span class="ident">Invalid</span>,
-    <span class="doccomment">/// Indicates that an endpoint is terminating the connection</span>
-    <span class="doccomment">/// because it has received a message that violates its policy.  This</span>
-    <span class="doccomment">/// is a generic status code that can be returned when there is no</span>
-    <span class="doccomment">/// other more suitable status code (e.g., Unsupported or Size) or if there</span>
-    <span class="doccomment">/// is a need to hide specific details about the policy.</span>
-    <span class="ident">Policy</span>,
-    <span class="doccomment">/// Indicates that an endpoint is terminating the connection</span>
-    <span class="doccomment">/// because it has received a message that is too big for it to</span>
-    <span class="doccomment">/// process.</span>
-    <span class="ident">Size</span>,
-    <span class="doccomment">/// Indicates that an endpoint (client) is terminating the</span>
-    <span class="doccomment">/// connection because it has expected the server to negotiate one or</span>
-    <span class="doccomment">/// more extension, but the server didn&#39;t return them in the response</span>
-    <span class="doccomment">/// message of the WebSocket handshake.  The list of extensions that</span>
-    <span class="doccomment">/// are needed should be given as the reason for closing.</span>
-    <span class="doccomment">/// Note that this status code is not used by the server, because it</span>
-    <span class="doccomment">/// can fail the WebSocket handshake instead.</span>
-    <span class="ident">Extension</span>,
-    <span class="doccomment">/// Indicates that a server is terminating the connection because</span>
-    <span class="doccomment">/// it encountered an unexpected condition that prevented it from</span>
-    <span class="doccomment">/// fulfilling the request.</span>
-    <span class="ident">Error</span>,
-    <span class="doccomment">/// Indicates that the server is restarting. A client may choose to reconnect,</span>
-    <span class="doccomment">/// and if it does, it should use a randomized delay of 5-30 seconds between attempts.</span>
-    <span class="ident">Restart</span>,
-    <span class="doccomment">/// Indicates that the server is overloaded and the client should either connect</span>
-    <span class="doccomment">/// to a different IP (when multiple targets exist), or reconnect to the same IP</span>
-    <span class="doccomment">/// when a user has performed an action.</span>
-    <span class="ident">Again</span>,
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="ident">Tls</span>,
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="ident">Reserved</span>(<span class="ident">u16</span>),
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="ident">Iana</span>(<span class="ident">u16</span>),
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="ident">Library</span>(<span class="ident">u16</span>),
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="ident">Bad</span>(<span class="ident">u16</span>),
+<span class="kw">use </span><span class="self">self</span>::CloseCode::<span class="kw-2">*</span>;
+<span class="doccomment">/// Status code used to indicate why an endpoint is closing the WebSocket connection.
+</span><span class="attribute">#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+</span><span class="kw">pub enum </span>CloseCode {
+    <span class="doccomment">/// Indicates a normal closure, meaning that the purpose for
+    /// which the connection was established has been fulfilled.
+    </span>Normal,
+    <span class="doccomment">/// Indicates that an endpoint is &quot;going away&quot;, such as a server
+    /// going down or a browser having navigated away from a page.
+    </span>Away,
+    <span class="doccomment">/// Indicates that an endpoint is terminating the connection due
+    /// to a protocol error.
+    </span>Protocol,
+    <span class="doccomment">/// Indicates that an endpoint is terminating the connection
+    /// because it has received a type of data it cannot accept (e.g., an
+    /// endpoint that understands only text data MAY send this if it
+    /// receives a binary message).
+    </span>Unsupported,
+    <span class="doccomment">/// Indicates that no status code was included in a closing frame. This
+    /// close code makes it possible to use a single method, `on_close` to
+    /// handle even cases where no close code was provided.
+    </span>Status,
+    <span class="doccomment">/// Indicates an abnormal closure. If the abnormal closure was due to an
+    /// error, this close code will not be used. Instead, the `on_error` method
+    /// of the handler will be called with the error. However, if the connection
+    /// is simply dropped, without an error, this close code will be sent to the
+    /// handler.
+    </span>Abnormal,
+    <span class="doccomment">/// Indicates that an endpoint is terminating the connection
+    /// because it has received data within a message that was not
+    /// consistent with the type of the message (e.g., non-UTF-8 \[RFC3629\]
+    /// data within a text message).
+    </span>Invalid,
+    <span class="doccomment">/// Indicates that an endpoint is terminating the connection
+    /// because it has received a message that violates its policy.  This
+    /// is a generic status code that can be returned when there is no
+    /// other more suitable status code (e.g., Unsupported or Size) or if there
+    /// is a need to hide specific details about the policy.
+    </span>Policy,
+    <span class="doccomment">/// Indicates that an endpoint is terminating the connection
+    /// because it has received a message that is too big for it to
+    /// process.
+    </span>Size,
+    <span class="doccomment">/// Indicates that an endpoint (client) is terminating the
+    /// connection because it has expected the server to negotiate one or
+    /// more extension, but the server didn&#39;t return them in the response
+    /// message of the WebSocket handshake.  The list of extensions that
+    /// are needed should be given as the reason for closing.
+    /// Note that this status code is not used by the server, because it
+    /// can fail the WebSocket handshake instead.
+    </span>Extension,
+    <span class="doccomment">/// Indicates that a server is terminating the connection because
+    /// it encountered an unexpected condition that prevented it from
+    /// fulfilling the request.
+    </span>Error,
+    <span class="doccomment">/// Indicates that the server is restarting. A client may choose to reconnect,
+    /// and if it does, it should use a randomized delay of 5-30 seconds between attempts.
+    </span>Restart,
+    <span class="doccomment">/// Indicates that the server is overloaded and the client should either connect
+    /// to a different IP (when multiple targets exist), or reconnect to the same IP
+    /// when a user has performed an action.
+    </span>Again,
+    <span class="attribute">#[doc(hidden)]
+    </span>Tls,
+    <span class="attribute">#[doc(hidden)]
+    </span>Reserved(u16),
+    <span class="attribute">#[doc(hidden)]
+    </span>Iana(u16),
+    <span class="attribute">#[doc(hidden)]
+    </span>Library(u16),
+    <span class="attribute">#[doc(hidden)]
+    </span>Bad(u16),
 }
 
-<span class="kw">impl</span> <span class="ident">CloseCode</span> {
-    <span class="doccomment">/// Check if this CloseCode is allowed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_allowed</span>(<span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="op">!</span><span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">Bad</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Reserved</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Status</span> <span class="op">|</span> <span class="ident">Abnormal</span> <span class="op">|</span> <span class="ident">Tls</span>)
+<span class="kw">impl </span>CloseCode {
+    <span class="doccomment">/// Check if this CloseCode is allowed.
+    </span><span class="kw">pub fn </span>is_allowed(<span class="self">self</span>) -&gt; bool {
+        !<span class="macro">matches!</span>(<span class="self">self</span>, Bad(<span class="kw">_</span>) | Reserved(<span class="kw">_</span>) | Status | Abnormal | Tls)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">CloseCode</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">let</span> <span class="ident">code</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into</span>();
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">code</span>)
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>CloseCode {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="kw">let </span>code: u16 = <span class="self">self</span>.into();
+        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, code)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">CloseCode</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">u16</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">code</span>: <span class="ident">CloseCode</span>) -&gt; <span class="ident">u16</span> {
-        <span class="kw">match</span> <span class="ident">code</span> {
-            <span class="ident">Normal</span> =&gt; <span class="number">1000</span>,
-            <span class="ident">Away</span> =&gt; <span class="number">1001</span>,
-            <span class="ident">Protocol</span> =&gt; <span class="number">1002</span>,
-            <span class="ident">Unsupported</span> =&gt; <span class="number">1003</span>,
-            <span class="ident">Status</span> =&gt; <span class="number">1005</span>,
-            <span class="ident">Abnormal</span> =&gt; <span class="number">1006</span>,
-            <span class="ident">Invalid</span> =&gt; <span class="number">1007</span>,
-            <span class="ident">Policy</span> =&gt; <span class="number">1008</span>,
-            <span class="ident">Size</span> =&gt; <span class="number">1009</span>,
-            <span class="ident">Extension</span> =&gt; <span class="number">1010</span>,
-            <span class="ident">Error</span> =&gt; <span class="number">1011</span>,
-            <span class="ident">Restart</span> =&gt; <span class="number">1012</span>,
-            <span class="ident">Again</span> =&gt; <span class="number">1013</span>,
-            <span class="ident">Tls</span> =&gt; <span class="number">1015</span>,
-            <span class="ident">Reserved</span>(<span class="ident">code</span>) =&gt; <span class="ident">code</span>,
-            <span class="ident">Iana</span>(<span class="ident">code</span>) =&gt; <span class="ident">code</span>,
-            <span class="ident">Library</span>(<span class="ident">code</span>) =&gt; <span class="ident">code</span>,
-            <span class="ident">Bad</span>(<span class="ident">code</span>) =&gt; <span class="ident">code</span>,
+<span class="kw">impl </span>From&lt;CloseCode&gt; <span class="kw">for </span>u16 {
+    <span class="kw">fn </span>from(code: CloseCode) -&gt; u16 {
+        <span class="kw">match </span>code {
+            Normal =&gt; <span class="number">1000</span>,
+            Away =&gt; <span class="number">1001</span>,
+            Protocol =&gt; <span class="number">1002</span>,
+            Unsupported =&gt; <span class="number">1003</span>,
+            Status =&gt; <span class="number">1005</span>,
+            Abnormal =&gt; <span class="number">1006</span>,
+            Invalid =&gt; <span class="number">1007</span>,
+            Policy =&gt; <span class="number">1008</span>,
+            Size =&gt; <span class="number">1009</span>,
+            Extension =&gt; <span class="number">1010</span>,
+            Error =&gt; <span class="number">1011</span>,
+            Restart =&gt; <span class="number">1012</span>,
+            Again =&gt; <span class="number">1013</span>,
+            Tls =&gt; <span class="number">1015</span>,
+            Reserved(code) =&gt; code,
+            Iana(code) =&gt; code,
+            Library(code) =&gt; code,
+            Bad(code) =&gt; code,
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="ident">CloseCode</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">u16</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="ident">CloseCode</span>) -&gt; <span class="ident">u16</span> {
-        (<span class="kw-2">*</span><span class="ident">code</span>).<span class="ident">into</span>()
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;t</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;t </span>CloseCode&gt; <span class="kw">for </span>u16 {
+    <span class="kw">fn </span>from(code: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t </span>CloseCode) -&gt; u16 {
+        (<span class="kw-2">*</span>code).into()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u16</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CloseCode</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">code</span>: <span class="ident">u16</span>) -&gt; <span class="ident">CloseCode</span> {
-        <span class="kw">match</span> <span class="ident">code</span> {
-            <span class="number">1000</span> =&gt; <span class="ident">Normal</span>,
-            <span class="number">1001</span> =&gt; <span class="ident">Away</span>,
-            <span class="number">1002</span> =&gt; <span class="ident">Protocol</span>,
-            <span class="number">1003</span> =&gt; <span class="ident">Unsupported</span>,
-            <span class="number">1005</span> =&gt; <span class="ident">Status</span>,
-            <span class="number">1006</span> =&gt; <span class="ident">Abnormal</span>,
-            <span class="number">1007</span> =&gt; <span class="ident">Invalid</span>,
-            <span class="number">1008</span> =&gt; <span class="ident">Policy</span>,
-            <span class="number">1009</span> =&gt; <span class="ident">Size</span>,
-            <span class="number">1010</span> =&gt; <span class="ident">Extension</span>,
-            <span class="number">1011</span> =&gt; <span class="ident">Error</span>,
-            <span class="number">1012</span> =&gt; <span class="ident">Restart</span>,
-            <span class="number">1013</span> =&gt; <span class="ident">Again</span>,
-            <span class="number">1015</span> =&gt; <span class="ident">Tls</span>,
-            <span class="number">1</span>..<span class="op">=</span><span class="number">999</span> =&gt; <span class="ident">Bad</span>(<span class="ident">code</span>),
-            <span class="number">1016</span>..<span class="op">=</span><span class="number">2999</span> =&gt; <span class="ident">Reserved</span>(<span class="ident">code</span>),
-            <span class="number">3000</span>..<span class="op">=</span><span class="number">3999</span> =&gt; <span class="ident">Iana</span>(<span class="ident">code</span>),
-            <span class="number">4000</span>..<span class="op">=</span><span class="number">4999</span> =&gt; <span class="ident">Library</span>(<span class="ident">code</span>),
-            <span class="kw">_</span> =&gt; <span class="ident">Bad</span>(<span class="ident">code</span>),
+<span class="kw">impl </span>From&lt;u16&gt; <span class="kw">for </span>CloseCode {
+    <span class="kw">fn </span>from(code: u16) -&gt; CloseCode {
+        <span class="kw">match </span>code {
+            <span class="number">1000 </span>=&gt; Normal,
+            <span class="number">1001 </span>=&gt; Away,
+            <span class="number">1002 </span>=&gt; Protocol,
+            <span class="number">1003 </span>=&gt; Unsupported,
+            <span class="number">1005 </span>=&gt; Status,
+            <span class="number">1006 </span>=&gt; Abnormal,
+            <span class="number">1007 </span>=&gt; Invalid,
+            <span class="number">1008 </span>=&gt; Policy,
+            <span class="number">1009 </span>=&gt; Size,
+            <span class="number">1010 </span>=&gt; Extension,
+            <span class="number">1011 </span>=&gt; Error,
+            <span class="number">1012 </span>=&gt; Restart,
+            <span class="number">1013 </span>=&gt; Again,
+            <span class="number">1015 </span>=&gt; Tls,
+            <span class="number">1</span>..=<span class="number">999 </span>=&gt; Bad(code),
+            <span class="number">1016</span>..=<span class="number">2999 </span>=&gt; Reserved(code),
+            <span class="number">3000</span>..=<span class="number">3999 </span>=&gt; Iana(code),
+            <span class="number">4000</span>..=<span class="number">4999 </span>=&gt; Library(code),
+            <span class="kw">_ </span>=&gt; Bad(code),
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">opcode_from_u8</span>() {
-        <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="number">2u8</span>;
-        <span class="macro">assert_eq!</span>(<span class="ident">OpCode::from</span>(<span class="ident">byte</span>), <span class="ident">OpCode::Data</span>(<span class="ident">Data::Binary</span>));
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>opcode_from_u8() {
+        <span class="kw">let </span>byte = <span class="number">2u8</span>;
+        <span class="macro">assert_eq!</span>(OpCode::from(byte), OpCode::Data(Data::Binary));
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">opcode_into_u8</span>() {
-        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">OpCode::Data</span>(<span class="ident">Data::Text</span>);
-        <span class="kw">let</span> <span class="ident">byte</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">byte</span>, <span class="number">1u8</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>opcode_into_u8() {
+        <span class="kw">let </span>text = OpCode::Data(Data::Text);
+        <span class="kw">let </span>byte: u8 = text.into();
+        <span class="macro">assert_eq!</span>(byte, <span class="number">1u8</span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">closecode_from_u16</span>() {
-        <span class="kw">let</span> <span class="ident">byte</span> <span class="op">=</span> <span class="number">1008u16</span>;
-        <span class="macro">assert_eq!</span>(<span class="ident">CloseCode::from</span>(<span class="ident">byte</span>), <span class="ident">CloseCode::Policy</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>closecode_from_u16() {
+        <span class="kw">let </span>byte = <span class="number">1008u16</span>;
+        <span class="macro">assert_eq!</span>(CloseCode::from(byte), CloseCode::Policy);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">closecode_into_u16</span>() {
-        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">CloseCode::Away</span>;
-        <span class="kw">let</span> <span class="ident">byte</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">byte</span>, <span class="number">1001u16</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">u16::from</span>(<span class="ident">text</span>), <span class="number">1001u16</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>closecode_into_u16() {
+        <span class="kw">let </span>text = CloseCode::Away;
+        <span class="kw">let </span>byte: u16 = text.into();
+        <span class="macro">assert_eq!</span>(byte, <span class="number">1001u16</span>);
+        <span class="macro">assert_eq!</span>(u16::from(text), <span class="number">1001u16</span>);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="tungstenite" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="tungstenite" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

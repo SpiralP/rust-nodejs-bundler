@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-http-2.2.2/src/error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_http/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_http/index.html"><div class="logo-container">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-http-3.2.1/src/error.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_http/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_http/index.html"><div class="logo-container">
                     <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_http/index.html">
                         <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -493,1918 +493,498 @@
 <span id="491">491</span>
 <span id="492">492</span>
 <span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
-<span id="501">501</span>
-<span id="502">502</span>
-<span id="503">503</span>
-<span id="504">504</span>
-<span id="505">505</span>
-<span id="506">506</span>
-<span id="507">507</span>
-<span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
-<span id="520">520</span>
-<span id="521">521</span>
-<span id="522">522</span>
-<span id="523">523</span>
-<span id="524">524</span>
-<span id="525">525</span>
-<span id="526">526</span>
-<span id="527">527</span>
-<span id="528">528</span>
-<span id="529">529</span>
-<span id="530">530</span>
-<span id="531">531</span>
-<span id="532">532</span>
-<span id="533">533</span>
-<span id="534">534</span>
-<span id="535">535</span>
-<span id="536">536</span>
-<span id="537">537</span>
-<span id="538">538</span>
-<span id="539">539</span>
-<span id="540">540</span>
-<span id="541">541</span>
-<span id="542">542</span>
-<span id="543">543</span>
-<span id="544">544</span>
-<span id="545">545</span>
-<span id="546">546</span>
-<span id="547">547</span>
-<span id="548">548</span>
-<span id="549">549</span>
-<span id="550">550</span>
-<span id="551">551</span>
-<span id="552">552</span>
-<span id="553">553</span>
-<span id="554">554</span>
-<span id="555">555</span>
-<span id="556">556</span>
-<span id="557">557</span>
-<span id="558">558</span>
-<span id="559">559</span>
-<span id="560">560</span>
-<span id="561">561</span>
-<span id="562">562</span>
-<span id="563">563</span>
-<span id="564">564</span>
-<span id="565">565</span>
-<span id="566">566</span>
-<span id="567">567</span>
-<span id="568">568</span>
-<span id="569">569</span>
-<span id="570">570</span>
-<span id="571">571</span>
-<span id="572">572</span>
-<span id="573">573</span>
-<span id="574">574</span>
-<span id="575">575</span>
-<span id="576">576</span>
-<span id="577">577</span>
-<span id="578">578</span>
-<span id="579">579</span>
-<span id="580">580</span>
-<span id="581">581</span>
-<span id="582">582</span>
-<span id="583">583</span>
-<span id="584">584</span>
-<span id="585">585</span>
-<span id="586">586</span>
-<span id="587">587</span>
-<span id="588">588</span>
-<span id="589">589</span>
-<span id="590">590</span>
-<span id="591">591</span>
-<span id="592">592</span>
-<span id="593">593</span>
-<span id="594">594</span>
-<span id="595">595</span>
-<span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
-<span id="606">606</span>
-<span id="607">607</span>
-<span id="608">608</span>
-<span id="609">609</span>
-<span id="610">610</span>
-<span id="611">611</span>
-<span id="612">612</span>
-<span id="613">613</span>
-<span id="614">614</span>
-<span id="615">615</span>
-<span id="616">616</span>
-<span id="617">617</span>
-<span id="618">618</span>
-<span id="619">619</span>
-<span id="620">620</span>
-<span id="621">621</span>
-<span id="622">622</span>
-<span id="623">623</span>
-<span id="624">624</span>
-<span id="625">625</span>
-<span id="626">626</span>
-<span id="627">627</span>
-<span id="628">628</span>
-<span id="629">629</span>
-<span id="630">630</span>
-<span id="631">631</span>
-<span id="632">632</span>
-<span id="633">633</span>
-<span id="634">634</span>
-<span id="635">635</span>
-<span id="636">636</span>
-<span id="637">637</span>
-<span id="638">638</span>
-<span id="639">639</span>
-<span id="640">640</span>
-<span id="641">641</span>
-<span id="642">642</span>
-<span id="643">643</span>
-<span id="644">644</span>
-<span id="645">645</span>
-<span id="646">646</span>
-<span id="647">647</span>
-<span id="648">648</span>
-<span id="649">649</span>
-<span id="650">650</span>
-<span id="651">651</span>
-<span id="652">652</span>
-<span id="653">653</span>
-<span id="654">654</span>
-<span id="655">655</span>
-<span id="656">656</span>
-<span id="657">657</span>
-<span id="658">658</span>
-<span id="659">659</span>
-<span id="660">660</span>
-<span id="661">661</span>
-<span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
-<span id="668">668</span>
-<span id="669">669</span>
-<span id="670">670</span>
-<span id="671">671</span>
-<span id="672">672</span>
-<span id="673">673</span>
-<span id="674">674</span>
-<span id="675">675</span>
-<span id="676">676</span>
-<span id="677">677</span>
-<span id="678">678</span>
-<span id="679">679</span>
-<span id="680">680</span>
-<span id="681">681</span>
-<span id="682">682</span>
-<span id="683">683</span>
-<span id="684">684</span>
-<span id="685">685</span>
-<span id="686">686</span>
-<span id="687">687</span>
-<span id="688">688</span>
-<span id="689">689</span>
-<span id="690">690</span>
-<span id="691">691</span>
-<span id="692">692</span>
-<span id="693">693</span>
-<span id="694">694</span>
-<span id="695">695</span>
-<span id="696">696</span>
-<span id="697">697</span>
-<span id="698">698</span>
-<span id="699">699</span>
-<span id="700">700</span>
-<span id="701">701</span>
-<span id="702">702</span>
-<span id="703">703</span>
-<span id="704">704</span>
-<span id="705">705</span>
-<span id="706">706</span>
-<span id="707">707</span>
-<span id="708">708</span>
-<span id="709">709</span>
-<span id="710">710</span>
-<span id="711">711</span>
-<span id="712">712</span>
-<span id="713">713</span>
-<span id="714">714</span>
-<span id="715">715</span>
-<span id="716">716</span>
-<span id="717">717</span>
-<span id="718">718</span>
-<span id="719">719</span>
-<span id="720">720</span>
-<span id="721">721</span>
-<span id="722">722</span>
-<span id="723">723</span>
-<span id="724">724</span>
-<span id="725">725</span>
-<span id="726">726</span>
-<span id="727">727</span>
-<span id="728">728</span>
-<span id="729">729</span>
-<span id="730">730</span>
-<span id="731">731</span>
-<span id="732">732</span>
-<span id="733">733</span>
-<span id="734">734</span>
-<span id="735">735</span>
-<span id="736">736</span>
-<span id="737">737</span>
-<span id="738">738</span>
-<span id="739">739</span>
-<span id="740">740</span>
-<span id="741">741</span>
-<span id="742">742</span>
-<span id="743">743</span>
-<span id="744">744</span>
-<span id="745">745</span>
-<span id="746">746</span>
-<span id="747">747</span>
-<span id="748">748</span>
-<span id="749">749</span>
-<span id="750">750</span>
-<span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
-<span id="755">755</span>
-<span id="756">756</span>
-<span id="757">757</span>
-<span id="758">758</span>
-<span id="759">759</span>
-<span id="760">760</span>
-<span id="761">761</span>
-<span id="762">762</span>
-<span id="763">763</span>
-<span id="764">764</span>
-<span id="765">765</span>
-<span id="766">766</span>
-<span id="767">767</span>
-<span id="768">768</span>
-<span id="769">769</span>
-<span id="770">770</span>
-<span id="771">771</span>
-<span id="772">772</span>
-<span id="773">773</span>
-<span id="774">774</span>
-<span id="775">775</span>
-<span id="776">776</span>
-<span id="777">777</span>
-<span id="778">778</span>
-<span id="779">779</span>
-<span id="780">780</span>
-<span id="781">781</span>
-<span id="782">782</span>
-<span id="783">783</span>
-<span id="784">784</span>
-<span id="785">785</span>
-<span id="786">786</span>
-<span id="787">787</span>
-<span id="788">788</span>
-<span id="789">789</span>
-<span id="790">790</span>
-<span id="791">791</span>
-<span id="792">792</span>
-<span id="793">793</span>
-<span id="794">794</span>
-<span id="795">795</span>
-<span id="796">796</span>
-<span id="797">797</span>
-<span id="798">798</span>
-<span id="799">799</span>
-<span id="800">800</span>
-<span id="801">801</span>
-<span id="802">802</span>
-<span id="803">803</span>
-<span id="804">804</span>
-<span id="805">805</span>
-<span id="806">806</span>
-<span id="807">807</span>
-<span id="808">808</span>
-<span id="809">809</span>
-<span id="810">810</span>
-<span id="811">811</span>
-<span id="812">812</span>
-<span id="813">813</span>
-<span id="814">814</span>
-<span id="815">815</span>
-<span id="816">816</span>
-<span id="817">817</span>
-<span id="818">818</span>
-<span id="819">819</span>
-<span id="820">820</span>
-<span id="821">821</span>
-<span id="822">822</span>
-<span id="823">823</span>
-<span id="824">824</span>
-<span id="825">825</span>
-<span id="826">826</span>
-<span id="827">827</span>
-<span id="828">828</span>
-<span id="829">829</span>
-<span id="830">830</span>
-<span id="831">831</span>
-<span id="832">832</span>
-<span id="833">833</span>
-<span id="834">834</span>
-<span id="835">835</span>
-<span id="836">836</span>
-<span id="837">837</span>
-<span id="838">838</span>
-<span id="839">839</span>
-<span id="840">840</span>
-<span id="841">841</span>
-<span id="842">842</span>
-<span id="843">843</span>
-<span id="844">844</span>
-<span id="845">845</span>
-<span id="846">846</span>
-<span id="847">847</span>
-<span id="848">848</span>
-<span id="849">849</span>
-<span id="850">850</span>
-<span id="851">851</span>
-<span id="852">852</span>
-<span id="853">853</span>
-<span id="854">854</span>
-<span id="855">855</span>
-<span id="856">856</span>
-<span id="857">857</span>
-<span id="858">858</span>
-<span id="859">859</span>
-<span id="860">860</span>
-<span id="861">861</span>
-<span id="862">862</span>
-<span id="863">863</span>
-<span id="864">864</span>
-<span id="865">865</span>
-<span id="866">866</span>
-<span id="867">867</span>
-<span id="868">868</span>
-<span id="869">869</span>
-<span id="870">870</span>
-<span id="871">871</span>
-<span id="872">872</span>
-<span id="873">873</span>
-<span id="874">874</span>
-<span id="875">875</span>
-<span id="876">876</span>
-<span id="877">877</span>
-<span id="878">878</span>
-<span id="879">879</span>
-<span id="880">880</span>
-<span id="881">881</span>
-<span id="882">882</span>
-<span id="883">883</span>
-<span id="884">884</span>
-<span id="885">885</span>
-<span id="886">886</span>
-<span id="887">887</span>
-<span id="888">888</span>
-<span id="889">889</span>
-<span id="890">890</span>
-<span id="891">891</span>
-<span id="892">892</span>
-<span id="893">893</span>
-<span id="894">894</span>
-<span id="895">895</span>
-<span id="896">896</span>
-<span id="897">897</span>
-<span id="898">898</span>
-<span id="899">899</span>
-<span id="900">900</span>
-<span id="901">901</span>
-<span id="902">902</span>
-<span id="903">903</span>
-<span id="904">904</span>
-<span id="905">905</span>
-<span id="906">906</span>
-<span id="907">907</span>
-<span id="908">908</span>
-<span id="909">909</span>
-<span id="910">910</span>
-<span id="911">911</span>
-<span id="912">912</span>
-<span id="913">913</span>
-<span id="914">914</span>
-<span id="915">915</span>
-<span id="916">916</span>
-<span id="917">917</span>
-<span id="918">918</span>
-<span id="919">919</span>
-<span id="920">920</span>
-<span id="921">921</span>
-<span id="922">922</span>
-<span id="923">923</span>
-<span id="924">924</span>
-<span id="925">925</span>
-<span id="926">926</span>
-<span id="927">927</span>
-<span id="928">928</span>
-<span id="929">929</span>
-<span id="930">930</span>
-<span id="931">931</span>
-<span id="932">932</span>
-<span id="933">933</span>
-<span id="934">934</span>
-<span id="935">935</span>
-<span id="936">936</span>
-<span id="937">937</span>
-<span id="938">938</span>
-<span id="939">939</span>
-<span id="940">940</span>
-<span id="941">941</span>
-<span id="942">942</span>
-<span id="943">943</span>
-<span id="944">944</span>
-<span id="945">945</span>
-<span id="946">946</span>
-<span id="947">947</span>
-<span id="948">948</span>
-<span id="949">949</span>
-<span id="950">950</span>
-<span id="951">951</span>
-<span id="952">952</span>
-<span id="953">953</span>
-<span id="954">954</span>
-<span id="955">955</span>
-<span id="956">956</span>
-<span id="957">957</span>
-<span id="958">958</span>
-<span id="959">959</span>
-<span id="960">960</span>
-<span id="961">961</span>
-<span id="962">962</span>
-<span id="963">963</span>
-<span id="964">964</span>
-<span id="965">965</span>
-<span id="966">966</span>
-<span id="967">967</span>
-<span id="968">968</span>
-<span id="969">969</span>
-<span id="970">970</span>
-<span id="971">971</span>
-<span id="972">972</span>
-<span id="973">973</span>
-<span id="974">974</span>
-<span id="975">975</span>
-<span id="976">976</span>
-<span id="977">977</span>
-<span id="978">978</span>
-<span id="979">979</span>
-<span id="980">980</span>
-<span id="981">981</span>
-<span id="982">982</span>
-<span id="983">983</span>
-<span id="984">984</span>
-<span id="985">985</span>
-<span id="986">986</span>
-<span id="987">987</span>
-<span id="988">988</span>
-<span id="989">989</span>
-<span id="990">990</span>
-<span id="991">991</span>
-<span id="992">992</span>
-<span id="993">993</span>
-<span id="994">994</span>
-<span id="995">995</span>
-<span id="996">996</span>
-<span id="997">997</span>
-<span id="998">998</span>
-<span id="999">999</span>
-<span id="1000">1000</span>
-<span id="1001">1001</span>
-<span id="1002">1002</span>
-<span id="1003">1003</span>
-<span id="1004">1004</span>
-<span id="1005">1005</span>
-<span id="1006">1006</span>
-<span id="1007">1007</span>
-<span id="1008">1008</span>
-<span id="1009">1009</span>
-<span id="1010">1010</span>
-<span id="1011">1011</span>
-<span id="1012">1012</span>
-<span id="1013">1013</span>
-<span id="1014">1014</span>
-<span id="1015">1015</span>
-<span id="1016">1016</span>
-<span id="1017">1017</span>
-<span id="1018">1018</span>
-<span id="1019">1019</span>
-<span id="1020">1020</span>
-<span id="1021">1021</span>
-<span id="1022">1022</span>
-<span id="1023">1023</span>
-<span id="1024">1024</span>
-<span id="1025">1025</span>
-<span id="1026">1026</span>
-<span id="1027">1027</span>
-<span id="1028">1028</span>
-<span id="1029">1029</span>
-<span id="1030">1030</span>
-<span id="1031">1031</span>
-<span id="1032">1032</span>
-<span id="1033">1033</span>
-<span id="1034">1034</span>
-<span id="1035">1035</span>
-<span id="1036">1036</span>
-<span id="1037">1037</span>
-<span id="1038">1038</span>
-<span id="1039">1039</span>
-<span id="1040">1040</span>
-<span id="1041">1041</span>
-<span id="1042">1042</span>
-<span id="1043">1043</span>
-<span id="1044">1044</span>
-<span id="1045">1045</span>
-<span id="1046">1046</span>
-<span id="1047">1047</span>
-<span id="1048">1048</span>
-<span id="1049">1049</span>
-<span id="1050">1050</span>
-<span id="1051">1051</span>
-<span id="1052">1052</span>
-<span id="1053">1053</span>
-<span id="1054">1054</span>
-<span id="1055">1055</span>
-<span id="1056">1056</span>
-<span id="1057">1057</span>
-<span id="1058">1058</span>
-<span id="1059">1059</span>
-<span id="1060">1060</span>
-<span id="1061">1061</span>
-<span id="1062">1062</span>
-<span id="1063">1063</span>
-<span id="1064">1064</span>
-<span id="1065">1065</span>
-<span id="1066">1066</span>
-<span id="1067">1067</span>
-<span id="1068">1068</span>
-<span id="1069">1069</span>
-<span id="1070">1070</span>
-<span id="1071">1071</span>
-<span id="1072">1072</span>
-<span id="1073">1073</span>
-<span id="1074">1074</span>
-<span id="1075">1075</span>
-<span id="1076">1076</span>
-<span id="1077">1077</span>
-<span id="1078">1078</span>
-<span id="1079">1079</span>
-<span id="1080">1080</span>
-<span id="1081">1081</span>
-<span id="1082">1082</span>
-<span id="1083">1083</span>
-<span id="1084">1084</span>
-<span id="1085">1085</span>
-<span id="1086">1086</span>
-<span id="1087">1087</span>
-<span id="1088">1088</span>
-<span id="1089">1089</span>
-<span id="1090">1090</span>
-<span id="1091">1091</span>
-<span id="1092">1092</span>
-<span id="1093">1093</span>
-<span id="1094">1094</span>
-<span id="1095">1095</span>
-<span id="1096">1096</span>
-<span id="1097">1097</span>
-<span id="1098">1098</span>
-<span id="1099">1099</span>
-<span id="1100">1100</span>
-<span id="1101">1101</span>
-<span id="1102">1102</span>
-<span id="1103">1103</span>
-<span id="1104">1104</span>
-<span id="1105">1105</span>
-<span id="1106">1106</span>
-<span id="1107">1107</span>
-<span id="1108">1108</span>
-<span id="1109">1109</span>
-<span id="1110">1110</span>
-<span id="1111">1111</span>
-<span id="1112">1112</span>
-<span id="1113">1113</span>
-<span id="1114">1114</span>
-<span id="1115">1115</span>
-<span id="1116">1116</span>
-<span id="1117">1117</span>
-<span id="1118">1118</span>
-<span id="1119">1119</span>
-<span id="1120">1120</span>
-<span id="1121">1121</span>
-<span id="1122">1122</span>
-<span id="1123">1123</span>
-<span id="1124">1124</span>
-<span id="1125">1125</span>
-<span id="1126">1126</span>
-<span id="1127">1127</span>
-<span id="1128">1128</span>
-<span id="1129">1129</span>
-<span id="1130">1130</span>
-<span id="1131">1131</span>
-<span id="1132">1132</span>
-<span id="1133">1133</span>
-<span id="1134">1134</span>
-<span id="1135">1135</span>
-<span id="1136">1136</span>
-<span id="1137">1137</span>
-<span id="1138">1138</span>
-<span id="1139">1139</span>
-<span id="1140">1140</span>
-<span id="1141">1141</span>
-<span id="1142">1142</span>
-<span id="1143">1143</span>
-<span id="1144">1144</span>
-<span id="1145">1145</span>
-<span id="1146">1146</span>
-<span id="1147">1147</span>
-<span id="1148">1148</span>
-<span id="1149">1149</span>
-<span id="1150">1150</span>
-<span id="1151">1151</span>
-<span id="1152">1152</span>
-<span id="1153">1153</span>
-<span id="1154">1154</span>
-<span id="1155">1155</span>
-<span id="1156">1156</span>
-<span id="1157">1157</span>
-<span id="1158">1158</span>
-<span id="1159">1159</span>
-<span id="1160">1160</span>
-<span id="1161">1161</span>
-<span id="1162">1162</span>
-<span id="1163">1163</span>
-<span id="1164">1164</span>
-<span id="1165">1165</span>
-<span id="1166">1166</span>
-<span id="1167">1167</span>
-<span id="1168">1168</span>
-<span id="1169">1169</span>
-<span id="1170">1170</span>
-<span id="1171">1171</span>
-<span id="1172">1172</span>
-<span id="1173">1173</span>
-<span id="1174">1174</span>
-<span id="1175">1175</span>
-<span id="1176">1176</span>
-<span id="1177">1177</span>
-<span id="1178">1178</span>
-<span id="1179">1179</span>
-<span id="1180">1180</span>
-<span id="1181">1181</span>
-<span id="1182">1182</span>
-<span id="1183">1183</span>
-<span id="1184">1184</span>
-<span id="1185">1185</span>
-<span id="1186">1186</span>
-<span id="1187">1187</span>
-<span id="1188">1188</span>
-<span id="1189">1189</span>
-<span id="1190">1190</span>
-<span id="1191">1191</span>
-<span id="1192">1192</span>
-<span id="1193">1193</span>
-<span id="1194">1194</span>
-<span id="1195">1195</span>
-<span id="1196">1196</span>
-<span id="1197">1197</span>
-<span id="1198">1198</span>
-<span id="1199">1199</span>
-<span id="1200">1200</span>
-<span id="1201">1201</span>
-<span id="1202">1202</span>
-<span id="1203">1203</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Error and Result module</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Error and Result module
 
-<span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
-<span class="kw">use</span> <span class="ident">std::io::Write</span>;
-<span class="kw">use</span> <span class="ident">std::str::Utf8Error</span>;
-<span class="kw">use</span> <span class="ident">std::string::FromUtf8Error</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">io</span>, <span class="ident">result</span>};
+</span><span class="kw">use </span>std::{error::Error <span class="kw">as </span>StdError, fmt, io, str::Utf8Error, string::FromUtf8Error};
 
-<span class="kw">use</span> <span class="ident">actix_codec</span>::{<span class="ident">Decoder</span>, <span class="ident">Encoder</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_threadpool::BlockingError</span>;
-<span class="kw">use</span> <span class="ident">actix_utils::dispatcher::DispatcherError</span> <span class="kw">as</span> <span class="ident">FramedDispatcherError</span>;
-<span class="kw">use</span> <span class="ident">actix_utils::timeout::TimeoutError</span>;
-<span class="kw">use</span> <span class="ident">bytes::BytesMut</span>;
-<span class="kw">use</span> <span class="ident">derive_more</span>::{<span class="ident">Display</span>, <span class="ident">From</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">futures_channel::oneshot::Canceled</span>;
-<span class="kw">use</span> <span class="ident">http::uri::InvalidUri</span>;
-<span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">header</span>, <span class="ident">Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>, <span class="ident">StatusCode</span>};
-<span class="kw">use</span> <span class="ident">serde::de::value::Error</span> <span class="kw">as</span> <span class="ident">DeError</span>;
-<span class="kw">use</span> <span class="ident">serde_json::error::Error</span> <span class="kw">as</span> <span class="ident">JsonError</span>;
-<span class="kw">use</span> <span class="ident">serde_urlencoded::ser::Error</span> <span class="kw">as</span> <span class="ident">FormError</span>;
+<span class="kw">use </span>derive_more::{Display, Error, From};
+<span class="kw">use </span>http::{uri::InvalidUri, StatusCode};
 
-<span class="comment">// re-export for convenience</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::body::Body</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::cookie::ParseError</span> <span class="kw">as</span> <span class="ident">CookieParseError</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::helpers::Writer</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::response</span>::{<span class="ident">Response</span>, <span class="ident">ResponseBuilder</span>};
+<span class="kw">use crate</span>::{body::BoxBody, Response};
 
-<span class="doccomment">/// A specialized [`Result`](https://doc.rust-lang.org/std/result/enum.Result.html)</span>
-<span class="doccomment">/// for actix web operations</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This typedef is generally used to avoid writing out</span>
-<span class="doccomment">/// `actix_http::error::Error` directly and is otherwise a direct mapping to</span>
-<span class="doccomment">/// `Result`.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span> <span class="op">=</span> <span class="ident">Error</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">result::Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>;
+<span class="kw">pub use </span>http::Error <span class="kw">as </span>HttpError;
 
-<span class="doccomment">/// General purpose actix web error.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// An actix web error is used to carry errors from `std::error`</span>
-<span class="doccomment">/// through actix in a convenient way.  It can be created through</span>
-<span class="doccomment">/// converting errors with `into()`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Whenever it is created from an external object a response error is created</span>
-<span class="doccomment">/// for it that can be used to create an http response from it this means that</span>
-<span class="doccomment">/// if you have access to an actix `Error` you can always get a</span>
-<span class="doccomment">/// `ResponseError` reference from it.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Error</span> {
-    <span class="ident">cause</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ResponseError</span><span class="op">&gt;</span>,
+<span class="kw">pub struct </span>Error {
+    inner: Box&lt;ErrorInner&gt;,
 }
 
-<span class="kw">impl</span> <span class="ident">Error</span> {
-    <span class="doccomment">/// Returns the reference to the underlying `ResponseError`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_response_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ResponseError</span> {
-        <span class="self">self</span>.<span class="ident">cause</span>.<span class="ident">as_ref</span>()
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ErrorInner {
+    <span class="attribute">#[allow(dead_code)]
+    </span>kind: Kind,
+    cause: <span class="prelude-ty">Option</span>&lt;Box&lt;<span class="kw">dyn </span>StdError&gt;&gt;,
+}
+
+<span class="kw">impl </span>Error {
+    <span class="kw">fn </span>new(kind: Kind) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            inner: Box::new(ErrorInner { kind, cause: <span class="prelude-val">None </span>}),
+        }
     }
 
-    <span class="doccomment">/// Similar to `as_response_error` but downcasts.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_error</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ResponseError</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ResponseError</span><span class="op">&gt;</span><span class="ident">::downcast_ref</span>(<span class="self">self</span>.<span class="ident">cause</span>.<span class="ident">as_ref</span>())
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_cause(<span class="kw-2">mut </span><span class="self">self</span>, cause: <span class="kw">impl </span>Into&lt;Box&lt;<span class="kw">dyn </span>StdError&gt;&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.inner.cause = <span class="prelude-val">Some</span>(cause.into());
+        <span class="self">self
+    </span>}
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_http() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Http)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_parse() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Parse)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_payload() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Payload)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_body() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Body)
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_send_response() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::SendResponse)
+    }
+
+    <span class="attribute">#[allow(unused)] </span><span class="comment">// available for future use
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_io() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Io)
+    }
+
+    <span class="attribute">#[allow(unused)] </span><span class="comment">// used in encoder behind feature flag so ignore unused warning
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_encoder() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Encoder)
+    }
+
+    <span class="attribute">#[allow(unused)] </span><span class="comment">// used with `ws` feature flag
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_ws() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(Kind::Ws)
     }
 }
 
-<span class="doccomment">/// Error that can be converted to `Response`</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ResponseError</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> {
-    <span class="doccomment">/// Response&#39;s status code</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Internal server error is generated by default.</span>
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>
-    }
+<span class="kw">impl </span>From&lt;Error&gt; <span class="kw">for </span>Response&lt;BoxBody&gt; {
+    <span class="kw">fn </span>from(err: Error) -&gt; <span class="self">Self </span>{
+        <span class="comment">// TODO: more appropriate error status codes, usage assessment needed
+        </span><span class="kw">let </span>status_code = <span class="kw">match </span>err.inner.kind {
+            Kind::Parse =&gt; StatusCode::BAD_REQUEST,
+            <span class="kw">_ </span>=&gt; StatusCode::INTERNAL_SERVER_ERROR,
+        };
 
-    <span class="doccomment">/// Create response for error</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Internal server error is generated by default.</span>
-    <span class="kw">fn</span> <span class="ident">error_response</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Response</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="self">self</span>.<span class="ident">status_code</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut::new</span>();
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
-        <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(
-            <span class="ident">header::CONTENT_TYPE</span>,
-            <span class="ident">header::HeaderValue::from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
-        );
-        <span class="ident">resp</span>.<span class="ident">set_body</span>(<span class="ident">Body::from</span>(<span class="ident">buf</span>))
-    }
-
-    <span class="macro">downcast_get_type_id!</span>();
-}
-
-<span class="macro">downcast!</span>(<span class="ident">ResponseError</span>);
-
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">fmt::Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>, <span class="ident">f</span>)
+        Response::new(status_code).set_body(BoxBody::new(err.to_string()))
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>)
+<span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq, Display)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Kind {
+    <span class="attribute">#[display(fmt = <span class="string">&quot;error processing HTTP&quot;</span>)]
+    </span>Http,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;error parsing HTTP message&quot;</span>)]
+    </span>Parse,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;request payload read error&quot;</span>)]
+    </span>Payload,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;response body write error&quot;</span>)]
+    </span>Body,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;send response error&quot;</span>)]
+    </span>SendResponse,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;error in WebSocket process&quot;</span>)]
+    </span>Ws,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;connection error&quot;</span>)]
+    </span>Io,
+
+    <span class="attribute">#[display(fmt = <span class="string">&quot;encoder error&quot;</span>)]
+    </span>Encoder,
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Error {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">&quot;actix_http::Error&quot;</span>)
+            .field(<span class="string">&quot;kind&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.inner.kind)
+            .field(<span class="string">&quot;cause&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.inner.cause)
+            .finish()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span> {
-        <span class="prelude-val">None</span>
-    }
-
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
-        <span class="prelude-val">None</span>
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: ()) -&gt; <span class="self">Self</span> {
-        <span class="ident">Error::from</span>(<span class="ident">UnitError</span>)
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">std::convert::Infallible</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">std::convert::Infallible</span>) -&gt; <span class="self">Self</span> {
-        <span class="comment">// `std::convert::Infallible` indicates an error</span>
-        <span class="comment">// that will never happen</span>
-        <span class="macro">unreachable!</span>()
-    }
-}
-
-<span class="doccomment">/// Convert `Error` to a `Response` instance</span>
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Response</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">Response::from_error</span>(<span class="ident">err</span>)
-    }
-}
-
-<span class="doccomment">/// `Error` for any error that implements `ResponseError`</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">ResponseError</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span> {
-        <span class="ident">Error</span> {
-            <span class="ident">cause</span>: <span class="ident">Box::new</span>(<span class="ident">err</span>),
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="self">self</span>.inner.cause.as_ref() {
+            <span class="prelude-val">Some</span>(err) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}: {}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.inner.kind, err),
+            <span class="prelude-val">None </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.inner.kind),
         }
     }
 }
 
-<span class="doccomment">/// Convert Response to a Error</span>
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">res</span>: <span class="ident">Response</span>) -&gt; <span class="ident">Error</span> {
-        <span class="ident">InternalError::from_response</span>(<span class="string">&quot;&quot;</span>, <span class="ident">res</span>).<span class="ident">into</span>()
+<span class="kw">impl </span>StdError <span class="kw">for </span>Error {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>StdError + <span class="lifetime">&#39;static</span>)&gt; {
+        <span class="self">self</span>.inner.cause.as_ref().map(Box::as_ref)
     }
 }
 
-<span class="doccomment">/// Convert ResponseBuilder to a Error</span>
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">ResponseBuilder</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">ResponseBuilder</span>) -&gt; <span class="ident">Error</span> {
-        <span class="ident">InternalError::from_response</span>(<span class="string">&quot;&quot;</span>, <span class="ident">res</span>.<span class="ident">finish</span>()).<span class="ident">into</span>()
+<span class="kw">impl </span>From&lt;std::convert::Infallible&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: std::convert::Infallible) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>err {}
     }
 }
 
-<span class="doccomment">/// Return `GATEWAY_TIMEOUT` for `TimeoutError`</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">ResponseError</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">TimeoutError</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">TimeoutError::Service</span>(<span class="ident">e</span>) =&gt; <span class="ident">e</span>.<span class="ident">status_code</span>(),
-            <span class="ident">TimeoutError::Timeout</span> =&gt; <span class="ident">StatusCode::GATEWAY_TIMEOUT</span>,
+<span class="kw">impl </span>From&lt;HttpError&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: HttpError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new_http().with_cause(err)
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;ws&quot;</span>)]
+</span><span class="kw">impl </span>From&lt;<span class="kw">crate</span>::ws::HandshakeError&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: <span class="kw">crate</span>::ws::HandshakeError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new_ws().with_cause(err)
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;ws&quot;</span>)]
+</span><span class="kw">impl </span>From&lt;<span class="kw">crate</span>::ws::ProtocolError&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: <span class="kw">crate</span>::ws::ProtocolError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new_ws().with_cause(err)
+    }
+}
+
+<span class="doccomment">/// A set of errors that can occur during parsing HTTP streams.
+</span><span class="attribute">#[derive(Debug, Display, Error)]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>ParseError {
+    <span class="doccomment">/// An invalid `Method`, such as `GE.T`.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Invalid Method specified&quot;</span>)]
+    </span>Method,
+
+    <span class="doccomment">/// An invalid `Uri`, such as `exam ple.domain`.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Uri error: {}&quot;</span>, _0)]
+    </span>Uri(InvalidUri),
+
+    <span class="doccomment">/// An invalid `HttpVersion`, such as `HTP/1.1`
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Invalid HTTP version specified&quot;</span>)]
+    </span>Version,
+
+    <span class="doccomment">/// An invalid `Header`.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Invalid Header provided&quot;</span>)]
+    </span>Header,
+
+    <span class="doccomment">/// A message head is too large to be reasonable.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Message head is too large&quot;</span>)]
+    </span>TooLarge,
+
+    <span class="doccomment">/// A message reached EOF, but is not complete.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Message is incomplete&quot;</span>)]
+    </span>Incomplete,
+
+    <span class="doccomment">/// An invalid `Status`, such as `1337 ELITE`.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Invalid Status provided&quot;</span>)]
+    </span>Status,
+
+    <span class="doccomment">/// A timeout occurred waiting for an IO event.
+    </span><span class="attribute">#[allow(dead_code)]
+    #[display(fmt = <span class="string">&quot;Timeout&quot;</span>)]
+    </span>Timeout,
+
+    <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network stream.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;IO error: {}&quot;</span>, _0)]
+    </span>Io(io::Error),
+
+    <span class="doccomment">/// Parsing a field as string failed.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;UTF8 error: {}&quot;</span>, _0)]
+    </span>Utf8(Utf8Error),
+}
+
+<span class="kw">impl </span>From&lt;io::Error&gt; <span class="kw">for </span>ParseError {
+    <span class="kw">fn </span>from(err: io::Error) -&gt; ParseError {
+        ParseError::Io(err)
+    }
+}
+
+<span class="kw">impl </span>From&lt;InvalidUri&gt; <span class="kw">for </span>ParseError {
+    <span class="kw">fn </span>from(err: InvalidUri) -&gt; ParseError {
+        ParseError::Uri(err)
+    }
+}
+
+<span class="kw">impl </span>From&lt;Utf8Error&gt; <span class="kw">for </span>ParseError {
+    <span class="kw">fn </span>from(err: Utf8Error) -&gt; ParseError {
+        ParseError::Utf8(err)
+    }
+}
+
+<span class="kw">impl </span>From&lt;FromUtf8Error&gt; <span class="kw">for </span>ParseError {
+    <span class="kw">fn </span>from(err: FromUtf8Error) -&gt; ParseError {
+        ParseError::Utf8(err.utf8_error())
+    }
+}
+
+<span class="kw">impl </span>From&lt;httparse::Error&gt; <span class="kw">for </span>ParseError {
+    <span class="kw">fn </span>from(err: httparse::Error) -&gt; ParseError {
+        <span class="kw">match </span>err {
+            httparse::Error::HeaderName
+            | httparse::Error::HeaderValue
+            | httparse::Error::NewLine
+            | httparse::Error::Token =&gt; ParseError::Header,
+            httparse::Error::Status =&gt; ParseError::Status,
+            httparse::Error::TooManyHeaders =&gt; ParseError::TooLarge,
+            httparse::Error::Version =&gt; ParseError::Version,
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Display</span>)]</span>
-<span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;UnknownError&quot;</span>)]</span>
-<span class="kw">struct</span> <span class="ident">UnitError</span>;
-
-<span class="doccomment">/// `InternalServerError` for `UnitError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">UnitError</span> {}
-
-<span class="doccomment">/// `InternalServerError` for `JsonError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">JsonError</span> {}
-
-<span class="doccomment">/// `InternalServerError` for `FormError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">FormError</span> {}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-<span class="doccomment">/// `InternalServerError` for `openssl::ssl::Error`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">actix_connect::ssl::openssl::SslError</span> {}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;openssl&quot;</span>)]</span>
-<span class="doccomment">/// `InternalServerError` for `openssl::ssl::HandshakeError`</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">std::fmt::Debug</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">actix_tls::openssl::HandshakeError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-
-<span class="doccomment">/// Return `BAD_REQUEST` for `de::value::Error`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">DeError</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
+<span class="kw">impl </span>From&lt;ParseError&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: ParseError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new_parse().with_cause(err)
     }
 }
 
-<span class="doccomment">/// `InternalServerError` for `Canceled`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">Canceled</span> {}
-
-<span class="doccomment">/// `InternalServerError` for `BlockingError`</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">fmt::Debug</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">BlockingError</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {}
-
-<span class="doccomment">/// Return `BAD_REQUEST` for `Utf8Error`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">Utf8Error</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
+<span class="kw">impl </span>From&lt;ParseError&gt; <span class="kw">for </span>Response&lt;BoxBody&gt; {
+    <span class="kw">fn </span>from(err: ParseError) -&gt; <span class="self">Self </span>{
+        Error::from(err).into()
     }
 }
 
-<span class="doccomment">/// Return `InternalServerError` for `HttpError`,</span>
-<span class="doccomment">/// Response generation can return `HttpError`, so it is internal error</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">HttpError</span> {}
+<span class="doccomment">/// A set of errors that can occur during payload parsing.
+</span><span class="attribute">#[derive(Debug, Display)]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>PayloadError {
+    <span class="doccomment">/// A payload reached EOF, but is not complete.
+    </span><span class="attribute">#[display(
+        fmt = <span class="string">&quot;A payload reached EOF, but is not complete. Inner error: {:?}&quot;</span>,
+        _0
+    )]
+    </span>Incomplete(<span class="prelude-ty">Option</span>&lt;io::Error&gt;),
 
-<span class="doccomment">/// Return `InternalServerError` for `io::Error`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">io::Error</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span>() {
-            <span class="ident">io::ErrorKind::NotFound</span> =&gt; <span class="ident">StatusCode::NOT_FOUND</span>,
-            <span class="ident">io::ErrorKind::PermissionDenied</span> =&gt; <span class="ident">StatusCode::FORBIDDEN</span>,
-            <span class="kw">_</span> =&gt; <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>,
+    <span class="doccomment">/// Content encoding stream corruption.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Can not decode content-encoding.&quot;</span>)]
+    </span>EncodingCorrupted,
+
+    <span class="doccomment">/// Payload reached size limit.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Payload reached size limit.&quot;</span>)]
+    </span>Overflow,
+
+    <span class="doccomment">/// Payload length is unknown.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Payload length is unknown.&quot;</span>)]
+    </span>UnknownLength,
+
+    <span class="doccomment">/// HTTP/2 payload error.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+    #[display(fmt = <span class="string">&quot;{}&quot;</span>, _0)]
+    </span>Http2Payload(::h2::Error),
+
+    <span class="doccomment">/// Generic I/O error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;{}&quot;</span>, _0)]
+    </span>Io(io::Error),
+}
+
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>PayloadError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">&#39;static</span>)&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            PayloadError::Incomplete(<span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+            PayloadError::Incomplete(<span class="prelude-val">Some</span>(err)) =&gt; <span class="prelude-val">Some</span>(err),
+            PayloadError::EncodingCorrupted =&gt; <span class="prelude-val">None</span>,
+            PayloadError::Overflow =&gt; <span class="prelude-val">None</span>,
+            PayloadError::UnknownLength =&gt; <span class="prelude-val">None</span>,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+            </span>PayloadError::Http2Payload(err) =&gt; <span class="prelude-val">Some</span>(err),
+            PayloadError::Io(err) =&gt; <span class="prelude-val">Some</span>(err),
         }
     }
 }
 
-<span class="doccomment">/// `BadRequest` for `InvalidHeaderValue`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">header::InvalidHeaderValue</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+</span><span class="kw">impl </span>From&lt;::h2::Error&gt; <span class="kw">for </span>PayloadError {
+    <span class="kw">fn </span>from(err: ::h2::Error) -&gt; <span class="self">Self </span>{
+        PayloadError::Http2Payload(err)
     }
 }
 
-<span class="doccomment">/// A set of errors that can occur during parsing HTTP streams</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Display</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParseError</span> {
-    <span class="doccomment">/// An invalid `Method`, such as `GE.T`.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Invalid Method specified&quot;</span>)]</span>
-    <span class="ident">Method</span>,
-    <span class="doccomment">/// An invalid `Uri`, such as `exam ple.domain`.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Uri error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Uri</span>(<span class="ident">InvalidUri</span>),
-    <span class="doccomment">/// An invalid `HttpVersion`, such as `HTP/1.1`</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Invalid HTTP version specified&quot;</span>)]</span>
-    <span class="ident">Version</span>,
-    <span class="doccomment">/// An invalid `Header`.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Invalid Header provided&quot;</span>)]</span>
-    <span class="ident">Header</span>,
-    <span class="doccomment">/// A message head is too large to be reasonable.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Message head is too large&quot;</span>)]</span>
-    <span class="ident">TooLarge</span>,
-    <span class="doccomment">/// A message reached EOF, but is not complete.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Message is incomplete&quot;</span>)]</span>
-    <span class="ident">Incomplete</span>,
-    <span class="doccomment">/// An invalid `Status`, such as `1337 ELITE`.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Invalid Status provided&quot;</span>)]</span>
-    <span class="ident">Status</span>,
-    <span class="doccomment">/// A timeout occurred waiting for an IO event.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Timeout&quot;</span>)]</span>
-    <span class="ident">Timeout</span>,
-    <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network</span>
-    <span class="doccomment">/// stream.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;IO error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Io</span>(<span class="ident">io::Error</span>),
-    <span class="doccomment">/// Parsing a field as string failed</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;UTF8 error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Utf8</span>(<span class="ident">Utf8Error</span>),
-}
-
-<span class="doccomment">/// Return `BadRequest` for `ParseError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
+<span class="kw">impl </span>From&lt;<span class="prelude-ty">Option</span>&lt;io::Error&gt;&gt; <span class="kw">for </span>PayloadError {
+    <span class="kw">fn </span>from(err: <span class="prelude-ty">Option</span>&lt;io::Error&gt;) -&gt; <span class="self">Self </span>{
+        PayloadError::Incomplete(err)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">io::Error</span>) -&gt; <span class="ident">ParseError</span> {
-        <span class="ident">ParseError::Io</span>(<span class="ident">err</span>)
+<span class="kw">impl </span>From&lt;io::Error&gt; <span class="kw">for </span>PayloadError {
+    <span class="kw">fn </span>from(err: io::Error) -&gt; <span class="self">Self </span>{
+        PayloadError::Incomplete(<span class="prelude-val">Some</span>(err))
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">InvalidUri</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">InvalidUri</span>) -&gt; <span class="ident">ParseError</span> {
-        <span class="ident">ParseError::Uri</span>(<span class="ident">err</span>)
+<span class="kw">impl </span>From&lt;PayloadError&gt; <span class="kw">for </span>Error {
+    <span class="kw">fn </span>from(err: PayloadError) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new_payload().with_cause(err)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Utf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">Utf8Error</span>) -&gt; <span class="ident">ParseError</span> {
-        <span class="ident">ParseError::Utf8</span>(<span class="ident">err</span>)
-    }
+<span class="doccomment">/// A set of errors that can occur during dispatching HTTP requests.
+</span><span class="attribute">#[derive(Debug, Display, From)]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>DispatchError {
+    <span class="doccomment">/// Service error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Service Error&quot;</span>)]
+    </span>Service(Response&lt;BoxBody&gt;),
+
+    <span class="doccomment">/// Body streaming error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Body error: {}&quot;</span>, _0)]
+    </span>Body(Box&lt;<span class="kw">dyn </span>StdError&gt;),
+
+    <span class="doccomment">/// Upgrade service error.
+    </span>Upgrade,
+
+    <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network stream.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;IO error: {}&quot;</span>, _0)]
+    </span>Io(io::Error),
+
+    <span class="doccomment">/// Request parse error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Request parse error: {}&quot;</span>, _0)]
+    </span>Parse(ParseError),
+
+    <span class="doccomment">/// HTTP/2 error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;{}&quot;</span>, _0)]
+    #[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+    </span>H2(h2::Error),
+
+    <span class="doccomment">/// The first request did not complete within the specified timeout.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;The first request did not complete within the specified timeout&quot;</span>)]
+    </span>SlowRequestTimeout,
+
+    <span class="doccomment">/// Disconnect timeout. Makes sense for ssl streams.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Connection shutdown timeout&quot;</span>)]
+    </span>DisconnectTimeout,
+
+    <span class="doccomment">/// Handler dropped payload before reading EOF.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Handler dropped payload before reading EOF&quot;</span>)]
+    </span>HandlerDroppedPayload,
+
+    <span class="doccomment">/// Internal error.
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Internal error&quot;</span>)]
+    </span>InternalError,
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">FromUtf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">FromUtf8Error</span>) -&gt; <span class="ident">ParseError</span> {
-        <span class="ident">ParseError::Utf8</span>(<span class="ident">err</span>.<span class="ident">utf8_error</span>())
-    }
-}
+<span class="kw">impl </span>StdError <span class="kw">for </span>DispatchError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>StdError + <span class="lifetime">&#39;static</span>)&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            DispatchError::Service(_res) =&gt; <span class="prelude-val">None</span>,
+            DispatchError::Body(err) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;**</span>err),
+            DispatchError::Io(err) =&gt; <span class="prelude-val">Some</span>(err),
+            DispatchError::Parse(err) =&gt; <span class="prelude-val">Some</span>(err),
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">httparse::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">httparse::Error</span>) -&gt; <span class="ident">ParseError</span> {
-        <span class="kw">match</span> <span class="ident">err</span> {
-            <span class="ident">httparse::Error::HeaderName</span>
-            <span class="op">|</span> <span class="ident">httparse::Error::HeaderValue</span>
-            <span class="op">|</span> <span class="ident">httparse::Error::NewLine</span>
-            <span class="op">|</span> <span class="ident">httparse::Error::Token</span> =&gt; <span class="ident">ParseError::Header</span>,
-            <span class="ident">httparse::Error::Status</span> =&gt; <span class="ident">ParseError::Status</span>,
-            <span class="ident">httparse::Error::TooManyHeaders</span> =&gt; <span class="ident">ParseError::TooLarge</span>,
-            <span class="ident">httparse::Error::Version</span> =&gt; <span class="ident">ParseError::Version</span>,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+            </span>DispatchError::H2(err) =&gt; <span class="prelude-val">Some</span>(err),
+
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Display</span>, <span class="ident">Debug</span>)]</span>
-<span class="doccomment">/// A set of errors that can occur during payload parsing</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PayloadError</span> {
-    <span class="doccomment">/// A payload reached EOF, but is not complete.</span>
-    <span class="attribute">#[<span class="ident">display</span>(
-        <span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;A payload reached EOF, but is not complete. With error: {:?}&quot;</span>,
-        <span class="ident">_0</span>
-    )]</span>
-    <span class="ident">Incomplete</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// Content encoding stream corruption</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Can not decode content-encoding.&quot;</span>)]</span>
-    <span class="ident">EncodingCorrupted</span>,
-    <span class="doccomment">/// A payload reached size limit.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;A payload reached size limit.&quot;</span>)]</span>
-    <span class="ident">Overflow</span>,
-    <span class="doccomment">/// A payload length is unknown.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;A payload length is unknown.&quot;</span>)]</span>
-    <span class="ident">UnknownLength</span>,
-    <span class="doccomment">/// Http2 payload error</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Http2Payload</span>(<span class="ident">h2::Error</span>),
-    <span class="doccomment">/// Io error</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Io</span>(<span class="ident">io::Error</span>),
+<span class="doccomment">/// A set of error that can occur during parsing content type.
+</span><span class="attribute">#[derive(Debug, Display, Error)]
+#[cfg_attr(test, derive(PartialEq))]
+#[non_exhaustive]
+</span><span class="kw">pub enum </span>ContentTypeError {
+    <span class="doccomment">/// Can not parse content type
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Can not parse content type&quot;</span>)]
+    </span>ParseError,
+
+    <span class="doccomment">/// Unknown content encoding
+    </span><span class="attribute">#[display(fmt = <span class="string">&quot;Unknown content encoding&quot;</span>)]
+    </span>UnknownEncoding,
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {}
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use </span>std::io;
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">h2::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">h2::Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">PayloadError::Http2Payload</span>(<span class="ident">err</span>)
-    }
-}
+    <span class="kw">use </span>http::{Error <span class="kw">as </span>HttpError, StatusCode};
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">PayloadError::Incomplete</span>(<span class="ident">err</span>)
-    }
-}
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">io::Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">PayloadError::Incomplete</span>(<span class="prelude-val">Some</span>(<span class="ident">err</span>))
-    }
-}
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_into_response() {
+        <span class="kw">let </span>resp: Response&lt;BoxBody&gt; = ParseError::Incomplete.into();
+        <span class="macro">assert_eq!</span>(resp.status(), StatusCode::BAD_REQUEST);
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">BlockingError</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">BlockingError</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <span class="ident">err</span> {
-            <span class="ident">BlockingError::Error</span>(<span class="ident">e</span>) =&gt; <span class="ident">PayloadError::Io</span>(<span class="ident">e</span>),
-            <span class="ident">BlockingError::Canceled</span> =&gt; <span class="ident">PayloadError::Io</span>(<span class="ident">io::Error::new</span>(
-                <span class="ident">io::ErrorKind::Other</span>,
-                <span class="string">&quot;Operation is canceled&quot;</span>,
-            )),
-        }
-    }
-}
-
-<span class="doccomment">/// `PayloadError` returns two possible results:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// - `Overflow` returns `PayloadTooLarge`</span>
-<span class="doccomment">/// - Other errors returns `BadRequest`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">PayloadError</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">PayloadError::Overflow</span> =&gt; <span class="ident">StatusCode::PAYLOAD_TOO_LARGE</span>,
-            <span class="kw">_</span> =&gt; <span class="ident">StatusCode::BAD_REQUEST</span>,
-        }
-    }
-}
-
-<span class="doccomment">/// Return `BadRequest` for `cookie::ParseError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident"><span class="kw">crate</span>::cookie::ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">From</span>)]</span>
-<span class="doccomment">/// A set of errors that can occur during dispatching http requests</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DispatchError</span> {
-    <span class="doccomment">/// Service error</span>
-    <span class="ident">Service</span>(<span class="ident">Error</span>),
-
-    <span class="doccomment">/// Upgrade service error</span>
-    <span class="ident">Upgrade</span>,
-
-    <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network</span>
-    <span class="doccomment">/// stream.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;IO error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Io</span>(<span class="ident">io::Error</span>),
-
-    <span class="doccomment">/// Http request parse error.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Parse error: {}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">Parse</span>(<span class="ident">ParseError</span>),
-
-    <span class="doccomment">/// Http/2 error</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;{}&quot;</span>, <span class="ident">_0</span>)]</span>
-    <span class="ident">H2</span>(<span class="ident">h2::Error</span>),
-
-    <span class="doccomment">/// The first request did not complete within the specified timeout.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;The first request did not complete within the specified timeout&quot;</span>)]</span>
-    <span class="ident">SlowRequestTimeout</span>,
-
-    <span class="doccomment">/// Disconnect timeout. Makes sense for ssl streams.</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Connection shutdown timeout&quot;</span>)]</span>
-    <span class="ident">DisconnectTimeout</span>,
-
-    <span class="doccomment">/// Payload is not consumed</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Task is completed but request&#39;s payload is not consumed&quot;</span>)]</span>
-    <span class="ident">PayloadIsNotConsumed</span>,
-
-    <span class="doccomment">/// Malformed request</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Malformed request&quot;</span>)]</span>
-    <span class="ident">MalformedRequest</span>,
-
-    <span class="doccomment">/// Internal error</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Internal error&quot;</span>)]</span>
-    <span class="ident">InternalError</span>,
-
-    <span class="doccomment">/// Unknown error</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Unknown error&quot;</span>)]</span>
-    <span class="ident">Unknown</span>,
-}
-
-<span class="doccomment">/// A set of error that can occur during parsing content type</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>, <span class="ident">Debug</span>, <span class="ident">Display</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContentTypeError</span> {
-    <span class="doccomment">/// Can not parse content type</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Can not parse content type&quot;</span>)]</span>
-    <span class="ident">ParseError</span>,
-    <span class="doccomment">/// Unknown content encoding</span>
-    <span class="attribute">#[<span class="ident">display</span>(<span class="ident">fmt</span> <span class="op">=</span> <span class="string">&quot;Unknown content encoding&quot;</span>)]</span>
-    <span class="ident">UnknownEncoding</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">ContentTypeError</span> {}
-
-<span class="doccomment">/// Return `BadRequest` for `ContentTypeError`</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">ContentTypeError</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="ident">StatusCode::BAD_REQUEST</span>
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">U</span>: <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Decoder</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">FramedDispatcherError</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">U</span>, <span class="ident">I</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">E</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span>,
-    <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">fmt::Debug</span>,
-    <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Decoder</span><span class="op">&gt;</span><span class="ident">::Error</span>: <span class="ident">fmt::Debug</span>,
-{
-}
-
-<span class="doccomment">/// Helper type that can wrap any error and generate custom response.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// In following example any `io::Error` will be converted into &quot;BAD REQUEST&quot;</span>
-<span class="doccomment">/// response as opposite to *INTERNAL SERVER ERROR* which is defined by</span>
-<span class="doccomment">/// default.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// # use std::io;</span>
-<span class="doccomment">/// # use actix_http::*;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// fn index(req: Request) -&gt; Result&lt;&amp;&#39;static str&gt; {</span>
-<span class="doccomment">///     Err(error::ErrorBadRequest(io::Error::new(io::ErrorKind::Other, &quot;error&quot;)))</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InternalError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">cause</span>: <span class="ident">T</span>,
-    <span class="ident">status</span>: <span class="ident">InternalErrorType</span>,
-}
-
-<span class="kw">enum</span> <span class="ident">InternalErrorType</span> {
-    <span class="ident">Status</span>(<span class="ident">StatusCode</span>),
-    <span class="ident">Response</span>(<span class="ident">RefCell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Response</span><span class="op">&gt;</span><span class="op">&gt;</span>),
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">InternalError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Create `InternalError` instance</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">cause</span>: <span class="ident">T</span>, <span class="ident">status</span>: <span class="ident">StatusCode</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">InternalError</span> {
-            <span class="ident">cause</span>,
-            <span class="ident">status</span>: <span class="ident">InternalErrorType::Status</span>(<span class="ident">status</span>),
-        }
+        <span class="kw">let </span>err: HttpError = StatusCode::from_u16(<span class="number">10000</span>).err().unwrap().into();
+        <span class="kw">let </span>resp: Response&lt;BoxBody&gt; = Error::new_http().with_cause(err).into();
+        <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
     }
 
-    <span class="doccomment">/// Create `InternalError` with predefined `Response`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_response</span>(<span class="ident">cause</span>: <span class="ident">T</span>, <span class="ident">response</span>: <span class="ident">Response</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">InternalError</span> {
-            <span class="ident">cause</span>,
-            <span class="ident">status</span>: <span class="ident">InternalErrorType::Response</span>(<span class="ident">RefCell::new</span>(<span class="prelude-val">Some</span>(<span class="ident">response</span>))),
-        }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">InternalError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">fmt::Debug::fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>, <span class="ident">f</span>)
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">InternalError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">fmt::Display::fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>, <span class="ident">f</span>)
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">InternalError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">StatusCode</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">status</span> {
-            <span class="ident">InternalErrorType::Status</span>(<span class="ident">st</span>) =&gt; <span class="ident">st</span>,
-            <span class="ident">InternalErrorType::Response</span>(<span class="kw-2">ref</span> <span class="ident">resp</span>) =&gt; {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">resp</span>) <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">borrow</span>().<span class="ident">as_ref</span>() {
-                    <span class="ident">resp</span>.<span class="ident">head</span>().<span class="ident">status</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>
-                }
-            }
-        }
-    }
-
-    <span class="kw">fn</span> <span class="ident">error_response</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Response</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">status</span> {
-            <span class="ident">InternalErrorType::Status</span>(<span class="ident">st</span>) =&gt; {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response::new</span>(<span class="ident">st</span>);
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut::new</span>();
-                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
-                <span class="ident">res</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(
-                    <span class="ident">header::CONTENT_TYPE</span>,
-                    <span class="ident">header::HeaderValue::from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
-                );
-                <span class="ident">res</span>.<span class="ident">set_body</span>(<span class="ident">Body::from</span>(<span class="ident">buf</span>))
-            }
-            <span class="ident">InternalErrorType::Response</span>(<span class="kw-2">ref</span> <span class="ident">resp</span>) =&gt; {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">resp</span>) <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">borrow_mut</span>().<span class="ident">take</span>() {
-                    <span class="ident">resp</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">Response::new</span>(<span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>)
-                }
-            }
-        }
-    }
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *BAD</span>
-<span class="doccomment">/// REQUEST* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorBadRequest</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::BAD_REQUEST</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *UNAUTHORIZED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUnauthorized</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::UNAUTHORIZED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *PAYMENT_REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorPaymentRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::PAYMENT_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *FORBIDDEN*</span>
-<span class="doccomment">/// response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorForbidden</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::FORBIDDEN</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *NOT FOUND*</span>
-<span class="doccomment">/// response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorNotFound</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::NOT_FOUND</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *METHOD NOT</span>
-<span class="doccomment">/// ALLOWED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorMethodNotAllowed</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::METHOD_NOT_ALLOWED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *NOT</span>
-<span class="doccomment">/// ACCEPTABLE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorNotAcceptable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::NOT_ACCEPTABLE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *PROXY</span>
-<span class="doccomment">/// AUTHENTICATION REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorProxyAuthenticationRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::PROXY_AUTHENTICATION_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *REQUEST</span>
-<span class="doccomment">/// TIMEOUT* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorRequestTimeout</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::REQUEST_TIMEOUT</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *CONFLICT*</span>
-<span class="doccomment">/// response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorConflict</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::CONFLICT</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *GONE*</span>
-<span class="doccomment">/// response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorGone</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::GONE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate *LENGTH</span>
-<span class="doccomment">/// REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorLengthRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::LENGTH_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *PAYLOAD TOO LARGE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorPayloadTooLarge</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::PAYLOAD_TOO_LARGE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *URI TOO LONG* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUriTooLong</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::URI_TOO_LONG</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *UNSUPPORTED MEDIA TYPE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUnsupportedMediaType</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::UNSUPPORTED_MEDIA_TYPE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *RANGE NOT SATISFIABLE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorRangeNotSatisfiable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::RANGE_NOT_SATISFIABLE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *IM A TEAPOT* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorImATeapot</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::IM_A_TEAPOT</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *MISDIRECTED REQUEST* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorMisdirectedRequest</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::MISDIRECTED_REQUEST</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *UNPROCESSABLE ENTITY* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUnprocessableEntity</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::UNPROCESSABLE_ENTITY</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *LOCKED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorLocked</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::LOCKED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *FAILED DEPENDENCY* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorFailedDependency</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::FAILED_DEPENDENCY</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *UPGRADE REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUpgradeRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::UPGRADE_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *PRECONDITION FAILED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorPreconditionFailed</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::PRECONDITION_FAILED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *PRECONDITION REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorPreconditionRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::PRECONDITION_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *TOO MANY REQUESTS* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorTooManyRequests</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::TOO_MANY_REQUESTS</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *REQUEST HEADER FIELDS TOO LARGE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorRequestHeaderFieldsTooLarge</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::REQUEST_HEADER_FIELDS_TOO_LARGE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *UNAVAILABLE FOR LEGAL REASONS* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorUnavailableForLegalReasons</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::UNAVAILABLE_FOR_LEGAL_REASONS</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and generate</span>
-<span class="doccomment">/// *EXPECTATION FAILED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorExpectationFailed</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::EXPECTATION_FAILED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *INTERNAL SERVER ERROR* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorInternalServerError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *NOT IMPLEMENTED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorNotImplemented</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::NOT_IMPLEMENTED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *BAD GATEWAY* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorBadGateway</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::BAD_GATEWAY</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *SERVICE UNAVAILABLE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorServiceUnavailable</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::SERVICE_UNAVAILABLE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *GATEWAY TIMEOUT* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorGatewayTimeout</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::GATEWAY_TIMEOUT</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *HTTP VERSION NOT SUPPORTED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorHttpVersionNotSupported</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::HTTP_VERSION_NOT_SUPPORTED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *VARIANT ALSO NEGOTIATES* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorVariantAlsoNegotiates</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::VARIANT_ALSO_NEGOTIATES</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *INSUFFICIENT STORAGE* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorInsufficientStorage</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::INSUFFICIENT_STORAGE</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *LOOP DETECTED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorLoopDetected</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::LOOP_DETECTED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *NOT EXTENDED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorNotExtended</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::NOT_EXTENDED</span>).<span class="ident">into</span>()
-}
-
-<span class="doccomment">/// Helper function that creates wrapper of any error and</span>
-<span class="doccomment">/// generate *NETWORK AUTHENTICATION REQUIRED* response.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ErrorNetworkAuthenticationRequired</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">err</span>: <span class="ident">T</span>) -&gt; <span class="ident">Error</span>
-<span class="kw">where</span>
-    <span class="ident">T</span>: <span class="ident">fmt::Debug</span> <span class="op">+</span> <span class="ident">fmt::Display</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-{
-    <span class="ident">InternalError::new</span>(<span class="ident">err</span>, <span class="ident">StatusCode::NETWORK_AUTHENTICATION_REQUIRED</span>).<span class="ident">into</span>()
-}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;actors&quot;</span>)]</span>
-<span class="doccomment">/// `InternalServerError` for `actix::MailboxError`</span>
-<span class="doccomment">/// This is supported on feature=`actors` only</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">actix::MailboxError</span> {}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;actors&quot;</span>)]</span>
-<span class="doccomment">/// `InternalServerError` for `actix::ResolverError`</span>
-<span class="doccomment">/// This is supported on feature=`actors` only</span>
-<span class="kw">impl</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">actix::actors::resolver::ResolverError</span> {}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">http</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">HttpError</span>, <span class="ident">StatusCode</span>};
-    <span class="kw">use</span> <span class="ident">std::io</span>;
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_into_response</span>() {
-        <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ParseError::Incomplete</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_REQUEST</span>);
-
-        <span class="kw">let</span> <span class="ident">err</span>: <span class="ident">HttpError</span> <span class="op">=</span> <span class="ident">StatusCode::from_u16</span>(<span class="number">10000</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>().<span class="ident">into</span>();
-        <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_cookie_parse</span>() {
-        <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">CookieParseError::EmptyName</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_REQUEST</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_as_response</span>() {
-        <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;other&quot;</span>);
-        <span class="kw">let</span> <span class="ident">e</span>: <span class="ident">Error</span> <span class="op">=</span> <span class="ident">ParseError::Io</span>(<span class="ident">orig</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="string">&quot;IO error: other&quot;</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_error_cause</span>() {
-        <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;other&quot;</span>);
-        <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="ident">orig</span>.<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error::from</span>(<span class="ident">orig</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="ident">desc</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_error_display</span>() {
-        <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;other&quot;</span>);
-        <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="ident">orig</span>.<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error::from</span>(<span class="ident">orig</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>), <span class="ident">desc</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_error_http_response</span>() {
-        <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;other&quot;</span>);
-        <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error::from</span>(<span class="ident">orig</span>);
-        <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">e</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_payload_error</span>() {
-        <span class="kw">let</span> <span class="ident">err</span>: <span class="ident">PayloadError</span> <span class="op">=</span>
-            <span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;ParseError&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>).<span class="ident">contains</span>(<span class="string">&quot;ParseError&quot;</span>));
-
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">PayloadError::Incomplete</span>(<span class="prelude-val">None</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_as_response() {
+        <span class="kw">let </span>orig = io::Error::new(io::ErrorKind::Other, <span class="string">&quot;other&quot;</span>);
+        <span class="kw">let </span>err: Error = ParseError::Io(orig).into();
         <span class="macro">assert_eq!</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>),
-            <span class="string">&quot;A payload reached EOF, but is not complete. With error: None&quot;</span>
-        );
+            <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, err),
+            <span class="string">&quot;error parsing HTTP message: IO error: other&quot;
+        </span>);
     }
 
-    <span class="macro">macro_rules!</span> <span class="ident">from</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">expr</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span>:<span class="ident">pat</span>) =&gt; {
-            <span class="kw">match</span> <span class="ident">ParseError::from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>) {
-                <span class="ident">e</span> @ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span> =&gt; {
-                    <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>).<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">5</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_error_display() {
+        <span class="kw">let </span>orig = io::Error::new(io::ErrorKind::Other, <span class="string">&quot;other&quot;</span>);
+        <span class="kw">let </span>err = Error::new_io().with_cause(orig);
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;connection error: other&quot;</span>, err.to_string());
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_error_http_response() {
+        <span class="kw">let </span>orig = io::Error::new(io::ErrorKind::Other, <span class="string">&quot;other&quot;</span>);
+        <span class="kw">let </span>err = Error::new_io().with_cause(orig);
+        <span class="kw">let </span>resp: Response&lt;BoxBody&gt; = err.into();
+        <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
+    }
+
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_payload_error() {
+        <span class="kw">let </span>err: PayloadError = io::Error::new(io::ErrorKind::Other, <span class="string">&quot;ParseError&quot;</span>).into();
+        <span class="macro">assert!</span>(err.to_string().contains(<span class="string">&quot;ParseError&quot;</span>));
+
+        <span class="kw">let </span>err = PayloadError::Incomplete(<span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(
+            err.to_string(),
+            <span class="string">&quot;A payload reached EOF, but is not complete. Inner error: None&quot;
+        </span>);
+    }
+
+    <span class="macro">macro_rules! </span>from {
+        (<span class="macro-nonterminal">$from</span>:expr =&gt; <span class="macro-nonterminal">$error</span>:pat) =&gt; {
+            <span class="kw">match </span>ParseError::from(<span class="macro-nonterminal">$from</span>) {
+                err @ <span class="macro-nonterminal">$error </span>=&gt; {
+                    <span class="macro">assert!</span>(err.to_string().len() &gt;= <span class="number">5</span>);
                 }
-                <span class="ident">e</span> =&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>),
+                err =&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, err),
             }
         };
     }
 
-    <span class="macro">macro_rules!</span> <span class="ident">from_and_cause</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">expr</span> =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span>:<span class="ident">pat</span>) =&gt; {
-            <span class="kw">match</span> <span class="ident">ParseError::from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>) {
-                <span class="ident">e</span> @ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span> =&gt; {
-                    <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
-                    <span class="macro">assert_eq!</span>(<span class="ident">desc</span>, <span class="macro">format!</span>(<span class="string">&quot;IO error: {}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>));
+    <span class="macro">macro_rules! </span>from_and_cause {
+        (<span class="macro-nonterminal">$from</span>:expr =&gt; <span class="macro-nonterminal">$error</span>:pat) =&gt; {
+            <span class="kw">match </span>ParseError::from(<span class="macro-nonterminal">$from</span>) {
+                e @ <span class="macro-nonterminal">$error </span>=&gt; {
+                    <span class="kw">let </span>desc = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, e);
+                    <span class="macro">assert_eq!</span>(desc, <span class="macro">format!</span>(<span class="string">&quot;IO error: {}&quot;</span>, <span class="macro-nonterminal">$from</span>));
                 }
-                <span class="kw">_</span> =&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>),
+                <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="macro-nonterminal">$from</span>),
             }
         };
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_from</span>() {
-        <span class="macro">from_and_cause!</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::Other</span>, <span class="string">&quot;other&quot;</span>) =&gt; <span class="ident">ParseError::Io</span>(..));
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::HeaderName</span> =&gt; <span class="ident">ParseError::Header</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::HeaderName</span> =&gt; <span class="ident">ParseError::Header</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::HeaderValue</span> =&gt; <span class="ident">ParseError::Header</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::NewLine</span> =&gt; <span class="ident">ParseError::Header</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::Status</span> =&gt; <span class="ident">ParseError::Status</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::Token</span> =&gt; <span class="ident">ParseError::Header</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::TooManyHeaders</span> =&gt; <span class="ident">ParseError::TooLarge</span>);
-        <span class="macro">from!</span>(<span class="ident">httparse::Error::Version</span> =&gt; <span class="ident">ParseError::Version</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_internal_error</span>() {
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span>
-            <span class="ident">InternalError::from_response</span>(<span class="ident">ParseError::Method</span>, <span class="ident">Response::Ok</span>().<span class="ident">into</span>());
-        <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_error_casting</span>() {
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">PayloadError::Overflow</span>;
-        <span class="kw">let</span> <span class="ident">resp_err</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ResponseError</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">err</span>;
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">resp_err</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">PayloadError</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>(), <span class="string">&quot;A payload reached size limit.&quot;</span>);
-        <span class="kw">let</span> <span class="ident">not_err</span> <span class="op">=</span> <span class="ident">resp_err</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">ContentTypeError</span><span class="op">&gt;</span>();
-        <span class="macro">assert!</span>(<span class="ident">not_err</span>.<span class="ident">is_none</span>());
-    }
-
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_error_helpers</span>() {
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorBadRequest</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_REQUEST</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnauthorized</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::UNAUTHORIZED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPaymentRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::PAYMENT_REQUIRED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorForbidden</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::FORBIDDEN</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotFound</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::NOT_FOUND</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorMethodNotAllowed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::METHOD_NOT_ALLOWED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotAcceptable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::NOT_ACCEPTABLE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorProxyAuthenticationRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::PROXY_AUTHENTICATION_REQUIRED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRequestTimeout</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::REQUEST_TIMEOUT</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorConflict</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::CONFLICT</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorGone</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::GONE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLengthRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::LENGTH_REQUIRED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPreconditionFailed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::PRECONDITION_FAILED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPayloadTooLarge</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::PAYLOAD_TOO_LARGE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUriTooLong</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::URI_TOO_LONG</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnsupportedMediaType</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::UNSUPPORTED_MEDIA_TYPE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRangeNotSatisfiable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::RANGE_NOT_SATISFIABLE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorExpectationFailed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::EXPECTATION_FAILED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorImATeapot</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::IM_A_TEAPOT</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorMisdirectedRequest</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::MISDIRECTED_REQUEST</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnprocessableEntity</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::UNPROCESSABLE_ENTITY</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLocked</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::LOCKED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorFailedDependency</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::FAILED_DEPENDENCY</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUpgradeRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::UPGRADE_REQUIRED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPreconditionRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::PRECONDITION_REQUIRED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorTooManyRequests</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::TOO_MANY_REQUESTS</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRequestHeaderFieldsTooLarge</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::REQUEST_HEADER_FIELDS_TOO_LARGE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnavailableForLegalReasons</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::UNAVAILABLE_FOR_LEGAL_REASONS</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorInternalServerError</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::INTERNAL_SERVER_ERROR</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotImplemented</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::NOT_IMPLEMENTED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorBadGateway</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::BAD_GATEWAY</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorServiceUnavailable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::SERVICE_UNAVAILABLE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorGatewayTimeout</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::GATEWAY_TIMEOUT</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorHttpVersionNotSupported</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::HTTP_VERSION_NOT_SUPPORTED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorVariantAlsoNegotiates</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::VARIANT_ALSO_NEGOTIATES</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorInsufficientStorage</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::INSUFFICIENT_STORAGE</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLoopDetected</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::LOOP_DETECTED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotExtended</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::NOT_EXTENDED</span>);
-
-        <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNetworkAuthenticationRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::NETWORK_AUTHENTICATION_REQUIRED</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>test_from() {
+        <span class="macro">from_and_cause!</span>(io::Error::new(io::ErrorKind::Other, <span class="string">&quot;other&quot;</span>) =&gt; ParseError::Io(..));
+        <span class="macro">from!</span>(httparse::Error::HeaderName =&gt; ParseError::Header);
+        <span class="macro">from!</span>(httparse::Error::HeaderName =&gt; ParseError::Header);
+        <span class="macro">from!</span>(httparse::Error::HeaderValue =&gt; ParseError::Header);
+        <span class="macro">from!</span>(httparse::Error::NewLine =&gt; ParseError::Header);
+        <span class="macro">from!</span>(httparse::Error::Status =&gt; ParseError::Status);
+        <span class="macro">from!</span>(httparse::Error::Token =&gt; ParseError::Header);
+        <span class="macro">from!</span>(httparse::Error::TooManyHeaders =&gt; ParseError::TooLarge);
+        <span class="macro">from!</span>(httparse::Error::Version =&gt; ParseError::Version);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_http" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_http" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

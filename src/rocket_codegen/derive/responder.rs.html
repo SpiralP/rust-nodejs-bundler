@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket_codegen-0.5.0-rc.2/src/derive/responder.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>responder.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../rocket_codegen/index.html"><div class="logo-container"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../rocket_codegen/index.html"><div class="logo-container">
+                    <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../rocket_codegen/index.html">
+                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+</pre><pre class="rust"><code><span class="kw">use </span>quote::ToTokens;
+<span class="kw">use </span>devise::{<span class="kw-2">*</span>, ext::{TypeExt, SpanDiagnosticExt}};
+<span class="kw">use </span>proc_macro2::TokenStream;
+
+<span class="kw">use </span><span class="kw">crate</span>::exports::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::syn_ext::{TypeExt <span class="kw">as _</span>, GenericsExt <span class="kw">as _</span>};
+<span class="kw">use </span><span class="kw">crate</span>::http_codegen::{ContentType, Status};
+
+<span class="attribute">#[derive(Debug, Default, FromMeta)]
+</span><span class="kw">struct </span>ItemAttr {
+    content_type: <span class="prelude-ty">Option</span>&lt;SpanWrapped&lt;ContentType&gt;&gt;,
+    status: <span class="prelude-ty">Option</span>&lt;SpanWrapped&lt;Status&gt;&gt;,
+}
+
+<span class="attribute">#[derive(Default, FromMeta)]
+</span><span class="kw">struct </span>FieldAttr {
+    ignore: bool,
+}
+
+<span class="kw">pub fn </span>derive_responder(input: proc_macro::TokenStream) -&gt; TokenStream {
+    <span class="kw">let </span>impl_tokens = <span class="macro">quote!</span>(<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>&gt; #_response::Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;);
+    DeriveGenerator::build_for(input, impl_tokens)
+        .support(Support::Struct | Support::Enum | Support::Lifetime | Support::Type)
+        .replace_generic(<span class="number">1</span>, <span class="number">0</span>)
+        .type_bound_mapper(MapperBuild::new()
+            .try_enum_map(|m, e| mapper::enum_null(m, e))
+            .try_fields_map(|<span class="kw">_</span>, fields| {
+                <span class="kw">let </span>generic_idents = fields.parent.input().generics().type_idents();
+                <span class="kw">let </span>lifetime = |ty: <span class="kw-2">&amp;</span>syn::Type| syn::Lifetime::new(<span class="string">&quot;&#39;o&quot;</span>, ty.span());
+                <span class="kw">let </span><span class="kw-2">mut </span>types = fields.iter()
+                    .map(|f| (f, <span class="kw-2">&amp;</span>f.field.inner.ty))
+                    .map(|(f, ty)| (f, ty.with_replaced_lifetimes(lifetime(ty))));
+
+                <span class="kw">let </span><span class="kw-2">mut </span>bounds = <span class="macro">vec!</span>[];
+                <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="kw">_</span>, ty)) = types.next() {
+                    <span class="kw">if </span>!ty.is_concrete(<span class="kw-2">&amp;</span>generic_idents) {
+                        <span class="kw">let </span>span = ty.span();
+                        bounds.push(<span class="macro">quote_spanned!</span>(span =&gt; #ty: #_response::Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;));
+                    }
+                }
+
+                <span class="kw">for </span>(f, ty) <span class="kw">in </span>types {
+                    <span class="kw">let </span>attr = FieldAttr::one_from_attrs(<span class="string">&quot;response&quot;</span>, <span class="kw-2">&amp;</span>f.attrs)<span class="question-mark">?</span>.unwrap_or_default();
+                    <span class="kw">if </span>ty.is_concrete(<span class="kw-2">&amp;</span>generic_idents) || attr.ignore {
+                        <span class="kw">continue</span>;
+                    }
+
+                    bounds.push(<span class="macro">quote_spanned! </span>{ ty.span() =&gt;
+                        #ty: ::std::convert::Into&lt;#_http::Header&lt;<span class="lifetime">&#39;o</span>&gt;&gt;
+                    });
+                }
+
+                <span class="prelude-val">Ok</span>(<span class="macro">quote!</span>(#(#bounds,)<span class="kw-2">*</span>))
+            })
+        )
+        .validator(ValidatorBuild::new()
+            .input_validate(|<span class="kw">_</span>, i| <span class="kw">match </span>i.generics().lifetimes().count() &gt; <span class="number">1 </span>{
+                <span class="bool-val">true </span>=&gt; <span class="prelude-val">Err</span>(i.generics().span().error(<span class="string">&quot;only one lifetime is supported&quot;</span>)),
+                <span class="bool-val">false </span>=&gt; <span class="prelude-val">Ok</span>(())
+            })
+            .fields_validate(|<span class="kw">_</span>, fields| <span class="kw">match </span>fields.is_empty() {
+                <span class="bool-val">true </span>=&gt; <span class="prelude-val">Err</span>(fields.span().error(<span class="string">&quot;need at least one field&quot;</span>)),
+                <span class="bool-val">false </span>=&gt; <span class="prelude-val">Ok</span>(())
+            })
+        )
+        .inner_mapper(MapperBuild::new()
+            .with_output(|<span class="kw">_</span>, output| <span class="macro">quote! </span>{
+                <span class="kw">fn </span>respond_to(<span class="self">self</span>, __req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>#Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; #_response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+                    #output
+                }
+            })
+            .try_fields_map(|<span class="kw">_</span>, fields| {
+                <span class="kw">fn </span>set_header_tokens&lt;T: ToTokens + Spanned&gt;(item: T) -&gt; TokenStream {
+                    <span class="macro">quote_spanned!</span>(item.span() =&gt; __res.set_header(#item);)
+                }
+
+                <span class="kw">let </span>attr = ItemAttr::one_from_attrs(<span class="string">&quot;response&quot;</span>, fields.parent.attrs())<span class="question-mark">?
+                    </span>.unwrap_or_default();
+
+                <span class="kw">let </span>responder = fields.iter().next().map(|f| {
+                    <span class="kw">let </span>(accessor, ty) = (f.accessor(), f.ty.with_stripped_lifetimes());
+                    <span class="macro">quote_spanned! </span>{ f.span().into() =&gt;
+                        <span class="kw">let </span><span class="kw-2">mut </span>__res = &lt;#ty <span class="kw">as </span>#_response::Responder&gt;::respond_to(
+                            #accessor, __req
+                        )<span class="question-mark">?</span>;
+                    }
+                }).expect(<span class="string">&quot;have at least one field&quot;</span>);
+
+                <span class="kw">let </span><span class="kw-2">mut </span>headers = <span class="macro">vec!</span>[];
+                <span class="kw">for </span>field <span class="kw">in </span>fields.iter().skip(<span class="number">1</span>) {
+                    <span class="kw">let </span>attr = FieldAttr::one_from_attrs(<span class="string">&quot;response&quot;</span>, <span class="kw-2">&amp;</span>field.attrs)<span class="question-mark">?
+                        </span>.unwrap_or_default();
+
+                    <span class="kw">if </span>!attr.ignore {
+                        headers.push(set_header_tokens(field.accessor()));
+                    }
+                }
+
+                <span class="kw">let </span>content_type = attr.content_type.map(set_header_tokens);
+                <span class="kw">let </span>status = attr.status.map(|status| {
+                    <span class="macro">quote_spanned!</span>(status.span() =&gt; __res.set_status(#status);)
+                });
+
+                <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+                    #responder
+                    #(#headers)*
+                    #content_type
+                    #status
+                    #_Ok(__res)
+                })
+            })
+        )
+        .to_tokens()
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rocket_codegen" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

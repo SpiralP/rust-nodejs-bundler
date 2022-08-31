@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-3.3.3/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-web-4.1.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container"><img src="https://actix.rs/img/logo.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../actix_web/index.html"><div class="logo-container">
                     <img src="https://actix.rs/img/logo.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../actix_web/index.html">
                         <img src="https://actix.rs/img/logo.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -145,308 +145,150 @@
 <span id="143">143</span>
 <span id="144">144</span>
 <span id="145">145</span>
-<span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
-<span id="151">151</span>
-<span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
-<span id="158">158</span>
-<span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
-<span id="167">167</span>
-<span id="168">168</span>
-<span id="169">169</span>
-<span id="170">170</span>
-<span id="171">171</span>
-<span id="172">172</span>
-<span id="173">173</span>
-<span id="174">174</span>
-<span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
-<span id="215">215</span>
-<span id="216">216</span>
-<span id="217">217</span>
-<span id="218">218</span>
-<span id="219">219</span>
-<span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Example</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,no_run</span>
-<span class="doccomment">//! use actix_web::{get, web, App, HttpServer, Responder};</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! #[get(&quot;/{id}/{name}/index.html&quot;)]</span>
-<span class="doccomment">//! async fn index(web::Path((id, name)): web::Path&lt;(u32, String)&gt;) -&gt; impl Responder {</span>
-<span class="doccomment">//!     format!(&quot;Hello {}! id:{}&quot;, name, id)</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! #[actix_web::main]</span>
-<span class="doccomment">//! async fn main() -&gt; std::io::Result&lt;()&gt; {</span>
-<span class="doccomment">//!     HttpServer::new(|| App::new().service(index))</span>
-<span class="doccomment">//!         .bind(&quot;127.0.0.1:8080&quot;)?</span>
-<span class="doccomment">//!         .run()</span>
-<span class="doccomment">//!         .await</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Documentation &amp; Community Resources</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In addition to this API documentation, several other resources are available:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * [Website &amp; User Guide](https://actix.rs/)</span>
-<span class="doccomment">//! * [Examples Repository](https://github.com/actix/examples)</span>
-<span class="doccomment">//! * [Community Chat on Gitter](https://gitter.im/actix/actix-web)</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! To get started navigating the API docs, you may consider looking at the following pages first:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * [App](struct.App.html): This struct represents an Actix web application and is used to</span>
-<span class="doccomment">//!   configure routes and other common application settings.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * [HttpServer](struct.HttpServer.html): This struct represents an HTTP server instance and is</span>
-<span class="doccomment">//!   used to instantiate and configure servers.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * [web](web/index.html): This module provides essential types for route registration as well as</span>
-<span class="doccomment">//!   common utilities for request handlers.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * [HttpRequest](struct.HttpRequest.html) and [HttpResponse](struct.HttpResponse.html): These</span>
-<span class="doccomment">//!   structs represent HTTP requests and responses and expose methods for creating, inspecting,</span>
-<span class="doccomment">//!   and otherwise utilizing them.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Features</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * Supports *HTTP/1.x* and *HTTP/2*</span>
-<span class="doccomment">//! * Streaming and pipelining</span>
-<span class="doccomment">//! * Keep-alive and slow requests handling</span>
-<span class="doccomment">//! * Client/server [WebSockets](https://actix.rs/docs/websockets/) support</span>
-<span class="doccomment">//! * Transparent content compression/decompression (br, gzip, deflate)</span>
-<span class="doccomment">//! * Powerful [request routing](https://actix.rs/docs/url-dispatch/)</span>
-<span class="doccomment">//! * Multipart streams</span>
-<span class="doccomment">//! * Static assets</span>
-<span class="doccomment">//! * SSL support using OpenSSL or Rustls</span>
-<span class="doccomment">//! * Middlewares ([Logger, Session, CORS, etc](https://actix.rs/docs/middleware/))</span>
-<span class="doccomment">//! * Includes an async [HTTP client](https://actix.rs/actix-web/actix_web/client/index.html)</span>
-<span class="doccomment">//! * Supports [Actix actor framework](https://github.com/actix/actix)</span>
-<span class="doccomment">//! * Runs on stable Rust 1.42+</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Crate Features</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! * `compress` - content encoding compression support (enabled by default)</span>
-<span class="doccomment">//! * `openssl` - HTTPS support via `openssl` crate, supports `HTTP/2`</span>
-<span class="doccomment">//! * `rustls` - HTTPS support via `rustls` crate, supports `HTTP/2`</span>
-<span class="doccomment">//! * `secure-cookies` - secure cookies support</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Actix Web is a powerful, pragmatic, and extremely fast web framework for Rust.
+//!
+//! # Examples
+//! ```no_run
+//! use actix_web::{get, web, App, HttpServer, Responder};
+//!
+//! #[get(&quot;/hello/{name}&quot;)]
+//! async fn greet(name: web::Path&lt;String&gt;) -&gt; impl Responder {
+//!     format!(&quot;Hello {}!&quot;, name)
+//! }
+//!
+//! #[actix_web::main] // or #[tokio::main]
+//! async fn main() -&gt; std::io::Result&lt;()&gt; {
+//!     HttpServer::new(|| {
+//!         App::new().service(greet)
+//!     })
+//!     .bind((&quot;127.0.0.1&quot;, 8080))?
+//!     .run()
+//!     .await
+//! }
+//! ```
+//!
+//! # Documentation &amp; Community Resources
+//! In addition to this API documentation, several other resources are available:
+//!
+//! * [Website &amp; User Guide](https://actix.rs/)
+//! * [Examples Repository](https://github.com/actix/examples)
+//! * [Community Chat on Discord](https://discord.gg/NWpN5mmg3x)
+//!
+//! To get started navigating the API docs, you may consider looking at the following pages first:
+//!
+//! * [`App`]: This struct represents an Actix Web application and is used to
+//!   configure routes and other common application settings.
+//!
+//! * [`HttpServer`]: This struct represents an HTTP server instance and is
+//!   used to instantiate and configure servers.
+//!
+//! * [`web`]: This module provides essential types for route registration as well as
+//!   common utilities for request handlers.
+//!
+//! * [`HttpRequest`] and [`HttpResponse`]: These
+//!   structs represent HTTP requests and responses and expose methods for creating, inspecting,
+//!   and otherwise utilizing them.
+//!
+//! # Features
+//! - Supports HTTP/1.x and HTTP/2
+//! - Streaming and pipelining
+//! - Powerful [request routing](https://actix.rs/docs/url-dispatch/) with optional macros
+//! - Full [Tokio](https://tokio.rs) compatibility
+//! - Keep-alive and slow requests handling
+//! - Client/server [WebSockets](https://actix.rs/docs/websockets/) support
+//! - Transparent content compression/decompression (br, gzip, deflate, zstd)
+//! - Multipart streams
+//! - Static assets
+//! - SSL support using OpenSSL or Rustls
+//! - Middlewares ([Logger, Session, CORS, etc](middleware))
+//! - Integrates with the [`awc` HTTP client](https://docs.rs/awc/)
+//! - Runs on stable Rust 1.54+
+//!
+//! # Crate Features
+//! - `cookies` - cookies support (enabled by default)
+//! - `macros` - routing and runtime macros (enabled by default)
+//! - `compress-brotli` - brotli content encoding compression support (enabled by default)
+//! - `compress-gzip` - gzip and deflate content encoding compression support (enabled by default)
+//! - `compress-zstd` - zstd content encoding compression support (enabled by default)
+//! - `openssl` - HTTPS support via `openssl` crate, supports `HTTP/2`
+//! - `rustls` - HTTPS support via `rustls` crate, supports `HTTP/2`
+//! - `secure-cookies` - secure cookies support
 
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">rust_2018_idioms</span>)]</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::needless_doctest_main</span>, <span class="ident">clippy::type_complexity</span>)]</span>
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_logo_url</span> <span class="op">=</span> <span class="string">&quot;https://actix.rs/img/logo.png&quot;</span>)]</span>
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_favicon_url</span> <span class="op">=</span> <span class="string">&quot;https://actix.rs/favicon.ico&quot;</span>)]</span>
+</span><span class="attribute">#![deny(rust_2018_idioms, nonstandard_style)]
+#![warn(future_incompatible)]
+#![doc(html_logo_url = <span class="string">&quot;https://actix.rs/img/logo.png&quot;</span>)]
+#![doc(html_favicon_url = <span class="string">&quot;https://actix.rs/favicon.ico&quot;</span>)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
-<span class="kw">mod</span> <span class="ident">app</span>;
-<span class="kw">mod</span> <span class="ident">app_service</span>;
-<span class="kw">mod</span> <span class="ident">config</span>;
-<span class="kw">mod</span> <span class="ident">data</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span>;
-<span class="kw">mod</span> <span class="ident">extract</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">guard</span>;
-<span class="kw">mod</span> <span class="ident">handler</span>;
-<span class="kw">mod</span> <span class="ident">info</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">middleware</span>;
-<span class="kw">mod</span> <span class="ident">request</span>;
-<span class="kw">mod</span> <span class="ident">request_data</span>;
-<span class="kw">mod</span> <span class="ident">resource</span>;
-<span class="kw">mod</span> <span class="ident">responder</span>;
-<span class="kw">mod</span> <span class="ident">rmap</span>;
-<span class="kw">mod</span> <span class="ident">route</span>;
-<span class="kw">mod</span> <span class="ident">scope</span>;
-<span class="kw">mod</span> <span class="ident">server</span>;
-<span class="kw">mod</span> <span class="ident">service</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">test</span>;
-<span class="kw">mod</span> <span class="ident">types</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">web</span>;
+</span><span class="kw">mod </span>app;
+<span class="kw">mod </span>app_service;
+<span class="kw">mod </span>config;
+<span class="kw">mod </span>data;
+<span class="kw">pub mod </span>dev;
+<span class="kw">pub mod </span>error;
+<span class="kw">mod </span>extract;
+<span class="kw">pub mod </span>guard;
+<span class="kw">mod </span>handler;
+<span class="kw">mod </span>helpers;
+<span class="kw">pub mod </span>http;
+<span class="kw">mod </span>info;
+<span class="kw">pub mod </span>middleware;
+<span class="kw">mod </span>request;
+<span class="kw">mod </span>request_data;
+<span class="kw">mod </span>resource;
+<span class="kw">mod </span>response;
+<span class="kw">mod </span>rmap;
+<span class="kw">mod </span>route;
+<span class="kw">pub mod </span>rt;
+<span class="kw">mod </span>scope;
+<span class="kw">mod </span>server;
+<span class="kw">mod </span>service;
+<span class="kw">pub mod </span>test;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>types;
+<span class="kw">pub mod </span>web;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http::Response</span> <span class="kw">as</span> <span class="ident">HttpResponse</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http</span>::{<span class="ident">body</span>, <span class="ident">cookie</span>, <span class="ident">http</span>, <span class="ident">Error</span>, <span class="ident">HttpMessage</span>, <span class="ident">ResponseError</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_rt</span> <span class="kw">as</span> <span class="ident">rt</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_web_codegen</span>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><span class="kw">crate</span>::app::App;
+<span class="attribute">#[doc(inline)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::error::Result;
+<span class="kw">pub use </span><span class="kw">crate</span>::error::{Error, ResponseError};
+<span class="kw">pub use </span><span class="kw">crate</span>::extract::FromRequest;
+<span class="kw">pub use </span><span class="kw">crate</span>::handler::Handler;
+<span class="kw">pub use </span><span class="kw">crate</span>::request::HttpRequest;
+<span class="kw">pub use </span><span class="kw">crate</span>::resource::Resource;
+<span class="kw">pub use </span><span class="kw">crate</span>::response::{CustomizeResponder, HttpResponse, HttpResponseBuilder, Responder};
+<span class="kw">pub use </span><span class="kw">crate</span>::route::Route;
+<span class="kw">pub use </span><span class="kw">crate</span>::scope::Scope;
+<span class="kw">pub use </span><span class="kw">crate</span>::server::HttpServer;
+<span class="kw">pub use </span><span class="kw">crate</span>::types::Either;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::app::App</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::extract::FromRequest</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::request::HttpRequest</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::resource::Resource</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::responder::Responder</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::route::Route</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::scope::Scope</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::server::HttpServer</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<span class="ident">Either</span>, <span class="ident">EitherExtractError</span>};
+<span class="kw">pub use </span>actix_http::{body, HttpMessage};
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">dev</span> {
-    <span class="doccomment">//! The `actix-web` prelude for library developers</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The purpose of this module is to alleviate imports of many common actix</span>
-    <span class="doccomment">//! traits by adding a glob import to the top of actix heavy modules:</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! ```</span>
-    <span class="doccomment">//! # #![allow(unused_imports)]</span>
-    <span class="doccomment">//! use actix_web::dev::*;</span>
-    <span class="doccomment">//! ```</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;cookies&quot;</span>)]
+#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;cookies&quot;</span>)))]
+#[doc(inline)]
+</span><span class="kw">pub use </span>cookie;
 
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::config</span>::{<span class="ident">AppConfig</span>, <span class="ident">AppService</span>};
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::handler::Factory</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::info::ConnectionInfo</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::rmap::ResourceMap</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::service</span>::{
-        <span class="ident">HttpServiceFactory</span>, <span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>, <span class="ident">WebService</span>,
-    };
-
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::form::UrlEncoded</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::json::JsonBody</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::readlines::Readlines</span>;
-
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http::body</span>::{<span class="ident">Body</span>, <span class="ident">BodySize</span>, <span class="ident">MessageBody</span>, <span class="ident">ResponseBody</span>, <span class="ident">SizedStream</span>};
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compress&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http::encoding::Decoder</span> <span class="kw">as</span> <span class="ident">Decompress</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http::ResponseBuilder</span> <span class="kw">as</span> <span class="ident">HttpResponseBuilder</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_http</span>::{
-        <span class="ident">Extensions</span>, <span class="ident">Payload</span>, <span class="ident">PayloadStream</span>, <span class="ident">RequestHead</span>, <span class="ident">ResponseHead</span>,
-    };
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_router</span>::{<span class="ident">Path</span>, <span class="ident">ResourceDef</span>, <span class="ident">ResourcePath</span>, <span class="ident">Url</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_server::Server</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">Service</span>, <span class="ident">Transform</span>};
-
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">insert_slash</span>(<span class="kw-2">mut</span> <span class="ident">patterns</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">for</span> <span class="ident">path</span> <span class="kw">in</span> <span class="kw-2">&amp;mut</span> <span class="ident">patterns</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">path</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">path</span>.<span class="ident">starts_with</span>(<span class="string">&#39;/&#39;</span>) {
-                <span class="ident">path</span>.<span class="ident">insert</span>(<span class="number">0</span>, <span class="string">&#39;/&#39;</span>);
-            };
-        }
-        <span class="ident">patterns</span>
-    }
-
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::http::header::ContentEncoding</span>;
-    <span class="kw">use</span> <span class="ident">actix_http</span>::{<span class="ident">Response</span>, <span class="ident">ResponseBuilder</span>};
-
-    <span class="kw">struct</span> <span class="ident">Enc</span>(<span class="ident">ContentEncoding</span>);
-
-    <span class="doccomment">/// Helper trait that allows to set specific encoding for response.</span>
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">BodyEncoding</span> {
-        <span class="doccomment">/// Get content encoding</span>
-        <span class="kw">fn</span> <span class="ident">get_encoding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContentEncoding</span><span class="op">&gt;</span>;
-
-        <span class="doccomment">/// Set content encoding</span>
-        <span class="kw">fn</span> <span class="ident">encoding</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">ContentEncoding</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="self">Self</span>;
-    }
-
-    <span class="kw">impl</span> <span class="ident">BodyEncoding</span> <span class="kw">for</span> <span class="ident">ResponseBuilder</span> {
-        <span class="kw">fn</span> <span class="ident">get_encoding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContentEncoding</span><span class="op">&gt;</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">enc</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">extensions</span>().<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Enc</span><span class="op">&gt;</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">enc</span>.<span class="number">0</span>)
-            } <span class="kw">else</span> {
-                <span class="prelude-val">None</span>
-            }
-        }
-
-        <span class="kw">fn</span> <span class="ident">encoding</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">ContentEncoding</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">extensions_mut</span>().<span class="ident">insert</span>(<span class="ident">Enc</span>(<span class="ident">encoding</span>));
-            <span class="self">self</span>
-        }
-    }
-
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> <span class="ident">BodyEncoding</span> <span class="kw">for</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">get_encoding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContentEncoding</span><span class="op">&gt;</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">enc</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">extensions</span>().<span class="ident">get</span>::<span class="op">&lt;</span><span class="ident">Enc</span><span class="op">&gt;</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">enc</span>.<span class="number">0</span>)
-            } <span class="kw">else</span> {
-                <span class="prelude-val">None</span>
-            }
-        }
-
-        <span class="kw">fn</span> <span class="ident">encoding</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">encoding</span>: <span class="ident">ContentEncoding</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="self">Self</span> {
-            <span class="self">self</span>.<span class="ident">extensions_mut</span>().<span class="ident">insert</span>(<span class="ident">Enc</span>(<span class="ident">encoding</span>));
-            <span class="self">self</span>
-        }
-    }
-}
-
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">client</span> {
-    <span class="doccomment">//! Actix web async HTTP client.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! ```rust</span>
-    <span class="doccomment">//! use actix_web::client::Client;</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! #[actix_web::main]</span>
-    <span class="doccomment">//! async fn main() {</span>
-    <span class="doccomment">//!    let mut client = Client::default();</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//!    // Create request builder and send request</span>
-    <span class="doccomment">//!    let response = client.get(&quot;http://www.rust-lang.org&quot;)</span>
-    <span class="doccomment">//!       .header(&quot;User-Agent&quot;, &quot;actix-web/3.0&quot;)</span>
-    <span class="doccomment">//!       .send()     // &lt;- Send request</span>
-    <span class="doccomment">//!       .await;     // &lt;- Wait for response</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//!    println!(&quot;Response: {:?}&quot;, response);</span>
-    <span class="doccomment">//! }</span>
-    <span class="doccomment">//! ```</span>
-
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">awc::error</span>::<span class="kw-2">*</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">awc</span>::{
-        <span class="ident">test</span>, <span class="ident">Client</span>, <span class="ident">ClientBuilder</span>, <span class="ident">ClientRequest</span>, <span class="ident">ClientResponse</span>, <span class="ident">Connector</span>,
+<span class="macro">macro_rules! </span>codegen_reexport {
+    (<span class="macro-nonterminal">$name</span>:ident) =&gt; {
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;macros&quot;</span>)]
+        #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;macros&quot;</span>)))]
+        </span><span class="kw">pub use </span>actix_web_codegen::<span class="macro-nonterminal">$name</span>;
     };
 }
+
+<span class="macro">codegen_reexport!</span>(main);
+<span class="macro">codegen_reexport!</span>(test);
+<span class="macro">codegen_reexport!</span>(route);
+<span class="macro">codegen_reexport!</span>(head);
+<span class="macro">codegen_reexport!</span>(get);
+<span class="macro">codegen_reexport!</span>(post);
+<span class="macro">codegen_reexport!</span>(patch);
+<span class="macro">codegen_reexport!</span>(put);
+<span class="macro">codegen_reexport!</span>(delete);
+<span class="macro">codegen_reexport!</span>(trace);
+<span class="macro">codegen_reexport!</span>(connect);
+<span class="macro">codegen_reexport!</span>(options);
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>BoxError = Box&lt;<span class="kw">dyn </span>std::error::Error&gt;;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/multipart-0.18.0/src/server/save.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>save.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../multipart/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../multipart/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../multipart/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/multipart-0.18.0/src/server/save.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>save.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../multipart/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../multipart/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../multipart/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -1043,696 +1043,696 @@
 <span id="1043">1043</span>
 <span id="1044">1044</span>
 <span id="1045">1045</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright 2016 `multipart` Crate Developers</span>
-<span class="comment">//</span>
-<span class="comment">// Licensed under the Apache License, Version 2.0, &lt;LICENSE-APACHE or</span>
-<span class="comment">// http://apache.org/licenses/LICENSE-2.0&gt; or the MIT license &lt;LICENSE-MIT or</span>
-<span class="comment">// http://opensource.org/licenses/MIT&gt;, at your option. This file may not be</span>
-<span class="comment">// copied, modified, or distributed except according to those terms.</span>
-<span class="doccomment">//! Utilities for saving request entries to the filesystem.</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2016 `multipart` Crate Developers
+//
+// Licensed under the Apache License, Version 2.0, &lt;LICENSE-APACHE or
+// http://apache.org/licenses/LICENSE-2.0&gt; or the MIT license &lt;LICENSE-MIT or
+// http://opensource.org/licenses/MIT&gt;, at your option. This file may not be
+// copied, modified, or distributed except according to those terms.
+</span><span class="doccomment">//! Utilities for saving request entries to the filesystem.
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">server::buf_redux::BufReader</span>;
+</span><span class="kw">pub use </span>server::buf_redux::BufReader;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tempfile::TempDir</span>;
+<span class="kw">pub use </span>tempfile::TempDir;
 
-<span class="kw">use</span> <span class="ident">std::collections::HashMap</span>;
-<span class="kw">use</span> <span class="ident">std::io::prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">std::fs</span>::{<span class="self">self</span>, <span class="ident">File</span>, <span class="ident">OpenOptions</span>};
-<span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
-<span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cmp</span>, <span class="ident">env</span>, <span class="ident">io</span>, <span class="ident">mem</span>, <span class="ident">str</span>, <span class="ident">u32</span>, <span class="ident">u64</span>};
-<span class="kw">use</span> <span class="ident">tempfile</span>;
+<span class="kw">use </span>std::collections::HashMap;
+<span class="kw">use </span>std::io::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::fs::{<span class="self">self</span>, File, OpenOptions};
+<span class="kw">use </span>std::path::{Path, PathBuf};
+<span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::{cmp, env, io, mem, str, u32, u64};
+<span class="kw">use </span>tempfile;
 
-<span class="kw">use</span> <span class="ident">server::field</span>::{<span class="ident">FieldHeaders</span>, <span class="ident">MultipartField</span>, <span class="ident">MultipartData</span>, <span class="ident">ReadEntry</span>, <span class="ident">ReadEntryResult</span>};
+<span class="kw">use </span>server::field::{FieldHeaders, MultipartField, MultipartData, ReadEntry, ReadEntryResult};
 
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveResult</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::TextPolicy</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::PartialReason</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="self">self</span>::SaveResult::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="self">self</span>::TextPolicy::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="self">self</span>::PartialReason::<span class="kw-2">*</span>;
 
-<span class="kw">const</span> <span class="ident">RANDOM_FILENAME_LEN</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">12</span>;
+<span class="kw">const </span>RANDOM_FILENAME_LEN: usize = <span class="number">12</span>;
 
-<span class="kw">fn</span> <span class="ident">rand_filename</span>() -&gt; <span class="ident">String</span> {
-    <span class="ident">::random_alphanumeric</span>(<span class="ident">RANDOM_FILENAME_LEN</span>)
+<span class="kw">fn </span>rand_filename() -&gt; String {
+    ::random_alphanumeric(RANDOM_FILENAME_LEN)
 }
 
-<span class="macro">macro_rules!</span> <span class="ident">try_start</span> (
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span>:<span class="ident">expr</span>) =&gt; (
-        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">val</span>) =&gt; <span class="ident">val</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="ident">Error</span>(<span class="ident">e</span>),
+<span class="macro">macro_rules! </span>try_start (
+    (<span class="macro-nonterminal">$</span><span class="kw">try</span>:<span class="macro-nonterminal">expr</span>) =&gt; (
+        <span class="kw">match </span><span class="macro-nonterminal">$</span><span class="kw">try </span>{
+            <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">val</span>) =&gt; val,
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span>Error(e),
         }
     )
 );
 
-<span class="macro">macro_rules!</span> <span class="ident">try_full</span> (
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span>:<span class="ident">expr</span>) =&gt; {
-        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span> {
-            <span class="ident">Full</span>(<span class="ident">full</span>) =&gt; <span class="ident">full</span>,
-            <span class="ident">other</span> =&gt; <span class="kw">return</span> <span class="ident">other</span>,
+<span class="macro">macro_rules! </span>try_full (
+    (<span class="macro-nonterminal">$</span><span class="kw">try</span>:<span class="macro-nonterminal">expr</span>) =&gt; {
+        <span class="kw">match </span><span class="macro-nonterminal">$</span><span class="kw">try </span>{
+            <span class="macro-nonterminal">Full</span>(full) =&gt; full,
+            other =&gt; <span class="kw">return </span>other,
         }
     }
 );
 
-<span class="macro">macro_rules!</span> <span class="ident">try_partial</span> (
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span>:<span class="ident">expr</span>) =&gt; {
-        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span> {
-            <span class="ident">Full</span>(<span class="ident">full</span>) =&gt; <span class="kw">return</span> <span class="ident">Full</span>(<span class="ident">full</span>.<span class="ident">into</span>()),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="ident">reason</span>) =&gt; (<span class="ident">partial</span>, <span class="ident">reason</span>),
-            <span class="ident">Error</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="ident">Error</span>(<span class="ident">e</span>),
+<span class="macro">macro_rules! </span>try_partial (
+    (<span class="macro-nonterminal">$</span><span class="kw">try</span>:<span class="macro-nonterminal">expr</span>) =&gt; {
+        <span class="kw">match </span><span class="macro-nonterminal">$</span><span class="kw">try </span>{
+            <span class="macro-nonterminal">Full</span>(full) =&gt; <span class="kw">return </span>Full(full.into()),
+            Partial(partial, reason) =&gt; (partial, reason),
+            Error(e) =&gt; <span class="kw">return </span>Error(e),
         }
     }
 );
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">enum</span> <span class="ident">TextPolicy</span> {
-    <span class="doccomment">/// Attempt to read a text field as text, falling back to binary on error</span>
-    <span class="ident">Try</span>,
-    <span class="doccomment">/// Attempt to read a text field as text, returning any errors</span>
-    <span class="ident">Force</span>,
-    <span class="doccomment">/// Don&#39;t try to read text</span>
-    <span class="ident">Ignore</span>
+<span class="attribute">#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+</span><span class="kw">enum </span>TextPolicy {
+    <span class="doccomment">/// Attempt to read a text field as text, falling back to binary on error
+    </span>Try,
+    <span class="doccomment">/// Attempt to read a text field as text, returning any errors
+    </span>Force,
+    <span class="doccomment">/// Don&#39;t try to read text
+    </span>Ignore
 }
 
-<span class="doccomment">/// A builder for saving a file or files to the local filesystem.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ### `OpenOptions`</span>
-<span class="doccomment">/// This builder holds an instance of `std::fs::OpenOptions` which is used</span>
-<span class="doccomment">/// when creating the new file(s).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// By default, the open options are set with `.write(true).create_new(true)`,</span>
-<span class="doccomment">/// so if the file already exists then an error will be thrown. This is to avoid accidentally</span>
-<span class="doccomment">/// overwriting files from other requests.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If you want to modify the options used to open the save file, you can use</span>
-<span class="doccomment">/// `mod_open_opts()`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ### File Size and Count Limits</span>
-<span class="doccomment">/// You can set a size limit for individual fields with `size_limit()`, which takes either `u64`</span>
-<span class="doccomment">/// or `Option&lt;u64&gt;`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You can also set the maximum number of fields to process with `count_limit()`, which</span>
-<span class="doccomment">/// takes either `u32` or `Option&lt;u32&gt;`. This only has an effect when using</span>
-<span class="doccomment">/// `SaveBuilder&lt;[&amp;mut] Multipart&gt;`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// By default, these limits are set conservatively to limit the maximum memory and disk space</span>
-<span class="doccomment">/// usage of a single request. You should set `count_limit` specifically for each request endpoint</span>
-<span class="doccomment">/// based on the number of fields you&#39;re expecting (exactly to that number if you&#39;re not expecting</span>
-<span class="doccomment">/// duplicate fields).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ### Memory Threshold and Text Policy</span>
-<span class="doccomment">/// By default, small fields (a few kilobytes or smaller) will be read directly to memory</span>
-<span class="doccomment">/// without creating a file. This behavior is controlled by the `memory_threshold()` setter. You can</span>
-<span class="doccomment">/// *roughly* tune the maximum memory a single request uses by tuning</span>
-<span class="doccomment">/// `count_limit * memory_threshold`</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If a field appears to contain text data (its content-type is `text/*` or it doesn&#39;t declare</span>
-<span class="doccomment">/// one), `SaveBuilder` can read it to a string instead of saving the raw bytes as long as it falls</span>
-<span class="doccomment">/// below the set `memory_threshold`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// By default, the behavior is to attempt to validate the data as UTF-8, falling back to saving</span>
-<span class="doccomment">/// just the bytes if the validation fails at any point. You can restore/ensure this behavior</span>
-<span class="doccomment">/// with the `try_text()` modifier.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Alternatively, you can use the `force_text()` modifier to make the save operation return</span>
-<span class="doccomment">/// an error when UTF-8 decoding fails, though this only holds true while the size is below</span>
-<span class="doccomment">/// `memory_threshold`. The `ignore_text()` modifier turns off UTF-8 validation altogether.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// UTF-8 validation is performed incrementally (after every `BufRead::fill_buf()` call)</span>
-<span class="doccomment">/// to hopefully maximize throughput, instead of blocking while the field is read to completion</span>
-<span class="doccomment">/// and performing validation over the entire result at the end. (RFC: this could be a lot of</span>
-<span class="doccomment">/// unnecessary work if most fields end up being written to the filesystem, however, but this</span>
-<span class="doccomment">/// can be turned off with `ignore_text()` if it fits the use-case.)</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ### Warning: Do **not** trust user input!</span>
-<span class="doccomment">/// It is a serious security risk to create files or directories with paths based on user input.</span>
-<span class="doccomment">/// A malicious user could craft a path which can be used to overwrite important files, such as</span>
-<span class="doccomment">/// web templates, static assets, Javascript files, database files, configuration files, etc.,</span>
-<span class="doccomment">/// if they are writable by the server process.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This can be mitigated somewhat by setting filesystem permissions as</span>
-<span class="doccomment">/// conservatively as possible and running the server under its own user with restricted</span>
-<span class="doccomment">/// permissions, but you should still not use user input directly as filesystem paths.</span>
-<span class="doccomment">/// If it is truly necessary, you should sanitize user input such that it cannot cause a path to be</span>
-<span class="doccomment">/// misinterpreted by the OS. Such functionality is outside the scope of this crate.</span>
-<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;nothing saved to the filesystem yet&quot;</span>]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SaveBuilder</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="ident">savable</span>: <span class="ident">S</span>,
-    <span class="ident">open_opts</span>: <span class="ident">OpenOptions</span>,
-    <span class="ident">size_limit</span>: <span class="ident">u64</span>,
-    <span class="ident">count_limit</span>: <span class="ident">u32</span>,
-    <span class="ident">memory_threshold</span>: <span class="ident">u64</span>,
-    <span class="ident">text_policy</span>: <span class="ident">TextPolicy</span>,
+<span class="doccomment">/// A builder for saving a file or files to the local filesystem.
+///
+/// ### `OpenOptions`
+/// This builder holds an instance of `std::fs::OpenOptions` which is used
+/// when creating the new file(s).
+///
+/// By default, the open options are set with `.write(true).create_new(true)`,
+/// so if the file already exists then an error will be thrown. This is to avoid accidentally
+/// overwriting files from other requests.
+///
+/// If you want to modify the options used to open the save file, you can use
+/// `mod_open_opts()`.
+///
+/// ### File Size and Count Limits
+/// You can set a size limit for individual fields with `size_limit()`, which takes either `u64`
+/// or `Option&lt;u64&gt;`.
+///
+/// You can also set the maximum number of fields to process with `count_limit()`, which
+/// takes either `u32` or `Option&lt;u32&gt;`. This only has an effect when using
+/// `SaveBuilder&lt;[&amp;mut] Multipart&gt;`.
+///
+/// By default, these limits are set conservatively to limit the maximum memory and disk space
+/// usage of a single request. You should set `count_limit` specifically for each request endpoint
+/// based on the number of fields you&#39;re expecting (exactly to that number if you&#39;re not expecting
+/// duplicate fields).
+///
+/// ### Memory Threshold and Text Policy
+/// By default, small fields (a few kilobytes or smaller) will be read directly to memory
+/// without creating a file. This behavior is controlled by the `memory_threshold()` setter. You can
+/// *roughly* tune the maximum memory a single request uses by tuning
+/// `count_limit * memory_threshold`
+///
+/// If a field appears to contain text data (its content-type is `text/*` or it doesn&#39;t declare
+/// one), `SaveBuilder` can read it to a string instead of saving the raw bytes as long as it falls
+/// below the set `memory_threshold`.
+///
+/// By default, the behavior is to attempt to validate the data as UTF-8, falling back to saving
+/// just the bytes if the validation fails at any point. You can restore/ensure this behavior
+/// with the `try_text()` modifier.
+///
+/// Alternatively, you can use the `force_text()` modifier to make the save operation return
+/// an error when UTF-8 decoding fails, though this only holds true while the size is below
+/// `memory_threshold`. The `ignore_text()` modifier turns off UTF-8 validation altogether.
+///
+/// UTF-8 validation is performed incrementally (after every `BufRead::fill_buf()` call)
+/// to hopefully maximize throughput, instead of blocking while the field is read to completion
+/// and performing validation over the entire result at the end. (RFC: this could be a lot of
+/// unnecessary work if most fields end up being written to the filesystem, however, but this
+/// can be turned off with `ignore_text()` if it fits the use-case.)
+///
+/// ### Warning: Do **not** trust user input!
+/// It is a serious security risk to create files or directories with paths based on user input.
+/// A malicious user could craft a path which can be used to overwrite important files, such as
+/// web templates, static assets, Javascript files, database files, configuration files, etc.,
+/// if they are writable by the server process.
+///
+/// This can be mitigated somewhat by setting filesystem permissions as
+/// conservatively as possible and running the server under its own user with restricted
+/// permissions, but you should still not use user input directly as filesystem paths.
+/// If it is truly necessary, you should sanitize user input such that it cannot cause a path to be
+/// misinterpreted by the OS. Such functionality is outside the scope of this crate.
+</span><span class="attribute">#[must_use = <span class="string">&quot;nothing saved to the filesystem yet&quot;</span>]
+</span><span class="kw">pub struct </span>SaveBuilder&lt;S&gt; {
+    savable: S,
+    open_opts: OpenOptions,
+    size_limit: u64,
+    count_limit: u32,
+    memory_threshold: u64,
+    text_policy: TextPolicy,
 }
 
-<span class="doccomment">/// Common methods for whole requests as well as individual fields.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">SaveBuilder</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Implementation detail but not problematic to have accessible.</span>
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">savable</span>: <span class="ident">S</span>) -&gt; <span class="ident">SaveBuilder</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">open_opts</span> <span class="op">=</span> <span class="ident">OpenOptions::new</span>();
-        <span class="ident">open_opts</span>.<span class="ident">write</span>(<span class="bool-val">true</span>).<span class="ident">create_new</span>(<span class="bool-val">true</span>);
+<span class="doccomment">/// Common methods for whole requests as well as individual fields.
+</span><span class="kw">impl</span>&lt;S&gt; SaveBuilder&lt;S&gt; {
+    <span class="doccomment">/// Implementation detail but not problematic to have accessible.
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">pub fn </span>new(savable: S) -&gt; SaveBuilder&lt;S&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>open_opts = OpenOptions::new();
+        open_opts.write(<span class="bool-val">true</span>).create_new(<span class="bool-val">true</span>);
 
-        <span class="ident">SaveBuilder</span> {
-            <span class="ident">savable</span>,
-            <span class="ident">open_opts</span>,
-            <span class="comment">// 8 MiB, on the conservative end compared to most frameworks</span>
-            <span class="ident">size_limit</span>: <span class="number">8</span> <span class="op">*</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span>,
-            <span class="comment">// Arbitrary, I have no empirical data for this</span>
-            <span class="ident">count_limit</span>: <span class="number">256</span>,
-            <span class="comment">// 10KiB, used by Apache Commons</span>
-            <span class="comment">// https://commons.apache.org/proper/commons-fileupload/apidocs/org/apache/commons/fileupload/disk/DiskFileItemFactory.html</span>
-            <span class="ident">memory_threshold</span>: <span class="number">10</span> <span class="op">*</span> <span class="number">1024</span>,
-            <span class="ident">text_policy</span>: <span class="ident">TextPolicy::Try</span>,
+        SaveBuilder {
+            savable,
+            open_opts,
+            <span class="comment">// 8 MiB, on the conservative end compared to most frameworks
+            </span>size_limit: <span class="number">8 </span>* <span class="number">1024 </span>* <span class="number">1024</span>,
+            <span class="comment">// Arbitrary, I have no empirical data for this
+            </span>count_limit: <span class="number">256</span>,
+            <span class="comment">// 10KiB, used by Apache Commons
+            // https://commons.apache.org/proper/commons-fileupload/apidocs/org/apache/commons/fileupload/disk/DiskFileItemFactory.html
+            </span>memory_threshold: <span class="number">10 </span>* <span class="number">1024</span>,
+            text_policy: TextPolicy::Try,
         }
     }
 
-    <span class="doccomment">/// Set the maximum number of bytes to write out *per file*.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Can be `u64` or `Option&lt;u64&gt;`. If `None` or `u64::MAX`, clears the limit.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size_limit</span><span class="op">&lt;</span><span class="ident">L</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">L</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">size_limit</span> <span class="op">=</span> <span class="ident">limit</span>.<span class="ident">into</span>().<span class="ident">unwrap_or</span>(<span class="ident">u64::MAX</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// Set the maximum number of bytes to write out *per file*.
+    ///
+    /// Can be `u64` or `Option&lt;u64&gt;`. If `None` or `u64::MAX`, clears the limit.
+    </span><span class="kw">pub fn </span>size_limit&lt;L: Into&lt;<span class="prelude-ty">Option</span>&lt;u64&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, limit: L) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.size_limit = limit.into().unwrap_or(u64::MAX);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Modify the `OpenOptions` used to open any files for writing.
+    ///
+    /// The `write` flag will be reset to `true` after the closure returns. (It&#39;d be pretty
+    /// pointless otherwise, right?)
+    </span><span class="kw">pub fn </span>mod_open_opts&lt;F: FnOnce(<span class="kw-2">&amp;mut </span>OpenOptions)&gt;(<span class="kw-2">mut </span><span class="self">self</span>, opts_fn: F) -&gt; <span class="self">Self </span>{
+        opts_fn(<span class="kw-2">&amp;mut </span><span class="self">self</span>.open_opts);
+        <span class="self">self</span>.open_opts.write(<span class="bool-val">true</span>);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set the threshold at which to switch from copying a field into memory to copying
+    /// it to disk.
+    ///
+    /// If `0`, forces fields to save directly to the filesystem.
+    /// If `u64::MAX`, effectively forces fields to always save to memory.
+    </span><span class="kw">pub fn </span>memory_threshold(<span class="self">self</span>, memory_threshold: u64) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ memory_threshold, ..<span class="self">self </span>}
     }
 
-    <span class="doccomment">/// Modify the `OpenOptions` used to open any files for writing.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `write` flag will be reset to `true` after the closure returns. (It&#39;d be pretty</span>
-    <span class="doccomment">/// pointless otherwise, right?)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_open_opts</span><span class="op">&lt;</span><span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;mut</span> <span class="ident">OpenOptions</span>)<span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">opts_fn</span>: <span class="ident">F</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">opts_fn</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">open_opts</span>);
-        <span class="self">self</span>.<span class="ident">open_opts</span>.<span class="ident">write</span>(<span class="bool-val">true</span>);
-        <span class="self">self</span>
+    <span class="doccomment">/// When encountering a field that is apparently text, try to read it to a string or fall
+    /// back to binary otherwise.
+    ///
+    /// If set for an individual field (`SaveBuilder&lt;&amp;mut MultipartData&lt;_&gt;&gt;`), will
+    /// always attempt to decode text regardless of the field&#39;s `Content-Type`.
+    ///
+    /// Has no effect once `memory_threshold` has been reached.
+    </span><span class="kw">pub fn </span>try_text(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ text_policy: TextPolicy::Try, ..<span class="self">self </span>}
     }
 
-    <span class="doccomment">/// Set the threshold at which to switch from copying a field into memory to copying</span>
-    <span class="doccomment">/// it to disk.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `0`, forces fields to save directly to the filesystem.</span>
-    <span class="doccomment">/// If `u64::MAX`, effectively forces fields to always save to memory.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">memory_threshold</span>(<span class="self">self</span>, <span class="ident">memory_threshold</span>: <span class="ident">u64</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">memory_threshold</span>, ..<span class="self">self</span> }
+    <span class="doccomment">/// When encountering a field that is apparently text, read it to a string or return an error.
+    ///
+    /// If set for an individual field (`SaveBuilder&lt;&amp;mut MultipartData&lt;_&gt;&gt;`), will
+    /// always attempt to decode text regardless of the field&#39;s `Content-Type`.
+    ///
+    /// (RFC: should this continue to validate UTF-8 when writing to the filesystem?)
+    </span><span class="kw">pub fn </span>force_text(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ text_policy: TextPolicy::Force, ..<span class="self">self</span>}
     }
 
-    <span class="doccomment">/// When encountering a field that is apparently text, try to read it to a string or fall</span>
-    <span class="doccomment">/// back to binary otherwise.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If set for an individual field (`SaveBuilder&lt;&amp;mut MultipartData&lt;_&gt;&gt;`), will</span>
-    <span class="doccomment">/// always attempt to decode text regardless of the field&#39;s `Content-Type`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Has no effect once `memory_threshold` has been reached.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_text</span>(<span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">text_policy</span>: <span class="ident">TextPolicy::Try</span>, ..<span class="self">self</span> }
-    }
-
-    <span class="doccomment">/// When encountering a field that is apparently text, read it to a string or return an error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If set for an individual field (`SaveBuilder&lt;&amp;mut MultipartData&lt;_&gt;&gt;`), will</span>
-    <span class="doccomment">/// always attempt to decode text regardless of the field&#39;s `Content-Type`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// (RFC: should this continue to validate UTF-8 when writing to the filesystem?)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">force_text</span>(<span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">text_policy</span>: <span class="ident">TextPolicy::Force</span>, ..<span class="self">self</span>}
-    }
-
-    <span class="doccomment">/// Don&#39;t try to read or validate any field data as UTF-8.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_text</span>(<span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">text_policy</span>: <span class="ident">TextPolicy::Ignore</span>, ..<span class="self">self</span> }
+    <span class="doccomment">/// Don&#39;t try to read or validate any field data as UTF-8.
+    </span><span class="kw">pub fn </span>ignore_text(<span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ text_policy: TextPolicy::Ignore, ..<span class="self">self </span>}
     }
 }
 
-<span class="doccomment">/// Save API for whole multipart requests.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="ident">SaveBuilder</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">M</span>: <span class="ident">ReadEntry</span> {
-    <span class="doccomment">/// Set the maximum number of fields to process.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Can be `u32` or `Option&lt;u32&gt;`. If `None` or `u32::MAX`, clears the limit.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">count_limit</span><span class="op">&lt;</span><span class="ident">L</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">count_limit</span>: <span class="ident">L</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">count_limit</span> <span class="op">=</span> <span class="ident">count_limit</span>.<span class="ident">into</span>().<span class="ident">unwrap_or</span>(<span class="ident">u32::MAX</span>);
-        <span class="self">self</span>
+<span class="doccomment">/// Save API for whole multipart requests.
+</span><span class="kw">impl</span>&lt;M&gt; SaveBuilder&lt;M&gt; <span class="kw">where </span>M: ReadEntry {
+    <span class="doccomment">/// Set the maximum number of fields to process.
+    ///
+    /// Can be `u32` or `Option&lt;u32&gt;`. If `None` or `u32::MAX`, clears the limit.
+    </span><span class="kw">pub fn </span>count_limit&lt;L: Into&lt;<span class="prelude-ty">Option</span>&lt;u32&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, count_limit: L) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.count_limit = count_limit.into().unwrap_or(u32::MAX);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Save all fields in the request using a new temporary directory prefixed with
+    /// `multipart-rs` in the OS temporary directory.
+    ///
+    /// For more options, create a `TempDir` yourself and pass it to `with_temp_dir()` instead.
+    ///
+    /// See `with_entries()` for more info.
+    ///
+    /// ### Note: Temporary
+    /// See `SaveDir` for more info (the type of `Entries::save_dir`).
+    </span><span class="kw">pub fn </span>temp(<span class="self">self</span>) -&gt; EntriesSaveResult&lt;M&gt; {
+        <span class="self">self</span>.temp_with_prefix(<span class="string">&quot;multipart-rs&quot;</span>)
     }
 
-    <span class="doccomment">/// Save all fields in the request using a new temporary directory prefixed with</span>
-    <span class="doccomment">/// `multipart-rs` in the OS temporary directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more options, create a `TempDir` yourself and pass it to `with_temp_dir()` instead.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_entries()` for more info.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ### Note: Temporary</span>
-    <span class="doccomment">/// See `SaveDir` for more info (the type of `Entries::save_dir`).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">temp</span>(<span class="self">self</span>) -&gt; <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">temp_with_prefix</span>(<span class="string">&quot;multipart-rs&quot;</span>)
-    }
-
-    <span class="doccomment">/// Save all fields in the request using a new temporary directory with the given string</span>
-    <span class="doccomment">/// as a prefix in the OS temporary directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For more options, create a `TempDir` yourself and pass it to `with_temp_dir()` instead.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_entries()` for more info.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ### Note: Temporary</span>
-    <span class="doccomment">/// See `SaveDir` for more info (the type of `Entries::save_dir`).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">temp_with_prefix</span>(<span class="self">self</span>, <span class="ident">prefix</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="ident">tempfile::Builder::new</span>().<span class="ident">prefix</span>(<span class="ident">prefix</span>).<span class="ident">tempdir</span>() {
-            <span class="prelude-val">Ok</span>(<span class="ident">tempdir</span>) =&gt; <span class="self">self</span>.<span class="ident">with_temp_dir</span>(<span class="ident">tempdir</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="ident">SaveResult::Error</span>(<span class="ident">e</span>),
+    <span class="doccomment">/// Save all fields in the request using a new temporary directory with the given string
+    /// as a prefix in the OS temporary directory.
+    ///
+    /// For more options, create a `TempDir` yourself and pass it to `with_temp_dir()` instead.
+    ///
+    /// See `with_entries()` for more info.
+    ///
+    /// ### Note: Temporary
+    /// See `SaveDir` for more info (the type of `Entries::save_dir`).
+    </span><span class="kw">pub fn </span>temp_with_prefix(<span class="self">self</span>, prefix: <span class="kw-2">&amp;</span>str) -&gt; EntriesSaveResult&lt;M&gt; {
+        <span class="kw">match </span>tempfile::Builder::new().prefix(prefix).tempdir() {
+            <span class="prelude-val">Ok</span>(tempdir) =&gt; <span class="self">self</span>.with_temp_dir(tempdir),
+            <span class="prelude-val">Err</span>(e) =&gt; SaveResult::Error(e),
         }
     }
 
-    <span class="doccomment">/// Save all fields in the request using the given `TempDir`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_entries()` for more info.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `TempDir` is returned in the result under `Entries::save_dir`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_temp_dir</span>(<span class="self">self</span>, <span class="ident">tempdir</span>: <span class="ident">TempDir</span>) -&gt; <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">with_entries</span>(<span class="ident">Entries::new</span>(<span class="ident">SaveDir::Temp</span>(<span class="ident">tempdir</span>)))
+    <span class="doccomment">/// Save all fields in the request using the given `TempDir`.
+    ///
+    /// See `with_entries()` for more info.
+    ///
+    /// The `TempDir` is returned in the result under `Entries::save_dir`.
+    </span><span class="kw">pub fn </span>with_temp_dir(<span class="self">self</span>, tempdir: TempDir) -&gt; EntriesSaveResult&lt;M&gt; {
+        <span class="self">self</span>.with_entries(Entries::new(SaveDir::Temp(tempdir)))
     }
 
-    <span class="doccomment">/// Save the file fields in the request to a new permanent directory with the given path.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Any nonexistent directories in the path will be created.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_entries()` for more info.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">dir</span>: <span class="ident">P</span>) -&gt; <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="ident">dir</span>.<span class="ident">into</span>();
+    <span class="doccomment">/// Save the file fields in the request to a new permanent directory with the given path.
+    ///
+    /// Any nonexistent directories in the path will be created.
+    ///
+    /// See `with_entries()` for more info.
+    </span><span class="kw">pub fn </span>with_dir&lt;P: Into&lt;PathBuf&gt;&gt;(<span class="self">self</span>, dir: P) -&gt; EntriesSaveResult&lt;M&gt; {
+        <span class="kw">let </span>dir = dir.into();
 
-        <span class="macro">try_start!</span>(<span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">dir</span>));
+        <span class="macro">try_start!</span>(create_dir_all(<span class="kw-2">&amp;</span>dir));
 
-        <span class="self">self</span>.<span class="ident">with_entries</span>(<span class="ident">Entries::new</span>(<span class="ident">SaveDir::Perm</span>(<span class="ident">dir</span>)))
+        <span class="self">self</span>.with_entries(Entries::new(SaveDir::Perm(dir)))
     }
 
-    <span class="doccomment">/// Commence the save operation using the existing `Entries` instance.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// May be used to resume a saving operation after handling an error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If `count_limit` is set, only reads that many fields before returning an error.</span>
-    <span class="doccomment">/// If you wish to resume from `PartialReason::CountLimit`, simply remove some entries.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that `PartialReason::CountLimit` will still be returned if the number of fields</span>
-    <span class="doccomment">/// reaches `u32::MAX`, but this would be an extremely degenerate case.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_entries</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">entries</span>: <span class="ident">Entries</span>) -&gt; <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">SaveBuilder</span> {
-            <span class="ident">savable</span>, <span class="ident">open_opts</span>, <span class="ident">count_limit</span>, <span class="ident">size_limit</span>,
-            <span class="ident">memory_threshold</span>, <span class="ident">text_policy</span>
-        } <span class="op">=</span> <span class="self">self</span>;
+    <span class="doccomment">/// Commence the save operation using the existing `Entries` instance.
+    ///
+    /// May be used to resume a saving operation after handling an error.
+    ///
+    /// If `count_limit` is set, only reads that many fields before returning an error.
+    /// If you wish to resume from `PartialReason::CountLimit`, simply remove some entries.
+    ///
+    /// Note that `PartialReason::CountLimit` will still be returned if the number of fields
+    /// reaches `u32::MAX`, but this would be an extremely degenerate case.
+    </span><span class="kw">pub fn </span>with_entries(<span class="self">self</span>, <span class="kw-2">mut </span>entries: Entries) -&gt; EntriesSaveResult&lt;M&gt; {
+        <span class="kw">let </span>SaveBuilder {
+            savable, open_opts, count_limit, size_limit,
+            memory_threshold, text_policy
+        } = <span class="self">self</span>;
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">ReadEntry::read_entry</span>(<span class="ident">savable</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>res = ReadEntry::read_entry(savable);
 
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">entries</span>.<span class="ident">recount_fields</span>();
+        <span class="kw">let _ </span>= entries.recount_fields();
 
-        <span class="kw">let</span> <span class="ident">save_field</span> <span class="op">=</span> <span class="op">|</span><span class="ident">field</span>: <span class="kw-2">&amp;mut</span> <span class="ident">MultipartField</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>, <span class="ident">entries</span>: <span class="kw-2">&amp;</span><span class="ident">Entries</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">text_policy</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">is_text</span>() { <span class="ident">text_policy</span> } <span class="kw">else</span> { <span class="ident">Ignore</span> };
+        <span class="kw">let </span>save_field = |field: <span class="kw-2">&amp;mut </span>MultipartField&lt;M&gt;, entries: <span class="kw-2">&amp;</span>Entries| {
+            <span class="kw">let </span>text_policy = <span class="kw">if </span>field.is_text() { text_policy } <span class="kw">else </span>{ Ignore };
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">saver</span> <span class="op">=</span> <span class="ident">SaveBuilder</span> {
-                <span class="ident">savable</span>: <span class="kw-2">&amp;mut</span> <span class="ident">field</span>.<span class="ident">data</span>, <span class="ident">open_opts</span>: <span class="ident">open_opts</span>.<span class="ident">clone</span>(),
-                <span class="ident">count_limit</span>, <span class="ident">size_limit</span>, <span class="ident">memory_threshold</span>, <span class="ident">text_policy</span>
+            <span class="kw">let </span><span class="kw-2">mut </span>saver = SaveBuilder {
+                savable: <span class="kw-2">&amp;mut </span>field.data, open_opts: open_opts.clone(),
+                count_limit, size_limit, memory_threshold, text_policy
             };
 
-            <span class="ident">saver</span>.<span class="ident">with_dir</span>(<span class="ident">entries</span>.<span class="ident">save_dir</span>.<span class="ident">as_path</span>())
+            saver.with_dir(entries.save_dir.as_path())
         };
 
-        <span class="kw">while</span> <span class="ident">entries</span>.<span class="ident">fields_count</span> <span class="op">&lt;</span> <span class="ident">count_limit</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">field</span>: <span class="ident">MultipartField</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">res</span> {
-                <span class="ident">ReadEntryResult::Entry</span>(<span class="ident">field</span>) =&gt; <span class="ident">field</span>,
-                <span class="ident">ReadEntryResult::End</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="ident">Full</span>(<span class="ident">entries</span>), <span class="comment">// normal exit point</span>
-                <span class="ident">ReadEntryResult::Error</span>(<span class="kw">_</span>, <span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="ident">Partial</span> (
-                    <span class="ident">PartialEntries</span> {
-                        <span class="ident">entries</span>,
-                        <span class="ident">partial</span>: <span class="prelude-val">None</span>,
+        <span class="kw">while </span>entries.fields_count &lt; count_limit {
+            <span class="kw">let </span><span class="kw-2">mut </span>field: MultipartField&lt;M&gt; = <span class="kw">match </span>res {
+                ReadEntryResult::Entry(field) =&gt; field,
+                ReadEntryResult::End(<span class="kw">_</span>) =&gt; <span class="kw">return </span>Full(entries), <span class="comment">// normal exit point
+                </span>ReadEntryResult::Error(<span class="kw">_</span>, e) =&gt; <span class="kw">return </span>Partial (
+                    PartialEntries {
+                        entries,
+                        partial: <span class="prelude-val">None</span>,
                     },
-                    <span class="ident">e</span>.<span class="ident">into</span>(),
+                    e.into(),
                 )
             };
 
-            <span class="kw">let</span> (<span class="ident">dest</span>, <span class="ident">reason</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">save_field</span>(<span class="kw-2">&amp;mut</span> <span class="ident">field</span>, <span class="kw-2">&amp;</span><span class="ident">entries</span>) {
-                <span class="ident">Full</span>(<span class="ident">saved</span>) =&gt; {
-                    <span class="ident">entries</span>.<span class="ident">push_field</span>(<span class="ident">field</span>.<span class="ident">headers</span>, <span class="ident">saved</span>);
-                    <span class="ident">res</span> <span class="op">=</span> <span class="ident">ReadEntry::read_entry</span>(<span class="ident">field</span>.<span class="ident">data</span>.<span class="ident">into_inner</span>());
+            <span class="kw">let </span>(dest, reason) = <span class="kw">match </span>save_field(<span class="kw-2">&amp;mut </span>field, <span class="kw-2">&amp;</span>entries) {
+                Full(saved) =&gt; {
+                    entries.push_field(field.headers, saved);
+                    res = ReadEntry::read_entry(field.data.into_inner());
                     <span class="kw">continue</span>;
                 },
-                <span class="ident">Partial</span>(<span class="ident">saved</span>, <span class="ident">reason</span>) =&gt; (<span class="prelude-val">Some</span>(<span class="ident">saved</span>), <span class="ident">reason</span>),
-                <span class="ident">Error</span>(<span class="ident">error</span>) =&gt; (<span class="prelude-val">None</span>, <span class="ident">PartialReason::IoError</span>(<span class="ident">error</span>)),
+                Partial(saved, reason) =&gt; (<span class="prelude-val">Some</span>(saved), reason),
+                Error(error) =&gt; (<span class="prelude-val">None</span>, PartialReason::IoError(error)),
             };
 
-            <span class="kw">return</span> <span class="ident">Partial</span>(
-                <span class="ident">PartialEntries</span> {
-                    <span class="ident">entries</span>,
-                    <span class="ident">partial</span>: <span class="prelude-val">Some</span>(<span class="ident">PartialSavedField</span> {
-                        <span class="ident">source</span>: <span class="ident">field</span>,
-                        <span class="ident">dest</span>,
+            <span class="kw">return </span>Partial(
+                PartialEntries {
+                    entries,
+                    partial: <span class="prelude-val">Some</span>(PartialSavedField {
+                        source: field,
+                        dest,
                     }),
                 },
-                <span class="ident">reason</span>
+                reason
             );
         }
 
-        <span class="ident">Partial</span>(
-            <span class="ident">PartialEntries</span> {
-                <span class="ident">entries</span>,
-                <span class="ident">partial</span>: <span class="prelude-val">None</span>,
+        Partial(
+            PartialEntries {
+                entries,
+                partial: <span class="prelude-val">None</span>,
             },
-            <span class="ident">PartialReason::CountLimit</span>
+            PartialReason::CountLimit
         )
     }
 }
 
-<span class="doccomment">/// Save API for individual fields.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;m</span>, <span class="ident">M</span>: <span class="lifetime">&#39;m</span><span class="op">&gt;</span> <span class="ident">SaveBuilder</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;m</span> <span class="kw-2">mut</span> <span class="ident">MultipartData</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">MultipartData</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>: <span class="ident">BufRead</span> {
-    <span class="doccomment">/// Save the field data, potentially using a file with a random name in the</span>
-    <span class="doccomment">/// OS temporary directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_path()` for more details.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">temp</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">FieldSaveResult</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">env::temp_dir</span>().<span class="ident">join</span>(<span class="ident">rand_filename</span>());
-        <span class="self">self</span>.<span class="ident">with_path</span>(<span class="ident">path</span>)
+<span class="doccomment">/// Save API for individual fields.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;m</span>, M: <span class="lifetime">&#39;m</span>&gt; SaveBuilder&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;m </span><span class="kw-2">mut </span>MultipartData&lt;M&gt;&gt; <span class="kw">where </span>MultipartData&lt;M&gt;: BufRead {
+    <span class="doccomment">/// Save the field data, potentially using a file with a random name in the
+    /// OS temporary directory.
+    ///
+    /// See `with_path()` for more details.
+    </span><span class="kw">pub fn </span>temp(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; FieldSaveResult {
+        <span class="kw">let </span>path = env::temp_dir().join(rand_filename());
+        <span class="self">self</span>.with_path(path)
     }
 
-    <span class="doccomment">/// Save the field data, potentially using a file with the given name in</span>
-    <span class="doccomment">/// the OS temporary directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_path()` for more details.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_filename</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">filename</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">FieldSaveResult</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tempdir</span> <span class="op">=</span> <span class="ident">env::temp_dir</span>();
-        <span class="ident">tempdir</span>.<span class="ident">set_file_name</span>(<span class="ident">filename</span>);
+    <span class="doccomment">/// Save the field data, potentially using a file with the given name in
+    /// the OS temporary directory.
+    ///
+    /// See `with_path()` for more details.
+    </span><span class="kw">pub fn </span>with_filename(<span class="kw-2">&amp;mut </span><span class="self">self</span>, filename: <span class="kw-2">&amp;</span>str) -&gt; FieldSaveResult {
+        <span class="kw">let </span><span class="kw-2">mut </span>tempdir = env::temp_dir();
+        tempdir.set_file_name(filename);
 
-        <span class="self">self</span>.<span class="ident">with_path</span>(<span class="ident">tempdir</span>)
+        <span class="self">self</span>.with_path(tempdir)
     }
 
-    <span class="doccomment">/// Save the field data, potentially using a file with a random alphanumeric name</span>
-    <span class="doccomment">/// in the given directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See `with_path()` for more details.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">dir</span>: <span class="ident">P</span>) -&gt; <span class="ident">FieldSaveResult</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">dir</span>.<span class="ident">as_ref</span>().<span class="ident">join</span>(<span class="ident">rand_filename</span>());
-        <span class="self">self</span>.<span class="ident">with_path</span>(<span class="ident">path</span>)
+    <span class="doccomment">/// Save the field data, potentially using a file with a random alphanumeric name
+    /// in the given directory.
+    ///
+    /// See `with_path()` for more details.
+    </span><span class="kw">pub fn </span>with_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dir: P) -&gt; FieldSaveResult {
+        <span class="kw">let </span>path = dir.as_ref().join(rand_filename());
+        <span class="self">self</span>.with_path(path)
     }
 
-    <span class="doccomment">/// Save the field data, potentially using a file with the given path.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Creates any missing directories in the path (RFC: skip this step?).</span>
-    <span class="doccomment">/// Uses the contained `OpenOptions` to create the file.</span>
-    <span class="doccomment">/// Truncates the file to the given `size_limit`, if set.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The no directories or files will be created until the set `memory_threshold` is reached.</span>
-    <span class="doccomment">/// If `size_limit` is set and less than or equal to `memory_threshold`,</span>
-    <span class="doccomment">/// then the disk will never be touched.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_path</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="ident">FieldSaveResult</span> {
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">text_policy</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Ignore</span> {
-            <span class="kw">let</span> (<span class="ident">text</span>, <span class="ident">reason</span>) <span class="op">=</span> <span class="macro">try_partial!</span>(<span class="self">self</span>.<span class="ident">save_text</span>());
-            <span class="kw">match</span> <span class="ident">reason</span> {
-                <span class="ident">SizeLimit</span> <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">cmp_size_limit</span>(<span class="ident">text</span>.<span class="ident">len</span>()) =&gt; <span class="ident">text</span>.<span class="ident">into_bytes</span>(),
-                <span class="ident">Utf8Error</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">text_policy</span> <span class="op">!</span><span class="op">=</span> <span class="ident">Force</span> =&gt; <span class="ident">text</span>.<span class="ident">into_bytes</span>(),
-                <span class="ident">other</span> =&gt; <span class="kw">return</span> <span class="ident">Partial</span>(<span class="ident">text</span>.<span class="ident">into</span>(), <span class="ident">other</span>),
+    <span class="doccomment">/// Save the field data, potentially using a file with the given path.
+    ///
+    /// Creates any missing directories in the path (RFC: skip this step?).
+    /// Uses the contained `OpenOptions` to create the file.
+    /// Truncates the file to the given `size_limit`, if set.
+    ///
+    /// The no directories or files will be created until the set `memory_threshold` is reached.
+    /// If `size_limit` is set and less than or equal to `memory_threshold`,
+    /// then the disk will never be touched.
+    </span><span class="kw">pub fn </span>with_path&lt;P: Into&lt;PathBuf&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; FieldSaveResult {
+        <span class="kw">let </span>bytes = <span class="kw">if </span><span class="self">self</span>.text_policy != Ignore {
+            <span class="kw">let </span>(text, reason) = <span class="macro">try_partial!</span>(<span class="self">self</span>.save_text());
+            <span class="kw">match </span>reason {
+                SizeLimit <span class="kw">if </span>!<span class="self">self</span>.cmp_size_limit(text.len()) =&gt; text.into_bytes(),
+                Utf8Error(<span class="kw">_</span>) <span class="kw">if </span><span class="self">self</span>.text_policy != Force =&gt; text.into_bytes(),
+                other =&gt; <span class="kw">return </span>Partial(text.into(), other),
             }
-        } <span class="kw">else</span> {
-            <span class="ident">Vec::new</span>()
+        } <span class="kw">else </span>{
+            Vec::new()
         };
 
-        <span class="kw">let</span> (<span class="ident">bytes</span>, <span class="ident">reason</span>) <span class="op">=</span> <span class="macro">try_partial!</span>(<span class="self">self</span>.<span class="ident">save_mem</span>(<span class="ident">bytes</span>));
+        <span class="kw">let </span>(bytes, reason) = <span class="macro">try_partial!</span>(<span class="self">self</span>.save_mem(bytes));
 
-        <span class="kw">match</span> <span class="ident">reason</span> {
-            <span class="ident">SizeLimit</span> <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">cmp_size_limit</span>(<span class="ident">bytes</span>.<span class="ident">len</span>()) =&gt; (),
-            <span class="ident">other</span> =&gt; <span class="kw">return</span> <span class="ident">Partial</span>(<span class="ident">bytes</span>.<span class="ident">into</span>(), <span class="ident">other</span>)
+        <span class="kw">match </span>reason {
+            SizeLimit <span class="kw">if </span>!<span class="self">self</span>.cmp_size_limit(bytes.len()) =&gt; (),
+            other =&gt; <span class="kw">return </span>Partial(bytes.into(), other)
         }
 
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">into</span>();
+        <span class="kw">let </span>path = path.into();
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">create_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">open_opts</span>.<span class="ident">open</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>)) {
-            <span class="prelude-val">Ok</span>(<span class="ident">file</span>) =&gt; <span class="ident">file</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="ident">Error</span>(<span class="ident">e</span>),
+        <span class="kw">let </span><span class="kw-2">mut </span>file = <span class="kw">match </span>create_dir_all(<span class="kw-2">&amp;</span>path).and_then(|<span class="kw">_</span>| <span class="self">self</span>.open_opts.open(<span class="kw-2">&amp;</span>path)) {
+            <span class="prelude-val">Ok</span>(file) =&gt; file,
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span>Error(e),
         };
 
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">try_full!</span>(
-            <span class="ident">try_write_all</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>, <span class="kw-2">&amp;mut</span> <span class="ident">file</span>)
-                .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">size</span><span class="op">|</span> <span class="ident">SavedData::File</span>(<span class="ident">path</span>, <span class="ident">size</span> <span class="kw">as</span> <span class="ident">u64</span>))
+        <span class="kw">let </span>data = <span class="macro">try_full!</span>(
+            try_write_all(<span class="kw-2">&amp;</span>bytes, <span class="kw-2">&amp;mut </span>file)
+                .map(<span class="kw">move </span>|size| SavedData::File(path, size <span class="kw">as </span>u64))
         );
 
-        <span class="self">self</span>.<span class="ident">write_to</span>(<span class="ident">file</span>).<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">written</span><span class="op">|</span> <span class="ident">data</span>.<span class="ident">add_size</span>(<span class="ident">written</span>))
+        <span class="self">self</span>.write_to(file).map(<span class="kw">move </span>|written| data.add_size(written))
     }
 
 
-    <span class="doccomment">/// Write out the field data to `dest`, truncating if a limit was set.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns the number of bytes copied, and whether or not the limit was reached</span>
-    <span class="doccomment">/// (tested by `MultipartFile::fill_buf().is_empty()` so no bytes are consumed).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Retries on interrupts.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_to</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">dest</span>: <span class="ident">W</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">u64</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">size_limit</span> <span class="op">&lt;</span> <span class="ident">u64::MAX</span> {
-            <span class="ident">try_copy_limited</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">savable</span>, <span class="op">|</span><span class="ident">buf</span><span class="op">|</span> <span class="ident">try_write_all</span>(<span class="ident">buf</span>, <span class="kw-2">&amp;mut</span> <span class="ident">dest</span>), <span class="self">self</span>.<span class="ident">size_limit</span>)
-        } <span class="kw">else</span> {
-            <span class="ident">try_read_buf</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">savable</span>, <span class="op">|</span><span class="ident">buf</span><span class="op">|</span> <span class="ident">try_write_all</span>(<span class="ident">buf</span>, <span class="kw-2">&amp;mut</span> <span class="ident">dest</span>))
+    <span class="doccomment">/// Write out the field data to `dest`, truncating if a limit was set.
+    ///
+    /// Returns the number of bytes copied, and whether or not the limit was reached
+    /// (tested by `MultipartFile::fill_buf().is_empty()` so no bytes are consumed).
+    ///
+    /// Retries on interrupts.
+    </span><span class="kw">pub fn </span>write_to&lt;W: Write&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>dest: W) -&gt; SaveResult&lt;u64, u64&gt; {
+        <span class="kw">if </span><span class="self">self</span>.size_limit &lt; u64::MAX {
+            try_copy_limited(<span class="kw-2">&amp;mut </span><span class="self">self</span>.savable, |buf| try_write_all(buf, <span class="kw-2">&amp;mut </span>dest), <span class="self">self</span>.size_limit)
+        } <span class="kw">else </span>{
+            try_read_buf(<span class="kw-2">&amp;mut </span><span class="self">self</span>.savable, |buf| try_write_all(buf, <span class="kw-2">&amp;mut </span>dest))
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">save_mem</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">bytes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">pre_read</span> <span class="op">=</span> <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_mem</span>(<span class="op">|</span><span class="ident">buf</span><span class="op">|</span> { <span class="ident">bytes</span>.<span class="ident">extend_from_slice</span>(<span class="ident">buf</span>); <span class="ident">Full</span>(<span class="ident">buf</span>.<span class="ident">len</span>()) }, <span class="ident">pre_read</span>) {
-            <span class="ident">Full</span>(<span class="kw">_</span>) =&gt; <span class="ident">Full</span>(<span class="ident">bytes</span>),
-            <span class="ident">Partial</span>(<span class="kw">_</span>, <span class="ident">reason</span>) =&gt; <span class="ident">Partial</span>(<span class="ident">bytes</span>, <span class="ident">reason</span>),
-            <span class="ident">Error</span>(<span class="ident">e</span>) =&gt; <span class="kw">if</span> <span class="op">!</span><span class="ident">bytes</span>.<span class="ident">is_empty</span>() { <span class="ident">Partial</span>(<span class="ident">bytes</span>, <span class="ident">e</span>.<span class="ident">into</span>()) }
-            <span class="kw">else</span> { <span class="ident">Error</span>(<span class="ident">e</span>) }
+    <span class="kw">fn </span>save_mem(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>bytes: Vec&lt;u8&gt;) -&gt; SaveResult&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt; {
+        <span class="kw">let </span>pre_read = bytes.len() <span class="kw">as </span>u64;
+        <span class="kw">match </span><span class="self">self</span>.read_mem(|buf| { bytes.extend_from_slice(buf); Full(buf.len()) }, pre_read) {
+            Full(<span class="kw">_</span>) =&gt; Full(bytes),
+            Partial(<span class="kw">_</span>, reason) =&gt; Partial(bytes, reason),
+            Error(e) =&gt; <span class="kw">if </span>!bytes.is_empty() { Partial(bytes, e.into()) }
+            <span class="kw">else </span>{ Error(e) }
         }
 
     }
 
-    <span class="kw">fn</span> <span class="ident">save_text</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">String::new</span>();
+    <span class="kw">fn </span>save_text(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SaveResult&lt;String, String&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>string = String::new();
 
-        <span class="comment">// incrementally validate UTF-8 to do as much work as possible during network activity</span>
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_mem</span>(<span class="op">|</span><span class="ident">buf</span><span class="op">|</span> {
-            <span class="kw">match</span> <span class="ident">str::from_utf8</span>(<span class="ident">buf</span>) {
-                <span class="prelude-val">Ok</span>(<span class="ident">s</span>) =&gt; { <span class="ident">string</span>.<span class="ident">push_str</span>(<span class="ident">s</span>); <span class="ident">Full</span>(<span class="ident">buf</span>.<span class="ident">len</span>()) },
-                <span class="comment">// buffer should always be bigger</span>
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="number">4</span> {
-                        <span class="ident">Partial</span>(<span class="number">0</span>, <span class="ident">e</span>.<span class="ident">into</span>())
-                    } <span class="kw">else</span> {
-                        <span class="ident">string</span>.<span class="ident">push_str</span>(<span class="ident">str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buf</span>[..<span class="ident">e</span>.<span class="ident">valid_up_to</span>()]).<span class="ident">unwrap</span>());
-                        <span class="ident">Full</span>(<span class="ident">e</span>.<span class="ident">valid_up_to</span>())
+        <span class="comment">// incrementally validate UTF-8 to do as much work as possible during network activity
+        </span><span class="kw">let </span>res = <span class="self">self</span>.read_mem(|buf| {
+            <span class="kw">match </span>str::from_utf8(buf) {
+                <span class="prelude-val">Ok</span>(s) =&gt; { string.push_str(s); Full(buf.len()) },
+                <span class="comment">// buffer should always be bigger
+                </span><span class="prelude-val">Err</span>(e) =&gt; <span class="kw">if </span>buf.len() &lt; <span class="number">4 </span>{
+                        Partial(<span class="number">0</span>, e.into())
+                    } <span class="kw">else </span>{
+                        string.push_str(str::from_utf8(<span class="kw-2">&amp;</span>buf[..e.valid_up_to()]).unwrap());
+                        Full(e.valid_up_to())
                     }
             }
         }, <span class="number">0</span>);
 
-        <span class="kw">match</span> <span class="ident">res</span> {
-            <span class="ident">Full</span>(<span class="kw">_</span>) =&gt; <span class="ident">Full</span>(<span class="ident">string</span>),
-            <span class="ident">Partial</span>(<span class="kw">_</span>, <span class="ident">reason</span>) =&gt; <span class="ident">Partial</span>(<span class="ident">string</span>, <span class="ident">reason</span>),
-            <span class="ident">Error</span>(<span class="ident">e</span>) =&gt; <span class="ident">Error</span>(<span class="ident">e</span>),
+        <span class="kw">match </span>res {
+            Full(<span class="kw">_</span>) =&gt; Full(string),
+            Partial(<span class="kw">_</span>, reason) =&gt; Partial(string, reason),
+            Error(e) =&gt; Error(e),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">read_mem</span><span class="op">&lt;</span><span class="ident">Wb</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">with_buf</span>: <span class="ident">Wb</span>, <span class="ident">pre_read</span>: <span class="ident">u64</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">u64</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">limit</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="self">self</span>.<span class="ident">size_limit</span>, <span class="self">self</span>.<span class="ident">memory_threshold</span>)
-            .<span class="ident">saturating_sub</span>(<span class="ident">pre_read</span>);
-        <span class="ident">try_copy_limited</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">savable</span>, <span class="ident">with_buf</span>, <span class="ident">limit</span>)
+    <span class="kw">fn </span>read_mem&lt;Wb: FnMut(<span class="kw-2">&amp;</span>[u8]) -&gt; SaveResult&lt;usize, usize&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, with_buf: Wb, pre_read: u64) -&gt; SaveResult&lt;u64, u64&gt; {
+        <span class="kw">let </span>limit = cmp::min(<span class="self">self</span>.size_limit, <span class="self">self</span>.memory_threshold)
+            .saturating_sub(pre_read);
+        try_copy_limited(<span class="kw-2">&amp;mut </span><span class="self">self</span>.savable, with_buf, limit)
     }
 
-    <span class="kw">fn</span> <span class="ident">cmp_size_limit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">bool</span> {
-        <span class="ident">size</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">size_limit</span>
+    <span class="kw">fn </span>cmp_size_limit(<span class="kw-2">&amp;</span><span class="self">self</span>, size: usize) -&gt; bool {
+        size <span class="kw">as </span>u64 &gt;= <span class="self">self</span>.size_limit
     }
 }
 
-<span class="doccomment">/// A field that has been saved (to memory or disk) from a multipart request.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SavedField</span> {
-    <span class="doccomment">/// The headers of the field that was saved.</span>
-    <span class="kw">pub</span> <span class="ident">headers</span>: <span class="ident">FieldHeaders</span>,
-    <span class="doccomment">/// The data of the field which may reside in memory or on disk.</span>
-    <span class="kw">pub</span> <span class="ident">data</span>: <span class="ident">SavedData</span>,
+<span class="doccomment">/// A field that has been saved (to memory or disk) from a multipart request.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>SavedField {
+    <span class="doccomment">/// The headers of the field that was saved.
+    </span><span class="kw">pub </span>headers: FieldHeaders,
+    <span class="doccomment">/// The data of the field which may reside in memory or on disk.
+    </span><span class="kw">pub </span>data: SavedData,
 }
 
-<span class="doccomment">/// A saved field&#39;s data container (in memory or on disk)</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SavedData</span> {
-    <span class="doccomment">/// Validated UTF-8 text data.</span>
-    <span class="ident">Text</span>(<span class="ident">String</span>),
-    <span class="doccomment">/// Binary data.</span>
-    <span class="ident">Bytes</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// A path to a file on the filesystem and its size as written by `multipart`.</span>
-    <span class="ident">File</span>(<span class="ident">PathBuf</span>, <span class="ident">u64</span>),
+<span class="doccomment">/// A saved field&#39;s data container (in memory or on disk)
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>SavedData {
+    <span class="doccomment">/// Validated UTF-8 text data.
+    </span>Text(String),
+    <span class="doccomment">/// Binary data.
+    </span>Bytes(Vec&lt;u8&gt;),
+    <span class="doccomment">/// A path to a file on the filesystem and its size as written by `multipart`.
+    </span>File(PathBuf, u64),
 }
 
-<span class="kw">impl</span> <span class="ident">SavedData</span> {
-    <span class="doccomment">/// Get an adapter for this data which implements `Read`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the data is in a file, the file is opened in read-only mode.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">readable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">DataReader</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SavedData</span>::<span class="kw-2">*</span>;
+<span class="kw">impl </span>SavedData {
+    <span class="doccomment">/// Get an adapter for this data which implements `Read`.
+    ///
+    /// If the data is in a file, the file is opened in read-only mode.
+    </span><span class="kw">pub fn </span>readable(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;DataReader&gt; {
+        <span class="kw">use </span><span class="self">self</span>::SavedData::<span class="kw-2">*</span>;
 
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Text</span>(<span class="kw-2">ref</span> <span class="ident">text</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">DataReader::Bytes</span>(<span class="ident">text</span>.<span class="ident">as_ref</span>())),
-            <span class="ident">Bytes</span>(<span class="kw-2">ref</span> <span class="ident">bytes</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">DataReader::Bytes</span>(<span class="ident">bytes</span>)),
-            <span class="ident">File</span>(<span class="kw-2">ref</span> <span class="ident">path</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">DataReader::File</span>(<span class="ident">BufReader::new</span>(<span class="ident">fs::File::open</span>(<span class="ident">path</span>)<span class="question-mark">?</span>))),
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Text(<span class="kw-2">ref </span>text) =&gt; <span class="prelude-val">Ok</span>(DataReader::Bytes(text.as_ref())),
+            Bytes(<span class="kw-2">ref </span>bytes) =&gt; <span class="prelude-val">Ok</span>(DataReader::Bytes(bytes)),
+            File(<span class="kw-2">ref </span>path, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(DataReader::File(BufReader::new(fs::File::open(path)<span class="question-mark">?</span>))),
         }
     }
 
-    <span class="doccomment">/// Get the size of the data, in memory or on disk.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// #### Note</span>
-    <span class="doccomment">/// The size on disk may not match the size of the file if it is externally modified.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u64</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SavedData</span>::<span class="kw-2">*</span>;
+    <span class="doccomment">/// Get the size of the data, in memory or on disk.
+    ///
+    /// #### Note
+    /// The size on disk may not match the size of the file if it is externally modified.
+    </span><span class="kw">pub fn </span>size(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
+        <span class="kw">use </span><span class="self">self</span>::SavedData::<span class="kw-2">*</span>;
 
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Text</span>(<span class="kw-2">ref</span> <span class="ident">text</span>) =&gt; <span class="ident">text</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>,
-            <span class="ident">Bytes</span>(<span class="kw-2">ref</span> <span class="ident">bytes</span>) =&gt; <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>,
-            <span class="ident">File</span>(<span class="kw">_</span>, <span class="ident">size</span>) =&gt; <span class="ident">size</span>,
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Text(<span class="kw-2">ref </span>text) =&gt; text.len() <span class="kw">as </span>u64,
+            Bytes(<span class="kw-2">ref </span>bytes) =&gt; bytes.len() <span class="kw">as </span>u64,
+            File(<span class="kw">_</span>, size) =&gt; size,
         }
     }
 
-    <span class="doccomment">/// Returns `true` if the data is known to be in memory (`Text | Bytes`)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SavedData</span>::<span class="kw-2">*</span>;
+    <span class="doccomment">/// Returns `true` if the data is known to be in memory (`Text | Bytes`)
+    </span><span class="kw">pub fn </span>is_memory(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">use </span><span class="self">self</span>::SavedData::<span class="kw-2">*</span>;
 
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Text</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Bytes</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
-            <span class="ident">File</span>(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Text(<span class="kw">_</span>) | Bytes(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
+            File(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">add_size</span>(<span class="self">self</span>, <span class="ident">add</span>: <span class="ident">u64</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SavedData::File</span>;
+    <span class="kw">fn </span>add_size(<span class="self">self</span>, add: u64) -&gt; <span class="self">Self </span>{
+        <span class="kw">use </span><span class="self">self</span>::SavedData::File;
 
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">File</span>(<span class="ident">path</span>, <span class="ident">size</span>) =&gt; <span class="ident">File</span>(<span class="ident">path</span>, <span class="ident">size</span>.<span class="ident">saturating_add</span>(<span class="ident">add</span>)),
-            <span class="ident">other</span> =&gt; <span class="ident">other</span>
-        }
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SavedData</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">s</span>: <span class="ident">String</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">SavedData::Text</span>(<span class="ident">s</span>)
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SavedData</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">b</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">SavedData::Bytes</span>(<span class="ident">b</span>)
-    }
-}
-
-<span class="doccomment">/// A `Read` (and `BufRead`) adapter for `SavedData`</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DataReader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// In-memory data source (`SavedData::Bytes | Text`)</span>
-    <span class="ident">Bytes</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]),
-    <span class="doccomment">/// On-disk data source (`SavedData::File`)</span>
-    <span class="ident">File</span>(<span class="ident">BufReader</span><span class="op">&lt;</span><span class="ident">File</span><span class="op">&gt;</span>),
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Read</span> <span class="kw">for</span> <span class="ident">DataReader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::DataReader</span>::<span class="kw-2">*</span>;
-
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Bytes</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">bytes</span>) =&gt; <span class="ident">bytes</span>.<span class="ident">read</span>(<span class="ident">buf</span>),
-            <span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">read</span>(<span class="ident">buf</span>),
+        <span class="kw">match </span><span class="self">self </span>{
+            File(path, size) =&gt; File(path, size.saturating_add(add)),
+            other =&gt; other
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufRead</span> <span class="kw">for</span> <span class="ident">DataReader</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fill_buf</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::DataReader</span>::<span class="kw-2">*</span>;
-
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Bytes</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">bytes</span>) =&gt; <span class="ident">bytes</span>.<span class="ident">fill_buf</span>(),
-            <span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">fill_buf</span>(),
-        }
+<span class="kw">impl </span>From&lt;String&gt; <span class="kw">for </span>SavedData {
+    <span class="kw">fn </span>from(s: String) -&gt; <span class="self">Self </span>{
+        SavedData::Text(s)
     }
+}
 
-    <span class="kw">fn</span> <span class="ident">consume</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">amt</span>: <span class="ident">usize</span>) {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::DataReader</span>::<span class="kw-2">*</span>;
+<span class="kw">impl </span>From&lt;Vec&lt;u8&gt;&gt; <span class="kw">for </span>SavedData {
+    <span class="kw">fn </span>from(b: Vec&lt;u8&gt;) -&gt; <span class="self">Self </span>{
+        SavedData::Bytes(b)
+    }
+}
 
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Bytes</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">bytes</span>) =&gt; <span class="ident">bytes</span>.<span class="ident">consume</span>(<span class="ident">amt</span>),
-            <span class="ident">File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">consume</span>(<span class="ident">amt</span>),
+<span class="doccomment">/// A `Read` (and `BufRead`) adapter for `SavedData`
+</span><span class="kw">pub enum </span>DataReader&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// In-memory data source (`SavedData::Bytes | Text`)
+    </span>Bytes(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]),
+    <span class="doccomment">/// On-disk data source (`SavedData::File`)
+    </span>File(BufReader&lt;File&gt;),
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Read <span class="kw">for </span>DataReader&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>read(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; io::Result&lt;usize&gt; {
+        <span class="kw">use </span><span class="self">self</span>::DataReader::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Bytes(<span class="kw-2">ref mut </span>bytes) =&gt; bytes.read(buf),
+            File(<span class="kw-2">ref mut </span>file) =&gt; file.read(buf),
         }
     }
 }
 
-<span class="doccomment">/// A result of `Multipart::save()`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Entries</span> {
-    <span class="doccomment">/// The fields of the multipart request, mapped by field name -&gt; value.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A field name may have multiple actual fields associated with it, but the most</span>
-    <span class="doccomment">/// common case is a single field.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Each vector is guaranteed not to be empty unless externally modified.</span>
-    <span class="comment">// Even though individual fields might only have one entry, it&#39;s better to limit the</span>
-    <span class="comment">// size of a value type in `HashMap` to improve cache efficiency in lookups.</span>
-        <span class="kw">pub</span> <span class="ident">fields</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SavedField</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The directory that the entries in `fields` were saved into.</span>
-    <span class="kw">pub</span> <span class="ident">save_dir</span>: <span class="ident">SaveDir</span>,
-    <span class="ident">fields_count</span>: <span class="ident">u32</span>,
-}
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufRead <span class="kw">for </span>DataReader&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fill_buf(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw-2">&amp;</span>[u8]&gt; {
+        <span class="kw">use </span><span class="self">self</span>::DataReader::<span class="kw-2">*</span>;
 
-<span class="kw">impl</span> <span class="ident">Entries</span> {
-    <span class="doccomment">/// Create a new `Entries` with the given `SaveDir`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">save_dir</span>: <span class="ident">SaveDir</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">Entries</span> {
-            <span class="ident">fields</span>: <span class="ident">HashMap::new</span>(),
-            <span class="ident">save_dir</span>,
-            <span class="ident">fields_count</span>: <span class="number">0</span>,
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Bytes(<span class="kw-2">ref mut </span>bytes) =&gt; bytes.fill_buf(),
+            File(<span class="kw-2">ref mut </span>file) =&gt; file.fill_buf(),
         }
     }
 
-    <span class="doccomment">/// Returns `true` if `fields` is empty, `false` otherwise.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">is_empty</span>()
+    <span class="kw">fn </span>consume(<span class="kw-2">&amp;mut </span><span class="self">self</span>, amt: usize) {
+        <span class="kw">use </span><span class="self">self</span>::DataReader::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Bytes(<span class="kw-2">ref mut </span>bytes) =&gt; bytes.consume(amt),
+            File(<span class="kw-2">ref mut </span>file) =&gt; file.consume(amt),
+        }
+    }
+}
+
+<span class="doccomment">/// A result of `Multipart::save()`.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Entries {
+    <span class="doccomment">/// The fields of the multipart request, mapped by field name -&gt; value.
+    ///
+    /// A field name may have multiple actual fields associated with it, but the most
+    /// common case is a single field.
+    ///
+    /// Each vector is guaranteed not to be empty unless externally modified.
+    </span><span class="comment">// Even though individual fields might only have one entry, it&#39;s better to limit the
+    // size of a value type in `HashMap` to improve cache efficiency in lookups.
+        </span><span class="kw">pub </span>fields: HashMap&lt;Arc&lt;str&gt;, Vec&lt;SavedField&gt;&gt;,
+    <span class="doccomment">/// The directory that the entries in `fields` were saved into.
+    </span><span class="kw">pub </span>save_dir: SaveDir,
+    fields_count: u32,
+}
+
+<span class="kw">impl </span>Entries {
+    <span class="doccomment">/// Create a new `Entries` with the given `SaveDir`
+    </span><span class="kw">pub fn </span>new(save_dir: SaveDir) -&gt; <span class="self">Self </span>{
+        Entries {
+            fields: HashMap::new(),
+            save_dir,
+            fields_count: <span class="number">0</span>,
+        }
     }
 
-    <span class="doccomment">/// The number of actual fields contained within this `Entries`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Effectively `self.fields.values().map(Vec::len).sum()` but maintained separately.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ## Note</span>
-    <span class="doccomment">/// This will be incorrect if `fields` is modified externally. Call `recount_fields()`</span>
-    <span class="doccomment">/// to get the correct count.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fields_count</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">fields_count</span>
+    <span class="doccomment">/// Returns `true` if `fields` is empty, `false` otherwise.
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.fields.is_empty()
     }
 
-    <span class="doccomment">/// Sum the number of fields in this `Entries` and then return the updated value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recount_fields</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="kw">let</span> <span class="ident">fields_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">values</span>().<span class="ident">map</span>(<span class="ident">Vec::len</span>).<span class="ident">sum</span>();
-        <span class="comment">// saturating cast</span>
-        <span class="self">self</span>.<span class="ident">fields_count</span> <span class="op">=</span> <span class="ident">cmp::min</span>(<span class="ident">u32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">fields_count</span>) <span class="kw">as</span> <span class="ident">u32</span>;
-        <span class="self">self</span>.<span class="ident">fields_count</span>
+    <span class="doccomment">/// The number of actual fields contained within this `Entries`.
+    ///
+    /// Effectively `self.fields.values().map(Vec::len).sum()` but maintained separately.
+    ///
+    /// ## Note
+    /// This will be incorrect if `fields` is modified externally. Call `recount_fields()`
+    /// to get the correct count.
+    </span><span class="kw">pub fn </span>fields_count(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.fields_count
     }
 
-    <span class="kw">fn</span> <span class="ident">push_field</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">headers</span>: <span class="ident">FieldHeaders</span>, <span class="ident">data</span>: <span class="ident">SavedData</span>) {
-        <span class="kw">use</span> <span class="ident">std::collections::hash_map::Entry</span>::<span class="kw-2">*</span>;
+    <span class="doccomment">/// Sum the number of fields in this `Entries` and then return the updated value.
+    </span><span class="kw">pub fn </span>recount_fields(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; u32 {
+        <span class="kw">let </span>fields_count = <span class="self">self</span>.fields.values().map(Vec::len).sum();
+        <span class="comment">// saturating cast
+        </span><span class="self">self</span>.fields_count = cmp::min(u32::MAX <span class="kw">as </span>usize, fields_count) <span class="kw">as </span>u32;
+        <span class="self">self</span>.fields_count
+    }
 
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">entry</span>(<span class="ident">headers</span>.<span class="ident">name</span>.<span class="ident">clone</span>()) {
-            <span class="ident">Vacant</span>(<span class="ident">vacant</span>) =&gt; { <span class="ident">vacant</span>.<span class="ident">insert</span>(<span class="macro">vec!</span>[<span class="ident">SavedField</span> { <span class="ident">headers</span>, <span class="ident">data</span> }]); },
-            <span class="ident">Occupied</span>(<span class="ident">occupied</span>) =&gt; {
-                <span class="comment">// dedup the field name by reusing the key&#39;s `Arc`</span>
-                <span class="ident">headers</span>.<span class="ident">name</span> <span class="op">=</span> <span class="ident">occupied</span>.<span class="ident">key</span>().<span class="ident">clone</span>();
-                <span class="ident">occupied</span>.<span class="ident">into_mut</span>().<span class="ident">push</span>({ <span class="ident">SavedField</span> { <span class="ident">headers</span>, <span class="ident">data</span> }});
+    <span class="kw">fn </span>push_field(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>headers: FieldHeaders, data: SavedData) {
+        <span class="kw">use </span>std::collections::hash_map::Entry::<span class="kw-2">*</span>;
+
+        <span class="kw">match </span><span class="self">self</span>.fields.entry(headers.name.clone()) {
+            Vacant(vacant) =&gt; { vacant.insert(<span class="macro">vec!</span>[SavedField { headers, data }]); },
+            Occupied(occupied) =&gt; {
+                <span class="comment">// dedup the field name by reusing the key&#39;s `Arc`
+                </span>headers.name = occupied.key().clone();
+                occupied.into_mut().push({ SavedField { headers, data }});
             },
         }
 
-        <span class="self">self</span>.<span class="ident">fields_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fields_count</span>.<span class="ident">saturating_add</span>(<span class="number">1</span>);
+        <span class="self">self</span>.fields_count = <span class="self">self</span>.fields_count.saturating_add(<span class="number">1</span>);
     }
 
-    <span class="doccomment">/// Print all fields and their contents to stdout. Mostly for testing purposes.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">print_debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">stdout</span> <span class="op">=</span> <span class="ident">io::stdout</span>();
-        <span class="kw">let</span> <span class="ident">stdout_lock</span> <span class="op">=</span> <span class="ident">stdout</span>.<span class="ident">lock</span>();
-        <span class="self">self</span>.<span class="ident">write_debug</span>(<span class="ident">stdout_lock</span>)
+    <span class="doccomment">/// Print all fields and their contents to stdout. Mostly for testing purposes.
+    </span><span class="kw">pub fn </span>print_debug(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">let </span>stdout = io::stdout();
+        <span class="kw">let </span>stdout_lock = stdout.lock();
+        <span class="self">self</span>.write_debug(stdout_lock)
     }
 
-    <span class="doccomment">/// Write all fields and their contents to the given output. Mostly for testing purposes.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_debug</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">writer</span>: <span class="ident">W</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">for</span> (<span class="ident">name</span>, <span class="ident">entries</span>) <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span> {
-            <span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;Field {:?} has {} entries:&quot;</span>, <span class="ident">name</span>, <span class="ident">entries</span>.<span class="ident">len</span>())<span class="question-mark">?</span>;
+    <span class="doccomment">/// Write all fields and their contents to the given output. Mostly for testing purposes.
+    </span><span class="kw">pub fn </span>write_debug&lt;W: Write&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>writer: W) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">for </span>(name, entries) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.fields {
+            <span class="macro">writeln!</span>(writer, <span class="string">&quot;Field {:?} has {} entries:&quot;</span>, name, entries.len())<span class="question-mark">?</span>;
 
-            <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">field</span>) <span class="kw">in</span> <span class="ident">entries</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">field</span>.<span class="ident">data</span>.<span class="ident">readable</span>()<span class="question-mark">?</span>;
-                <span class="kw">let</span> <span class="ident">headers</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">field</span>.<span class="ident">headers</span>;
-                <span class="macro">writeln!</span>(<span class="ident">writer</span>, <span class="string">&quot;{}: {:?} ({:?}):&quot;</span>, <span class="ident">idx</span>, <span class="ident">headers</span>.<span class="ident">filename</span>, <span class="ident">headers</span>.<span class="ident">content_type</span>)<span class="question-mark">?</span>;
-                <span class="ident">io::copy</span>(<span class="kw-2">&amp;mut</span> <span class="ident">data</span>, <span class="kw-2">&amp;mut</span> <span class="ident">writer</span>)<span class="question-mark">?</span>;
+            <span class="kw">for </span>(idx, field) <span class="kw">in </span>entries.iter().enumerate() {
+                <span class="kw">let </span><span class="kw-2">mut </span>data = field.data.readable()<span class="question-mark">?</span>;
+                <span class="kw">let </span>headers = <span class="kw-2">&amp;</span>field.headers;
+                <span class="macro">writeln!</span>(writer, <span class="string">&quot;{}: {:?} ({:?}):&quot;</span>, idx, headers.filename, headers.content_type)<span class="question-mark">?</span>;
+                io::copy(<span class="kw-2">&amp;mut </span>data, <span class="kw-2">&amp;mut </span>writer)<span class="question-mark">?</span>;
             }
         }
 
@@ -1740,353 +1740,353 @@
     }
 }
 
-<span class="doccomment">/// The save directory for `Entries`. May be temporary (delete-on-drop) or permanent.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SaveDir</span> {
-    <span class="doccomment">/// This directory is temporary and will be deleted, along with its contents, when this wrapper</span>
-    <span class="doccomment">/// is dropped.</span>
-    <span class="ident">Temp</span>(<span class="ident">TempDir</span>),
-    <span class="doccomment">/// This directory is permanent and will be left on the filesystem when this wrapper is dropped.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **N.B.** If this directory is in the OS temporary directory then it may still be</span>
-    <span class="doccomment">/// deleted at any time.</span>
-    <span class="ident">Perm</span>(<span class="ident">PathBuf</span>),
+<span class="doccomment">/// The save directory for `Entries`. May be temporary (delete-on-drop) or permanent.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>SaveDir {
+    <span class="doccomment">/// This directory is temporary and will be deleted, along with its contents, when this wrapper
+    /// is dropped.
+    </span>Temp(TempDir),
+    <span class="doccomment">/// This directory is permanent and will be left on the filesystem when this wrapper is dropped.
+    ///
+    /// **N.B.** If this directory is in the OS temporary directory then it may still be
+    /// deleted at any time.
+    </span>Perm(PathBuf),
 }
 
-<span class="kw">impl</span> <span class="ident">SaveDir</span> {
-    <span class="doccomment">/// Get the path of this directory, either temporary or permanent.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveDir</span>::<span class="kw-2">*</span>;
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Temp</span>(<span class="kw-2">ref</span> <span class="ident">tempdir</span>) =&gt; <span class="ident">tempdir</span>.<span class="ident">path</span>(),
-            <span class="ident">Perm</span>(<span class="kw-2">ref</span> <span class="ident">pathbuf</span>) =&gt; <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">pathbuf</span>,
+<span class="kw">impl </span>SaveDir {
+    <span class="doccomment">/// Get the path of this directory, either temporary or permanent.
+    </span><span class="kw">pub fn </span>as_path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path {
+        <span class="kw">use </span><span class="self">self</span>::SaveDir::<span class="kw-2">*</span>;
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Temp(<span class="kw-2">ref </span>tempdir) =&gt; tempdir.path(),
+            Perm(<span class="kw-2">ref </span>pathbuf) =&gt; <span class="kw-2">&amp;*</span>pathbuf,
         }
     }
 
-    <span class="doccomment">/// Returns `true` if this is a temporary directory which will be deleted on-drop.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_temporary</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveDir</span>::<span class="kw-2">*</span>;
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Temp</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
-            <span class="ident">Perm</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
+    <span class="doccomment">/// Returns `true` if this is a temporary directory which will be deleted on-drop.
+    </span><span class="kw">pub fn </span>is_temporary(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">use </span><span class="self">self</span>::SaveDir::<span class="kw-2">*</span>;
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            Temp(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
+            Perm(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
     }
 
-    <span class="doccomment">/// Unwrap the `PathBuf` from `self`; if this is a temporary directory,</span>
-    <span class="doccomment">/// it will be converted to a permanent one.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_path</span>(<span class="self">self</span>) -&gt; <span class="ident">PathBuf</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveDir</span>::<span class="kw-2">*</span>;
+    <span class="doccomment">/// Unwrap the `PathBuf` from `self`; if this is a temporary directory,
+    /// it will be converted to a permanent one.
+    </span><span class="kw">pub fn </span>into_path(<span class="self">self</span>) -&gt; PathBuf {
+        <span class="kw">use </span><span class="self">self</span>::SaveDir::<span class="kw-2">*</span>;
 
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Temp</span>(<span class="ident">tempdir</span>) =&gt; <span class="ident">tempdir</span>.<span class="ident">into_path</span>(),
-            <span class="ident">Perm</span>(<span class="ident">pathbuf</span>) =&gt; <span class="ident">pathbuf</span>,
+        <span class="kw">match </span><span class="self">self </span>{
+            Temp(tempdir) =&gt; tempdir.into_path(),
+            Perm(pathbuf) =&gt; pathbuf,
         }
     }
 
-    <span class="doccomment">/// If this `SaveDir` is temporary, convert it to permanent.</span>
-    <span class="doccomment">/// This is a no-op if it already is permanent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ### Warning: Potential Data Loss</span>
-    <span class="doccomment">/// Even though this will prevent deletion on-drop, the temporary folder on most OSes</span>
-    <span class="doccomment">/// (where this directory is created by default) can be automatically cleared by the OS at any</span>
-    <span class="doccomment">/// time, usually on reboot or when free space is low.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is recommended that you relocate the files from a request which you want to keep to a</span>
-    <span class="doccomment">/// permanent folder on the filesystem.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keep</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveDir</span>::<span class="kw-2">*</span>;
-        <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">mem::replace</span>(<span class="self">self</span>, <span class="ident">Perm</span>(<span class="ident">PathBuf::new</span>())) {
-            <span class="ident">Temp</span>(<span class="ident">tempdir</span>) =&gt; <span class="ident">Perm</span>(<span class="ident">tempdir</span>.<span class="ident">into_path</span>()),
-            <span class="ident">old_self</span> =&gt; <span class="ident">old_self</span>,
+    <span class="doccomment">/// If this `SaveDir` is temporary, convert it to permanent.
+    /// This is a no-op if it already is permanent.
+    ///
+    /// ### Warning: Potential Data Loss
+    /// Even though this will prevent deletion on-drop, the temporary folder on most OSes
+    /// (where this directory is created by default) can be automatically cleared by the OS at any
+    /// time, usually on reboot or when free space is low.
+    ///
+    /// It is recommended that you relocate the files from a request which you want to keep to a
+    /// permanent folder on the filesystem.
+    </span><span class="kw">pub fn </span>keep(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">use </span><span class="self">self</span>::SaveDir::<span class="kw-2">*</span>;
+        <span class="kw-2">*</span><span class="self">self </span>= <span class="kw">match </span>mem::replace(<span class="self">self</span>, Perm(PathBuf::new())) {
+            Temp(tempdir) =&gt; Perm(tempdir.into_path()),
+            old_self =&gt; old_self,
         };
     }
 
-    <span class="doccomment">/// Delete this directory and its contents, regardless of its permanence.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ### Warning: Potential Data Loss</span>
-    <span class="doccomment">/// This is very likely irreversible, depending on the OS implementation.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Files deleted programmatically are deleted directly from disk, as compared to most file</span>
-    <span class="doccomment">/// manager applications which use a staging area from which deleted files can be safely</span>
-    <span class="doccomment">/// recovered (i.e. Windows&#39; Recycle Bin, OS X&#39;s Trash Can, etc.).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">delete</span>(<span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident"><span class="self">self</span>::SaveDir</span>::<span class="kw-2">*</span>;
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Temp</span>(<span class="ident">tempdir</span>) =&gt; <span class="ident">tempdir</span>.<span class="ident">close</span>(),
-            <span class="ident">Perm</span>(<span class="ident">pathbuf</span>) =&gt; <span class="ident">fs::remove_dir_all</span>(<span class="kw-2">&amp;</span><span class="ident">pathbuf</span>),
+    <span class="doccomment">/// Delete this directory and its contents, regardless of its permanence.
+    ///
+    /// ### Warning: Potential Data Loss
+    /// This is very likely irreversible, depending on the OS implementation.
+    ///
+    /// Files deleted programmatically are deleted directly from disk, as compared to most file
+    /// manager applications which use a staging area from which deleted files can be safely
+    /// recovered (i.e. Windows&#39; Recycle Bin, OS X&#39;s Trash Can, etc.).
+    </span><span class="kw">pub fn </span>delete(<span class="self">self</span>) -&gt; io::Result&lt;()&gt; {
+        <span class="kw">use </span><span class="self">self</span>::SaveDir::<span class="kw-2">*</span>;
+        <span class="kw">match </span><span class="self">self </span>{
+            Temp(tempdir) =&gt; tempdir.close(),
+            Perm(pathbuf) =&gt; fs::remove_dir_all(<span class="kw-2">&amp;</span>pathbuf),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">SaveDir</span> {
-    <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span> {
-        <span class="self">self</span>.<span class="ident">as_path</span>()
+<span class="kw">impl </span>AsRef&lt;Path&gt; <span class="kw">for </span>SaveDir {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path {
+        <span class="self">self</span>.as_path()
     }
 }
 
-<span class="doccomment">/// The reason the save operation quit partway through.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PartialReason</span> {
-    <span class="doccomment">/// The count limit for files in the request was hit.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The associated file has not been saved to the filesystem.</span>
-    <span class="ident">CountLimit</span>,
-    <span class="doccomment">/// The size limit for an individual file was hit.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The file was partially written to the filesystem.</span>
-    <span class="ident">SizeLimit</span>,
-    <span class="doccomment">/// An error occurred during the operation.</span>
-    <span class="ident">IoError</span>(<span class="ident">io::Error</span>),
-    <span class="doccomment">/// An error returned from validating a field as UTF-8 due to `SaveBuilder::force_text()`</span>
-    <span class="ident">Utf8Error</span>(<span class="ident">str::Utf8Error</span>),
+<span class="doccomment">/// The reason the save operation quit partway through.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>PartialReason {
+    <span class="doccomment">/// The count limit for files in the request was hit.
+    ///
+    /// The associated file has not been saved to the filesystem.
+    </span>CountLimit,
+    <span class="doccomment">/// The size limit for an individual file was hit.
+    ///
+    /// The file was partially written to the filesystem.
+    </span>SizeLimit,
+    <span class="doccomment">/// An error occurred during the operation.
+    </span>IoError(io::Error),
+    <span class="doccomment">/// An error returned from validating a field as UTF-8 due to `SaveBuilder::force_text()`
+    </span>Utf8Error(str::Utf8Error),
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartialReason</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">io::Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">IoError</span>(<span class="ident">e</span>)
+<span class="kw">impl </span>From&lt;io::Error&gt; <span class="kw">for </span>PartialReason {
+    <span class="kw">fn </span>from(e: io::Error) -&gt; <span class="self">Self </span>{
+        IoError(e)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">str::Utf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartialReason</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">str::Utf8Error</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">Utf8Error</span>(<span class="ident">e</span>)
+<span class="kw">impl </span>From&lt;str::Utf8Error&gt; <span class="kw">for </span>PartialReason {
+    <span class="kw">fn </span>from(e: str::Utf8Error) -&gt; <span class="self">Self </span>{
+        Utf8Error(e)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">PartialReason</span> {
-    <span class="doccomment">/// Return `io::Error` in the `IoError` case or panic otherwise.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_err</span>(<span class="self">self</span>) -&gt; <span class="ident">io::Error</span> {
-        <span class="self">self</span>.<span class="ident">expect_err</span>(<span class="string">&quot;`PartialReason` was not `IoError`&quot;</span>)
+<span class="kw">impl </span>PartialReason {
+    <span class="doccomment">/// Return `io::Error` in the `IoError` case or panic otherwise.
+    </span><span class="kw">pub fn </span>unwrap_err(<span class="self">self</span>) -&gt; io::Error {
+        <span class="self">self</span>.expect_err(<span class="string">&quot;`PartialReason` was not `IoError`&quot;</span>)
     }
 
-    <span class="doccomment">/// Return `io::Error` in the `IoError` case or panic with the given</span>
-    <span class="doccomment">/// message otherwise.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">expect_err</span>(<span class="self">self</span>, <span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">io::Error</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">PartialReason::IoError</span>(<span class="ident">e</span>) =&gt; <span class="ident">e</span>,
-            <span class="kw">_</span> =&gt; <span class="macro">panic!</span>(<span class="string">&quot;{}: {:?}&quot;</span>, <span class="ident">msg</span>, <span class="self">self</span>),
+    <span class="doccomment">/// Return `io::Error` in the `IoError` case or panic with the given
+    /// message otherwise.
+    </span><span class="kw">pub fn </span>expect_err(<span class="self">self</span>, msg: <span class="kw-2">&amp;</span>str) -&gt; io::Error {
+        <span class="kw">match </span><span class="self">self </span>{
+            PartialReason::IoError(e) =&gt; e,
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;{}: {:?}&quot;</span>, msg, <span class="self">self</span>),
         }
     }
 }
 
-<span class="doccomment">/// The field that was being read when the save operation quit.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// May be partially saved to the filesystem if `dest` is `Some`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PartialSavedField</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">ReadEntry</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The field that was being read.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// May be partially read if `dest` is `Some`.</span>
-    <span class="kw">pub</span> <span class="ident">source</span>: <span class="ident">MultipartField</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The data from the saving operation, if it got that far.</span>
-    <span class="kw">pub</span> <span class="ident">dest</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SavedData</span><span class="op">&gt;</span>,
+<span class="doccomment">/// The field that was being read when the save operation quit.
+///
+/// May be partially saved to the filesystem if `dest` is `Some`.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>PartialSavedField&lt;M: ReadEntry&gt; {
+    <span class="doccomment">/// The field that was being read.
+    ///
+    /// May be partially read if `dest` is `Some`.
+    </span><span class="kw">pub </span>source: MultipartField&lt;M&gt;,
+    <span class="doccomment">/// The data from the saving operation, if it got that far.
+    </span><span class="kw">pub </span>dest: <span class="prelude-ty">Option</span>&lt;SavedData&gt;,
 }
 
-<span class="doccomment">/// The partial result type for `Multipart::save*()`.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Contains the successfully saved entries as well as the partially</span>
-<span class="doccomment">/// saved file that was in the process of being read when the error occurred,</span>
-<span class="doccomment">/// if applicable.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PartialEntries</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">ReadEntry</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The entries that were saved successfully.</span>
-    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="ident">Entries</span>,
-    <span class="doccomment">/// The field that was in the process of being read. `None` if the error</span>
-    <span class="doccomment">/// occurred between entries.</span>
-    <span class="kw">pub</span> <span class="ident">partial</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PartialSavedField</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="doccomment">/// The partial result type for `Multipart::save*()`.
+///
+/// Contains the successfully saved entries as well as the partially
+/// saved file that was in the process of being read when the error occurred,
+/// if applicable.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>PartialEntries&lt;M: ReadEntry&gt; {
+    <span class="doccomment">/// The entries that were saved successfully.
+    </span><span class="kw">pub </span>entries: Entries,
+    <span class="doccomment">/// The field that was in the process of being read. `None` if the error
+    /// occurred between entries.
+    </span><span class="kw">pub </span>partial: <span class="prelude-ty">Option</span>&lt;PartialSavedField&lt;M&gt;&gt;,
 }
 
-<span class="doccomment">/// Discards `partial`</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">ReadEntry</span><span class="op">&gt;</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Entries</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PartialEntries</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">into</span>(<span class="self">self</span>) -&gt; <span class="ident">Entries</span> {
-        <span class="self">self</span>.<span class="ident">entries</span>
+<span class="doccomment">/// Discards `partial`
+</span><span class="kw">impl</span>&lt;M: ReadEntry&gt; Into&lt;Entries&gt; <span class="kw">for </span>PartialEntries&lt;M&gt; {
+    <span class="kw">fn </span>into(<span class="self">self</span>) -&gt; Entries {
+        <span class="self">self</span>.entries
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">ReadEntry</span><span class="op">&gt;</span> <span class="ident">PartialEntries</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// If `partial` is present and contains a `SavedFile` then just</span>
-    <span class="doccomment">/// add it to the `Entries` instance and return it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Otherwise, returns `self.entries`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">keep_partial</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">Entries</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">partial</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">partial</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">saved</span>) <span class="op">=</span> <span class="ident">partial</span>.<span class="ident">dest</span> {
-                <span class="self">self</span>.<span class="ident">entries</span>.<span class="ident">push_field</span>(<span class="ident">partial</span>.<span class="ident">source</span>.<span class="ident">headers</span>, <span class="ident">saved</span>);
+<span class="kw">impl</span>&lt;M: ReadEntry&gt; PartialEntries&lt;M&gt; {
+    <span class="doccomment">/// If `partial` is present and contains a `SavedFile` then just
+    /// add it to the `Entries` instance and return it.
+    ///
+    /// Otherwise, returns `self.entries`
+    </span><span class="kw">pub fn </span>keep_partial(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Entries {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(partial) = <span class="self">self</span>.partial {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(saved) = partial.dest {
+                <span class="self">self</span>.entries.push_field(partial.source.headers, saved);
             }
         }
 
-        <span class="self">self</span>.<span class="ident">entries</span>
+        <span class="self">self</span>.entries
     }
 }
 
-<span class="doccomment">/// The ternary result type used for the `SaveBuilder&lt;_&gt;` API.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">Success</span>, <span class="ident">Partial</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The operation was a total success. Contained is the complete result.</span>
-    <span class="ident">Full</span>(<span class="ident">Success</span>),
-    <span class="doccomment">/// The operation quit partway through. Included is the partial</span>
-    <span class="doccomment">/// result along with the reason.</span>
-    <span class="ident">Partial</span>(<span class="ident">Partial</span>, <span class="ident">PartialReason</span>),
-    <span class="doccomment">/// An error occurred at the start of the operation, before anything was done.</span>
-    <span class="ident">Error</span>(<span class="ident">io::Error</span>),
+<span class="doccomment">/// The ternary result type used for the `SaveBuilder&lt;_&gt;` API.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>SaveResult&lt;Success, Partial&gt; {
+    <span class="doccomment">/// The operation was a total success. Contained is the complete result.
+    </span>Full(Success),
+    <span class="doccomment">/// The operation quit partway through. Included is the partial
+    /// result along with the reason.
+    </span>Partial(Partial, PartialReason),
+    <span class="doccomment">/// An error occurred at the start of the operation, before anything was done.
+    </span>Error(io::Error),
 }
 
-<span class="doccomment">/// Shorthand result for methods that return `Entries`</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">Entries</span>, <span class="ident">PartialEntries</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Shorthand result for methods that return `Entries`
+</span><span class="kw">pub type </span>EntriesSaveResult&lt;M&gt; = SaveResult&lt;Entries, PartialEntries&lt;M&gt;&gt;;
 
-<span class="doccomment">/// Shorthand result for methods that return `FieldData`s.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The `MultipartData` is not provided here because it is not necessary to return</span>
-<span class="doccomment">/// a borrow when the owned version is probably in the same scope. This hopefully</span>
-<span class="doccomment">/// saves some headache with the borrow-checker.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FieldSaveResult</span> <span class="op">=</span> <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">SavedData</span>, <span class="ident">SavedData</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Shorthand result for methods that return `FieldData`s.
+///
+/// The `MultipartData` is not provided here because it is not necessary to return
+/// a borrow when the owned version is probably in the same scope. This hopefully
+/// saves some headache with the borrow-checker.
+</span><span class="kw">pub type </span>FieldSaveResult = SaveResult&lt;SavedData, SavedData&gt;;
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">ReadEntry</span><span class="op">&gt;</span> <span class="ident">EntriesSaveResult</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Take the `Entries` from `self`, if applicable, and discarding</span>
-    <span class="doccomment">/// the error, if any.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_entries</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Entries</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Full</span>(<span class="ident">entries</span>) <span class="op">|</span> <span class="ident">Partial</span>(<span class="ident">PartialEntries</span> { <span class="ident">entries</span>, .. }, <span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">entries</span>),
-            <span class="ident">Error</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">P</span><span class="op">&gt;</span> <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">P</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Convert `self` to `Option&lt;S&gt;`; there may still have been an error.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">okish</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">into_opt_both</span>().<span class="number">0</span>
-    }
-
-    <span class="doccomment">/// Map the `Full` or `Partial` values to a new type, retaining the reason</span>
-    <span class="doccomment">/// in the `Partial` case.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Map</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">map</span>: <span class="ident">Map</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Map</span>: <span class="ident">FnOnce</span>(<span class="ident">S</span>) -&gt; <span class="ident">T</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Full</span>(<span class="ident">full</span>) =&gt; <span class="ident">Full</span>(<span class="ident">map</span>(<span class="ident">full</span>)),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="ident">reason</span>) =&gt; <span class="ident">Partial</span>(<span class="ident">map</span>(<span class="ident">partial</span>.<span class="ident">into</span>()), <span class="ident">reason</span>),
-            <span class="ident">Error</span>(<span class="ident">e</span>) =&gt; <span class="ident">Error</span>(<span class="ident">e</span>),
-        }
-    }
-
-    <span class="doccomment">/// Decompose `self` to `(Option&lt;S&gt;, Option&lt;io::Error&gt;)`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_opt_both</span>(<span class="self">self</span>) -&gt; (<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">io::Error</span><span class="op">&gt;</span>) {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Full</span>(<span class="ident">full</span>)  =&gt; (<span class="prelude-val">Some</span>(<span class="ident">full</span>), <span class="prelude-val">None</span>),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="ident">IoError</span>(<span class="ident">e</span>)) =&gt; (<span class="prelude-val">Some</span>(<span class="ident">partial</span>.<span class="ident">into</span>()), <span class="prelude-val">Some</span>(<span class="ident">e</span>)),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="kw">_</span>) =&gt; (<span class="prelude-val">Some</span>(<span class="ident">partial</span>.<span class="ident">into</span>()), <span class="prelude-val">None</span>),
-            <span class="ident">Error</span>(<span class="ident">error</span>) =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">error</span>)),
-        }
-    }
-
-    <span class="doccomment">/// Map `self` to an `io::Result`, discarding the error in the `Partial` case.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_result</span>(<span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Full</span>(<span class="ident">entries</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">entries</span>),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">partial</span>.<span class="ident">into</span>()),
-            <span class="ident">Error</span>(<span class="ident">error</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">error</span>),
-        }
-    }
-
-    <span class="doccomment">/// Pessimistic version of `into_result()` which will return an error even</span>
-    <span class="doccomment">/// for the `Partial` case.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ### Note: Possible Storage Leak</span>
-    <span class="doccomment">/// It&#39;s generally not a good idea to ignore the `Partial` case, as there may still be a</span>
-    <span class="doccomment">/// partially written file on-disk. If you&#39;re not using a temporary directory</span>
-    <span class="doccomment">/// (OS-managed or via `TempDir`) then partially written files will remain on-disk until</span>
-    <span class="doccomment">/// explicitly removed which could result in excessive disk usage if not monitored closely.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_result_strict</span>(<span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Full</span>(<span class="ident">entries</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">entries</span>),
-            <span class="ident">Partial</span>(<span class="kw">_</span>, <span class="ident">PartialReason::IoError</span>(<span class="ident">e</span>)) <span class="op">|</span> <span class="ident">Error</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-            <span class="ident">Partial</span>(<span class="ident">partial</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">partial</span>.<span class="ident">into</span>()),
+<span class="kw">impl</span>&lt;M: ReadEntry&gt; EntriesSaveResult&lt;M&gt; {
+    <span class="doccomment">/// Take the `Entries` from `self`, if applicable, and discarding
+    /// the error, if any.
+    </span><span class="kw">pub fn </span>into_entries(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Entries&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Full(entries) | Partial(PartialEntries { entries, .. }, <span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(entries),
+            Error(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">create_dir_all</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent</span>) <span class="op">=</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
-        <span class="ident">fs::create_dir_all</span>(<span class="ident">parent</span>)
-    } <span class="kw">else</span> {
-        <span class="comment">// RFC: return an error instead?</span>
-        <span class="macro">warn!</span>(<span class="string">&quot;Attempting to save file in what looks like a root directory. File path: {:?}&quot;</span>, <span class="ident">path</span>);
+<span class="kw">impl</span>&lt;S, P&gt; SaveResult&lt;S, P&gt; <span class="kw">where </span>P: Into&lt;S&gt; {
+    <span class="doccomment">/// Convert `self` to `Option&lt;S&gt;`; there may still have been an error.
+    </span><span class="kw">pub fn </span>okish(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;S&gt; {
+        <span class="self">self</span>.into_opt_both().<span class="number">0
+    </span>}
+
+    <span class="doccomment">/// Map the `Full` or `Partial` values to a new type, retaining the reason
+    /// in the `Partial` case.
+    </span><span class="kw">pub fn </span>map&lt;T, Map&gt;(<span class="self">self</span>, map: Map) -&gt; SaveResult&lt;T, T&gt; <span class="kw">where </span>Map: FnOnce(S) -&gt; T {
+        <span class="kw">match </span><span class="self">self </span>{
+            Full(full) =&gt; Full(map(full)),
+            Partial(partial, reason) =&gt; Partial(map(partial.into()), reason),
+            Error(e) =&gt; Error(e),
+        }
+    }
+
+    <span class="doccomment">/// Decompose `self` to `(Option&lt;S&gt;, Option&lt;io::Error&gt;)`
+    </span><span class="kw">pub fn </span>into_opt_both(<span class="self">self</span>) -&gt; (<span class="prelude-ty">Option</span>&lt;S&gt;, <span class="prelude-ty">Option</span>&lt;io::Error&gt;) {
+        <span class="kw">match </span><span class="self">self </span>{
+            Full(full)  =&gt; (<span class="prelude-val">Some</span>(full), <span class="prelude-val">None</span>),
+            Partial(partial, IoError(e)) =&gt; (<span class="prelude-val">Some</span>(partial.into()), <span class="prelude-val">Some</span>(e)),
+            Partial(partial, <span class="kw">_</span>) =&gt; (<span class="prelude-val">Some</span>(partial.into()), <span class="prelude-val">None</span>),
+            Error(error) =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(error)),
+        }
+    }
+
+    <span class="doccomment">/// Map `self` to an `io::Result`, discarding the error in the `Partial` case.
+    </span><span class="kw">pub fn </span>into_result(<span class="self">self</span>) -&gt; io::Result&lt;S&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Full(entries) =&gt; <span class="prelude-val">Ok</span>(entries),
+            Partial(partial, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(partial.into()),
+            Error(error) =&gt; <span class="prelude-val">Err</span>(error),
+        }
+    }
+
+    <span class="doccomment">/// Pessimistic version of `into_result()` which will return an error even
+    /// for the `Partial` case.
+    ///
+    /// ### Note: Possible Storage Leak
+    /// It&#39;s generally not a good idea to ignore the `Partial` case, as there may still be a
+    /// partially written file on-disk. If you&#39;re not using a temporary directory
+    /// (OS-managed or via `TempDir`) then partially written files will remain on-disk until
+    /// explicitly removed which could result in excessive disk usage if not monitored closely.
+    </span><span class="kw">pub fn </span>into_result_strict(<span class="self">self</span>) -&gt; io::Result&lt;S&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Full(entries) =&gt; <span class="prelude-val">Ok</span>(entries),
+            Partial(<span class="kw">_</span>, PartialReason::IoError(e)) | Error(e) =&gt; <span class="prelude-val">Err</span>(e),
+            Partial(partial, <span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(partial.into()),
+        }
+    }
+}
+
+<span class="kw">fn </span>create_dir_all(path: <span class="kw-2">&amp;</span>Path) -&gt; io::Result&lt;()&gt; {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(parent) = path.parent() {
+        fs::create_dir_all(parent)
+    } <span class="kw">else </span>{
+        <span class="comment">// RFC: return an error instead?
+        </span><span class="macro">warn!</span>(<span class="string">&quot;Attempting to save file in what looks like a root directory. File path: {:?}&quot;</span>, path);
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">fn</span> <span class="ident">try_copy_limited</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span>, <span class="ident">Wb</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">src</span>: <span class="ident">R</span>, <span class="kw-2">mut</span> <span class="ident">with_buf</span>: <span class="ident">Wb</span>, <span class="ident">limit</span>: <span class="ident">u64</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">u64</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">copied</span> <span class="op">=</span> <span class="number">0u64</span>;
-    <span class="ident">try_read_buf</span>(<span class="ident">src</span>, <span class="op">|</span><span class="ident">buf</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">new_copied</span> <span class="op">=</span> <span class="ident">copied</span>.<span class="ident">saturating_add</span>(<span class="ident">buf</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
-        <span class="kw">if</span> <span class="ident">new_copied</span> <span class="op">&gt;</span> <span class="ident">limit</span> { <span class="kw">return</span> <span class="ident">Partial</span>(<span class="number">0</span>, <span class="ident">PartialReason::SizeLimit</span>) }
-        <span class="ident">copied</span> <span class="op">=</span> <span class="ident">new_copied</span>;
+<span class="kw">fn </span>try_copy_limited&lt;R: BufRead, Wb: FnMut(<span class="kw-2">&amp;</span>[u8]) -&gt; SaveResult&lt;usize, usize&gt;&gt;(src: R, <span class="kw-2">mut </span>with_buf: Wb, limit: u64) -&gt; SaveResult&lt;u64, u64&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>copied = <span class="number">0u64</span>;
+    try_read_buf(src, |buf| {
+        <span class="kw">let </span>new_copied = copied.saturating_add(buf.len() <span class="kw">as </span>u64);
+        <span class="kw">if </span>new_copied &gt; limit { <span class="kw">return </span>Partial(<span class="number">0</span>, PartialReason::SizeLimit) }
+        copied = new_copied;
 
-        <span class="ident">with_buf</span>(<span class="ident">buf</span>)
+        with_buf(buf)
     })
 }
 
-<span class="kw">fn</span> <span class="ident">try_read_buf</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">BufRead</span>, <span class="ident">Wb</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">src</span>: <span class="ident">R</span>, <span class="kw-2">mut</span> <span class="ident">with_buf</span>: <span class="ident">Wb</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">u64</span>, <span class="ident">u64</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total_copied</span> <span class="op">=</span> <span class="number">0u64</span>;
+<span class="kw">fn </span>try_read_buf&lt;R: BufRead, Wb: FnMut(<span class="kw-2">&amp;</span>[u8]) -&gt; SaveResult&lt;usize, usize&gt;&gt;(<span class="kw-2">mut </span>src: R, <span class="kw-2">mut </span>with_buf: Wb) -&gt; SaveResult&lt;u64, u64&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>total_copied = <span class="number">0u64</span>;
 
-    <span class="macro">macro_rules!</span> <span class="ident">try_here</span> (
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span>:<span class="ident">expr</span>) =&gt; (
-            <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>) =&gt; <span class="ident">val</span>,
-                <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io::ErrorKind::Interrupted</span> =&gt; <span class="kw">continue</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="kw">if</span> <span class="ident">total_copied</span> <span class="op">==</span> <span class="number">0</span> { <span class="ident">Error</span>(<span class="ident">e</span>) }
-                                 <span class="kw">else</span> { <span class="ident">Partial</span>(<span class="ident">total_copied</span>, <span class="ident">e</span>.<span class="ident">into</span>()) },
+    <span class="macro">macro_rules! </span>try_here (
+        (<span class="macro-nonterminal">$</span><span class="kw">try</span>:<span class="macro-nonterminal">expr</span>) =&gt; (
+            <span class="kw">match </span><span class="macro-nonterminal">$</span><span class="kw">try </span>{
+                <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">val</span>) =&gt; val,
+                <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::Interrupted =&gt; <span class="kw">continue</span>,
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return if </span>total_copied == <span class="number">0 </span>{ Error(e) }
+                                 <span class="kw">else </span>{ Partial(total_copied, e.into()) },
             }
         )
     );
 
-    <span class="kw">loop</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="macro">try_here!</span>(<span class="ident">src</span>.<span class="ident">fill_buf</span>());
-            <span class="kw">if</span> <span class="ident">buf</span>.<span class="ident">is_empty</span>() { <span class="kw">break</span>; }
-            <span class="ident">with_buf</span>(<span class="ident">buf</span>)
+    <span class="kw">loop </span>{
+        <span class="kw">let </span>res = {
+            <span class="kw">let </span>buf = <span class="macro">try_here!</span>(src.fill_buf());
+            <span class="kw">if </span>buf.is_empty() { <span class="kw">break</span>; }
+            with_buf(buf)
         };
 
-        <span class="kw">match</span> <span class="ident">res</span> {
-            <span class="ident">Full</span>(<span class="ident">copied</span>) =&gt; { <span class="ident">src</span>.<span class="ident">consume</span>(<span class="ident">copied</span>); <span class="ident">total_copied</span> <span class="op">+</span><span class="op">=</span> <span class="ident">copied</span> <span class="kw">as</span> <span class="ident">u64</span>; }
-            <span class="ident">Partial</span>(<span class="ident">copied</span>, <span class="ident">reason</span>) =&gt; {
-                <span class="ident">src</span>.<span class="ident">consume</span>(<span class="ident">copied</span>); <span class="ident">total_copied</span> <span class="op">+</span><span class="op">=</span> <span class="ident">copied</span> <span class="kw">as</span> <span class="ident">u64</span>;
-                <span class="kw">return</span> <span class="ident">Partial</span>(<span class="ident">total_copied</span>, <span class="ident">reason</span>);
+        <span class="kw">match </span>res {
+            Full(copied) =&gt; { src.consume(copied); total_copied += copied <span class="kw">as </span>u64; }
+            Partial(copied, reason) =&gt; {
+                src.consume(copied); total_copied += copied <span class="kw">as </span>u64;
+                <span class="kw">return </span>Partial(total_copied, reason);
             },
-            <span class="ident">Error</span>(<span class="ident">err</span>) =&gt; {
-                <span class="kw">return</span> <span class="ident">Partial</span>(<span class="ident">total_copied</span>, <span class="ident">err</span>.<span class="ident">into</span>());
+            Error(err) =&gt; {
+                <span class="kw">return </span>Partial(total_copied, err.into());
             }
         }
     }
 
-    <span class="ident">Full</span>(<span class="ident">total_copied</span>)
+    Full(total_copied)
 }
 
-<span class="kw">fn</span> <span class="ident">try_write_all</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">dest</span>: <span class="ident">W</span>) -&gt; <span class="ident">SaveResult</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">usize</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">total_copied</span> <span class="op">=</span> <span class="number">0</span>;
+<span class="kw">fn </span>try_write_all&lt;W: Write&gt;(<span class="kw-2">mut </span>buf: <span class="kw-2">&amp;</span>[u8], <span class="kw-2">mut </span>dest: W) -&gt; SaveResult&lt;usize, usize&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>total_copied = <span class="number">0</span>;
 
-    <span class="macro">macro_rules!</span> <span class="ident">try_here</span> (
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span>:<span class="ident">expr</span>) =&gt; (
-            <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>) =&gt; <span class="ident">val</span>,
-                <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io::ErrorKind::Interrupted</span> =&gt; <span class="kw">continue</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="kw">if</span> <span class="ident">total_copied</span> <span class="op">==</span> <span class="number">0</span> { <span class="ident">Error</span>(<span class="ident">e</span>) }
-                                 <span class="kw">else</span> { <span class="ident">Partial</span>(<span class="ident">total_copied</span>, <span class="ident">e</span>.<span class="ident">into</span>()) },
+    <span class="macro">macro_rules! </span>try_here (
+        (<span class="macro-nonterminal">$</span><span class="kw">try</span>:<span class="macro-nonterminal">expr</span>) =&gt; (
+            <span class="kw">match </span><span class="macro-nonterminal">$</span><span class="kw">try </span>{
+                <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">val</span>) =&gt; val,
+                <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == io::ErrorKind::Interrupted =&gt; <span class="kw">continue</span>,
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return if </span>total_copied == <span class="number">0 </span>{ Error(e) }
+                                 <span class="kw">else </span>{ Partial(total_copied, e.into()) },
             }
         )
     );
 
-    <span class="kw">while</span> <span class="op">!</span><span class="ident">buf</span>.<span class="ident">is_empty</span>() {
-        <span class="kw">match</span> <span class="macro">try_here!</span>(<span class="ident">dest</span>.<span class="ident">write</span>(<span class="ident">buf</span>)) {
-            <span class="number">0</span> =&gt; <span class="macro">try_here!</span>(<span class="prelude-val">Err</span>(<span class="ident">io::Error::new</span>(<span class="ident">io::ErrorKind::WriteZero</span>,
+    <span class="kw">while </span>!buf.is_empty() {
+        <span class="kw">match </span><span class="macro">try_here!</span>(dest.write(buf)) {
+            <span class="number">0 </span>=&gt; <span class="macro">try_here!</span>(<span class="prelude-val">Err</span>(io::Error::new(io::ErrorKind::WriteZero,
                                           <span class="string">&quot;failed to write whole buffer&quot;</span>))),
-            <span class="ident">copied</span> =&gt; {
-                <span class="ident">buf</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buf</span>[<span class="ident">copied</span>..];
-                <span class="ident">total_copied</span> <span class="op">+</span><span class="op">=</span> <span class="ident">copied</span>;
+            copied =&gt; {
+                buf = <span class="kw-2">&amp;</span>buf[copied..];
+                total_copied += copied;
             },
         }
     }
 
-    <span class="ident">Full</span>(<span class="ident">total_copied</span>)
+    Full(total_copied)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="multipart" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="multipart" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

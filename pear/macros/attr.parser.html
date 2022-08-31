@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="The core attribute macro. Can only be applied to free functions with at least one parameter and a return value. To typecheck, the free function must meet the following typing requirements:"><meta name="keywords" content="rust, rustlang, rust-lang, parser"><title>parser in pear::macros - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc attr"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pear/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pear/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><div class="sidebar-elems"><h2 class="location"><a href="index.html">In pear::macros</a></h2></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pear/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Attribute Macro <a href="../index.html">pear</a>::<wbr><a href="index.html">macros</a>::<wbr><a class="attr" href="#">parser</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../../src/pear_codegen/lib.rs.html#370-373">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><div class="docblock item-decl"><pre class="rust attr"><code>#[parser]</code></pre></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The core attribute macro. Can only be applied to free functions with at
+least one parameter and a return value. To typecheck, the free function must
+meet the following typing requirements:</p>
+<ul>
+<li>The <em>first</em> parameter’s type must be a mutable reference to a [<code>Pear&lt;I&gt;</code>]
+here <code>I</code> implements [<code>Input</code>]. This is the <em>input</em> parameter.</li>
+<li>The return type must be <a href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="Result&lt;O, I&gt;"><code>Result&lt;O, I&gt;</code></a> where <code>I</code> is the inner type
+of the input parameter and <code>O</code> can be any type.</li>
+</ul>
+<p>The following transformations are applied to the <em>contents</em> of the
+attributed function:</p>
+<ul>
+<li>
+<p>The functions first parameter (of type <code>&amp;mut Pear&lt;I&gt;</code>) is passed as the
+first parameter to every function call in the function with a posfix
+<code>?</code>. That is, every function call of the form <code>foo(a, b, c, ...)?</code> is
+converted to <code>foo(input, a, b, c, ...)?</code> where <code>input</code> is the input
+parameter.</p>
+</li>
+<li>
+<p>The inputs to every macro whose name starts with <code>parse_</code> are prefixed
+with <code>[PARSER_NAME, INPUT, MARKER, OUTPUT]</code> where <code>PARSER_NAME</code> is the
+raw string literal of the functon’s name, <code>INPUT</code> is the input
+parameter expression, <code>MARKER</code> is the marker expression, and <code>OUTPUT</code>
+is the output type. Aditionally, if the input to the macro is a valid
+Rust expression, it is applied the same transformations as a function
+atributed with <code>#[parser]</code>.</p>
+<p>Declare a <code>parse_</code> macro as:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore"><code><span class="macro">macro_rules! </span>parse_my_macro {
+    ([<span class="macro-nonterminal">$n</span>:expr; <span class="macro-nonterminal">$i</span>:expr; <span class="macro-nonterminal">$m</span>:expr; <span class="macro-nonterminal">$T</span>:ty] ..) =&gt; {
+        <span class="comment">/* .. */
+    </span>}
+}</code></pre></div>
+</li>
+</ul>
+<p>The following transformations are applied <em>around</em> the attributed
+function:</p>
+<ul>
+<li>The [<code>Input::mark()</code>] method is called before the function executes.
+The returned mark, if any, is stored on the stack.</li>
+<li>A return value of <code>O</code> is automatically converted (or “lifted”) into a
+type of <a href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="Result&lt;O, I&gt;"><code>Result&lt;O, I&gt;</code></a> by wrapping it in <code>Ok</code>.</li>
+<li>If the function returns an <code>Err</code>, [<code>Input::context()</code>] is called with
+the current mark, and the returned context, if any, is pushed into the
+error via [<code>ParseError::push_context()</code>].</li>
+<li>The [<code>Input::unmark()</code>] method is called after the function executes,
+passing in the current mark.</li>
+</ul>
+<h2 id="example"><a href="#example">Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>pear::input::{Pear, Text, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>pear::macros::{parser, parse};
+<span class="kw">use </span>pear::parsers::<span class="kw-2">*</span>;
+
+<span class="attribute">#[parser]
+</span><span class="kw">fn </span>ab_in_dots&lt;<span class="lifetime">&#39;a</span>, I: Input&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(input: <span class="kw-2">&amp;mut </span>Pear&lt;I&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, I&gt; {
+    eat(<span class="string">&#39;.&#39;</span>)<span class="question-mark">?</span>;
+    <span class="kw">let </span>inside = take_while(|<span class="kw-2">&amp;</span>c| c == <span class="string">&#39;a&#39; </span>|| c == <span class="string">&#39;b&#39;</span>)<span class="question-mark">?</span>;
+    eat(<span class="string">&#39;.&#39;</span>)<span class="question-mark">?</span>;
+
+    inside
+}
+
+<span class="kw">let </span>x = <span class="macro">parse!</span>(ab_in_dots: Text::from(<span class="string">&quot;.abba.&quot;</span>));
+<span class="macro">assert_eq!</span>(x.unwrap(), <span class="string">&quot;abba&quot;</span>);
+
+<span class="kw">let </span>x = <span class="macro">parse!</span>(ab_in_dots: Text::from(<span class="string">&quot;.ba.&quot;</span>));
+<span class="macro">assert_eq!</span>(x.unwrap(), <span class="string">&quot;ba&quot;</span>);
+
+<span class="kw">let </span>x = <span class="macro">parse!</span>(ab_in_dots: Text::from(<span class="string">&quot;...&quot;</span>));
+<span class="macro">assert!</span>(x.is_err());</code></pre></div>
+</div></details></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pear" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/figment-0.10.6/src/provider.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>provider.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../figment/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../figment/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../figment/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{Profile, Error, Metadata};
+<span class="kw">use </span><span class="kw">crate</span>::value::{Tag, Map, Dict};
+
+<span class="doccomment">/// Trait implemented by configuration source providers.
+///
+/// For an overview of built-in providers, see the [top-level
+/// docs](crate#built-in-providers).
+///
+/// # Overview
+///
+/// A [`Provider`] reads from a source to provide configuration data for
+/// [`Figment`]s ([`Provider::data()`]). A `Provider` also provides [`Metadata`]
+/// to identify the source of its configuration data ([`Provider::metadata()`]).
+/// A provider may also optionally set a `Profile` for the `Figment` it is
+/// merged (but not joined) into by implementing [`Provider::profile()`].
+///
+/// # Nesting
+///
+/// A [`Provider`] meant to be consumed externally should allow for optional
+/// [nesting](crate#extracting-and-profiles) when sensible. The general pattern
+/// is to allow a `Profile` to be specified. If one is not, read the
+/// configuration data as a `Map&lt;Profile, Dict&gt;`, thus using the top-level keys
+/// as profiles. If one _is_ specified, read the data as `Dict` and
+/// [`Profile::collect()`] into the specified profile.
+///
+/// # Example
+///
+/// Implementing a `Provider` requires implementing methods that provide both of
+/// these pieces of data. The first, [`Provider::metadata()`] identifies the
+/// provider&#39;s configuration sources, if any, and allows the provider to
+/// customize how paths to keys are interpolated. The second,
+/// [`Provider::data()`], actually reads the configuration and returns the data.
+///
+/// As an example, consider a provider that reads configuration from a
+/// networked store at some `Url`. A `Provider` implementation for such a
+/// provider may resemble the following:
+///
+/// ```rust,no_run
+/// # use serde::Deserialize;
+/// use figment::{Provider, Metadata, Profile, Error, value::{Map, Dict}};
+///
+/// # type Url = String;
+/// /// A provider that fetches its data from a given URL.
+/// struct NetProvider {
+///     /// The profile to emit data to if nesting is disabled.
+///     profile: Option&lt;Profile&gt;,
+///     /// The url to fetch data from.
+///     url: Url
+/// };
+///
+/// impl Provider for NetProvider {
+///     /// Returns metadata with kind `Network`, custom source `self.url`,
+///     /// and interpolator that returns a URL of `url/a/b/c` for key `a.b.c`.
+///     fn metadata(&amp;self) -&gt; Metadata {
+///         let url = self.url.clone();
+///         Metadata::named(&quot;Network&quot;)
+///             .source(self.url.as_str())
+///             .interpolater(move |profile, keys| match profile.is_custom() {
+///                 true =&gt; format!(&quot;{}/{}/{}&quot;, url, profile, keys.join(&quot;/&quot;)),
+///                 false =&gt; format!(&quot;{}/{}&quot;, url, keys.join(&quot;/&quot;)),
+///             })
+///     }
+///
+///     /// Fetches the data from `self.url`. Note that `Dict`, `Map`, and
+///     /// `Profile` are `Deserialize`, so we can deserialized to them.
+///     fn data(&amp;self) -&gt; Result&lt;Map&lt;Profile, Dict&gt;, Error&gt; {
+///         fn fetch&lt;&#39;a, T: Deserialize&lt;&#39;a&gt;&gt;(url: &amp;Url) -&gt; Result&lt;T, Error&gt; {
+///             /* fetch from the network, deserialize into `T` */
+///             # todo!()
+///         }
+///
+///         match &amp;self.profile {
+///             // Don&#39;t nest: `fetch` into a `Dict`.
+///             Some(profile) =&gt; Ok(profile.collect(fetch(&amp;self.url)?)),
+///             // Nest: `fetch` into a `Map&lt;Profile, Dict&gt;`.
+///             None =&gt; fetch(&amp;self.url),
+///         }
+///     }
+/// }
+/// ```
+///
+/// [`Figment`]: crate::Figment
+</span><span class="kw">pub trait </span>Provider {
+    <span class="doccomment">/// Returns the [`Metadata`] for this provider, identifying itself and its
+    /// configuration sources.
+    </span><span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Metadata;
+
+    <span class="doccomment">/// Returns the configuration data.
+    </span><span class="kw">fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Map&lt;Profile, Dict&gt;, Error&gt;;
+
+    <span class="doccomment">/// Optionally returns a profile to set on the [`Figment`](crate::Figment)
+    /// this provider is merged into. The profile is only set if `self` is
+    /// _merged_.
+    </span><span class="kw">fn </span>profile(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Profile&gt; {
+        <span class="prelude-val">None
+    </span>}
+
+    <span class="doccomment">/// This is used internally! Please, please don&#39;t use this externally. If
+    /// you have a good usecase for this, let me know!
+    </span><span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>__metadata_map(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Map&lt;Tag, Metadata&gt;&gt; { <span class="prelude-val">None </span>}
+}
+
+<span class="doccomment">/// This is exactly `&lt;T as Provider&gt;`.
+</span><span class="kw">impl</span>&lt;T: Provider&gt; Provider <span class="kw">for </span><span class="kw-2">&amp;</span>T {
+    <span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Metadata { T::metadata(<span class="self">self</span>) }
+
+    <span class="kw">fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Map&lt;Profile, Dict&gt;, Error&gt; { T::data(<span class="self">self</span>) }
+
+    <span class="kw">fn </span>profile(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Profile&gt; {
+        T::profile(<span class="self">self</span>)
+    }
+
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>__metadata_map(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Map&lt;Tag, Metadata&gt;&gt; {
+        T::__metadata_map(<span class="self">self</span>)
+    }
+}
+
+<span class="doccomment">/// This is exactly `Serialized::global(K, V)`.
+</span><span class="kw">impl</span>&lt;K: AsRef&lt;str&gt;, V: serde::Serialize&gt; Provider <span class="kw">for </span>(K, V) {
+    <span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Metadata {
+        <span class="kw">use </span>std::any::type_name;
+        Metadata::named(<span class="macro">format!</span>(<span class="string">&quot;({}, {})&quot;</span>, type_name::&lt;K&gt;(), type_name::&lt;V&gt;()))
+    }
+
+    <span class="kw">fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Map&lt;Profile, Dict&gt;, Error&gt; {
+        <span class="kw">use </span><span class="kw">crate</span>::providers::Serialized;
+        Serialized::global(<span class="self">self</span>.<span class="number">0</span>.as_ref(), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">1</span>).data()
+    }
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="figment" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"attr":[["test","Marks async test function to be executed by actix runtime."]],"struct":[["TestServer","The `TestServer` type."],["TestServerRuntime","Test server runstime"]]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/test.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>test.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../warp/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/warp-0.3.2/src/test.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>test.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../warp/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../warp/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -762,769 +762,769 @@
 <span id="762">762</span>
 <span id="763">763</span>
 <span id="764">764</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Test utilities to test your filters.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [`Filter`](../trait.Filter.html)s can be easily tested without starting up an HTTP</span>
-<span class="doccomment">//! server, by making use of the [`RequestBuilder`](./struct.RequestBuilder.html) in this</span>
-<span class="doccomment">//! module.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Testing Filters</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It&#39;s easy to test filters, especially if smaller filters are used to build</span>
-<span class="doccomment">//! up your full set. Consider these example filters:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//! use warp::Filter;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn sum() -&gt; impl Filter&lt;Extract = (u32,), Error = warp::Rejection&gt; + Copy {</span>
-<span class="doccomment">//!     warp::path::param()</span>
-<span class="doccomment">//!         .and(warp::path::param())</span>
-<span class="doccomment">//!         .map(|x: u32, y: u32| {</span>
-<span class="doccomment">//!             x + y</span>
-<span class="doccomment">//!         })</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! fn math() -&gt; impl Filter&lt;Extract = (String,), Error = warp::Rejection&gt; + Copy {</span>
-<span class="doccomment">//!     warp::post()</span>
-<span class="doccomment">//!         .and(sum())</span>
-<span class="doccomment">//!         .map(|z: u32| {</span>
-<span class="doccomment">//!             format!(&quot;Sum = {}&quot;, z)</span>
-<span class="doccomment">//!         })</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! We can test some requests against the `sum` filter like this:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//! # use warp::Filter;</span>
-<span class="doccomment">//! #[tokio::test]</span>
-<span class="doccomment">//! async fn test_sum() {</span>
-<span class="doccomment">//! #    let sum = || warp::any().map(|| 3);</span>
-<span class="doccomment">//!     let filter = sum();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // Execute `sum` and get the `Extract` back.</span>
-<span class="doccomment">//!     let value = warp::test::request()</span>
-<span class="doccomment">//!         .path(&quot;/1/2&quot;)</span>
-<span class="doccomment">//!         .filter(&amp;filter)</span>
-<span class="doccomment">//!         .await</span>
-<span class="doccomment">//!         .unwrap();</span>
-<span class="doccomment">//!     assert_eq!(value, 3);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // Or simply test if a request matches (doesn&#39;t reject).</span>
-<span class="doccomment">//!     assert!(</span>
-<span class="doccomment">//!         !warp::test::request()</span>
-<span class="doccomment">//!             .path(&quot;/1/-5&quot;)</span>
-<span class="doccomment">//!             .matches(&amp;filter)</span>
-<span class="doccomment">//!             .await</span>
-<span class="doccomment">//!     );</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If the filter returns something that implements `Reply`, and thus can be</span>
-<span class="doccomment">//! turned into a response sent back to the client, we can test what exact</span>
-<span class="doccomment">//! response is returned. The `math` filter uses the `sum` filter, but returns</span>
-<span class="doccomment">//! a `String` that can be turned into a response.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//! # use warp::Filter;</span>
-<span class="doccomment">//! #[test]</span>
-<span class="doccomment">//! fn test_math() {</span>
-<span class="doccomment">//! #    let math = || warp::any().map(warp::reply);</span>
-<span class="doccomment">//!     let filter = math();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let res = warp::test::request()</span>
-<span class="doccomment">//!         .path(&quot;/1/2&quot;)</span>
-<span class="doccomment">//!         .reply(&amp;filter);</span>
-<span class="doccomment">//!     assert_eq!(res.status(), 405, &quot;GET is not allowed&quot;);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     let res = warp::test::request()</span>
-<span class="doccomment">//!         .method(&quot;POST&quot;)</span>
-<span class="doccomment">//!         .path(&quot;/1/2&quot;)</span>
-<span class="doccomment">//!         .reply(&amp;filter);</span>
-<span class="doccomment">//!     assert_eq!(res.status(), 200);</span>
-<span class="doccomment">//!     assert_eq!(res.body(), &quot;Sum is 3&quot;);</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="kw">use</span> <span class="ident">std::convert::TryFrom</span>;
-<span class="kw">use</span> <span class="ident">std::error::Error</span> <span class="kw">as</span> <span class="ident">StdError</span>;
-<span class="kw">use</span> <span class="ident">std::fmt</span>;
-<span class="kw">use</span> <span class="ident">std::future::Future</span>;
-<span class="kw">use</span> <span class="ident">std::net::SocketAddr</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std::task::Context</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std::task</span>::{<span class="self">self</span>, <span class="ident">Poll</span>};
+</pre><pre class="rust"><code><span class="doccomment">//! Test utilities to test your filters.
+//!
+//! [`Filter`](../trait.Filter.html)s can be easily tested without starting up an HTTP
+//! server, by making use of the [`RequestBuilder`](./struct.RequestBuilder.html) in this
+//! module.
+//!
+//! # Testing Filters
+//!
+//! It&#39;s easy to test filters, especially if smaller filters are used to build
+//! up your full set. Consider these example filters:
+//!
+//! ```
+//! use warp::Filter;
+//!
+//! fn sum() -&gt; impl Filter&lt;Extract = (u32,), Error = warp::Rejection&gt; + Copy {
+//!     warp::path::param()
+//!         .and(warp::path::param())
+//!         .map(|x: u32, y: u32| {
+//!             x + y
+//!         })
+//! }
+//!
+//! fn math() -&gt; impl Filter&lt;Extract = (String,), Error = warp::Rejection&gt; + Copy {
+//!     warp::post()
+//!         .and(sum())
+//!         .map(|z: u32| {
+//!             format!(&quot;Sum = {}&quot;, z)
+//!         })
+//! }
+//! ```
+//!
+//! We can test some requests against the `sum` filter like this:
+//!
+//! ```
+//! # use warp::Filter;
+//! #[tokio::test]
+//! async fn test_sum() {
+//! #    let sum = || warp::any().map(|| 3);
+//!     let filter = sum();
+//!
+//!     // Execute `sum` and get the `Extract` back.
+//!     let value = warp::test::request()
+//!         .path(&quot;/1/2&quot;)
+//!         .filter(&amp;filter)
+//!         .await
+//!         .unwrap();
+//!     assert_eq!(value, 3);
+//!
+//!     // Or simply test if a request matches (doesn&#39;t reject).
+//!     assert!(
+//!         !warp::test::request()
+//!             .path(&quot;/1/-5&quot;)
+//!             .matches(&amp;filter)
+//!             .await
+//!     );
+//! }
+//! ```
+//!
+//! If the filter returns something that implements `Reply`, and thus can be
+//! turned into a response sent back to the client, we can test what exact
+//! response is returned. The `math` filter uses the `sum` filter, but returns
+//! a `String` that can be turned into a response.
+//!
+//! ```
+//! # use warp::Filter;
+//! #[test]
+//! fn test_math() {
+//! #    let math = || warp::any().map(warp::reply);
+//!     let filter = math();
+//!
+//!     let res = warp::test::request()
+//!         .path(&quot;/1/2&quot;)
+//!         .reply(&amp;filter);
+//!     assert_eq!(res.status(), 405, &quot;GET is not allowed&quot;);
+//!
+//!     let res = warp::test::request()
+//!         .method(&quot;POST&quot;)
+//!         .path(&quot;/1/2&quot;)
+//!         .reply(&amp;filter);
+//!     assert_eq!(res.status(), 200);
+//!     assert_eq!(res.body(), &quot;Sum is 3&quot;);
+//! }
+//! ```
+</span><span class="kw">use </span>std::convert::TryFrom;
+<span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::future::Future;
+<span class="kw">use </span>std::net::SocketAddr;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>std::pin::Pin;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>std::task::Context;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>std::task::{<span class="self">self</span>, Poll};
 
-<span class="kw">use</span> <span class="ident">bytes::Bytes</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">futures_channel::mpsc</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">futures_util::StreamExt</span>;
-<span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">future</span>, <span class="ident">FutureExt</span>, <span class="ident">TryFutureExt</span>};
-<span class="kw">use</span> <span class="ident">http</span>::{
-    <span class="ident">header</span>::{<span class="ident">HeaderName</span>, <span class="ident">HeaderValue</span>},
-    <span class="ident">Response</span>,
+<span class="kw">use </span>bytes::Bytes;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>futures_channel::mpsc;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>futures_util::StreamExt;
+<span class="kw">use </span>futures_util::{future, FutureExt, TryFutureExt};
+<span class="kw">use </span>http::{
+    header::{HeaderName, HeaderValue},
+    Response,
 };
-<span class="kw">use</span> <span class="ident">serde::Serialize</span>;
-<span class="kw">use</span> <span class="ident">serde_json</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">tokio::sync::oneshot</span>;
+<span class="kw">use </span>serde::Serialize;
+<span class="kw">use </span>serde_json;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span>tokio::sync::oneshot;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::filter::Filter</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::filters::ws::Message</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::reject::IsReject</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::reply::Reply</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::route</span>::{<span class="self">self</span>, <span class="ident">Route</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::Request</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Sink</span>, <span class="ident">Stream</span>};
+<span class="kw">use </span><span class="kw">crate</span>::filter::Filter;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::filters::ws::Message;
+<span class="kw">use </span><span class="kw">crate</span>::reject::IsReject;
+<span class="kw">use </span><span class="kw">crate</span>::reply::Reply;
+<span class="kw">use </span><span class="kw">crate</span>::route::{<span class="self">self</span>, Route};
+<span class="kw">use </span><span class="kw">crate</span>::Request;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">use crate</span>::{Sink, Stream};
 
-<span class="kw">use</span> <span class="ident"><span class="self">self</span>::inner::OneOrTuple</span>;
+<span class="kw">use </span><span class="self">self</span>::inner::OneOrTuple;
 
-<span class="doccomment">/// Starts a new test `RequestBuilder`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request</span>() -&gt; <span class="ident">RequestBuilder</span> {
-    <span class="ident">RequestBuilder</span> {
-        <span class="ident">remote_addr</span>: <span class="prelude-val">None</span>,
-        <span class="ident">req</span>: <span class="ident">Request::default</span>(),
+<span class="doccomment">/// Starts a new test `RequestBuilder`.
+</span><span class="kw">pub fn </span>request() -&gt; RequestBuilder {
+    RequestBuilder {
+        remote_addr: <span class="prelude-val">None</span>,
+        req: Request::default(),
     }
 }
 
-<span class="doccomment">/// Starts a new test `WsBuilder`.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ws</span>() -&gt; <span class="ident">WsBuilder</span> {
-    <span class="ident">WsBuilder</span> { <span class="ident">req</span>: <span class="ident">request</span>() }
+<span class="doccomment">/// Starts a new test `WsBuilder`.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">pub fn </span>ws() -&gt; WsBuilder {
+    WsBuilder { req: request() }
 }
 
-<span class="doccomment">/// A request builder for testing filters.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See [module documentation](crate::test) for an overview.</span>
-<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;RequestBuilder does nothing on its own&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestBuilder</span> {
-    <span class="ident">remote_addr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SocketAddr</span><span class="op">&gt;</span>,
-    <span class="ident">req</span>: <span class="ident">Request</span>,
+<span class="doccomment">/// A request builder for testing filters.
+///
+/// See [module documentation](crate::test) for an overview.
+</span><span class="attribute">#[must_use = <span class="string">&quot;RequestBuilder does nothing on its own&quot;</span>]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>RequestBuilder {
+    remote_addr: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;,
+    req: Request,
 }
 
-<span class="doccomment">/// A Websocket builder for testing filters.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See [module documentation](crate::test) for an overview.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;WsBuilder does nothing on its own&quot;</span>]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WsBuilder</span> {
-    <span class="ident">req</span>: <span class="ident">RequestBuilder</span>,
+<span class="doccomment">/// A Websocket builder for testing filters.
+///
+/// See [module documentation](crate::test) for an overview.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+#[must_use = <span class="string">&quot;WsBuilder does nothing on its own&quot;</span>]
+#[derive(Debug)]
+</span><span class="kw">pub struct </span>WsBuilder {
+    req: RequestBuilder,
 }
 
-<span class="doccomment">/// A test client for Websocket filters.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WsClient</span> {
-    <span class="ident">tx</span>: <span class="ident">mpsc::UnboundedSender</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::ws::Message</span><span class="op">&gt;</span>,
-    <span class="ident">rx</span>: <span class="ident">mpsc::UnboundedReceiver</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::ws::Message</span>, <span class="ident"><span class="kw">crate</span>::error::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A test client for Websocket filters.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">pub struct </span>WsClient {
+    tx: mpsc::UnboundedSender&lt;<span class="kw">crate</span>::ws::Message&gt;,
+    rx: mpsc::UnboundedReceiver&lt;<span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::ws::Message, <span class="kw">crate</span>::error::Error&gt;&gt;,
 }
 
-<span class="doccomment">/// An error from Websocket filter tests.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WsError</span> {
-    <span class="ident">cause</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>,
+<span class="doccomment">/// An error from Websocket filter tests.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>WsError {
+    cause: Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;,
 }
 
-<span class="kw">impl</span> <span class="ident">RequestBuilder</span> {
-    <span class="doccomment">/// Sets the method of this builder.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The default if not set is `GET`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .method(&quot;POST&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panic</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This panics if the passed string is not able to be parsed as a valid</span>
-    <span class="doccomment">/// `Method`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">method</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">method</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">req</span>.<span class="ident">method_mut</span>() <span class="op">=</span> <span class="ident">method</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;valid method&quot;</span>);
-        <span class="self">self</span>
-    }
+<span class="kw">impl </span>RequestBuilder {
+    <span class="doccomment">/// Sets the method of this builder.
+    ///
+    /// The default if not set is `GET`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::request()
+    ///     .method(&quot;POST&quot;);
+    /// ```
+    ///
+    /// # Panic
+    ///
+    /// This panics if the passed string is not able to be parsed as a valid
+    /// `Method`.
+    </span><span class="kw">pub fn </span>method(<span class="kw-2">mut </span><span class="self">self</span>, method: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="kw-2">*</span><span class="self">self</span>.req.method_mut() = method.parse().expect(<span class="string">&quot;valid method&quot;</span>);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Sets the request path of this builder.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The default is not set is `/`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .path(&quot;/todos/33&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panic</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This panics if the passed string is not able to be parsed as a valid</span>
-    <span class="doccomment">/// `Uri`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="ident">p</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;test request path invalid&quot;</span>);
-        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">req</span>.<span class="ident">uri_mut</span>() <span class="op">=</span> <span class="ident">uri</span>;
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Sets the request path of this builder.
+    ///
+    /// The default is not set is `/`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::request()
+    ///     .path(&quot;/todos/33&quot;);
+    /// ```
+    ///
+    /// # Panic
+    ///
+    /// This panics if the passed string is not able to be parsed as a valid
+    /// `Uri`.
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">mut </span><span class="self">self</span>, p: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>uri = p.parse().expect(<span class="string">&quot;test request path invalid&quot;</span>);
+        <span class="kw-2">*</span><span class="self">self</span>.req.uri_mut() = uri;
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Set a header for this request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .header(&quot;accept&quot;, &quot;application/json&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panic</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This panics if the passed strings are not able to be parsed as a valid</span>
-    <span class="doccomment">/// `HeaderName` and `HeaderValue`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>, <span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">HeaderName</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>,
-        <span class="ident">HeaderValue</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Set a header for this request.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::request()
+    ///     .header(&quot;accept&quot;, &quot;application/json&quot;);
+    /// ```
+    ///
+    /// # Panic
+    ///
+    /// This panics if the passed strings are not able to be parsed as a valid
+    /// `HeaderName` and `HeaderValue`.
+    </span><span class="kw">pub fn </span>header&lt;K, V&gt;(<span class="kw-2">mut </span><span class="self">self</span>, key: K, value: V) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>HeaderName: TryFrom&lt;K&gt;,
+        HeaderValue: TryFrom&lt;V&gt;,
     {
-        <span class="kw">let</span> <span class="ident">name</span>: <span class="ident">HeaderName</span> <span class="op">=</span> <span class="ident">TryFrom::try_from</span>(<span class="ident">key</span>)
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-            .<span class="ident">expect</span>(<span class="string">&quot;invalid header name&quot;</span>);
-        <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">TryFrom::try_from</span>(<span class="ident">value</span>)
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
-            .<span class="ident">expect</span>(<span class="string">&quot;invalid header value&quot;</span>);
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(<span class="ident">name</span>, <span class="ident">value</span>);
-        <span class="self">self</span>
-    }
+        <span class="kw">let </span>name: HeaderName = TryFrom::try_from(key)
+            .map_err(|<span class="kw">_</span>| ())
+            .expect(<span class="string">&quot;invalid header name&quot;</span>);
+        <span class="kw">let </span>value = TryFrom::try_from(value)
+            .map_err(|<span class="kw">_</span>| ())
+            .expect(<span class="string">&quot;invalid header value&quot;</span>);
+        <span class="self">self</span>.req.headers_mut().insert(name, value);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Set the remote address of this request</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Default is no remote address.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use std::net::{IpAddr, Ipv4Addr, SocketAddr};</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .remote_addr(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080));</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remote_addr</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">addr</span>: <span class="ident">SocketAddr</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">remote_addr</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">addr</span>);
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Set the remote address of this request
+    ///
+    /// Default is no remote address.
+    ///
+    /// # Example
+    /// ```
+    /// use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+    ///
+    /// let req = warp::test::request()
+    ///     .remote_addr(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080));
+    /// ```
+    </span><span class="kw">pub fn </span>remote_addr(<span class="kw-2">mut </span><span class="self">self</span>, addr: SocketAddr) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.remote_addr = <span class="prelude-val">Some</span>(addr);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Add a type to the request&#39;s `http::Extensions`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extension</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ext</span>: <span class="ident">T</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="doccomment">/// Add a type to the request&#39;s `http::Extensions`.
+    </span><span class="kw">pub fn </span>extension&lt;T&gt;(<span class="kw-2">mut </span><span class="self">self</span>, ext: T) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>T: Send + Sync + <span class="lifetime">&#39;static</span>,
     {
-        <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">extensions_mut</span>().<span class="ident">insert</span>(<span class="ident">ext</span>);
-        <span class="self">self</span>
+        <span class="self">self</span>.req.extensions_mut().insert(ext);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Set the bytes of this request body.
+    ///
+    /// Default is an empty body.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::request()
+    ///     .body(&quot;foo=bar&amp;baz=quux&quot;);
+    /// ```
+    </span><span class="kw">pub fn </span>body(<span class="kw-2">mut </span><span class="self">self</span>, body: <span class="kw">impl </span>AsRef&lt;[u8]&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>body = body.as_ref().to_vec();
+        <span class="kw">let </span>len = body.len();
+        <span class="kw-2">*</span><span class="self">self</span>.req.body_mut() = body.into();
+        <span class="self">self</span>.header(<span class="string">&quot;content-length&quot;</span>, len.to_string())
     }
 
-    <span class="doccomment">/// Set the bytes of this request body.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Default is an empty body.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .body(&quot;foo=bar&amp;baz=quux&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">body</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">body</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">body</span> <span class="op">=</span> <span class="ident">body</span>.<span class="ident">as_ref</span>().<span class="ident">to_vec</span>();
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">body</span>.<span class="ident">len</span>();
-        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">req</span>.<span class="ident">body_mut</span>() <span class="op">=</span> <span class="ident">body</span>.<span class="ident">into</span>();
-        <span class="self">self</span>.<span class="ident">header</span>(<span class="string">&quot;content-length&quot;</span>, <span class="ident">len</span>.<span class="ident">to_string</span>())
+    <span class="doccomment">/// Set the bytes of this request body by serializing a value into JSON.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::request()
+    ///     .json(&amp;true);
+    /// ```
+    </span><span class="kw">pub fn </span>json(<span class="kw-2">mut </span><span class="self">self</span>, val: <span class="kw-2">&amp;</span><span class="kw">impl </span>Serialize) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>vec = serde_json::to_vec(val).expect(<span class="string">&quot;json() must serialize to JSON&quot;</span>);
+        <span class="kw">let </span>len = vec.len();
+        <span class="kw-2">*</span><span class="self">self</span>.req.body_mut() = vec.into();
+        <span class="self">self</span>.header(<span class="string">&quot;content-length&quot;</span>, len.to_string())
+            .header(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)
     }
 
-    <span class="doccomment">/// Set the bytes of this request body by serializing a value into JSON.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::request()</span>
-    <span class="doccomment">///     .json(&amp;true);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">json</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">Serialize</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">vec</span> <span class="op">=</span> <span class="ident">serde_json::to_vec</span>(<span class="ident">val</span>).<span class="ident">expect</span>(<span class="string">&quot;json() must serialize to JSON&quot;</span>);
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">vec</span>.<span class="ident">len</span>();
-        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">req</span>.<span class="ident">body_mut</span>() <span class="op">=</span> <span class="ident">vec</span>.<span class="ident">into</span>();
-        <span class="self">self</span>.<span class="ident">header</span>(<span class="string">&quot;content-length&quot;</span>, <span class="ident">len</span>.<span class="ident">to_string</span>())
-            .<span class="ident">header</span>(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>)
-    }
-
-    <span class="doccomment">/// Tries to apply the `Filter` on this request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// async {</span>
-    <span class="doccomment">///     let param = warp::path::param::&lt;u32&gt;();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     let ex = warp::test::request()</span>
-    <span class="doccomment">///         .path(&quot;/41&quot;)</span>
-    <span class="doccomment">///         .filter(&amp;param)</span>
-    <span class="doccomment">///         .await</span>
-    <span class="doccomment">///         .unwrap();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     assert_eq!(ex, 41);</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     assert!(</span>
-    <span class="doccomment">///         warp::test::request()</span>
-    <span class="doccomment">///             .path(&quot;/foo&quot;)</span>
-    <span class="doccomment">///             .filter(&amp;param)</span>
-    <span class="doccomment">///             .await</span>
-    <span class="doccomment">///             .is_err()</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">///};</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">filter</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="ident">F</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">F::Extract</span> <span class="kw">as</span> <span class="ident">OneOrTuple</span><span class="op">&gt;</span><span class="ident">::Output</span>, <span class="ident">F::Error</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Filter</span>,
-        <span class="ident">F::Future</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Extract</span>: <span class="ident">OneOrTuple</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Error</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="doccomment">/// Tries to apply the `Filter` on this request.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// async {
+    ///     let param = warp::path::param::&lt;u32&gt;();
+    ///
+    ///     let ex = warp::test::request()
+    ///         .path(&quot;/41&quot;)
+    ///         .filter(&amp;param)
+    ///         .await
+    ///         .unwrap();
+    ///
+    ///     assert_eq!(ex, 41);
+    ///
+    ///     assert!(
+    ///         warp::test::request()
+    ///             .path(&quot;/foo&quot;)
+    ///             .filter(&amp;param)
+    ///             .await
+    ///             .is_err()
+    ///     );
+    ///};
+    /// ```
+    </span><span class="kw">pub async fn </span>filter&lt;F&gt;(<span class="self">self</span>, f: <span class="kw-2">&amp;</span>F) -&gt; <span class="prelude-ty">Result</span>&lt;&lt;F::Extract <span class="kw">as </span>OneOrTuple&gt;::Output, F::Error&gt;
+    <span class="kw">where
+        </span>F: Filter,
+        F::Future: Send + <span class="lifetime">&#39;static</span>,
+        F::Extract: OneOrTuple + Send + <span class="lifetime">&#39;static</span>,
+        F::Error: Send + <span class="lifetime">&#39;static</span>,
     {
-        <span class="self">self</span>.<span class="ident">apply_filter</span>(<span class="ident">f</span>).<span class="kw">await</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">ex</span><span class="op">|</span> <span class="ident">ex</span>.<span class="ident">one_or_tuple</span>())
+        <span class="self">self</span>.apply_filter(f).<span class="kw">await</span>.map(|ex| ex.one_or_tuple())
     }
 
-    <span class="doccomment">/// Returns whether the `Filter` matches this request, or rejects it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// async {</span>
-    <span class="doccomment">///     let get = warp::get();</span>
-    <span class="doccomment">///     let post = warp::post();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     assert!(</span>
-    <span class="doccomment">///         warp::test::request()</span>
-    <span class="doccomment">///             .method(&quot;GET&quot;)</span>
-    <span class="doccomment">///             .matches(&amp;get)</span>
-    <span class="doccomment">///             .await</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">///     assert!(</span>
-    <span class="doccomment">///         !warp::test::request()</span>
-    <span class="doccomment">///             .method(&quot;GET&quot;)</span>
-    <span class="doccomment">///             .matches(&amp;post)</span>
-    <span class="doccomment">///             .await</span>
-    <span class="doccomment">///     );</span>
-    <span class="doccomment">///};</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">matches</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="ident">F</span>) -&gt; <span class="ident">bool</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Filter</span>,
-        <span class="ident">F::Future</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Extract</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Error</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="doccomment">/// Returns whether the `Filter` matches this request, or rejects it.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// async {
+    ///     let get = warp::get();
+    ///     let post = warp::post();
+    ///
+    ///     assert!(
+    ///         warp::test::request()
+    ///             .method(&quot;GET&quot;)
+    ///             .matches(&amp;get)
+    ///             .await
+    ///     );
+    ///
+    ///     assert!(
+    ///         !warp::test::request()
+    ///             .method(&quot;GET&quot;)
+    ///             .matches(&amp;post)
+    ///             .await
+    ///     );
+    ///};
+    /// ```
+    </span><span class="kw">pub async fn </span>matches&lt;F&gt;(<span class="self">self</span>, f: <span class="kw-2">&amp;</span>F) -&gt; bool
+    <span class="kw">where
+        </span>F: Filter,
+        F::Future: Send + <span class="lifetime">&#39;static</span>,
+        F::Extract: Send + <span class="lifetime">&#39;static</span>,
+        F::Error: Send + <span class="lifetime">&#39;static</span>,
     {
-        <span class="self">self</span>.<span class="ident">apply_filter</span>(<span class="ident">f</span>).<span class="kw">await</span>.<span class="ident">is_ok</span>()
+        <span class="self">self</span>.apply_filter(f).<span class="kw">await</span>.is_ok()
     }
 
-    <span class="doccomment">/// Returns `Response` provided by applying the `Filter`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This requires that the supplied `Filter` return a [`Reply`](Reply).</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">reply</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="ident">F</span>) -&gt; <span class="ident">Response</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Filter</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Extract</span>: <span class="ident">Reply</span> <span class="op">+</span> <span class="ident">Send</span>,
-        <span class="ident">F::Error</span>: <span class="ident">IsReject</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="doccomment">/// Returns `Response` provided by applying the `Filter`.
+    ///
+    /// This requires that the supplied `Filter` return a [`Reply`](Reply).
+    </span><span class="kw">pub async fn </span>reply&lt;F&gt;(<span class="self">self</span>, f: <span class="kw-2">&amp;</span>F) -&gt; Response&lt;Bytes&gt;
+    <span class="kw">where
+        </span>F: Filter + <span class="lifetime">&#39;static</span>,
+        F::Extract: Reply + Send,
+        F::Error: IsReject + Send,
     {
-        <span class="comment">// TODO: de-duplicate this and apply_filter()</span>
-        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">route::is_set</span>(), <span class="string">&quot;nested test filter calls&quot;</span>);
+        <span class="comment">// TODO: de-duplicate this and apply_filter()
+        </span><span class="macro">assert!</span>(!route::is_set(), <span class="string">&quot;nested test filter calls&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route::new</span>(<span class="self">self</span>.<span class="ident">req</span>, <span class="self">self</span>.<span class="ident">remote_addr</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">Box::pin</span>(
-            <span class="ident">route::set</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">filter</span>(<span class="ident"><span class="kw">crate</span>::filter::Internal</span>)).<span class="ident">then</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">result</span> {
-                    <span class="prelude-val">Ok</span>(<span class="ident">rep</span>) =&gt; <span class="ident">rep</span>.<span class="ident">into_response</span>(),
-                    <span class="prelude-val">Err</span>(<span class="ident">rej</span>) =&gt; {
-                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;rejected: {:?}&quot;</span>, <span class="ident">rej</span>);
-                        <span class="ident">rej</span>.<span class="ident">into_response</span>()
+        <span class="kw">let </span>route = Route::new(<span class="self">self</span>.req, <span class="self">self</span>.remote_addr);
+        <span class="kw">let </span><span class="kw-2">mut </span>fut = Box::pin(
+            route::set(<span class="kw-2">&amp;</span>route, <span class="kw">move </span>|| f.filter(<span class="kw">crate</span>::filter::Internal)).then(|result| {
+                <span class="kw">let </span>res = <span class="kw">match </span>result {
+                    <span class="prelude-val">Ok</span>(rep) =&gt; rep.into_response(),
+                    <span class="prelude-val">Err</span>(rej) =&gt; {
+                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;rejected: {:?}&quot;</span>, rej);
+                        rej.into_response()
                     }
                 };
-                <span class="kw">let</span> (<span class="ident">parts</span>, <span class="ident">body</span>) <span class="op">=</span> <span class="ident">res</span>.<span class="ident">into_parts</span>();
-                <span class="ident">hyper::body::to_bytes</span>(<span class="ident">body</span>).<span class="ident">map_ok</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">Response::from_parts</span>(<span class="ident">parts</span>, <span class="ident">chunk</span>))
+                <span class="kw">let </span>(parts, body) = res.into_parts();
+                hyper::body::to_bytes(body).map_ok(|chunk| Response::from_parts(parts, chunk))
             }),
         );
 
-        <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">cx</span><span class="op">|</span> <span class="ident">route::set</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="op">|</span><span class="op">|</span> <span class="ident">fut</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>)));
+        <span class="kw">let </span>fut = future::poll_fn(<span class="kw">move </span>|cx| route::set(<span class="kw-2">&amp;</span>route, || fut.as_mut().poll(cx)));
 
-        <span class="ident">fut</span>.<span class="kw">await</span>.<span class="ident">expect</span>(<span class="string">&quot;reply shouldn&#39;t fail&quot;</span>)
+        fut.<span class="kw">await</span>.expect(<span class="string">&quot;reply shouldn&#39;t fail&quot;</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">apply_filter</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="ident">F</span>) -&gt; <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">F::Extract</span>, <span class="ident">F::Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Filter</span>,
-        <span class="ident">F::Future</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Extract</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Error</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="kw">fn </span>apply_filter&lt;F&gt;(<span class="self">self</span>, f: <span class="kw-2">&amp;</span>F) -&gt; <span class="kw">impl </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;F::Extract, F::Error&gt;&gt;
+    <span class="kw">where
+        </span>F: Filter,
+        F::Future: Send + <span class="lifetime">&#39;static</span>,
+        F::Extract: Send + <span class="lifetime">&#39;static</span>,
+        F::Error: Send + <span class="lifetime">&#39;static</span>,
     {
-        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">route::is_set</span>(), <span class="string">&quot;nested test filter calls&quot;</span>);
+        <span class="macro">assert!</span>(!route::is_set(), <span class="string">&quot;nested test filter calls&quot;</span>);
 
-        <span class="kw">let</span> <span class="ident">route</span> <span class="op">=</span> <span class="ident">Route::new</span>(<span class="self">self</span>.<span class="ident">req</span>, <span class="self">self</span>.<span class="ident">remote_addr</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">Box::pin</span>(<span class="ident">route::set</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
-            <span class="ident">f</span>.<span class="ident">filter</span>(<span class="ident"><span class="kw">crate</span>::filter::Internal</span>)
+        <span class="kw">let </span>route = Route::new(<span class="self">self</span>.req, <span class="self">self</span>.remote_addr);
+        <span class="kw">let </span><span class="kw-2">mut </span>fut = Box::pin(route::set(<span class="kw-2">&amp;</span>route, <span class="kw">move </span>|| {
+            f.filter(<span class="kw">crate</span>::filter::Internal)
         }));
-        <span class="ident">future::poll_fn</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">cx</span><span class="op">|</span> <span class="ident">route::set</span>(<span class="kw-2">&amp;</span><span class="ident">route</span>, <span class="op">|</span><span class="op">|</span> <span class="ident">fut</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>)))
+        future::poll_fn(<span class="kw">move </span>|cx| route::set(<span class="kw-2">&amp;</span>route, || fut.as_mut().poll(cx)))
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">WsBuilder</span> {
-    <span class="doccomment">/// Sets the request path of this builder.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The default is not set is `/`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::ws()</span>
-    <span class="doccomment">///     .path(&quot;/chat&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panic</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This panics if the passed string is not able to be parsed as a valid</span>
-    <span class="doccomment">/// `Uri`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="self">self</span>, <span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">WsBuilder</span> {
-            <span class="ident">req</span>: <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">path</span>(<span class="ident">p</span>),
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>WsBuilder {
+    <span class="doccomment">/// Sets the request path of this builder.
+    ///
+    /// The default is not set is `/`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::ws()
+    ///     .path(&quot;/chat&quot;);
+    /// ```
+    ///
+    /// # Panic
+    ///
+    /// This panics if the passed string is not able to be parsed as a valid
+    /// `Uri`.
+    </span><span class="kw">pub fn </span>path(<span class="self">self</span>, p: <span class="kw-2">&amp;</span>str) -&gt; <span class="self">Self </span>{
+        WsBuilder {
+            req: <span class="self">self</span>.req.path(p),
         }
     }
 
-    <span class="doccomment">/// Set a header for this request.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// let req = warp::test::ws()</span>
-    <span class="doccomment">///     .header(&quot;foo&quot;, &quot;bar&quot;);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panic</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This panics if the passed strings are not able to be parsed as a valid</span>
-    <span class="doccomment">/// `HeaderName` and `HeaderValue`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">header</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">key</span>: <span class="ident">K</span>, <span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">HeaderName</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span>,
-        <span class="ident">HeaderValue</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Set a header for this request.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// let req = warp::test::ws()
+    ///     .header(&quot;foo&quot;, &quot;bar&quot;);
+    /// ```
+    ///
+    /// # Panic
+    ///
+    /// This panics if the passed strings are not able to be parsed as a valid
+    /// `HeaderName` and `HeaderValue`.
+    </span><span class="kw">pub fn </span>header&lt;K, V&gt;(<span class="self">self</span>, key: K, value: V) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>HeaderName: TryFrom&lt;K&gt;,
+        HeaderValue: TryFrom&lt;V&gt;,
     {
-        <span class="ident">WsBuilder</span> {
-            <span class="ident">req</span>: <span class="self">self</span>.<span class="ident">req</span>.<span class="ident">header</span>(<span class="ident">key</span>, <span class="ident">value</span>),
+        WsBuilder {
+            req: <span class="self">self</span>.req.header(key, value),
         }
     }
 
-    <span class="doccomment">/// Execute this Websocket request against the provided filter.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the handshake succeeds, returns a `WsClient`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// use futures_util::future;</span>
-    <span class="doccomment">/// use warp::Filter;</span>
-    <span class="doccomment">/// #[tokio::main]</span>
-    <span class="doccomment">/// # async fn main() {</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // Some route that accepts websockets (but drops them immediately).</span>
-    <span class="doccomment">/// let route = warp::ws()</span>
-    <span class="doccomment">///     .map(|ws: warp::ws::Ws| {</span>
-    <span class="doccomment">///         ws.on_upgrade(|_| future::ready(()))</span>
-    <span class="doccomment">///     });</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let client = warp::test::ws()</span>
-    <span class="doccomment">///     .handshake(route)</span>
-    <span class="doccomment">///     .await</span>
-    <span class="doccomment">///     .expect(&quot;handshake&quot;);</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">handshake</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">WsClient</span>, <span class="ident">WsError</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Filter</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">F::Extract</span>: <span class="ident">Reply</span> <span class="op">+</span> <span class="ident">Send</span>,
-        <span class="ident">F::Error</span>: <span class="ident">IsReject</span> <span class="op">+</span> <span class="ident">Send</span>,
+    <span class="doccomment">/// Execute this Websocket request against the provided filter.
+    ///
+    /// If the handshake succeeds, returns a `WsClient`.
+    ///
+    /// # Example
+    ///
+    /// ```no_run
+    /// use futures_util::future;
+    /// use warp::Filter;
+    /// #[tokio::main]
+    /// # async fn main() {
+    ///
+    /// // Some route that accepts websockets (but drops them immediately).
+    /// let route = warp::ws()
+    ///     .map(|ws: warp::ws::Ws| {
+    ///         ws.on_upgrade(|_| future::ready(()))
+    ///     });
+    ///
+    /// let client = warp::test::ws()
+    ///     .handshake(route)
+    ///     .await
+    ///     .expect(&quot;handshake&quot;);
+    /// # }
+    /// ```
+    </span><span class="kw">pub async fn </span>handshake&lt;F&gt;(<span class="self">self</span>, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;WsClient, WsError&gt;
+    <span class="kw">where
+        </span>F: Filter + Clone + Send + Sync + <span class="lifetime">&#39;static</span>,
+        F::Extract: Reply + Send,
+        F::Error: IsReject + Send,
     {
-        <span class="kw">let</span> (<span class="ident">upgraded_tx</span>, <span class="ident">upgraded_rx</span>) <span class="op">=</span> <span class="ident">oneshot::channel</span>();
-        <span class="kw">let</span> (<span class="ident">wr_tx</span>, <span class="ident">wr_rx</span>) <span class="op">=</span> <span class="ident">mpsc::unbounded</span>();
-        <span class="kw">let</span> (<span class="ident">rd_tx</span>, <span class="ident">rd_rx</span>) <span class="op">=</span> <span class="ident">mpsc::unbounded</span>();
+        <span class="kw">let </span>(upgraded_tx, upgraded_rx) = oneshot::channel();
+        <span class="kw">let </span>(wr_tx, wr_rx) = mpsc::unbounded();
+        <span class="kw">let </span>(rd_tx, rd_rx) = mpsc::unbounded();
 
-        <span class="ident">tokio::spawn</span>(<span class="kw">async</span> <span class="kw">move</span> {
-            <span class="kw">use</span> <span class="ident">tokio_tungstenite::tungstenite::protocol</span>;
+        tokio::spawn(<span class="kw">async move </span>{
+            <span class="kw">use </span>tokio_tungstenite::tungstenite::protocol;
 
-            <span class="kw">let</span> (<span class="ident">addr</span>, <span class="ident">srv</span>) <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::serve</span>(<span class="ident">f</span>).<span class="ident">bind_ephemeral</span>(([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], <span class="number">0</span>));
+            <span class="kw">let </span>(addr, srv) = <span class="kw">crate</span>::serve(f).bind_ephemeral(([<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], <span class="number">0</span>));
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="self">self</span>
-                .<span class="ident">req</span>
-                .<span class="ident">header</span>(<span class="string">&quot;connection&quot;</span>, <span class="string">&quot;upgrade&quot;</span>)
-                .<span class="ident">header</span>(<span class="string">&quot;upgrade&quot;</span>, <span class="string">&quot;websocket&quot;</span>)
-                .<span class="ident">header</span>(<span class="string">&quot;sec-websocket-version&quot;</span>, <span class="string">&quot;13&quot;</span>)
-                .<span class="ident">header</span>(<span class="string">&quot;sec-websocket-key&quot;</span>, <span class="string">&quot;dGhlIHNhbXBsZSBub25jZQ==&quot;</span>)
-                .<span class="ident">req</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>req = <span class="self">self
+                </span>.req
+                .header(<span class="string">&quot;connection&quot;</span>, <span class="string">&quot;upgrade&quot;</span>)
+                .header(<span class="string">&quot;upgrade&quot;</span>, <span class="string">&quot;websocket&quot;</span>)
+                .header(<span class="string">&quot;sec-websocket-version&quot;</span>, <span class="string">&quot;13&quot;</span>)
+                .header(<span class="string">&quot;sec-websocket-key&quot;</span>, <span class="string">&quot;dGhlIHNhbXBsZSBub25jZQ==&quot;</span>)
+                .req;
 
-            <span class="kw">let</span> <span class="ident">query_string</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">query</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">q</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;?{}&quot;</span>, <span class="ident">q</span>),
-                <span class="prelude-val">None</span> =&gt; <span class="ident">String::from</span>(<span class="string">&quot;&quot;</span>),
+            <span class="kw">let </span>query_string = <span class="kw">match </span>req.uri().query() {
+                <span class="prelude-val">Some</span>(q) =&gt; <span class="macro">format!</span>(<span class="string">&quot;?{}&quot;</span>, q),
+                <span class="prelude-val">None </span>=&gt; String::from(<span class="string">&quot;&quot;</span>),
             };
 
-            <span class="kw">let</span> <span class="ident">uri</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;http://{}{}{}&quot;</span>, <span class="ident">addr</span>, <span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>(), <span class="ident">query_string</span>)
-                .<span class="ident">parse</span>()
-                .<span class="ident">expect</span>(<span class="string">&quot;addr + path is valid URI&quot;</span>);
+            <span class="kw">let </span>uri = <span class="macro">format!</span>(<span class="string">&quot;http://{}{}{}&quot;</span>, addr, req.uri().path(), query_string)
+                .parse()
+                .expect(<span class="string">&quot;addr + path is valid URI&quot;</span>);
 
-            <span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">uri_mut</span>() <span class="op">=</span> <span class="ident">uri</span>;
+            <span class="kw-2">*</span>req.uri_mut() = uri;
 
-            <span class="comment">// let mut rt = current_thread::Runtime::new().unwrap();</span>
-            <span class="ident">tokio::spawn</span>(<span class="ident">srv</span>);
+            <span class="comment">// let mut rt = current_thread::Runtime::new().unwrap();
+            </span>tokio::spawn(srv);
 
-            <span class="kw">let</span> <span class="ident">upgrade</span> <span class="op">=</span> <span class="ident">::hyper::Client::builder</span>()
-                .<span class="ident">build</span>(<span class="ident">AddrConnect</span>(<span class="ident">addr</span>))
-                .<span class="ident">request</span>(<span class="ident">req</span>)
-                .<span class="ident">and_then</span>(<span class="ident">hyper::upgrade::on</span>);
+            <span class="kw">let </span>upgrade = ::hyper::Client::builder()
+                .build(AddrConnect(addr))
+                .request(req)
+                .and_then(hyper::upgrade::on);
 
-            <span class="kw">let</span> <span class="ident">upgraded</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">upgrade</span>.<span class="kw">await</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">up</span>) =&gt; {
-                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">upgraded_tx</span>.<span class="ident">send</span>(<span class="prelude-val">Ok</span>(()));
-                    <span class="ident">up</span>
+            <span class="kw">let </span>upgraded = <span class="kw">match </span>upgrade.<span class="kw">await </span>{
+                <span class="prelude-val">Ok</span>(up) =&gt; {
+                    <span class="kw">let _ </span>= upgraded_tx.send(<span class="prelude-val">Ok</span>(()));
+                    up
                 }
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; {
-                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">upgraded_tx</span>.<span class="ident">send</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>));
+                <span class="prelude-val">Err</span>(err) =&gt; {
+                    <span class="kw">let _ </span>= upgraded_tx.send(<span class="prelude-val">Err</span>(err));
                     <span class="kw">return</span>;
                 }
             };
-            <span class="kw">let</span> <span class="ident">ws</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::ws::WebSocket::from_raw_socket</span>(
-                <span class="ident">upgraded</span>,
-                <span class="ident">protocol::Role::Client</span>,
-                <span class="ident">Default::default</span>(),
+            <span class="kw">let </span>ws = <span class="kw">crate</span>::ws::WebSocket::from_raw_socket(
+                upgraded,
+                protocol::Role::Client,
+                Default::default(),
             )
             .<span class="kw">await</span>;
 
-            <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">ws</span>.<span class="ident">split</span>();
-            <span class="kw">let</span> <span class="ident">write</span> <span class="op">=</span> <span class="ident">wr_rx</span>.<span class="ident">map</span>(<span class="prelude-val">Ok</span>).<span class="ident">forward</span>(<span class="ident">tx</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> ());
+            <span class="kw">let </span>(tx, rx) = ws.split();
+            <span class="kw">let </span>write = wr_rx.map(<span class="prelude-val">Ok</span>).forward(tx).map(|<span class="kw">_</span>| ());
 
-            <span class="kw">let</span> <span class="ident">read</span> <span class="op">=</span> <span class="ident">rx</span>
-                .<span class="ident">take_while</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
-                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="ident">future::ready</span>(<span class="bool-val">false</span>),
-                    <span class="prelude-val">Ok</span>(<span class="ident">m</span>) =&gt; <span class="ident">future::ready</span>(<span class="op">!</span><span class="ident">m</span>.<span class="ident">is_close</span>()),
+            <span class="kw">let </span>read = rx
+                .take_while(|result| <span class="kw">match </span>result {
+                    <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; future::ready(<span class="bool-val">false</span>),
+                    <span class="prelude-val">Ok</span>(m) =&gt; future::ready(!m.is_close()),
                 })
-                .<span class="ident">for_each</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">item</span><span class="op">|</span> {
-                    <span class="ident">rd_tx</span>.<span class="ident">unbounded_send</span>(<span class="ident">item</span>).<span class="ident">expect</span>(<span class="string">&quot;ws receive error&quot;</span>);
-                    <span class="ident">future::ready</span>(())
+                .for_each(<span class="kw">move </span>|item| {
+                    rd_tx.unbounded_send(item).expect(<span class="string">&quot;ws receive error&quot;</span>);
+                    future::ready(())
                 });
 
-            <span class="ident">future::join</span>(<span class="ident">write</span>, <span class="ident">read</span>).<span class="kw">await</span>;
+            future::join(write, read).<span class="kw">await</span>;
         });
 
-        <span class="kw">match</span> <span class="ident">upgraded_rx</span>.<span class="kw">await</span> {
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(())) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">WsClient</span> {
-                <span class="ident">tx</span>: <span class="ident">wr_tx</span>,
-                <span class="ident">rx</span>: <span class="ident">rd_rx</span>,
+        <span class="kw">match </span>upgraded_rx.<span class="kw">await </span>{
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(())) =&gt; <span class="prelude-val">Ok</span>(WsClient {
+                tx: wr_tx,
+                rx: rd_rx,
             }),
-            <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)) =&gt; <span class="prelude-val">Err</span>(<span class="ident">WsError::new</span>(<span class="ident">err</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">_canceled</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;websocket handshake thread panicked&quot;</span>),
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(err)) =&gt; <span class="prelude-val">Err</span>(WsError::new(err)),
+            <span class="prelude-val">Err</span>(_canceled) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;websocket handshake thread panicked&quot;</span>),
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">WsClient</span> {
-    <span class="doccomment">/// Send a &quot;text&quot; websocket message to the server.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send_text</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">text</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
-        <span class="self">self</span>.<span class="ident">send</span>(<span class="ident"><span class="kw">crate</span>::ws::Message::text</span>(<span class="ident">text</span>)).<span class="kw">await</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>WsClient {
+    <span class="doccomment">/// Send a &quot;text&quot; websocket message to the server.
+    </span><span class="kw">pub async fn </span>send_text(<span class="kw-2">&amp;mut </span><span class="self">self</span>, text: <span class="kw">impl </span>Into&lt;String&gt;) {
+        <span class="self">self</span>.send(<span class="kw">crate</span>::ws::Message::text(text)).<span class="kw">await</span>;
     }
 
-    <span class="doccomment">/// Send a websocket message to the server.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident"><span class="kw">crate</span>::ws::Message</span>) {
-        <span class="self">self</span>.<span class="ident">tx</span>.<span class="ident">unbounded_send</span>(<span class="ident">msg</span>).<span class="ident">unwrap</span>();
+    <span class="doccomment">/// Send a websocket message to the server.
+    </span><span class="kw">pub async fn </span>send(<span class="kw-2">&amp;mut </span><span class="self">self</span>, msg: <span class="kw">crate</span>::ws::Message) {
+        <span class="self">self</span>.tx.unbounded_send(msg).unwrap();
     }
 
-    <span class="doccomment">/// Receive a websocket message from the server.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">recv</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::filters::ws::Message</span>, <span class="ident">WsError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">rx</span>
-            .<span class="ident">next</span>()
-            .<span class="kw">await</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="ident">result</span>.<span class="ident">map_err</span>(<span class="ident">WsError::new</span>))
-            .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="comment">// websocket is closed</span>
-                <span class="prelude-val">Err</span>(<span class="ident">WsError::new</span>(<span class="string">&quot;closed&quot;</span>))
+    <span class="doccomment">/// Receive a websocket message from the server.
+    </span><span class="kw">pub async fn </span>recv(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::filters::ws::Message, WsError&gt; {
+        <span class="self">self</span>.rx
+            .next()
+            .<span class="kw">await
+            </span>.map(|result| result.map_err(WsError::new))
+            .unwrap_or_else(|| {
+                <span class="comment">// websocket is closed
+                </span><span class="prelude-val">Err</span>(WsError::new(<span class="string">&quot;closed&quot;</span>))
             })
     }
 
-    <span class="doccomment">/// Assert the server has closed the connection.</span>
-    <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">recv_closed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WsError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">rx</span>
-            .<span class="ident">next</span>()
-            .<span class="kw">await</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">msg</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">WsError::new</span>(<span class="macro">format!</span>(<span class="string">&quot;received message: {:?}&quot;</span>, <span class="ident">msg</span>))),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">WsError::new</span>(<span class="ident">err</span>)),
+    <span class="doccomment">/// Assert the server has closed the connection.
+    </span><span class="kw">pub async fn </span>recv_closed(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), WsError&gt; {
+        <span class="self">self</span>.rx
+            .next()
+            .<span class="kw">await
+            </span>.map(|result| <span class="kw">match </span>result {
+                <span class="prelude-val">Ok</span>(msg) =&gt; <span class="prelude-val">Err</span>(WsError::new(<span class="macro">format!</span>(<span class="string">&quot;received message: {:?}&quot;</span>, msg))),
+                <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(WsError::new(err)),
             })
-            .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> {
-                <span class="comment">// closed successfully</span>
-                <span class="prelude-val">Ok</span>(())
+            .unwrap_or_else(|| {
+                <span class="comment">// closed successfully
+                </span><span class="prelude-val">Ok</span>(())
             })
     }
 
-    <span class="kw">fn</span> <span class="ident">pinned_tx</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">mpsc::UnboundedSender</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::ws::Message</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="ident">Pin::into_inner</span>(<span class="self">self</span>);
-        <span class="ident">Pin::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">this</span>.<span class="ident">tx</span>)
+    <span class="kw">fn </span>pinned_tx(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;) -&gt; Pin&lt;<span class="kw-2">&amp;mut </span>mpsc::UnboundedSender&lt;<span class="kw">crate</span>::ws::Message&gt;&gt; {
+        <span class="kw">let </span>this = Pin::into_inner(<span class="self">self</span>);
+        Pin::new(<span class="kw-2">&amp;mut </span>this.tx)
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">WsClient</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;WsClient&quot;</span>).<span class="ident">finish</span>()
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>fmt::Debug <span class="kw">for </span>WsClient {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">&quot;WsClient&quot;</span>).finish()
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::ws::Message</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WsClient</span> {
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">WsError</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>Sink&lt;<span class="kw">crate</span>::ws::Message&gt; <span class="kw">for </span>WsClient {
+    <span class="kw">type </span>Error = WsError;
 
-    <span class="kw">fn</span> <span class="ident">poll_ready</span>(
-        <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">pinned_tx</span>().<span class="ident">poll_ready</span>(<span class="ident">context</span>).<span class="ident">map_err</span>(<span class="ident">WsError::new</span>)
+    <span class="kw">fn </span>poll_ready(
+        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        <span class="self">self</span>.pinned_tx().poll_ready(context).map_err(WsError::new)
     }
 
-    <span class="kw">fn</span> <span class="ident">start_send</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">message</span>: <span class="ident">Message</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">pinned_tx</span>().<span class="ident">start_send</span>(<span class="ident">message</span>).<span class="ident">map_err</span>(<span class="ident">WsError::new</span>)
+    <span class="kw">fn </span>start_send(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, message: Message) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt; {
+        <span class="self">self</span>.pinned_tx().start_send(message).map_err(WsError::new)
     }
 
-    <span class="kw">fn</span> <span class="ident">poll_flush</span>(
-        <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">pinned_tx</span>().<span class="ident">poll_flush</span>(<span class="ident">context</span>).<span class="ident">map_err</span>(<span class="ident">WsError::new</span>)
+    <span class="kw">fn </span>poll_flush(
+        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        <span class="self">self</span>.pinned_tx().poll_flush(context).map_err(WsError::new)
     }
 
-    <span class="kw">fn</span> <span class="ident">poll_close</span>(
-        <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">pinned_tx</span>().<span class="ident">poll_close</span>(<span class="ident">context</span>).<span class="ident">map_err</span>(<span class="ident">WsError::new</span>)
+    <span class="kw">fn </span>poll_close(
+        <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
+        context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+    ) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        <span class="self">self</span>.pinned_tx().poll_close(context).map_err(WsError::new)
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">Stream</span> <span class="kw">for</span> <span class="ident">WsClient</span> {
-    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="kw">crate</span>::ws::Message</span>, <span class="ident">WsError</span><span class="op">&gt;</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>Stream <span class="kw">for </span>WsClient {
+    <span class="kw">type </span>Item = <span class="prelude-ty">Result</span>&lt;<span class="kw">crate</span>::ws::Message, WsError&gt;;
 
-    <span class="kw">fn</span> <span class="ident">poll_next</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">context</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Item</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="ident">Pin::into_inner</span>(<span class="self">self</span>);
-        <span class="kw">let</span> <span class="ident">rx</span> <span class="op">=</span> <span class="ident">Pin::new</span>(<span class="kw-2">&amp;mut</span> <span class="ident">this</span>.<span class="ident">rx</span>);
-        <span class="kw">match</span> <span class="ident">rx</span>.<span class="ident">poll_next</span>(<span class="ident">context</span>) {
-            <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>)) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">result</span>.<span class="ident">map_err</span>(<span class="ident">WsError::new</span>))),
-            <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>) =&gt; <span class="ident">Poll::Ready</span>(<span class="prelude-val">None</span>),
-            <span class="ident">Poll::Pending</span> =&gt; <span class="ident">Poll::Pending</span>,
+    <span class="kw">fn </span>poll_next(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, context: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
+        <span class="kw">let </span>this = Pin::into_inner(<span class="self">self</span>);
+        <span class="kw">let </span>rx = Pin::new(<span class="kw-2">&amp;mut </span>this.rx);
+        <span class="kw">match </span>rx.poll_next(context) {
+            Poll::Ready(<span class="prelude-val">Some</span>(result)) =&gt; Poll::Ready(<span class="prelude-val">Some</span>(result.map_err(WsError::new))),
+            Poll::Ready(<span class="prelude-val">None</span>) =&gt; Poll::Ready(<span class="prelude-val">None</span>),
+            Poll::Pending =&gt; Poll::Pending,
         }
     }
 }
 
-<span class="comment">// ===== impl WsError =====</span>
+<span class="comment">// ===== impl WsError =====
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">WsError</span> {
-    <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">StdError</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">cause</span>: <span class="ident">E</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">WsError</span> {
-            <span class="ident">cause</span>: <span class="ident">cause</span>.<span class="ident">into</span>(),
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>WsError {
+    <span class="kw">fn </span>new&lt;E: Into&lt;Box&lt;<span class="kw">dyn </span>StdError + Send + Sync&gt;&gt;&gt;(cause: E) -&gt; <span class="self">Self </span>{
+        WsError {
+            cause: cause.into(),
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">WsError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;websocket error: {}&quot;</span>, <span class="self">self</span>.<span class="ident">cause</span>)
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>WsError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;websocket error: {}&quot;</span>, <span class="self">self</span>.cause)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">StdError</span> <span class="kw">for</span> <span class="ident">WsError</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="string">&quot;websocket error&quot;</span>
+<span class="kw">impl </span>StdError <span class="kw">for </span>WsError {
+    <span class="kw">fn </span>description(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="string">&quot;websocket error&quot;
+    </span>}
+}
+
+<span class="comment">// ===== impl AddrConnect =====
+
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+#[derive(Clone)]
+</span><span class="kw">struct </span>AddrConnect(SocketAddr);
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+</span><span class="kw">impl </span>tower_service::Service&lt;::http::Uri&gt; <span class="kw">for </span>AddrConnect {
+    <span class="kw">type </span>Response = ::tokio::net::TcpStream;
+    <span class="kw">type </span>Error = ::std::io::Error;
+    <span class="kw">type </span>Future = Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Response, <span class="self">Self</span>::Error&gt;&gt; + Send&gt;&gt;;
+
+    <span class="kw">fn </span>poll_ready(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _cx: <span class="kw-2">&amp;mut </span>task::Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+        Poll::Ready(<span class="prelude-val">Ok</span>(()))
+    }
+
+    <span class="kw">fn </span>call(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw">_</span>: ::http::Uri) -&gt; <span class="self">Self</span>::Future {
+        Box::pin(tokio::net::TcpStream::connect(<span class="self">self</span>.<span class="number">0</span>))
     }
 }
 
-<span class="comment">// ===== impl AddrConnect =====</span>
+<span class="kw">mod </span>inner {
+    <span class="kw">pub trait </span>OneOrTuple {
+        <span class="kw">type </span>Output;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">struct</span> <span class="ident">AddrConnect</span>(<span class="ident">SocketAddr</span>);
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;websocket&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">tower_service::Service</span><span class="op">&lt;</span><span class="ident">::http::Uri</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">AddrConnect</span> {
-    <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">::tokio::net::TcpStream</span>;
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">::std::io::Error</span>;
-    <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">Pin</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Response</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-
-    <span class="kw">fn</span> <span class="ident">poll_ready</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">task::Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="ident">Poll::Ready</span>(<span class="prelude-val">Ok</span>(()))
+        <span class="kw">fn </span>one_or_tuple(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Output;
     }
 
-    <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">::http::Uri</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
-        <span class="ident">Box::pin</span>(<span class="ident">tokio::net::TcpStream::connect</span>(<span class="self">self</span>.<span class="number">0</span>))
-    }
-}
-
-<span class="kw">mod</span> <span class="ident">inner</span> {
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">OneOrTuple</span> {
-        <span class="kw">type</span> <span class="ident">Output</span>;
-
-        <span class="kw">fn</span> <span class="ident">one_or_tuple</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span>;
+    <span class="kw">impl </span>OneOrTuple <span class="kw">for </span>() {
+        <span class="kw">type </span>Output = ();
+        <span class="kw">fn </span>one_or_tuple(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Output {}
     }
 
-    <span class="kw">impl</span> <span class="ident">OneOrTuple</span> <span class="kw">for</span> () {
-        <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> ();
-        <span class="kw">fn</span> <span class="ident">one_or_tuple</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {}
-    }
-
-    <span class="macro">macro_rules!</span> <span class="ident">one_or_tuple</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>:<span class="ident">ident</span>) =&gt; {
-            <span class="kw">impl</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span><span class="op">&gt;</span> <span class="ident">OneOrTuple</span> <span class="kw">for</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>,) {
-                <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>;
-                <span class="kw">fn</span> <span class="ident">one_or_tuple</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
-                    <span class="self">self</span>.<span class="number">0</span>
-                }
+    <span class="macro">macro_rules! </span>one_or_tuple {
+        (<span class="macro-nonterminal">$type1</span>:ident) =&gt; {
+            <span class="kw">impl</span>&lt;<span class="macro-nonterminal">$type1</span>&gt; OneOrTuple <span class="kw">for </span>(<span class="macro-nonterminal">$type1</span>,) {
+                <span class="kw">type </span>Output = <span class="macro-nonterminal">$type1</span>;
+                <span class="kw">fn </span>one_or_tuple(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Output {
+                    <span class="self">self</span>.<span class="number">0
+                </span>}
             }
         };
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>:<span class="ident">ident</span>, $( <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ident</span> ),<span class="kw-2">*</span>) =&gt; {
-            <span class="macro">one_or_tuple!</span>($( <span class="macro-nonterminal">$</span><span class="kw">type</span> ),<span class="kw-2">*</span>);
+        (<span class="macro-nonterminal">$type1</span>:ident, $( <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">ident </span>),<span class="kw-2">*</span>) =&gt; {
+            <span class="macro">one_or_tuple!</span>($( <span class="macro-nonterminal">$</span><span class="kw">type </span>),<span class="kw-2">*</span>);
 
-            <span class="kw">impl</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>, $(<span class="macro-nonterminal">$</span><span class="kw">type</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="macro-nonterminal">OneOrTuple</span> <span class="kw">for</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">type1</span>, $(<span class="macro-nonterminal">$</span><span class="kw">type</span>),<span class="kw-2">*</span>) {
-                <span class="kw">type</span> <span class="macro-nonterminal">Output</span> <span class="op">=</span> <span class="self">Self</span>;
-                <span class="kw">fn</span> <span class="ident">one_or_tuple</span>(<span class="self">self</span>) -&gt; <span class="ident"><span class="self">Self</span>::Output</span> {
-                    <span class="self">self</span>
-                }
+            <span class="kw">impl</span>&lt;<span class="macro-nonterminal">$type1</span>, $(<span class="macro-nonterminal">$</span><span class="kw">type</span>),<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">OneOrTuple </span><span class="kw">for </span>(<span class="macro-nonterminal">$type1</span>, $(<span class="macro-nonterminal">$</span><span class="kw">type</span>),<span class="kw-2">*</span>) {
+                <span class="kw">type </span><span class="macro-nonterminal">Output </span>= <span class="self">Self</span>;
+                <span class="kw">fn </span>one_or_tuple(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Output {
+                    <span class="self">self
+                </span>}
             }
         }
     }
 
-    <span class="macro">one_or_tuple!</span> {
-        <span class="ident">T1</span>,
-        <span class="ident">T2</span>,
-        <span class="ident">T3</span>,
-        <span class="ident">T4</span>,
-        <span class="ident">T5</span>,
-        <span class="ident">T6</span>,
-        <span class="ident">T7</span>,
-        <span class="ident">T8</span>,
-        <span class="ident">T9</span>,
-        <span class="ident">T10</span>,
-        <span class="ident">T11</span>,
-        <span class="ident">T12</span>,
-        <span class="ident">T13</span>,
-        <span class="ident">T14</span>,
-        <span class="ident">T15</span>,
-        <span class="ident">T16</span>
+    <span class="macro">one_or_tuple! </span>{
+        T1,
+        T2,
+        T3,
+        T4,
+        T5,
+        T6,
+        T7,
+        T8,
+        T9,
+        T10,
+        T11,
+        T12,
+        T13,
+        T14,
+        T15,
+        T16
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (f03ce3096 2022-08-08)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="warp" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>

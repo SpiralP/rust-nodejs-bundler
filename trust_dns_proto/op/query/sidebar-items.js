@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":[["Query","Query struct for looking up resource records, basically a resource record without RDATA."]]};

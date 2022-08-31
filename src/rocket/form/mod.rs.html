@@ -1,0 +1,814 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/form/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../rocket/index.html"><div class="logo-container"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../rocket/index.html"><div class="logo-container">
+                    <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../rocket/index.html">
+                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Parsing and validation of HTTP forms and fields.
+//!
+//! See the [forms guide](https://rocket.rs/v0.5-rc/guide/requests#forms) for
+//! general form support documentation.
+//!
+//! # Field Wire Format
+//!
+//! Rocket&#39;s field wire format is a flexible, non-self-descriptive, text-based
+//! encoding of arbitrarily nested structure keys and their corresponding
+//! values. The general grammar is:
+//!
+//! ```ebnf
+//! field := name (&#39;=&#39; value)?
+//!
+//! name := key*
+//!
+//! key := indices
+//!       | &#39;[&#39; indices &#39;]&#39;
+//!       | &#39;.&#39; indices
+//!
+//! indices := index (&#39;:&#39; index)*
+//!
+//! index := STRING except &#39;:&#39;, &#39;]&#39;
+//!
+//! value := STRING
+//! ```
+//!
+//! Each field name consists of any number of `key`s and at most one `value`.
+//! Keys are delimited by `[` or `.`. A `key` consists of indices delimited by
+//! `:`.
+//!
+//! The meaning of a key or index is type-dependent, hence the format is
+//! non-self-descriptive. _Any_ structure can be described by this format. The
+//! delimiters `.`, `[`, `:`, and `]` have no semantic meaning.
+//!
+//! Some examples of valid fields are:
+//!
+//!   * `=`
+//!   * `key=value`
+//!   * `key[]=value`
+//!   * `.0=value`
+//!   * `[0]=value`
+//!   * `people[].name=Bob`
+//!   * `bob.cousin.names[]=Bob`
+//!   * `map[k:1]=Bob`
+//!   * `people[bob]nickname=Stan`
+//!
+//! See [`FromForm`] for full details on push-parsing and complete examples.
+
+</span><span class="comment">// ## Maps w/named Fields (`struct`)
+//
+// A `struct` with named fields parses values of multiple types, indexed by the
+// name of its fields:
+//
+// ```rust,ignore
+// struct Dog { name: String, barks: bool, friends: Vec&lt;Cat&gt;, }
+// struct Cat { name: String, meows: bool }
+// ```
+//
+// Candidates for parsing into a `Dog` include:
+//
+//   * `name=Fido&amp;barks=0`
+//
+//     `Dog { &quot;Fido&quot;, false }`
+//
+//   * `name=Fido&amp;barks=1&amp;friends[0]name=Sally&amp;friends[0]meows=0`
+//     `name=Fido&amp;barks=1&amp;friends[0].name=Sally&amp;friends[0].meows=0`
+//     `name=Fido&amp;barks=1&amp;friends.0.name=Sally&amp;friends.0.meows=0`
+//
+//     `Dog { &quot;Fido&quot;, true, vec![Cat { &quot;Sally&quot;, false }] }`
+//
+// Parsers for structs are code-generated to proceed as follows:
+//
+//   1. **Initialization.** The context stores parsing options, a `T::Context`
+//      for each field of type `T`, and a vector called `extra`.
+//
+//      ```rust,ignore
+//      struct Context&lt;&#39;v&gt; {
+//          opts: FormOptions,
+//          field_a: A::Context,
+//          field_b: B::Context,
+//          /* ... */
+//          extra: Vec&lt;FormField&lt;&#39;v&gt;&gt;
+//      }
+//      ```
+//
+//   2. **Push.** The index of the first key is compared to known field names.
+//      If none matches, the index is added to `extra`. Otherwise the key is
+//      stripped from the field, and the remaining field is pushed to `T`.
+//
+//      ```rust,ignore
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//          match field.key() {
+//              &quot;field_a&quot; =&gt; A::push(&amp;mut this.field_a, field.next()),
+//              &quot;field_b&quot; =&gt; B::push(&amp;mut this.field_b, field.next()),
+//              /* ... */
+//              _ =&gt; this.extra.push(field)
+//          }
+//      }
+//      ```
+//
+//   3. **Finalization.** Every context is finalized; errors and `Ok` values
+//      are collected. If parsing is strict and extras is non-empty, an error
+//      added to the collection of errors. If there are no errors, all `Ok`
+//      values are used to create the `struct`, and the created struct is
+//      returned. Otherwise, `Err(errors)` is returned.
+//
+//      ```rust,ignore
+//      fn finalize(mut this: Self::Context) -&gt; Result&lt;Self, Self::Error&gt; {
+//          let mut errors = vec![];
+//
+//          let field_a = A::finalize(&amp;mut this.field_a)
+//             .map_err(|e| errors.push(e))
+//             .map(Some).unwrap_or(None);
+//
+//          let field_b = B::finblize(&amp;mut this.field_b)
+//             .map_err(|e| errors.push(e))
+//             .map(Some).unwrap_or(None);
+//
+//          /* .. */
+//
+//          if !errors.is_empty() {
+//              return Err(Values(errors));
+//          } else if this.opts.is_strict() &amp;&amp; !this.extra.is_empty() {
+//              return Err(Extra(this.extra));
+//          } else {
+//              // NOTE: All unwraps will succeed since `errors.is_empty()`.
+//              Struct {
+//                 field_a: field_a.unwrap(),
+//                 field_b: field_b.unwrap(),
+//                 /* .. */
+//              }
+//          }
+//      }
+//      ```
+//
+// ## Sequences: (`Vec&lt;T: FromForm&gt;`)
+//
+// A `Vec&lt;T: FromForm&gt;` invokes `T`&#39;s push-parser on every push, adding instances
+// of `T` to an internal vector. The instance of `T` whose parser is invoked
+// depends on the index of the first key:
+//
+//   * if it is the first push, the index differs from the previous, or there is no
+//     index, a new `T::Context` is `init`ialized and added to the internal vector
+//   * if the index matches the previously seen index, the last initialized
+//     `T::Context` is `push`ed to.
+//
+// For instance, the sequentially pushed values `=1`, `=2`, and `=3` for a
+// `Vec&lt;usize&gt;` (or any other integer) is expected to parse as `vec![1, 2, 3]`. The
+// same is true for `[]=1&amp;[]=2&amp;[]=3`. In the first example (`=1&amp;..`), the fields
+// passed to `Vec`&#39;s push-parser (`=1`, ..) have no key and thus no index. In the
+// second example (`[]=1&amp;..`), the key is `[]` (`[]=1`) without an index. In both
+// cases, there is no index. The `Vec` parser takes this to mean that a _new_ `T`
+// should be parsed using the field&#39;s value.
+//
+// If, instead, the index was non-empty and equal to the index of the field in the
+// _previous_ push, `Vec` pushes the value to the parser of the previously parsed
+// `T`: `[]=1&amp;[0]=2&amp;[0]=3` results in `vec![1, 2]` and `[0]=1&amp;[0]=2&amp;[]=3` results
+// in `vec![1, 3]` (see [`FromFormValue`]).
+//
+// This generalizes. Consider a `Vec&lt;Vec&lt;usize&gt;&gt;` named `x`, so `x` and an
+// optional `=` are stripped before being passed to `Vec`&#39;s push-parser:
+//
+//   * `x=1&amp;x=2&amp;x=3` parses as `vec![vec![1], vec![2], vec![3]]`
+//
+//     Every push (`1`, `2`, `3`) has no key, thus no index: a new `T` (here,
+//     `Vec&lt;usize&gt;`) is thus initialized for every `push()` and passed the
+//     value (here, `1`, `2`, and `3`). Each of these `push`es proceeds
+//     recursively: every push again has no key, thus no index, so a new `T` is
+//     initialized for every push (now a `usize`), which finally parse as
+//     integers `1`, `2`, and `3`.
+//
+//     Note: `x=1&amp;x=2&amp;x=3` _also_ can also parse as `vec![1, 2, 3]` when viewed
+//     as a `Vec&lt;usize&gt;`; this is the non-self-descriptive part of the format.
+//
+//   * `x[]=1&amp;x[]=2&amp;x[]=3` parses as `vec![vec![1], vec![2], vec![3]]`
+//
+//     This proceeds nearly identically to the previous example, with the exception
+//     that the top-level `Vec` sees the values `[]=1`, `[]=2`, and `[]=3`.
+//
+//   * `x[0]=1&amp;x[0]=2&amp;x[]=3` parses as `vec![vec![1, 2], vec![3]]`
+//
+//     The top-level `Vec` sees the values `[0]=1`, `[0]=2`, and `[]=3`. The first
+//     value results in a new `Vec&lt;usize&gt;` being initialized, as before, which is
+//     pushed a `1`. The second value has the same index as the first, `0`, and so
+//     `2` is pushed to the previous `T`, the `Vec` which contains the `1`.
+//     Finally, the third value has no index, so a new `Vec&lt;usize&gt;` is initialized
+//     and pushed a `3`.
+//
+//   * `x[0]=1&amp;x[0]=2&amp;x[]=3&amp;x[]=4` parses as `vec![vec![1, 2], vec![3], vec![4]]`
+//   * `x[0]=1&amp;x[0]=2&amp;x[1]=3&amp;x[1]=4` parses as `vec![vec![1, 2], vec![3, 4]]`
+//
+// The indexing kind `[]` is purely by convention: the first two examples are
+// equivalent to `x.=1&amp;x.=2`, while the third to `x.0=1&amp;x.0=&amp;x.=3`.
+//
+// The parser proceeds as follows:
+//
+//   1. **Initialization.** The context stores parsing options, the
+//      `last_index` encountered in a `push`, an `Option` of a `T::Context` for
+//      the `current` value being parsed, a `Vec&lt;T::Errors&gt;` of `errors`, and
+//      finally a `Vec&lt;T&gt;` of already parsed `items`.
+//
+//      ```rust,ignore
+//      struct VecContext&lt;&#39;v, T: FromForm&lt;&#39;v&gt;&gt; {
+//          opts: FormOptions,
+//          last_index: Index&lt;&#39;v&gt;,
+//          current: Option&lt;T::Context&gt;,
+//          errors: Vec&lt;T::Error&gt;,
+//          items: Vec&lt;T&gt;
+//      }
+//      ```
+//
+//   2. **Push.** The index of the first key is compared against `last_index`.
+//      If it differs, a new context for `T` is created and the previous is
+//      finalized. The `Ok` result from finalization is stored in `items` and
+//      the `Err` in `errors`. Otherwise the `index` is the same, the `current`
+//      context is retrieved, and the field stripped of the current key is
+//      pushed to `T`. `last_index` is updated.
+//
+//      ```rust,ignore
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//          if this.last_index != field.index() {
+//              this.shift(); // finalize `current`, add to `items`, `errors`
+//              let mut context = T::init(this.opts);
+//              T::push(&amp;mut context, field.next());
+//              this.current = Some(context);
+//          } else {
+//              let context = this.current.as_mut();
+//              T::push(context, field.next())
+//          }
+//
+//          this.last_index = field.index();
+//      }
+//      ```
+//
+//   3. **Finalization.** Any `current` context is finalized, storing the `Ok`
+//      or `Err` as before. `Ok(items)` is returned if `errors` is empty,
+//      otherwise `Err(errors)` is returned.
+//
+//      ```rust,ignore
+//      fn finalize(mut this: Self::Context) -&gt; Result&lt;Self, Self::Error&gt; {
+//          this.shift(); // finalizes `current`, as before.
+//          match this.errors.is_empty() {
+//              true =&gt; Ok(this.items),
+//              false =&gt; Err(this.errors)
+//          }
+//      }
+//      ```
+//
+// ## Arbitrary Maps (`HashMap&lt;K: FromForm, V: FromForm&gt;`)
+//
+// A `HashMap&lt;K, V&gt;` can be parsed from keys with one index or, for composite
+// key values, such as structures or sequences, multiple indices. We begin with
+// a discussion of the simpler case: non-composite keys.
+//
+// ### Non-Composite Keys
+//
+// A non-composite value can be described by a single field with no indices.
+// Strings and integers are examples of non-composite values. The push-parser
+// for `HashMap&lt;K, V&gt;` for a non-composite `K` uses the index of the first key
+// as the value of `K`; the remainder of the field is pushed to `V`&#39;s parser:
+//
+//   1. **Initialization.** The context stores a column-based representation of
+//      `keys` and `values`, a `key_map` from a string key to the column index,
+//      an `errors` vector for storing errors as they arise, and the parsing
+//      options.
+//
+//      ```rust,ignore
+//      struct MapContext&lt;&#39;v, K: FromForm&lt;&#39;v&gt;, V: FromForm&lt;&#39;v&gt;&gt; {
+//          opts: FormOptions,
+//          key_map: HashMap&lt;&amp;&#39;v str, usize&gt;,
+//          keys: Vec&lt;K::Context&gt;,
+//          values: Vec&lt;V::Context&gt;,
+//          errors: Vec&lt;MapError&lt;&#39;v, K::Error, V::Error&gt;&gt;,
+//      }
+//      ```
+//
+//   2. **Push.** The `key_map` index for the key associated with the index of
+//      the first key in the field is retrieved. If such a key has not yet been
+//      seen, a new key and value context are created, the key is pushed to
+//      `K`&#39;s parser, and the field minus the first key is pushed to `V`&#39;s
+//      parser.
+//
+//      ```rust,ignore
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//          let key = field.index();
+//          let value_context = match this.key_map.get(Key) {
+//              Some(i) =&gt; &amp;mut this.values[i],
+//              None =&gt; {
+//                  let i = this.keys.len();
+//                  this.key_map.insert(key, i);
+//                  this.keys.push(K::init(this.opts));
+//                  this.values.push(V::init(this.opts));
+//                  K::push(&amp;mut this.keys[i], key.into());
+//                  &amp;mut this.values[i]
+//              }
+//          };
+//
+//          V::push(value_context, field.next());
+//      }
+//      ```
+//
+//   3. **Finalization.** All key and value contexts are finalized; any errors
+//      are collected in `errors`. If there are no errors, `keys` and `values`
+//      are collected into a `HashMap` and returned. Otherwise, the errors are
+//      returned.
+//
+//      ```rust,ignore
+//      fn finalize(mut this: Self::Context) -&gt; Result&lt;Self, Self::Error&gt; {
+//          this.finalize_keys();
+//          this.finalize_values();
+//          if this.errors.is_empty() {
+//              Ok(this.keys.into_iter().zip(this.values.into_iter()).collect())
+//          } else {
+//              Err(this.errors)
+//          }
+//      }
+//      ```
+//
+// Examples of forms parseable via this parser are:
+//
+//   * `x[0].name=Bob&amp;x[0].meows=true`as a `HashMap&lt;usize, Cat&gt;` parses with
+//     `0` mapping to `Cat { name: &quot;Bob&quot;, meows: true }`
+//   * `x[0]name=Bob&amp;x[0]meows=true`as a `HashMap&lt;usize, Cat&gt;` parses just as
+//      above.
+//   * `x[0]=Bob&amp;x[0]=Sally&amp;x[1]=Craig`as a `HashMap&lt;usize, Vec&lt;String&gt;&gt;`
+//      just as `{ 0 =&gt; vec![&quot;Bob&quot;, &quot;Sally&quot;], 1 =&gt; vec![&quot;Craig&quot;] }`.
+//
+// A `HashMap&lt;K, V&gt;` can be thought of as a vector of key-value pairs: `Vec&lt;(K,
+// V)` (row-based) or equivalently, as two vectors of keys and values: `Vec&lt;K&gt;`
+// and `Vec&lt;V&gt;` (column-based). The implication is that indexing into a
+// specific key or value requires _two_ indexes: the first to determine whether
+// a key or value is being indexed to, and the second to determine _which_ key
+// or value. The push-parser for maps thus optionally accepts two indexes for a
+// single key to allow piece-by-piece build-up of arbitrary keys and values.
+//
+// The parser proceeds as follows:
+//
+//   1. **Initialization.** The context stores parsing options, a vector of
+//      `key_contexts: Vec&lt;K::Context&gt;`, a vector of `value_contexts:
+//      Vec&lt;V::Context&gt;`, a `mapping` from a string index to an integer index
+//      into the `contexts`, and a vector of `errors`.
+//   2. **Push.** An index is required; an error is emitted and `push` returns
+//      if they field&#39;s first key does not contain an index. If the first key
+//      contains _one_ index, a new `K::Context` and `V::Context` are created.
+//      The key is pushed as the value to `K` and the remaining field as the
+//      value to `V`. The key and value are finalized; if both succeed, the key
+//      and value are stored in `keys` and `values`; otherwise the error(s) is
+//      stored in `errors`.
+//
+//      If the first keys contains _two_ indices, the first must starts with
+//      `k` or `v`, while the `second` is arbitrary. `mapping` is indexed by
+//      `second`; the integer is retrieved. If none exists, new contexts are
+//      created an added to `{key,value}_contexts`, and their index is mapped
+//      to `second` in `mapping`. If the first index is `k`, the field,
+//      stripped of the first key, is pushed to the key&#39;s context; the same is
+//      done for the value&#39;s context is the first index is `v`.
+//   3. **Finalization.** Every context is finalized; errors and `Ok` values
+//      are collected. TODO: FINISH. Split this into two: one for single-index,
+//      another for two-indices.
+
+</span><span class="kw">mod </span>field;
+<span class="kw">mod </span>options;
+<span class="kw">mod </span>from_form;
+<span class="kw">mod </span>from_form_field;
+<span class="kw">mod </span>form;
+<span class="kw">mod </span>context;
+<span class="kw">mod </span>strict;
+<span class="kw">mod </span>lenient;
+<span class="kw">mod </span>parser;
+<span class="kw">mod </span>buffer;
+<span class="kw">pub mod </span>validate;
+<span class="kw">pub mod </span>name;
+<span class="kw">pub mod </span>error;
+
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests;
+
+<span class="doccomment">/// Type alias for `Result` with an error type of [`Errors`].
+</span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt; = std::result::Result&lt;T, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt;;
+
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span>rocket_codegen::{FromForm, FromFormField};
+
+<span class="attribute">#[doc(inline)]
+</span><span class="kw">pub use </span><span class="self">self</span>::error::{Errors, Error};
+
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span><span class="self">self</span>::buffer::{SharedStack, Shareable};
+
+<span class="kw">pub use </span>field::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>options::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>from_form_field::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>from_form::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>form::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>context::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>strict::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>lenient::<span class="kw-2">*</span>;
+
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>prelude {
+    <span class="kw">pub use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">pub use </span><span class="kw">super</span>::name::<span class="kw-2">*</span>;
+    <span class="kw">pub use </span><span class="kw">super</span>::error::<span class="kw-2">*</span>;
+}
+</code></pre></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="rocket" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (02654a084 2022-08-30)" ></div></body></html>
