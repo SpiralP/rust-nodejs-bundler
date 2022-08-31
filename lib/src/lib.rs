@@ -38,22 +38,24 @@ impl NodeJsBundle {
 
     #[cfg(feature = "actix")]
     pub fn as_actix_route(&'static self) -> actix_web::Route {
+        use std::future;
+
         use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
 
-        web::get().to(move |req: HttpRequest| -> HttpResponse {
+        web::get().to(|req: HttpRequest| -> future::Ready<HttpResponse> {
             let file_path = req.path();
 
-            if let Some(bytes) = self.get_file(file_path) {
+            future::ready(if let Some(bytes) = self.get_file(file_path) {
                 let mut builder = HttpResponse::Ok();
 
                 if let Some(content_type) = Self::get_content_type(file_path) {
-                    builder.set(ContentType(content_type.parse().unwrap()));
+                    builder.content_type(ContentType(content_type.parse().unwrap()));
                 }
 
                 builder.body(bytes)
             } else {
                 HttpResponse::NotFound().finish()
-            }
+            })
         })
     }
 
