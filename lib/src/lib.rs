@@ -37,12 +37,14 @@ impl NodeJsBundle {
     }
 
     #[cfg(feature = "actix")]
-    pub fn as_actix_route(&'static self) -> actix_web::Route {
+    pub fn as_actix_handler(
+        &'static self,
+    ) -> impl actix_web::Handler<(actix_web::HttpRequest,), Output = actix_web::HttpResponse> {
         use std::future;
 
-        use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
+        use actix_web::{http::header::ContentType, HttpRequest, HttpResponse};
 
-        web::get().to(|req: HttpRequest| -> future::Ready<HttpResponse> {
+        |req: HttpRequest| -> future::Ready<HttpResponse> {
             let file_path = req.path();
 
             future::ready(if let Some(bytes) = self.get_file(file_path) {
@@ -56,7 +58,23 @@ impl NodeJsBundle {
             } else {
                 HttpResponse::NotFound().finish()
             })
-        })
+        }
+    }
+
+    #[cfg(feature = "actix")]
+    pub fn as_actix_route(&'static self) -> actix_web::Route {
+        use actix_web::web;
+
+        web::get().to(self.as_actix_handler())
+    }
+
+    #[cfg(feature = "actix")]
+    pub fn as_actix_resource(&'static self) -> actix_web::Resource {
+        use actix_web::Resource;
+
+        Resource::new("/{path}*")
+            .name(env!("CARGO_PKG_NAME"))
+            .to(self.as_actix_handler())
     }
 
     #[cfg(feature = "warp")]
