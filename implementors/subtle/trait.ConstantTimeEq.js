@@ -1,5 +1,4 @@
 (function() {var implementors = {
 "digest":[["impl&lt;T:&nbsp;<a class=\"trait\" href=\"digest/trait.OutputSizeUser.html\" title=\"trait digest::OutputSizeUser\">OutputSizeUser</a>&gt; <a class=\"trait\" href=\"subtle/trait.ConstantTimeEq.html\" title=\"trait subtle::ConstantTimeEq\">ConstantTimeEq</a> for <a class=\"struct\" href=\"digest/struct.CtOutput.html\" title=\"struct digest::CtOutput\">CtOutput</a>&lt;T&gt;"]],
-"subtle":[],
-"universal_hash":[["impl&lt;U&gt; <a class=\"trait\" href=\"subtle/trait.ConstantTimeEq.html\" title=\"trait subtle::ConstantTimeEq\">ConstantTimeEq</a> for <a class=\"struct\" href=\"universal_hash/struct.Output.html\" title=\"struct universal_hash::Output\">Output</a>&lt;U&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class=\"trait\" href=\"universal_hash/trait.UniversalHash.html\" title=\"trait universal_hash::UniversalHash\">UniversalHash</a>,&nbsp;</span>"]]
+"subtle":[]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
