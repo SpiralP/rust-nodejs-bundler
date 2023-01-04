@@ -1,3 +1,5 @@
+mod utils;
+
 use std::{
     env, fs,
     fs::File,
@@ -8,23 +10,32 @@ use std::{
 
 use walkdir::WalkDir;
 
-fn check_command(command: &mut Command) -> bool {
-    command.status().unwrap().success()
+use crate::utils::{is_dir, is_file, rerun_if_changed, run};
+
+pub enum PackageManager {
+    Npm,
+    Yarn,
 }
 
-fn run(cmd: &str) -> bool {
-    if cfg!(target_os = "windows") {
-        check_command(Command::new("cmd").arg("/C").arg(cmd))
-    } else {
-        check_command(Command::new("sh").arg("-c").arg(cmd))
+impl PackageManager {
+    fn install(&self) -> bool {
+        match self {
+            Self::Npm => run(Command::new("npm").arg("install")),
+            Self::Yarn => run(Command::new("yarn").arg("install")),
+        }
     }
-}
 
-fn run_envs(cmd: &str, envs: Vec<(&str, &str)>) -> bool {
-    if cfg!(target_os = "windows") {
-        check_command(Command::new("cmd").arg("/C").arg(cmd).envs(envs))
-    } else {
-        check_command(Command::new("sh").arg("-c").arg(cmd).envs(envs))
+    fn run_script(&self, script_name: &str, node_env: &str) -> bool {
+        match self {
+            Self::Npm => run(Command::new("npm")
+                .arg("run-script")
+                .arg(script_name)
+                .env("NODE_ENV", node_env)),
+            Self::Yarn => run(Command::new("yarn")
+                .arg("run")
+                .arg(script_name)
+                .env("NODE_ENV", node_env)),
+        }
     }
 }
 
@@ -46,8 +57,8 @@ pub struct Builder {
 
     /// use npm instead of yarn
     ///
-    /// default `false`
-    pub npm: bool,
+    /// default `None`
+    pub package_manager: Option<PackageManager>,
 
     /// delete dist folder before building
     ///
@@ -57,12 +68,12 @@ pub struct Builder {
     /// package.json script name for when building debug
     ///
     /// default `"build"`
-    pub script_dev: String,
+    pub script_debug: String,
 
     /// package.json script name for when building release
     ///
     /// default `"build"`
-    pub script_prod: String,
+    pub script_release: String,
 }
 
 impl Default for Builder {
@@ -71,10 +82,10 @@ impl Default for Builder {
             current_dir: None,
             src_dir: "web".into(),
             dist_dir: "dist".into(),
-            npm: false,
+            package_manager: None,
             clean_dist: false,
-            script_dev: "build".into(),
-            script_prod: "build".into(),
+            script_debug: "build".into(),
+            script_release: "build".into(),
         }
     }
 }
@@ -86,82 +97,52 @@ impl Builder {
 
         let src_dir = &self.src_dir;
         let dist_dir = &self.dist_dir;
-        let yarn = !self.npm;
 
-        if let Some(current_dir) = &self.current_dir {
+        let current_dir = if let Some(current_dir) = &self.current_dir {
             env::set_current_dir(current_dir).expect("changing directory to current_dir");
+            current_dir
+        } else {
+            &last_current_dir
+        };
+
+        rerun_if_changed(current_dir.join("package.json"));
+        assert!(is_file("package.json"), "package.json not found");
+
+        rerun_if_changed(current_dir.join(src_dir));
+        assert!(is_dir(src_dir), "web directory not found");
+
+        rerun_if_changed(current_dir.join("package-lock.json"));
+        rerun_if_changed(current_dir.join("yarn.lock"));
+
+        let package_manager = self.package_manager.unwrap_or_else(|| {
+            if is_file("package-lock.json") {
+                PackageManager::Npm
+            } else if is_file("yarn.lock") {
+                PackageManager::Yarn
+            } else {
+                panic!("Couldn't autodetect package manager since no lock file was found!");
+            }
+        });
+
+        // if no node_modules, run npm install
+        if !is_dir("node_modules") {
+            assert!(package_manager.install());
         }
 
-        println!(
-            "cargo:rerun-if-changed={}",
-            self.current_dir
-                .clone()
-                .unwrap_or_default()
-                .join("package.json")
-                .display()
-        );
-        assert!(
-            fs::metadata("package.json")
-                .map(|meta| meta.is_file())
-                .unwrap_or(false),
-            "package.json not found"
-        );
-
-        println!(
-            "cargo:rerun-if-changed={}",
-            self.current_dir.unwrap_or_default().join(src_dir).display()
-        );
-        assert!(
-            fs::metadata(src_dir)
-                .map(|meta| meta.is_dir())
-                .unwrap_or(false),
-            "web directory not found"
-        );
-
-        if !out_dir.contains("rls") {
-            // if no node_modules, run npm install
-            if fs::metadata("node_modules").is_err() {
-                if yarn {
-                    assert!(run("yarn install"));
-                } else {
-                    assert!(run("npm install"));
-                }
-            }
-
-            if self.clean_dist {
-                let _ = fs::remove_dir_all(dist_dir);
-            }
-
-            let node_env = if cfg!(debug_assertions) {
-                "development"
-            } else {
-                "production"
-            };
-
-            let script_name = if cfg!(debug_assertions) {
-                self.script_dev
-            } else {
-                self.script_prod
-            };
-
-            if yarn {
-                assert!(run_envs(
-                    &format!("yarn run {script_name}"),
-                    vec![("NODE_ENV", node_env)]
-                ));
-            } else {
-                assert!(run_envs(
-                    &format!("npm run-script {script_name}"),
-                    vec![("NODE_ENV", node_env)]
-                ));
-            }
+        if self.clean_dist {
+            let _ = fs::remove_dir_all(dist_dir);
         }
 
+        let (script_name, node_env) = if cfg!(debug_assertions) {
+            (&self.script_debug, "development")
+        } else {
+            (&self.script_release, "production")
+        };
+        assert!(package_manager.run_script(script_name, node_env));
+
         assert!(
-            fs::metadata(dist_dir)
-                .map(|meta| meta.is_dir())
-                .unwrap_or(false),
-            "dist directory wasn't created"
+            is_dir(dist_dir),
+            "dist directory wasn't created after running build script"
         );
 
         let path = Path::new(&out_dir).join("nodejs_bundle.rs");

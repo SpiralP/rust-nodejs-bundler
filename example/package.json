@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "cd web && esbuild ./src/index.ts --outfile=./dist/index.js --bundle --sourcemap --target=chrome94",
-    "build:prod": "yarn build --minify"
+    "build:prod": "npm run build --minify"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
