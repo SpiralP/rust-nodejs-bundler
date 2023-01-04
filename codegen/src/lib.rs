@@ -112,7 +112,7 @@ impl Builder {
             self.current_dir.unwrap_or_default().join(src_dir).display()
         );
         assert!(
-            fs::metadata(&src_dir)
+            fs::metadata(src_dir)
                 .map(|meta| meta.is_dir())
                 .unwrap_or(false),
             "web directory not found"
@@ -129,7 +129,7 @@ impl Builder {
             }
 
             if self.clean_dist {
-                let _ = fs::remove_dir_all(&dist_dir);
+                let _ = fs::remove_dir_all(dist_dir);
             }
 
             let node_env = if cfg!(debug_assertions) {
@@ -146,19 +146,19 @@ impl Builder {
 
             if yarn {
                 assert!(run_envs(
-                    &format!("yarn run {}", script_name),
+                    &format!("yarn run {script_name}"),
                     vec![("NODE_ENV", node_env)]
                 ));
             } else {
                 assert!(run_envs(
-                    &format!("npm run-script {}", script_name),
+                    &format!("npm run-script {script_name}"),
                     vec![("NODE_ENV", node_env)]
                 ));
             }
         }
 
         assert!(
-            fs::metadata(&dist_dir)
+            fs::metadata(dist_dir)
                 .map(|meta| meta.is_dir())
                 .unwrap_or(false),
             "dist directory wasn't created"
@@ -170,7 +170,7 @@ impl Builder {
         let mut phf = phf_codegen::Map::new();
         phf.phf_path("::nodejs_bundler::phf");
 
-        let paths: Vec<_> = WalkDir::new(&dist_dir)
+        let paths: Vec<_> = WalkDir::new(dist_dir)
             .into_iter()
             .filter_map(|entry| match entry {
                 Ok(entry) if entry.file_type().is_file() => {
@@ -205,7 +205,7 @@ impl Builder {
             let relative_path = relative_path.as_str();
             phf.entry(
                 relative_path,
-                &format!("include_bytes!({:?}) as &'static [u8]", encoded_path),
+                &format!("include_bytes!({encoded_path:?}) as &'static [u8]"),
             );
         }
 

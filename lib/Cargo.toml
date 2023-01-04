@@ -12,4 +12,4 @@ actix-web = { version = "4", optional = true }
 phf = "0.11"
 rocket = { version = "0.5.0-rc.2", optional = true }
 warp = { version = "0.3", optional = true }
-zstd = "0.11"
+zstd = "0.12"
