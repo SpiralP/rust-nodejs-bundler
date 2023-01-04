@@ -16,6 +16,13 @@ pub fn run(command: &mut Command) -> bool {
     command.status().unwrap().success()
 }
 
+pub fn command(program: &str) -> Command {
+    #[cfg(target_os = "windows")]
+    let program = format!("{program}.cmd");
+
+    Command::new(program)
+}
+
 pub fn rerun_if_changed<P: AsRef<Path>>(path: P) {
     println!("cargo:rerun-if-changed={}", path.as_ref().display());
 }

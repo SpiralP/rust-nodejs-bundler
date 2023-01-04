@@ -5,12 +5,11 @@ use std::{
     fs::File,
     io::Write,
     path::{Path, PathBuf},
-    process::Command,
 };
 
 use walkdir::WalkDir;
 
-use crate::utils::{is_dir, is_file, rerun_if_changed, run};
+use crate::utils::{command, is_dir, is_file, rerun_if_changed, run};
 
 pub enum PackageManager {
     Npm,
@@ -20,18 +19,18 @@ pub enum PackageManager {
 impl PackageManager {
     fn install(&self) -> bool {
         match self {
-            Self::Npm => run(Command::new("npm").arg("install")),
-            Self::Yarn => run(Command::new("yarn").arg("install")),
+            Self::Npm => run(command("npm").arg("install")),
+            Self::Yarn => run(command("yarn").arg("install")),
         }
     }
 
     fn run_script(&self, script_name: &str, node_env: &str) -> bool {
         match self {
-            Self::Npm => run(Command::new("npm")
+            Self::Npm => run(command("npm")
                 .arg("run-script")
                 .arg(script_name)
                 .env("NODE_ENV", node_env)),
-            Self::Yarn => run(Command::new("yarn")
+            Self::Yarn => run(command("yarn")
                 .arg("run")
                 .arg(script_name)
                 .env("NODE_ENV", node_env)),
