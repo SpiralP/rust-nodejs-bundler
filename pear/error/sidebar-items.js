@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["Expected",""]],"struct":[["ErrorInfo",""],["ParseError",""]]};
+window.SIDEBAR_ITEMS = {"enum":["Expected"],"struct":["ErrorInfo","ParseError"]};

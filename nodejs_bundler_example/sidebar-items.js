@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["main",""]],"static":[["NODEJS_BUNDLE",""]]};
+window.SIDEBAR_ITEMS = {"fn":["main"],"static":["NODEJS_BUNDLE"]};

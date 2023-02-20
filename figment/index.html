@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Semi-hierarchical configuration so con-free, it’s unreal."><meta name="keywords" content="rust, rustlang, rust-lang, figment"><title>figment - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-94f503864730768f.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-4a084badb5778746.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../figment/index.html"><div class="logo-container"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></div></a><h2></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../figment/index.html"><div class="logo-container"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate figment</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 0.10.8</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn">Crate <a class="mod" href="#">figment</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/figment/lib.rs.html#1-586">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Semi-hierarchical configuration so con-free, it’s unreal.</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Semi-hierarchical configuration so con-free, it’s unreal."><title>figment - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../static.files/ayu-18b4181a2f3fb862.css"><script src="../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../figment/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../figment/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Crate figment</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 0.10.8</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">figment</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/figment/lib.rs.html#1-586">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Semi-hierarchical configuration so con-free, it’s unreal.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>serde::Deserialize;
 <span class="kw">use </span>figment::{Figment, providers::{Format, Toml, Json, Env}};
@@ -37,7 +37,7 @@ they enable.</li>
 <li><a href="#available-providers">Available Providers</a> - Table of providers
 provided by this and other crates.</li>
 <li><a href="#for-provider-authors">For <code>Provider</code> Authors</a> - Tips for writing
-<a href="trait.Provider.html" title="Provider"><code>Provider</code></a>s.</li>
+<a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>s.</li>
 <li><a href="#for-library-authors">For Library Authors</a> - Brief guide for authors
 wishing to use Figment in their libraries or frameworks.</li>
 <li><a href="#for-application-authors">For Application Authors</a> - Brief guide for
@@ -57,15 +57,15 @@ This means that error values and messages are precise and know exactly where
 and how misconfiguration arose.</p>
 <p>There are two prevailing concepts:</p>
 <ul>
-<li><strong>Providers:</strong> Types implementing the <a href="trait.Provider.html" title="Provider"><code>Provider</code></a> trait, which
+<li><strong>Providers:</strong> Types implementing the <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a> trait, which
 implement a configuration source.</li>
-<li><strong>Figments:</strong> The <a href="struct.Figment.html" title="Figment"><code>Figment</code></a> type, which combines providers via
-<a href="struct.Figment.html#method.merge"><code>merge</code></a> or <a href="struct.Figment.html#method.join"><code>join</code></a> and allows
-typed <a href="struct.Figment.html#method.extract"><code>extraction</code></a>. Figments are also providers
+<li><strong>Figments:</strong> The <a href="struct.Figment.html" title="struct figment::Figment"><code>Figment</code></a> type, which combines providers via
+<a href="struct.Figment.html#method.merge" title="associated function figment::Figment::merge"><code>merge</code></a> or <a href="struct.Figment.html#method.join" title="associated function figment::Figment::join"><code>join</code></a> and allows
+typed <a href="struct.Figment.html#method.extract" title="associated function figment::Figment::extract"><code>extraction</code></a>. Figments are also providers
 themselves.</li>
 </ul>
 <p>Defining a configuration consists of constructing a <code>Figment</code> and merging or
-joining any number of <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>s. Values for duplicate keys from a
+joining any number of <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>s. Values for duplicate keys from a
 <em>merged</em> provider replace those from previous providers, while no
 replacement occurs for <em>joined</em> providers. Sources are read eagerly,
 immediately upon merging and joining.</p>
@@ -87,8 +87,8 @@ values) with values from <code>App.json</code>:</p>
     .merge(Toml::file(<span class="string">&quot;App.toml&quot;</span>))
     .merge(Env::prefixed(<span class="string">&quot;APP_&quot;</span>))
     .join(Json::file(<span class="string">&quot;App.json&quot;</span>));</code></pre></div>
-<p>Values can be <a href="struct.Figment.html#method.extract"><code>extracted</code></a> into any value that
-implements <a href="../serde/de/trait.Deserialize.html"><code>Deserialize</code></a>. The [<code>Jail</code>] type allows for
+<p>Values can be <a href="struct.Figment.html#method.extract" title="associated function figment::Figment::extract"><code>extracted</code></a> into any value that
+implements <a href="../serde/de/trait.Deserialize.html" title="trait serde::de::Deserialize"><code>Deserialize</code></a>. The [<code>Jail</code>] type allows for
 semi-sandboxed configuration testing. The example below showcases
 extraction and testing:</p>
 
@@ -136,33 +136,33 @@ figment::Jail::expect_with(|jail| {
 <h2 id="metadata"><a href="#metadata">Metadata</a></h2>
 <p>Figment takes <em>great</em> care to propagate as much information as possible
 about configuration sources. All values extracted from a figment are
-<a href="value/struct.Tag.html">tagged</a> with the originating <a href="struct.Metadata.html" title="Metadata"><code>Metadata</code></a> and
-<a href="struct.Profile.html" title="Profile"><code>Profile</code></a>. The tag is preserved across merges, joins, and errors, which
-also include the <a href="struct.Error.html#structfield.path"><code>path</code></a> of the offending key. Precise
-tracking allows for rich error messages as well as <a href="value/magic/index.html">“magic”</a> values like
-<a href="value/magic/struct.RelativePathBuf.html"><code>RelativePathBuf</code></a>, which automatically creates a path relative to the
+<a href="value/struct.Tag.html" title="struct figment::value::Tag">tagged</a> with the originating <a href="struct.Metadata.html" title="struct figment::Metadata"><code>Metadata</code></a> and
+<a href="struct.Profile.html" title="struct figment::Profile"><code>Profile</code></a>. The tag is preserved across merges, joins, and errors, which
+also include the <a href="struct.Error.html#structfield.path" title="field figment::Error::path"><code>path</code></a> of the offending key. Precise
+tracking allows for rich error messages as well as <a href="value/magic/index.html" title="mod figment::value::magic">“magic”</a> values like
+<a href="value/magic/struct.RelativePathBuf.html" title="struct figment::value::magic::RelativePathBuf"><code>RelativePathBuf</code></a>, which automatically creates a path relative to the
 configuration file in which it was declared.</p>
-<p>A <a href="struct.Metadata.html" title="Metadata"><code>Metadata</code></a> consists of:</p>
+<p>A <a href="struct.Metadata.html" title="struct figment::Metadata"><code>Metadata</code></a> consists of:</p>
 <ul>
 <li>The name of the configuration source.</li>
-<li>An <a href="struct.Metadata.html#method.interpolate">“interpolater”</a> that takes a path to a key
+<li>An <a href="struct.Metadata.html#method.interpolate" title="associated function figment::Metadata::interpolate">“interpolater”</a> that takes a path to a key
 and converts it into a provider-native key.</li>
-<li>A <a href="enum.Source.html" title="Source"><code>Source</code></a> specifying where the value was sourced from.</li>
-<li>A code source <a href="https://doc.rust-lang.org/nightly/core/panic/location/struct.Location.html"><code>Location</code></a> where the value’s provider was added to a
-<a href="struct.Figment.html" title="Figment"><code>Figment</code></a>.</li>
+<li>A <a href="enum.Source.html" title="enum figment::Source"><code>Source</code></a> specifying where the value was sourced from.</li>
+<li>A code source <a href="https://doc.rust-lang.org/nightly/core/panic/location/struct.Location.html" title="struct core::panic::location::Location"><code>Location</code></a> where the value’s provider was added to a
+<a href="struct.Figment.html" title="struct figment::Figment"><code>Figment</code></a>.</li>
 </ul>
-<p>Along with the information in an <a href="struct.Error.html" title="Error"><code>Error</code></a>, this means figment can produce
+<p>Along with the information in an <a href="struct.Error.html" title="struct figment::Error"><code>Error</code></a>, this means figment can produce
 rich error values and messages:</p>
 <div class="example-wrap"><pre class="language-text"><code>error: invalid type: found string &quot;hi&quot;, expected u16
  --&gt; key `debug.port` in TOML file App.toml
 </code></pre></div><h2 id="extracting-and-profiles"><a href="#extracting-and-profiles">Extracting and Profiles</a></h2>
-<p>Providers <em>always</em> <a href="trait.Provider.html#tymethod.data">produce</a> <a href="value/type.Dict.html"><code>Dict</code></a>s nested
-in <a href="struct.Profile.html" title="Profile"><code>Profile</code></a>s. A profile is <a href="struct.Figment.html#method.select"><code>selected</code></a> when
+<p>Providers <em>always</em> <a href="trait.Provider.html#tymethod.data" title="associated function figment::Provider::data">produce</a> <a href="value/type.Dict.html" title="type figment::value::Dict"><code>Dict</code></a>s nested
+in <a href="struct.Profile.html" title="struct figment::Profile"><code>Profile</code></a>s. A profile is <a href="struct.Figment.html#method.select" title="associated function figment::Figment::select"><code>selected</code></a> when
 extracting, and the dictionary corresponding to that profile is deserialized
 into the requested type. If no profile is selected, the
-<a href="struct.Profile.html#associatedconstant.Default"><code>Default</code></a> profile is used.</p>
+<a href="struct.Profile.html#associatedconstant.Default" title="associated constant figment::Profile::Default"><code>Default</code></a> profile is used.</p>
 <p>There are two built-in profiles: the aforementioned default profile and the
-<a href="struct.Profile.html#associatedconstant.Global"><code>Global</code></a> profile. As the name implies, the default
+<a href="struct.Profile.html#associatedconstant.Global" title="associated constant figment::Profile::Global"><code>Global</code></a> profile. As the name implies, the default
 profile contains default values for all profiles. The global profile <em>also</em>
 contains values that correspond to all profiles, but those values supersede
 values of any other profile <em>except</em> the global profile, even when another
@@ -249,19 +249,19 @@ figment::Jail::expect_with(|jail| {
 features. They are:</p>
 <div><table><thead><tr><th>feature</th><th>gated namespace</th><th>description</th></tr></thead><tbody>
 <tr><td><code>test</code></td><td>[<code>Jail</code>]</td><td>Semi-sandboxed environment for testing.</td></tr>
-<tr><td><code>env</code></td><td><a href="providers/struct.Env.html" title="providers::Env"><code>providers::Env</code></a></td><td>Environment variable <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</td></tr>
-<tr><td><code>toml</code></td><td><a href="providers/struct.Toml.html" title="providers::Toml"><code>providers::Toml</code></a></td><td>TOML file/string <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</td></tr>
-<tr><td><code>json</code></td><td>[<code>providers::Json</code>]</td><td>JSON file/string <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</td></tr>
-<tr><td><code>yaml</code></td><td>[<code>providers::Yaml</code>]</td><td>YAML file/string <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</td></tr>
-<tr><td><code>yaml</code></td><td>[<code>providers::YamlExtended</code>]</td><td><a href="providers::YamlExtended::from_str()">YAML Extended</a> file/string <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</td></tr>
+<tr><td><code>env</code></td><td><a href="providers/struct.Env.html" title="struct figment::providers::Env"><code>providers::Env</code></a></td><td>Environment variable <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</td></tr>
+<tr><td><code>toml</code></td><td><a href="providers/struct.Toml.html" title="struct figment::providers::Toml"><code>providers::Toml</code></a></td><td>TOML file/string <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</td></tr>
+<tr><td><code>json</code></td><td>[<code>providers::Json</code>]</td><td>JSON file/string <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</td></tr>
+<tr><td><code>yaml</code></td><td>[<code>providers::Yaml</code>]</td><td>YAML file/string <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</td></tr>
+<tr><td><code>yaml</code></td><td>[<code>providers::YamlExtended</code>]</td><td><a href="providers::YamlExtended::from_str()">YAML Extended</a> file/string <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</td></tr>
 </tbody></table>
 </div><h2 id="available-providers"><a href="#available-providers">Available Providers</a></h2>
 <p>In addition to the four gated providers above, figment provides the
 following providers out-of-the-box:</p>
 <div><table><thead><tr><th>provider</th><th>description</th></tr></thead><tbody>
-<tr><td><a href="providers/struct.Serialized.html" title="providers::Serialized"><code>providers::Serialized</code></a></td><td>Source from any <a href="../serde/ser/trait.Serialize.html"><code>Serialize</code></a> type.</td></tr>
-<tr><td><a href="trait.Provider.html#impl-Provider-for-(K%2C%20V)"><code>(impl AsRef&lt;str&gt;, impl Serialize)</code></a></td><td>Global source from a <code>(&quot;key&quot;, value)</code>.</td></tr>
-<tr><td><a href="trait.Provider.html#impl-Provider-for-%26%27_%20T"><code>&amp;T</code> <em>where</em> <code>T: Provider</code></a></td><td>Source from <code>T</code> as a reference.</td></tr>
+<tr><td><a href="providers/struct.Serialized.html" title="struct figment::providers::Serialized"><code>providers::Serialized</code></a></td><td>Source from any <a href="../serde/ser/trait.Serialize.html" title="trait serde::ser::Serialize"><code>Serialize</code></a> type.</td></tr>
+<tr><td><a href="trait.Provider.html#impl-Provider-for-(K%2C%20V)" title="trait figment::Provider"><code>(impl AsRef&lt;str&gt;, impl Serialize)</code></a></td><td>Global source from a <code>(&quot;key&quot;, value)</code>.</td></tr>
+<tr><td><a href="trait.Provider.html#impl-Provider-for-%26%27_%20T" title="trait figment::Provider"><code>&amp;T</code> <em>where</em> <code>T: Provider</code></a></td><td>Source from <code>T</code> as a reference.</td></tr>
 </tbody></table>
 </div><h4 id="third-party-providers"><a href="#third-party-providers">Third-Party Providers</a></h4>
 <p>The following external libraries implement Figment providers:</p>
@@ -274,8 +274,8 @@ contents of the file whose path is the original key’s value.</p>
 </li>
 </ul>
 <h2 id="for-provider-authors"><a href="#for-provider-authors">For Provider Authors</a></h2>
-<p>The <a href="trait.Provider.html" title="Provider"><code>Provider</code></a> trait documentation details extensively how to implement a
-provider for Figment. For data format based providers, the <a href="providers/trait.Format.html"><code>Format</code></a> trait
+<p>The <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a> trait documentation details extensively how to implement a
+provider for Figment. For data format based providers, the <a href="providers/trait.Format.html" title="trait figment::providers::Format"><code>Format</code></a> trait
 allows for even simpler implementations.</p>
 <h2 id="for-library-authors"><a href="#for-library-authors">For Library Authors</a></h2>
 <p>For libraries and frameworks that wish to expose customizable configuration,
@@ -331,8 +331,8 @@ we encourage the following structure:</p>
 <ul>
 <li>The library provides a <code>Config</code> structure that clearly indicates which
 values the library requires.</li>
-<li>Users can completely customize configuration via their own <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>.</li>
-<li>The library’s <code>Config</code> is itself a <a href="trait.Provider.html" title="Provider"><code>Provider</code></a> for composability.</li>
+<li>Users can completely customize configuration via their own <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>.</li>
+<li>The library’s <code>Config</code> is itself a <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a> for composability.</li>
 <li>The library provides a <code>Figment</code> which it will use as the default
 configuration provider.</li>
 </ul>
@@ -372,7 +372,7 @@ decisions:</p>
 <li>Whether you’ll use profiles or not.</li>
 </ol>
 <p>For special sources, you may find yourself needing to implement a custom
-<a href="trait.Provider.html" title="Provider"><code>Provider</code></a>. As with libraries, you’ll likely want to provide default
+<a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>. As with libraries, you’ll likely want to provide default
 values where possible either by providing it to the figment or by using
 <a href="https://serde.rs/attr-default.html">serde’s defaults</a>. Then, it’s simply a
 matter of declaring a figment and extracting the configuration from it.</p>
@@ -433,7 +433,7 @@ configuration structure defined:</p>
 struct Config {
 </code></pre></div>
 <p>It can then be combined with other sources via the
-<a href="providers/struct.Serialized.html"><code>Serialized</code></a> provider:</p>
+<a href="providers/struct.Serialized.html" title="struct figment::providers::Serialized"><code>Serialized</code></a> provider:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>clap::Parser;
 <span class="kw">use </span>figment::{Figment, providers::{Serialized, Toml, Env, Format}};
@@ -458,15 +458,15 @@ guidance on using Figment for application configuration.</p>
 <ul>
 <li>Merging and joining are <em>eager</em>: sources are read immediately. It’s
 useful to define a function that returns a <code>Figment</code>.</li>
-<li>The <a href="util/index.html" title="util"><code>util</code></a> modules contains helpful serialize and deserialize
+<li>The <a href="util/index.html" title="mod figment::util"><code>util</code></a> modules contains helpful serialize and deserialize
 implementations for defining <code>Config</code> structures.</li>
-<li>The <a href="providers/trait.Format.html"><code>Format</code></a> trait makes implementing data-format based <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>s
+<li>The <a href="providers/trait.Format.html" title="trait figment::providers::Format"><code>Format</code></a> trait makes implementing data-format based <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>s
 straight-forward.</li>
-<li><a href="value/magic/index.html"><code>Magic</code></a> values can significantly reduce the need to
+<li><a href="value/magic/index.html" title="mod figment::value::magic"><code>Magic</code></a> values can significantly reduce the need to
 inspect a <code>Figment</code> directly.</li>
 <li>[<code>Jail</code>] makes testing configurations straight-forward and much less
 error-prone.</li>
-<li><a href="struct.Error.html" title="Error"><code>Error</code></a> may contain more than one error: iterate over it to retrieve
+<li><a href="struct.Error.html" title="struct figment::Error"><code>Error</code></a> may contain more than one error: iterate over it to retrieve
 all errors.</li>
 </ul>
-</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="mod" href="error/index.html" title="figment::error mod">error</a></div><div class="item-right docblock-short">Error values produces when extracting configurations.</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="providers/index.html" title="figment::providers mod">providers</a></div><div class="item-right docblock-short">Built-in <a href="trait.Provider.html"><code>Provider</code></a> implementations for common sources.</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="util/index.html" title="figment::util mod">util</a></div><div class="item-right docblock-short">Useful functions and macros for writing figments.</div></div><div class="item-row"><div class="item-left module-item"><a class="mod" href="value/index.html" title="figment::value mod">value</a></div><div class="item-right docblock-short"><a href="value/enum.Value.html" title="Value"><code>Value</code></a> and friends: types representing valid configuration values.</div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Error.html" title="figment::Error struct">Error</a></div><div class="item-right docblock-short">An error that occured while producing data or extracting a configuration.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Figment.html" title="figment::Figment struct">Figment</a></div><div class="item-right docblock-short">Combiner of <a href="trait.Provider.html" title="Provider"><code>Provider</code></a>s for configuration value extraction.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Metadata.html" title="figment::Metadata struct">Metadata</a></div><div class="item-right docblock-short">Metadata about a configuration value: its source’s name and location.</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Profile.html" title="figment::Profile struct">Profile</a></div><div class="item-right docblock-short">A configuration profile: effectively a case-insensitive string.</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Source.html" title="figment::Source enum">Source</a></div><div class="item-right docblock-short">The source for a configuration value.</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Provider.html" title="figment::Provider trait">Provider</a></div><div class="item-right docblock-short">Trait implemented by configuration source providers.</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (c7572670a 2023-01-03)" data-search-js="search-181581080540673f.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="error/index.html" title="mod figment::error">error</a></div><div class="desc docblock-short">Error values produces when extracting configurations.</div></li><li><div class="item-name"><a class="mod" href="providers/index.html" title="mod figment::providers">providers</a></div><div class="desc docblock-short">Built-in <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a> implementations for common sources.</div></li><li><div class="item-name"><a class="mod" href="util/index.html" title="mod figment::util">util</a></div><div class="desc docblock-short">Useful functions and macros for writing figments.</div></li><li><div class="item-name"><a class="mod" href="value/index.html" title="mod figment::value">value</a></div><div class="desc docblock-short"><a href="value/enum.Value.html" title="enum figment::value::Value"><code>Value</code></a> and friends: types representing valid configuration values.</div></li></ul><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.Error.html" title="struct figment::Error">Error</a></div><div class="desc docblock-short">An error that occured while producing data or extracting a configuration.</div></li><li><div class="item-name"><a class="struct" href="struct.Figment.html" title="struct figment::Figment">Figment</a></div><div class="desc docblock-short">Combiner of <a href="trait.Provider.html" title="trait figment::Provider"><code>Provider</code></a>s for configuration value extraction.</div></li><li><div class="item-name"><a class="struct" href="struct.Metadata.html" title="struct figment::Metadata">Metadata</a></div><div class="desc docblock-short">Metadata about a configuration value: its source’s name and location.</div></li><li><div class="item-name"><a class="struct" href="struct.Profile.html" title="struct figment::Profile">Profile</a></div><div class="desc docblock-short">A configuration profile: effectively a case-insensitive string.</div></li></ul><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Source.html" title="enum figment::Source">Source</a></div><div class="desc docblock-short">The source for a configuration value.</div></li></ul><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.Provider.html" title="trait figment::Provider">Provider</a></div><div class="desc docblock-short">Trait implemented by configuration source providers.</div></li></ul></section></div></main><div id="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
