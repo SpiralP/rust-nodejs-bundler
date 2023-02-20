@@ -110,9 +110,6 @@ impl Builder {
         rerun_if_changed(current_dir.join(src_dir));
         assert!(is_dir(src_dir), "web directory not found");
 
-        rerun_if_changed(current_dir.join("package-lock.json"));
-        rerun_if_changed(current_dir.join("yarn.lock"));
-
         let package_manager = self.package_manager.unwrap_or_else(|| {
             if is_file("package-lock.json") {
                 PackageManager::Npm
@@ -122,6 +119,15 @@ impl Builder {
                 panic!("Couldn't autodetect package manager since no lock file was found!");
             }
         });
+
+        match package_manager {
+            PackageManager::Npm => {
+                rerun_if_changed(current_dir.join("package-lock.json"));
+            }
+            PackageManager::Yarn => {
+                rerun_if_changed(current_dir.join("yarn.lock"));
+            }
+        }
 
         // if no node_modules, run npm install
         if !is_dir("node_modules") {
