@@ -1,6 +1,3 @@
 [workspace]
-members = [
-    "codegen",
-    "lib",
-    "example",
-]
+members = ["codegen", "lib", "example"]
+resolver = "2"

@@ -13,7 +13,7 @@ with_warp = ["nodejs-bundler/warp", "tokio", "warp"]
 actix-rt = { version = "2", optional = true }
 actix-web = { version = "4", optional = true }
 nodejs-bundler = { path = "../lib" }
-rocket = { version = "0.5.0-rc.2", optional = true }
+rocket = { version = "0.5.0-rc.4", optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
 warp = { version = "0.3", optional = true }
 

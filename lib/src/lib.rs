@@ -108,7 +108,7 @@ impl NodeJsBundle {
     #[cfg(feature = "rocket")]
     pub fn as_rocket_route(&'static self) -> rocket::Route {
         use rocket::{
-            http::{ContentType, Method},
+            http::{ContentType, Method, Status},
             route::{Handler, Outcome},
             Data, Request, Route,
         };
@@ -121,11 +121,11 @@ impl NodeJsBundle {
             async fn handle<'r>(&self, req: &'r Request<'_>, data: Data<'r>) -> Outcome<'r> {
                 let path = match req.routed_segments(0..).to_path_buf(false) {
                     Ok(path) => path,
-                    Err(_) => return Outcome::Forward(data),
+                    Err(_) => return Outcome::Forward((data, Status::Ok)),
                 };
                 let bytes = match self.0.get_file(&path.to_string_lossy()) {
                     Some(bytes) => bytes,
-                    None => return Outcome::Forward(data),
+                    None => return Outcome::Forward((data, Status::Ok)),
                 };
                 let content_type = path
                     .extension()
