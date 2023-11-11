@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.16.2/src/parse.rs`."><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cookie/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cookie-0.18.0/src/parse.rs`."><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -506,49 +506,7 @@
 <a href="#506" id="506">506</a>
 <a href="#507" id="507">507</a>
 <a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
-<a href="#510" id="510">510</a>
-<a href="#511" id="511">511</a>
-<a href="#512" id="512">512</a>
-<a href="#513" id="513">513</a>
-<a href="#514" id="514">514</a>
-<a href="#515" id="515">515</a>
-<a href="#516" id="516">516</a>
-<a href="#517" id="517">517</a>
-<a href="#518" id="518">518</a>
-<a href="#519" id="519">519</a>
-<a href="#520" id="520">520</a>
-<a href="#521" id="521">521</a>
-<a href="#522" id="522">522</a>
-<a href="#523" id="523">523</a>
-<a href="#524" id="524">524</a>
-<a href="#525" id="525">525</a>
-<a href="#526" id="526">526</a>
-<a href="#527" id="527">527</a>
-<a href="#528" id="528">528</a>
-<a href="#529" id="529">529</a>
-<a href="#530" id="530">530</a>
-<a href="#531" id="531">531</a>
-<a href="#532" id="532">532</a>
-<a href="#533" id="533">533</a>
-<a href="#534" id="534">534</a>
-<a href="#535" id="535">535</a>
-<a href="#536" id="536">536</a>
-<a href="#537" id="537">537</a>
-<a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
-<a href="#540" id="540">540</a>
-<a href="#541" id="541">541</a>
-<a href="#542" id="542">542</a>
-<a href="#543" id="543">543</a>
-<a href="#544" id="544">544</a>
-<a href="#545" id="545">545</a>
-<a href="#546" id="546">546</a>
-<a href="#547" id="547">547</a>
-<a href="#548" id="548">548</a>
-<a href="#549" id="549">549</a>
-<a href="#550" id="550">550</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::convert::{From, TryFrom};
 <span class="kw">use </span>std::str::Utf8Error;
@@ -614,23 +572,6 @@
     }
 }
 
-<span class="kw">fn </span>indexes_of(needle: <span class="kw-2">&amp;</span>str, haystack: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;(usize, usize)&gt; {
-    <span class="kw">let </span>haystack_start = haystack.as_ptr() <span class="kw">as </span>usize;
-    <span class="kw">let </span>needle_start = needle.as_ptr() <span class="kw">as </span>usize;
-
-    <span class="kw">if </span>needle_start &lt; haystack_start {
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
-
-    <span class="kw">if </span>(needle_start + needle.len()) &gt; (haystack_start + haystack.len()) {
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
-
-    <span class="kw">let </span>start = needle_start - haystack_start;
-    <span class="kw">let </span>end = start + needle.len();
-    <span class="prelude-val">Some</span>((start, end))
-}
-
 <span class="attr">#[cfg(feature = <span class="string">&quot;percent-encode&quot;</span>)]
 </span><span class="kw">fn </span>name_val_decoded(
     name: <span class="kw-2">&amp;</span>str,
@@ -656,17 +597,6 @@
     <span class="macro">unreachable!</span>(<span class="string">&quot;This function should never be called with &#39;percent-encode&#39; disabled!&quot;</span>)
 }
 
-<span class="kw">fn </span>trim_quotes(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>str {
-    <span class="kw">if </span>s.len() &lt; <span class="number">2 </span>{
-        <span class="kw">return </span>s;
-    }
-
-    <span class="kw">match </span>(s.chars().next(), s.chars().last()) {
-        (<span class="prelude-val">Some</span>(<span class="string">&#39;&quot;&#39;</span>), <span class="prelude-val">Some</span>(<span class="string">&#39;&quot;&#39;</span>)) =&gt; <span class="kw-2">&amp;</span>s[<span class="number">1</span>..(s.len() - <span class="number">1</span>)],
-        <span class="kw">_ </span>=&gt; s
-    }
-}
-
 <span class="comment">// This function does the real parsing but _does not_ set the `cookie_string` in
 // the returned cookie object. This only exists so that the borrow to `s` is
 // returned at the end of the call, allowing the `cookie_string` field to be
@@ -677,10 +607,7 @@
     <span class="comment">// Determine the name = val.
     </span><span class="kw">let </span>key_value = attributes.next().expect(<span class="string">&quot;first str::split().next() returns Some&quot;</span>);
     <span class="kw">let </span>(name, value) = <span class="kw">match </span>key_value.find(<span class="string">&#39;=&#39;</span>) {
-        <span class="prelude-val">Some</span>(i) =&gt; {
-            <span class="kw">let </span>(key, value) = (key_value[..i].trim(), key_value[(i + <span class="number">1</span>)..].trim());
-            (key, trim_quotes(value).trim())
-        },
+        <span class="prelude-val">Some</span>(i) =&gt; (key_value[..i].trim(), key_value[(i + <span class="number">1</span>)..].trim()),
         <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(ParseError::MissingPair)
     };
 
@@ -690,10 +617,8 @@
 
     <span class="comment">// If there is nothing to decode, or we&#39;re not decoding, use indexes.
     </span><span class="kw">let </span>indexed_names = |s, name, value| {
-        <span class="kw">let </span>name_indexes = indexes_of(name, s).expect(<span class="string">&quot;name sub&quot;</span>);
-        <span class="kw">let </span>value_indexes = indexes_of(value, s).expect(<span class="string">&quot;value sub&quot;</span>);
-        <span class="kw">let </span>name = CookieStr::Indexed(name_indexes.<span class="number">0</span>, name_indexes.<span class="number">1</span>);
-        <span class="kw">let </span>value = CookieStr::Indexed(value_indexes.<span class="number">0</span>, value_indexes.<span class="number">1</span>);
+        <span class="kw">let </span>name = CookieStr::indexed(name, s).expect(<span class="string">&quot;name sub&quot;</span>);
+        <span class="kw">let </span>value = CookieStr::indexed(value, s).expect(<span class="string">&quot;value sub&quot;</span>);
         (name, value)
     };
 
@@ -749,18 +674,12 @@
                         .unwrap_or_else(|<span class="kw">_</span>| Duration::seconds(i64::max_value())))
                 }
             },
-            (<span class="string">&quot;domain&quot;</span>, <span class="prelude-val">Some</span>(<span class="kw-2">mut </span>domain)) <span class="kw">if </span>!domain.is_empty() =&gt; {
-                <span class="kw">if </span>domain.starts_with(<span class="string">&#39;.&#39;</span>) {
-                    domain = <span class="kw-2">&amp;</span>domain[<span class="number">1</span>..];
-                }
-
-                <span class="kw">let </span>(i, j) = indexes_of(domain, s).expect(<span class="string">&quot;domain sub&quot;</span>);
-                cookie.domain = <span class="prelude-val">Some</span>(CookieStr::Indexed(i, j));
-            }
+            (<span class="string">&quot;domain&quot;</span>, <span class="prelude-val">Some</span>(d)) <span class="kw">if </span>!d.is_empty() =&gt; {
+                cookie.domain = <span class="prelude-val">Some</span>(CookieStr::indexed(d, s).expect(<span class="string">&quot;domain sub&quot;</span>));
+            },
             (<span class="string">&quot;path&quot;</span>, <span class="prelude-val">Some</span>(v)) =&gt; {
-                <span class="kw">let </span>(i, j) = indexes_of(v, s).expect(<span class="string">&quot;path sub&quot;</span>);
-                cookie.path = <span class="prelude-val">Some</span>(CookieStr::Indexed(i, j));
-            }
+                cookie.path = <span class="prelude-val">Some</span>(CookieStr::indexed(v, s).expect(<span class="string">&quot;path sub&quot;</span>));
+            },
             (<span class="string">&quot;samesite&quot;</span>, <span class="prelude-val">Some</span>(v)) =&gt; {
                 <span class="kw">if </span>v.eq_ignore_ascii_case(<span class="string">&quot;strict&quot;</span>) {
                     cookie.same_site = <span class="prelude-val">Some</span>(SameSite::Strict);
@@ -854,30 +773,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>parse_same_site() {
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)
-            .same_site(SameSite::Lax)
-            .finish();
-
+        <span class="kw">let </span>expected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)).same_site(SameSite::Lax);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=Lax&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=lax&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=LAX&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; samesite=Lax&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SAMESITE=Lax&quot;</span>, expected);
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)
-            .same_site(SameSite::Strict)
-            .finish();
-
+        <span class="kw">let </span>expected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)).same_site(SameSite::Strict);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=Strict&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSITE=Strict&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=strict&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=STrICT&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=STRICT&quot;</span>, expected);
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)
-            .same_site(SameSite::None)
-            .finish();
-
+        <span class="kw">let </span>expected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)).same_site(SameSite::None);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=None&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSITE=none&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar; SameSite=NOne&quot;</span>, expected);
@@ -891,36 +801,36 @@
         <span class="macro">assert!</span>(Cookie::parse(<span class="string">&quot; =bar&quot;</span>).is_err());
         <span class="macro">assert!</span>(Cookie::parse(<span class="string">&quot;foo=&quot;</span>).is_ok());
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar=baz&quot;</span>).finish();
+        <span class="kw">let </span>expected = Cookie::new(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar=baz&quot;</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar=baz&quot;</span>, expected);
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;\&quot;bar\&quot;&quot;</span>).finish();
+        <span class="kw">let </span>expected = Cookie::new(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;\&quot;\&quot;bar\&quot;\&quot;&quot;</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar\&quot;\&quot;&quot;</span>, expected);
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;\&quot;bar&quot;</span>).finish();
+        <span class="kw">let </span>expected = Cookie::new(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;\&quot;bar&quot;</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=  \&quot;bar&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;bar  &quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar\&quot;&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar  \&quot;&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar  \&quot;  &quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar\&quot;&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar  \&quot;&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;\&quot;bar  \&quot;  &quot;</span>, expected);
 
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar\&quot;&quot;</span>).finish();
+        <span class="kw">let </span>expected = Cookie::new(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar\&quot;&quot;</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar\&quot;&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;bar\&quot;\&quot;&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;  bar\&quot;\&quot;&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;  bar\&quot;  \&quot;  &quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;bar\&quot;\&quot;&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;  bar\&quot;\&quot;&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;  bar\&quot;  \&quot;  &quot;</span>, expected);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>).finish();
+        <span class="kw">let </span><span class="kw-2">mut </span>expected = Cookie::new(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=bar&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo = bar&quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot;foo=\&quot;bar\&quot;&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar &quot;</span>, expected);
-        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=\&quot;bar   \&quot; &quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;Domain=&quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;Domain= &quot;</span>, expected);
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;Ignored&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot;foo=\&quot;bar\&quot;&quot;</span>, expected);
+        <span class="macro">assert_ne_parse!</span>(<span class="string">&quot; foo=\&quot;bar   \&quot; &quot;</span>, expected);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>unexpected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>).http_only(<span class="bool-val">false</span>).finish();
+        <span class="kw">let </span><span class="kw-2">mut </span>unexpected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)).http_only(<span class="bool-val">false</span>).build();
         <span class="macro">assert_ne_parse!</span>(<span class="string">&quot; foo=bar ;HttpOnly&quot;</span>, unexpected);
         <span class="macro">assert_ne_parse!</span>(<span class="string">&quot; foo=bar; httponly&quot;</span>, unexpected);
 
@@ -992,6 +902,12 @@
         <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;HttpOnly; Secure; Max-Age=4; Path=/foo; \
             Domain=FOO.COM&quot;</span>, expected);
 
+        expected.set_domain(<span class="string">&quot;.foo.com&quot;</span>);
+        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;HttpOnly; Secure; Max-Age=4; Path=/foo; \
+            Domain=.foo.com&quot;</span>, expected);
+        <span class="macro">assert_eq_parse!</span>(<span class="string">&quot; foo=bar ;HttpOnly; Secure; Max-Age=4; Path=/foo; \
+            Domain=.FOO.COM&quot;</span>, expected);
+
         unexpected.set_path(<span class="string">&quot;/foo&quot;</span>);
         unexpected.set_domain(<span class="string">&quot;bar.com&quot;</span>);
         <span class="macro">assert_ne_parse!</span>(<span class="string">&quot; foo=bar ;HttpOnly; Secure; Max-Age=4; Path=/foo; \
@@ -1049,9 +965,9 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>parse_very_large_max_ages() {
-        <span class="kw">let </span><span class="kw-2">mut </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)
+        <span class="kw">let </span><span class="kw-2">mut </span>expected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>))
             .max_age(Duration::seconds(i64::max_value()))
-            .finish();
+            .build();
 
         <span class="kw">let </span>string = <span class="macro">format!</span>(<span class="string">&quot;foo=bar; Max-Age={}&quot;</span>, <span class="number">1u128 </span>&lt;&lt; <span class="number">100</span>);
         <span class="macro">assert_eq_parse!</span>(<span class="kw-2">&amp;</span>string, expected);
@@ -1091,12 +1007,11 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>do_not_panic_on_large_max_ages() {
         <span class="kw">let </span>max_seconds = Duration::MAX.whole_seconds();
-        <span class="kw">let </span>expected = Cookie::build(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>)
-            .max_age(Duration::seconds(max_seconds))
-            .finish();
+        <span class="kw">let </span>expected = Cookie::build((<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>))
+            .max_age(Duration::seconds(max_seconds));
+
         <span class="kw">let </span>too_many_seconds = (max_seconds <span class="kw">as </span>u64) + <span class="number">1</span>;
         <span class="macro">assert_eq_parse!</span>(<span class="macro">format!</span>(<span class="string">&quot; foo=bar; Max-Age={:?}&quot;</span>, too_many_seconds), expected);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

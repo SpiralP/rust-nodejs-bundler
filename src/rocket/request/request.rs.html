@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/request/request.rs`."><title>request.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/request/request.rs`."><title>request.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1092,13 +1091,40 @@
 <a href="#1091" id="1091">1091</a>
 <a href="#1092" id="1092">1092</a>
 <a href="#1093" id="1093">1093</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::ops::RangeFrom;
 <span class="kw">use </span>std::{future::Future, borrow::Cow, sync::Arc};
 <span class="kw">use </span>std::net::{IpAddr, SocketAddr};
 
 <span class="kw">use </span>yansi::Paint;
-<span class="kw">use </span>state::{Container, Storage};
+<span class="kw">use </span>state::{TypeMap, InitCell};
 <span class="kw">use </span>futures::future::BoxFuture;
 <span class="kw">use </span>atomic::{Atomic, Ordering};
 
@@ -1140,9 +1166,9 @@
     <span class="kw">pub </span>rocket: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt;,
     <span class="kw">pub </span>route: Atomic&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Route&gt;&gt;,
     <span class="kw">pub </span>cookies: CookieJar&lt;<span class="lifetime">&#39;r</span>&gt;,
-    <span class="kw">pub </span>accept: Storage&lt;<span class="prelude-ty">Option</span>&lt;Accept&gt;&gt;,
-    <span class="kw">pub </span>content_type: Storage&lt;<span class="prelude-ty">Option</span>&lt;ContentType&gt;&gt;,
-    <span class="kw">pub </span>cache: Arc&lt;<span class="macro">Container!</span>[Send + Sync]&gt;,
+    <span class="kw">pub </span>accept: InitCell&lt;<span class="prelude-ty">Option</span>&lt;Accept&gt;&gt;,
+    <span class="kw">pub </span>content_type: InitCell&lt;<span class="prelude-ty">Option</span>&lt;ContentType&gt;&gt;,
+    <span class="kw">pub </span>cache: Arc&lt;<span class="macro">TypeMap!</span>[Send + Sync]&gt;,
     <span class="kw">pub </span>host: <span class="prelude-ty">Option</span>&lt;Host&lt;<span class="lifetime">&#39;r</span>&gt;&gt;,
 }
 
@@ -1192,9 +1218,9 @@
                 rocket,
                 route: Atomic::new(<span class="prelude-val">None</span>),
                 cookies: CookieJar::new(rocket.config()),
-                accept: Storage::new(),
-                content_type: Storage::new(),
-                cache: Arc::new(&lt;<span class="macro">Container!</span>[Send + Sync]&gt;::new()),
+                accept: InitCell::new(),
+                content_type: InitCell::new(),
+                cache: Arc::new(&lt;<span class="macro">TypeMap!</span>[Send + Sync]&gt;::new()),
                 host: <span class="prelude-val">None</span>,
             }
         }
@@ -1401,9 +1427,10 @@
     ///
     /// Because it is common for proxies to forward connections for clients, the
     /// remote address may contain information about the proxy instead of the
-    /// client. For this reason, proxies typically set the &quot;X-Real-IP&quot; header
-    /// with the client&#39;s true IP. To extract this IP from the request, use the
-    /// [`real_ip()`] or [`client_ip()`] methods.
+    /// client. For this reason, proxies typically set a &quot;X-Real-IP&quot; header
+    /// [`ip_header`](crate::Config::ip_header) with the client&#39;s true IP. To
+    /// extract this IP from the request, use the [`real_ip()`] or
+    /// [`client_ip()`] methods.
     ///
     /// [`real_ip()`]: #method.real_ip
     /// [`client_ip()`]: #method.client_ip
@@ -1450,8 +1477,9 @@
         <span class="self">self</span>.connection.remote = <span class="prelude-val">Some</span>(address);
     }
 
-    <span class="doccomment">/// Returns the IP address in the &quot;X-Real-IP&quot; header of the request if such
-    /// a header exists and contains a valid IP address.
+    <span class="doccomment">/// Returns the IP address of the configured
+    /// [`ip_header`](crate::Config::ip_header) of the request if such a header
+    /// is configured, exists and contains a valid IP address.
     ///
     /// # Example
     ///
@@ -1463,25 +1491,40 @@
     /// # let req = c.get(&quot;/&quot;);
     /// assert_eq!(req.real_ip(), None);
     ///
+    /// // `ip_header` defaults to `X-Real-IP`.
     /// let req = req.header(Header::new(&quot;X-Real-IP&quot;, &quot;127.0.0.1&quot;));
     /// assert_eq!(req.real_ip(), Some(Ipv4Addr::LOCALHOST.into()));
     /// ```
     </span><span class="kw">pub fn </span>real_ip(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;IpAddr&gt; {
+        <span class="kw">let </span>ip_header = <span class="self">self</span>.rocket().config.ip_header.as_ref()<span class="question-mark">?</span>.as_str();
         <span class="self">self</span>.headers()
-            .get_one(<span class="string">&quot;X-Real-IP&quot;</span>)
+            .get_one(ip_header)
             .and_then(|ip| {
                 ip.parse()
-                    .map_err(|<span class="kw">_</span>| <span class="macro">warn_!</span>(<span class="string">&quot;&#39;X-Real-IP&#39; header is malformed: {}&quot;</span>, ip))
+                    .map_err(|<span class="kw">_</span>| <span class="macro">warn_!</span>(<span class="string">&quot;&#39;{}&#39; header is malformed: {}&quot;</span>, ip_header, ip))
                     .ok()
             })
     }
 
     <span class="doccomment">/// Attempts to return the client&#39;s IP address by first inspecting the
-    /// &quot;X-Real-IP&quot; header and then using the remote connection&#39;s IP address.
+    /// [`ip_header`](crate::Config::ip_header) and then using the remote
+    /// connection&#39;s IP address. Note that the built-in `IpAddr` request guard
+    /// can be used to retrieve the same information in a handler:
     ///
-    /// If the &quot;X-Real-IP&quot; header exists and contains a valid IP address, that
-    /// address is returned. Otherwise, if the address of the remote connection
-    /// is known, that address is returned. Otherwise, `None` is returned.
+    /// ```rust
+    /// # use rocket::get;
+    /// use std::net::IpAddr;
+    ///
+    /// #[get(&quot;/&quot;)]
+    /// fn get_ip(client_ip: IpAddr) { /* ... */ }
+    ///
+    /// #[get(&quot;/&quot;)]
+    /// fn try_get_ip(client_ip: Option&lt;IpAddr&gt;) { /* ... */ }
+    /// ````
+    ///
+    /// If the `ip_header` exists and contains a valid IP address, that address
+    /// is returned. Otherwise, if the address of the remote connection is
+    /// known, that address is returned. Otherwise, `None` is returned.
     ///
     /// # Example
     ///
@@ -1492,14 +1535,14 @@
     /// # let mut req = c.get(&quot;/&quot;);
     /// # let request = req.inner_mut();
     ///
-    /// // starting without an &quot;X-Real-IP&quot; header or remote addresss
+    /// // starting without an &quot;X-Real-IP&quot; header or remote address
     /// assert!(request.client_ip().is_none());
     ///
     /// // add a remote address; this is done by Rocket automatically
     /// request.set_remote(&quot;127.0.0.1:8000&quot;.parse().unwrap());
     /// assert_eq!(request.client_ip(), Some(&quot;127.0.0.1&quot;.parse().unwrap()));
     ///
-    /// // now with an X-Real-IP header
+    /// // now with an X-Real-IP header, the default value for `ip_header`.
     /// request.add_header(Header::new(&quot;X-Real-IP&quot;, &quot;8.8.8.8&quot;));
     /// assert_eq!(request.client_ip(), Some(&quot;8.8.8.8&quot;.parse().unwrap()));
     /// ```
@@ -1523,8 +1566,8 @@
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let request = c.get(&quot;/&quot;);
     /// # let req = request.inner();
-    /// req.cookies().add(Cookie::new(&quot;key&quot;, &quot;val&quot;));
-    /// req.cookies().add(Cookie::new(&quot;ans&quot;, format!(&quot;life: {}&quot;, 38 + 4)));
+    /// req.cookies().add((&quot;key&quot;, &quot;val&quot;));
+    /// req.cookies().add((&quot;ans&quot;, format!(&quot;life: {}&quot;, 38 + 4)));
     ///
     /// assert_eq!(req.cookies().get_pending(&quot;key&quot;).unwrap().value(), &quot;val&quot;);
     /// assert_eq!(req.cookies().get_pending(&quot;ans&quot;).unwrap().value(), &quot;life: 42&quot;);
@@ -1624,7 +1667,7 @@
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>content_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>ContentType&gt; {
-        <span class="self">self</span>.state.content_type.get_or_set(|| {
+        <span class="self">self</span>.state.content_type.get_or_init(|| {
             <span class="self">self</span>.headers().get_one(<span class="string">&quot;Content-Type&quot;</span>).and_then(|v| v.parse().ok())
         }).as_ref()
     }
@@ -1644,7 +1687,7 @@
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>accept(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Accept&gt; {
-        <span class="self">self</span>.state.accept.get_or_set(|| {
+        <span class="self">self</span>.state.accept.get_or_init(|| {
             <span class="self">self</span>.headers().get_one(<span class="string">&quot;Accept&quot;</span>).and_then(|v| v.parse().ok())
         }).as_ref()
     }
@@ -2003,11 +2046,11 @@
     </span><span class="kw">fn </span>bust_header_cache(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>UncasedStr, replace: bool) {
         <span class="kw">if </span>name == <span class="string">&quot;Content-Type&quot; </span>{
             <span class="kw">if </span><span class="self">self</span>.content_type().is_none() || replace {
-                <span class="self">self</span>.state.content_type = Storage::new();
+                <span class="self">self</span>.state.content_type = InitCell::new();
             }
         } <span class="kw">else if </span>name == <span class="string">&quot;Accept&quot; </span>{
             <span class="kw">if </span><span class="self">self</span>.accept().is_none() || replace {
-                <span class="self">self</span>.state.accept = Storage::new();
+                <span class="self">self</span>.state.accept = InitCell::new();
             }
         }
     }
@@ -2062,33 +2105,47 @@
         rocket: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt;,
         hyper: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::request::Parts,
         connection: <span class="prelude-ty">Option</span>&lt;ConnectionMeta&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Request&lt;<span class="lifetime">&#39;r</span>&gt;, Error&lt;<span class="lifetime">&#39;r</span>&gt;&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Request&lt;<span class="lifetime">&#39;r</span>&gt;, BadRequest&lt;<span class="lifetime">&#39;r</span>&gt;&gt; {
+        <span class="comment">// Keep track of parsing errors; emit a `BadRequest` if any exist.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>errors = <span class="macro">vec!</span>[];
+
         <span class="comment">// Ensure that the method is known. TODO: Allow made-up methods?
         </span><span class="kw">let </span>method = Method::from_hyp(<span class="kw-2">&amp;</span>hyper.method)
-            .ok_or(Error::BadMethod(<span class="kw-2">&amp;</span>hyper.method))<span class="question-mark">?</span>;
+            .unwrap_or_else(|| {
+                errors.push(Kind::BadMethod(<span class="kw-2">&amp;</span>hyper.method));
+                Method::Get
+            });
 
         <span class="comment">// TODO: Keep around not just the path/query, but the rest, if there?
-        </span><span class="kw">let </span>uri = hyper.uri.path_and_query().ok_or(Error::InvalidUri(<span class="kw-2">&amp;</span>hyper.uri))<span class="question-mark">?</span>;
+        </span><span class="kw">let </span>uri = hyper.uri.path_and_query()
+            .map(|uri| {
+                <span class="comment">// In debug, make sure we agree with Hyper about URI validity.
+                // If we disagree, log a warning but continue anyway; if this is
+                // a security issue with Hyper, there isn&#39;t much we can do.
+                </span><span class="attr">#[cfg(debug_assertions)]
+                </span><span class="kw">if </span>Origin::parse(uri.as_str()).is_err() {
+                    <span class="macro">warn!</span>(<span class="string">&quot;Hyper/Rocket URI validity discord: {:?}&quot;</span>, uri.as_str());
+                    <span class="macro">info_!</span>(<span class="string">&quot;Hyper believes the URI is valid while Rocket disagrees.&quot;</span>);
+                    <span class="macro">info_!</span>(<span class="string">&quot;This is likely a Hyper bug with potential security implications.&quot;</span>);
+                    <span class="macro">warn_!</span>(<span class="string">&quot;Please report this warning to Rocket&#39;s GitHub issue tracker.&quot;</span>);
+                }
 
-        <span class="comment">// In debug, make sure we agree with Hyper that the URI is valid. If we
-        // disagree, print a warning but continue anyway seeing as if this is a
-        // security issue with Hyper, there isn&#39;t much we can do.
-        </span><span class="attr">#[cfg(debug_assertions)]
-        </span><span class="kw">if </span>Origin::parse(uri.as_str()).is_err() {
-            <span class="macro">warn!</span>(<span class="string">&quot;Hyper/Rocket URI validity discord: {:?}&quot;</span>, uri.as_str());
-            <span class="macro">info_!</span>(<span class="string">&quot;Hyper believes the URI is valid while Rocket disagrees.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;This is likely a Hyper bug with potential security implications.&quot;</span>);
-            <span class="macro">warn_!</span>(<span class="string">&quot;Please report this warning to Rocket&#39;s GitHub issue tracker.&quot;</span>);
-        }
+                Origin::new(uri.path(), uri.query().map(Cow::Borrowed))
+            })
+            .unwrap_or_else(|| {
+                errors.push(Kind::InvalidUri(<span class="kw-2">&amp;</span>hyper.uri));
+                Origin::ROOT
+            });
 
-        <span class="comment">// Construct the request object.
-        </span><span class="kw">let </span>uri = Origin::new(uri.path(), uri.query().map(Cow::Borrowed));
-        <span class="kw">let </span><span class="kw-2">mut </span>request = Request::new(rocket, method, uri);
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(connection) = connection {
+        <span class="comment">// Construct the request object; fill in metadata and headers next.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>request = Request::new(rocket, method, uri);
+
+        <span class="comment">// Set the passed in connection metadata.
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(connection) = connection {
             request.connection = connection;
         }
 
-        <span class="comment">// Determine the host. On HTTP &lt; 2, use the `HOST` header. Otherwise,
+        <span class="comment">// Determine + set host. On HTTP &lt; 2, use the `HOST` header. Otherwise,
         // use the `:authority` pseudo-header which hyper makes part of the URI.
         </span>request.state.host = <span class="kw">if </span>hyper.version &lt; hyper::Version::HTTP_2 {
             hyper.headers.get(<span class="string">&quot;host&quot;</span>).and_then(|h| Host::parse_bytes(h.as_bytes()).ok())
@@ -2125,32 +2182,32 @@
             request.add_header(Header::new(name.as_str(), value));
         }
 
-        <span class="prelude-val">Ok</span>(request)
-    }
-}
-
-<span class="attr">#[derive(Debug)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Error&lt;<span class="lifetime">&#39;r</span>&gt; {
-    InvalidUri(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Uri),
-    UriParse(<span class="kw">crate</span>::http::uri::Error&lt;<span class="lifetime">&#39;r</span>&gt;),
-    BadMethod(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Method),
-}
-
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="doccomment">/// Pretty prints a Request. This is primarily used by Rocket&#39;s logging
-    /// infrastructure.
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="kw">match </span><span class="self">self </span>{
-            Error::InvalidUri(u) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid origin URI: {}&quot;</span>, u),
-            Error::UriParse(u) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;URI `{}` failed to parse as origin&quot;</span>, u),
-            Error::BadMethod(m) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid or unrecognized method: {}&quot;</span>, m),
+        <span class="kw">if </span>errors.is_empty() {
+            <span class="prelude-val">Ok</span>(request)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(BadRequest { request, errors })
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; From&lt;<span class="kw">crate</span>::http::uri::Error&lt;<span class="lifetime">&#39;r</span>&gt;&gt; <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">fn </span>from(uri_parse: <span class="kw">crate</span>::http::uri::Error&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; <span class="self">Self </span>{
-        Error::UriParse(uri_parse)
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BadRequest&lt;<span class="lifetime">&#39;r</span>&gt; {
+    <span class="kw">pub </span>request: Request&lt;<span class="lifetime">&#39;r</span>&gt;,
+    <span class="kw">pub </span>errors: Vec&lt;Kind&lt;<span class="lifetime">&#39;r</span>&gt;&gt;,
+}
+
+<span class="attr">#[derive(Debug)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Kind&lt;<span class="lifetime">&#39;r</span>&gt; {
+    InvalidUri(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Uri),
+    BadMethod(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Method),
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Kind&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            Kind::InvalidUri(u) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid origin URI: {}&quot;</span>, u),
+            Kind::BadMethod(m) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid or unrecognized method: {}&quot;</span>, m),
+        }
     }
 }
 
@@ -2167,23 +2224,18 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Request&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="doccomment">/// Pretty prints a Request. This is primarily used by Rocket&#39;s logging
-    /// infrastructure.
+    <span class="doccomment">/// Pretty prints a Request. Primarily used by Rocket&#39;s logging.
     </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{} {}&quot;</span>, Paint::green(<span class="self">self</span>.method()), Paint::blue(<span class="kw-2">&amp;</span><span class="self">self</span>.uri))<span class="question-mark">?</span>;
+        <span class="macro">write!</span>(f, <span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.method().green(), <span class="self">self</span>.uri.blue())<span class="question-mark">?</span>;
 
         <span class="comment">// Print the requests media type when the route specifies a format.
-        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(media_type) = <span class="self">self</span>.format() {
-            <span class="kw">if </span>!media_type.is_any() {
-                <span class="macro">write!</span>(f, <span class="string">&quot; {}{}{}&quot;</span>,
-                    Paint::yellow(media_type.top()),
-                    Paint::yellow(<span class="string">&quot;/&quot;</span>),
-                    Paint::yellow(media_type.sub()))<span class="question-mark">?</span>;
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(mime) = <span class="self">self</span>.format() {
+            <span class="kw">if </span>!mime.is_any() {
+                <span class="macro">write!</span>(f, <span class="string">&quot; {}/{}&quot;</span>, mime.top().yellow().linger(), mime.sub().clear())<span class="question-mark">?</span>;
             }
         }
 
         <span class="prelude-val">Ok</span>(())
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

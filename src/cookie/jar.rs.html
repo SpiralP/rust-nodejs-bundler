@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/cookie-0.16.2/src/jar.rs`."><title>jar.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cookie/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cookie-0.18.0/src/jar.rs`."><title>jar.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -726,48 +726,136 @@
 <a href="#726" id="726">726</a>
 <a href="#727" id="727">727</a>
 <a href="#728" id="728">728</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::collections::HashSet;
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+<a href="#808" id="808">808</a>
+<a href="#809" id="809">809</a>
+<a href="#810" id="810">810</a>
+<a href="#811" id="811">811</a>
+<a href="#812" id="812">812</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::collections::HashSet;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;signed&quot;</span>)] </span><span class="kw">use </span><span class="kw">crate</span>::secure::SignedJar;
 <span class="attr">#[cfg(feature = <span class="string">&quot;private&quot;</span>)] </span><span class="kw">use </span><span class="kw">crate</span>::secure::PrivateJar;
 <span class="attr">#[cfg(any(feature = <span class="string">&quot;signed&quot;</span>, feature = <span class="string">&quot;private&quot;</span>))] </span><span class="kw">use </span><span class="kw">crate</span>::secure::Key;
 
 <span class="kw">use </span><span class="kw">crate</span>::delta::DeltaCookie;
+<span class="kw">use </span><span class="kw">crate</span>::prefix::{Prefix, PrefixedJar};
 <span class="kw">use </span><span class="kw">crate</span>::Cookie;
 
 <span class="doccomment">/// A collection of cookies that tracks its modifications.
 ///
 /// A `CookieJar` provides storage for any number of cookies. Any changes made
 /// to the jar are tracked; the changes can be retrieved via the
-/// [delta](#method.delta) method which returns an iterator over the changes.
+/// [`delta`](#method.delta) method which returns an iterator over the changes.
 ///
 /// # Usage
 ///
-/// A jar&#39;s life begins via [new](#method.new) and calls to
-/// [`add_original`](#method.add_original):
+/// A jar&#39;s life begins via [`CookieJar::new()`] and calls to
+/// [`add_original()`](#method.add_original):
 ///
 /// ```rust
 /// use cookie::{Cookie, CookieJar};
 ///
 /// let mut jar = CookieJar::new();
-/// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-/// jar.add_original(Cookie::new(&quot;second&quot;, &quot;another&quot;));
+/// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+/// jar.add_original((&quot;second&quot;, &quot;another&quot;));
+/// jar.add_original(Cookie::build((&quot;third&quot;, &quot;again&quot;)).path(&quot;/&quot;));
 /// ```
 ///
-/// Cookies can be added via [add](#method.add) and removed via
-/// [remove](#method.remove). Finally, cookies can be looked up via
-/// [get](#method.get):
+/// Cookies can be added via [`CookieJar::add()`] and removed via
+/// [`CookieJar::remove()`]. Note that any `T: Into&lt;Cookie&gt;` can be passed into
+/// these methods; see [`Cookie::build()`] for a table of implementing types.
+///
+/// Finally, cookies can be retrieved with [`CookieJar::get()`].
 ///
 /// ```rust
 /// # use cookie::{Cookie, CookieJar};
 /// let mut jar = CookieJar::new();
-/// jar.add(Cookie::new(&quot;a&quot;, &quot;one&quot;));
-/// jar.add(Cookie::new(&quot;b&quot;, &quot;two&quot;));
+/// jar.add((&quot;a&quot;, &quot;one&quot;));
+/// jar.add((&quot;b&quot;, &quot;two&quot;));
 ///
 /// assert_eq!(jar.get(&quot;a&quot;).map(|c| c.value()), Some(&quot;one&quot;));
 /// assert_eq!(jar.get(&quot;b&quot;).map(|c| c.value()), Some(&quot;two&quot;));
 ///
-/// jar.remove(Cookie::named(&quot;b&quot;));
+/// jar.remove(&quot;b&quot;);
 /// assert!(jar.get(&quot;b&quot;).is_none());
 /// ```
 ///
@@ -790,20 +878,20 @@
 /// let mut jar = CookieJar::new();
 ///
 /// // original cookies don&#39;t affect the delta
-/// jar.add_original(Cookie::new(&quot;original&quot;, &quot;value&quot;));
+/// jar.add_original((&quot;original&quot;, &quot;value&quot;));
 /// assert_eq!(jar.delta().count(), 0);
 ///
 /// // new cookies result in an equivalent `Cookie` in the delta
-/// jar.add(Cookie::new(&quot;a&quot;, &quot;one&quot;));
-/// jar.add(Cookie::new(&quot;b&quot;, &quot;two&quot;));
+/// jar.add((&quot;a&quot;, &quot;one&quot;));
+/// jar.add((&quot;b&quot;, &quot;two&quot;));
 /// assert_eq!(jar.delta().count(), 2);
 ///
 /// // removing an original cookie adds a &quot;removal&quot; cookie to the delta
-/// jar.remove(Cookie::named(&quot;original&quot;));
+/// jar.remove(&quot;original&quot;);
 /// assert_eq!(jar.delta().count(), 3);
 ///
 /// // removing a new cookie that was added removes that `Cookie` from the delta
-/// jar.remove(Cookie::named(&quot;a&quot;));
+/// jar.remove(&quot;a&quot;);
 /// assert_eq!(jar.delta().count(), 2);
 /// ```
 </span><span class="attr">#[derive(Default, Debug, Clone)]
@@ -838,7 +926,7 @@
     /// let mut jar = CookieJar::new();
     /// assert!(jar.get(&quot;name&quot;).is_none());
     ///
-    /// jar.add(Cookie::new(&quot;name&quot;, &quot;value&quot;));
+    /// jar.add((&quot;name&quot;, &quot;value&quot;));
     /// assert_eq!(jar.get(&quot;name&quot;).map(|c| c.value()), Some(&quot;value&quot;));
     /// ```
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
@@ -865,16 +953,16 @@
     /// use cookie::{CookieJar, Cookie};
     ///
     /// let mut jar = CookieJar::new();
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add_original(Cookie::new(&quot;second&quot;, &quot;two&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;second&quot;, &quot;two&quot;));
     ///
     /// assert_eq!(jar.get(&quot;name&quot;).map(|c| c.value()), Some(&quot;value&quot;));
     /// assert_eq!(jar.get(&quot;second&quot;).map(|c| c.value()), Some(&quot;two&quot;));
     /// assert_eq!(jar.iter().count(), 2);
     /// assert_eq!(jar.delta().count(), 0);
     /// ```
-    </span><span class="kw">pub fn </span>add_original(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="self">self</span>.original_cookies.replace(DeltaCookie::added(cookie));
+    </span><span class="kw">pub fn </span>add_original&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+        <span class="self">self</span>.original_cookies.replace(DeltaCookie::added(cookie.into()));
     }
 
     <span class="doccomment">/// Adds `cookie` to this jar. If a cookie with the same name already
@@ -886,23 +974,23 @@
     /// use cookie::{CookieJar, Cookie};
     ///
     /// let mut jar = CookieJar::new();
-    /// jar.add(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add(Cookie::new(&quot;second&quot;, &quot;two&quot;));
+    /// jar.add((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add((&quot;second&quot;, &quot;two&quot;));
     ///
     /// assert_eq!(jar.get(&quot;name&quot;).map(|c| c.value()), Some(&quot;value&quot;));
     /// assert_eq!(jar.get(&quot;second&quot;).map(|c| c.value()), Some(&quot;two&quot;));
     /// assert_eq!(jar.iter().count(), 2);
     /// assert_eq!(jar.delta().count(), 2);
     /// ```
-    </span><span class="kw">pub fn </span>add(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="self">self</span>.delta_cookies.replace(DeltaCookie::added(cookie));
+    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+        <span class="self">self</span>.delta_cookies.replace(DeltaCookie::added(cookie.into()));
     }
 
     <span class="doccomment">/// Removes `cookie` from this jar. If an _original_ cookie with the same
     /// name as `cookie` is present in the jar, a _removal_ cookie will be
-    /// present in the `delta` computation. To properly generate the removal
+    /// present in the `delta` computation. **To properly generate the removal
     /// cookie, `cookie` must contain the same `path` and `domain` as the cookie
-    /// that was initially set.
+    /// that was initially set.**
     ///
     /// A &quot;removal&quot; cookie is a cookie that has the same name as the original
     /// cookie but has an empty value, a max-age of 0, and an expiration date
@@ -913,25 +1001,22 @@
     /// Removing an _original_ cookie results in a _removal_ cookie:
     ///
     /// ```rust
-    /// # extern crate cookie;
     /// use cookie::{CookieJar, Cookie};
     /// use cookie::time::Duration;
     ///
-    /// # fn main() {
     /// let mut jar = CookieJar::new();
     ///
     /// // Assume this cookie originally had a path of &quot;/&quot; and domain of &quot;a.b&quot;.
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
     ///
     /// // If the path and domain were set, they must be provided to `remove`.
-    /// jar.remove(Cookie::build(&quot;name&quot;, &quot;&quot;).path(&quot;/&quot;).domain(&quot;a.b&quot;).finish());
+    /// jar.remove(Cookie::build(&quot;name&quot;).path(&quot;/&quot;).domain(&quot;a.b&quot;));
     ///
     /// // The delta will contain the removal cookie.
     /// let delta: Vec&lt;_&gt; = jar.delta().collect();
     /// assert_eq!(delta.len(), 1);
     /// assert_eq!(delta[0].name(), &quot;name&quot;);
     /// assert_eq!(delta[0].max_age(), Some(Duration::seconds(0)));
-    /// # }
     /// ```
     ///
     /// Removing a new cookie does not result in a _removal_ cookie unless
@@ -941,20 +1026,21 @@
     /// use cookie::{CookieJar, Cookie};
     ///
     /// let mut jar = CookieJar::new();
-    /// jar.add(Cookie::new(&quot;name&quot;, &quot;value&quot;));
+    /// jar.add((&quot;name&quot;, &quot;value&quot;));
     /// assert_eq!(jar.delta().count(), 1);
     ///
-    /// jar.remove(Cookie::named(&quot;name&quot;));
+    /// jar.remove(&quot;name&quot;);
     /// assert_eq!(jar.delta().count(), 0);
     ///
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add(Cookie::new(&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add((&quot;name&quot;, &quot;value&quot;));
     /// assert_eq!(jar.delta().count(), 1);
     ///
-    /// jar.remove(Cookie::named(&quot;name&quot;));
+    /// jar.remove(&quot;name&quot;);
     /// assert_eq!(jar.delta().count(), 1);
     /// ```
-    </span><span class="kw">pub fn </span>remove(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+        <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
         <span class="kw">if </span><span class="self">self</span>.original_cookies.contains(cookie.name()) {
             cookie.make_removal();
             <span class="self">self</span>.delta_cookies.replace(DeltaCookie::removed(cookie));
@@ -963,10 +1049,12 @@
         }
     }
 
-    <span class="doccomment">/// Removes `cookie` from this jar completely. This method differs from
-    /// `remove` in that no delta cookie is created under any condition. Neither
-    /// the `delta` nor `iter` methods will return a cookie that is removed
-    /// using this method.
+    <span class="doccomment">/// Removes `cookie` from this jar completely.
+    ///
+    /// This method differs from `remove` in that no delta cookie is created
+    /// under any condition. Thus, no path or domain are needed: only the
+    /// cookie&#39;s name. Neither the `delta` nor `iter` methods will return a
+    /// cookie that is removed using this method.
     ///
     /// # Example
     ///
@@ -981,25 +1069,25 @@
     /// let mut jar = CookieJar::new();
     ///
     /// // Add an original cookie and a new cookie.
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add(Cookie::new(&quot;key&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add((&quot;key&quot;, &quot;value&quot;));
     /// assert_eq!(jar.delta().count(), 1);
     /// assert_eq!(jar.iter().count(), 2);
     ///
     /// // Now force remove the original cookie.
-    /// jar.force_remove(&amp;Cookie::named(&quot;name&quot;));
+    /// jar.force_remove(&quot;name&quot;);
     /// assert_eq!(jar.delta().count(), 1);
     /// assert_eq!(jar.iter().count(), 1);
     ///
-    /// // Now force remove the new cookie.
-    /// jar.force_remove(&amp;Cookie::named(&quot;key&quot;));
+    /// // Now force remove the new cookie. `to_string()` for illustration only.
+    /// jar.force_remove(&quot;key&quot;.to_string());
     /// assert_eq!(jar.delta().count(), 0);
     /// assert_eq!(jar.iter().count(), 0);
     /// # }
     /// ```
-    </span><span class="kw">pub fn </span>force_remove&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: <span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">&#39;a</span>&gt;) {
-        <span class="self">self</span>.original_cookies.remove(cookie.name());
-        <span class="self">self</span>.delta_cookies.remove(cookie.name());
+    </span><span class="kw">pub fn </span>force_remove&lt;N: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N) {
+        <span class="self">self</span>.original_cookies.remove(name.as_ref());
+        <span class="self">self</span>.delta_cookies.remove(name.as_ref());
     }
 
     <span class="doccomment">/// Removes all delta cookies, i.e. all cookies not added via
@@ -1015,12 +1103,12 @@
     /// let mut jar = CookieJar::new();
     ///
     /// // Only original cookies will remain after calling `reset_delta`.
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add_original(Cookie::new(&quot;language&quot;, &quot;Rust&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;language&quot;, &quot;Rust&quot;));
     ///
     /// // These operations, represented by delta cookies, will be reset.
-    /// jar.add(Cookie::new(&quot;language&quot;, &quot;C++&quot;));
-    /// jar.remove(Cookie::named(&quot;name&quot;));
+    /// jar.add((&quot;language&quot;, &quot;C++&quot;));
+    /// jar.remove(&quot;name&quot;);
     ///
     /// // All is normal.
     /// assert_eq!(jar.get(&quot;name&quot;), None);
@@ -1049,17 +1137,17 @@
     /// use cookie::{CookieJar, Cookie};
     ///
     /// let mut jar = CookieJar::new();
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add_original(Cookie::new(&quot;second&quot;, &quot;two&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;second&quot;, &quot;two&quot;));
     ///
     /// // Add new cookies.
-    /// jar.add(Cookie::new(&quot;new&quot;, &quot;third&quot;));
-    /// jar.add(Cookie::new(&quot;another&quot;, &quot;fourth&quot;));
-    /// jar.add(Cookie::new(&quot;yac&quot;, &quot;fifth&quot;));
+    /// jar.add((&quot;new&quot;, &quot;third&quot;));
+    /// jar.add((&quot;another&quot;, &quot;fourth&quot;));
+    /// jar.add((&quot;yac&quot;, &quot;fifth&quot;));
     ///
     /// // Remove some cookies.
-    /// jar.remove(Cookie::named(&quot;name&quot;));
-    /// jar.remove(Cookie::named(&quot;another&quot;));
+    /// jar.remove((&quot;name&quot;));
+    /// jar.remove((&quot;another&quot;));
     ///
     /// // Delta contains two new cookies (&quot;new&quot;, &quot;yac&quot;) and a removal (&quot;name&quot;).
     /// assert_eq!(jar.delta().count(), 3);
@@ -1077,15 +1165,15 @@
     ///
     /// let mut jar = CookieJar::new();
     ///
-    /// jar.add_original(Cookie::new(&quot;name&quot;, &quot;value&quot;));
-    /// jar.add_original(Cookie::new(&quot;second&quot;, &quot;two&quot;));
+    /// jar.add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.add_original((&quot;second&quot;, &quot;two&quot;));
     ///
-    /// jar.add(Cookie::new(&quot;new&quot;, &quot;third&quot;));
-    /// jar.add(Cookie::new(&quot;another&quot;, &quot;fourth&quot;));
-    /// jar.add(Cookie::new(&quot;yac&quot;, &quot;fifth&quot;));
+    /// jar.add((&quot;new&quot;, &quot;third&quot;));
+    /// jar.add((&quot;another&quot;, &quot;fourth&quot;));
+    /// jar.add((&quot;yac&quot;, &quot;fifth&quot;));
     ///
-    /// jar.remove(Cookie::named(&quot;name&quot;));
-    /// jar.remove(Cookie::named(&quot;another&quot;));
+    /// jar.remove(&quot;name&quot;);
+    /// jar.remove(&quot;another&quot;);
     ///
     /// // There are three cookies in the jar: &quot;second&quot;, &quot;new&quot;, and &quot;yac&quot;.
     /// # assert_eq!(jar.iter().count(), 3);
@@ -1119,7 +1207,7 @@
     ///
     /// // Add a private (signed + encrypted) cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.private_mut(&amp;key).add(Cookie::new(&quot;private&quot;, &quot;text&quot;));
+    /// jar.private_mut(&amp;key).add((&quot;private&quot;, &quot;text&quot;));
     ///
     /// // The cookie&#39;s contents are encrypted.
     /// assert_ne!(jar.get(&quot;private&quot;).unwrap().value(), &quot;text&quot;);
@@ -1129,7 +1217,7 @@
     ///
     /// // A tampered with cookie does not validate but still exists.
     /// let mut cookie = jar.get(&quot;private&quot;).unwrap().clone();
-    /// jar.add(Cookie::new(&quot;private&quot;, cookie.value().to_string() + &quot;!&quot;));
+    /// jar.add((&quot;private&quot;, cookie.value().to_string() + &quot;!&quot;));
     /// assert!(jar.private(&amp;key).get(&quot;private&quot;).is_none());
     /// assert!(jar.get(&quot;private&quot;).is_some());
     /// ```
@@ -1156,10 +1244,10 @@
     ///
     /// // Add a private (signed + encrypted) cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.private_mut(&amp;key).add(Cookie::new(&quot;private&quot;, &quot;text&quot;));
+    /// jar.private_mut(&amp;key).add((&quot;private&quot;, &quot;text&quot;));
     ///
     /// // Remove a cookie using the child jar.
-    /// jar.private_mut(&amp;key).remove(Cookie::named(&quot;private&quot;));
+    /// jar.private_mut(&amp;key).remove(&quot;private&quot;);
     /// ```
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;private&quot;</span>)]
     #[cfg_attr(all(nightly, doc), doc(cfg(feature = <span class="string">&quot;private&quot;</span>)))]
@@ -1181,7 +1269,7 @@
     ///
     /// // Add a signed cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.signed_mut(&amp;key).add(Cookie::new(&quot;signed&quot;, &quot;text&quot;));
+    /// jar.signed_mut(&amp;key).add((&quot;signed&quot;, &quot;text&quot;));
     ///
     /// // The cookie&#39;s contents are signed but still in plaintext.
     /// assert_ne!(jar.get(&quot;signed&quot;).unwrap().value(), &quot;text&quot;);
@@ -1192,7 +1280,7 @@
     ///
     /// // A tampered with cookie does not validate but still exists.
     /// let mut cookie = jar.get(&quot;signed&quot;).unwrap().clone();
-    /// jar.add(Cookie::new(&quot;signed&quot;, cookie.value().to_string() + &quot;!&quot;));
+    /// jar.add((&quot;signed&quot;, cookie.value().to_string() + &quot;!&quot;));
     /// assert!(jar.signed(&amp;key).get(&quot;signed&quot;).is_none());
     /// assert!(jar.get(&quot;signed&quot;).is_some());
     /// ```
@@ -1211,22 +1299,102 @@
     /// # Example
     ///
     /// ```rust
-    /// use cookie::{Cookie, CookieJar, Key};
+    /// use cookie::{CookieJar, Key};
     ///
     /// // Generate a secure key.
     /// let key = Key::generate();
     ///
     /// // Add a signed cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.signed_mut(&amp;key).add(Cookie::new(&quot;signed&quot;, &quot;text&quot;));
+    /// jar.signed_mut(&amp;key).add((&quot;signed&quot;, &quot;text&quot;));
     ///
     /// // Remove a cookie.
-    /// jar.signed_mut(&amp;key).remove(Cookie::named(&quot;signed&quot;));
+    /// jar.signed_mut(&amp;key).remove(&quot;signed&quot;);
     /// ```
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;signed&quot;</span>)]
     #[cfg_attr(all(nightly, doc), doc(cfg(feature = <span class="string">&quot;signed&quot;</span>)))]
     </span><span class="kw">pub fn </span>signed_mut&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>Key) -&gt; SignedJar&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt; {
         SignedJar::new(<span class="self">self</span>, key)
+    }
+
+    <span class="doccomment">/// Returns a read-only `PrefixedJar` with `self` as its parent jar that
+    /// prefixes the name of cookies with `prefix`. Any retrievals from the
+    /// child jar will be made from the parent jar.
+    ///
+    /// **Note:** Cookie prefixes are specified in an HTTP draft! Their meaning
+    /// and definition are subject to change.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use cookie::CookieJar;
+    /// use cookie::prefix::{Host, Secure};
+    ///
+    /// // Add a `Host` prefixed cookie.
+    /// let mut jar = CookieJar::new();
+    /// jar.prefixed_mut(Host).add((&quot;h0st&quot;, &quot;value&quot;));
+    /// jar.prefixed_mut(Secure).add((&quot;secur3&quot;, &quot;value&quot;));
+    ///
+    /// // The cookie&#39;s name is prefixed in the parent jar.
+    /// assert!(matches!(jar.get(&quot;h0st&quot;), None));
+    /// assert!(matches!(jar.get(&quot;__Host-h0st&quot;), Some(_)));
+    /// assert!(matches!(jar.get(&quot;secur3&quot;), None));
+    /// assert!(matches!(jar.get(&quot;__Secure-secur3&quot;), Some(_)));
+    ///
+    /// // The prefixed jar automatically removes the prefix.
+    /// assert_eq!(jar.prefixed(Host).get(&quot;h0st&quot;).unwrap().name(), &quot;h0st&quot;);
+    /// assert_eq!(jar.prefixed(Host).get(&quot;h0st&quot;).unwrap().value(), &quot;value&quot;);
+    /// assert_eq!(jar.prefixed(Secure).get(&quot;secur3&quot;).unwrap().name(), &quot;secur3&quot;);
+    /// assert_eq!(jar.prefixed(Secure).get(&quot;secur3&quot;).unwrap().value(), &quot;value&quot;);
+    ///
+    /// // Only the correct prefixed jar retrieves the cookie.
+    /// assert!(matches!(jar.prefixed(Host).get(&quot;secur3&quot;), None));
+    /// assert!(matches!(jar.prefixed(Secure).get(&quot;h0st&quot;), None));
+    /// ```
+    </span><span class="attr">#[inline(always)]
+    </span><span class="kw">pub fn </span>prefixed&lt;<span class="lifetime">&#39;a</span>, P: Prefix&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, prefix: P) -&gt; PrefixedJar&lt;P, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self</span>&gt; {
+        <span class="kw">let _ </span>= prefix;
+        PrefixedJar::new(<span class="self">self</span>)
+    }
+
+    <span class="doccomment">/// Returns a read/write `PrefixedJar` with `self` as its parent jar that
+    /// prefixes the name of cookies with `prefix` and makes the cookie conform
+    /// to the prefix&#39;s requirements. This means that added cookies:
+    ///
+    ///   1. Have the [`Prefix::PREFIX`] prepended to their name.
+    ///   2. Modify the cookie via [`Prefix::conform()`] so that it conforms to
+    ///      the prefix&#39;s requirements.
+    ///
+    /// Any modifications to the child jar will be reflected on the parent jar,
+    /// and any retrievals from the child jar will be made from the parent jar.
+    ///
+    /// **Note:** Cookie prefixes are specified in an HTTP draft! Their meaning
+    /// and definition are subject to change.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use cookie::CookieJar;
+    /// use cookie::prefix::{Host, Secure};
+    ///
+    /// // Add some prefixed cookies.
+    /// let mut jar = CookieJar::new();
+    /// jar.prefixed_mut(Host).add((&quot;one&quot;, &quot;1&quot;));
+    /// jar.prefixed_mut(Secure).add((2.to_string(), &quot;2&quot;));
+    /// jar.prefixed_mut(Host).add((format!(&quot;{:0b}&quot;, 3), &quot;0b11&quot;));
+    ///
+    /// // Fetch cookies with either `prefixed()` or `prefixed_mut()`.
+    /// assert_eq!(jar.prefixed(Host).get(&quot;one&quot;).unwrap().value(), &quot;1&quot;);
+    /// assert_eq!(jar.prefixed(Secure).get(&quot;2&quot;).unwrap().value(), &quot;2&quot;);
+    /// assert_eq!(jar.prefixed_mut(Host).get(&quot;11&quot;).unwrap().value(), &quot;0b11&quot;);
+    ///
+    /// // Remove cookies.
+    /// jar.prefixed_mut(Host).remove(&quot;one&quot;);
+    /// assert!(jar.prefixed(Host).get(&quot;one&quot;).is_none());
+    /// ```
+    </span><span class="kw">pub fn </span>prefixed_mut&lt;<span class="lifetime">&#39;a</span>, P: Prefix&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">self</span>, prefix: P) -&gt; PrefixedJar&lt;P, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">Self</span>&gt; {
+        <span class="kw">let _ </span>= prefix;
+        PrefixedJar::new(<span class="self">self</span>)
     }
 }
 
@@ -1278,16 +1446,16 @@
     </span><span class="kw">fn </span>simple() {
         <span class="kw">let </span><span class="kw-2">mut </span>c = CookieJar::new();
 
-        c.add(Cookie::new(<span class="string">&quot;test&quot;</span>, <span class="string">&quot;&quot;</span>));
-        c.add(Cookie::new(<span class="string">&quot;test2&quot;</span>, <span class="string">&quot;&quot;</span>));
-        c.remove(Cookie::named(<span class="string">&quot;test&quot;</span>));
+        c.add((<span class="string">&quot;test&quot;</span>, <span class="string">&quot;&quot;</span>));
+        c.add((<span class="string">&quot;test2&quot;</span>, <span class="string">&quot;&quot;</span>));
+        c.remove(<span class="string">&quot;test&quot;</span>);
 
         <span class="macro">assert!</span>(c.get(<span class="string">&quot;test&quot;</span>).is_none());
         <span class="macro">assert!</span>(c.get(<span class="string">&quot;test2&quot;</span>).is_some());
 
-        c.add(Cookie::new(<span class="string">&quot;test3&quot;</span>, <span class="string">&quot;&quot;</span>));
-        c.remove(Cookie::named(<span class="string">&quot;test2&quot;</span>));
-        c.remove(Cookie::named(<span class="string">&quot;test3&quot;</span>));
+        c.add((<span class="string">&quot;test3&quot;</span>, <span class="string">&quot;&quot;</span>));
+        c.remove(<span class="string">&quot;test2&quot;</span>);
+        c.remove(<span class="string">&quot;test3&quot;</span>);
 
         <span class="macro">assert!</span>(c.get(<span class="string">&quot;test&quot;</span>).is_none());
         <span class="macro">assert!</span>(c.get(<span class="string">&quot;test2&quot;</span>).is_none());
@@ -1320,17 +1488,17 @@
         c.private_mut(<span class="kw-2">&amp;</span>key).add(Cookie::new(<span class="string">&quot;encrypted&quot;</span>, <span class="string">&quot;encrypted&quot;</span>));
         <span class="macro">assert_eq!</span>(c.iter().count(), <span class="number">6</span>);
 
-        c.remove(Cookie::named(<span class="string">&quot;test&quot;</span>));
+        c.remove(<span class="string">&quot;test&quot;</span>);
         <span class="macro">assert_eq!</span>(c.iter().count(), <span class="number">5</span>);
 
-        c.remove(Cookie::named(<span class="string">&quot;signed&quot;</span>));
-        c.remove(Cookie::named(<span class="string">&quot;test2&quot;</span>));
+        c.remove(<span class="string">&quot;signed&quot;</span>);
+        c.remove(<span class="string">&quot;test2&quot;</span>);
         <span class="macro">assert_eq!</span>(c.iter().count(), <span class="number">3</span>);
 
-        c.add(Cookie::new(<span class="string">&quot;test2&quot;</span>, <span class="string">&quot;test2&quot;</span>));
+        c.add((<span class="string">&quot;test2&quot;</span>, <span class="string">&quot;test2&quot;</span>));
         <span class="macro">assert_eq!</span>(c.iter().count(), <span class="number">4</span>);
 
-        c.remove(Cookie::named(<span class="string">&quot;test2&quot;</span>));
+        c.remove(<span class="string">&quot;test2&quot;</span>);
         <span class="macro">assert_eq!</span>(c.iter().count(), <span class="number">3</span>);
     }
 
@@ -1349,8 +1517,8 @@
         c.add(Cookie::new(<span class="string">&quot;test3&quot;</span>, <span class="string">&quot;test3&quot;</span>));
         c.add(Cookie::new(<span class="string">&quot;test4&quot;</span>, <span class="string">&quot;test4&quot;</span>));
 
-        c.remove(Cookie::named(<span class="string">&quot;test&quot;</span>));
-        c.remove(Cookie::named(<span class="string">&quot;original&quot;</span>));
+        c.remove(<span class="string">&quot;test&quot;</span>);
+        c.remove(<span class="string">&quot;original&quot;</span>);
 
         <span class="macro">assert_eq!</span>(c.delta().count(), <span class="number">4</span>);
 
@@ -1381,19 +1549,19 @@
         jar.add(Cookie::new(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">0</span>);
 
         jar.add_original(Cookie::new(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">0</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
         jar.add(Cookie::new(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
     }
 
@@ -1403,7 +1571,7 @@
         jar.add_original(Cookie::new(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">0</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
@@ -1412,7 +1580,7 @@
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
@@ -1420,7 +1588,7 @@
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| !c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
     }
@@ -1435,24 +1603,23 @@
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| !c.value().is_empty()).count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::named(<span class="string">&quot;name&quot;</span>));
+        jar.remove(<span class="string">&quot;name&quot;</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>remove_with_path() {
         <span class="kw">let </span><span class="kw-2">mut </span>jar = CookieJar::new();
-        jar.add_original(Cookie::build(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>).finish());
+        jar.add_original((<span class="string">&quot;name&quot;</span>, <span class="string">&quot;val&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.iter().count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(jar.iter().filter(|c| c.path().is_none()).count(), <span class="number">1</span>);
 
-        jar.remove(Cookie::build(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;&quot;</span>).path(<span class="string">&quot;/&quot;</span>).finish());
+        jar.remove(Cookie::build(<span class="string">&quot;name&quot;</span>).path(<span class="string">&quot;/&quot;</span>));
         <span class="macro">assert_eq!</span>(jar.iter().count(), <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(jar.delta().count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.value().is_empty()).count(), <span class="number">1</span>);
         <span class="macro">assert_eq!</span>(jar.delta().filter(|c| c.path() == <span class="prelude-val">Some</span>(<span class="string">&quot;/&quot;</span>)).count(), <span class="number">1</span>);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/response/stream/sse.rs`."><title>sse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/stream/sse.rs`."><title>sse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -804,7 +803,8 @@
 <a href="#803" id="803">803</a>
 <a href="#804" id="804">804</a>
 <a href="#805" id="805">805</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
+<a href="#806" id="806">806</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 
 <span class="kw">use </span>tokio::io::AsyncRead;
 <span class="kw">use </span>tokio::time::Duration;
@@ -860,7 +860,7 @@
 /// appears only in the raw server-sent event data stream and is inaccessible by
 /// most clients. This includes JavaScript&#39;s `EventSource`. As such, they serve
 /// little utility beyond debugging a raw data stream and keeping a connection
-/// alive. See [hearbeat](struct@EventStream#heartbeat) for information on
+/// alive. See [heartbeat](struct@EventStream#heartbeat) for information on
 /// Rocket&#39;s `EventStream` keep-alive.
 ///
 /// # Fields
@@ -1085,7 +1085,7 @@
     ///
     /// // The two below are equivalent.
     /// let event = Event::comment(&quot;bye&quot;).with_data(&quot;goodbye&quot;);
-    /// let event = Event::data(&quot;goodbyte&quot;).with_comment(&quot;bye&quot;);
+    /// let event = Event::data(&quot;goodbye&quot;).with_comment(&quot;bye&quot;);
     /// ```
     </span><span class="kw">pub fn </span>with_data&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.data = <span class="prelude-val">Some</span>(data.into());
@@ -1104,7 +1104,7 @@
     ///
     /// // The two below are equivalent.
     /// let event = Event::comment(&quot;bye&quot;).with_data(&quot;goodbye&quot;);
-    /// let event = Event::data(&quot;goodbyte&quot;).with_comment(&quot;bye&quot;);
+    /// let event = Event::data(&quot;goodbye&quot;).with_comment(&quot;bye&quot;);
     /// ```
     </span><span class="kw">pub fn </span>with_comment&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.comment = <span class="prelude-val">Some</span>(data.into());
@@ -1157,9 +1157,9 @@
 /// # Responder
 ///
 /// `EventStream` is a (potentially infinite) responder. The response
-/// `Content-Type` is set to [`EventStream`](ContentType::EventStream). The body
-/// is [unsized](crate::response::Body#unsized), and values are sent as soon as
-/// they are yielded by the internal iterator.
+/// `Content-Type` is set to [`EventStream`](const@ContentType::EventStream).
+/// The body is [unsized](crate::response::Body#unsized), and values are sent as
+/// soon as they are yielded by the internal iterator.
 ///
 /// ## Heartbeat
 ///
@@ -1583,31 +1583,31 @@
         <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">2 </span>&amp;&amp; heartbeats &lt;= <span class="number">4</span>, <span class="string">&quot;got {} beat(s)&quot;</span>, heartbeats);
 
         <span class="kw">let </span>stream = <span class="macro">EventStream! </span>{
-            time::sleep(Duration::from_millis(<span class="number">200</span>)).<span class="kw">await</span>;
+            time::sleep(Duration::from_millis(<span class="number">250</span>)).<span class="kw">await</span>;
             <span class="kw">yield </span>Event::data(<span class="string">&quot;foo&quot;</span>);
-            time::sleep(Duration::from_millis(<span class="number">200</span>)).<span class="kw">await</span>;
+            time::sleep(Duration::from_millis(<span class="number">250</span>)).<span class="kw">await</span>;
             <span class="kw">yield </span>Event::data(<span class="string">&quot;bar&quot;</span>);
         };
 
-        <span class="kw">let </span>string = stream.heartbeat(Duration::from_millis(<span class="number">300</span>)).into_string();
+        <span class="comment">// We expect: foo\n\n [heartbeat] bar\n\n [maybe beartbeat].
+        </span><span class="kw">let </span>string = stream.heartbeat(Duration::from_millis(<span class="number">350</span>)).into_string();
         <span class="kw">let </span>heartbeats = string.matches(HEARTBEAT).count();
         <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">1 </span>&amp;&amp; heartbeats &lt;= <span class="number">3</span>, <span class="string">&quot;got {} beat(s)&quot;</span>, heartbeats);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:foo\n\n&quot;</span>));
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:bar\n\n&quot;</span>));
+        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:foo\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
+        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:bar\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
 
         <span class="comment">// We shouldn&#39;t send a heartbeat if a message is immediately available.
         </span><span class="kw">let </span>stream = EventStream::from(once(ready(Event::data(<span class="string">&quot;hello&quot;</span>))));
         <span class="kw">let </span>string = stream.heartbeat(Duration::from_secs(<span class="number">1</span>)).into_string();
-        <span class="macro">assert_eq!</span>(string, <span class="string">&quot;data:hello\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(string, <span class="string">&quot;data:hello\n\n&quot;</span>, <span class="string">&quot;string = {:?}&quot;</span>, string);
 
         <span class="comment">// It&#39;s okay if we do it with two, though.
         </span><span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">&quot;a&quot;</span>), Event::data(<span class="string">&quot;b&quot;</span>)]));
         <span class="kw">let </span>string = stream.heartbeat(Duration::from_secs(<span class="number">1</span>)).into_string();
         <span class="kw">let </span>heartbeats = string.matches(HEARTBEAT).count();
         <span class="macro">assert!</span>(heartbeats &lt;= <span class="number">1</span>);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:a\n\n&quot;</span>));
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:b\n\n&quot;</span>));
+        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:a\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
+        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:b\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

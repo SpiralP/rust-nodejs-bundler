@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket_codegen-0.5.0-rc.2/src/attribute/route/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket_codegen/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/attribute/route/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -435,7 +434,11 @@
 <a href="#434" id="434">434</a>
 <a href="#435" id="435">435</a>
 <a href="#436" id="436">436</a>
-</pre><pre class="rust"><code><span class="kw">mod </span>parse;
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+</pre></div><pre class="rust"><code><span class="kw">mod </span>parse;
 
 <span class="kw">use </span>std::hash::Hash;
 
@@ -447,6 +450,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::syn_ext::{IdentExt, TypeExt <span class="kw">as _</span>};
 <span class="kw">use </span><span class="kw">crate</span>::http_codegen::{Method, Optional};
 <span class="kw">use </span><span class="kw">crate</span>::attribute::param::Guard;
+<span class="kw">use </span><span class="kw">crate</span>::exports::mixed;
 
 <span class="kw">use </span><span class="self">self</span>::parse::{Route, Attribute, MethodAttribute};
 
@@ -454,6 +458,7 @@
     <span class="kw">pub fn </span>guards(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Guard&gt; {
         <span class="self">self</span>.param_guards()
             .chain(<span class="self">self</span>.query_guards())
+            .chain(<span class="self">self</span>.data_guard.iter())
             .chain(<span class="self">self</span>.request_guards.iter())
     }
 
@@ -474,7 +479,7 @@
     }
 
     <span class="macro">define_spanned_export!</span>(Span::call_site() =&gt;
-        __req, __data, _log, _form, Outcome, _Ok, _Err, _Some, _None
+        __req, __data, _log, _form, Outcome, _Ok, _Err, _Some, _None, Status
     );
 
     <span class="comment">// Record all of the static parameters for later filtering.
@@ -540,7 +545,7 @@
             <span class="kw">if </span>!__e.is_empty() {
                 #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Query string failed to match route declaration.&quot;</span>);
                 <span class="kw">for </span>_err <span class="kw">in </span>__e { #<span class="macro">_log::warn_!</span>(<span class="string">&quot;{}&quot;</span>, _err); }
-                <span class="kw">return </span>#Outcome::Forward(#__data);
+                <span class="kw">return </span>#Outcome::Forward((#__data, #Status::UnprocessableEntity));
             }
 
             (#(#ident.unwrap()),<span class="kw-2">*</span>)
@@ -557,13 +562,13 @@
     <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
         <span class="kw">let </span>#ident: #ty = <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromRequest&gt;::from_request(#__req).<span class="kw">await </span>{
             #Outcome::Success(__v) =&gt; __v,
-            #Outcome::Forward(<span class="kw">_</span>) =&gt; {
+            #Outcome::Forward(__e) =&gt; {
                 #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Request guard `{}` is forwarding.&quot;</span>, <span class="macro">stringify!</span>(#ty));
-                <span class="kw">return </span>#Outcome::Forward(#__data);
+                <span class="kw">return </span>#Outcome::Forward((#__data, __e));
             },
-            #Outcome::Failure((__c, __e)) =&gt; {
+            #Outcome::Error((__c, __e)) =&gt; {
                 #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Request guard `{}` failed: {:?}.&quot;</span>, <span class="macro">stringify!</span>(#ty), __e);
-                <span class="kw">return </span>#Outcome::Failure(__c);
+                <span class="kw">return </span>#Outcome::Error(__c);
             }
         };
     }
@@ -573,7 +578,7 @@
     <span class="kw">let </span>(i, name, ty) = (guard.index, <span class="kw-2">&amp;</span>guard.name, <span class="kw-2">&amp;</span>guard.ty);
     <span class="macro">define_spanned_export!</span>(ty.span() =&gt;
         __req, __data, _log, _None, _Some, _Ok, _Err,
-        Outcome, FromSegments, FromParam
+        Outcome, FromSegments, FromParam, Status
     );
 
     <span class="comment">// Returned when a dynamic parameter fails to parse.
@@ -581,7 +586,7 @@
         #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Parameter guard `{}: {}` is forwarding: {:?}.&quot;</span>,
             #name, <span class="macro">stringify!</span>(#ty), __error);
 
-        #Outcome::Forward(#__data)
+        #Outcome::Forward((#__data, #Status::UnprocessableEntity))
     });
 
     <span class="comment">// All dynamic parameters should be found if this function is being called;
@@ -597,7 +602,7 @@
                     #<span class="macro">_log::error_!</span>(<span class="string">&quot;Internal invariant broken: dyn param not found.&quot;</span>);
                     #<span class="macro">_log::error_!</span>(<span class="string">&quot;Please report this to the Rocket issue tracker.&quot;</span>);
                     #<span class="macro">_log::error_!</span>(<span class="string">&quot;https://github.com/SergioBenitez/Rocket/issues&quot;</span>);
-                    <span class="kw">return </span>#Outcome::Forward(#__data);
+                    <span class="kw">return </span>#Outcome::Forward((#__data, #Status::InternalServerError));
                 }
             }
         },
@@ -620,13 +625,13 @@
     <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
         <span class="kw">let </span>#ident: #ty = <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromData&gt;::from_data(#__req, #__data).<span class="kw">await </span>{
             #Outcome::Success(__d) =&gt; __d,
-            #Outcome::Forward(__d) =&gt; {
+            #Outcome::Forward((__d, __e)) =&gt; {
                 #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Data guard `{}` is forwarding.&quot;</span>, <span class="macro">stringify!</span>(#ty));
-                <span class="kw">return </span>#Outcome::Forward(__d);
+                <span class="kw">return </span>#Outcome::Forward((__d, __e));
             }
-            #Outcome::Failure((__c, __e)) =&gt; {
+            #Outcome::Error((__c, __e)) =&gt; {
                 #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Data guard `{}` failed: {:?}.&quot;</span>, <span class="macro">stringify!</span>(#ty), __e);
-                <span class="kw">return </span>#Outcome::Failure(__c);
+                <span class="kw">return </span>#Outcome::Error(__c);
             }
         };
     }
@@ -660,6 +665,7 @@
         }
 
         <span class="attr">#[doc(hidden)]
+        #[allow(unused)]
         </span><span class="kw">pub use </span>#inner_macro_name <span class="kw">as </span>#macro_name;
     }
 }
@@ -678,7 +684,7 @@
         .map(|a| <span class="macro">quote_spanned!</span>(a.span() =&gt; .<span class="kw">await</span>));
 
     <span class="macro">define_spanned_export!</span>(ret_span =&gt; __req, _route);
-    <span class="macro">quote_spanned! </span>{ ret_span =&gt;
+    <span class="macro">quote_spanned! </span>{ mixed(ret_span) =&gt;
         <span class="kw">let </span>___responder = #user_handler_fn_name(#(#parameter_names),<span class="kw-2">*</span>) #_await;
         #_route::Outcome::from(#__req, ___responder)
     }
@@ -695,7 +701,7 @@
         .map(|p| <span class="kw-2">&amp;</span>p.ident)
         .collect();
 
-    <span class="comment">// Note: for a given route, we need to emit a valid graph of eligble
+    <span class="comment">// Note: for a given route, we need to emit a valid graph of eligible
     // sentinels. This means that we don&#39;t have broken links, where a child
     // points to a parent that doesn&#39;t exist. The concern is that the
     // `is_concrete()` filter will cause a break in the graph.
@@ -704,12 +710,12 @@
     //    1. if `is_concrete()` returns `false` for a (valid) type, it returns
     //       false for all of its parents. we consider this an axiom; this is
     //       the point of `is_concrete()`. the type is filtered out, so the
-    //       theorem vacously holds
+    //       theorem vacuously holds
     //    2. if `is_concrete()` returns `true`, for a type `T`, it either:
     //      * returns `false` for the parent. by 1) it will return false for
     //        _all_ parents of the type, so no node in the graph can consider,
     //        directly or indirectly, `T` to be a child, and thus there are no
-    //        broken links; the thereom holds
+    //        broken links; the theorem holds
     //      * returns `true` for the parent, and so the type has a parent, and
     //      the theorem holds.
     //    3. these are all the cases. QED.
@@ -760,6 +766,7 @@
 
     <span class="comment">// Gather info about the function.
     </span><span class="kw">let </span>(vis, handler_fn) = (<span class="kw-2">&amp;</span>route.handler.vis, <span class="kw-2">&amp;</span>route.handler);
+    <span class="kw">let </span>deprecated = handler_fn.attrs.iter().find(|a| a.path().is_ident(<span class="string">&quot;deprecated&quot;</span>));
     <span class="kw">let </span>handler_fn_name = <span class="kw-2">&amp;</span>handler_fn.sig.ident;
     <span class="kw">let </span>internal_uri_macro = internal_uri_macro_decl(<span class="kw-2">&amp;</span>route);
     <span class="kw">let </span>responder_outcome = responder_outcome_expr(<span class="kw-2">&amp;</span>route);
@@ -773,14 +780,14 @@
         #handler_fn
 
         <span class="attr">#[doc(hidden)]
-        #[allow(non_camel_case_types)]
+        #[allow(nonstandard_style)]
         </span><span class="doccomment">/// Rocket code generated proxy structure.
-        </span>#vis <span class="kw">struct </span>#handler_fn_name {  }
+        </span>#deprecated #vis <span class="kw">struct </span>#handler_fn_name {  }
 
         <span class="doccomment">/// Rocket code generated proxy static conversion implementations.
+        </span><span class="attr">#[allow(nonstandard_style, deprecated, clippy::style)]
         </span><span class="kw">impl </span>#handler_fn_name {
-            <span class="attr">#[allow(non_snake_case, unreachable_patterns, unreachable_code)]
-            </span><span class="kw">fn </span>into_info(<span class="self">self</span>) -&gt; #_route::StaticInfo {
+            <span class="kw">fn </span>into_info(<span class="self">self</span>) -&gt; #_route::StaticInfo {
                 <span class="kw">fn </span>monomorphized_function&lt;<span class="lifetime">&#39;__r</span>&gt;(
                     #__req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;__r </span>#Request&lt;<span class="lifetime">&#39;_</span>&gt;,
                     #__data: #Data&lt;<span class="lifetime">&#39;__r</span>&gt;
@@ -871,5 +878,4 @@
 
     result.unwrap_or_else(|diag| diag.emit_as_item_tokens())
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

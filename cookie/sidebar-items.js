@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Expiration","KeyError","ParseError","SameSite"],"struct":["Cookie","CookieBuilder","CookieJar","Delta","Display","Iter","Key","PrivateJar","SignedJar"]};
+window.SIDEBAR_ITEMS = {"enum":["Expiration","ParseError","SameSite"],"mod":["prefix"],"struct":["Cookie","CookieBuilder","CookieJar","Delta","Display","Iter","SplitCookies"]};

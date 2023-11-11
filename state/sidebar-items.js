@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Container","Storage"]};
+window.SIDEBAR_ITEMS = {"macro":["TypeMap"],"struct":["InitCell","TypeMap"]};

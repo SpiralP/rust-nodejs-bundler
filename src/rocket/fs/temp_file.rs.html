@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/fs/temp_file.rs`."><title>temp_file.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fs/temp_file.rs`."><title>temp_file.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -506,7 +505,51 @@
 <a href="#505" id="505">505</a>
 <a href="#506" id="506">506</a>
 <a href="#507" id="507">507</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::{io, mem};
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::{io, mem};
 <span class="kw">use </span>std::path::{PathBuf, Path};
 
 <span class="kw">use </span><span class="kw">crate</span>::Request;
@@ -518,7 +561,7 @@
 
 <span class="kw">use </span>tokio::task;
 <span class="kw">use </span>tokio::fs::{<span class="self">self</span>, File};
-<span class="kw">use </span>tokio::io::AsyncWriteExt;
+<span class="kw">use </span>tokio::io::{AsyncWriteExt, AsyncBufRead, BufReader};
 <span class="kw">use </span>tempfile::{NamedTempFile, TempPath};
 <span class="kw">use </span>either::Either;
 
@@ -541,7 +584,7 @@
 /// 1. A `TempFile` is created at random path `foo`.
 /// 2. The system cleaner removes the file at path `foo`.
 /// 3. Another application creates a file at path `foo`.
-/// 4. The `TempFile`, ostesnsibly at path, `foo`, is persisted unexpectedly
+/// 4. The `TempFile`, ostensibly at path `foo`, is persisted unexpectedly
 ///    with contents different from those in step 1.
 ///
 /// To safe-guard against this issue, you should ensure that your temporary file
@@ -618,7 +661,7 @@
     },
     <span class="attr">#[doc(hidden)]
     </span>Buffered {
-        content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str,
+        content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>[u8],
     }
 }
 
@@ -636,7 +679,7 @@
     ///
     /// # Cross-Device Persistence
     ///
-    /// Attemping to persist a temporary file across logical devices (or mount
+    /// Attempting to persist a temporary file across logical devices (or mount
     /// points) will result in an error. This is a limitation of the underlying
     /// OS. Your options are thus:
     ///
@@ -668,7 +711,7 @@
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.into() };
+    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>persist_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -698,7 +741,7 @@
             }
             TempFile::Buffered { content } =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(<span class="kw-2">&amp;</span>new_path).<span class="kw">await</span><span class="question-mark">?</span>;
-                file.write_all(content.as_bytes()).<span class="kw">await</span><span class="question-mark">?</span>;
+                file.write_all(content).<span class="kw">await</span><span class="question-mark">?</span>;
                 <span class="kw-2">*</span><span class="self">self </span>= TempFile::File {
                     file_name: <span class="prelude-val">None</span>,
                     content_type: <span class="prelude-val">None</span>,
@@ -739,7 +782,7 @@
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.into() };
+    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>copy_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -766,7 +809,7 @@
             TempFile::Buffered { content } =&gt; {
                 <span class="kw">let </span>path = path.as_ref();
                 <span class="kw">let </span><span class="kw-2">mut </span>file = File::create(path).<span class="kw">await</span><span class="question-mark">?</span>;
-                file.write_all(content.as_bytes()).<span class="kw">await</span><span class="question-mark">?</span>;
+                file.write_all(content).<span class="kw">await</span><span class="question-mark">?</span>;
                 <span class="kw-2">*</span><span class="self">self </span>= TempFile::File {
                     file_name: <span class="prelude-val">None</span>,
                     content_type: <span class="prelude-val">None</span>,
@@ -804,7 +847,7 @@
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.into() };
+    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>move_copy_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -819,6 +862,49 @@
         }
 
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// Open the file for reading, returning an `async` stream of the file.
+    ///
+    /// This method should be used sparingly. `TempFile` is intended to be used
+    /// when the incoming data is destined to be stored on disk. If the incoming
+    /// data is intended to be streamed elsewhere, prefer to implement a custom
+    /// form guard via [`FromFormField`] that directly streams the incoming data
+    /// to the ultimate destination.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # #[macro_use] extern crate rocket;
+    /// use rocket::fs::TempFile;
+    /// use rocket::tokio::io;
+    ///
+    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
+    /// async fn handle(file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    ///     let mut stream = file.open().await?;
+    ///     io::copy(&amp;mut stream, &amp;mut io::stdout()).await?;
+    ///     Ok(())
+    /// }
+    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # rocket::async_test(handle(file)).unwrap();
+    /// ```
+    </span><span class="kw">pub async fn </span>open(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw">impl </span>AsyncBufRead + <span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">use </span>tokio_util::either::Either;
+
+        <span class="kw">match </span><span class="self">self </span>{
+            TempFile::File { path, .. } =&gt; {
+                <span class="kw">let </span>path = <span class="kw">match </span>path {
+                    either::Either::Left(p) =&gt; p.as_ref(),
+                    either::Either::Right(p) =&gt; p.as_path(),
+                };
+
+                <span class="kw">let </span>reader = BufReader::new(File::open(path).<span class="kw">await</span><span class="question-mark">?</span>);
+                <span class="prelude-val">Ok</span>(Either::Left(reader))
+            },
+            TempFile::Buffered { content } =&gt; {
+                <span class="prelude-val">Ok</span>(Either::Right(<span class="kw-2">*</span>content))
+            },
+        }
     }
 
     <span class="doccomment">/// Returns the size, in bytes, of the file.
@@ -861,7 +947,7 @@
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.into() };
+    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt; {
@@ -966,7 +1052,8 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>file = File::from_std(file);
         <span class="kw">let </span>fut = data.open(limit).stream_to(tokio::io::BufWriter::new(<span class="kw-2">&amp;mut </span>file));
-        <span class="kw">let </span>n = fut.<span class="kw">await</span><span class="question-mark">?</span>;
+        <span class="kw">let </span>n = fut.<span class="kw">await</span>;
+        <span class="kw">let </span>n = n<span class="question-mark">?</span>;
         <span class="kw">let </span>temp_file = TempFile::File {
             content_type, file_name,
             path: Either::Left(temp_path),
@@ -981,7 +1068,7 @@
 </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;TempFile&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
     <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
         <span class="kw">let </span>n = N { written: field.value.len() <span class="kw">as </span>u64, complete: <span class="bool-val">true  </span>};
-        <span class="prelude-val">Ok</span>(Capped::new(TempFile::Buffered { content: field.value }, n))
+        <span class="prelude-val">Ok</span>(Capped::new(TempFile::Buffered { content: field.value.as_bytes() }, n))
     }
 
     <span class="kw">async fn </span>from_data(
@@ -1000,18 +1087,17 @@
 
         <span class="kw">let </span>has_form = |ty: <span class="kw-2">&amp;</span>ContentType| ty.is_form_data() || ty.is_form();
         <span class="kw">if </span>req.content_type().map_or(<span class="bool-val">false</span>, has_form) {
-            <span class="kw">let </span>(tf, form) = (Paint::white(<span class="string">&quot;TempFile&lt;&#39;_&gt;&quot;</span>), Paint::white(<span class="string">&quot;Form&lt;TempFile&lt;&#39;_&gt;&gt;&quot;</span>));
+            <span class="kw">let </span>(tf, form) = (<span class="string">&quot;TempFile&lt;&#39;_&gt;&quot;</span>.primary(), <span class="string">&quot;Form&lt;TempFile&lt;&#39;_&gt;&gt;&quot;</span>.primary());
             <span class="macro">warn_!</span>(<span class="string">&quot;Request contains a form that will not be processed.&quot;</span>);
             <span class="macro">info_!</span>(<span class="string">&quot;Bare `{}` data guard writes raw, unprocessed streams to disk.&quot;</span>, tf);
             <span class="macro">info_!</span>(<span class="string">&quot;Did you mean to use `{}` instead?&quot;</span>, form);
         }
 
         TempFile::from(req, data, <span class="prelude-val">None</span>, req.content_type().cloned()).<span class="kw">await
-            </span>.into_outcome(Status::BadRequest)
+            </span>.or_error(Status::BadRequest)
     }
 }
 
 <span class="macro">impl_strict_from_form_field_from_capped!</span>(TempFile&lt;<span class="lifetime">&#39;v</span>&gt;);
 <span class="macro">impl_strict_from_data_from_capped!</span>(TempFile&lt;<span class="lifetime">&#39;_</span>&gt;);
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

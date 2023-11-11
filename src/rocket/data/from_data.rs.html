@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/data/from_data.rs`."><title>from_data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/data/from_data.rs`."><title>from_data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -305,7 +304,127 @@
 <a href="#304" id="304">304</a>
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::http::{RawStr, Status};
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::http::{RawStr, Status};
 <span class="kw">use </span><span class="kw">crate</span>::request::{Request, local_cache};
 <span class="kw">use </span><span class="kw">crate</span>::data::{Data, Limits};
 <span class="kw">use </span><span class="kw">crate</span>::outcome::{<span class="self">self</span>, IntoOutcome, try_outcome, Outcome::<span class="kw-2">*</span>};
@@ -314,28 +433,7 @@
 ///
 /// [`FromData`]: crate::data::FromData
 </span><span class="kw">pub type </span>Outcome&lt;<span class="lifetime">&#39;r</span>, T, E = &lt;T <span class="kw">as </span>FromData&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::Error&gt;
-    = outcome::Outcome&lt;T, (Status, E), Data&lt;<span class="lifetime">&#39;r</span>&gt;&gt;;
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, S, E&gt; IntoOutcome&lt;S, (Status, E), Data&lt;<span class="lifetime">&#39;r</span>&gt;&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;S, E&gt; {
-    <span class="kw">type </span>Failure = Status;
-    <span class="kw">type </span>Forward = Data&lt;<span class="lifetime">&#39;r</span>&gt;;
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>into_outcome(<span class="self">self</span>, status: Status) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, S, E&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
-            <span class="prelude-val">Err</span>(err) =&gt; Failure((status, err))
-        }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>or_forward(<span class="self">self</span>, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, S, E&gt; {
-        <span class="kw">match </span><span class="self">self </span>{
-            <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; Forward(data)
-        }
-    }
-}
+    = outcome::Outcome&lt;T, (Status, E), (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status)&gt;;
 
 <span class="doccomment">/// Trait implemented by data guards to derive a value from request body data.
 ///
@@ -358,6 +456,147 @@
 /// argument name for the data guard type `DataGuard`. When the `submit` route
 /// matches, Rocket will call the `FromData` implementation for the type `T`.
 /// The handler will only be called if the guard returns successfully.
+///
+/// ## Build-In Guards
+///
+/// Rocket provides implementations for `FromData` for many types. Their
+/// behavior is documented here:
+///
+///   * `Data`: Returns the untouched `Data`.
+///
+///     - **Fails:** Never.
+///
+///     - **Succeeds:** Always.
+///
+///     - **Forwards:** Never.
+///
+///   * Strings: `Cow&lt;str&gt;`, `&amp;str`, `&amp;RawStr`, `String`
+///
+///     _Limited by the `string` [data limit]._
+///
+///     Reads the body data into a string via [`DataStream::into_string()`].
+///
+///     - **Fails:** If the body data is not valid UTF-8 or on I/O errors while
+///     reading. The error type is [`io::Error`].
+///
+///     - **Succeeds:** If the body data _is_ valid UTF-8. If the limit is
+///     exceeded, the string is truncated to the limit.
+///
+///     - **Forwards:** Never.
+///
+///   * Bytes: `&amp;[u8]`, `Vec&lt;u8&gt;`
+///
+///     _Limited by the `bytes` [data limit]._
+///
+///     Reads the body data into a byte vector via [`DataStream::into_bytes()`].
+///
+///     - **Fails:** On I/O errors while reading. The error type is
+///     [`io::Error`].
+///
+///     - **Succeeds:** As long as no I/O error occurs. If the limit is
+///     exceeded, the slice is truncated to the limit.
+///
+///     - **Forwards:** Never.
+///
+///   * [`TempFile`](crate::fs::TempFile)
+///
+///     _Limited by the `file` and/or `file/$ext` [data limit]._
+///
+///     Streams the body data directly into a temporary file. The data is never
+///     buffered in memory.
+///
+///     - **Fails:** On I/O errors while reading data or creating the temporary
+///     file. The error type is [`io::Error`].
+///
+///     - **Succeeds:** As long as no I/O error occurs and the temporary file
+///     could be created. If the limit is exceeded, only data up to the limit is
+///     read and subsequently written.
+///
+///     - **Forwards:** Never.
+///
+///   * Deserializers: [`Json&lt;T&gt;`], [`MsgPack&lt;T&gt;`]
+///
+///     _Limited by the `json`, `msgpack` [data limit], respectively._
+///
+///     Reads up to the configured limit and deserializes the read data into `T`
+///     using the respective format&#39;s parser.
+///
+///     - **Fails:** On I/O errors while reading the data, or if the data fails
+///     to parse as a `T` according to the deserializer. The error type for
+///     `Json` is [`json::Error`](crate::serde::json::Error) and the error type
+///     for `MsgPack` is [`msgpack::Error`](crate::serde::msgpack::Error).
+///
+///     - **Succeeds:** As long as no I/O error occurs and the (limited) body
+///     data was successfully deserialized as a `T`.
+///
+///     - **Forwards:** Never.
+///
+///   * Forms: [`Form&lt;T&gt;`]
+///
+///     _Limited by the `form` or `data-form` [data limit]._
+///
+///     Parses the incoming data stream into fields according to Rocket&#39;s [field
+///     wire format], pushes each field to `T`&#39;s [`FromForm`] [push parser], and
+///     finalizes the form. Parsing is done on the stream without reading the
+///     data into memory. If the request has as a [`ContentType::Form`], the
+///     `form` limit is applied, otherwise if the request has a
+///     [`ContentType::FormData`], the `data-form` limit is applied.
+///
+///     - **Fails:** On I/O errors while reading the data, or if the data fails
+///     to parse as a `T` according to its `FromForm` implementation. The errors
+///     are collected into an [`Errors`](crate::form::Errors), the error type.
+///
+///     - **Succeeds:** As long as no I/O error occurs and the (limited) body
+///     data was successfully parsed as a `T`.
+///
+///     - **Forwards:** If the request&#39;s `Content-Type` is neither
+///     [`ContentType::Form`] nor [`ContentType::FormData`].
+///
+///   * `Option&lt;T&gt;`
+///
+///     Forwards to `T`&#39;s `FromData` implementation, capturing the outcome.
+///
+///     - **Fails:** Never.
+///
+///     - **Succeeds:** Always. If `T`&#39;s `FromData` implementation succeeds, the
+///     parsed value is returned in `Some`. If its implementation forwards or
+///     fails, `None` is returned.
+///
+///     - **Forwards:** Never.
+///
+///   * `Result&lt;T, T::Error&gt;`
+///
+///     Forwards to `T`&#39;s `FromData` implementation, capturing the outcome.
+///
+///     - **Fails:** Never.
+///
+///     - **Succeeds:** If `T`&#39;s `FromData` implementation succeeds or fails. If
+///     it succeeds, the value is returned in `Ok`. If it fails, the error value
+///     is returned in `Err`.
+///
+///     - **Forwards:** If `T`&#39;s implementation forwards.
+///
+///   * [`Capped&lt;T&gt;`]
+///
+///     Forwards to `T`&#39;s `FromData` implementation, recording whether the data
+///     was truncated (a.k.a. capped) due to `T`&#39;s limit being exceeded.
+///
+///     - **Fails:** If `T`&#39;s implementation fails.
+///     - **Succeeds:** If `T`&#39;s implementation succeeds.
+///     - **Forwards:** If `T`&#39;s implementation forwards.
+///
+/// [data limit]: crate::data::Limits#built-in-limits
+/// [`DataStream::into_string()`]: crate::data::DataStream::into_string()
+/// [`DataStream::into_bytes()`]: crate::data::DataStream::into_bytes()
+/// [`io::Error`]: std::io::Error
+/// [`Json&lt;T&gt;`]: crate::serde::json::Json
+/// [`MsgPack&lt;T&gt;`]: crate::serde::msgpack::MsgPack
+/// [`Form&lt;T&gt;`]: crate::form::Form
+/// [field wire format]: crate::form#field-wire-format
+/// [`FromForm`]: crate::form::FromForm
+/// [push parser]: crate::form::FromForm#push-parsing
+/// [`ContentType::Form`]: crate::http::ContentType::Form
+/// [`ContentType::FormData`]: crate::http::ContentType::FormData
 ///
 /// ## Async Trait
 ///
@@ -417,6 +656,7 @@
 /// use rocket::request::{self, Request};
 /// use rocket::data::{self, Data, FromData, ToByteUnit};
 /// use rocket::http::{Status, ContentType};
+/// use rocket::outcome::Outcome;
 ///
 /// #[derive(Debug)]
 /// enum Error {
@@ -432,12 +672,11 @@
 ///
 ///     async fn from_data(req: &amp;&#39;r Request&lt;&#39;_&gt;, data: Data&lt;&#39;r&gt;) -&gt; data::Outcome&lt;&#39;r, Self&gt; {
 ///         use Error::*;
-///         use rocket::outcome::Outcome::*;
 ///
 ///         // Ensure the content type is correct before opening the data.
 ///         let person_ct = ContentType::new(&quot;application&quot;, &quot;x-person&quot;);
 ///         if req.content_type() != Some(&amp;person_ct) {
-///             return Forward(data);
+///             return Outcome::Forward((data, Status::UnsupportedMediaType));
 ///         }
 ///
 ///         // Use a configured limit with name &#39;person&#39; or fallback to default.
@@ -446,8 +685,8 @@
 ///         // Read the data into a string.
 ///         let string = match data.open(limit).into_string().await {
 ///             Ok(string) if string.is_complete() =&gt; string.into_inner(),
-///             Ok(_) =&gt; return Failure((Status::PayloadTooLarge, TooLarge)),
-///             Err(e) =&gt; return Failure((Status::InternalServerError, Io(e))),
+///             Ok(_) =&gt; return Outcome::Error((Status::PayloadTooLarge, TooLarge)),
+///             Err(e) =&gt; return Outcome::Error((Status::InternalServerError, Io(e))),
 ///         };
 ///
 ///         // We store `string` in request-local cache for long-lived borrows.
@@ -456,16 +695,16 @@
 ///         // Split the string into two pieces at &#39;:&#39;.
 ///         let (name, age) = match string.find(&#39;:&#39;) {
 ///             Some(i) =&gt; (&amp;string[..i], &amp;string[(i + 1)..]),
-///             None =&gt; return Failure((Status::UnprocessableEntity, NoColon)),
+///             None =&gt; return Outcome::Error((Status::UnprocessableEntity, NoColon)),
 ///         };
 ///
 ///         // Parse the age.
 ///         let age: u16 = match age.parse() {
 ///             Ok(age) =&gt; age,
-///             Err(_) =&gt; return Failure((Status::UnprocessableEntity, InvalidAge)),
+///             Err(_) =&gt; return Outcome::Error((Status::UnprocessableEntity, InvalidAge)),
 ///         };
 ///
-///         Success(Person { name, age })
+///         Outcome::Success(Person { name, age })
 ///     }
 /// }
 ///
@@ -497,7 +736,7 @@
     ///
     /// If validation and parsing succeeds, an outcome of `Success` is returned.
     /// If the data is not appropriate given the type of `Self`, `Forward` is
-    /// returned. If parsing fails, `Failure` is returned.
+    /// returned. If parsing fails, `Error` is returned.
     </span><span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt;;
 }
 
@@ -509,7 +748,7 @@
 
     <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>limit = req.limits().get(<span class="string">&quot;string&quot;</span>).unwrap_or(Limits::STRING);
-        data.open(limit).into_string().<span class="kw">await</span>.into_outcome(Status::BadRequest)
+        data.open(limit).into_string().<span class="kw">await</span>.or_error(Status::BadRequest)
     }
 }
 
@@ -572,7 +811,7 @@
 
     <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>limit = req.limits().get(<span class="string">&quot;bytes&quot;</span>).unwrap_or(Limits::BYTES);
-        data.open(limit).into_bytes().<span class="kw">await</span>.into_outcome(Status::BadRequest)
+        data.open(limit).into_bytes().<span class="kw">await</span>.or_error(Status::BadRequest)
     }
 }
 
@@ -594,7 +833,7 @@
     <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>T::from_data(req, data).<span class="kw">await </span>{
             Success(v) =&gt; Success(<span class="prelude-val">Ok</span>(v)),
-            Failure((<span class="kw">_</span>, e)) =&gt; Success(<span class="prelude-val">Err</span>(e)),
+            Error((<span class="kw">_</span>, e)) =&gt; Success(<span class="prelude-val">Err</span>(e)),
             Forward(d) =&gt; Forward(d),
         }
     }
@@ -607,9 +846,8 @@
     <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>T::from_data(req, data).<span class="kw">await </span>{
             Success(v) =&gt; Success(<span class="prelude-val">Some</span>(v)),
-            Failure(..) | Forward(..) =&gt; Success(<span class="prelude-val">None</span>),
+            Error(..) | Forward(..) =&gt; Success(<span class="prelude-val">None</span>),
         }
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

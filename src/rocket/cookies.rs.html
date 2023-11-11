@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/cookies.rs`."><title>cookies.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/cookies.rs`."><title>cookies.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -529,7 +528,74 @@
 <a href="#528" id="528">528</a>
 <a href="#529" id="529">529</a>
 <a href="#530" id="530">530</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::fmt;
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::fmt;
 
 <span class="kw">use </span>parking_lot::Mutex;
 
@@ -559,19 +625,19 @@
 ///
 /// #[get(&quot;/message&quot;)]
 /// fn message(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-///     jar.add(Cookie::new(&quot;message&quot;, &quot;hello!&quot;));
-///     jar.add(Cookie::new(&quot;other&quot;, &quot;bye!&quot;));
+///     jar.add((&quot;message&quot;, &quot;hello!&quot;));
+///     jar.add(Cookie::build((&quot;session&quot;, &quot;bye!&quot;)).expires(None));
 ///
 ///     // `get()` does not reflect changes.
-///     assert!(jar.get(&quot;other&quot;).is_none());
-///     # assert_eq!(jar.get(&quot;message&quot;).map(|c| c.value()), Some(&quot;hi&quot;));
+///     assert!(jar.get(&quot;session&quot;).is_none());
+///     assert_eq!(jar.get(&quot;message&quot;).map(|c| c.value()), Some(&quot;hi&quot;));
 ///
 ///     // `get_pending()` does.
-///     let other_pending = jar.get_pending(&quot;other&quot;);
+///     let session_pending = jar.get_pending(&quot;session&quot;);
 ///     let message_pending = jar.get_pending(&quot;message&quot;);
-///     assert_eq!(other_pending.as_ref().map(|c| c.value()), Some(&quot;bye!&quot;));
+///     assert_eq!(session_pending.as_ref().map(|c| c.value()), Some(&quot;bye!&quot;));
 ///     assert_eq!(message_pending.as_ref().map(|c| c.value()), Some(&quot;hello!&quot;));
-///     # jar.remove(Cookie::named(&quot;message&quot;));
+///     # jar.remove(&quot;message&quot;);
 ///     # assert_eq!(jar.get(&quot;message&quot;).map(|c| c.value()), Some(&quot;hi&quot;));
 ///     # assert!(jar.get_pending(&quot;message&quot;).is_none());
 /// }
@@ -579,7 +645,7 @@
 /// #     use rocket::local::blocking::Client;
 /// #     let client = Client::debug_with(routes![message]).unwrap();
 /// #     let response = client.get(&quot;/message&quot;)
-/// #         .cookie(Cookie::new(&quot;message&quot;, &quot;hi&quot;))
+/// #         .cookie((&quot;message&quot;, &quot;hi&quot;))
 /// #         .dispatch();
 /// #
 /// #     assert!(response.status().class().is_success());
@@ -632,8 +698,8 @@
 /// # #[macro_use] extern crate rocket;
 /// # #[cfg(feature = &quot;secrets&quot;)] {
 /// use rocket::http::Status;
-/// use rocket::outcome::IntoOutcome;
 /// use rocket::request::{self, Request, FromRequest};
+/// use rocket::outcome::IntoOutcome;
 ///
 /// // In practice, we&#39;d probably fetch the user from the database.
 /// struct User(usize);
@@ -647,7 +713,7 @@
 ///             .get_private(&quot;user_id&quot;)
 ///             .and_then(|c| c.value().parse().ok())
 ///             .map(|id| User(id))
-///             .or_forward(())
+///             .or_forward(Status::Unauthorized)
 ///     }
 /// }
 /// # }
@@ -733,7 +799,7 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::CookieJar;
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
@@ -757,7 +823,7 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::CookieJar;
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
@@ -774,15 +840,16 @@
     /// container with the name `name`, irrespective of whether the cookie was
     /// private or not. If no such cookie exists, returns `None`.
     ///
-    /// This _does not_ return cookies sent by the client in a request. To
-    /// retrieve such cookies, using [`CookieJar::get()`] or
+    /// In general, due to performance overhead, calling this method should be
+    /// avoided if it is known that a cookie called `name` is not pending.
+    /// Instead, prefer to use [`CookieJar::get()`] or
     /// [`CookieJar::get_private()`].
     ///
     /// # Example
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::CookieJar;
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
@@ -799,7 +866,14 @@
         }
 
         drop(ops);
-        <span class="self">self</span>.get(name).cloned()
+
+        <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)] </span>{
+            <span class="self">self</span>.get_private(name).or_else(|| <span class="self">self</span>.get(name).cloned())
+        }
+
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;secrets&quot;</span>))] </span>{
+            <span class="self">self</span>.get(name).cloned()
+        }
     }
 
     <span class="doccomment">/// Adds `cookie` to this collection.
@@ -810,6 +884,8 @@
     ///    * `path`: `&quot;/&quot;`
     ///    * `SameSite`: `Strict`
     ///
+    /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
+    ///
     /// # Example
     ///
     /// ```rust
@@ -818,18 +894,19 @@
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.add(Cookie::new(&quot;first&quot;, &quot;value&quot;));
+    ///     jar.add((&quot;first&quot;, &quot;value&quot;));
     ///
-    ///     let cookie = Cookie::build(&quot;other&quot;, &quot;value_two&quot;)
+    ///     let cookie = Cookie::build((&quot;other&quot;, &quot;value_two&quot;))
     ///         .path(&quot;/&quot;)
     ///         .secure(true)
     ///         .same_site(SameSite::Lax);
     ///
-    ///     jar.add(cookie.finish());
+    ///     jar.add(cookie);
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>add(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="self">Self</span>::set_defaults(<span class="kw-2">&amp;mut </span>cookie);
+    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+        <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
+        <span class="self">Self</span>::set_defaults(<span class="self">self</span>.config, <span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Add(cookie, <span class="bool-val">false</span>));
     }
 
@@ -847,37 +924,47 @@
     ///    * `HttpOnly`: `true`
     ///    * `Expires`: 1 week from now
     ///
-    /// These defaults ensure maximum usability and security. For additional
-    /// security, you may wish to set the `secure` flag.
+    /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set. These
+    /// defaults ensure maximum usability and security. For additional security,
+    /// you may wish to set the `secure` flag.
     ///
     /// # Example
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::CookieJar;
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.add_private(Cookie::new(&quot;name&quot;, &quot;value&quot;));
+    ///     jar.add_private((&quot;name&quot;, &quot;value&quot;));
     /// }
     /// ```
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
     #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">pub fn </span>add_private(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="self">Self</span>::set_private_defaults(<span class="kw-2">&amp;mut </span>cookie);
+    </span><span class="kw">pub fn </span>add_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+        <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
+        <span class="self">Self</span>::set_private_defaults(<span class="self">self</span>.config, <span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Add(cookie, <span class="bool-val">true</span>));
     }
 
-    <span class="doccomment">/// Removes `cookie` from this collection and generates a &quot;removal&quot; cookies
-    /// to send to the client on response. For correctness, `cookie` must
-    /// contain the same `path` and `domain` as the cookie that was initially
-    /// set. Failure to provide the initial `path` and `domain` will result in
-    /// cookies that are not properly removed. For convenience, if a path is not
-    /// set on `cookie`, the `&quot;/&quot;` path will automatically be set.
+    <span class="doccomment">/// Removes `cookie` from this collection and generates a &quot;removal&quot; cookie
+    /// to send to the client on response. A &quot;removal&quot; cookie is a cookie that
+    /// has the same name as the original cookie but has an empty value, a
+    /// max-age of 0, and an expiration date far in the past.
     ///
-    /// A &quot;removal&quot; cookie is a cookie that has the same name as the original
-    /// cookie but has an empty value, a max-age of 0, and an expiration date
-    /// far in the past.
+    /// **For successful removal, `cookie` must contain the same `path` and
+    /// `domain` as the cookie that was originally set. The cookie will fail to
+    /// be deleted if any other `path` and `domain` are provided. For
+    /// convenience, a path of `&quot;/&quot;` is automatically set when one is not
+    /// specified.** The full list of defaults when corresponding values aren&#39;t
+    /// specified is:
+    ///
+    ///    * `path`: `&quot;/&quot;`
+    ///    * `SameSite`: `Lax`
+    ///
+    /// &lt;small&gt;Note: a default setting of `Lax` for `SameSite` carries no
+    /// security implications: the removal cookie has expired, so it is never
+    /// transferred to any origin.&lt;/small&gt;
     ///
     /// # Example
     ///
@@ -887,41 +974,62 @@
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.remove(Cookie::named(&quot;name&quot;));
+    ///     // `path` and `SameSite` are set to defaults (`/` and `Lax`)
+    ///     jar.remove(&quot;name&quot;);
+    ///
+    ///     // Use a custom-built cookie to set a custom path.
+    ///     jar.remove(Cookie::build(&quot;name&quot;).path(&quot;/login&quot;));
+    ///
+    ///     // Use a custom-built cookie to set a custom path and domain.
+    ///     jar.remove(Cookie::build(&quot;id&quot;).path(&quot;/guide&quot;).domain(&quot;rocket.rs&quot;));
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>remove(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="kw">if </span>cookie.path().is_none() {
-            cookie.set_path(<span class="string">&quot;/&quot;</span>);
-        }
-
+    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+        <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
+        <span class="self">Self</span>::set_removal_defaults(<span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Remove(cookie, <span class="bool-val">false</span>));
     }
 
     <span class="doccomment">/// Removes the private `cookie` from the collection.
     ///
-    /// For correct removal, the passed in `cookie` must contain the same `path`
-    /// and `domain` as the cookie that was initially set. If a path is not set
-    /// on `cookie`, the `&quot;/&quot;` path will automatically be set.
+    /// **For successful removal, `cookie` must contain the same `path` and
+    /// `domain` as the cookie that was originally set. The cookie will fail to
+    /// be deleted if any other `path` and `domain` are provided. For
+    /// convenience, a path of `&quot;/&quot;` is automatically set when one is not
+    /// specified.** The full list of defaults when corresponding values aren&#39;t
+    /// specified is:
+    ///
+    ///    * `path`: `&quot;/&quot;`
+    ///    * `SameSite`: `Lax`
+    ///
+    /// &lt;small&gt;Note: a default setting of `Lax` for `SameSite` carries no
+    /// security implications: the removal cookie has expired, so it is never
+    /// transferred to any origin.&lt;/small&gt;
     ///
     /// # Example
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::{CookieJar, Cookie};
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.remove_private(Cookie::named(&quot;name&quot;));
+    ///     // `path` and `SameSite` are set to defaults (`/` and `Lax`)
+    ///     jar.remove_private(&quot;name&quot;);
+    ///
+    ///     // Use a custom-built cookie to set a custom path.
+    ///     jar.remove_private(Cookie::build(&quot;name&quot;).path(&quot;/login&quot;));
+    ///
+    ///     // Use a custom-built cookie to set a custom path and domain.
+    ///     let cookie = Cookie::build(&quot;id&quot;).path(&quot;/guide&quot;).domain(&quot;rocket.rs&quot;);
+    ///     jar.remove_private(cookie);
     /// }
     /// ```
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
     #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">pub fn </span>remove_private(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
-        <span class="kw">if </span>cookie.path().is_none() {
-            cookie.set_path(<span class="string">&quot;/&quot;</span>);
-        }
-
+    </span><span class="kw">pub fn </span>remove_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+        <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
+        <span class="self">Self</span>::set_removal_defaults(<span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Remove(cookie, <span class="bool-val">true</span>));
     }
 
@@ -935,7 +1043,7 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// use rocket::http::{Cookie, CookieJar};
+    /// use rocket::http::CookieJar;
     ///
     /// #[get(&quot;/&quot;)]
     /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
@@ -1004,13 +1112,33 @@
     ///    * `path`: `&quot;/&quot;`
     ///    * `SameSite`: `Strict`
     ///
-    </span><span class="kw">fn </span>set_defaults(cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
+    </span><span class="kw">fn </span>set_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
         <span class="kw">if </span>cookie.path().is_none() {
             cookie.set_path(<span class="string">&quot;/&quot;</span>);
         }
 
         <span class="kw">if </span>cookie.same_site().is_none() {
             cookie.set_same_site(SameSite::Strict);
+        }
+
+        <span class="kw">if </span>cookie.secure().is_none() &amp;&amp; config.tls_enabled() {
+            cookie.set_secure(<span class="bool-val">true</span>);
+        }
+    }
+
+    <span class="doccomment">/// For each property below, this method checks if there is a provided value
+    /// and if there is none, sets a default value. Default values are:
+    ///
+    ///    * `path`: `&quot;/&quot;`
+    ///    * `SameSite`: `Lax`
+    </span><span class="kw">fn </span>set_removal_defaults(cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+        <span class="kw">if </span>cookie.path().is_none() {
+            cookie.set_path(<span class="string">&quot;/&quot;</span>);
+        }
+
+        <span class="kw">if </span>cookie.same_site().is_none() {
+            cookie.set_same_site(SameSite::Lax);
         }
     }
 
@@ -1023,9 +1151,10 @@
     ///    * `HttpOnly`: `true`
     ///    * `Expires`: 1 week from now
     ///
+    /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
     #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">fn </span>set_private_defaults(cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">fn </span>set_private_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
         <span class="kw">if </span>cookie.path().is_none() {
             cookie.set_path(<span class="string">&quot;/&quot;</span>);
         }
@@ -1040,6 +1169,10 @@
 
         <span class="kw">if </span>cookie.expires().is_none() {
             cookie.set_expires(time::OffsetDateTime::now_utc() + time::Duration::weeks(<span class="number">1</span>));
+        }
+
+        <span class="kw">if </span>cookie.secure().is_none() &amp;&amp; config.tls_enabled() {
+            cookie.set_secure(<span class="bool-val">true</span>);
         }
     }
 }
@@ -1059,5 +1192,4 @@
     }
 
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

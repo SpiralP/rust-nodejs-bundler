@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/state-0.5.3/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../state/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -267,8 +267,7 @@
 <a href="#267" id="267">267</a>
 <a href="#268" id="268">268</a>
 <a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-</pre><pre class="rust"><code><span class="attr">#![doc(html_root_url = <span class="string">&quot;https://docs.rs/state/0.5.3&quot;</span>)]
+</pre></div><pre class="rust"><code><span class="attr">#![doc(html_root_url = <span class="string">&quot;https://docs.rs/state/0.6.0&quot;</span>)]
 #![warn(missing_docs)]
 
 </span><span class="doccomment">//! # Safe, Effortless `state` Management
@@ -276,9 +275,9 @@
 //! This crate allows you to safely and effortlessly manage global and/or
 //! thread-local state. Three primitives are provided for state management:
 //!
-//!  * **[`struct@Container`]:** Type-based storage for many values.
-//!  * **[`Storage`]:** Lazy storage for a single value.
-//!  * **[`LocalStorage`]:** Lazy thread-local storage for a single value.
+//!  * **[`struct@TypeMap`]:** Type-based storage for many values.
+//!  * **[`InitCell`]:** Thread-safe init-once storage for a single value.
+//!  * **[`LocalInitCell`]:** Thread-local init-once-per-thread cell.
 //!
 //! ## Usage
 //!
@@ -286,7 +285,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! state = &quot;0.5&quot;
+//! state = &quot;0.6.0&quot;
 //! ```
 //!
 //! Thread-local state management is not enabled by default. You can enable it
@@ -294,38 +293,38 @@
 //!
 //! ```toml
 //! [dependencies]
-//! state = { version = &quot;0.5&quot;, features = [&quot;tls&quot;] }
+//! state = { version = &quot;0.6.0&quot;, features = [&quot;tls&quot;] }
 //! ```
 //!
 //! ## Use Cases
 //!
 //! ### Memoizing Expensive Operations
 //!
-//! The [`Storage`] type can be used to conveniently memoize expensive
+//! The [`InitCell`] type can be used to conveniently memoize expensive
 //! read-based operations without needing to mutably borrow. Consider a `struct`
 //! with a field `value` and method `compute()` that performs an expensive
-//! operation on `value` to produce a derived value. We can use `Storage` to
+//! operation on `value` to produce a derived value. We can use `InitCell` to
 //! memoize `compute()`:
 //!
 //! ```rust
-//! use state::Storage;
+//! use state::InitCell;
 //!
 //! struct Value;
 //! struct DerivedValue;
 //!
 //! struct Foo {
 //!     value: Value,
-//!     cached: Storage&lt;DerivedValue&gt;
+//!     cached: InitCell&lt;DerivedValue&gt;
 //! }
 //!
 //! impl Foo {
 //!     fn set_value(&amp;mut self, v: Value) {
 //!         self.value = v;
-//!         self.cached = Storage::new();
+//!         self.cached.reset();
 //!     }
 //!
 //!     fn compute(&amp;self) -&gt; &amp;DerivedValue {
-//!         self.cached.get_or_set(|| {
+//!         self.cached.get_or_init(|| {
 //!             let _value = &amp;self.value;
 //!             unimplemented!(&quot;expensive computation with `self.value`&quot;)
 //!         })
@@ -365,15 +364,15 @@
 //!      `RwLock&lt;Option&lt;Configuration&gt;&gt;` to `Some`. Retrieve by `lock`ing and
 //!      checking for `Some`, paying the cost of synchronization.
 //!
-//! With `state`, you can use [`LocalStorage`] as follows:
+//! With `state`, you can use [`LocalInitCell`] as follows:
 //!
 //! ```rust
 //! # extern crate state;
 //! # #[cfg(feature = &quot;tls&quot;)]
 //! # fn main() {
-//! # use state::LocalStorage;
+//! # use state::LocalInitCell;
 //! # struct Configuration { name: String, number: isize, verbose: bool }
-//! static CONFIG: LocalStorage&lt;Configuration&gt; = LocalStorage::new();
+//! static CONFIG: LocalInitCell&lt;Configuration&gt; = LocalInitCell::new();
 //!
 //! fn main() {
 //!     CONFIG.set(|| Configuration {
@@ -391,7 +390,7 @@
 //! # fn main() {  }
 //! ```
 //!
-//! Note that you can _also_ use [`Storage`] to the same effect.
+//! Note that you can _also_ use [`InitCell`] to the same effect.
 //!
 //! ### Read/Write Singleton
 //!
@@ -400,23 +399,23 @@
 //! have two options:
 //!
 //!   1. If we want to maintain the _same_ state in any thread, we can use a
-//!      `Storage` structure and wrap our `Configuration` structure in a
+//!      `InitCell` structure and wrap our `Configuration` structure in a
 //!      synchronization primitive.
 //!   2. If we want to maintain _different_ state in any thread, we can continue
-//!      to use a `LocalStorage` structure and wrap our `LocalStorage` type in a
+//!      to use a `LocalInitCell` structure and wrap our `LocalInitCell` type in a
 //!      `Cell` structure for internal mutability.
 //!
 //! In this example, we&#39;ll choose **1**. The next example illustrates an
 //! instance of **2**.
 //!
-//! The following implements **1** by using a `Storage` structure and wrapping
+//! The following implements **1** by using a `InitCell` structure and wrapping
 //! the `Configuration` type with a `RwLock`:
 //!
 //! ```rust
 //! # struct Configuration { name: String, number: isize, verbose: bool }
-//! # use state::Storage;
+//! # use state::InitCell;
 //! # use std::sync::RwLock;
-//! static CONFIG: Storage&lt;RwLock&lt;Configuration&gt;&gt; = Storage::new();
+//! static CONFIG: InitCell&lt;RwLock&lt;Configuration&gt;&gt; = InitCell::new();
 //!
 //! fn main() {
 //!     let config = Configuration {
@@ -440,7 +439,7 @@
 //! thread. You&#39;d like to store the count in a `Cell&lt;usize&gt;` and use
 //! `count.set(count.get() + 1)` to increment the count. Prior to `state`, your
 //! only option was to use the `thread_local!` macro. `state` provides a more
-//! flexible, and arguably simpler solution via `LocalStorage`. This scanario
+//! flexible, and arguably simpler solution via `LocalInitCell`. This scanario
 //! is implemented in the folloiwng:
 //!
 //! ```rust
@@ -448,9 +447,9 @@
 //! # use std::cell::Cell;
 //! # use std::thread;
 //! # #[cfg(feature = &quot;tls&quot;)]
-//! # use state::LocalStorage;
+//! # use state::LocalInitCell;
 //! # #[cfg(feature = &quot;tls&quot;)]
-//! static COUNT: LocalStorage&lt;Cell&lt;usize&gt;&gt; = LocalStorage::new();
+//! static COUNT: LocalInitCell&lt;Cell&lt;usize&gt;&gt; = LocalInitCell::new();
 //!
 //! # #[cfg(not(feature = &quot;tls&quot;))] fn function_to_measure() { }
 //! # #[cfg(feature = &quot;tls&quot;)]
@@ -488,7 +487,7 @@
 //!
 //! `state` has been extensively vetted, manually and automatically, for soundness
 //! and correctness. _All_ unsafe code, including in internal concurrency
-//! primitives, `Container`, and `Storage` are exhaustively verified for pairwise
+//! primitives, `TypeMap`, and `InitCell` are exhaustively verified for pairwise
 //! concurrency correctness and internal aliasing exclusion with `loom`.
 //! Multithreading invariants, aliasing invariants, and other soundness properties
 //! are verified with `miri`. Verification is run by the CI on every commit.
@@ -496,13 +495,13 @@
 //! ## Performance
 //!
 //! `state` is heavily tuned to perform optimally. `get{_local}` and
-//! `set{_local}` calls to a `Container` incur overhead due to type lookup.
-//! `Storage`, on the other hand, is optimal for global storage retrieval; it is
+//! `set{_local}` calls to a `TypeMap` incur overhead due to type lookup.
+//! `InitCell`, on the other hand, is optimal for global storage retrieval; it is
 //! _slightly faster_ than accessing global state initialized through
-//! `lazy_static!`, more so across many threads. `LocalStorage` incurs slight
-//! overhead due to thread lookup. However, `LocalStorage` has no
-//! synchronization overhead, so retrieval from `LocalStorage` is faster than
-//! through `Storage` across many threads.
+//! `lazy_static!`, more so across many threads. `LocalInitCell` incurs slight
+//! overhead due to thread lookup. However, `LocalInitCell` has no
+//! synchronization overhead, so retrieval from `LocalInitCell` is faster than
+//! through `InitCell` across many threads.
 //!
 //! Bear in mind that `state` allows global initialization at _any_ point in the
 //! program. Other solutions, such as `lazy_static!` and `thread_local!` allow
@@ -516,20 +515,19 @@
 //! state manually throughout your program when feasible.
 
 </span><span class="kw">mod </span>ident_hash;
-<span class="kw">mod </span>storage;
+<span class="kw">mod </span>cell;
 <span class="kw">mod </span>init;
 <span class="kw">mod </span>shim;
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">pub mod </span>container;
+</span><span class="kw">pub mod </span>type_map;
 
-<span class="kw">pub use </span>container::Container;
-<span class="kw">pub use </span>storage::Storage;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>shim::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>type_map::TypeMap;
+<span class="kw">pub use </span>cell::InitCell;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)] </span><span class="kw">mod </span>tls;
 <span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)] </span><span class="kw">mod </span>thread_local;
-<span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)] </span><span class="kw">pub use </span>tls::LocalStorage;
+<span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)] </span><span class="kw">pub use </span>tls::LocalInitCell;
 
 <span class="doccomment">/// Exports for use by loom tests but otherwise private.
 </span><span class="attr">#[cfg(loom)]
@@ -538,5 +536,4 @@
     <span class="doccomment">/// The `Init` type.
     </span><span class="kw">pub mod </span>init;
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ByteUnit","Capped","Data","DataStream","Limits","N"],"trait":["FromData","ToByteUnit"],"type":["Outcome"]};
+window.SIDEBAR_ITEMS = {"struct":["ByteUnit","Capped","Data","DataStream","IoStream","Limits","N"],"trait":["FromData","IoHandler","ToByteUnit"],"type":["Outcome"]};

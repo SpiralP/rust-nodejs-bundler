@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket_http-0.5.0-rc.2/src/header/known_media_types.rs`."><title>known_media_types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket_http/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/header/known_media_types.rs`."><title>known_media_types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -117,7 +117,26 @@
 <a href="#117" id="117">117</a>
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
-</pre><pre class="rust"><code><span class="macro">macro_rules! </span>known_media_types {
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
+<a href="#129" id="129">129</a>
+<a href="#130" id="130">130</a>
+<a href="#131" id="131">131</a>
+<a href="#132" id="132">132</a>
+<a href="#133" id="133">133</a>
+<a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+</pre></div><pre class="rust"><code><span class="macro">macro_rules! </span>known_media_types {
     (<span class="macro-nonterminal">$cont</span>:ident) =&gt; (<span class="macro-nonterminal">$</span><span class="macro">cont! </span>{
         <span class="macro-nonterminal">Any </span>(is_any): <span class="string">&quot;any media type&quot;</span>, <span class="string">&quot;*&quot;</span>, <span class="string">&quot;*&quot;</span>,
         Binary (is_binary): <span class="string">&quot;binary data&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;octet-stream&quot;</span>,
@@ -128,10 +147,12 @@
         JSON (is_json): <span class="string">&quot;JSON&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;json&quot;</span>,
         MsgPack (is_msgpack): <span class="string">&quot;MsgPack&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;msgpack&quot;</span>,
         Form (is_form): <span class="string">&quot;forms&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;x-www-form-urlencoded&quot;</span>,
-        JavaScript (is_javascript): <span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;javascript&quot;</span>,
+        JavaScript (is_javascript): <span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;javascript&quot;</span>,
         CSS (is_css): <span class="string">&quot;CSS&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;css&quot; </span>; <span class="string">&quot;charset&quot; </span>=&gt; <span class="string">&quot;utf-8&quot;</span>,
         FormData (is_form_data): <span class="string">&quot;multipart form data&quot;</span>, <span class="string">&quot;multipart&quot;</span>, <span class="string">&quot;form-data&quot;</span>,
         XML (is_xml): <span class="string">&quot;XML&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;xml&quot; </span>; <span class="string">&quot;charset&quot; </span>=&gt; <span class="string">&quot;utf-8&quot;</span>,
+        OPF (is_opf): <span class="string">&quot;OPF&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;oebps-package+xml&quot;</span>,
+        XHTML (is_xhtml): <span class="string">&quot;XHTML&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;xhtml+xml&quot;</span>,
         CSV (is_csv): <span class="string">&quot;CSV&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;csv&quot; </span>; <span class="string">&quot;charset&quot; </span>=&gt; <span class="string">&quot;utf-8&quot;</span>,
         PNG (is_png): <span class="string">&quot;PNG&quot;</span>, <span class="string">&quot;image&quot;</span>, <span class="string">&quot;png&quot;</span>,
         GIF (is_gif): <span class="string">&quot;GIF&quot;</span>, <span class="string">&quot;image&quot;</span>, <span class="string">&quot;gif&quot;</span>,
@@ -160,10 +181,16 @@
         TAR (is_tar): <span class="string">&quot;tape archive&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;x-tar&quot;</span>,
         GZIP (is_gzip): <span class="string">&quot;gzipped binary&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;gzip&quot;</span>,
         MOV (is_mov): <span class="string">&quot;quicktime video&quot;</span>, <span class="string">&quot;video&quot;</span>, <span class="string">&quot;quicktime&quot;</span>,
+        MP3 (is_mp3): <span class="string">&quot;MPEG Audio&quot;</span>, <span class="string">&quot;audio&quot;</span>, <span class="string">&quot;mpeg&quot;</span>,
         MP4 (is_mp4): <span class="string">&quot;MPEG4 Video&quot;</span>, <span class="string">&quot;video&quot;</span>, <span class="string">&quot;mp4&quot;</span>,
         ZIP (is_zip): <span class="string">&quot;ZIP archive&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;zip&quot;</span>,
+        CBZ (is_cbz): <span class="string">&quot;Comic ZIP archive&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;vnd.comicbook+zip&quot;</span>,
+        CBR (is_cbr): <span class="string">&quot;Comic RAR compressed archive&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;vnd.comicbook-rar&quot;</span>,
+        RAR (is_rar): <span class="string">&quot;RAR compressed archive&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;vnd.rar&quot;</span>,
+        EPUB (is_epub): <span class="string">&quot;EPUB&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;epub+zip&quot;</span>,
         EventStream (is_event_stream): <span class="string">&quot;SSE stream&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;event-stream&quot;</span>,
         Markdown (is_markdown): <span class="string">&quot;markdown text&quot;</span>, <span class="string">&quot;text&quot;</span>, <span class="string">&quot;markdown&quot; </span>; <span class="string">&quot;charset&quot; </span>=&gt; <span class="string">&quot;utf-8&quot;</span>,
+        EXE (is_exe): <span class="string">&quot;executable&quot;</span>, <span class="string">&quot;application&quot;</span>, <span class="string">&quot;vnd.microsoft.portable-executable&quot;</span>,
     })
 }
 
@@ -173,8 +200,11 @@
         <span class="string">&quot;html&quot; </span>=&gt; HTML,
         <span class="string">&quot;htm&quot; </span>=&gt; HTML,
         <span class="string">&quot;xml&quot; </span>=&gt; XML,
+        <span class="string">&quot;opf&quot; </span>=&gt; OPF,
+        <span class="string">&quot;xhtml&quot; </span>=&gt; XHTML,
         <span class="string">&quot;csv&quot; </span>=&gt; CSV,
         <span class="string">&quot;js&quot; </span>=&gt; JavaScript,
+        <span class="string">&quot;mjs&quot; </span>=&gt; JavaScript,
         <span class="string">&quot;css&quot; </span>=&gt; CSS,
         <span class="string">&quot;json&quot; </span>=&gt; JSON,
         <span class="string">&quot;png&quot; </span>=&gt; PNG,
@@ -197,12 +227,15 @@
         <span class="string">&quot;otf&quot; </span>=&gt; OTF,
         <span class="string">&quot;woff&quot; </span>=&gt; WOFF,
         <span class="string">&quot;woff2&quot; </span>=&gt; WOFF2,
+        <span class="string">&quot;mp3&quot; </span>=&gt; MP3,
         <span class="string">&quot;mp4&quot; </span>=&gt; MP4,
         <span class="string">&quot;mpeg4&quot; </span>=&gt; MP4,
         <span class="string">&quot;wasm&quot; </span>=&gt; WASM,
         <span class="string">&quot;aac&quot; </span>=&gt; AAC,
         <span class="string">&quot;ics&quot; </span>=&gt; Calendar,
         <span class="string">&quot;bin&quot; </span>=&gt; Binary,
+        <span class="string">&quot;iso&quot; </span>=&gt; Binary,
+        <span class="string">&quot;dmg&quot; </span>=&gt; Binary,
         <span class="string">&quot;mpg&quot; </span>=&gt; MPEG,
         <span class="string">&quot;mpeg&quot; </span>=&gt; MPEG,
         <span class="string">&quot;tar&quot; </span>=&gt; TAR,
@@ -211,8 +244,13 @@
         <span class="string">&quot;tiff&quot; </span>=&gt; TIFF,
         <span class="string">&quot;mov&quot; </span>=&gt; MOV,
         <span class="string">&quot;zip&quot; </span>=&gt; ZIP,
+        <span class="string">&quot;cbz&quot; </span>=&gt; CBZ,
+        <span class="string">&quot;cbr&quot; </span>=&gt; CBR,
+        <span class="string">&quot;rar&quot; </span>=&gt; RAR,
+        <span class="string">&quot;epub&quot; </span>=&gt; EPUB,
         <span class="string">&quot;md&quot; </span>=&gt; Markdown,
         <span class="string">&quot;markdown&quot; </span>=&gt; Markdown,
+        <span class="string">&quot;exe&quot; </span>=&gt; EXE,
     })
 }
 
@@ -236,5 +274,4 @@
         <span class="string">&quot;md&quot; </span>=&gt; Markdown,
     })
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

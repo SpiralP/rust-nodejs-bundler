@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/rocket-0.5.0-rc.2/src/config/config.rs`."><title>config.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html">
-                        <img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/config/config.rs`."><title>config.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -574,16 +573,96 @@
 <a href="#573" id="573">573</a>
 <a href="#574" id="574">574</a>
 <a href="#575" id="575">575</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::net::{IpAddr, Ipv4Addr};
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::net::{IpAddr, Ipv4Addr};
 
 <span class="kw">use </span>figment::{Figment, Profile, Provider, Metadata, error::Result};
 <span class="kw">use </span>figment::providers::{Serialized, Env, Toml, Format};
 <span class="kw">use </span>figment::value::{Map, Dict, magic::RelativePathBuf};
 <span class="kw">use </span>serde::{Deserialize, Serialize};
-<span class="kw">use </span>yansi::Paint;
+<span class="kw">use </span>yansi::{Paint, Style, Color::Primary};
 
+<span class="kw">use </span><span class="kw">crate</span>::log::PaintExt;
 <span class="kw">use </span><span class="kw">crate</span>::config::{LogLevel, Shutdown, Ident};
 <span class="kw">use </span><span class="kw">crate</span>::request::{<span class="self">self</span>, Request, FromRequest};
+<span class="kw">use </span><span class="kw">crate</span>::http::uncased::Uncased;
 <span class="kw">use </span><span class="kw">crate</span>::data::Limits;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
@@ -621,7 +700,7 @@
 ///   * **Metadata**
 ///
 ///     This provider is named `Rocket Config`. It does not specify a
-///     [`Source`](figment::Source) and uses default interpolatation.
+///     [`Source`](figment::Source) and uses default interpolation.
 ///
 ///   * **Data**
 ///
@@ -649,9 +728,23 @@
     /// _**Note:** Rocket only reads this value from sources in the [default
     /// provider](Config::figment())._
     </span><span class="kw">pub </span>workers: usize,
+    <span class="doccomment">/// Limit on threads to start for blocking tasks. **(default: `512`)**
+    </span><span class="kw">pub </span>max_blocking: usize,
     <span class="doccomment">/// How, if at all, to identify the server via the `Server` header.
     /// **(default: `&quot;Rocket&quot;`)**
     </span><span class="kw">pub </span>ident: Ident,
+    <span class="doccomment">/// The name of a header, whose value is typically set by an intermediary
+    /// server or proxy, which contains the real IP address of the connecting
+    /// client. Used internally and by [`Request::client_ip()`] and
+    /// [`Request::real_ip()`].
+    ///
+    /// To disable using any header for this purpose, set this value to `false`.
+    /// Deserialization semantics are identical to those of [`Ident`] except
+    /// that the value must syntactically be a valid HTTP header name.
+    ///
+    /// **(default: `&quot;X-Real-IP&quot;`)**
+    </span><span class="attr">#[serde(deserialize_with = <span class="string">&quot;crate::config::ip_header::deserialize&quot;</span>)]
+    </span><span class="kw">pub </span>ip_header: <span class="prelude-ty">Option</span>&lt;Uncased&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
     <span class="doccomment">/// Streaming read size limits. **(default: [`Limits::default()`])**
     </span><span class="kw">pub </span>limits: Limits,
     <span class="doccomment">/// Directory to store temporary files in. **(default:
@@ -746,7 +839,9 @@
             address: Ipv4Addr::new(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>).into(),
             port: <span class="number">8000</span>,
             workers: num_cpus::get(),
+            max_blocking: <span class="number">512</span>,
             ident: Ident::default(),
+            ip_header: <span class="prelude-val">Some</span>(Uncased::from_borrowed(<span class="string">&quot;X-Real-IP&quot;</span>)),
             limits: Limits::default(),
             temp_dir: std::env::temp_dir().into(),
             keep_alive: <span class="number">5</span>,
@@ -846,7 +941,7 @@
     ///
     /// # Panics
     ///
-    /// If extraction fails, prints an error message indicating the failure and
+    /// If extraction fails, prints an error message indicating the error and
     /// panics. For a version that doesn&#39;t panic, use [`Config::try_from()`].
     ///
     /// # Example
@@ -864,10 +959,7 @@
     /// let config = Config::from(figment);
     /// ```
     </span><span class="kw">pub fn </span>from&lt;T: Provider&gt;(provider: T) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::try_from(provider).unwrap_or_else(|e| {
-            pretty_print_error(e);
-            <span class="macro">panic!</span>(<span class="string">&quot;aborting due to configuration error(s)&quot;</span>)
-        })
+        <span class="self">Self</span>::try_from(provider).unwrap_or_else(bail_with_config_error)
     }
 
     <span class="doccomment">/// Returns `true` if TLS is enabled.
@@ -923,58 +1015,84 @@
         <span class="attr">#[cfg(not(feature = <span class="string">&quot;mtls&quot;</span>))] </span>{ <span class="bool-val">false </span>}
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>pretty_print(<span class="kw-2">&amp;</span><span class="self">self</span>, figment: <span class="kw-2">&amp;</span>Figment) {
-        <span class="kw">use </span><span class="kw">crate</span>::log::PaintExt;
+    <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>known_secret_key_used(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">const </span>KNOWN_SECRET_KEYS: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str] = <span class="kw-2">&amp;</span>[
+            <span class="string">&quot;hPRYyVRiMyxpw5sBB1XeCMN1kFsDCqKvBi2QJxBVHQk=&quot;
+        </span>];
 
-        <span class="kw">fn </span>bold&lt;T: std::fmt::Display&gt;(val: T) -&gt; Paint&lt;T&gt; {
-            Paint::default(val).bold()
+        KNOWN_SECRET_KEYS.iter().any(|<span class="kw-2">&amp;</span>key_str| {
+            <span class="kw">let </span>value = figment::value::Value::from(key_str);
+            <span class="self">self</span>.secret_key == value.deserialize().expect(<span class="string">&quot;known key is valid&quot;</span>)
+        })
+    }
+
+    <span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>trace_print(<span class="kw-2">&amp;</span><span class="self">self</span>, figment: <span class="kw-2">&amp;</span>Figment) {
+        <span class="kw">if </span><span class="self">self</span>.log_level != LogLevel::Debug {
+            <span class="kw">return</span>;
         }
 
-        <span class="macro">launch_info!</span>(<span class="string">&quot;{}Configured for {}.&quot;</span>, Paint::emoji(<span class="string">&quot;🔧 &quot;</span>), <span class="self">self</span>.profile);
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;address: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.address));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;port: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.port));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;workers: {}&quot;</span>, bold(<span class="self">self</span>.workers));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;ident: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.ident));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;limits: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.limits));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;temp dir: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.temp_dir.relative().display()));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;http/2: {}&quot;</span>, bold(<span class="macro">cfg!</span>(feature = <span class="string">&quot;http2&quot;</span>)));
+        <span class="macro">trace!</span>(<span class="string">&quot;-- configuration trace information --&quot;</span>);
+        <span class="kw">for </span>param <span class="kw">in </span><span class="self">Self</span>::PARAMETERS {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(meta) = figment.find_metadata(param) {
+                <span class="kw">let </span>(param, name) = (param.blue(), meta.name.primary());
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>source) = meta.source {
+                    <span class="macro">trace_!</span>(<span class="string">&quot;{:?} parameter source: {} ({})&quot;</span>, param, name, source);
+                } <span class="kw">else </span>{
+                    <span class="macro">trace_!</span>(<span class="string">&quot;{:?} parameter source: {}&quot;</span>, param, name);
+                }
+            }
+        }
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>pretty_print(<span class="kw-2">&amp;</span><span class="self">self</span>, figment: <span class="kw-2">&amp;</span>Figment) {
+        <span class="kw">static </span>VAL: Style = Primary.bold();
+
+        <span class="self">self</span>.trace_print(figment);
+        <span class="macro">launch_meta!</span>(<span class="string">&quot;{}Configured for {}.&quot;</span>, <span class="string">&quot;🔧 &quot;</span>.emoji(), <span class="self">self</span>.profile.underline());
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;address: {}&quot;</span>, <span class="self">self</span>.address.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;port: {}&quot;</span>, <span class="self">self</span>.port.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;workers: {}&quot;</span>, <span class="self">self</span>.workers.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;max blocking threads: {}&quot;</span>, <span class="self">self</span>.max_blocking.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;ident: {}&quot;</span>, <span class="self">self</span>.ident.paint(VAL));
+
+        <span class="kw">match </span><span class="self">self</span>.ip_header {
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref </span>name) =&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;IP header: {}&quot;</span>, name.paint(VAL)),
+            <span class="prelude-val">None </span>=&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;IP header: {}&quot;</span>, <span class="string">&quot;disabled&quot;</span>.paint(VAL))
+        }
+
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;limits: {}&quot;</span>, (<span class="kw-2">&amp;</span><span class="self">self</span>.limits).paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;temp dir: {}&quot;</span>, <span class="self">self</span>.temp_dir.relative().display().paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;http/2: {}&quot;</span>, (<span class="macro">cfg!</span>(feature = <span class="string">&quot;http2&quot;</span>).paint(VAL)));
 
         <span class="kw">match </span><span class="self">self</span>.keep_alive {
-            <span class="number">0 </span>=&gt; <span class="macro">launch_info_!</span>(<span class="string">&quot;keep-alive: {}&quot;</span>, bold(<span class="string">&quot;disabled&quot;</span>)),
-            ka =&gt; <span class="macro">launch_info_!</span>(<span class="string">&quot;keep-alive: {}{}&quot;</span>, bold(ka), bold(<span class="string">&quot;s&quot;</span>)),
+            <span class="number">0 </span>=&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;keep-alive: {}&quot;</span>, <span class="string">&quot;disabled&quot;</span>.paint(VAL)),
+            ka =&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;keep-alive: {}{}&quot;</span>, ka.paint(VAL), <span class="string">&quot;s&quot;</span>.paint(VAL)),
         }
 
         <span class="kw">match </span>(<span class="self">self</span>.tls_enabled(), <span class="self">self</span>.mtls_enabled()) {
-            (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; <span class="macro">launch_info_!</span>(<span class="string">&quot;tls: {}&quot;</span>, bold(<span class="string">&quot;enabled w/mtls&quot;</span>)),
-            (<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; <span class="macro">launch_info_!</span>(<span class="string">&quot;tls: {} w/o mtls&quot;</span>, bold(<span class="string">&quot;enabled&quot;</span>)),
-            (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; <span class="macro">launch_info_!</span>(<span class="string">&quot;tls: {}&quot;</span>, bold(<span class="string">&quot;disabled&quot;</span>)),
+            (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="string">&quot;enabled w/mtls&quot;</span>.paint(VAL)),
+            (<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;tls: {} w/o mtls&quot;</span>, <span class="string">&quot;enabled&quot;</span>.paint(VAL)),
+            (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; <span class="macro">launch_meta_!</span>(<span class="string">&quot;tls: {}&quot;</span>, <span class="string">&quot;disabled&quot;</span>.paint(VAL)),
         }
 
-        <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)] </span>{
-            <span class="macro">launch_info_!</span>(<span class="string">&quot;secret key: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.secret_key));
-            <span class="kw">if </span>!<span class="self">self</span>.secret_key.is_provided() {
-                <span class="macro">warn!</span>(<span class="string">&quot;secrets enabled without a stable `secret_key`&quot;</span>);
-                <span class="macro">launch_info_!</span>(<span class="string">&quot;disable `secrets` feature or configure a `secret_key`&quot;</span>);
-                <span class="macro">launch_info_!</span>(<span class="string">&quot;this becomes an {} in non-debug profiles&quot;</span>, Paint::red(<span class="string">&quot;error&quot;</span>));
-            }
-        }
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;shutdown: {}&quot;</span>, <span class="self">self</span>.shutdown.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;log level: {}&quot;</span>, <span class="self">self</span>.log_level.paint(VAL));
+        <span class="macro">launch_meta_!</span>(<span class="string">&quot;cli colors: {}&quot;</span>, <span class="self">self</span>.cli_colors.paint(VAL));
 
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;shutdown: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.shutdown));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;log level: {}&quot;</span>, bold(<span class="self">self</span>.log_level));
-        <span class="macro">launch_info_!</span>(<span class="string">&quot;cli colors: {}&quot;</span>, bold(<span class="kw-2">&amp;</span><span class="self">self</span>.cli_colors));
-
-        <span class="comment">// Check for now depreacted config values.
+        <span class="comment">// Check for now deprecated config values.
         </span><span class="kw">for </span>(key, replacement) <span class="kw">in </span><span class="self">Self</span>::DEPRECATED_KEYS {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(md) = figment.find_metadata(key) {
-                <span class="macro">warn!</span>(<span class="string">&quot;found value for deprecated config key `{}`&quot;</span>, Paint::white(key));
+                <span class="macro">warn!</span>(<span class="string">&quot;found value for deprecated config key `{}`&quot;</span>, key.paint(VAL));
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>source) = md.source {
-                    <span class="macro">launch_info_!</span>(<span class="string">&quot;in {} {}&quot;</span>, Paint::white(source), md.name);
+                    <span class="macro">launch_meta_!</span>(<span class="string">&quot;in {} {}&quot;</span>, source.paint(VAL), md.name);
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(new_key) = replacement {
-                    <span class="macro">launch_info_!</span>(<span class="string">&quot;key has been by replaced by `{}`&quot;</span>, Paint::white(new_key));
+                    <span class="macro">launch_meta_!</span>(<span class="string">&quot;key has been by replaced by `{}`&quot;</span>, new_key.paint(VAL));
                 } <span class="kw">else </span>{
-                    <span class="macro">launch_info_!</span>(<span class="string">&quot;key has no special meaning&quot;</span>);
+                    <span class="macro">launch_meta_!</span>(<span class="string">&quot;key has no special meaning&quot;</span>);
                 }
             }
         }
@@ -982,13 +1100,22 @@
         <span class="comment">// Check for now removed config values.
         </span><span class="kw">for </span>(prefix, replacement) <span class="kw">in </span><span class="self">Self</span>::DEPRECATED_PROFILES {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(profile) = figment.profiles().find(|p| p.starts_with(prefix)) {
-                <span class="macro">warn!</span>(<span class="string">&quot;found set deprecated profile `{}`&quot;</span>, Paint::white(profile));
+                <span class="macro">warn!</span>(<span class="string">&quot;found set deprecated profile `{}`&quot;</span>, profile.paint(VAL));
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(new_profile) = replacement {
-                    <span class="macro">launch_info_!</span>(<span class="string">&quot;profile was replaced by `{}`&quot;</span>, Paint::white(new_profile));
+                    <span class="macro">launch_meta_!</span>(<span class="string">&quot;profile was replaced by `{}`&quot;</span>, new_profile.paint(VAL));
                 } <span class="kw">else </span>{
-                    <span class="macro">launch_info_!</span>(<span class="string">&quot;profile `{}` has no special meaning&quot;</span>, profile);
+                    <span class="macro">launch_meta_!</span>(<span class="string">&quot;profile `{}` has no special meaning&quot;</span>, profile);
                 }
+            }
+        }
+
+        <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)] </span>{
+            <span class="macro">launch_meta_!</span>(<span class="string">&quot;secret key: {}&quot;</span>, <span class="self">self</span>.secret_key.paint(VAL));
+            <span class="kw">if </span>!<span class="self">self</span>.secret_key.is_provided() {
+                <span class="macro">warn!</span>(<span class="string">&quot;secrets enabled without a stable `secret_key`&quot;</span>);
+                <span class="macro">launch_meta_!</span>(<span class="string">&quot;disable `secrets` feature or configure a `secret_key`&quot;</span>);
+                <span class="macro">launch_meta_!</span>(<span class="string">&quot;this becomes an {} in non-debug profiles&quot;</span>, <span class="string">&quot;error&quot;</span>.red());
             }
         }
     }
@@ -1027,8 +1154,17 @@
     <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::workers`].
     </span><span class="kw">pub const </span>WORKERS: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;workers&quot;</span>;
 
+    <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::max_blocking`].
+    </span><span class="kw">pub const </span>MAX_BLOCKING: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;max_blocking&quot;</span>;
+
     <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::keep_alive`].
     </span><span class="kw">pub const </span>KEEP_ALIVE: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;keep_alive&quot;</span>;
+
+    <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::ident`].
+    </span><span class="kw">pub const </span>IDENT: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;ident&quot;</span>;
+
+    <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::ip_header`].
+    </span><span class="kw">pub const </span>IP_HEADER: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;ip_header&quot;</span>;
 
     <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::limits`].
     </span><span class="kw">pub const </span>LIMITS: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;limits&quot;</span>;
@@ -1050,11 +1186,24 @@
 
     <span class="doccomment">/// The stringy parameter name for setting/extracting [`Config::cli_colors`].
     </span><span class="kw">pub const </span>CLI_COLORS: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;cli_colors&quot;</span>;
+
+    <span class="doccomment">/// An array of all of the stringy parameter names.
+    </span><span class="kw">pub const </span>PARAMETERS: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str] = <span class="kw-2">&amp;</span>[
+        <span class="self">Self</span>::ADDRESS, <span class="self">Self</span>::PORT, <span class="self">Self</span>::WORKERS, <span class="self">Self</span>::MAX_BLOCKING,
+        <span class="self">Self</span>::KEEP_ALIVE, <span class="self">Self</span>::IDENT, <span class="self">Self</span>::IP_HEADER, <span class="self">Self</span>::LIMITS, <span class="self">Self</span>::TLS,
+        <span class="self">Self</span>::SECRET_KEY, <span class="self">Self</span>::TEMP_DIR, <span class="self">Self</span>::LOG_LEVEL, <span class="self">Self</span>::SHUTDOWN,
+        <span class="self">Self</span>::CLI_COLORS,
+    ];
 }
 
 <span class="kw">impl </span>Provider <span class="kw">for </span>Config {
-    <span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Metadata {
-        Metadata::named(<span class="string">&quot;Rocket Config&quot;</span>)
+    <span class="attr">#[track_caller]
+    </span><span class="kw">fn </span>metadata(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Metadata {
+        <span class="kw">if </span><span class="self">self </span>== <span class="kw-2">&amp;</span>Config::default() {
+            Metadata::named(<span class="string">&quot;rocket::Config::default()&quot;</span>)
+        } <span class="kw">else </span>{
+            Metadata::named(<span class="string">&quot;rocket::Config&quot;</span>)
+        }
     }
 
     <span class="attr">#[track_caller]
@@ -1088,13 +1237,19 @@
 }
 
 <span class="attr">#[doc(hidden)]
+</span><span class="kw">pub fn </span>bail_with_config_error&lt;T&gt;(error: figment::Error) -&gt; T {
+    pretty_print_error(error);
+    <span class="macro">panic!</span>(<span class="string">&quot;aborting due to configuration error(s)&quot;</span>)
+}
+
+<span class="attr">#[doc(hidden)]
 </span><span class="kw">pub fn </span>pretty_print_error(error: figment::Error) {
     <span class="kw">use </span>figment::error::{Kind, OneOf};
 
     <span class="kw">crate</span>::log::init_default();
-    <span class="macro">error!</span>(<span class="string">&quot;Rocket configuration extraction from provider failed.&quot;</span>);
+    <span class="macro">error!</span>(<span class="string">&quot;Failed to extract valid configuration.&quot;</span>);
     <span class="kw">for </span>e <span class="kw">in </span>error {
-        <span class="kw">fn </span>w&lt;T: std::fmt::Display&gt;(v: T) -&gt; Paint&lt;T&gt; { Paint::white(v) }
+        <span class="kw">fn </span>w&lt;T&gt;(v: T) -&gt; yansi::Painted&lt;T&gt; { Paint::new(v).primary() }
 
         <span class="kw">match </span>e.kind {
             Kind::Message(msg) =&gt; <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, msg),
@@ -1149,5 +1304,4 @@
         }
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

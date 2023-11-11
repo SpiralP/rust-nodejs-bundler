@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/time-macros-0.2.7/src/format_description/format_item.rs`."><title>format_item.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../time_macros/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/time-macros-0.2.15/src/format_description/format_item.rs`."><title>format_item.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="time_macros" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -381,7 +381,70 @@
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
 <a href="#383" id="383">383</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::boxed::Box;
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::boxed::Box;
+<span class="kw">use </span>std::num::NonZeroU16;
+<span class="kw">use </span>std::str::{<span class="self">self</span>, FromStr};
 
 <span class="kw">use super</span>::{ast, unused, Error, Span, Spanned, Unused};
 
@@ -488,7 +551,7 @@
             <span class="kw">if let </span><span class="prelude-val">Ok</span>([item]) = &lt;[<span class="kw">_</span>; <span class="number">1</span>]&gt;::try_from(items) {
                 item.into()
             } <span class="kw">else </span>{
-                <span class="macro">unreachable!</span>(<span class="string">&quot;the length was just checked to be 1&quot;</span>)
+                <span class="macro">bug!</span>(<span class="string">&quot;the length was just checked to be 1&quot;</span>)
             }
         } <span class="kw">else </span>{
             <span class="self">Self</span>::Compound(items.into_iter().map(<span class="self">Self</span>::from).collect())
@@ -497,11 +560,18 @@
 }
 
 <span class="macro">macro_rules! </span>component_definition {
+    (@if_required required then { $(<span class="macro-nonterminal">$then</span>:tt)* } $(<span class="kw">else </span>{ $(<span class="macro-nonterminal">$</span><span class="kw">else</span>:<span class="macro-nonterminal">tt</span>)* })<span class="question-mark">?</span>) =&gt; { $(<span class="macro-nonterminal">$then</span>)* };
+    (@if_required then { $(<span class="macro-nonterminal">$then</span>:tt)* } $(<span class="kw">else </span>{ $(<span class="macro-nonterminal">$</span><span class="kw">else</span>:<span class="macro-nonterminal">tt</span>)* })<span class="question-mark">?</span>) =&gt; { $($(<span class="macro-nonterminal">$</span><span class="kw">else</span>)<span class="kw-2">*</span>)<span class="question-mark">? </span>};
+    (@<span class="macro-nonterminal">if_from_str </span>from_str then { $(<span class="macro-nonterminal">$then</span>:tt)* } $(<span class="kw">else </span>{ $(<span class="macro-nonterminal">$</span><span class="kw">else</span>:<span class="macro-nonterminal">tt</span>)* })<span class="question-mark">?</span>) =&gt; { $(<span class="macro-nonterminal">$then</span>)* };
+    (@if_from_str then { $(<span class="macro-nonterminal">$then</span>:tt)* } $(<span class="kw">else </span>{ $(<span class="macro-nonterminal">$</span><span class="kw">else</span>:<span class="macro-nonterminal">tt</span>)* })<span class="question-mark">?</span>) =&gt; { $($(<span class="macro-nonterminal">$</span><span class="kw">else</span>)<span class="kw-2">*</span>)<span class="question-mark">? </span>};
+
     (<span class="macro-nonterminal">$vis</span>:vis <span class="kw">enum </span><span class="macro-nonterminal">$name</span>:ident {
-        $(<span class="macro-nonterminal">$variant</span>:ident = <span class="macro-nonterminal">$parse_variant</span>:literal {
-            $(<span class="macro-nonterminal">$field</span>:ident = <span class="macro-nonterminal">$parse_field</span>:literal:
-                <span class="prelude-ty">Option</span>&lt;<span class="macro-nonterminal">$field_type</span>:ty&gt; =&gt; <span class="macro-nonterminal">$target_field</span>:ident),* $(,)<span class="question-mark">?
-        </span>}),* $(,)<span class="question-mark">?
+        $(<span class="macro-nonterminal">$variant</span>:ident = <span class="macro-nonterminal">$parse_variant</span>:literal {$(
+            $(<span class="attr">#[<span class="macro-nonterminal">$required</span>:tt]</span>)<span class="question-mark">?
+            </span><span class="macro-nonterminal">$field</span>:ident = <span class="macro-nonterminal">$parse_field</span>:literal:
+            <span class="prelude-ty">Option</span>&lt;$(<span class="attr">#[<span class="macro-nonterminal">$from_str</span>:tt]</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$field_type</span>:ty&gt;
+            =&gt; <span class="macro-nonterminal">$target_field</span>:ident
+        ),* $(,)<span class="question-mark">?</span>}),* $(,)<span class="question-mark">?
     </span>}) =&gt; {
         <span class="macro-nonterminal">$vis </span><span class="kw">enum </span><span class="macro-nonterminal">$name </span>{
             $(<span class="macro-nonterminal">$variant</span>(<span class="macro-nonterminal">$variant</span>),)*
@@ -512,18 +582,35 @@
         })*
 
         $(<span class="kw">impl </span><span class="macro-nonterminal">$variant </span>{
-            <span class="kw">fn </span>with_modifiers(modifiers: <span class="kw-2">&amp;</span>[ast::Modifier&lt;<span class="lifetime">&#39;_</span>&gt;]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>this = <span class="self">Self </span>{
+            <span class="kw">fn </span>with_modifiers(
+                modifiers: <span class="kw-2">&amp;</span>[ast::Modifier&lt;<span class="lifetime">&#39;_</span>&gt;],
+                _component_span: Span,
+            ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt;
+            {
+                <span class="attr">#[allow(unused_mut)]
+                </span><span class="kw">let </span><span class="kw-2">mut </span>this = <span class="self">Self </span>{
                     $(<span class="macro-nonterminal">$field</span>: <span class="prelude-val">None</span>),*
                 };
 
                 <span class="kw">for </span>modifier <span class="kw">in </span>modifiers {
-                    $(<span class="kw">if </span>modifier.key.eq_ignore_ascii_case(<span class="macro-nonterminal">$parse_field</span>) {
-                        this.<span class="macro-nonterminal">$field </span>= &lt;<span class="macro-nonterminal">$field_type</span>&gt;::from_modifier_value(<span class="kw-2">&amp;</span>modifier.value)<span class="question-mark">?</span>;
+                    $(<span class="attr">#[allow(clippy::string_lit_as_bytes)]
+                    </span><span class="kw">if </span>modifier.key.eq_ignore_ascii_case(<span class="macro-nonterminal">$parse_field</span>.as_bytes()) {
+                        this.<span class="macro-nonterminal">$field </span>= <span class="macro">component_definition!</span>(@if_from_str $(<span class="macro-nonterminal">$from_str</span>)<span class="question-mark">?
+                            </span>then {
+                                parse_from_modifier_value::&lt;<span class="macro-nonterminal">$field_type</span>&gt;(<span class="kw-2">&amp;</span>modifier.value)<span class="question-mark">?
+                            </span>} <span class="kw">else </span>{
+                                &lt;<span class="macro-nonterminal">$field_type</span>&gt;::from_modifier_value(<span class="kw-2">&amp;</span>modifier.value)<span class="question-mark">?
+                            </span>});
                         <span class="kw">continue</span>;
                     })*
                     <span class="kw">return </span><span class="prelude-val">Err</span>(modifier.key.span.error(<span class="string">&quot;invalid modifier key&quot;</span>));
                 }
+
+                $(<span class="macro">component_definition! </span>{ @if_required $(<span class="macro-nonterminal">$required</span>)<span class="question-mark">? </span>then {
+                    <span class="kw">if </span>this.<span class="macro-nonterminal">$field</span>.is_none() {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(_component_span.error(<span class="string">&quot;missing required modifier&quot;</span>));
+                    }
+                }})*
 
                 <span class="prelude-val">Ok</span>(this)
             }
@@ -535,7 +622,16 @@
                     <span class="macro-nonterminal">$name</span>::<span class="macro-nonterminal">$variant</span>(<span class="macro-nonterminal">$variant </span>{ $(<span class="macro-nonterminal">$field</span>),* }) =&gt; {
                         <span class="macro-nonterminal">$crate::format_description::public::Component</span>::<span class="macro-nonterminal">$variant</span>(
                             <span class="kw">super</span>::public::modifier::<span class="macro-nonterminal">$variant </span>{$(
-                                <span class="macro-nonterminal">$target_field</span>: <span class="macro-nonterminal">$field</span>.unwrap_or_default().into()
+                                <span class="macro-nonterminal">$target_field</span>: <span class="macro">component_definition! </span>{ @if_required $(<span class="macro-nonterminal">$required</span>)<span class="question-mark">?
+                                    </span>then {
+                                        <span class="kw">match </span><span class="macro-nonterminal">$field </span>{
+                                            <span class="prelude-val">Some</span>(value) =&gt; value.into(),
+                                            <span class="prelude-val">None </span>=&gt; <span class="macro">bug!</span>(<span class="string">&quot;required modifier was not set&quot;</span>),
+                                        }
+                                    } <span class="kw">else </span>{
+                                        <span class="macro-nonterminal">$field</span>.unwrap_or_default().into()
+                                    }
+                                }
                             ),<span class="kw-2">*</span>}
                         )
                     }
@@ -547,8 +643,9 @@
             name: <span class="kw-2">&amp;</span>Spanned&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
             modifiers: <span class="kw-2">&amp;</span>[ast::Modifier&lt;<span class="lifetime">&#39;_</span>&gt;],
         ) -&gt; <span class="prelude-ty">Result</span>&lt;Component, Error&gt; {
-            $(<span class="kw">if </span>name.eq_ignore_ascii_case(<span class="macro-nonterminal">$parse_variant</span>) {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(Component::<span class="macro-nonterminal">$variant</span>(<span class="macro-nonterminal">$variant::with_modifiers</span>(<span class="kw-2">&amp;</span>modifiers)<span class="question-mark">?</span>));
+            $(<span class="attr">#[allow(clippy::string_lit_as_bytes)]
+            </span><span class="kw">if </span>name.eq_ignore_ascii_case(<span class="macro-nonterminal">$parse_variant</span>.as_bytes()) {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(Component::<span class="macro-nonterminal">$variant</span>(<span class="macro-nonterminal">$variant::with_modifiers</span>(<span class="kw-2">&amp;</span>modifiers, name.span)<span class="question-mark">?</span>));
             })*
             <span class="prelude-val">Err</span>(name.span.error(<span class="string">&quot;invalid component&quot;</span>))
         }
@@ -557,58 +654,67 @@
 
 <span class="macro">component_definition! </span>{
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">enum </span>Component {
-        Day = <span class="string">b&quot;day&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        Day = <span class="string">&quot;day&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        Hour = <span class="string">b&quot;hour&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
-            base = <span class="string">b&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;HourBase&gt; =&gt; is_12_hour_clock,
+        End = <span class="string">&quot;end&quot; </span>{},
+        Hour = <span class="string">&quot;hour&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+            base = <span class="string">&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;HourBase&gt; =&gt; is_12_hour_clock,
         },
-        Minute = <span class="string">b&quot;minute&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        Ignore = <span class="string">&quot;ignore&quot; </span>{
+            <span class="attr">#[required]
+            </span>count = <span class="string">&quot;count&quot;</span>: <span class="prelude-ty">Option</span>&lt;<span class="attr">#[from_str] </span>NonZeroU16&gt; =&gt; count,
         },
-        Month = <span class="string">b&quot;month&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
-            repr = <span class="string">b&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;MonthRepr&gt; =&gt; repr,
-            case_sensitive = <span class="string">b&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;MonthCaseSensitive&gt; =&gt; case_sensitive,
+        Minute = <span class="string">&quot;minute&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        OffsetHour = <span class="string">b&quot;offset_hour&quot; </span>{
-            sign_behavior = <span class="string">b&quot;sign&quot;</span>: <span class="prelude-ty">Option</span>&lt;SignBehavior&gt; =&gt; sign_is_mandatory,
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        Month = <span class="string">&quot;month&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+            repr = <span class="string">&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;MonthRepr&gt; =&gt; repr,
+            case_sensitive = <span class="string">&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;MonthCaseSensitive&gt; =&gt; case_sensitive,
         },
-        OffsetMinute = <span class="string">b&quot;offset_minute&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        OffsetHour = <span class="string">&quot;offset_hour&quot; </span>{
+            sign_behavior = <span class="string">&quot;sign&quot;</span>: <span class="prelude-ty">Option</span>&lt;SignBehavior&gt; =&gt; sign_is_mandatory,
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        OffsetSecond = <span class="string">b&quot;offset_second&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        OffsetMinute = <span class="string">&quot;offset_minute&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        Ordinal = <span class="string">b&quot;ordinal&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        OffsetSecond = <span class="string">&quot;offset_second&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        Period = <span class="string">b&quot;period&quot; </span>{
-            case = <span class="string">b&quot;case&quot;</span>: <span class="prelude-ty">Option</span>&lt;PeriodCase&gt; =&gt; is_uppercase,
-            case_sensitive = <span class="string">b&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;PeriodCaseSensitive&gt; =&gt; case_sensitive,
+        Ordinal = <span class="string">&quot;ordinal&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        Second = <span class="string">b&quot;second&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+        Period = <span class="string">&quot;period&quot; </span>{
+            case = <span class="string">&quot;case&quot;</span>: <span class="prelude-ty">Option</span>&lt;PeriodCase&gt; =&gt; is_uppercase,
+            case_sensitive = <span class="string">&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;PeriodCaseSensitive&gt; =&gt; case_sensitive,
         },
-        Subsecond = <span class="string">b&quot;subsecond&quot; </span>{
-            digits = <span class="string">b&quot;digits&quot;</span>: <span class="prelude-ty">Option</span>&lt;SubsecondDigits&gt; =&gt; digits,
+        Second = <span class="string">&quot;second&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
         },
-        Weekday = <span class="string">b&quot;weekday&quot; </span>{
-            repr = <span class="string">b&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayRepr&gt; =&gt; repr,
-            one_indexed = <span class="string">b&quot;one_indexed&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayOneIndexed&gt; =&gt; one_indexed,
-            case_sensitive = <span class="string">b&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayCaseSensitive&gt; =&gt; case_sensitive,
+        Subsecond = <span class="string">&quot;subsecond&quot; </span>{
+            digits = <span class="string">&quot;digits&quot;</span>: <span class="prelude-ty">Option</span>&lt;SubsecondDigits&gt; =&gt; digits,
         },
-        WeekNumber = <span class="string">b&quot;week_number&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
-            repr = <span class="string">b&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekNumberRepr&gt; =&gt; repr,
+        UnixTimestamp = <span class="string">&quot;unix_timestamp&quot; </span>{
+            precision = <span class="string">&quot;precision&quot;</span>: <span class="prelude-ty">Option</span>&lt;UnixTimestampPrecision&gt; =&gt; precision,
+            sign_behavior = <span class="string">&quot;sign&quot;</span>: <span class="prelude-ty">Option</span>&lt;SignBehavior&gt; =&gt; sign_is_mandatory,
         },
-        Year = <span class="string">b&quot;year&quot; </span>{
-            padding = <span class="string">b&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
-            repr = <span class="string">b&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;YearRepr&gt; =&gt; repr,
-            base = <span class="string">b&quot;base&quot;</span>: <span class="prelude-ty">Option</span>&lt;YearBase&gt; =&gt; iso_week_based,
-            sign_behavior = <span class="string">b&quot;sign&quot;</span>: <span class="prelude-ty">Option</span>&lt;SignBehavior&gt; =&gt; sign_is_mandatory,
+        Weekday = <span class="string">&quot;weekday&quot; </span>{
+            repr = <span class="string">&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayRepr&gt; =&gt; repr,
+            one_indexed = <span class="string">&quot;one_indexed&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayOneIndexed&gt; =&gt; one_indexed,
+            case_sensitive = <span class="string">&quot;case_sensitive&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekdayCaseSensitive&gt; =&gt; case_sensitive,
+        },
+        WeekNumber = <span class="string">&quot;week_number&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+            repr = <span class="string">&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;WeekNumberRepr&gt; =&gt; repr,
+        },
+        Year = <span class="string">&quot;year&quot; </span>{
+            padding = <span class="string">&quot;padding&quot;</span>: <span class="prelude-ty">Option</span>&lt;Padding&gt; =&gt; padding,
+            repr = <span class="string">&quot;repr&quot;</span>: <span class="prelude-ty">Option</span>&lt;YearRepr&gt; =&gt; repr,
+            base = <span class="string">&quot;base&quot;</span>: <span class="prelude-ty">Option</span>&lt;YearBase&gt; =&gt; iso_week_based,
+            sign_behavior = <span class="string">&quot;sign&quot;</span>: <span class="prelude-ty">Option</span>&lt;SignBehavior&gt; =&gt; sign_is_mandatory,
         },
     }
 }
@@ -725,6 +831,14 @@
         </span>OneOrMore = <span class="string">b&quot;1+&quot;</span>,
     }
 
+    <span class="kw">enum </span>UnixTimestampPrecision {
+        <span class="attr">#[default]
+        </span>Second = <span class="string">b&quot;second&quot;</span>,
+        Millisecond = <span class="string">b&quot;millisecond&quot;</span>,
+        Microsecond = <span class="string">b&quot;microsecond&quot;</span>,
+        Nanosecond = <span class="string">b&quot;nanosecond&quot;</span>,
+    }
+
     <span class="kw">enum </span>WeekNumberRepr {
         <span class="attr">#[default]
         </span>Iso = <span class="string">b&quot;iso&quot;</span>,
@@ -764,5 +878,12 @@
         LastTwo = <span class="string">b&quot;last_two&quot;</span>,
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="time_macros" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+
+<span class="kw">fn </span>parse_from_modifier_value&lt;T: FromStr&gt;(value: <span class="kw-2">&amp;</span>Spanned&lt;<span class="kw-2">&amp;</span>[u8]&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, Error&gt; {
+    str::from_utf8(value)
+        .ok()
+        .and_then(|val| val.parse::&lt;T&gt;().ok())
+        .map(|val| <span class="prelude-val">Some</span>(val))
+        .ok_or_else(|| value.span.error(<span class="string">&quot;invalid modifier value&quot;</span>))
+}
+</code></pre></div></section></main></body></html>

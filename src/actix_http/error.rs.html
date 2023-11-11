@@ -1,5 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/actix-http-3.3.0/src/error.rs`."><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../actix_http/index.html">
-                        <img src="https://actix.rs/img/logo.png" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-http-3.4.0/src/error.rs`."><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="actix_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../actix_http/index.html"><img src="https://actix.rs/img/logo.png" alt="actix_http"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -489,21 +488,15 @@
 <a href="#488" id="488">488</a>
 <a href="#489" id="489">489</a>
 <a href="#490" id="490">490</a>
-<a href="#491" id="491">491</a>
-<a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
-<a href="#494" id="494">494</a>
-<a href="#495" id="495">495</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Error and Result module
+</pre></div><pre class="rust"><code><span class="doccomment">//! Error and Result module
 
 </span><span class="kw">use </span>std::{error::Error <span class="kw">as </span>StdError, fmt, io, str::Utf8Error, string::FromUtf8Error};
 
 <span class="kw">use </span>derive_more::{Display, Error, From};
+<span class="kw">pub use </span>http::Error <span class="kw">as </span>HttpError;
 <span class="kw">use </span>http::{uri::InvalidUri, StatusCode};
 
 <span class="kw">use crate</span>::{body::BoxBody, Response};
-
-<span class="kw">pub use </span>http::Error <span class="kw">as </span>HttpError;
 
 <span class="kw">pub struct </span>Error {
     inner: Box&lt;ErrorInner&gt;,
@@ -657,44 +650,44 @@
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>ParseError {
     <span class="doccomment">/// An invalid `Method`, such as `GE.T`.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Invalid Method specified&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;invalid method specified&quot;</span>)]
     </span>Method,
 
     <span class="doccomment">/// An invalid `Uri`, such as `exam ple.domain`.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Uri error: {}&quot;</span>, _0)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;URI error: {}&quot;</span>, _0)]
     </span>Uri(InvalidUri),
 
     <span class="doccomment">/// An invalid `HttpVersion`, such as `HTP/1.1`
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Invalid HTTP version specified&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;invalid HTTP version specified&quot;</span>)]
     </span>Version,
 
     <span class="doccomment">/// An invalid `Header`.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Invalid Header provided&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;invalid Header provided&quot;</span>)]
     </span>Header,
 
     <span class="doccomment">/// A message head is too large to be reasonable.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Message head is too large&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;message head is too large&quot;</span>)]
     </span>TooLarge,
 
     <span class="doccomment">/// A message reached EOF, but is not complete.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Message is incomplete&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;message is incomplete&quot;</span>)]
     </span>Incomplete,
 
     <span class="doccomment">/// An invalid `Status`, such as `1337 ELITE`.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Invalid Status provided&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;invalid status provided&quot;</span>)]
     </span>Status,
 
     <span class="doccomment">/// A timeout occurred waiting for an IO event.
     </span><span class="attr">#[allow(dead_code)]
-    #[display(fmt = <span class="string">&quot;Timeout&quot;</span>)]
+    #[display(fmt = <span class="string">&quot;timeout&quot;</span>)]
     </span>Timeout,
 
-    <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network stream.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;IO error: {}&quot;</span>, _0)]
+    <span class="doccomment">/// An I/O error that occurred while trying to read or write to a network stream.
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;I/O error: {}&quot;</span>, _0)]
     </span>Io(io::Error),
 
     <span class="doccomment">/// Parsing a field as string failed.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;UTF8 error: {}&quot;</span>, _0)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;UTF-8 error: {}&quot;</span>, _0)]
     </span>Utf8(Utf8Error),
 }
 
@@ -753,22 +746,19 @@
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>PayloadError {
     <span class="doccomment">/// A payload reached EOF, but is not complete.
-    </span><span class="attr">#[display(
-        fmt = <span class="string">&quot;A payload reached EOF, but is not complete. Inner error: {:?}&quot;</span>,
-        _0
-    )]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;payload reached EOF before completing: {:?}&quot;</span>, _0)]
     </span>Incomplete(<span class="prelude-ty">Option</span>&lt;io::Error&gt;),
 
     <span class="doccomment">/// Content encoding stream corruption.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Can not decode content-encoding.&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;can not decode content-encoding&quot;</span>)]
     </span>EncodingCorrupted,
 
     <span class="doccomment">/// Payload reached size limit.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Payload reached size limit.&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;payload reached size limit&quot;</span>)]
     </span>Overflow,
 
     <span class="doccomment">/// Payload length is unknown.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Payload length is unknown.&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;payload length is unknown&quot;</span>)]
     </span>UnknownLength,
 
     <span class="doccomment">/// HTTP/2 payload error.
@@ -790,7 +780,6 @@
             PayloadError::Overflow =&gt; <span class="prelude-val">None</span>,
             PayloadError::UnknownLength =&gt; <span class="prelude-val">None</span>,
             <span class="attr">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
-            #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;http2&quot;</span>)))]
             </span>PayloadError::Http2Payload(err) =&gt; <span class="prelude-val">Some</span>(err),
             PayloadError::Io(err) =&gt; <span class="prelude-val">Some</span>(err),
         }
@@ -827,44 +816,44 @@
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>DispatchError {
     <span class="doccomment">/// Service error.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Service Error&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;service error&quot;</span>)]
     </span>Service(Response&lt;BoxBody&gt;),
 
     <span class="doccomment">/// Body streaming error.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Body error: {}&quot;</span>, _0)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;body error: {}&quot;</span>, _0)]
     </span>Body(Box&lt;<span class="kw">dyn </span>StdError&gt;),
 
     <span class="doccomment">/// Upgrade service error.
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;upgrade error&quot;</span>)]
     </span>Upgrade,
 
     <span class="doccomment">/// An `io::Error` that occurred while trying to read or write to a network stream.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;IO error: {}&quot;</span>, _0)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;I/O error: {}&quot;</span>, _0)]
     </span>Io(io::Error),
 
     <span class="doccomment">/// Request parse error.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Request parse error: {}&quot;</span>, _0)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;request parse error: {}&quot;</span>, _0)]
     </span>Parse(ParseError),
 
     <span class="doccomment">/// HTTP/2 error.
     </span><span class="attr">#[display(fmt = <span class="string">&quot;{}&quot;</span>, _0)]
     #[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
-    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;http2&quot;</span>)))]
     </span>H2(h2::Error),
 
     <span class="doccomment">/// The first request did not complete within the specified timeout.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;The first request did not complete within the specified timeout&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;request did not complete within the specified timeout&quot;</span>)]
     </span>SlowRequestTimeout,
 
-    <span class="doccomment">/// Disconnect timeout. Makes sense for ssl streams.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Connection shutdown timeout&quot;</span>)]
+    <span class="doccomment">/// Disconnect timeout. Makes sense for TLS streams.
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;connection shutdown timeout&quot;</span>)]
     </span>DisconnectTimeout,
 
     <span class="doccomment">/// Handler dropped payload before reading EOF.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Handler dropped payload before reading EOF&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;handler dropped payload before reading EOF&quot;</span>)]
     </span>HandlerDroppedPayload,
 
     <span class="doccomment">/// Internal error.
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Internal error&quot;</span>)]
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;internal error&quot;</span>)]
     </span>InternalError,
 }
 
@@ -889,12 +878,12 @@
 #[cfg_attr(test, derive(PartialEq, Eq))]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>ContentTypeError {
-    <span class="doccomment">/// Can not parse content type
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Can not parse content type&quot;</span>)]
+    <span class="doccomment">/// Can not parse content type.
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;could not parse content type&quot;</span>)]
     </span>ParseError,
 
-    <span class="doccomment">/// Unknown content encoding
-    </span><span class="attr">#[display(fmt = <span class="string">&quot;Unknown content encoding&quot;</span>)]
+    <span class="doccomment">/// Unknown content encoding.
+    </span><span class="attr">#[display(fmt = <span class="string">&quot;unknown content encoding&quot;</span>)]
     </span>UnknownEncoding,
 }
 
@@ -922,7 +911,7 @@
         <span class="kw">let </span>err: Error = ParseError::Io(orig).into();
         <span class="macro">assert_eq!</span>(
             <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, err),
-            <span class="string">&quot;error parsing HTTP message: IO error: other&quot;
+            <span class="string">&quot;error parsing HTTP message: I/O error: other&quot;
         </span>);
     }
 
@@ -949,7 +938,7 @@
         <span class="kw">let </span>err = PayloadError::Incomplete(<span class="prelude-val">None</span>);
         <span class="macro">assert_eq!</span>(
             err.to_string(),
-            <span class="string">&quot;A payload reached EOF, but is not complete. Inner error: None&quot;
+            <span class="string">&quot;payload reached EOF before completing: None&quot;
         </span>);
     }
 
@@ -969,7 +958,7 @@
             <span class="kw">match </span>ParseError::from(<span class="macro-nonterminal">$from</span>) {
                 e @ <span class="macro-nonterminal">$error </span>=&gt; {
                     <span class="kw">let </span>desc = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, e);
-                    <span class="macro">assert_eq!</span>(desc, <span class="macro">format!</span>(<span class="string">&quot;IO error: {}&quot;</span>, <span class="macro-nonterminal">$from</span>));
+                    <span class="macro">assert_eq!</span>(desc, <span class="macro">format!</span>(<span class="string">&quot;I/O error: {}&quot;</span>, <span class="macro-nonterminal">$from</span>));
                 }
                 <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="macro-nonterminal">$from</span>),
             }
@@ -989,5 +978,4 @@
         <span class="macro">from!</span>(httparse::Error::Version =&gt; ParseError::Version);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="actix_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (7aa413d59 2023-02-19)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>
