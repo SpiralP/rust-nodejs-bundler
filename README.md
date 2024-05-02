@@ -12,8 +12,7 @@ Cargo.toml
 
 ```toml
 [dependencies]
-# optional features: actix, warp
-nodejs-bundler = { git = "https://github.com/SpiralP/rust-nodejs-bundler.git" }
+nodejs-bundler = { git = "https://github.com/SpiralP/rust-nodejs-bundler.git", features = ["actix", "rocket", "rouille", "warp"] }
 
 [build-dependencies]
 nodejs-bundler-codegen = { git = "https://github.com/SpiralP/rust-nodejs-bundler.git" }
@@ -33,10 +32,9 @@ main.rs
 include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
 
 fn main() {
-  let data = NODEJS_BUNDLE.get_file("index.html").unwrap();
-  println!("{}", String::from_utf8_lossy(&data));
+    let (path, data) = NODEJS_BUNDLE.get_file("index.js").unwrap();
+    println!("{:?}: {:?}", path, String::from_utf8_lossy(&data));
 }
-
 ```
 
 main.rs with [warp](https://github.com/seanmonstar/warp) feature enabled
@@ -67,5 +65,18 @@ async fn main() -> std::io::Result<()> {
     .bind("127.0.0.1:3030")?
     .run()
     .await
+}
+```
+
+main.rs with [rouille](https://github.com/tomaka/rouille) feature enabled
+
+```rust
+include!(concat!(env!("OUT_DIR"), "/nodejs_bundle.rs"));
+
+fn main() {
+    println!("try http://127.0.0.1:3030/");
+    rouille::start_server("127.0.0.1:3030", move |request| {
+        NODEJS_BUNDLE.as_rouille_response(request)
+    });
 }
 ```
