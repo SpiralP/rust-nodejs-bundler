@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.12/src/metadata.rs`."><title>metadata.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.18/src/metadata.rs`."><title>metadata.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../figment/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -341,17 +341,17 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::Profile;
 
-<span class="doccomment">/// Metadata about a configuration value: its source&#39;s name and location.
+<span class="doccomment">/// Metadata about a configuration value: its source's name and location.
 ///
 /// # Overview
 ///
 /// Every [`Value`] produced by a [`Figment`] is [`Tag`]ed with `Metadata`
 /// by its producing [`Provider`]. The metadata consists of:
 ///
-///   * A name for the source, e.g. &quot;TOML File&quot;.
+///   * A name for the source, e.g. "TOML File".
 ///   * The [`Source`] itself, if it is known.
 ///   * A default or custom [interpolater](#interpolation).
-///   * A source [`Location`] where a value&#39;s provider was added to the
+///   * A source [`Location`] where a value's provider was added to the
 ///   containing figment, if it is known.
 ///
 /// This information is used to produce insightful error messages as well as to
@@ -364,7 +364,7 @@
 ///
 /// [`Error`]s produced by [`Figment`]s contain the `Metadata` for the value
 /// that caused the error. The `Display` implementation for `Error` uses the
-/// metadata&#39;s interpolater to display the path to the key for the value that
+/// metadata's interpolater to display the path to the key for the value that
 /// caused the error.
 ///
 /// ## Interpolation
@@ -383,18 +383,18 @@
 /// ```rust
 /// use figment::Metadata;
 ///
-/// let metadata = Metadata::named(&quot;environment variable(s)&quot;)
+/// let metadata = Metadata::named("environment variable(s)")
 ///     .interpolater(|profile, path| {
 ///         let keys: Vec&lt;_&gt; = path.iter()
 ///             .map(|k| k.to_ascii_uppercase())
 ///             .collect();
 ///
-///         format!(&quot;{}&quot;, keys.join(&quot;.&quot;))
+///         format!("{}", keys.join("."))
 ///     });
 ///
 /// let profile = figment::Profile::Default;
-/// let interpolated = metadata.interpolate(&amp;profile, &amp;[&quot;key&quot;, &quot;path&quot;]);
-/// assert_eq!(interpolated, &quot;KEY.PATH&quot;);
+/// let interpolated = metadata.interpolate(&amp;profile, &amp;["key", "path"]);
+/// assert_eq!(interpolated, "KEY.PATH");
 /// ```
 ///
 /// [`Provider`]: crate::Provider
@@ -407,12 +407,12 @@
 </span><span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>Metadata {
     <span class="doccomment">/// The name of the configuration source for a given value.
-    </span><span class="kw">pub </span>name: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;,
+    </span><span class="kw">pub </span>name: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
     <span class="doccomment">/// The source of the configuration value, if it is known.
     </span><span class="kw">pub </span>source: <span class="prelude-ty">Option</span>&lt;Source&gt;,
-    <span class="doccomment">/// The source location where this value&#39;s provider was added to the
+    <span class="doccomment">/// The source location where this value's provider was added to the
     /// containing figment, if it is known.
-    </span><span class="kw">pub </span>provide_location: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Location&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
+    </span><span class="kw">pub </span>provide_location: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>Location&lt;<span class="lifetime">'static</span>&gt;&gt;,
     interpolater: Box&lt;<span class="kw">dyn </span>Interpolator&gt;,
 }
 
@@ -424,13 +424,13 @@
     /// ```rust
     /// use figment::Metadata;
     ///
-    /// let metadata = Metadata::from(&quot;AWS Config Store&quot;, &quot;path/to/value&quot;);
-    /// assert_eq!(metadata.name, &quot;AWS Config Store&quot;);
-    /// assert_eq!(metadata.source.unwrap().custom(), Some(&quot;path/to/value&quot;));
+    /// let metadata = Metadata::from("AWS Config Store", "path/to/value");
+    /// assert_eq!(metadata.name, "AWS Config Store");
+    /// assert_eq!(metadata.source.unwrap().custom(), Some("path/to/value"));
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>from&lt;N, S&gt;(name: N, source: S) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;, S: Into&lt;Source&gt;
+        </span><span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;, S: Into&lt;Source&gt;
     {
         Metadata::named(name).source(source)
     }
@@ -442,12 +442,12 @@
     /// ```rust
     /// use figment::Metadata;
     ///
-    /// let metadata = Metadata::named(&quot;AWS Config Store&quot;);
-    /// assert_eq!(metadata.name, &quot;AWS Config Store&quot;);
+    /// let metadata = Metadata::named("AWS Config Store");
+    /// assert_eq!(metadata.name, "AWS Config Store");
     /// assert!(metadata.source.is_none());
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>named&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(name: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>named&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(name: T) -&gt; <span class="self">Self </span>{
         Metadata { name: name.into(), ..Metadata::default() }
     }
 
@@ -458,9 +458,9 @@
     /// ```rust
     /// use figment::Metadata;
     ///
-    /// let metadata = Metadata::named(&quot;AWS Config Store&quot;).source(&quot;config/path&quot;);
-    /// assert_eq!(metadata.name, &quot;AWS Config Store&quot;);
-    /// assert_eq!(metadata.source.unwrap().custom(), Some(&quot;config/path&quot;));
+    /// let metadata = Metadata::named("AWS Config Store").source("config/path");
+    /// assert_eq!(metadata.name, "AWS Config Store");
+    /// assert_eq!(metadata.source.unwrap().custom(), Some("config/path"));
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>source&lt;S: Into&lt;Source&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, source: S) -&gt; <span class="self">Self </span>{
@@ -476,21 +476,21 @@
     /// ```rust
     /// use figment::Metadata;
     ///
-    /// let metadata = Metadata::named(&quot;environment variable(s)&quot;)
+    /// let metadata = Metadata::named("environment variable(s)")
     ///     .interpolater(|profile, path| {
     ///         let keys: Vec&lt;_&gt; = path.iter()
     ///             .map(|k| k.to_ascii_uppercase())
     ///             .collect();
     ///
-    ///         format!(&quot;{}&quot;, keys.join(&quot;.&quot;))
+    ///         format!("{}", keys.join("."))
     ///     });
     ///
     /// let profile = figment::Profile::Default;
-    /// let interpolated = metadata.interpolate(&amp;profile, &amp;[&quot;key&quot;, &quot;path&quot;]);
-    /// assert_eq!(interpolated, &quot;KEY.PATH&quot;);
+    /// let interpolated = metadata.interpolate(&amp;profile, &amp;["key", "path"]);
+    /// assert_eq!(interpolated, "KEY.PATH");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>interpolater&lt;I: Clone + Send + Sync + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">mut </span><span class="self">self</span>, f: I) -&gt; <span class="self">Self
+    </span><span class="kw">pub fn </span>interpolater&lt;I: Clone + Send + Sync + <span class="lifetime">'static</span>&gt;(<span class="kw-2">mut </span><span class="self">self</span>, f: I) -&gt; <span class="self">Self
         </span><span class="kw">where </span>I: Fn(<span class="kw-2">&amp;</span>Profile, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; String
     {
         <span class="self">self</span>.interpolater = Box::new(f);
@@ -504,19 +504,19 @@
     /// ```rust
     /// use figment::{Metadata, Profile};
     ///
-    /// let url = &quot;ftp://config.dev&quot;;
-    /// let md = Metadata::named(&quot;Network&quot;).source(url)
+    /// let url = "ftp://config.dev";
+    /// let md = Metadata::named("Network").source(url)
     ///     .interpolater(move |profile, keys| match profile.is_custom() {
-    ///         true =&gt; format!(&quot;{}/{}/{}&quot;, url, profile, keys.join(&quot;/&quot;)),
-    ///         false =&gt; format!(&quot;{}/{}&quot;, url, keys.join(&quot;/&quot;)),
+    ///         true =&gt; format!("{}/{}/{}", url, profile, keys.join("/")),
+    ///         false =&gt; format!("{}/{}", url, keys.join("/")),
     ///     });
     ///
-    /// let interpolated = md.interpolate(&amp;Profile::Default, &amp;[&quot;key&quot;, &quot;path&quot;]);
-    /// assert_eq!(interpolated, &quot;ftp://config.dev/key/path&quot;);
+    /// let interpolated = md.interpolate(&amp;Profile::Default, &amp;["key", "path"]);
+    /// assert_eq!(interpolated, "ftp://config.dev/key/path");
     ///
-    /// let profile = Profile::new(&quot;static&quot;);
-    /// let interpolated = md.interpolate(&amp;profile, &amp;[&quot;key&quot;, &quot;path&quot;]);
-    /// assert_eq!(interpolated, &quot;ftp://config.dev/static/key/path&quot;);
+    /// let profile = Profile::new("static");
+    /// let interpolated = md.interpolate(&amp;profile, &amp;["key", "path"]);
+    /// assert_eq!(interpolated, "ftp://config.dev/static/key/path");
     /// ```
     </span><span class="kw">pub fn </span>interpolate&lt;K: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, profile: <span class="kw-2">&amp;</span>Profile, keys: <span class="kw-2">&amp;</span>[K]) -&gt; String {
         <span class="kw">let </span>keys: Vec&lt;<span class="kw">_</span>&gt; = keys.iter().map(|k| k.as_ref()).collect();
@@ -533,7 +533,7 @@
 <span class="kw">impl </span>Default <span class="kw">for </span>Metadata {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            name: <span class="string">&quot;Default&quot;</span>.into(),
+            name: <span class="string">"Default"</span>.into(),
             source: <span class="prelude-val">None</span>,
             provide_location: <span class="prelude-val">None</span>,
             interpolater: Box::new(default_interpolater),
@@ -543,8 +543,8 @@
 
 <span class="doccomment">/// The source for a configuration value.
 ///
-/// The `Source` of a given value can be determined via that value&#39;s
-/// [`Metadata.source`](Metadata#structfield.source) retrievable via the value&#39;s
+/// The `Source` of a given value can be determined via that value's
+/// [`Metadata.source`](Metadata#structfield.source) retrievable via the value's
 /// [`Tag`] (via [`Value::tag()`] or via the magic value [`Tagged`]) and
 /// [`Figment::get_metadata()`].
 ///
@@ -558,7 +558,7 @@
     <span class="doccomment">/// A file: the path to the file.
     </span>File(PathBuf),
     <span class="doccomment">/// Some programatic value: the source location.
-    </span>Code(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Location&lt;<span class="lifetime">&#39;static</span>&gt;),
+    </span>Code(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>Location&lt;<span class="lifetime">'static</span>&gt;),
     <span class="doccomment">/// A custom source all-together.
     </span>Custom(String),
 }
@@ -572,8 +572,8 @@
     /// use std::path::Path;
     /// use figment::Source;
     ///
-    /// let source = Source::from(Path::new(&quot;a/b/c.txt&quot;));
-    /// assert_eq!(source.file_path(), Some(Path::new(&quot;a/b/c.txt&quot;)));
+    /// let source = Source::from(Path::new("a/b/c.txt"));
+    /// assert_eq!(source.file_path(), Some(Path::new("a/b/c.txt")));
     /// ```
     </span><span class="kw">pub fn </span>file_path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt; {
         <span class="kw">match </span><span class="self">self </span>{
@@ -595,7 +595,7 @@
     /// let source = Source::Code(location);
     /// assert_eq!(source.code_location(), Some(location));
     /// ```
-    </span><span class="kw">pub fn </span>code_location(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Location&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>code_location(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>Location&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Source::Code(s) =&gt; <span class="prelude-val">Some</span>(s),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None
@@ -608,8 +608,8 @@
     /// ```rust
     /// use figment::Source;
     ///
-    /// let source = Source::Custom(&quot;ftp://foo&quot;.into());
-    /// assert_eq!(source.custom(), Some(&quot;ftp://foo&quot;));
+    /// let source = Source::Custom("ftp://foo".into());
+    /// assert_eq!(source.custom(), Some("ftp://foo"));
     /// ```
     </span><span class="kw">pub fn </span>custom(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
         <span class="kw">match </span><span class="self">self </span>{
@@ -623,7 +623,7 @@
 /// File paths are displayed relative to the current working directory if the
 /// relative path is shorter than the complete path.
 </span><span class="kw">impl </span>fmt::Display <span class="kw">for </span>Source {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             Source::File(p) =&gt; {
                 <span class="kw">use </span>{std::env::current_dir, <span class="kw">crate</span>::util::diff_paths};
@@ -645,8 +645,8 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Location&lt;<span class="lifetime">&#39;static</span>&gt;&gt; <span class="kw">for </span>Source {
-    <span class="kw">fn </span>from(location: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Location&lt;<span class="lifetime">&#39;static</span>&gt;) -&gt; Source {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>Location&lt;<span class="lifetime">'static</span>&gt;&gt; <span class="kw">for </span>Source {
+    <span class="kw">fn </span>from(location: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>Location&lt;<span class="lifetime">'static</span>&gt;) -&gt; Source {
         Source::Code(location)
     }
 }
@@ -664,10 +664,10 @@
 }
 
 <span class="macro">crate::util::cloneable_fn_trait!</span>(
-    Interpolator: Fn(<span class="kw-2">&amp;</span>Profile, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; String + Send + Sync + <span class="lifetime">&#39;static
+    Interpolator: Fn(<span class="kw-2">&amp;</span>Profile, <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; String + Send + Sync + <span class="lifetime">'static
 </span>);
 
 <span class="kw">fn </span>default_interpolater(profile: <span class="kw-2">&amp;</span>Profile, keys: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; String {
-    <span class="macro">format!</span>(<span class="string">&quot;{}.{}&quot;</span>, profile, keys.join(<span class="string">&quot;.&quot;</span>))
+    <span class="macro">format!</span>(<span class="string">"{}.{}"</span>, profile, keys.join(<span class="string">"."</span>))
 }
 </code></pre></div></section></main></body></html>

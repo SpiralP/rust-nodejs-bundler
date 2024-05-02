@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/outcome.rs`."><title>outcome.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/outcome.rs`."><title>outcome.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -867,7 +867,7 @@
 <a href="#867" id="867">867</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Success, error, and forward handling.
 //!
-//! The `Outcome&lt;S, E, F&gt;` type is similar to the standard library&#39;s `Result&lt;S,
+//! The `Outcome&lt;S, E, F&gt;` type is similar to the standard library's `Result&lt;S,
 //! E&gt;` type. It is an enum with three variants, each containing a value:
 //! `Success(S)`, which represents a successful outcome, `Error(E)`, which
 //! represents an erroring outcome, and `Forward(F)`, which represents neither a
@@ -894,7 +894,7 @@
 //! ```rust
 //! # use rocket::post;
 //! # type S = String;
-//! #[post(&quot;/&quot;, data = &quot;&lt;my_val&gt;&quot;)]
+//! #[post("/", data = "&lt;my_val&gt;")]
 //! fn hello(my_val: S) { /* ... */  }
 //! ```
 //!
@@ -911,14 +911,14 @@
 //! In Rocket, an `Error` generally means that a request is taken out of normal
 //! processing. The request is then given to the catcher corresponding to some
 //! status code. Users can catch errors by requesting a type of `Result&lt;S, E&gt;`
-//! or `Option&lt;S&gt;` in request handlers. For example, if a user&#39;s handler looks
+//! or `Option&lt;S&gt;` in request handlers. For example, if a user's handler looks
 //! like:
 //!
 //! ```rust
 //! # use rocket::post;
 //! # type S = Option&lt;String&gt;;
 //! # type E = std::convert::Infallible;
-//! #[post(&quot;/&quot;, data = &quot;&lt;my_val&gt;&quot;)]
+//! #[post("/", data = "&lt;my_val&gt;")]
 //! fn hello(my_val: Result&lt;S, E&gt;) { /* ... */ }
 //! ```
 //!
@@ -940,13 +940,13 @@
 //! ```rust
 //! # use rocket::post;
 //! # type S = String;
-//! #[post(&quot;/&quot;, data = &quot;&lt;my_val&gt;&quot;)]
+//! #[post("/", data = "&lt;my_val&gt;")]
 //! fn hello(my_val: S) { /* ... */ }
 //! ```
 //!
 //! The [`FromData`] implementation for the type `S` returns an `Outcome` with a
 //! `Success(S)`, `Error(E)`, and `Forward(F)`. If the `Outcome` is a
-//! `Forward`, the `hello` handler isn&#39;t called. Instead, the incoming request
+//! `Forward`, the `hello` handler isn't called. Instead, the incoming request
 //! is forwarded, or passed on to, the next matching route, if any. Ultimately,
 //! if there are no non-forwarding routes, forwarded requests are handled by the
 //! 404 catcher. Similar to `Error`s, users can catch `Forward`s by requesting
@@ -999,7 +999,7 @@
     </span><span class="kw">pub fn </span>unwrap(<span class="self">self</span>) -&gt; S {
         <span class="kw">match </span><span class="self">self </span>{
             Success(val) =&gt; val,
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;unwrapped a non-successful outcome&quot;</span>)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"unwrapped a non-successful outcome"</span>)
         }
     }
 
@@ -1016,14 +1016,14 @@
     /// # use rocket::outcome::Outcome::*;
     /// #
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
-    /// assert_eq!(x.expect(&quot;success value&quot;), 10);
+    /// assert_eq!(x.expect("success value"), 10);
     /// ```
     </span><span class="attr">#[inline]
     #[track_caller]
     </span><span class="kw">pub fn </span>expect(<span class="self">self</span>, message: <span class="kw-2">&amp;</span>str) -&gt; S {
         <span class="kw">match </span><span class="self">self </span>{
             Success(val) =&gt; val,
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;unwrapped a non-successful outcome: {}&quot;</span>, message)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"unwrapped a non-successful outcome: {}"</span>, message)
         }
     }
 
@@ -1038,7 +1038,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.is_success(), true);
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.is_success(), false);
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
@@ -1060,7 +1060,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.is_error(), false);
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.is_error(), true);
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
@@ -1082,7 +1082,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.is_forward(), false);
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.is_forward(), false);
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
@@ -1105,7 +1105,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.succeeded(), Some(10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.succeeded(), None);
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
@@ -1131,8 +1131,8 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.failed(), None);
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
-    /// assert_eq!(x.failed(), Some(&quot;Hi! I&#39;m an error.&quot;));
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
+    /// assert_eq!(x.failed(), Some("Hi! I'm an error."));
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
     /// assert_eq!(x.failed(), None);
@@ -1157,7 +1157,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.forwarded(), None);
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.forwarded(), None);
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
@@ -1185,11 +1185,11 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.success_or(false), Ok(10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.success_or(false), Err(false));
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
-    /// assert_eq!(x.success_or(&quot;whoops&quot;), Err(&quot;whoops&quot;));
+    /// assert_eq!(x.success_or("whoops"), Err("whoops"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>success_or&lt;T&gt;(<span class="self">self</span>, value: T) -&gt; <span class="prelude-ty">Result</span>&lt;S, T&gt; {
@@ -1214,11 +1214,11 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.success_or_else(|| false), Ok(10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
     /// assert_eq!(x.success_or_else(|| false), Err(false));
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(25);
-    /// assert_eq!(x.success_or_else(|| &quot;whoops&quot;), Err(&quot;whoops&quot;));
+    /// assert_eq!(x.success_or_else(|| "whoops"), Err("whoops"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>success_or_else&lt;T, V: FnOnce() -&gt; T&gt;(<span class="self">self</span>, f: V) -&gt; <span class="prelude-ty">Result</span>&lt;S, T&gt; {
@@ -1237,8 +1237,8 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.as_ref(), Success(&amp;10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;Hi! I&#39;m an error.&quot;);
-    /// assert_eq!(x.as_ref(), Error(&amp;&quot;Hi! I&#39;m an error.&quot;));
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("Hi! I'm an error.");
+    /// assert_eq!(x.as_ref(), Error(&amp;"Hi! I'm an error."));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Outcome&lt;<span class="kw-2">&amp;</span>S, <span class="kw-2">&amp;</span>E, <span class="kw-2">&amp;</span>F&gt; {
@@ -1281,8 +1281,8 @@
     /// #
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     ///
-    /// let mapped = x.map(|v| if v == 10 { &quot;10&quot; } else { &quot;not 10&quot; });
-    /// assert_eq!(mapped, Success(&quot;10&quot;));
+    /// let mapped = x.map(|v| if v == 10 { "10" } else { "not 10" });
+    /// assert_eq!(mapped, Success("10"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>map&lt;T, M: FnOnce(S) -&gt; T&gt;(<span class="self">self</span>, f: M) -&gt; Outcome&lt;T, E, F&gt; {
@@ -1301,9 +1301,9 @@
     /// # use rocket::outcome::Outcome;
     /// # use rocket::outcome::Outcome::*;
     /// #
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;hi&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("hi");
     ///
-    /// let mapped = x.map_error(|v| if v == &quot;hi&quot; { 10 } else { 0 });
+    /// let mapped = x.map_error(|v| if v == "hi" { 10 } else { 0 });
     /// assert_eq!(mapped, Error(10));
     /// ```
     </span><span class="attr">#[inline]
@@ -1325,8 +1325,8 @@
     /// #
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(5);
     ///
-    /// let mapped = x.map_forward(|v| if v == 5 { &quot;a&quot; } else { &quot;b&quot; });
-    /// assert_eq!(mapped, Forward(&quot;a&quot;));
+    /// let mapped = x.map_forward(|v| if v == 5 { "a" } else { "b" });
+    /// assert_eq!(mapped, Forward("a"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>map_forward&lt;T, M: FnOnce(F) -&gt; T&gt;(<span class="self">self</span>, f: M) -&gt; Outcome&lt;S, E, T&gt; {
@@ -1351,12 +1351,12 @@
     /// let x: Outcome&lt;i32, &amp;str, bool&gt; = Success(10);
     ///
     /// let mapped = x.and_then(|v| match v {
-    ///    10 =&gt; Success(&quot;10&quot;),
+    ///    10 =&gt; Success("10"),
     ///    1 =&gt; Forward(false),
-    ///    _ =&gt; Error(&quot;30&quot;)
+    ///    _ =&gt; Error("30")
     /// });
     ///
-    /// assert_eq!(mapped, Success(&quot;10&quot;));
+    /// assert_eq!(mapped, Success("10"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>and_then&lt;T, M: FnOnce(S) -&gt; Outcome&lt;T, E, F&gt;&gt;(<span class="self">self</span>, f: M) -&gt; Outcome&lt;T, E, F&gt; {
@@ -1378,11 +1378,11 @@
     /// # use rocket::outcome::Outcome;
     /// # use rocket::outcome::Outcome::*;
     /// #
-    /// let x: Outcome&lt;i32, &amp;str, bool&gt; = Error(&quot;hi&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, bool&gt; = Error("hi");
     ///
     /// let mapped = x.error_then(|v| match v {
-    ///    &quot;hi&quot; =&gt; Error(10),
-    ///    &quot;test&quot; =&gt; Forward(false),
+    ///    "hi" =&gt; Error(10),
+    ///    "test" =&gt; Forward(false),
     ///    _ =&gt; Success(10)
     /// });
     ///
@@ -1413,7 +1413,7 @@
     /// let mapped = x.forward_then(|v| match v {
     ///    Some(true) =&gt; Success(10),
     ///    Some(false) =&gt; Forward(20),
-    ///    None =&gt; Error(&quot;10&quot;)
+    ///    None =&gt; Error("10")
     /// });
     ///
     /// assert_eq!(mapped, Forward(20));
@@ -1438,8 +1438,8 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.ok_map_forward(|x| Ok(x as i32 + 1)), Ok(10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;hello&quot;);
-    /// assert_eq!(x.ok_map_forward(|x| Ok(x as i32 + 1)), Err(&quot;hello&quot;));
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("hello");
+    /// assert_eq!(x.ok_map_forward(|x| Ok(x as i32 + 1)), Err("hello"));
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(0);
     /// assert_eq!(x.ok_map_forward(|x| Ok(x as i32 + 1)), Ok(1));
@@ -1466,7 +1466,7 @@
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Success(10);
     /// assert_eq!(x.ok_map_error(|s| Ok(123)), Ok(10));
     ///
-    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error(&quot;hello&quot;);
+    /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Error("hello");
     /// assert_eq!(x.ok_map_error(|s| Ok(123)), Ok(123));
     ///
     /// let x: Outcome&lt;i32, &amp;str, usize&gt; = Forward(0);
@@ -1484,23 +1484,23 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S: Send + <span class="lifetime">&#39;a</span>, E: Send + <span class="lifetime">&#39;a</span>, F: Send + <span class="lifetime">&#39;a</span>&gt; Outcome&lt;S, E, F&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, S: Send + <span class="lifetime">'a</span>, E: Send + <span class="lifetime">'a</span>, F: Send + <span class="lifetime">'a</span>&gt; Outcome&lt;S, E, F&gt; {
     <span class="doccomment">/// Pins a future that resolves to `self`, returning a
     /// [`BoxFuture`](crate::futures::future::BoxFuture) that resolves to
     /// `self`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>pin(<span class="self">self</span>) -&gt; futures::future::BoxFuture&lt;<span class="lifetime">&#39;a</span>, <span class="self">Self</span>&gt; {
+    </span><span class="kw">pub fn </span>pin(<span class="self">self</span>) -&gt; futures::future::BoxFuture&lt;<span class="lifetime">'a</span>, <span class="self">Self</span>&gt; {
         Box::pin(<span class="kw">async move </span>{ <span class="self">self </span>})
     }
 }
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// Unwraps a [`Success`](Outcome::Success) or propagates a `Forward` or
     /// `Error` by returning early.
     ///
     /// # Syntax
     ///
-    /// The macro has the following &quot;signature&quot;:
+    /// The macro has the following "signature":
     ///
     /// ```rust
     /// use rocket::outcome::Outcome;
@@ -1540,10 +1540,10 @@
     /// struct Guard2;
     ///
     /// #[rocket::async_trait]
-    /// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Guard1 {
+    /// impl&lt;'r&gt; FromRequest&lt;'r&gt; for Guard1 {
     ///     type Error = ();
     ///
-    ///     async fn from_request(req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
+    ///     async fn from_request(req: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
     ///         // Attempt to fetch the guard, passing through any error or forward.
     ///         let atomics = try_outcome!(req.guard::&lt;&amp;State&lt;Atomics&gt;&gt;().await);
     ///         atomics.uncached.fetch_add(1, Ordering::Relaxed);
@@ -1554,17 +1554,17 @@
     /// }
     ///
     /// #[rocket::async_trait]
-    /// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Guard2 {
+    /// impl&lt;'r&gt; FromRequest&lt;'r&gt; for Guard2 {
     ///     type Error = ();
     ///
-    ///     async fn from_request(req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
+    ///     async fn from_request(req: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
     ///         // Attempt to fetch the guard, passing through any error or forward.
     ///         let guard1: Guard1 = try_outcome!(req.guard::&lt;Guard1&gt;().await);
     ///         Success(Guard2)
     ///     }
     /// }
     /// ```
-    </span><span class="macro">macro_rules! </span>try_outcome {
+    </span><span class="macro">macro_rules!</span> try_outcome {
         (<span class="macro-nonterminal">$expr</span>:expr $(,)<span class="question-mark">?</span>) =&gt; (<span class="kw">match </span><span class="macro-nonterminal">$expr </span>{
             <span class="macro-nonterminal">$crate::outcome::Outcome::Success</span>(val) =&gt; val,
             <span class="macro-nonterminal">$crate::outcome::Outcome::Error</span>(e) =&gt; {
@@ -1579,11 +1579,11 @@
 
 <span class="kw">impl</span>&lt;S, E, F&gt; Outcome&lt;S, E, F&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>dbg_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    </span><span class="kw">fn </span>dbg_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            Success(..) =&gt; <span class="string">&quot;Success&quot;</span>,
-            Error(..) =&gt; <span class="string">&quot;Error&quot;</span>,
-            Forward(..) =&gt; <span class="string">&quot;Forward&quot;</span>,
+            Success(..) =&gt; <span class="string">"Success"</span>,
+            Error(..) =&gt; <span class="string">"Error"</span>,
+            Forward(..) =&gt; <span class="string">"Forward"</span>,
         }
     }
 
@@ -1597,19 +1597,19 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Display&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt;);
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Display&lt;<span class="lifetime">'a</span>, <span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>route::Outcome&lt;<span class="lifetime">'r</span>&gt;);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>log_display(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Display&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;r</span>&gt; {
-        <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Display&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt; {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Outcome: &quot;</span>.primary().bold())<span class="question-mark">?</span>;
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; route::Outcome&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>log_display(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Display&lt;<span class="lifetime">'_</span>, <span class="lifetime">'r</span>&gt; {
+        <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Display&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt; {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+                <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="string">"Outcome: "</span>.primary().bold())<span class="question-mark">?</span>;
 
                 <span class="kw">let </span>color = <span class="self">self</span>.<span class="number">0</span>.color();
                 <span class="kw">match </span><span class="self">self</span>.<span class="number">0 </span>{
-                    Success(r) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}({})&quot;</span>, <span class="string">&quot;Success&quot;</span>.paint(color), r.status().primary()),
-                    Error(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}({})&quot;</span>, <span class="string">&quot;Error&quot;</span>.paint(color), s.primary()),
-                    Forward((<span class="kw">_</span>, s)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}({})&quot;</span>, <span class="string">&quot;Forward&quot;</span>.paint(color), s.primary()),
+                    Success(r) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}({})"</span>, <span class="string">"Success"</span>.paint(color), r.status().primary()),
+                    Error(s) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}({})"</span>, <span class="string">"Error"</span>.paint(color), s.primary()),
+                    Forward((<span class="kw">_</span>, s)) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}({})"</span>, <span class="string">"Forward"</span>.paint(color), s.primary()),
                 }
             }
         }
@@ -1619,14 +1619,14 @@
 }
 
 <span class="kw">impl</span>&lt;S, E, F&gt; fmt::Debug <span class="kw">for </span>Outcome&lt;S, E, F&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Outcome::{}&quot;</span>, <span class="self">self</span>.dbg_str())
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Outcome::{}"</span>, <span class="self">self</span>.dbg_str())
     }
 }
 
 <span class="kw">impl</span>&lt;S, E, F&gt; fmt::Display <span class="kw">for </span>Outcome&lt;S, E, F&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.dbg_str().paint(<span class="self">self</span>.color()))
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.dbg_str().paint(<span class="self">self</span>.color()))
     }
 }
 
@@ -1670,12 +1670,12 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromData&lt;<span class="lifetime">&#39;r</span>&gt;&gt; IntoOutcome&lt;data::Outcome&lt;<span class="lifetime">&#39;r</span>, T&gt;&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromData&lt;<span class="lifetime">'r</span>&gt;&gt; IntoOutcome&lt;data::Outcome&lt;<span class="lifetime">'r</span>, T&gt;&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = Status;
-    <span class="kw">type </span>Forward = (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status);
+    <span class="kw">type </span>Forward = (Data&lt;<span class="lifetime">'r</span>&gt;, Status);
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>or_error(<span class="self">self</span>, error: Status) -&gt; data::Outcome&lt;<span class="lifetime">&#39;r</span>, T&gt; {
+    </span><span class="kw">fn </span>or_error(<span class="self">self</span>, error: Status) -&gt; data::Outcome&lt;<span class="lifetime">'r</span>, T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
             <span class="prelude-val">Err</span>(err) =&gt; Error((error, err))
@@ -1683,7 +1683,7 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>or_forward(<span class="self">self</span>, (data, forward): (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status)) -&gt; data::Outcome&lt;<span class="lifetime">&#39;r</span>, T&gt; {
+    </span><span class="kw">fn </span>or_forward(<span class="self">self</span>, (data, forward): (Data&lt;<span class="lifetime">'r</span>&gt;, Status)) -&gt; data::Outcome&lt;<span class="lifetime">'r</span>, T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; Forward((data, forward))
@@ -1712,12 +1712,12 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>&gt; IntoOutcome&lt;route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt;&gt; <span class="kw">for </span>response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>&gt; IntoOutcome&lt;route::Outcome&lt;<span class="lifetime">'r</span>&gt;&gt; <span class="kw">for </span>response::Result&lt;<span class="lifetime">'o</span>&gt; {
     <span class="kw">type </span>Error = ();
-    <span class="kw">type </span>Forward = (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status);
+    <span class="kw">type </span>Forward = (Data&lt;<span class="lifetime">'r</span>&gt;, Status);
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>or_error(<span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">fn </span>or_error(<span class="self">self</span>, <span class="kw">_</span>: ()) -&gt; route::Outcome&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
             <span class="prelude-val">Err</span>(status) =&gt; Error(status),
@@ -1725,7 +1725,7 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>or_forward(<span class="self">self</span>, (data, forward): (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status)) -&gt; route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">fn </span>or_forward(<span class="self">self</span>, (data, forward): (Data&lt;<span class="lifetime">'r</span>&gt;, Status)) -&gt; route::Outcome&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(val) =&gt; Success(val),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; Forward((data, forward))

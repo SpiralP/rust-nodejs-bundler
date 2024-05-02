@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1497,11 +1497,11 @@
 <a href="#1497" id="1497">1497</a>
 <a href="#1498" id="1498">1498</a>
 <a href="#1499" id="1499">1499</a>
-</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">&quot;128&quot;</span>]
+</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">"128"</span>]
 
-#![doc(html_root_url = <span class="string">&quot;https://api.rocket.rs/v0.5-rc&quot;</span>)]
-#![doc(html_favicon_url = <span class="string">&quot;https://rocket.rs/images/favicon.ico&quot;</span>)]
-#![doc(html_logo_url = <span class="string">&quot;https://rocket.rs/images/logo-boxed.png&quot;</span>)]
+#![doc(html_root_url = <span class="string">"https://api.rocket.rs/v0.5"</span>)]
+#![doc(html_favicon_url = <span class="string">"https://rocket.rs/images/favicon.ico"</span>)]
+#![doc(html_logo_url = <span class="string">"https://rocket.rs/images/logo-boxed.png"</span>)]
 
 #![warn(rust_2018_idioms, missing_docs)]
 
@@ -1510,7 +1510,7 @@
 //! This crate implements the code generation portions of Rocket. This includes
 //! custom derives, custom attributes, and procedural macros. The documentation
 //! here is purely technical. The code generation facilities are documented
-//! thoroughly in the [Rocket programming guide](https://rocket.rs/v0.5-rc/guide).
+//! thoroughly in the [Rocket programming guide](https://rocket.rs/v0.5/guide).
 //!
 //! # Usage
 //!
@@ -1520,7 +1520,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! rocket = &quot;=0.5.0-rc.4&quot;
+//! rocket = "0.5.0"
 //! ```
 //!
 //! And to import all macros, attributes, and derives via `#[macro_use]` in the
@@ -1528,8 +1528,8 @@
 //!
 //! ```rust
 //! #[macro_use] extern crate rocket;
-//! # #[get(&quot;/&quot;)] fn hello() { }
-//! # fn main() { rocket::build().mount(&quot;/&quot;, routes![hello]); }
+//! # #[get("/")] fn hello() { }
+//! # fn main() { rocket::build().mount("/", routes![hello]); }
 //! ```
 //!
 //! Or, alternatively, selectively import from the top-level scope:
@@ -1538,8 +1538,8 @@
 //! # extern crate rocket;
 //!
 //! use rocket::{get, routes};
-//! # #[get(&quot;/&quot;)] fn hello() { }
-//! # fn main() { rocket::build().mount(&quot;/&quot;, routes![hello]); }
+//! # #[get("/")] fn hello() { }
+//! # fn main() { rocket::build().mount("/", routes![hello]); }
 //! ```
 //!
 //! # Debugging Codegen
@@ -1570,17 +1570,17 @@
 <span class="kw">use </span><span class="kw">crate</span>::http::Method;
 <span class="kw">use </span>proc_macro::TokenStream;
 
-<span class="kw">static </span>URI_MACRO_PREFIX: <span class="kw-2">&amp;</span>str = <span class="string">&quot;rocket_uri_macro_&quot;</span>;
-<span class="kw">static </span>ROCKET_IDENT_PREFIX: <span class="kw-2">&amp;</span>str = <span class="string">&quot;__rocket_&quot;</span>;
+<span class="kw">static </span>URI_MACRO_PREFIX: <span class="kw-2">&amp;</span>str = <span class="string">"rocket_uri_macro_"</span>;
+<span class="kw">static </span>ROCKET_IDENT_PREFIX: <span class="kw-2">&amp;</span>str = <span class="string">"__rocket_"</span>;
 
-<span class="macro">macro_rules! </span>emit {
+<span class="macro">macro_rules!</span> emit {
     (<span class="macro-nonterminal">$tokens</span>:expr) =&gt; ({
         <span class="kw">use </span>devise::ext::SpanDiagnosticExt;
 
         <span class="kw">let </span><span class="kw-2">mut </span>tokens = <span class="macro-nonterminal">$tokens</span>;
-        <span class="kw">if </span>std::env::var_os(<span class="string">&quot;ROCKET_CODEGEN_DEBUG&quot;</span>).is_some() {
+        <span class="kw">if </span>std::env::var_os(<span class="string">"ROCKET_CODEGEN_DEBUG"</span>).is_some() {
             <span class="kw">let </span>debug_tokens = proc_macro2::Span::call_site()
-                .note(<span class="string">&quot;emitting Rocket code generation debug output&quot;</span>)
+                .note(<span class="string">"emitting Rocket code generation debug output"</span>)
                 .note(tokens.to_string())
                 .emit_as_item_tokens();
 
@@ -1591,7 +1591,7 @@
     })
 }
 
-<span class="macro">macro_rules! </span>route_attribute {
+<span class="macro">macro_rules!</span> route_attribute {
     (<span class="macro-nonterminal">$name</span>:ident =&gt; <span class="macro-nonterminal">$method</span>:expr) =&gt; (
         <span class="doccomment">/// Attribute to generate a [`Route`] and associated metadata.
         ///
@@ -1601,9 +1601,9 @@
         /// ```rust
         /// # #[macro_use] extern crate rocket;
         /// #
-        /// #[get(&quot;/&quot;)]
-        /// fn index() -&gt; &amp;&#39;static str {
-        ///     &quot;Hello, world!&quot;
+        /// #[get("/")]
+        /// fn index() -&gt; &amp;'static str {
+        ///     "Hello, world!"
         /// }
         /// ```
         ///
@@ -1623,9 +1623,9 @@
         /// ```rust
         /// # #[macro_use] extern crate rocket;
         /// #
-        /// #[route(GET, uri = &quot;/&quot;)]
-        /// fn index() -&gt; &amp;&#39;static str {
-        ///     &quot;Hello, world!&quot;
+        /// #[route(GET, uri = "/")]
+        /// fn index() -&gt; &amp;'static str {
+        ///     "Hello, world!"
         /// }
         /// ```
         ///
@@ -1643,22 +1643,22 @@
         /// The grammar for all method-specific route attributes is defined as:
         ///
         /// ```text
-        /// route := &#39;&quot;&#39; uri (&#39;?&#39; query)? &#39;&quot;&#39; (&#39;,&#39; parameter)*
+        /// route := '"' uri ('?' query)? '"' (',' parameter)*
         ///
-        /// uri := (&#39;/&#39; segment)*
+        /// uri := ('/' segment)*
         ///
-        /// query := segment (&#39;&amp;&#39; segment)*
+        /// query := segment ('&amp;' segment)*
         ///
         /// segment := URI_SEG
         ///          | SINGLE_PARAM
         ///          | TRAILING_PARAM
         ///
-        /// parameter := &#39;rank&#39; &#39;=&#39; INTEGER
-        ///            | &#39;format&#39; &#39;=&#39; &#39;&quot;&#39; MEDIA_TYPE &#39;&quot;&#39;
-        ///            | &#39;data&#39; &#39;=&#39; &#39;&quot;&#39; SINGLE_PARAM &#39;&quot;&#39;
+        /// parameter := 'rank' '=' INTEGER
+        ///            | 'format' '=' '"' MEDIA_TYPE '"'
+        ///            | 'data' '=' '"' SINGLE_PARAM '"'
         ///
-        /// SINGLE_PARAM := &#39;&lt;&#39; IDENT &#39;&gt;&#39;
-        /// TRAILING_PARAM := &#39;&lt;&#39; IDENT &#39;..&gt;&#39;
+        /// SINGLE_PARAM := '&lt;' IDENT '&gt;'
+        /// TRAILING_PARAM := '&lt;' IDENT '..&gt;'
         ///
         /// URI_SEG := valid, non-percent-encoded HTTP URI segment
         /// MEDIA_TYPE := valid HTTP media type or known shorthand
@@ -1670,7 +1670,7 @@
         /// The generic route attribute is defined as:
         ///
         /// ```text
-        /// generic-route := METHOD &#39;,&#39; &#39;uri&#39; &#39;=&#39; route
+        /// generic-route := METHOD ',' 'uri' '=' route
         /// ```
         ///
         /// # Typing Requirements
@@ -1686,12 +1686,12 @@
         /// # use rocket::form::Form;
         /// # use std::path::PathBuf;
         /// # #[derive(FromForm)] struct F { a: usize }
-        /// #[get(&quot;/&lt;foo&gt;/bar/&lt;baz..&gt;?&lt;msg&gt;&amp;closed&amp;&lt;rest..&gt;&quot;, data = &quot;&lt;form&gt;&quot;)]
+        /// #[get("/&lt;foo&gt;/bar/&lt;baz..&gt;?&lt;msg&gt;&amp;closed&amp;&lt;rest..&gt;", data = "&lt;form&gt;")]
         /// # fn f(foo: usize, baz: PathBuf, msg: String, rest: F, form: Form&lt;F&gt;) {  }
         /// ```
         ///
         /// The type of each function argument corresponding to a dynamic
-        /// parameter is required to implement one of Rocket&#39;s guard traits. The
+        /// parameter is required to implement one of Rocket's guard traits. The
         /// exact trait that is required to be implemented depends on the kind
         /// of dynamic parameter (`SINGLE` or `TRAILING`) and where in the route
         /// attribute the parameter appears. The table below summarizes trait
@@ -1751,12 +1751,12 @@
         ///
         ///      If all validation succeeds, the decorated function is called.
         ///      The returned value is used to generate a [`Response`] via the
-        ///      type&#39;s [`Responder`] implementation.
+        ///      type's [`Responder`] implementation.
         ///
         ///   2. A static structure used by [`routes!`] to generate a [`Route`].
         ///
         ///      The static structure (and resulting [`Route`]) is populated
-        ///      with the name (the function&#39;s name), path, query, rank, and
+        ///      with the name (the function's name), path, query, rank, and
         ///      format from the route attribute. The handler is set to the
         ///      generated handler.
         ///
@@ -1798,12 +1798,12 @@
 ///
 /// #[catch(404)]
 /// fn not_found(req: &amp;Request) -&gt; String {
-///     format!(&quot;Sorry, {} does not exist.&quot;, req.uri())
+///     format!("Sorry, {} does not exist.", req.uri())
 /// }
 ///
 /// #[catch(default)]
 /// fn default(status: Status, req: &amp;Request) -&gt; String {
-///     format!(&quot;{} ({})&quot;, status, req.uri())
+///     format!("{} ({})", status, req.uri())
 /// }
 /// ```
 ///
@@ -1812,14 +1812,14 @@
 /// The grammar for the `#[catch]` attributes is defined as:
 ///
 /// ```text
-/// catch := STATUS | &#39;default&#39;
+/// catch := STATUS | 'default'
 ///
 /// STATUS := valid HTTP status code (integer in [200, 599])
 /// ```
 ///
 /// # Typing Requirements
 ///
-/// The decorated function may take zero, one, or two arguments. It&#39;s type
+/// The decorated function may take zero, one, or two arguments. It's type
 /// signature must be one of the following, where `R:`[`Responder`]:
 ///
 ///   * `fn() -&gt; R`
@@ -1834,13 +1834,13 @@
 ///
 ///      The generated handler calls the decorated function, passing in the
 ///      [`Status`] and [`&amp;Request`] values if requested. The returned value is
-///      used to generate a [`Response`] via the type&#39;s [`Responder`]
+///      used to generate a [`Response`] via the type's [`Responder`]
 ///      implementation.
 ///
 ///   2. A static structure used by [`catchers!`] to generate a [`Catcher`].
 ///
 ///      The static structure (and resulting [`Catcher`]) is populated with the
-///      name (the function&#39;s name) and status code from the route attribute or
+///      name (the function's name) and status code from the route attribute or
 ///      `None` if `default`. The handler is set to the generated handler.
 ///
 /// [`&amp;Request`]: ../rocket/struct.Request.html
@@ -1901,10 +1901,10 @@
 /// #[rocket::main]
 /// async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
 ///     let rocket = rocket::build().ignite().await?;
-///     println!(&quot;Hello, Rocket: {:?}&quot;, rocket);
+///     println!("Hello, Rocket: {:?}", rocket);
 ///
 ///     let rocket = rocket.launch().await?;
-///     println!(&quot;Welcome back, Rocket: {:?}&quot;, rocket);
+///     println!("Welcome back, Rocket: {:?}", rocket);
 ///
 ///     Ok(())
 /// }
@@ -1923,7 +1923,7 @@
 ///
 /// When applied to a function that returns a `Rocket&lt;Build&gt;` instance,
 /// `#[launch]` automatically initializes an `async` runtime and
-/// launches the function&#39;s returned instance:
+/// launches the function's returned instance:
 ///
 /// ```rust,no_run
 /// # use rocket::launch;
@@ -1996,13 +1996,13 @@
 ///
 /// The derive generates an implementation of the [`FromFormField`] trait for
 /// the decorated `enum`. The implementation returns successfully when the form
-/// value matches, case insensitively, the stringified version of a variant&#39;s
+/// value matches, case insensitively, the stringified version of a variant's
 /// name, returning an instance of said variant. If there is no match, an error
 /// recording all of the available options is returned.
 ///
-/// As an example, for the `enum` above, the form values `&quot;first&quot;`, `&quot;FIRST&quot;`,
-/// `&quot;fiRSt&quot;`, and so on would parse as `MyValue::First`, while `&quot;second&quot;` and
-/// `&quot;third&quot;` (in any casing) would parse as `MyValue::Second` and
+/// As an example, for the `enum` above, the form values `"first"`, `"FIRST"`,
+/// `"fiRSt"`, and so on would parse as `MyValue::First`, while `"second"` and
+/// `"third"` (in any casing) would parse as `MyValue::Second` and
 /// `MyValue::Third`, respectively.
 ///
 /// The `field` field attribute can be used to change the string value that is
@@ -2015,8 +2015,8 @@
 /// enum MyValue {
 ///     First,
 ///     Second,
-///     #[field(value = &quot;fourth&quot;)]
-///     #[field(value = &quot;fifth&quot;)]
+///     #[field(value = "fourth")]
+///     #[field(value = "fifth")]
 ///     Third,
 /// }
 /// ```
@@ -2026,18 +2026,18 @@
 /// case-insensitively equal to any other value or variant name is a
 /// compile-time error.
 ///
-/// The `#[field]` attribute&#39;s grammar is:
+/// The `#[field]` attribute's grammar is:
 ///
 /// ```text
-/// field := &#39;value&#39; &#39;=&#39; STRING_LIT
+/// field := 'value' '=' STRING_LIT
 ///
 /// STRING_LIT := any valid string literal, as defined by Rust
 /// ```
 ///
 /// The attribute accepts a single string parameter of name `value`
 /// corresponding to the string to use to match against for the decorated
-/// variant. In the example above, the the strings `&quot;fourth&quot;`, `&quot;FOUrth&quot;`,
-/// `&quot;fiFTH&quot;` and so on would parse as `MyValue::Third`.
+/// variant. In the example above, the the strings `"fourth"`, `"FOUrth"`,
+/// `"fiFTH"` and so on would parse as `MyValue::Third`.
 ///
 /// [`FromFormField`]: ../rocket/form/trait.FromFormField.html
 </span><span class="attr">#[proc_macro_derive(FromFormField, attributes(field))]
@@ -2054,11 +2054,11 @@
 /// use rocket::form::FromForm;
 ///
 /// #[derive(FromForm)]
-/// struct MyStruct&lt;&#39;r&gt; {
+/// struct MyStruct&lt;'r&gt; {
 ///     field: usize,
-///     #[field(name = &quot;renamed_field&quot;)]
-///     #[field(name = uncased(&quot;RenamedField&quot;))]
-///     other: &amp;&#39;r str,
+///     #[field(name = "renamed_field")]
+///     #[field(name = uncased("RenamedField"))]
+///     other: &amp;'r str,
 ///     #[field(validate = range(1..), default = 3)]
 ///     r#type: usize,
 ///     #[field(default = None)]
@@ -2067,8 +2067,8 @@
 ///
 /// #[derive(FromForm)]
 /// #[field(validate = len(6..))]
-/// #[field(validate = neq(&quot;password&quot;))]
-/// struct Password&lt;&#39;r&gt;(&amp;&#39;r str);
+/// #[field(validate = neq("password"))]
+/// struct Password&lt;'r&gt;(&amp;'r str);
 /// ```
 ///
 /// Each field type is required to implement [`FromForm`].
@@ -2079,8 +2079,8 @@
 ///
 /// If the structure has named fields, the implementation parses a form whose
 /// field names match the field names of the structure on which the derive was
-/// applied. Each field&#39;s value is parsed with the [`FromForm`] implementation
-/// of the field&#39;s type. The `FromForm` implementation succeeds only when all
+/// applied. Each field's value is parsed with the [`FromForm`] implementation
+/// of the field's type. The `FromForm` implementation succeeds only when all
 /// fields parse successfully or return a default. Errors are collected into a
 /// [`form::Errors`] and returned if non-empty after parsing all fields.
 ///
@@ -2098,14 +2098,14 @@
 /// ```text
 /// field := name? default? validate*
 ///
-/// name := &#39;name&#39; &#39;=&#39; name_val &#39;,&#39;?
-/// name_val :=  &#39;&quot;&#39; FIELD_NAME &#39;&quot;&#39;
-///          | &#39;uncased(&#39; &#39;&quot;&#39; FIELD_NAME &#39;&quot;&#39; &#39;)
+/// name := 'name' '=' name_val ','?
+/// name_val :=  '"' FIELD_NAME '"'
+///          | 'uncased(' '"' FIELD_NAME '"' ')
 ///
-/// default := &#39;default&#39; &#39;=&#39; EXPR &#39;,&#39;?
-///          | &#39;default_with&#39; &#39;=&#39; EXPR &#39;,&#39;?
+/// default := 'default' '=' EXPR ','?
+///          | 'default_with' '=' EXPR ','?
 ///
-/// validate := &#39;validate&#39; &#39;=&#39; EXPR &#39;,&#39;?
+/// validate := 'validate' '=' EXPR ','?
 ///
 /// FIELD_NAME := valid field name, according to the HTML5 spec
 /// EXPR := valid expression, as defined by Rust
@@ -2119,13 +2119,13 @@
 /// # #[macro_use] extern crate rocket;
 /// #[derive(FromForm)]
 /// struct MyStruct {
-///     #[field(name = uncased(&quot;number&quot;))]
+///     #[field(name = uncased("number"))]
 ///     #[field(default = 42)]
 ///     field: usize,
-///     #[field(name = &quot;renamed_field&quot;)]
-///     #[field(name = uncased(&quot;anotherName&quot;))]
-///     #[field(validate = eq(&quot;banana&quot;))]
-///     #[field(validate = neq(&quot;orange&quot;))]
+///     #[field(name = "renamed_field")]
+///     #[field(name = uncased("anotherName"))]
+///     #[field(validate = eq("banana"))]
+///     #[field(validate = neq("orange"))]
 ///     other: String
 /// }
 /// ```
@@ -2146,7 +2146,7 @@
 ///
 ///     A `name` attribute changes the name to match against when parsing the
 ///     form field. The value is either an exact string to match against
-///     (`&quot;foo&quot;`), or `uncased(&quot;foo&quot;)`, which causes the match to be
+///     (`"foo"`), or `uncased("foo")`, which causes the match to be
 ///     case-insensitive but case-preserving. When more than one `name`
 ///     attribute is applied, the field will match against _any_ of the names.
 ///
@@ -2165,12 +2165,12 @@
 ///     evaluated if the attributed field is missing in the incoming form.
 ///
 ///     Except when `expr` is `None`, `expr` must be of type `T: Into&lt;F&gt;` where
-///     `F` is the field&#39;s type.
+///     `F` is the field's type.
 ///
 ///   * **`default_with = expr`**
 ///
 ///     The parameter sets the default value of the field to be exactly `expr`
-///     which must be of type `Option&lt;F&gt;` where `F` is the field&#39;s type. If the
+///     which must be of type `Option&lt;F&gt;` where `F` is the field's type. If the
 ///     expression evaluates to `None`, there is no default. Otherwise the value
 ///     wrapped in `Some` is used. The expression is only evaluated if the
 ///     attributed field is missing in the incoming form.
@@ -2194,22 +2194,22 @@
 ///
 /// The derive accepts any number of type generics and at most one lifetime
 /// generic. If a type generic is present, the generated implementation will
-/// require a bound of `FromForm&lt;&#39;r&gt;` for the field type containing the generic.
+/// require a bound of `FromForm&lt;'r&gt;` for the field type containing the generic.
 /// For example, for a struct `struct Foo&lt;T&gt;(Json&lt;T&gt;)`, the bound `Json&lt;T&gt;:
-/// FromForm&lt;&#39;r&gt;` will be added to the generated implementation.
+/// FromForm&lt;'r&gt;` will be added to the generated implementation.
 ///
 /// ```rust
 /// use rocket::form::FromForm;
 /// use rocket::serde::json::Json;
 ///
-/// // The bounds `A: FromForm&lt;&#39;r&gt;`, `B: FromForm&lt;&#39;r&gt;` will be required.
+/// // The bounds `A: FromForm&lt;'r&gt;`, `B: FromForm&lt;'r&gt;` will be required.
 /// #[derive(FromForm)]
 /// struct FancyForm&lt;A, B&gt; {
 ///     first: A,
 ///     second: B,
 /// };
 ///
-/// // The bound `Json&lt;T&gt;: FromForm&lt;&#39;r&gt;` will be required.
+/// // The bound `Json&lt;T&gt;: FromForm&lt;'r&gt;` will be required.
 /// #[derive(FromForm)]
 /// struct JsonToken&lt;T&gt; {
 ///     token: Json&lt;T&gt;,
@@ -2217,14 +2217,14 @@
 /// }
 /// ```
 ///
-/// If a lifetime generic is present, it is replaced with `&#39;r` in the
-/// generated implementation `impl FromForm&lt;&#39;r&gt;`:
+/// If a lifetime generic is present, it is replaced with `'r` in the
+/// generated implementation `impl FromForm&lt;'r&gt;`:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// // Generates `impl&lt;&#39;r&gt; FromForm&lt;&#39;r&gt; for MyWrapper&lt;&#39;r&gt;`.
+/// // Generates `impl&lt;'r&gt; FromForm&lt;'r&gt; for MyWrapper&lt;'r&gt;`.
 /// #[derive(FromForm)]
-/// struct MyWrapper&lt;&#39;a&gt;(&amp;&#39;a str);
+/// struct MyWrapper&lt;'a&gt;(&amp;'a str);
 /// ```
 ///
 /// Both type generics and one lifetime generic may be used:
@@ -2232,9 +2232,9 @@
 /// ```rust
 /// use rocket::form::{self, FromForm};
 ///
-/// // The bound `form::Result&lt;&#39;r, T&gt;: FromForm&lt;&#39;r&gt;` will be required.
+/// // The bound `form::Result&lt;'r, T&gt;: FromForm&lt;'r&gt;` will be required.
 /// #[derive(FromForm)]
-/// struct SomeResult&lt;&#39;o, T&gt;(form::Result&lt;&#39;o, T&gt;);
+/// struct SomeResult&lt;'o, T&gt;(form::Result&lt;'o, T&gt;);
 /// ```
 ///
 /// The special bounds on `Json` and `Result` are required due to incomplete and
@@ -2316,10 +2316,10 @@
 /// these positions has the following grammar:
 ///
 /// ```text
-/// response := parameter (&#39;,&#39; parameter)?
+/// response := parameter (',' parameter)?
 ///
-/// parameter := &#39;status&#39; &#39;=&#39; STATUS
-///            | &#39;content_type&#39; &#39;=&#39; CONTENT_TYPE
+/// parameter := 'status' '=' STATUS
+///            | 'content_type' '=' CONTENT_TYPE
 ///
 /// STATUS := unsigned integer &gt;= 100 and &lt; 600
 /// CONTENT_TYPE := string literal, as defined by Rust, identifying a valid
@@ -2337,7 +2337,7 @@
 /// #
 /// #[derive(Responder)]
 /// enum Error {
-///     #[response(status = 500, content_type = &quot;json&quot;)]
+///     #[response(status = 500, content_type = "json")]
 ///     A(String),
 ///     #[response(status = 404)]
 ///     B(NamedFile, ContentType),
@@ -2361,12 +2361,12 @@
 /// The value of `content_type` must be a valid media-type in `top/sub` form or
 /// `shorthand` form. Examples include:
 ///
-///   * `&quot;text/html&quot;`
-///   * `&quot;application/x-custom&quot;`
-///   * `&quot;html&quot;`
-///   * `&quot;json&quot;`
-///   * `&quot;plain&quot;`
-///   * `&quot;binary&quot;`
+///   * `"text/html"`
+///   * `"application/x-custom"`
+///   * `"html"`
+///   * `"json"`
+///   * `"plain"`
+///   * `"binary"`
 ///
 /// See [`ContentType::parse_flexible()`] for a full list of available
 /// shorthands. The [`Response`] produced from the generated implementation will
@@ -2382,13 +2382,13 @@
 /// The derive accepts any number of type generics and at most one lifetime
 /// generic. If a type generic is present and the generic is used in the first
 /// field of a structure, the generated implementation will require a bound of
-/// `Responder&lt;&#39;r, &#39;o&gt;` for the field type containing the generic. In all other
-/// fields, unless ignores, a bound of `Into&lt;Header&lt;&#39;o&gt;` is added.
+/// `Responder&lt;'r, 'o&gt;` for the field type containing the generic. In all other
+/// fields, unless ignores, a bound of `Into&lt;Header&lt;'o&gt;` is added.
 ///
 /// For example, for a struct `struct Foo&lt;T, H&gt;(Json&lt;T&gt;, H)`, the derive adds:
 ///
-///   * `Json&lt;T&gt;: Responder&lt;&#39;r, &#39;o&gt;`
-///   * `H: Into&lt;Header&lt;&#39;o&gt;&gt;`
+///   * `Json&lt;T&gt;: Responder&lt;'r, 'o&gt;`
+///   * `H: Into&lt;Header&lt;'o&gt;&gt;`
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
@@ -2399,7 +2399,7 @@
 ///
 /// // The bound `T: Responder` will be added.
 /// #[derive(Responder)]
-/// #[response(status = 404, content_type = &quot;html&quot;)]
+/// #[response(status = 404, content_type = "html")]
 /// struct NotFoundHtml&lt;T&gt;(T);
 ///
 /// // The bound `Json&lt;T&gt;: Responder` will be added.
@@ -2415,15 +2415,15 @@
 /// }
 /// ```
 ///
-/// If a lifetime generic is present, it will be replaced with `&#39;o` in the
-/// generated implementation `impl Responder&lt;&#39;r, &#39;o&gt;`:
+/// If a lifetime generic is present, it will be replaced with `'o` in the
+/// generated implementation `impl Responder&lt;'r, 'o&gt;`:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// // Generates `impl&lt;&#39;r, &#39;o&gt; Responder&lt;&#39;r, &#39;o&gt; for NotFoundHtmlString&lt;&#39;o&gt;`.
+/// // Generates `impl&lt;'r, 'o&gt; Responder&lt;'r, 'o&gt; for NotFoundHtmlString&lt;'o&gt;`.
 /// #[derive(Responder)]
-/// #[response(status = 404, content_type = &quot;html&quot;)]
-/// struct NotFoundHtmlString&lt;&#39;a&gt;(&amp;&#39;a str);
+/// #[response(status = 404, content_type = "html")]
+/// struct NotFoundHtmlString&lt;'a&gt;(&amp;'a str);
 /// ```
 ///
 /// Both type generics and lifetime generic may be used:
@@ -2432,7 +2432,7 @@
 /// # #[macro_use] extern crate rocket;
 /// # use rocket::response::Responder;
 /// #[derive(Responder)]
-/// struct SomeResult&lt;&#39;o, T&gt;(Result&lt;T, &amp;&#39;o str&gt;);
+/// struct SomeResult&lt;'o, T&gt;(Result&lt;T, &amp;'o str&gt;);
 /// ```
 </span><span class="attr">#[proc_macro_derive(Responder, attributes(response))]
 </span><span class="kw">pub fn </span>derive_responder(input: TokenStream) -&gt; TokenStream {
@@ -2461,19 +2461,19 @@
 /// }
 /// ```
 ///
-/// Each field&#39;s type is required to implement [`UriDisplay&lt;Query&gt;`].
+/// Each field's type is required to implement [`UriDisplay&lt;Query&gt;`].
 ///
 /// The derive generates an implementation of the [`UriDisplay&lt;Query&gt;`] trait.
 /// The implementation calls [`Formatter::write_named_value()`] for every named
-/// field, using the field&#39;s name (unless overridden, explained next) as the
+/// field, using the field's name (unless overridden, explained next) as the
 /// `name` parameter, and [`Formatter::write_value()`] for every unnamed field
 /// in the order the fields are declared.
 ///
 /// The derive accepts one field attribute: `field`, with the following syntax:
 ///
 /// ```text
-/// field := &#39;name&#39; &#39;=&#39; &#39;&quot;&#39; FIELD_NAME &#39;&quot;&#39;
-///        | &#39;value&#39; &#39;=&#39; &#39;&quot;&#39; FIELD_VALUE &#39;&quot;&#39;
+/// field := 'name' '=' '"' FIELD_NAME '"'
+///        | 'value' '=' '"' FIELD_VALUE '"'
 ///
 /// FIELD_NAME := valid HTTP field name
 /// FIELD_VALUE := valid HTTP field value
@@ -2490,15 +2490,15 @@
 /// struct MyStruct {
 ///     name: String,
 ///     id: usize,
-///     #[field(name = &quot;type&quot;)]
-///     #[field(name = &quot;kind&quot;)]
+///     #[field(name = "type")]
+///     #[field(name = "kind")]
 ///     kind: Kind,
 /// }
 /// ```
 ///
 /// The field attribute directs that a different field name be used when calling
 /// [`Formatter::write_named_value()`] for the given field. The value of the
-/// `name` attribute is used instead of the structure&#39;s actual field name. If
+/// `name` attribute is used instead of the structure's actual field name. If
 /// more than one `field` attribute is applied to a field, the _first_ name is
 /// used. In the example above, the field `MyStruct::kind` is rendered with a
 /// name of `type`.
@@ -2511,8 +2511,8 @@
 /// #[derive(UriDisplayQuery)]
 /// enum Kind {
 ///     File,
-///     #[field(value = &quot;str&quot;)]
-///     #[field(value = &quot;string&quot;)]
+///     #[field(value = "str")]
+///     #[field(value = "string")]
 ///     String,
 ///     Other
 /// }
@@ -2520,7 +2520,7 @@
 ///
 /// The field attribute directs that a different value be used when calling
 /// [`Formatter::write_named_value()`] for the given variant. The value of the
-/// `value` attribute is used instead of the variant&#39;s actual name. If more than
+/// `value` attribute is used instead of the variant's actual name. If more than
 /// one `field` attribute is applied to a variant, the _first_ value is used. In
 /// the example above, the variant `Kind::String` will render with a value of
 /// `str`.
@@ -2547,7 +2547,7 @@
 /// struct Age(usize);
 /// ```
 ///
-/// The field&#39;s type is required to implement [`UriDisplay&lt;Path&gt;`].
+/// The field's type is required to implement [`UriDisplay&lt;Path&gt;`].
 ///
 /// The derive generates an implementation of the [`UriDisplay&lt;Path&gt;`] trait.
 /// The implementation calls [`Formatter::write_value()`] for the field.
@@ -2567,11 +2567,11 @@
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// #
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn index() { /* .. */ }
 ///
 /// mod person {
-///     #[post(&quot;/hi/&lt;person&gt;&quot;)]
+///     #[post("/hi/&lt;person&gt;")]
 ///     pub fn hello(person: String) { /* .. */ }
 /// }
 /// ```
@@ -2583,28 +2583,28 @@
 /// #
 /// # use rocket::http::Method;
 /// #
-/// # #[get(&quot;/&quot;)] fn index() { /* .. */ }
+/// # #[get("/")] fn index() { /* .. */ }
 /// # mod person {
-/// #   #[post(&quot;/hi/&lt;person&gt;&quot;)] pub fn hello(person: String) { /* .. */ }
+/// #   #[post("/hi/&lt;person&gt;")] pub fn hello(person: String) { /* .. */ }
 /// # }
 /// let my_routes = routes![index, person::hello];
 /// assert_eq!(my_routes.len(), 2);
 ///
 /// let index_route = &amp;my_routes[0];
 /// assert_eq!(index_route.method, Method::Get);
-/// assert_eq!(index_route.name.as_ref().unwrap(), &quot;index&quot;);
-/// assert_eq!(index_route.uri.path(), &quot;/&quot;);
+/// assert_eq!(index_route.name.as_ref().unwrap(), "index");
+/// assert_eq!(index_route.uri.path(), "/");
 ///
 /// let hello_route = &amp;my_routes[1];
 /// assert_eq!(hello_route.method, Method::Post);
-/// assert_eq!(hello_route.name.as_ref().unwrap(), &quot;hello&quot;);
-/// assert_eq!(hello_route.uri.path(), &quot;/hi/&lt;person&gt;&quot;);
+/// assert_eq!(hello_route.name.as_ref().unwrap(), "hello");
+/// assert_eq!(hello_route.uri.path(), "/hi/&lt;person&gt;");
 /// ```
 ///
 /// The grammar for `routes!` is defined as:
 ///
 /// ```text
-/// routes := PATH (&#39;,&#39; PATH)*
+/// routes := PATH (',' PATH)*
 ///
 /// PATH := a path, as defined by Rust
 /// ```
@@ -2662,7 +2662,7 @@
 /// The grammar for `catchers!` is defined as:
 ///
 /// ```text
-/// catchers := PATH (&#39;,&#39; PATH)*
+/// catchers := PATH (',' PATH)*
 ///
 /// PATH := a path, as defined by Rust
 /// ```
@@ -2681,7 +2681,7 @@
 /// # String Literal Parsing
 ///
 /// Given a string literal as input, `uri!` parses the string using
-/// [`Uri::parse_any()`] and emits a `&#39;static`, `const` value whose type is one
+/// [`Uri::parse_any()`] and emits a `'static`, `const` value whose type is one
 /// of [`Asterisk`], [`Origin`], [`Authority`], [`Absolute`], or [`Reference`],
 /// reflecting the parsed value. If the type allows normalization, the value is
 /// normalized before being emitted. Parse errors are caught and emitted at
@@ -2692,7 +2692,7 @@
 /// ```text
 /// uri := STRING
 ///
-/// STRING := an uncooked string literal, as defined by Rust (example: `&quot;/hi&quot;`)
+/// STRING := an uncooked string literal, as defined by Rust (example: `"/hi"`)
 /// ```
 ///
 /// `STRING` is expected to be an undecoded URI of any variant.
@@ -2703,24 +2703,24 @@
 /// # #[macro_use] extern crate rocket;
 /// use rocket::http::uri::Absolute;
 ///
-/// // Values returned from `uri!` are `const` and `&#39;static`.
-/// const ROOT_CONST: Absolute&lt;&#39;static&gt; = uri!(&quot;https://rocket.rs&quot;);
-/// static ROOT_STATIC: Absolute&lt;&#39;static&gt; = uri!(&quot;https://rocket.rs?root&quot;);
+/// // Values returned from `uri!` are `const` and `'static`.
+/// const ROOT_CONST: Absolute&lt;'static&gt; = uri!("https://rocket.rs");
+/// static ROOT_STATIC: Absolute&lt;'static&gt; = uri!("https://rocket.rs?root");
 ///
 /// // Any variant can be parsed, but beware of ambiguities.
-/// let asterisk = uri!(&quot;*&quot;);
-/// let origin = uri!(&quot;/foo/bar/baz&quot;);
-/// let authority = uri!(&quot;rocket.rs:443&quot;);
-/// let absolute = uri!(&quot;https://rocket.rs:443&quot;);
-/// let reference = uri!(&quot;foo?bar#baz&quot;);
+/// let asterisk = uri!("*");
+/// let origin = uri!("/foo/bar/baz");
+/// let authority = uri!("rocket.rs:443");
+/// let absolute = uri!("https://rocket.rs:443");
+/// let reference = uri!("foo?bar#baz");
 ///
 /// # use rocket::http::uri::{Asterisk, Origin, Authority, Reference};
 /// # // Ensure we get the types we expect.
 /// # let asterisk: Asterisk = asterisk;
-/// # let origin: Origin&lt;&#39;static&gt; = origin;
-/// # let authority: Authority&lt;&#39;static&gt; = authority;
-/// # let absolute: Absolute&lt;&#39;static&gt; = absolute;
-/// # let reference: Reference&lt;&#39;static&gt; = reference;
+/// # let origin: Origin&lt;'static&gt; = origin;
+/// # let authority: Authority&lt;'static&gt; = authority;
+/// # let absolute: Absolute&lt;'static&gt; = absolute;
+/// # let reference: Reference&lt;'static&gt; = reference;
 /// ```
 ///
 /// # Type-Safe Route URIs
@@ -2735,7 +2735,7 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/person/&lt;name&gt;?&lt;age&gt;&quot;)]
+/// #[get("/person/&lt;name&gt;?&lt;age&gt;")]
 /// fn person(name: &amp;str, age: Option&lt;u8&gt;) { }
 /// ```
 ///
@@ -2743,25 +2743,25 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[get(&quot;/person/&lt;name&gt;?&lt;age&gt;&quot;)]
+/// # #[get("/person/&lt;name&gt;?&lt;age&gt;")]
 /// # fn person(name: &amp;str, age: Option&lt;u8&gt;) { }
 /// // with unnamed parameters, in route path declaration order
-/// let mike = uri!(person(&quot;Mike Smith&quot;, Some(28)));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike%20Smith?age=28&quot;);
+/// let mike = uri!(person("Mike Smith", Some(28)));
+/// assert_eq!(mike.to_string(), "/person/Mike%20Smith?age=28");
 ///
 /// // with named parameters, order irrelevant
-/// let mike = uri!(person(name = &quot;Mike&quot;, age = Some(28)));
-/// let mike = uri!(person(age = Some(28), name = &quot;Mike&quot;));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike?age=28&quot;);
+/// let mike = uri!(person(name = "Mike", age = Some(28)));
+/// let mike = uri!(person(age = Some(28), name = "Mike"));
+/// assert_eq!(mike.to_string(), "/person/Mike?age=28");
 ///
 /// // with unnamed values, explicitly `None`.
-/// let mike = uri!(person(&quot;Mike&quot;, None::&lt;u8&gt;));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike&quot;);
+/// let mike = uri!(person("Mike", None::&lt;u8&gt;));
+/// assert_eq!(mike.to_string(), "/person/Mike");
 ///
 /// // with named values, explicitly `None`
 /// let option: Option&lt;u8&gt; = None;
-/// let mike = uri!(person(name = &quot;Mike&quot;, age = None::&lt;u8&gt;));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike&quot;);
+/// let mike = uri!(person(name = "Mike", age = None::&lt;u8&gt;));
+/// assert_eq!(mike.to_string(), "/person/Mike");
 /// ```
 ///
 /// For optional query parameters, those of type `Option` or `Result`, a `_` can
@@ -2769,19 +2769,19 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[get(&quot;/person/&lt;name&gt;?&lt;age&gt;&quot;)]
+/// # #[get("/person/&lt;name&gt;?&lt;age&gt;")]
 /// # fn person(name: &amp;str, age: Option&lt;u8&gt;) { }
 /// // with named values ignored
-/// let mike = uri!(person(name = &quot;Mike&quot;, age = _));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike&quot;);
+/// let mike = uri!(person(name = "Mike", age = _));
+/// assert_eq!(mike.to_string(), "/person/Mike");
 ///
 /// // with named values ignored
-/// let mike = uri!(person(age = _, name = &quot;Mike&quot;));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike&quot;);
+/// let mike = uri!(person(age = _, name = "Mike"));
+/// assert_eq!(mike.to_string(), "/person/Mike");
 ///
 /// // with unnamed values ignored
-/// let mike = uri!(person(&quot;Mike&quot;, _));
-/// assert_eq!(mike.to_string(), &quot;/person/Mike&quot;);
+/// let mike = uri!(person("Mike", _));
+/// assert_eq!(mike.to_string(), "/person/Mike");
 /// ```
 ///
 /// It is a type error to attempt to ignore query parameters that are neither
@@ -2791,21 +2791,21 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/person/&lt;name&gt;&quot;)]
+/// #[get("/person/&lt;name&gt;")]
 /// fn maybe(name: Option&lt;&amp;str&gt;) { }
 ///
-/// let bob1 = uri!(maybe(name = &quot;Bob&quot;));
-/// let bob2 = uri!(maybe(&quot;Bob Smith&quot;));
-/// assert_eq!(bob1.to_string(), &quot;/person/Bob&quot;);
-/// assert_eq!(bob2.to_string(), &quot;/person/Bob%20Smith&quot;);
+/// let bob1 = uri!(maybe(name = "Bob"));
+/// let bob2 = uri!(maybe("Bob Smith"));
+/// assert_eq!(bob1.to_string(), "/person/Bob");
+/// assert_eq!(bob2.to_string(), "/person/Bob%20Smith");
 ///
-/// #[get(&quot;/person/&lt;age&gt;&quot;)]
+/// #[get("/person/&lt;age&gt;")]
 /// fn ok(age: Result&lt;u8, &amp;str&gt;) { }
 ///
 /// let kid1 = uri!(ok(age = 10));
 /// let kid2 = uri!(ok(12));
-/// assert_eq!(kid1.to_string(), &quot;/person/10&quot;);
-/// assert_eq!(kid2.to_string(), &quot;/person/12&quot;);
+/// assert_eq!(kid1.to_string(), "/person/10");
+/// assert_eq!(kid2.to_string(), "/person/12");
 /// ```
 ///
 /// Values for ignored route segments can be of any type as long as the type
@@ -2815,13 +2815,13 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/ignore/&lt;_&gt;/&lt;other&gt;&quot;)]
+/// #[get("/ignore/&lt;_&gt;/&lt;other&gt;")]
 /// fn ignore(other: &amp;str) { }
 ///
-/// let bob = uri!(ignore(&quot;Bob Hope&quot;, &quot;hello&quot;));
-/// let life = uri!(ignore(42, &quot;cat&amp;dog&quot;));
-/// assert_eq!(bob.to_string(), &quot;/ignore/Bob%20Hope/hello&quot;);
-/// assert_eq!(life.to_string(), &quot;/ignore/42/cat%26dog&quot;);
+/// let bob = uri!(ignore("Bob Hope", "hello"));
+/// let life = uri!(ignore(42, "cat&amp;dog"));
+/// assert_eq!(bob.to_string(), "/ignore/Bob%20Hope/hello");
+/// assert_eq!(life.to_string(), "/ignore/42/cat%26dog");
 /// ```
 ///
 /// ## Prefixes and Suffixes
@@ -2834,42 +2834,42 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/person/&lt;name&gt;?&lt;age&gt;&quot;)]
+/// #[get("/person/&lt;name&gt;?&lt;age&gt;")]
 /// fn person(name: &amp;str, age: Option&lt;u8&gt;) { }
 ///
 /// // with a specific mount-point of `/api`.
-/// let bob = uri!(&quot;/api&quot;, person(&quot;Bob&quot;, Some(28)));
-/// assert_eq!(bob.to_string(), &quot;/api/person/Bob?age=28&quot;);
+/// let bob = uri!("/api", person("Bob", Some(28)));
+/// assert_eq!(bob.to_string(), "/api/person/Bob?age=28");
 ///
 /// // with an absolute URI as a prefix
-/// let bob = uri!(&quot;https://rocket.rs&quot;, person(&quot;Bob&quot;, Some(28)));
-/// assert_eq!(bob.to_string(), &quot;https://rocket.rs/person/Bob?age=28&quot;);
+/// let bob = uri!("https://rocket.rs", person("Bob", Some(28)));
+/// assert_eq!(bob.to_string(), "https://rocket.rs/person/Bob?age=28");
 ///
 /// // with another absolute URI as a prefix
-/// let bob = uri!(&quot;https://rocket.rs/foo&quot;, person(&quot;Bob&quot;, Some(28)));
-/// assert_eq!(bob.to_string(), &quot;https://rocket.rs/foo/person/Bob?age=28&quot;);
+/// let bob = uri!("https://rocket.rs/foo", person("Bob", Some(28)));
+/// assert_eq!(bob.to_string(), "https://rocket.rs/foo/person/Bob?age=28");
 ///
 /// // with an expression as a prefix
-/// let host = uri!(&quot;http://bob.me&quot;);
-/// let bob = uri!(host, person(&quot;Bob&quot;, Some(28)));
-/// assert_eq!(bob.to_string(), &quot;http://bob.me/person/Bob?age=28&quot;);
+/// let host = uri!("http://bob.me");
+/// let bob = uri!(host, person("Bob", Some(28)));
+/// assert_eq!(bob.to_string(), "http://bob.me/person/Bob?age=28");
 ///
 /// // with a suffix but no prefix
-/// let bob = uri!(_, person(&quot;Bob&quot;, Some(28)), &quot;#baz&quot;);
-/// assert_eq!(bob.to_string(), &quot;/person/Bob?age=28#baz&quot;);
+/// let bob = uri!(_, person("Bob", Some(28)), "#baz");
+/// assert_eq!(bob.to_string(), "/person/Bob?age=28#baz");
 ///
 /// // with both a prefix and suffix
-/// let bob = uri!(&quot;https://rocket.rs/&quot;, person(&quot;Bob&quot;, Some(28)), &quot;#woo&quot;);
-/// assert_eq!(bob.to_string(), &quot;https://rocket.rs/person/Bob?age=28#woo&quot;);
+/// let bob = uri!("https://rocket.rs/", person("Bob", Some(28)), "#woo");
+/// assert_eq!(bob.to_string(), "https://rocket.rs/person/Bob?age=28#woo");
 ///
 /// // with an expression suffix. if the route URI already has a query, the
 /// // query part is ignored. otherwise it is added.
-/// let suffix = uri!(&quot;?woo#bam&quot;);
-/// let bob = uri!(_, person(&quot;Bob&quot;, Some(28)), suffix.clone());
-/// assert_eq!(bob.to_string(), &quot;/person/Bob?age=28#bam&quot;);
+/// let suffix = uri!("?woo#bam");
+/// let bob = uri!(_, person("Bob", Some(28)), suffix.clone());
+/// assert_eq!(bob.to_string(), "/person/Bob?age=28#bam");
 ///
-/// let bob = uri!(_, person(&quot;Bob&quot;, None::&lt;u8&gt;), suffix.clone());
-/// assert_eq!(bob.to_string(), &quot;/person/Bob?woo#bam&quot;);
+/// let bob = uri!(_, person("Bob", None::&lt;u8&gt;), suffix.clone());
+/// assert_eq!(bob.to_string(), "/person/Bob?woo#bam");
 /// ```
 ///
 /// ## Grammar
@@ -2877,22 +2877,22 @@
 /// The grammar for this variant of the `uri!` macro is:
 ///
 /// ```text
-/// uri := (prefix &#39;,&#39;)? route
-///      | prefix &#39;,&#39; route &#39;,&#39; suffix
+/// uri := (prefix ',')? route
+///      | prefix ',' route ',' suffix
 ///
 /// prefix := STRING | expr                     ; `Origin` or `Absolute`
 /// suffix := STRING | expr                     ; `Reference` or `Absolute`
 ///
-/// route := PATH &#39;(&#39; (named | unnamed) &#39;)&#39;
+/// route := PATH '(' (named | unnamed) ')'
 ///
-/// named := IDENT = expr (&#39;,&#39; named)? &#39;,&#39;?
-/// unnamed := expr (&#39;,&#39; unnamed)? &#39;,&#39;?
+/// named := IDENT = expr (',' named)? ','?
+/// unnamed := expr (',' unnamed)? ','?
 ///
-/// expr := EXPR | &#39;_&#39;
+/// expr := EXPR | '_'
 ///
-/// EXPR := a valid Rust expression (examples: `foo()`, `12`, `&quot;hey&quot;`)
+/// EXPR := a valid Rust expression (examples: `foo()`, `12`, `"hey"`)
 /// IDENT := a valid Rust identifier (examples: `name`, `age`)
-/// STRING := an uncooked string literal, as defined by Rust (example: `&quot;hi&quot;`)
+/// STRING := an uncooked string literal, as defined by Rust (example: `"hi"`)
 /// PATH := a path, as defined by Rust (examples: `route`, `my_mod::route`)
 /// ```
 ///
@@ -2905,7 +2905,7 @@
 /// values in `uri!()`. The generated URI is guaranteed to be URI-safe.
 ///
 /// Each route value is rendered in its appropriate place in the URI using the
-/// [`UriDisplay`] implementation for the value&#39;s type. The `UriDisplay`
+/// [`UriDisplay`] implementation for the value's type. The `UriDisplay`
 /// implementation ensures that the rendered value is URL-safe.
 ///
 /// A `uri!()` invocation allocated at-most once.
@@ -2944,7 +2944,7 @@
 /// declared as `String`:
 ///
 /// ```rust,ignore
-/// impl&lt;P: Part, &#39;a&gt; FromUriParam&lt;P, &amp;&#39;a str&gt; for String { .. }
+/// impl&lt;P: Part, 'a&gt; FromUriParam&lt;P, &amp;'a str&gt; for String { .. }
 /// ```
 ///
 /// ### Ignorables

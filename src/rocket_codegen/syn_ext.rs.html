@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/syn_ext.rs`."><title>syn_ext.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/syn_ext.rs`."><title>syn_ext.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -284,8 +284,8 @@
 }
 
 <span class="kw">pub trait </span>TypeExt {
-    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Child&lt;<span class="lifetime">&#39;_</span>&gt;&gt;;
-    <span class="kw">fn </span>unfold_with_ty_macros(<span class="kw-2">&amp;</span><span class="self">self</span>, names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str], mapper: MacTyMapFn) -&gt; Vec&lt;Child&lt;<span class="lifetime">&#39;_</span>&gt;&gt;;
+    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Child&lt;<span class="lifetime">'_</span>&gt;&gt;;
+    <span class="kw">fn </span>unfold_with_ty_macros(<span class="kw-2">&amp;</span><span class="self">self</span>, names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str], mapper: MacTyMapFn) -&gt; Vec&lt;Child&lt;<span class="lifetime">'_</span>&gt;&gt;;
     <span class="kw">fn </span>is_concrete(<span class="kw-2">&amp;</span><span class="self">self</span>, generic_ident: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Ident]) -&gt; bool;
 }
 
@@ -294,12 +294,12 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Child&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub </span>parent: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, syn::Type&gt;&gt;,
-    <span class="kw">pub </span>ty: Cow&lt;<span class="lifetime">&#39;a</span>, syn::Type&gt;,
+</span><span class="kw">pub struct </span>Child&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub </span>parent: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, syn::Type&gt;&gt;,
+    <span class="kw">pub </span>ty: Cow&lt;<span class="lifetime">'a</span>, syn::Type&gt;,
 }
 
-<span class="kw">impl </span>Deref <span class="kw">for </span>Child&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Deref <span class="kw">for </span>Child&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">type </span>Target = syn::Type;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
@@ -307,8 +307,8 @@
     }
 }
 
-<span class="kw">impl </span>IntoOwned <span class="kw">for </span>Child&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">type </span>Owned = Child&lt;<span class="lifetime">&#39;static</span>&gt;;
+<span class="kw">impl </span>IntoOwned <span class="kw">for </span>Child&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">type </span>Owned = Child&lt;<span class="lifetime">'static</span>&gt;;
 
     <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
         Child {
@@ -322,11 +322,11 @@
 
 <span class="kw">impl </span>IdentExt <span class="kw">for </span>syn::Ident {
     <span class="kw">fn </span>prepend(<span class="kw-2">&amp;</span><span class="self">self</span>, string: <span class="kw-2">&amp;</span>str) -&gt; syn::Ident {
-        syn::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, string, <span class="self">self</span>.unraw()), <span class="self">self</span>.span())
+        syn::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}{}"</span>, string, <span class="self">self</span>.unraw()), <span class="self">self</span>.span())
     }
 
     <span class="kw">fn </span>append(<span class="kw-2">&amp;</span><span class="self">self</span>, string: <span class="kw-2">&amp;</span>str) -&gt; syn::Ident {
-        syn::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="self">self</span>, string), <span class="self">self</span>.span())
+        syn::Ident::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}{}"</span>, <span class="self">self</span>, string), <span class="self">self</span>.span())
     }
 
     <span class="kw">fn </span>with_span(<span class="kw-2">mut </span><span class="self">self</span>, span: Span) -&gt; syn::Ident {
@@ -352,7 +352,7 @@
         COUNTER.fetch_add(<span class="number">1</span>, Ordering::AcqRel).hash(<span class="kw-2">&amp;mut </span>hasher);
         f(<span class="kw-2">&amp;mut </span>hasher);
 
-        <span class="self">self</span>.append(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;_{}&quot;</span>, hasher.finish()))
+        <span class="self">self</span>.append(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"_{}"</span>, hasher.finish()))
     }
 }
 
@@ -407,26 +407,26 @@
 }
 
 <span class="kw">impl </span>TypeExt <span class="kw">for </span>syn::Type {
-    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Child&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    <span class="kw">fn </span>unfold(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Child&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.unfold_with_ty_macros(<span class="kw-2">&amp;</span>[], |<span class="kw">_</span>| <span class="prelude-val">None</span>)
     }
 
-    <span class="kw">fn </span>unfold_with_ty_macros(<span class="kw-2">&amp;</span><span class="self">self</span>, names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str], mapper: MacTyMapFn) -&gt; Vec&lt;Child&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
-        <span class="kw">struct </span>Visitor&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;m</span>&gt; {
-            parents: Vec&lt;Cow&lt;<span class="lifetime">&#39;a</span>, syn::Type&gt;&gt;,
-            children: Vec&lt;Child&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
-            names: <span class="kw-2">&amp;</span><span class="lifetime">&#39;m </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;m </span>str],
+    <span class="kw">fn </span>unfold_with_ty_macros(<span class="kw-2">&amp;</span><span class="self">self</span>, names: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str], mapper: MacTyMapFn) -&gt; Vec&lt;Child&lt;<span class="lifetime">'_</span>&gt;&gt; {
+        <span class="kw">struct </span>Visitor&lt;<span class="lifetime">'a</span>, <span class="lifetime">'m</span>&gt; {
+            parents: Vec&lt;Cow&lt;<span class="lifetime">'a</span>, syn::Type&gt;&gt;,
+            children: Vec&lt;Child&lt;<span class="lifetime">'a</span>&gt;&gt;,
+            names: <span class="kw-2">&amp;</span><span class="lifetime">'m </span>[<span class="kw-2">&amp;</span><span class="lifetime">'m </span>str],
             mapper: MacTyMapFn,
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;m</span>&gt; Visitor&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;m</span>&gt; {
-            <span class="kw">fn </span>new(names: <span class="kw-2">&amp;</span><span class="lifetime">&#39;m </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;m </span>str], mapper: MacTyMapFn) -&gt; <span class="self">Self </span>{
+        <span class="kw">impl</span>&lt;<span class="lifetime">'m</span>&gt; Visitor&lt;<span class="lifetime">'_</span>, <span class="lifetime">'m</span>&gt; {
+            <span class="kw">fn </span>new(names: <span class="kw-2">&amp;</span><span class="lifetime">'m </span>[<span class="kw-2">&amp;</span><span class="lifetime">'m </span>str], mapper: MacTyMapFn) -&gt; <span class="self">Self </span>{
                 Visitor { parents: <span class="macro">vec!</span>[], children: <span class="macro">vec!</span>[], names, mapper }
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Visit&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>Visitor&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;_</span>&gt; {
-            <span class="kw">fn </span>visit_type(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>syn::Type) {
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Visit&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>Visitor&lt;<span class="lifetime">'a</span>, <span class="lifetime">'_</span>&gt; {
+            <span class="kw">fn </span>visit_type(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>syn::Type) {
                 <span class="kw">let </span>parent = <span class="self">self</span>.parents.last().cloned();
 
                 <span class="kw">if let </span>syn::Type::Macro(t) = ty {
@@ -456,10 +456,10 @@
     }
 
     <span class="kw">fn </span>is_concrete(<span class="kw-2">&amp;</span><span class="self">self</span>, generics: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>Ident]) -&gt; bool {
-        <span class="kw">struct </span>ConcreteVisitor&lt;<span class="lifetime">&#39;i</span>&gt;(bool, <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>Ident]);
+        <span class="kw">struct </span>ConcreteVisitor&lt;<span class="lifetime">'i</span>&gt;(bool, <span class="kw-2">&amp;</span><span class="lifetime">'i </span>[<span class="kw-2">&amp;</span><span class="lifetime">'i </span>Ident]);
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;i</span>&gt; Visit&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>ConcreteVisitor&lt;<span class="lifetime">&#39;i</span>&gt; {
-            <span class="kw">fn </span>visit_type(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>syn::Type) {
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'i</span>&gt; Visit&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>ConcreteVisitor&lt;<span class="lifetime">'i</span>&gt; {
+            <span class="kw">fn </span>visit_type(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ty: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>syn::Type) {
                 <span class="kw">use </span>syn::Type::<span class="kw-2">*</span>;
 
                 <span class="kw">match </span>ty {
@@ -499,7 +499,7 @@
         <span class="kw">let </span>children = ty.unfold();
         <span class="macro">assert_eq!</span>(children.len(), <span class="number">8</span>);
 
-        <span class="kw">let </span>gen_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;T&quot;</span>);
+        <span class="kw">let </span>gen_ident = <span class="macro">format_ident!</span>(<span class="string">"T"</span>);
         <span class="kw">let </span>gen = <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>gen_ident];
         <span class="macro">assert_eq!</span>(children.iter().filter(|c| c.ty.is_concrete(gen)).count(), <span class="number">3</span>);
     }

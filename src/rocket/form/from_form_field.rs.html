@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/from_form_field.rs`."><title>from_form_field.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/from_form_field.rs`."><title>from_form_field.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -460,8 +460,8 @@
 /// ```rust
 /// # use rocket::form::FromForm;
 /// #[derive(FromForm)]
-/// struct Person&lt;&#39;r&gt; {
-///     name: &amp;&#39;r str,
+/// struct Person&lt;'r&gt; {
+///     name: &amp;'r str,
 ///     age: u16
 /// }
 /// ```
@@ -473,14 +473,14 @@
 ///
 ///   * When parsing is **strict**, the parser accepts the _first_ value or data
 ///     field with the corresponding field name and calls `T::from_value()` or
-///     `T::from_data()` with the field&#39;s value, respectively. If more than one
+///     `T::from_data()` with the field's value, respectively. If more than one
 ///     field value is seen, an [`ErrorKind::Duplicate`) is emitted. If no
 ///     matching field is seen, an [`ErrorKind::Missing`] is emitted. Otherwise,
 ///     the result from the call is emitted.
 ///
 ///   * When parsing is **lenient**, the parser accepts the first _expected_
 ///     value or data field with the corresponding field name and calls
-///     `T::from_value()` or `T::from_data()` with the field&#39;s value,
+///     `T::from_value()` or `T::from_data()` with the field's value,
 ///     respectively. Unexpected values, identified by returning an
 ///     [`ErrorKind::Unexpected`] from `from_value()` or `from_data()` are
 ///     ignored. Any additional fields with a matching field name are ignored.
@@ -495,12 +495,12 @@
 ///
 /// ```rust
 /// # use rocket::form::FromFormField;
-/// /// Fields with value `&quot;simple&quot;` parse as `Kind::Simple`. Fields with value
-/// /// `&quot;fancy&quot;` parse as `Kind::SoFancy`.
+/// /// Fields with value `"simple"` parse as `Kind::Simple`. Fields with value
+/// /// `"fancy"` parse as `Kind::SoFancy`.
 /// #[derive(FromFormField)]
 /// enum Kind {
 ///     Simple,
-///     #[field(value = &quot;fancy&quot;)]
+///     #[field(value = "fancy")]
 ///     SoFancy,
 /// }
 /// ```
@@ -527,13 +527,13 @@
 /// use rocket::form::{self, FromFormField, DataField, ValueField};
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromFormField&lt;&#39;r&gt; for MyType {
-///     fn from_value(field: ValueField&lt;&#39;r&gt;) -&gt; form::Result&lt;&#39;r, Self&gt; {
-///         todo!(&quot;parse from a value or use default impl&quot;)
+/// impl&lt;'r&gt; FromFormField&lt;'r&gt; for MyType {
+///     fn from_value(field: ValueField&lt;'r&gt;) -&gt; form::Result&lt;'r, Self&gt; {
+///         todo!("parse from a value or use default impl")
 ///     }
 ///
-///     async fn from_data(field: DataField&lt;&#39;r, &#39;_&gt;) -&gt; form::Result&lt;&#39;r, Self&gt; {
-///         todo!(&quot;parse from a value or use default impl&quot;)
+///     async fn from_data(field: DataField&lt;'r, '_&gt;) -&gt; form::Result&lt;'r, Self&gt; {
+///         todo!("parse from a value or use default impl")
 ///     }
 /// }
 /// ```
@@ -551,27 +551,27 @@
 ///
 /// use memchr::memchr;
 ///
-/// struct Person&lt;&#39;r&gt; {
-///     name: &amp;&#39;r str,
-///     data: &amp;&#39;r [u8]
+/// struct Person&lt;'r&gt; {
+///     name: &amp;'r str,
+///     data: &amp;'r [u8]
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromFormField&lt;&#39;r&gt; for Person&lt;&#39;r&gt; {
-///     fn from_value(field: ValueField&lt;&#39;r&gt;) -&gt; form::Result&lt;&#39;r, Self&gt; {
-///         match field.value.find(&#39;:&#39;) {
+/// impl&lt;'r&gt; FromFormField&lt;'r&gt; for Person&lt;'r&gt; {
+///     fn from_value(field: ValueField&lt;'r&gt;) -&gt; form::Result&lt;'r, Self&gt; {
+///         match field.value.find(':') {
 ///             Some(i) =&gt; Ok(Person {
 ///                 name: &amp;field.value[..i],
 ///                 data: field.value[(i + 1)..].as_bytes()
 ///             }),
-///             None =&gt; Err(form::Error::validation(&quot;does not contain &#39;:&#39;&quot;))?
+///             None =&gt; Err(form::Error::validation("does not contain ':'"))?
 ///         }
 ///     }
 ///
-///     async fn from_data(field: DataField&lt;&#39;r, &#39;_&gt;) -&gt; form::Result&lt;&#39;r, Self&gt; {
+///     async fn from_data(field: DataField&lt;'r, '_&gt;) -&gt; form::Result&lt;'r, Self&gt; {
 ///         // Retrieve the configured data limit or use `256KiB` as default.
 ///         let limit = field.request.limits()
-///             .get(&quot;person&quot;)
+///             .get("person")
 ///             .unwrap_or(256.kibibytes());
 ///
 ///         // Read the capped data stream, returning a limit error as needed.
@@ -580,12 +580,12 @@
 ///             Err((None, Some(limit)))?;
 ///         }
 ///
-///         // Store the bytes in request-local cache and split at &#39;:&#39;.
+///         // Store the bytes in request-local cache and split at ':'.
 ///         let bytes = bytes.into_inner();
 ///         let bytes = rocket::request::local_cache!(field.request, bytes);
-///         let (raw_name, data) = match memchr(b&#39;:&#39;, bytes) {
+///         let (raw_name, data) = match memchr(b':', bytes) {
 ///             Some(i) =&gt; (&amp;bytes[..i], &amp;bytes[(i + 1)..]),
-///             None =&gt; Err(form::Error::validation(&quot;does not contain &#39;:&#39;&quot;))?
+///             None =&gt; Err(form::Error::validation("does not contain ':'"))?
 ///         };
 ///
 ///         // Try to parse the name as UTF-8 or return an error if it fails.
@@ -597,17 +597,17 @@
 /// use rocket::form::{Form, FromForm};
 ///
 /// // The type can be used directly, if only one field is expected...
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person(person: Form&lt;Person&lt;&#39;_&gt;&gt;) { /* ... */ }
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person(person: Form&lt;Person&lt;'_&gt;&gt;) { /* ... */ }
 ///
 /// // ...or as a named field in another form guard...
 /// #[derive(FromForm)]
-/// struct NewPerson&lt;&#39;r&gt; {
-///     person: Person&lt;&#39;r&gt;
+/// struct NewPerson&lt;'r&gt; {
+///     person: Person&lt;'r&gt;
 /// }
 ///
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn new_person(person: Form&lt;NewPerson&lt;&#39;_&gt;&gt;) { /* ... */ }
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn new_person(person: Form&lt;NewPerson&lt;'_&gt;&gt;) { /* ... */ }
 /// ```
 </span><span class="comment">// NOTE: Ideally, we would have two traits instead one with two fallible
 // methods: `FromFormValue` and `FromFormData`. This would be especially nice
@@ -617,12 +617,12 @@
 // in duplicate implementations of `FromForm`; we need specialization to resolve
 // this concern. Thus, for now, we keep this as one trait.
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>FromFormField&lt;<span class="lifetime">&#39;v</span>&gt;: Send + Sized {
+</span><span class="kw">pub trait </span>FromFormField&lt;<span class="lifetime">'v</span>&gt;: Send + Sized {
     <span class="doccomment">/// Parse a value of `T` from a form value field.
     ///
     /// The default implementation returns an error of
     /// [`ValueField::unexpected()`].
-    </span><span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    </span><span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Err</span>(field.unexpected())<span class="question-mark">?
     </span>}
 
@@ -630,7 +630,7 @@
     ///
     /// The default implementation returns an error of
     /// [`DataField::unexpected()`].
-    </span><span class="kw">async fn </span>from_data(field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    </span><span class="kw">async fn </span>from_data(field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Err</span>(field.unexpected())<span class="question-mark">?
     </span>}
 
@@ -646,22 +646,22 @@
 }
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">pub struct </span>FromFieldContext&lt;<span class="lifetime">&#39;v</span>, T: FromFormField&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
-    field_name: <span class="prelude-ty">Option</span>&lt;NameView&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
-    field_value: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt;,
+</span><span class="kw">pub struct </span>FromFieldContext&lt;<span class="lifetime">'v</span>, T: FromFormField&lt;<span class="lifetime">'v</span>&gt;&gt; {
+    field_name: <span class="prelude-ty">Option</span>&lt;NameView&lt;<span class="lifetime">'v</span>&gt;&gt;,
+    field_value: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt;,
     opts: Options,
-    value: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt;&gt;,
+    value: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, T&gt;&gt;,
     pushes: usize
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromFormField&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromFieldContext&lt;<span class="lifetime">&#39;v</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromFormField&lt;<span class="lifetime">'v</span>&gt;&gt; FromFieldContext&lt;<span class="lifetime">'v</span>, T&gt; {
     <span class="kw">fn </span>should_push(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.pushes += <span class="number">1</span>;
         <span class="self">self</span>.value.is_none()
     }
 
-    <span class="kw">fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: NameView&lt;<span class="lifetime">&#39;v</span>&gt;, result: <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt;) {
-        <span class="kw">fn </span>is_unexpected(e: <span class="kw-2">&amp;</span>Errors&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+    <span class="kw">fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: NameView&lt;<span class="lifetime">'v</span>&gt;, result: <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, T&gt;) {
+        <span class="kw">fn </span>is_unexpected(e: <span class="kw-2">&amp;</span>Errors&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
             <span class="macro">matches!</span>(e.last().map(|e| <span class="kw-2">&amp;</span>e.kind), <span class="prelude-val">Some</span>(ErrorKind::Unexpected))
         }
 
@@ -674,8 +674,8 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromFormField&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>T {
-    <span class="kw">type </span>Context = FromFieldContext&lt;<span class="lifetime">&#39;v</span>, T&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromFormField&lt;<span class="lifetime">'v</span>&gt;&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>T {
+    <span class="kw">type </span>Context = FromFieldContext&lt;<span class="lifetime">'v</span>, T&gt;;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         FromFieldContext {
@@ -687,20 +687,20 @@
         }
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         <span class="kw">if </span>ctxt.should_push() {
             ctxt.field_value = <span class="prelude-val">Some</span>(field.value);
             ctxt.push(field.name, <span class="self">Self</span>::from_value(field))
         }
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span>FromFieldContext&lt;<span class="lifetime">&#39;v</span>, T&gt;, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span>FromFieldContext&lt;<span class="lifetime">'v</span>, T&gt;, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         <span class="kw">if </span>ctxt.should_push() {
             ctxt.push(field.name, <span class="self">Self</span>::from_data(field).<span class="kw">await</span>);
         }
     }
 
-    <span class="kw">fn </span>finalize(ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>errors = <span class="kw">match </span>ctxt.value {
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(val)) <span class="kw">if </span>!ctxt.opts.strict || ctxt.pushes &lt;= <span class="number">1 </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(val),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="kw">_</span>)) =&gt; Errors::from(ErrorKind::Duplicate),
@@ -725,15 +725,15 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt; {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Ok</span>(Capped::from(field.value))
     }
 
-    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::data::{Capped, Outcome, FromData};
 
-        <span class="kw">match </span>&lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt; <span class="kw">as </span>FromData&gt;::from_data(f.request, f.data).<span class="kw">await </span>{
+        <span class="kw">match </span>&lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt; <span class="kw">as </span>FromData&gt;::from_data(f.request, f.data).<span class="kw">await </span>{
             Outcome::Success(p) =&gt; <span class="prelude-val">Ok</span>(p),
             Outcome::Error((<span class="kw">_</span>, e)) =&gt; <span class="prelude-val">Err</span>(e)<span class="question-mark">?</span>,
             Outcome::Forward(..) =&gt; {
@@ -743,15 +743,15 @@
     }
 }
 
-<span class="macro">impl_strict_from_form_field_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str);
+<span class="macro">impl_strict_from_form_field_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;String&gt; {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Capped&lt;String&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Ok</span>(Capped::from(field.value.to_string()))
     }
 
-    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::data::{Capped, Outcome, FromData};
 
         <span class="kw">match </span>&lt;Capped&lt;String&gt; <span class="kw">as </span>FromData&gt;::from_data(f.request, f.data).<span class="kw">await </span>{
@@ -766,31 +766,31 @@
 
 <span class="macro">impl_strict_from_form_field_from_capped!</span>(String);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>bool {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>bool {
     <span class="kw">fn </span>default() -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
         <span class="prelude-val">Some</span>(<span class="bool-val">false</span>)
     }
 
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>field.value.as_uncased() {
-            v <span class="kw">if </span>v == <span class="string">&quot;off&quot; </span>|| v == <span class="string">&quot;no&quot; </span>|| v == <span class="string">&quot;false&quot; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
-            v <span class="kw">if </span>v.is_empty() || v == <span class="string">&quot;on&quot; </span>|| v == <span class="string">&quot;yes&quot; </span>|| v == <span class="string">&quot;true&quot; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+            v <span class="kw">if </span>v == <span class="string">"off" </span>|| v == <span class="string">"no" </span>|| v == <span class="string">"false" </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+            v <span class="kw">if </span>v.is_empty() || v == <span class="string">"on" </span>|| v == <span class="string">"yes" </span>|| v == <span class="string">"true" </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
             <span class="comment">// force a `ParseBoolError`
-            </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">&quot;&quot;</span>.parse()<span class="question-mark">?</span>),
+            </span><span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">""</span>.parse()<span class="question-mark">?</span>),
         }
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>[u8]&gt; {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>[u8]&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Ok</span>(Capped::from(field.value.as_bytes()))
     }
 
-    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(f: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::data::{Capped, Outcome, FromData};
 
-        <span class="kw">match </span>&lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>[u8]&gt; <span class="kw">as </span>FromData&gt;::from_data(f.request, f.data).<span class="kw">await </span>{
+        <span class="kw">match </span>&lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>[u8]&gt; <span class="kw">as </span>FromData&gt;::from_data(f.request, f.data).<span class="kw">await </span>{
             Outcome::Success(p) =&gt; <span class="prelude-val">Ok</span>(p),
             Outcome::Error((<span class="kw">_</span>, e)) =&gt; <span class="prelude-val">Err</span>(e)<span class="question-mark">?</span>,
             Outcome::Forward(..) =&gt; {
@@ -800,28 +800,28 @@
     }
 }
 
-<span class="macro">impl_strict_from_form_field_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>[u8]);
+<span class="macro">impl_strict_from_form_field_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">'v </span>[u8]);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt; {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
-        <span class="kw">let </span>capped = &lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt;&gt;::from_value(field)<span class="question-mark">?</span>;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Capped&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
+        <span class="kw">let </span>capped = &lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt;&gt;::from_value(field)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(capped.map(|s| s.into()))
     }
 
-    <span class="kw">async fn </span>from_data(field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
-        <span class="kw">let </span>capped = &lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt;&gt;::from_data(field).<span class="kw">await</span><span class="question-mark">?</span>;
+    <span class="kw">async fn </span>from_data(field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
+        <span class="kw">let </span>capped = &lt;Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt;&gt;::from_data(field).<span class="kw">await</span><span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(capped.map(|s| s.into()))
     }
 }
 
-<span class="macro">impl_strict_from_form_field_from_capped!</span>(Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;);
+<span class="macro">impl_strict_from_form_field_from_capped!</span>(Cow&lt;<span class="lifetime">'v</span>, str&gt;);
 
-<span class="macro">macro_rules! </span>impl_with_parse {
+<span class="macro">macro_rules!</span> impl_with_parse {
     ($(<span class="macro-nonterminal">$T</span>:ident),+ $(,)<span class="question-mark">?</span>) =&gt; ($(
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
+        <span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+            </span><span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
                 <span class="prelude-val">Ok</span>(field.value.parse()<span class="question-mark">?</span>)
             }
         }
@@ -837,17 +837,17 @@
     Ipv4Addr, IpAddr, Ipv6Addr, SocketAddrV4, SocketAddrV6, SocketAddr
 );
 <span class="comment">//
-// Keep formats in sync with &#39;FromFormField&#39; impls.
-</span><span class="kw">static </span>DATE_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">&quot;[year padding:none]-[month]-[day]&quot;</span>);
-<span class="kw">static </span>TIME_FMT1: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">&quot;[hour padding:none]:[minute]:[second]&quot;</span>);
-<span class="kw">static </span>TIME_FMT2: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">&quot;[hour padding:none]:[minute]&quot;</span>);
-<span class="kw">static </span>DATE_TIME_FMT1: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] =
-    <span class="macro">format_description!</span>(<span class="string">&quot;[year padding:none]-[month]-[day]T[hour padding:none]:[minute]:[second]&quot;</span>);
-<span class="kw">static </span>DATE_TIME_FMT2: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] =
-    <span class="macro">format_description!</span>(<span class="string">&quot;[year padding:none]-[month]-[day]T[hour padding:none]:[minute]&quot;</span>);
+// Keep formats in sync with 'FromFormField' impls.
+</span><span class="kw">static </span>DATE_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">"[year padding:none]-[month]-[day]"</span>);
+<span class="kw">static </span>TIME_FMT1: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">"[hour padding:none]:[minute]:[second]"</span>);
+<span class="kw">static </span>TIME_FMT2: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">"[hour padding:none]:[minute]"</span>);
+<span class="kw">static </span>DATE_TIME_FMT1: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] =
+    <span class="macro">format_description!</span>(<span class="string">"[year padding:none]-[month]-[day]T[hour padding:none]:[minute]:[second]"</span>);
+<span class="kw">static </span>DATE_TIME_FMT2: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] =
+    <span class="macro">format_description!</span>(<span class="string">"[year padding:none]-[month]-[day]T[hour padding:none]:[minute]"</span>);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Date {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Date {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>date = <span class="self">Self</span>::parse(field.value, <span class="kw-2">&amp;</span>DATE_FMT)
             .map_err(|e| Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)<span class="question-mark">?</span>;
 
@@ -855,8 +855,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Time {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Time {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>time = <span class="self">Self</span>::parse(field.value, <span class="kw-2">&amp;</span>TIME_FMT1)
             .or_else(|<span class="kw">_</span>| <span class="self">Self</span>::parse(field.value, <span class="kw-2">&amp;</span>TIME_FMT2))
             .map_err(|e| Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)<span class="question-mark">?</span>;
@@ -865,8 +865,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>PrimitiveDateTime {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>PrimitiveDateTime {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>dt = <span class="self">Self</span>::parse(field.value, <span class="kw-2">&amp;</span>DATE_TIME_FMT1)
             .or_else(|<span class="kw">_</span>| <span class="self">Self</span>::parse(field.value, <span class="kw-2">&amp;</span>DATE_TIME_FMT2))
             .map_err(|e| Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)<span class="question-mark">?</span>;

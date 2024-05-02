@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.0-rc.1/src/condition.rs`."><title>condition.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.1/src/condition.rs`."><title>condition.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../yansi/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -370,7 +370,7 @@
 /// A `Condition` is nothing more than a function that returns a `bool`. The
 /// function is called each and every time a `Painted` is formatted, and so it
 /// is expected to be fast. All of the built-in conditions (except for their
-/// &quot;live&quot; variants) cache their first evaluation as a result: the
+/// "live" variants) cache their first evaluation as a result: the
 /// [`Condition::cached()`] constructor can do the same for your conditions.
 ///
 /// # Built-In Conditions
@@ -389,18 +389,18 @@
 /// For example, to enable the TTY detectors, enable the `detect-tty` feature:
 ///
 /// ```toml
-/// yansi = { version = &quot;...&quot;, features = [&quot;detect-tty&quot;] }
+/// yansi = { version = "...", features = ["detect-tty"] }
 /// ```
 ///
 /// To enable the TTY detectors, env-var checkers, and combo detectors, enable
 /// `detect-tty` _and_ `detect-env`:
 ///
 /// ```toml
-/// yansi = { version = &quot;...&quot;, features = [&quot;detect-tty&quot;, &quot;detect-env&quot;] }
+/// yansi = { version = "...", features = ["detect-tty", "detect-env"] }
 /// ```
 ///
 /// ```rust
-/// # #[cfg(all(feature = &quot;detect-tty&quot;, feature = &quot;detect-env&quot;))] {
+/// # #[cfg(all(feature = "detect-tty", feature = "detect-env"))] {
 /// use yansi::Condition;
 ///
 /// yansi::whenever(Condition::TTY_AND_COLOR);
@@ -413,11 +413,11 @@
 ///
 /// # Custom Conditions
 ///
-/// Custom, arbitrary conditions can be creared via [`Condition::from()`] or
+/// Custom, arbitrary conditions can be created with [`Condition::from()`] or
 /// [`Condition::cached()`].
 ///
 /// ```rust
-/// # #[cfg(all(feature = &quot;detect-tty&quot;, feature = &quot;detect-env&quot;))] {
+/// # #[cfg(all(feature = "detect-tty", feature = "detect-env"))] {
 /// use yansi::{Condition, Style, Color::*};
 ///
 /// // Combine two conditions (`stderr` is a TTY, `CLICOLOR` is set) into one.
@@ -500,7 +500,7 @@
     ///     todo!()
     /// }
     ///
-    /// // Cache the result of `some_function()` so it doesn&#39;t get called each
+    /// // Cache the result of `some_function()` so it doesn't get called each
     /// // time the condition needs to be checked.
     /// let my_condition = Condition::cached(some_function());
     /// ```
@@ -584,7 +584,7 @@
             <span class="prelude-val">Err</span>(<span class="self">Self</span>::INITING) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>value;
                 <span class="kw">while </span>{ value = <span class="self">self</span>.<span class="number">0</span>.load(Acquire); value } == <span class="self">Self</span>::INITING {
-                    <span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+                    <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
                     </span>std::thread::yield_now();
                 }
 
@@ -596,59 +596,59 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Condition {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if </span><span class="kw-2">*</span><span class="self">self </span>== Condition::DEFAULT {
-            f.write_str(<span class="string">&quot;Condition::DEFAULT&quot;</span>)
+            f.write_str(<span class="string">"Condition::DEFAULT"</span>)
         } <span class="kw">else if </span><span class="kw-2">*</span><span class="self">self </span>== Condition::ALWAYS {
-            f.write_str(<span class="string">&quot;Condition::ALWAYS&quot;</span>)
+            f.write_str(<span class="string">"Condition::ALWAYS"</span>)
         } <span class="kw">else if </span><span class="kw-2">*</span><span class="self">self </span>== Condition::NEVER {
-            f.write_str(<span class="string">&quot;Condition::NEVER&quot;</span>)
+            f.write_str(<span class="string">"Condition::NEVER"</span>)
         } <span class="kw">else </span>{
-            f.debug_tuple(<span class="string">&quot;Condition&quot;</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
+            f.debug_tuple(<span class="string">"Condition"</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
         }
     }
 }
 
-<span class="macro">macro_rules! </span>conditions {
+<span class="macro">macro_rules!</span> conditions {
     (<span class="macro-nonterminal">$feat</span>:meta $(<span class="macro-nonterminal">$f</span>:expr, <span class="macro-nonterminal">$CACHED</span>:ident: <span class="macro-nonterminal">$cached</span>:ident, <span class="macro-nonterminal">$LIVE</span>:ident: <span class="macro-nonterminal">$live</span>:ident),* $(,)<span class="question-mark">?</span>) =&gt; (
         <span class="attr">#[cfg(<span class="macro-nonterminal">$feat</span>)]
-        #[cfg_attr(feature = <span class="string">&quot;_nightly&quot;</span>, doc(cfg(<span class="macro-nonterminal">$feat</span>)))]
+        #[cfg_attr(feature = <span class="string">"_nightly"</span>, doc(cfg(<span class="macro-nonterminal">$feat</span>)))]
         </span><span class="doccomment">/// Feature dependent conditions.
         ///
         /// Available when compiled with
-        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&#39;`&#39;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$feat</span>), <span class="string">&quot;`.&quot;</span>)]
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">'`'</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$feat</span>), <span class="string">"`."</span>)]
         </span><span class="kw">impl </span>Condition {
             $(
                 <span class="doccomment">/// Evaluates to `true` if
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&#39;`&#39;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">&quot;`.&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">'`'</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">"`."</span>)]
                 </span><span class="doccomment">///
                 /// The result of the first check is cached for subsequent
                 /// checks. Internally uses
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$cached</span>), <span class="string">&quot;`](Condition::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$cached</span>), <span class="string">&quot;).&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$cached</span>), <span class="string">"`](Condition::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$cached</span>), <span class="string">")."</span>)]
                 </span><span class="kw">pub const </span><span class="macro-nonterminal">$CACHED</span>: Condition = Condition(Condition::<span class="macro-nonterminal">$cached</span>);
             )*
 
             $(
                 <span class="doccomment">/// Evaluates to `true` if
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&#39;`&#39;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">&quot;`.&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">'`'</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">"`."</span>)]
                 </span><span class="doccomment">///
                 /// A call is dispatched each time the condition is checked.
                 /// This is expensive, so prefer to use
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">&quot;`](Condition::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">&quot;)&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">"`](Condition::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">")"</span>)]
                 </span><span class="doccomment">/// instead.
                 ///
                 /// Internally uses
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$live</span>), <span class="string">&quot;`](Condition::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$live</span>), <span class="string">&quot;).&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$live</span>), <span class="string">"`](Condition::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$live</span>), <span class="string">")."</span>)]
                 </span><span class="kw">pub const </span><span class="macro-nonterminal">$LIVE</span>: Condition = Condition(Condition::<span class="macro-nonterminal">$live</span>);
             )*
 
             $(
                 <span class="doccomment">/// Returns `true` if
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&#39;`&#39;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">&quot;`.&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">'`'</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">"`."</span>)]
                 </span><span class="doccomment">///
                 /// The result of the first check is cached for subsequent
                 /// checks. This is the backing function for
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">&quot;`](Condition::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">&quot;).&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">"`](Condition::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$CACHED</span>), <span class="string">")."</span>)]
                 </span><span class="kw">pub fn </span><span class="macro-nonterminal">$cached</span>() -&gt; bool {
                     <span class="kw">static </span>IS_TTY: CachedBool = CachedBool::new();
                     IS_TTY.get_or_init(Condition::<span class="macro-nonterminal">$live</span>)
@@ -657,10 +657,10 @@
 
             $(
                 <span class="doccomment">/// Returns `true` if
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&#39;`&#39;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">&quot;`.&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">'`'</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$f</span>), <span class="string">"`."</span>)]
                 </span><span class="doccomment">///
                 /// This is the backing function for
-                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$LIVE</span>), <span class="string">&quot;`](Condition::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$LIVE</span>), <span class="string">&quot;).&quot;</span>)]
+                </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$LIVE</span>), <span class="string">"`](Condition::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$LIVE</span>), <span class="string">")."</span>)]
                 </span><span class="kw">pub fn </span><span class="macro-nonterminal">$live</span>() -&gt; bool {
                     <span class="macro-nonterminal">$f
                 </span>}
@@ -669,10 +669,10 @@
     )
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;detect-tty&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"detect-tty"</span>)]
 </span><span class="kw">use </span>is_terminal::is_terminal <span class="kw">as </span>is_tty;
 
-<span class="macro">conditions! </span>{ feature = <span class="string">&quot;detect-tty&quot;
+<span class="macro">conditions!</span> { feature = <span class="string">"detect-tty"
     </span>is_tty(<span class="kw-2">&amp;</span>std::io::stdout()),
         STDOUT_IS_TTY: stdout_is_tty,
         STDOUT_IS_TTY_LIVE: stdout_is_tty_live,
@@ -690,22 +690,22 @@
         STDOUTERR_ARE_TTY_LIVE: stdouterr_are_tty_live,
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;detect-env&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"detect-env"</span>)]
 </span><span class="kw">pub fn </span>env_set_or(name: <span class="kw-2">&amp;</span>str, default: bool) -&gt; bool {
-    std::env::var_os(name).map_or(default, |v| v != <span class="string">&quot;0&quot;</span>)
+    std::env::var_os(name).map_or(default, |v| v != <span class="string">"0"</span>)
 }
 
-<span class="macro">conditions! </span>{ feature = <span class="string">&quot;detect-env&quot;
-    </span>env_set_or(<span class="string">&quot;CLICOLOR_FORCE&quot;</span>, <span class="bool-val">false</span>) || env_set_or(<span class="string">&quot;CLICOLOR&quot;</span>, <span class="bool-val">true</span>),
+<span class="macro">conditions!</span> { feature = <span class="string">"detect-env"
+    </span>env_set_or(<span class="string">"CLICOLOR_FORCE"</span>, <span class="bool-val">false</span>) || env_set_or(<span class="string">"CLICOLOR"</span>, <span class="bool-val">true</span>),
         CLICOLOR: clicolor,
         CLICOLOR_LIVE: clicolor_live,
 
-    !env_set_or(<span class="string">&quot;NO_COLOR&quot;</span>, <span class="bool-val">false</span>),
+    !env_set_or(<span class="string">"NO_COLOR"</span>, <span class="bool-val">false</span>),
         YES_COLOR: no_color,
         YES_COLOR_LIVE: no_color_live,
 }
 
-<span class="macro">conditions! </span>{ all(feature = <span class="string">&quot;detect-env&quot;</span>, feature = <span class="string">&quot;detect-tty&quot;</span>)
+<span class="macro">conditions!</span> { all(feature = <span class="string">"detect-env"</span>, feature = <span class="string">"detect-tty"</span>)
     Condition::stdouterr_are_tty() &amp;&amp; Condition::clicolor() &amp;&amp; Condition::no_color(),
         TTY_AND_COLOR: tty_and_color,
         TTY_AND_COLOR_LIVE: tty_and_color_live,

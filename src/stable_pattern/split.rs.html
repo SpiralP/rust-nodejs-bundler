@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/stable-pattern-0.1.0/src/split.rs`."><title>split.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="stable_pattern" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/stable-pattern-0.1.0/src/split.rs`."><title>split.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="stable_pattern" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../stable_pattern/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -703,12 +703,12 @@
 <span class="kw">use </span><span class="kw">super</span>::pattern::{DoubleEndedSearcher, ReverseSearcher, Searcher};
 
 <span class="doccomment">/// This macro generates a Clone impl for string pattern API
-/// wrapper types of the form X&lt;&#39;a, P&gt;
-</span><span class="macro">macro_rules! </span>derive_pattern_clone {
+/// wrapper types of the form X&lt;'a, P&gt;
+</span><span class="macro">macro_rules!</span> derive_pattern_clone {
     (clone <span class="macro-nonterminal">$t</span>:ident with |<span class="macro-nonterminal">$s</span>:ident| <span class="macro-nonterminal">$e</span>:expr) =&gt; {
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$t</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$t</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: Clone
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: Clone
         {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
                 <span class="kw">let </span><span class="macro-nonterminal">$s </span>= <span class="self">self</span>;
@@ -721,7 +721,7 @@
 <span class="doccomment">/// This macro generates two public iterator structs
 /// wrapping a private internal one that makes use of the `Pattern` API.
 ///
-/// For all patterns `P: Pattern&lt;&#39;a&gt;` the following items will be
+/// For all patterns `P: Pattern&lt;'a&gt;` the following items will be
 /// generated (generics omitted):
 ///
 /// struct $forward_iterator($internal_iterator);
@@ -746,7 +746,7 @@
 /// semantic as a DoubleEndedIterator by delegating to `pattern::Searcher` and
 /// `pattern::ReverseSearcher` for both forward and reverse iteration.
 ///
-/// &quot;Almost&quot;, because a `Searcher` and a `ReverseSearcher` for a given
+/// "Almost", because a `Searcher` and a `ReverseSearcher` for a given
 /// `Pattern` might not return the same elements, so actually implementing
 /// `DoubleEndedIterator` for it would be incorrect.
 /// (See the docs in `str::pattern` for more details)
@@ -756,7 +756,7 @@
 /// so the two wrapper structs implement `Iterator`
 /// and `DoubleEndedIterator` depending on the concrete pattern type, leading
 /// to the complex impls seen above.
-</span><span class="macro">macro_rules! </span>generate_pattern_iterators {
+</span><span class="macro">macro_rules!</span> generate_pattern_iterators {
     {
         <span class="comment">// Forward iterator
         </span>forward:
@@ -776,20 +776,20 @@
         </span>delegate $(<span class="macro-nonterminal">$t</span>:tt)*
     } =&gt; {
         $(<span class="attr">#[<span class="macro-nonterminal">$forward_iterator_attribute</span>]</span>)*
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw">pub </span><span class="macro-nonterminal">$internal_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;);
+        <span class="kw">pub struct </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw">pub </span><span class="macro-nonterminal">$internal_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;);
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
         {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 f.debug_tuple(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$forward_iterator</span>))
                     .field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
                     .finish()
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; Iterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; Iterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt; {
             <span class="kw">type </span>Item = <span class="macro-nonterminal">$iterty</span>;
 
             <span class="attr">#[inline]
@@ -798,9 +798,9 @@
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: Clone,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: Clone,
         {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
                 <span class="macro-nonterminal">$forward_iterator</span>(<span class="self">self</span>.<span class="number">0</span>.clone())
@@ -808,22 +808,22 @@
         }
 
         $(<span class="attr">#[<span class="macro-nonterminal">$reverse_iterator_attribute</span>]</span>)*
-        <span class="kw">pub struct </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw">pub </span><span class="macro-nonterminal">$internal_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;);
+        <span class="kw">pub struct </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw">pub </span><span class="macro-nonterminal">$internal_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;);
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
         {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 f.debug_tuple(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$reverse_iterator</span>))
                     .field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
                     .finish()
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; Iterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; Iterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {
             <span class="kw">type </span>Item = <span class="macro-nonterminal">$iterty</span>;
 
@@ -833,20 +833,20 @@
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; Clone <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: Clone,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: Clone,
         {
             <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
                 <span class="macro-nonterminal">$reverse_iterator</span>(<span class="self">self</span>.<span class="number">0</span>.clone())
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; FusedIterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; {}
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; FusedIterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt; {}
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; FusedIterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; FusedIterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {}
 
         <span class="macro">generate_pattern_iterators!</span>($(<span class="macro-nonterminal">$t</span>)* with <span class="macro-nonterminal">$forward_iterator</span>, <span class="macro-nonterminal">$reverse_iterator</span>, <span class="macro-nonterminal">$iterty</span>);
@@ -855,9 +855,9 @@
         double ended; with <span class="macro-nonterminal">$forward_iterator</span>:ident,
                            <span class="macro-nonterminal">$reverse_iterator</span>:ident, <span class="macro-nonterminal">$iterty</span>:ty
     } =&gt; {
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; DoubleEndedIterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; DoubleEndedIterator <span class="kw">for </span><span class="macro-nonterminal">$forward_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="macro-nonterminal">$iterty</span>&gt; {
@@ -865,9 +865,9 @@
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; DoubleEndedIterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">&#39;a</span>, P&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; DoubleEndedIterator <span class="kw">for </span><span class="macro-nonterminal">$reverse_iterator</span>&lt;<span class="lifetime">'a</span>, P&gt;
         <span class="kw">where
-            </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="macro-nonterminal">$iterty</span>&gt; {
@@ -881,12 +881,12 @@
     } =&gt; {}
 }
 
-<span class="macro">derive_pattern_clone! </span>{
+<span class="macro">derive_pattern_clone!</span> {
     clone SplitInternal
     with |s| SplitInternal { matcher: s.matcher.clone(), ..<span class="kw-2">*</span>s }
 }
 
-<span class="kw">pub struct </span>SplitInternal&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+<span class="kw">pub struct </span>SplitInternal&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; {
     <span class="kw">pub </span>start: usize,
     <span class="kw">pub </span>end: usize,
     <span class="kw">pub </span>matcher: P::Searcher,
@@ -894,24 +894,24 @@
     <span class="kw">pub </span>finished: bool,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span>SplitInternal&lt;<span class="lifetime">&#39;a</span>, P&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span>SplitInternal&lt;<span class="lifetime">'a</span>, P&gt;
 <span class="kw">where
-    </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+    </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;SplitInternal&quot;</span>)
-            .field(<span class="string">&quot;start&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.start)
-            .field(<span class="string">&quot;end&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.end)
-            .field(<span class="string">&quot;matcher&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.matcher)
-            .field(<span class="string">&quot;allow_trailing_empty&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.allow_trailing_empty)
-            .field(<span class="string">&quot;finished&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.finished)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"SplitInternal"</span>)
+            .field(<span class="string">"start"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.start)
+            .field(<span class="string">"end"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.end)
+            .field(<span class="string">"matcher"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.matcher)
+            .field(<span class="string">"allow_trailing_empty"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.allow_trailing_empty)
+            .field(<span class="string">"finished"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.finished)
             .finish()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; SplitInternal&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; SplitInternal&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>get_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>get_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if </span>!<span class="self">self</span>.finished &amp;&amp; (<span class="self">self</span>.allow_trailing_empty || <span class="self">self</span>.end - <span class="self">self</span>.start &gt; <span class="number">0</span>) {
             <span class="self">self</span>.finished = <span class="bool-val">true</span>;
             <span class="comment">// SAFETY: `self.start` and `self.end` always lie on unicode boundaries.
@@ -925,7 +925,7 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if </span><span class="self">self</span>.finished {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
@@ -944,7 +944,7 @@
 
     <span class="attr">#[inline]
     #[allow(dead_code)]
-    </span><span class="kw">fn </span>next_inclusive(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>next_inclusive(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if </span><span class="self">self</span>.finished {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
@@ -964,9 +964,9 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="kw">if </span><span class="self">self</span>.finished {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -1002,9 +1002,9 @@
 
     <span class="attr">#[inline]
     #[allow(dead_code)]
-    </span><span class="kw">fn </span>next_back_inclusive(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>next_back_inclusive(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="kw">if </span><span class="self">self</span>.finished {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -1033,7 +1033,7 @@
                 <span class="prelude-val">Some</span>(elt)
             },
             <span class="comment">// SAFETY: self.start is either the start of the original string,
-            // or start of a substring that represents the part of the string that hasn&#39;t
+            // or start of a substring that represents the part of the string that hasn't
             // iterated yet. Either way, it is guaranteed to lie on unicode boundary.
             // self.end is either the end of the original string,
             // or `b` was assigned to it, so it also lies on unicode boundary.
@@ -1045,10 +1045,10 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
-        <span class="comment">// `Self::get_end` doesn&#39;t change `self.start`
+    </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
+        <span class="comment">// `Self::get_end` doesn't change `self.start`
         </span><span class="kw">if </span><span class="self">self</span>.finished {
-            <span class="kw">return </span><span class="string">&quot;&quot;</span>;
+            <span class="kw">return </span><span class="string">""</span>;
         }
 
         <span class="comment">// SAFETY: `self.start` and `self.end` always lie on unicode boundaries.
@@ -1056,7 +1056,7 @@
     }
 }
 
-<span class="macro">generate_pattern_iterators! </span>{
+<span class="macro">generate_pattern_iterators!</span> {
     forward:
         <span class="doccomment">/// Created with the method [`split`].
         ///
@@ -1068,49 +1068,49 @@
         /// [`rsplit`]: str::rsplit
         </span><span class="kw">struct </span>RSplit;
     internal:
-        SplitInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str);
+        SplitInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str);
     delegate double ended;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; Split&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; Split&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;Mary had a little lamb&quot;.split(&#39; &#39;);
-    /// assert_eq!(split.as_str(), &quot;Mary had a little lamb&quot;);
+    /// let mut split = "Mary had a little lamb".split(' ');
+    /// assert_eq!(split.as_str(), "Mary had a little lamb");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;had a little lamb&quot;);
+    /// assert_eq!(split.as_str(), "had a little lamb");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; RSplit&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; RSplit&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;Mary had a little lamb&quot;.rsplit(&#39; &#39;);
-    /// assert_eq!(split.as_str(), &quot;Mary had a little lamb&quot;);
+    /// let mut split = "Mary had a little lamb".rsplit(' ');
+    /// assert_eq!(split.as_str(), "Mary had a little lamb");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;Mary had a little&quot;);
+    /// assert_eq!(split.as_str(), "Mary had a little");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="macro">generate_pattern_iterators! </span>{
+<span class="macro">generate_pattern_iterators!</span> {
     forward:
         <span class="doccomment">/// Created with the method [`split_terminator`].
         ///
@@ -1122,74 +1122,74 @@
         /// [`rsplit_terminator`]: str::rsplit_terminator
         </span><span class="kw">struct </span>RSplitTerminator;
     internal:
-        SplitInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str);
+        SplitInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str);
     delegate double ended;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; SplitTerminator&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; SplitTerminator&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;A..B..&quot;.split_terminator(&#39;.&#39;);
-    /// assert_eq!(split.as_str(), &quot;A..B..&quot;);
+    /// let mut split = "A..B..".split_terminator('.');
+    /// assert_eq!(split.as_str(), "A..B..");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;.B..&quot;);
+    /// assert_eq!(split.as_str(), ".B..");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; RSplitTerminator&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; RSplitTerminator&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;A..B..&quot;.rsplit_terminator(&#39;.&#39;);
-    /// assert_eq!(split.as_str(), &quot;A..B..&quot;);
+    /// let mut split = "A..B..".rsplit_terminator('.');
+    /// assert_eq!(split.as_str(), "A..B..");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;A..B&quot;);
+    /// assert_eq!(split.as_str(), "A..B");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="macro">derive_pattern_clone! </span>{
+<span class="macro">derive_pattern_clone!</span> {
     clone SplitNInternal
     with |s| SplitNInternal { iter: s.iter.clone(), ..<span class="kw-2">*</span>s }
 }
 
-<span class="kw">pub struct </span>SplitNInternal&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
-    <span class="kw">pub </span>iter: SplitInternal&lt;<span class="lifetime">&#39;a</span>, P&gt;,
+<span class="kw">pub struct </span>SplitNInternal&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; {
+    <span class="kw">pub </span>iter: SplitInternal&lt;<span class="lifetime">'a</span>, P&gt;,
     <span class="doccomment">/// The number of splits remaining
     </span><span class="kw">pub </span>count: usize,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span>SplitNInternal&lt;<span class="lifetime">&#39;a</span>, P&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span>SplitNInternal&lt;<span class="lifetime">'a</span>, P&gt;
 <span class="kw">where
-    </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+    </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;SplitNInternal&quot;</span>)
-            .field(<span class="string">&quot;iter&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.iter)
-            .field(<span class="string">&quot;count&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.count)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"SplitNInternal"</span>)
+            .field(<span class="string">"iter"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.iter)
+            .field(<span class="string">"count"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.count)
             .finish()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; SplitNInternal&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; SplitNInternal&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">match </span><span class="self">self</span>.count {
             <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
             <span class="number">1 </span>=&gt; {
@@ -1204,9 +1204,9 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="kw">match </span><span class="self">self</span>.count {
             <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
@@ -1222,12 +1222,12 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.iter.as_str()
     }
 }
 
-<span class="macro">generate_pattern_iterators! </span>{
+<span class="macro">generate_pattern_iterators!</span> {
     forward:
         <span class="doccomment">/// Created with the method [`splitn`].
         ///
@@ -1239,67 +1239,67 @@
         /// [`rsplitn`]: str::rsplitn
         </span><span class="kw">struct </span>RSplitN;
     internal:
-        SplitNInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str);
+        SplitNInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str);
     delegate single ended;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; SplitN&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; SplitN&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;Mary had a little lamb&quot;.splitn(3, &#39; &#39;);
-    /// assert_eq!(split.as_str(), &quot;Mary had a little lamb&quot;);
+    /// let mut split = "Mary had a little lamb".splitn(3, ' ');
+    /// assert_eq!(split.as_str(), "Mary had a little lamb");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;had a little lamb&quot;);
+    /// assert_eq!(split.as_str(), "had a little lamb");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; RSplitN&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; RSplitN&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="doccomment">/// Returns remainder of the splitted string
     ///
     /// # Examples
     ///
     /// ```
-    /// let mut split = &quot;Mary had a little lamb&quot;.rsplitn(3, &#39; &#39;);
-    /// assert_eq!(split.as_str(), &quot;Mary had a little lamb&quot;);
+    /// let mut split = "Mary had a little lamb".rsplitn(3, ' ');
+    /// assert_eq!(split.as_str(), "Mary had a little lamb");
     /// split.next();
-    /// assert_eq!(split.as_str(), &quot;Mary had a little&quot;);
+    /// assert_eq!(split.as_str(), "Mary had a little");
     /// split.by_ref().for_each(drop);
-    /// assert_eq!(split.as_str(), &quot;&quot;);
+    /// assert_eq!(split.as_str(), "");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.<span class="number">0</span>.as_str()
     }
 }
 
-<span class="macro">derive_pattern_clone! </span>{
+<span class="macro">derive_pattern_clone!</span> {
     clone MatchIndicesInternal
     with |s| MatchIndicesInternal(s.<span class="number">0</span>.clone())
 }
 
-<span class="kw">pub struct </span>MatchIndicesInternal&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw">pub </span>P::Searcher);
+<span class="kw">pub struct </span>MatchIndicesInternal&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw">pub </span>P::Searcher);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span>MatchIndicesInternal&lt;<span class="lifetime">&#39;a</span>, P&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span>MatchIndicesInternal&lt;<span class="lifetime">'a</span>, P&gt;
 <span class="kw">where
-    </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+    </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">&quot;MatchIndicesInternal&quot;</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_tuple(<span class="string">"MatchIndicesInternal"</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; MatchIndicesInternal&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; MatchIndicesInternal&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(usize, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str)&gt; {
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(usize, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str)&gt; {
         <span class="self">self</span>.<span class="number">0
             </span>.next_match()
             <span class="comment">// SAFETY: `Searcher` guarantees that `start` and `end` lie on unicode boundaries.
@@ -1307,9 +1307,9 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(usize, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str)&gt;
+    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;(usize, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str)&gt;
     <span class="kw">where
-        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="self">self</span>.<span class="number">0
             </span>.next_match_back()
@@ -1318,7 +1318,7 @@
     }
 }
 
-<span class="macro">generate_pattern_iterators! </span>{
+<span class="macro">generate_pattern_iterators!</span> {
     forward:
         <span class="doccomment">/// Created with the method [`match_indices`].
         ///
@@ -1330,29 +1330,29 @@
         /// [`rmatch_indices`]: str::rmatch_indices
         </span><span class="kw">struct </span>RMatchIndices;
     internal:
-        MatchIndicesInternal yielding ((usize, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str));
+        MatchIndicesInternal yielding ((usize, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str));
     delegate double ended;
 }
 
-<span class="macro">derive_pattern_clone! </span>{
+<span class="macro">derive_pattern_clone!</span> {
     clone MatchesInternal
     with |s| MatchesInternal(s.<span class="number">0</span>.clone())
 }
 
-<span class="kw">pub struct </span>MatchesInternal&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw">pub </span>P::Searcher);
+<span class="kw">pub struct </span>MatchesInternal&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw">pub </span>P::Searcher);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P&gt; fmt::Debug <span class="kw">for </span>MatchesInternal&lt;<span class="lifetime">&#39;a</span>, P&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P&gt; fmt::Debug <span class="kw">for </span>MatchesInternal&lt;<span class="lifetime">'a</span>, P&gt;
 <span class="kw">where
-    </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: fmt::Debug,
+    </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: fmt::Debug,
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">&quot;MatchesInternal&quot;</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_tuple(<span class="string">"MatchesInternal"</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>).finish()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt; MatchesInternal&lt;<span class="lifetime">&#39;a</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt; MatchesInternal&lt;<span class="lifetime">'a</span>, P&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="comment">// SAFETY: `Searcher` guarantees that `start` and `end` lie on unicode boundaries.
         </span><span class="self">self</span>.<span class="number">0</span>.next_match().map(|(a, b)| <span class="kw">unsafe </span>{
             <span class="comment">// Indices are known to be on utf8 boundaries
@@ -1361,9 +1361,9 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span>P::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="comment">// SAFETY: `Searcher` guarantees that `start` and `end` lie on unicode boundaries.
         </span><span class="self">self</span>.<span class="number">0</span>.next_match_back().map(|(a, b)| <span class="kw">unsafe </span>{
@@ -1373,7 +1373,7 @@
     }
 }
 
-<span class="macro">generate_pattern_iterators! </span>{
+<span class="macro">generate_pattern_iterators!</span> {
     forward:
         <span class="doccomment">/// Created with the method [`matches`].
         ///
@@ -1385,7 +1385,7 @@
         /// [`rmatches`]: str::rmatches
         </span><span class="kw">struct </span>RMatches;
     internal:
-        MatchesInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str);
+        MatchesInternal yielding (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str);
     delegate double ended;
 }
 </code></pre></div></section></main></body></html>

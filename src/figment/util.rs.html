@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.12/src/util.rs`."><title>util.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.18/src/util.rs`."><title>util.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../figment/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -346,20 +346,20 @@
 //! use figment::util::map;
 //!
 //! let map = map! {
-//!     &quot;name&quot; =&gt; &quot;Bob&quot;,
-//!     &quot;age&quot; =&gt; &quot;100&quot;
+//!     "name" =&gt; "Bob",
+//!     "age" =&gt; "100"
 //! };
 //!
-//! assert_eq!(map.get(&quot;name&quot;), Some(&amp;&quot;Bob&quot;));
-//! assert_eq!(map.get(&quot;age&quot;), Some(&amp;&quot;100&quot;));
+//! assert_eq!(map.get("name"), Some(&amp;"Bob"));
+//! assert_eq!(map.get("age"), Some(&amp;"100"));
 //!
 //! let map = map! {
-//!     100 =&gt; &quot;one hundred&quot;,
-//!     23 =&gt; &quot;twenty-three&quot;
+//!     100 =&gt; "one hundred",
+//!     23 =&gt; "twenty-three"
 //! };
 //!
-//! assert_eq!(map.get(&amp;100), Some(&amp;&quot;one hundred&quot;));
-//! assert_eq!(map.get(&amp;23), Some(&amp;&quot;twenty-three&quot;));
+//! assert_eq!(map.get(&amp;100), Some(&amp;"one hundred"));
+//! assert_eq!(map.get(&amp;23), Some(&amp;"twenty-three"));
 //!
 //! ```
 </span><span class="kw">use </span>std::fmt;
@@ -379,27 +379,27 @@
 /// use figment::util::diff_paths;
 ///
 /// // Paths must be both relative or both absolute.
-/// assert_eq!(diff_paths(&quot;/a/b/c&quot;, &quot;b/c&quot;), None);
-/// assert_eq!(diff_paths(&quot;a/b/c&quot;, &quot;/b/c&quot;), None);
+/// assert_eq!(diff_paths("/a/b/c", "b/c"), None);
+/// assert_eq!(diff_paths("a/b/c", "/b/c"), None);
 ///
 /// // The root/relative root is always a common ancestor.
-/// assert_eq!(diff_paths(&quot;/a/b/c&quot;, &quot;/b/c&quot;), Some(&quot;../../a/b/c&quot;.into()));
-/// assert_eq!(diff_paths(&quot;c/a&quot;, &quot;b/c/a&quot;), Some(&quot;../../../c/a&quot;.into()));
+/// assert_eq!(diff_paths("/a/b/c", "/b/c"), Some("../../a/b/c".into()));
+/// assert_eq!(diff_paths("c/a", "b/c/a"), Some("../../../c/a".into()));
 ///
-/// let bar = &quot;/foo/bar&quot;;
-/// let baz = &quot;/foo/bar/baz&quot;;
-/// let quux = &quot;/foo/bar/quux&quot;;
+/// let bar = "/foo/bar";
+/// let baz = "/foo/bar/baz";
+/// let quux = "/foo/bar/quux";
 ///
-/// assert_eq!(diff_paths(bar, baz), Some(&quot;../&quot;.into()));
-/// assert_eq!(diff_paths(baz, bar), Some(&quot;baz&quot;.into()));
-/// assert_eq!(diff_paths(quux, baz), Some(&quot;../quux&quot;.into()));
-/// assert_eq!(diff_paths(baz, quux), Some(&quot;../baz&quot;.into()));
-/// assert_eq!(diff_paths(bar, quux), Some(&quot;../&quot;.into()));
-/// assert_eq!(diff_paths(baz, bar), Some(&quot;baz&quot;.into()));
+/// assert_eq!(diff_paths(bar, baz), Some("../".into()));
+/// assert_eq!(diff_paths(baz, bar), Some("baz".into()));
+/// assert_eq!(diff_paths(quux, baz), Some("../quux".into()));
+/// assert_eq!(diff_paths(baz, quux), Some("../baz".into()));
+/// assert_eq!(diff_paths(bar, quux), Some("../".into()));
+/// assert_eq!(diff_paths(baz, bar), Some("baz".into()));
 /// ```
 </span><span class="comment">// Copyright 2012-2015 The Rust Project Developers.
 // Copyright 2017 The Rust Project Developers.
-// Adapted from `pathdiff`, which itself adapted from rustc&#39;s path_relative_from.
+// Adapted from `pathdiff`, which itself adapted from rustc's path_relative_from.
 </span><span class="kw">pub fn </span>diff_paths&lt;P, B&gt;(path: P, base: B) -&gt; <span class="prelude-ty">Option</span>&lt;PathBuf&gt;
      <span class="kw">where </span>P: AsRef&lt;Path&gt;, B: AsRef&lt;Path&gt;
 {
@@ -440,9 +440,9 @@
 
 <span class="doccomment">/// A helper to deserialize `0/false` as `false` and `1/true` as `true`.
 ///
-/// Serde&#39;s default deserializer for `bool` only parses the strings `&quot;true&quot;` and
-/// `&quot;false&quot;` as the booleans `true` and `false`, respectively. By contract,
-/// this function _case-insensitively_ parses both the strings `&quot;true&quot;/&quot;false&quot;`
+/// Serde's default deserializer for `bool` only parses the strings `"true"` and
+/// `"false"` as the booleans `true` and `false`, respectively. By contract,
+/// this function _case-insensitively_ parses both the strings `"true"/"false"`
 /// and the integers `1/0` as the booleans `true/false`, respectively.
 ///
 /// # Example
@@ -452,53 +452,53 @@
 ///
 /// #[derive(serde::Deserialize)]
 /// struct Config {
-///     #[serde(deserialize_with = &quot;figment::util::bool_from_str_or_int&quot;)]
+///     #[serde(deserialize_with = "figment::util::bool_from_str_or_int")]
 ///     cli_colors: bool,
 /// }
 ///
-/// let c0: Config = Figment::from((&quot;cli_colors&quot;, &quot;true&quot;)).extract().unwrap();
-/// let c1: Config = Figment::from((&quot;cli_colors&quot;, &quot;TRUE&quot;)).extract().unwrap();
-/// let c2: Config = Figment::from((&quot;cli_colors&quot;, 1)).extract().unwrap();
+/// let c0: Config = Figment::from(("cli_colors", "true")).extract().unwrap();
+/// let c1: Config = Figment::from(("cli_colors", "TRUE")).extract().unwrap();
+/// let c2: Config = Figment::from(("cli_colors", 1)).extract().unwrap();
 /// assert_eq!(c0.cli_colors, true);
 /// assert_eq!(c1.cli_colors, true);
 /// assert_eq!(c2.cli_colors, true);
 ///
-/// let c0: Config = Figment::from((&quot;cli_colors&quot;, &quot;false&quot;)).extract().unwrap();
-/// let c1: Config = Figment::from((&quot;cli_colors&quot;, &quot;fAlSe&quot;)).extract().unwrap();
-/// let c2: Config = Figment::from((&quot;cli_colors&quot;, 0)).extract().unwrap();
+/// let c0: Config = Figment::from(("cli_colors", "false")).extract().unwrap();
+/// let c1: Config = Figment::from(("cli_colors", "fAlSe")).extract().unwrap();
+/// let c2: Config = Figment::from(("cli_colors", 0)).extract().unwrap();
 /// assert_eq!(c0.cli_colors, false);
 /// assert_eq!(c1.cli_colors, false);
 /// assert_eq!(c2.cli_colors, false);
 /// ```
-</span><span class="kw">pub fn </span>bool_from_str_or_int&lt;<span class="lifetime">&#39;de</span>, D: Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;bool, D::Error&gt; {
+</span><span class="kw">pub fn </span>bool_from_str_or_int&lt;<span class="lifetime">'de</span>, D: Deserializer&lt;<span class="lifetime">'de</span>&gt;&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;bool, D::Error&gt; {
     <span class="kw">struct </span>Visitor;
 
-    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; de::Visitor&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Visitor {
+    <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; de::Visitor&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>Visitor {
         <span class="kw">type </span>Value = bool;
 
-        <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-            f.write_str(<span class="string">&quot;a boolean&quot;</span>)
+        <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+            f.write_str(<span class="string">"a boolean"</span>)
         }
 
         <span class="kw">fn </span>visit_str&lt;E: de::Error&gt;(<span class="self">self</span>, val: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;bool, E&gt; {
             <span class="kw">match </span>val {
-                v <span class="kw">if </span>uncased::eq(v, <span class="string">&quot;true&quot;</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-                v <span class="kw">if </span>uncased::eq(v, <span class="string">&quot;false&quot;</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
-                s =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Str(s), <span class="kw-2">&amp;</span><span class="string">&quot;true or false&quot;</span>))
+                v <span class="kw">if </span>uncased::eq(v, <span class="string">"true"</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+                v <span class="kw">if </span>uncased::eq(v, <span class="string">"false"</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+                s =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Str(s), <span class="kw-2">&amp;</span><span class="string">"true or false"</span>))
             }
         }
 
         <span class="kw">fn </span>visit_u64&lt;E: de::Error&gt;(<span class="self">self</span>, n: u64) -&gt; <span class="prelude-ty">Result</span>&lt;bool, E&gt; {
             <span class="kw">match </span>n {
                 <span class="number">0 </span>| <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(n != <span class="number">0</span>),
-                n =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Unsigned(n), <span class="kw-2">&amp;</span><span class="string">&quot;0 or 1&quot;</span>))
+                n =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Unsigned(n), <span class="kw-2">&amp;</span><span class="string">"0 or 1"</span>))
             }
         }
 
         <span class="kw">fn </span>visit_i64&lt;E: de::Error&gt;(<span class="self">self</span>, n: i64) -&gt; <span class="prelude-ty">Result</span>&lt;bool, E&gt; {
             <span class="kw">match </span>n {
                 <span class="number">0 </span>| <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(n != <span class="number">0</span>),
-                n =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Signed(n), <span class="kw-2">&amp;</span><span class="string">&quot;0 or 1&quot;</span>))
+                n =&gt; <span class="prelude-val">Err</span>(E::invalid_value(Unexpected::Signed(n), <span class="kw-2">&amp;</span><span class="string">"0 or 1"</span>))
             }
         }
 
@@ -519,20 +519,20 @@
 ///
 /// #[derive(Debug, Clone, Serialize, Deserialize)]
 /// pub struct Config {
-///     #[serde(with = &quot;figment::util::vec_tuple_map&quot;)]
+///     #[serde(with = "figment::util::vec_tuple_map")]
 ///     pairs: Vec&lt;(String, usize)&gt;
 /// }
 ///
-/// let map = map![&quot;key&quot; =&gt; 1, &quot;value&quot; =&gt; 100, &quot;name&quot; =&gt; 20];
-/// let c: Config = Figment::from((&quot;pairs&quot;, map)).extract().unwrap();
+/// let map = map!["key" =&gt; 1, "value" =&gt; 100, "name" =&gt; 20];
+/// let c: Config = Figment::from(("pairs", map)).extract().unwrap();
 /// assert_eq!(c.pairs.len(), 3);
 ///
 /// let mut pairs = c.pairs;
 /// pairs.sort_by_key(|(_, v)| *v);
 ///
-/// assert_eq!(pairs[0], (&quot;key&quot;.into(), 1));
-/// assert_eq!(pairs[1], (&quot;name&quot;.into(), 20));
-/// assert_eq!(pairs[2], (&quot;value&quot;.into(), 100));
+/// assert_eq!(pairs[0], ("key".into(), 1));
+/// assert_eq!(pairs[1], ("name".into(), 20));
+/// assert_eq!(pairs[2], ("value".into(), 100));
 /// ```
 </span><span class="kw">pub mod </span>vec_tuple_map {
     <span class="kw">use </span>std::fmt;
@@ -546,22 +546,22 @@
     }
 
     <span class="doccomment">/// The deserializer half.
-    </span><span class="kw">pub fn </span>deserialize&lt;<span class="lifetime">&#39;de</span>, K, V, D&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;(K, V)&gt;, D::Error&gt;
-        <span class="kw">where </span>D: Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;, K: Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;, V: Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;
+    </span><span class="kw">pub fn </span>deserialize&lt;<span class="lifetime">'de</span>, K, V, D&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;(K, V)&gt;, D::Error&gt;
+        <span class="kw">where </span>D: Deserializer&lt;<span class="lifetime">'de</span>&gt;, K: Deserialize&lt;<span class="lifetime">'de</span>&gt;, V: Deserialize&lt;<span class="lifetime">'de</span>&gt;
     {
         <span class="kw">struct </span>Visitor&lt;K, V&gt;(std::marker::PhantomData&lt;Vec&lt;(K, V)&gt;&gt;);
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>, K, V&gt; de::Visitor&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Visitor&lt;K, V&gt;
-            <span class="kw">where </span>K: Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;, V: Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;,
+        <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>, K, V&gt; de::Visitor&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>Visitor&lt;K, V&gt;
+            <span class="kw">where </span>K: Deserialize&lt;<span class="lifetime">'de</span>&gt;, V: Deserialize&lt;<span class="lifetime">'de</span>&gt;,
         {
             <span class="kw">type </span>Value = Vec&lt;(K, V)&gt;;
 
-            <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-                formatter.write_str(<span class="string">&quot;a map&quot;</span>)
+            <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+                formatter.write_str(<span class="string">"a map"</span>)
             }
 
             <span class="kw">fn </span>visit_map&lt;A&gt;(<span class="self">self</span>, <span class="kw-2">mut </span>map: A) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;(K, V)&gt;, A::Error&gt;
-                <span class="kw">where </span>A: de::MapAccess&lt;<span class="lifetime">&#39;de</span>&gt;
+                <span class="kw">where </span>A: de::MapAccess&lt;<span class="lifetime">'de</span>&gt;
             {
                 <span class="kw">let </span><span class="kw-2">mut </span>vec = Vec::with_capacity(map.size_hint().unwrap_or(<span class="number">0</span>));
                 <span class="kw">while let </span><span class="prelude-val">Some</span>((k, v)) = map.next_entry()<span class="question-mark">? </span>{
@@ -591,22 +591,22 @@
 /// ```rust
 /// use figment::{util::nest, value::Value};
 ///
-/// let leaf = Value::from(&quot;I&#39;m a leaf!&quot;);
+/// let leaf = Value::from("I'm a leaf!");
 ///
-/// let dict = nest(&quot;tea&quot;, leaf.clone());
-/// assert_eq!(dict.find_ref(&quot;tea&quot;).unwrap(), &amp;leaf);
+/// let dict = nest("tea", leaf.clone());
+/// assert_eq!(dict.find_ref("tea").unwrap(), &amp;leaf);
 ///
-/// let dict = nest(&quot;tea.leaf&quot;, leaf.clone());
-/// let tea = dict.find_ref(&quot;tea&quot;).unwrap();
-/// let found_leaf = tea.find_ref(&quot;leaf&quot;).unwrap();
+/// let dict = nest("tea.leaf", leaf.clone());
+/// let tea = dict.find_ref("tea").unwrap();
+/// let found_leaf = tea.find_ref("leaf").unwrap();
 /// assert_eq!(found_leaf, &amp;leaf);
-/// assert_eq!(dict.find_ref(&quot;tea.leaf&quot;).unwrap(), &amp;leaf);
+/// assert_eq!(dict.find_ref("tea.leaf").unwrap(), &amp;leaf);
 ///
-/// let just_leaf = nest(&quot;&quot;, leaf.clone());
+/// let just_leaf = nest("", leaf.clone());
 /// assert_eq!(just_leaf, leaf);
 /// ```
 </span><span class="kw">pub fn </span>nest(key: <span class="kw-2">&amp;</span>str, value: Value) -&gt; Value {
-    <span class="kw">fn </span>value_from(<span class="kw-2">mut </span>keys: std::str::Split&lt;<span class="lifetime">&#39;_</span>, char&gt;, value: Value) -&gt; Value {
+    <span class="kw">fn </span>value_from(<span class="kw-2">mut </span>keys: std::str::Split&lt;<span class="lifetime">'_</span>, char&gt;, value: Value) -&gt; Value {
         <span class="kw">match </span>keys.next() {
             <span class="prelude-val">Some</span>(k) <span class="kw">if </span>!k.is_empty() =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>dict = Dict::new();
@@ -617,13 +617,13 @@
         }
     }
 
-    value_from(key.split(<span class="string">&#39;.&#39;</span>), value)
+    value_from(key.split(<span class="string">'.'</span>), value)
 }
 
 <span class="attr">#[doc(hidden)]
 #[macro_export]
 </span><span class="doccomment">/// This is a macro.
-</span><span class="macro">macro_rules! </span>map {
+</span><span class="macro">macro_rules!</span> map {
     ($(<span class="macro-nonterminal">$key</span>:expr =&gt; <span class="macro-nonterminal">$value</span>:expr),* $(,)<span class="question-mark">?</span>) =&gt; ({
         <span class="kw">let </span><span class="kw-2">mut </span>map = <span class="macro-nonterminal">$crate::value::Map::new</span>();
         $(map.insert(<span class="macro-nonterminal">$key</span>, <span class="macro-nonterminal">$value</span>);)*
@@ -635,7 +635,7 @@
 
 <span class="attr">#[doc(hidden)]
 #[macro_export]
-</span><span class="macro">macro_rules! </span>make_cloneable {
+</span><span class="macro">macro_rules!</span> make_cloneable {
     (<span class="macro-nonterminal">$Trait</span>:path: <span class="macro-nonterminal">$Cloneable</span>:ident) =&gt; {
         <span class="kw">trait </span><span class="macro-nonterminal">$Cloneable </span>{
             <span class="kw">fn </span>box_clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;<span class="kw">dyn </span><span class="macro-nonterminal">$Trait</span>&gt;;
@@ -648,7 +648,7 @@
         }
 
         <span class="kw">impl </span>std::fmt::Debug <span class="kw">for </span>Box&lt;<span class="kw">dyn </span><span class="macro-nonterminal">$Trait</span>&gt; {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 <span class="prelude-val">Ok</span>(())
             }
         }
@@ -663,10 +663,10 @@
 
 <span class="attr">#[doc(hidden)]
 #[macro_export]
-</span><span class="macro">macro_rules! </span>cloneable_fn_trait {
+</span><span class="macro">macro_rules!</span> cloneable_fn_trait {
     (<span class="macro-nonterminal">$Name</span>:ident: $(<span class="macro-nonterminal">$rest</span>:tt)<span class="kw-2">*</span>) =&gt; {
-        <span class="kw">trait </span><span class="macro-nonterminal">$Name</span>: $(<span class="macro-nonterminal">$rest</span>)* + Cloneable + <span class="lifetime">&#39;static </span>{ }
-        <span class="kw">impl</span>&lt;F: Clone + <span class="lifetime">&#39;static</span>&gt; <span class="macro-nonterminal">$Name </span><span class="kw">for </span>F <span class="kw">where </span>F: $(<span class="macro-nonterminal">$rest</span>)* { }
+        <span class="kw">trait </span><span class="macro-nonterminal">$Name</span>: $(<span class="macro-nonterminal">$rest</span>)* + Cloneable + <span class="lifetime">'static </span>{ }
+        <span class="kw">impl</span>&lt;F: Clone + <span class="lifetime">'static</span>&gt; <span class="macro-nonterminal">$Name </span><span class="kw">for </span>F <span class="kw">where </span>F: $(<span class="macro-nonterminal">$rest</span>)* { }
         <span class="macro-nonterminal">$</span><span class="macro">crate::make_cloneable!</span>(<span class="macro-nonterminal">$Name</span>: Cloneable);
     }
 }

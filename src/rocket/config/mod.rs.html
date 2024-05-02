@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/config/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/config/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -684,7 +684,7 @@
 //!
 //! See the [configuration guide] for full details.
 //!
-//! [configuration guide]: https://rocket.rs/v0.5-rc/guide/configuration/
+//! [configuration guide]: https://rocket.rs/v0.5/guide/configuration/
 //!
 //! ## Extracting Configuration Parameters
 //!
@@ -731,8 +731,8 @@
 //! providers like [`Toml`]() and [`Env`] as well as creating custom providers for
 //! more complex cases.
 //!
-//! Configuration values can be overridden at runtime by merging figment&#39;s tuple
-//! providers with Rocket&#39;s default provider:
+//! Configuration values can be overridden at runtime by merging figment's tuple
+//! providers with Rocket's default provider:
 //!
 //! ```rust
 //! # #[macro_use] extern crate rocket;
@@ -741,14 +741,14 @@
 //! #[launch]
 //! fn rocket() -&gt; _ {
 //!     let figment = rocket::Config::figment()
-//!         .merge((&quot;port&quot;, 1111))
-//!         .merge((&quot;limits&quot;, Limits::new().limit(&quot;json&quot;, 2.mebibytes())));
+//!         .merge(("port", 1111))
+//!         .merge(("limits", Limits::new().limit("json", 2.mebibytes())));
 //!
-//!     rocket::custom(figment).mount(&quot;/&quot;, routes![/* .. */])
+//!     rocket::custom(figment).mount("/", routes![/* .. */])
 //! }
 //! ```
 //!
-//! An application that wants to use Rocket&#39;s defaults for [`Config`], but not
+//! An application that wants to use Rocket's defaults for [`Config`], but not
 //! its configuration sources, while allowing the application to be configured
 //! via an `App.toml` file that uses top-level keys as profiles (`.nested()`)
 //! and `APP_` environment variables as global overrides (`.global()`), and
@@ -777,12 +777,12 @@
 //! fn rocket() -&gt; _ {
 //!     let figment = Figment::from(rocket::Config::default())
 //!         .merge(Serialized::defaults(Config::default()))
-//!         .merge(Toml::file(&quot;App.toml&quot;).nested())
-//!         .merge(Env::prefixed(&quot;APP_&quot;).global())
-//!         .select(Profile::from_env_or(&quot;APP_PROFILE&quot;, &quot;default&quot;));
+//!         .merge(Toml::file("App.toml").nested())
+//!         .merge(Env::prefixed("APP_").global())
+//!         .select(Profile::from_env_or("APP_PROFILE", "default"));
 //!
 //!     rocket::custom(figment)
-//!         .mount(&quot;/&quot;, routes![/* .. */])
+//!         .mount("/", routes![/* .. */])
 //!         .attach(AdHoc::config::&lt;Config&gt;())
 //! }
 //! ```
@@ -798,10 +798,10 @@
 <span class="kw">mod </span>shutdown;
 <span class="kw">mod </span>ip_header;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"tls"</span>)]
 </span><span class="kw">mod </span>tls;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
 </span><span class="kw">mod </span>secret_key;
 
 <span class="attr">#[doc(hidden)]
@@ -812,13 +812,13 @@
 <span class="kw">pub use </span>shutdown::Shutdown;
 <span class="kw">pub use </span>ident::Ident;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"tls"</span>)]
 </span><span class="kw">pub use </span>tls::{TlsConfig, CipherSuite};
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;mtls&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"mtls"</span>)]
 </span><span class="kw">pub use </span>tls::MutualTls;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
 </span><span class="kw">pub use </span>secret_key::SecretKey;
 
 <span class="attr">#[cfg(unix)]
@@ -861,17 +861,17 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_profile_env() {
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;debug&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"debug"</span>);
             <span class="kw">let </span>figment = Config::figment();
-            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">&quot;debug&quot;</span>);
+            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">"debug"</span>);
 
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;release&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"release"</span>);
             <span class="kw">let </span>figment = Config::figment();
-            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">&quot;release&quot;</span>);
+            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">"release"</span>);
 
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;random&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"random"</span>);
             <span class="kw">let </span>figment = Config::figment();
-            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">&quot;random&quot;</span>);
+            <span class="macro">assert_eq!</span>(figment.profile(), <span class="string">"random"</span>);
 
             <span class="prelude-val">Ok</span>(())
         });
@@ -880,62 +880,62 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_toml_file() {
         figment::Jail::expect_with(|jail| {
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default]
-                address = &quot;1.2.3.4&quot;
-                ident = &quot;Something Cool&quot;
+                address = "1.2.3.4"
+                ident = "Something Cool"
                 port = 1234
                 workers = 20
                 keep_alive = 10
-                log_level = &quot;off&quot;
+                log_level = "off"
                 cli_colors = 0
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 address: Ipv4Addr::new(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).into(),
                 port: <span class="number">1234</span>,
                 workers: <span class="number">20</span>,
-                ident: <span class="macro">ident!</span>(<span class="string">&quot;Something Cool&quot;</span>),
+                ident: <span class="macro">ident!</span>(<span class="string">"Something Cool"</span>),
                 keep_alive: <span class="number">10</span>,
                 log_level: LogLevel::Off,
                 cli_colors: <span class="bool-val">false</span>,
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global]
-                address = &quot;1.2.3.4&quot;
-                ident = &quot;Something Else Cool&quot;
+                address = "1.2.3.4"
+                ident = "Something Else Cool"
                 port = 1234
                 workers = 20
                 keep_alive = 10
-                log_level = &quot;off&quot;
+                log_level = "off"
                 cli_colors = 0
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 address: Ipv4Addr::new(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>).into(),
                 port: <span class="number">1234</span>,
                 workers: <span class="number">20</span>,
-                ident: <span class="macro">ident!</span>(<span class="string">&quot;Something Else Cool&quot;</span>),
+                ident: <span class="macro">ident!</span>(<span class="string">"Something Else Cool"</span>),
                 keep_alive: <span class="number">10</span>,
                 log_level: LogLevel::Off,
                 cli_colors: <span class="bool-val">false</span>,
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_CONFIG&quot;</span>, <span class="string">&quot;Other.toml&quot;</span>);
-            jail.create_file(<span class="string">&quot;Other.toml&quot;</span>, <span class="string">r#&quot;
+            jail.set_env(<span class="string">"ROCKET_CONFIG"</span>, <span class="string">"Other.toml"</span>);
+            jail.create_file(<span class="string">"Other.toml"</span>, <span class="string">r#"
                 [default]
-                address = &quot;1.2.3.4&quot;
+                address = "1.2.3.4"
                 port = 1234
                 workers = 20
                 keep_alive = 10
-                log_level = &quot;off&quot;
+                log_level = "off"
                 cli_colors = 0
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
@@ -953,71 +953,71 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+    #[cfg(feature = <span class="string">"tls"</span>)]
     </span><span class="kw">fn </span>test_tls_config_from_file() {
         <span class="kw">use </span><span class="kw">crate</span>::config::{TlsConfig, CipherSuite, Ident, Shutdown};
 
         figment::Jail::expect_with(|jail| {
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global]
                 shutdown.ctrlc = 0
                 ident = false
 
                 [global.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
 
                 [global.limits]
-                forms = &quot;1mib&quot;
-                json = &quot;10mib&quot;
-                stream = &quot;50kib&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                forms = "1mib"
+                json = "10mib"
+                stream = "50kib"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 shutdown: Shutdown { ctrlc: <span class="bool-val">false</span>, ..Default::default() },
                 ident: Ident::none(),
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;/ssl/cert.pem&quot;</span>, <span class="string">&quot;/ssl/key.pem&quot;</span>)),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"/ssl/cert.pem"</span>, <span class="string">"/ssl/key.pem"</span>)),
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">1</span>.mebibytes())
-                    .limit(<span class="string">&quot;json&quot;</span>, <span class="number">10</span>.mebibytes())
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">50</span>.kibibytes()),
+                    .limit(<span class="string">"forms"</span>, <span class="number">1</span>.mebibytes())
+                    .limit(<span class="string">"json"</span>, <span class="number">10</span>.mebibytes())
+                    .limit(<span class="string">"stream"</span>, <span class="number">50</span>.kibibytes()),
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global.tls]
-                certs = &quot;cert.pem&quot;
-                key = &quot;key.pem&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                certs = "cert.pem"
+                key = "key.pem"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(
-                    jail.directory().join(<span class="string">&quot;cert.pem&quot;</span>),
-                    jail.directory().join(<span class="string">&quot;key.pem&quot;</span>)
+                    jail.directory().join(<span class="string">"cert.pem"</span>),
+                    jail.directory().join(<span class="string">"key.pem"</span>)
                 )),
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global.tls]
-                certs = &quot;cert.pem&quot;
-                key = &quot;key.pem&quot;
+                certs = "cert.pem"
+                key = "key.pem"
                 prefer_server_cipher_order = true
                 ciphers = [
-                    &quot;TLS_CHACHA20_POLY1305_SHA256&quot;,
-                    &quot;TLS_AES_256_GCM_SHA384&quot;,
-                    &quot;TLS_AES_128_GCM_SHA256&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256&quot;,
+                    "TLS_CHACHA20_POLY1305_SHA256",
+                    "TLS_AES_256_GCM_SHA384",
+                    "TLS_AES_128_GCM_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+                    "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
                 ]
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
-            <span class="kw">let </span>cert_path = jail.directory().join(<span class="string">&quot;cert.pem&quot;</span>);
-            <span class="kw">let </span>key_path = jail.directory().join(<span class="string">&quot;key.pem&quot;</span>);
+            <span class="kw">let </span>cert_path = jail.directory().join(<span class="string">"cert.pem"</span>);
+            <span class="kw">let </span>key_path = jail.directory().join(<span class="string">"key.pem"</span>);
             <span class="macro">assert_eq!</span>(config, Config {
                 tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(cert_path, key_path)
                          .with_preferred_server_cipher_order(<span class="bool-val">true</span>)
@@ -1032,66 +1032,66 @@
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global]
                 shutdown.ctrlc = 0
                 ident = false
 
                 [global.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
 
                 [global.limits]
-                forms = &quot;1mib&quot;
-                json = &quot;10mib&quot;
-                stream = &quot;50kib&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                forms = "1mib"
+                json = "10mib"
+                stream = "50kib"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 shutdown: Shutdown { ctrlc: <span class="bool-val">false</span>, ..Default::default() },
                 ident: Ident::none(),
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;/ssl/cert.pem&quot;</span>, <span class="string">&quot;/ssl/key.pem&quot;</span>)),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"/ssl/cert.pem"</span>, <span class="string">"/ssl/key.pem"</span>)),
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">1</span>.mebibytes())
-                    .limit(<span class="string">&quot;json&quot;</span>, <span class="number">10</span>.mebibytes())
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">50</span>.kibibytes()),
+                    .limit(<span class="string">"forms"</span>, <span class="number">1</span>.mebibytes())
+                    .limit(<span class="string">"json"</span>, <span class="number">10</span>.mebibytes())
+                    .limit(<span class="string">"stream"</span>, <span class="number">50</span>.kibibytes()),
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global.tls]
-                certs = &quot;cert.pem&quot;
-                key = &quot;key.pem&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                certs = "cert.pem"
+                key = "key.pem"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(
-                    jail.directory().join(<span class="string">&quot;cert.pem&quot;</span>),
-                    jail.directory().join(<span class="string">&quot;key.pem&quot;</span>)
+                    jail.directory().join(<span class="string">"cert.pem"</span>),
+                    jail.directory().join(<span class="string">"key.pem"</span>)
                 )),
                 ..Config::default()
             });
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global.tls]
-                certs = &quot;cert.pem&quot;
-                key = &quot;key.pem&quot;
+                certs = "cert.pem"
+                key = "key.pem"
                 prefer_server_cipher_order = true
                 ciphers = [
-                    &quot;TLS_CHACHA20_POLY1305_SHA256&quot;,
-                    &quot;TLS_AES_256_GCM_SHA384&quot;,
-                    &quot;TLS_AES_128_GCM_SHA256&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384&quot;,
-                    &quot;TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256&quot;,
+                    "TLS_CHACHA20_POLY1305_SHA256",
+                    "TLS_AES_256_GCM_SHA384",
+                    "TLS_AES_128_GCM_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+                    "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
                 ]
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
-            <span class="kw">let </span>cert_path = jail.directory().join(<span class="string">&quot;cert.pem&quot;</span>);
-            <span class="kw">let </span>key_path = jail.directory().join(<span class="string">&quot;key.pem&quot;</span>);
+            <span class="kw">let </span>cert_path = jail.directory().join(<span class="string">"cert.pem"</span>);
+            <span class="kw">let </span>key_path = jail.directory().join(<span class="string">"key.pem"</span>);
             <span class="macro">assert_eq!</span>(config, Config {
                 tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(cert_path, key_path)
                          .with_preferred_server_cipher_order(<span class="bool-val">true</span>)
@@ -1111,16 +1111,16 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;mtls&quot;</span>)]
+    #[cfg(feature = <span class="string">"mtls"</span>)]
     </span><span class="kw">fn </span>test_mtls_config() {
         <span class="kw">use </span>std::path::Path;
 
         figment::Jail::expect_with(|jail| {
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert!</span>(config.tls.is_some());
@@ -1128,47 +1128,47 @@
             <span class="macro">assert!</span>(config.tls_enabled());
             <span class="macro">assert!</span>(!config.mtls_enabled());
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
-                mutual = { ca_certs = &quot;/ssl/ca.pem&quot; }
-            &quot;#</span>)<span class="question-mark">?</span>;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
+                mutual = { ca_certs = "/ssl/ca.pem" }
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert!</span>(config.tls_enabled());
             <span class="macro">assert!</span>(config.mtls_enabled());
 
             <span class="kw">let </span>mtls = config.tls.as_ref().unwrap().mutual.as_ref().unwrap();
-            <span class="macro">assert_eq!</span>(mtls.ca_certs().unwrap_left(), Path::new(<span class="string">&quot;/ssl/ca.pem&quot;</span>));
+            <span class="macro">assert_eq!</span>(mtls.ca_certs().unwrap_left(), Path::new(<span class="string">"/ssl/ca.pem"</span>));
             <span class="macro">assert!</span>(!mtls.mandatory);
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
 
                 [default.tls.mutual]
-                ca_certs = &quot;/ssl/ca.pem&quot;
+                ca_certs = "/ssl/ca.pem"
                 mandatory = true
-            &quot;#</span>)<span class="question-mark">?</span>;
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="kw">let </span>mtls = config.tls.as_ref().unwrap().mutual.as_ref().unwrap();
-            <span class="macro">assert_eq!</span>(mtls.ca_certs().unwrap_left(), Path::new(<span class="string">&quot;/ssl/ca.pem&quot;</span>));
+            <span class="macro">assert_eq!</span>(mtls.ca_certs().unwrap_left(), Path::new(<span class="string">"/ssl/ca.pem"</span>));
             <span class="macro">assert!</span>(mtls.mandatory);
 
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default.tls]
-                certs = &quot;/ssl/cert.pem&quot;
-                key = &quot;/ssl/key.pem&quot;
-                mutual = { ca_certs = &quot;relative/ca.pem&quot; }
-            &quot;#</span>)<span class="question-mark">?</span>;
+                certs = "/ssl/cert.pem"
+                key = "/ssl/key.pem"
+                mutual = { ca_certs = "relative/ca.pem" }
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="kw">let </span>mtls = config.tls.as_ref().unwrap().mutual().unwrap();
             <span class="macro">assert_eq!</span>(mtls.ca_certs().unwrap_left(),
-                jail.directory().join(<span class="string">&quot;relative/ca.pem&quot;</span>));
+                jail.directory().join(<span class="string">"relative/ca.pem"</span>));
 
             <span class="prelude-val">Ok</span>(())
         });
@@ -1177,35 +1177,35 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_profiles_merge() {
         figment::Jail::expect_with(|jail| {
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [default.limits]
-                stream = &quot;50kb&quot;
+                stream = "50kb"
 
                 [global]
-                limits = { forms = &quot;2kb&quot; }
+                limits = { forms = "2kb" }
 
                 [debug.limits]
-                file = &quot;100kb&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                file = "100kb"
+            "#</span>)<span class="question-mark">?</span>;
 
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;unknown&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"unknown"</span>);
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
-                profile: Profile::const_new(<span class="string">&quot;unknown&quot;</span>),
+                profile: Profile::const_new(<span class="string">"unknown"</span>),
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">50</span>.kilobytes())
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">2</span>.kilobytes()),
+                    .limit(<span class="string">"stream"</span>, <span class="number">50</span>.kilobytes())
+                    .limit(<span class="string">"forms"</span>, <span class="number">2</span>.kilobytes()),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;debug&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"debug"</span>);
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
-                profile: Profile::const_new(<span class="string">&quot;debug&quot;</span>),
+                profile: Profile::const_new(<span class="string">"debug"</span>),
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">50</span>.kilobytes())
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">2</span>.kilobytes())
-                    .limit(<span class="string">&quot;file&quot;</span>, <span class="number">100</span>.kilobytes()),
+                    .limit(<span class="string">"stream"</span>, <span class="number">50</span>.kilobytes())
+                    .limit(<span class="string">"forms"</span>, <span class="number">2</span>.kilobytes())
+                    .limit(<span class="string">"file"</span>, <span class="number">100</span>.kilobytes()),
                 ..Config::default()
             });
 
@@ -1214,52 +1214,52 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+    #[cfg(feature = <span class="string">"tls"</span>)]
     </span><span class="kw">fn </span>test_env_vars_merge() {
         <span class="kw">use </span><span class="kw">crate</span>::config::{TlsConfig, Ident};
 
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PORT&quot;</span>, <span class="number">9999</span>);
+            jail.set_env(<span class="string">"ROCKET_PORT"</span>, <span class="number">9999</span>);
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 port: <span class="number">9999</span>,
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_TLS&quot;</span>, <span class="string">r#&quot;{certs=&quot;certs.pem&quot;}&quot;#</span>);
+            jail.set_env(<span class="string">"ROCKET_TLS"</span>, <span class="string">r#"{certs="certs.pem"}"#</span>);
             <span class="kw">let </span>first_figment = Config::figment();
-            jail.set_env(<span class="string">&quot;ROCKET_TLS&quot;</span>, <span class="string">r#&quot;{key=&quot;key.pem&quot;}&quot;#</span>);
+            jail.set_env(<span class="string">"ROCKET_TLS"</span>, <span class="string">r#"{key="key.pem"}"#</span>);
             <span class="kw">let </span>prev_figment = Config::figment().join(<span class="kw-2">&amp;</span>first_figment);
             <span class="kw">let </span>config = Config::from(<span class="kw-2">&amp;</span>prev_figment);
             <span class="macro">assert_eq!</span>(config, Config {
                 port: <span class="number">9999</span>,
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;certs.pem&quot;</span>, <span class="string">&quot;key.pem&quot;</span>)),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"certs.pem"</span>, <span class="string">"key.pem"</span>)),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_TLS&quot;</span>, <span class="string">r#&quot;{certs=&quot;new.pem&quot;}&quot;#</span>);
+            jail.set_env(<span class="string">"ROCKET_TLS"</span>, <span class="string">r#"{certs="new.pem"}"#</span>);
             <span class="kw">let </span>config = Config::from(Config::figment().join(<span class="kw-2">&amp;</span>prev_figment));
             <span class="macro">assert_eq!</span>(config, Config {
                 port: <span class="number">9999</span>,
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;new.pem&quot;</span>, <span class="string">&quot;key.pem&quot;</span>)),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"new.pem"</span>, <span class="string">"key.pem"</span>)),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_LIMITS&quot;</span>, <span class="string">r#&quot;{stream=100kiB}&quot;#</span>);
+            jail.set_env(<span class="string">"ROCKET_LIMITS"</span>, <span class="string">r#"{stream=100kiB}"#</span>);
             <span class="kw">let </span>config = Config::from(Config::figment().join(<span class="kw-2">&amp;</span>prev_figment));
             <span class="macro">assert_eq!</span>(config, Config {
                 port: <span class="number">9999</span>,
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;new.pem&quot;</span>, <span class="string">&quot;key.pem&quot;</span>)),
-                limits: Limits::default().limit(<span class="string">&quot;stream&quot;</span>, <span class="number">100</span>.kibibytes()),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"new.pem"</span>, <span class="string">"key.pem"</span>)),
+                limits: Limits::default().limit(<span class="string">"stream"</span>, <span class="number">100</span>.kibibytes()),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_IDENT&quot;</span>, <span class="bool-val">false</span>);
+            jail.set_env(<span class="string">"ROCKET_IDENT"</span>, <span class="bool-val">false</span>);
             <span class="kw">let </span>config = Config::from(Config::figment().join(<span class="kw-2">&amp;</span>prev_figment));
             <span class="macro">assert_eq!</span>(config, Config {
                 port: <span class="number">9999</span>,
-                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">&quot;new.pem&quot;</span>, <span class="string">&quot;key.pem&quot;</span>)),
-                limits: Limits::default().limit(<span class="string">&quot;stream&quot;</span>, <span class="number">100</span>.kibibytes()),
+                tls: <span class="prelude-val">Some</span>(TlsConfig::from_paths(<span class="string">"new.pem"</span>, <span class="string">"key.pem"</span>)),
+                limits: Limits::default().limit(<span class="string">"stream"</span>, <span class="number">100</span>.kibibytes()),
                 ident: Ident::none(),
                 ..Config::default()
             });
@@ -1271,35 +1271,35 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_precedence() {
         figment::Jail::expect_with(|jail| {
-            jail.create_file(<span class="string">&quot;Rocket.toml&quot;</span>, <span class="string">r#&quot;
+            jail.create_file(<span class="string">"Rocket.toml"</span>, <span class="string">r#"
                 [global.limits]
-                forms = &quot;1mib&quot;
-                stream = &quot;50kb&quot;
-                file = &quot;100kb&quot;
-            &quot;#</span>)<span class="question-mark">?</span>;
+                forms = "1mib"
+                stream = "50kb"
+                file = "100kb"
+            "#</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">1</span>.mebibytes())
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">50</span>.kilobytes())
-                    .limit(<span class="string">&quot;file&quot;</span>, <span class="number">100</span>.kilobytes()),
+                    .limit(<span class="string">"forms"</span>, <span class="number">1</span>.mebibytes())
+                    .limit(<span class="string">"stream"</span>, <span class="number">50</span>.kilobytes())
+                    .limit(<span class="string">"file"</span>, <span class="number">100</span>.kilobytes()),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_LIMITS&quot;</span>, <span class="string">r#&quot;{stream=3MiB,capture=2MiB}&quot;#</span>);
+            jail.set_env(<span class="string">"ROCKET_LIMITS"</span>, <span class="string">r#"{stream=3MiB,capture=2MiB}"#</span>);
             <span class="kw">let </span>config = Config::from(Config::figment());
             <span class="macro">assert_eq!</span>(config, Config {
                 limits: Limits::default()
-                    .limit(<span class="string">&quot;file&quot;</span>, <span class="number">100</span>.kilobytes())
-                    .limit(<span class="string">&quot;forms&quot;</span>, <span class="number">1</span>.mebibytes())
-                    .limit(<span class="string">&quot;stream&quot;</span>, <span class="number">3</span>.mebibytes())
-                    .limit(<span class="string">&quot;capture&quot;</span>, <span class="number">2</span>.mebibytes()),
+                    .limit(<span class="string">"file"</span>, <span class="number">100</span>.kilobytes())
+                    .limit(<span class="string">"forms"</span>, <span class="number">1</span>.mebibytes())
+                    .limit(<span class="string">"stream"</span>, <span class="number">3</span>.mebibytes())
+                    .limit(<span class="string">"capture"</span>, <span class="number">2</span>.mebibytes()),
                 ..Config::default()
             });
 
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;foo&quot;</span>);
-            <span class="kw">let </span>val: <span class="prelude-ty">Result</span>&lt;String, <span class="kw">_</span>&gt; = Config::figment().extract_inner(<span class="string">&quot;profile&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"foo"</span>);
+            <span class="kw">let </span>val: <span class="prelude-ty">Result</span>&lt;String, <span class="kw">_</span>&gt; = Config::figment().extract_inner(<span class="string">"profile"</span>);
             <span class="macro">assert!</span>(val.is_err());
 
             <span class="prelude-val">Ok</span>(())
@@ -1307,11 +1307,11 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+    #[cfg(feature = <span class="string">"secrets"</span>)]
     #[should_panic]
     </span><span class="kw">fn </span>test_err_on_non_debug_and_no_secret_key() {
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;release&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"release"</span>);
             <span class="kw">let </span>rocket = <span class="kw">crate</span>::custom(Config::figment());
             <span class="kw">let </span>_result = <span class="kw">crate</span>::local::blocking::Client::untracked(rocket);
             <span class="prelude-val">Ok</span>(())
@@ -1319,11 +1319,11 @@
     }
 
     <span class="attr">#[test]
-    #[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+    #[cfg(feature = <span class="string">"secrets"</span>)]
     #[should_panic]
     </span><span class="kw">fn </span>test_err_on_non_debug2_and_no_secret_key() {
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;boop&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"boop"</span>);
             <span class="kw">let </span>rocket = <span class="kw">crate</span>::custom(Config::figment());
             <span class="kw">let </span>_result = <span class="kw">crate</span>::local::blocking::Client::tracked(rocket);
             <span class="prelude-val">Ok</span>(())
@@ -1333,7 +1333,7 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_err_on_debug_and_no_secret_key() {
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;debug&quot;</span>);
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"debug"</span>);
             <span class="kw">let </span>figment = Config::figment();
             <span class="macro">assert!</span>(<span class="kw">crate</span>::local::blocking::Client::untracked(<span class="kw">crate</span>::custom(<span class="kw-2">&amp;</span>figment)).is_ok());
             <span class="kw">crate</span>::async_main(<span class="kw">async </span>{
@@ -1348,9 +1348,9 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_err_on_release_and_custom_secret_key() {
         figment::Jail::expect_with(|jail| {
-            jail.set_env(<span class="string">&quot;ROCKET_PROFILE&quot;</span>, <span class="string">&quot;release&quot;</span>);
-            <span class="kw">let </span>key = <span class="string">&quot;Bx4Gb+aSIfuoEyMHD4DvNs92+wmzfQK98qc6MiwyPY4=&quot;</span>;
-            <span class="kw">let </span>figment = Config::figment().merge((<span class="string">&quot;secret_key&quot;</span>, key));
+            jail.set_env(<span class="string">"ROCKET_PROFILE"</span>, <span class="string">"release"</span>);
+            <span class="kw">let </span>key = <span class="string">"Bx4Gb+aSIfuoEyMHD4DvNs92+wmzfQK98qc6MiwyPY4="</span>;
+            <span class="kw">let </span>figment = Config::figment().merge((<span class="string">"secret_key"</span>, key));
 
             <span class="macro">assert!</span>(<span class="kw">crate</span>::local::blocking::Client::tracked(<span class="kw">crate</span>::custom(<span class="kw-2">&amp;</span>figment)).is_ok());
             <span class="kw">crate</span>::async_main(<span class="kw">async </span>{

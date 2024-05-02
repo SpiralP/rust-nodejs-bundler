@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/catcher/catcher.rs`."><title>catcher.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/catcher/catcher.rs`."><title>catcher.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -445,7 +445,7 @@
 /// Each error or forward is paired with a status code. Guards and responders
 /// indicate the status code themselves via their `Err` and `Outcome` return
 /// value. A complete routing failure is always a `404`. Rocket invokes the
-/// error handler for the catcher with an error&#39;s status code, or in the case of
+/// error handler for the catcher with an error's status code, or in the case of
 /// every route resulting in a forward, the last forwarded status code.
 ///
 /// ### Error Handler Restrictions
@@ -458,7 +458,7 @@
 ///
 /// If a route fails by returning an error [`Outcome`], Rocket routes the
 /// erroring request to the highest precedence catcher among all the catchers
-/// that match. Precedence is determined by the catcher&#39;s _base_, which is
+/// that match. Precedence is determined by the catcher's _base_, which is
 /// provided as the first argument to [`Rocket::register()`]. Catchers with more
 /// non-empty segments have a higher precedence.
 ///
@@ -480,7 +480,7 @@
 ///
 /// ### Built-In Default
 ///
-/// Rocket&#39;s provides a built-in default catcher that can handle all errors. It
+/// Rocket's provides a built-in default catcher that can handle all errors. It
 /// produces HTML or JSON, depending on the value of the `Accept` header. As
 /// such, catchers only need to be registered if an error needs to be handled in
 /// a custom fashion. The built-in default never conflicts with any
@@ -498,28 +498,28 @@
 /// use rocket::http::Status;
 ///
 /// #[catch(500)]
-/// fn internal_error() -&gt; &amp;&#39;static str {
-///     &quot;Whoops! Looks like we messed up.&quot;
+/// fn internal_error() -&gt; &amp;'static str {
+///     "Whoops! Looks like we messed up."
 /// }
 ///
 /// #[catch(404)]
 /// fn not_found(req: &amp;Request) -&gt; String {
-///     format!(&quot;I couldn&#39;t find &#39;{}&#39;. Try something else?&quot;, req.uri())
+///     format!("I couldn't find '{}'. Try something else?", req.uri())
 /// }
 ///
 /// #[catch(default)]
 /// fn default(status: Status, req: &amp;Request) -&gt; String {
-///     format!(&quot;{} ({})&quot;, status, req.uri())
+///     format!("{} ({})", status, req.uri())
 /// }
 ///
 /// #[launch]
 /// fn rocket() -&gt; _ {
-///     rocket::build().register(&quot;/&quot;, catchers![internal_error, not_found, default])
+///     rocket::build().register("/", catchers![internal_error, not_found, default])
 /// }
 /// ```
 ///
 /// A function decorated with `#[catch]` may take zero, one, or two arguments.
-/// It&#39;s type signature must be one of the following, where `R:`[`Responder`]:
+/// It's type signature must be one of the following, where `R:`[`Responder`]:
 ///
 ///   * `fn() -&gt; R`
 ///   * `fn(`[`&amp;Request`]`) -&gt; R`
@@ -534,15 +534,15 @@
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Catcher {
     <span class="doccomment">/// The name of this catcher, if one was given.
-    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
 
     <span class="doccomment">/// The mount point.
-    </span><span class="kw">pub </span>base: uri::Origin&lt;<span class="lifetime">&#39;static</span>&gt;,
+    </span><span class="kw">pub </span>base: uri::Origin&lt;<span class="lifetime">'static</span>&gt;,
 
     <span class="doccomment">/// The HTTP status to match against if this route is not `default`.
     </span><span class="kw">pub </span>code: <span class="prelude-ty">Option</span>&lt;u16&gt;,
 
-    <span class="doccomment">/// The catcher&#39;s associated error handler.
+    <span class="doccomment">/// The catcher's associated error handler.
     </span><span class="kw">pub </span>handler: Box&lt;<span class="kw">dyn </span>Handler&gt;,
 }
 
@@ -559,17 +559,17 @@
     /// use rocket::response::Responder;
     /// use rocket::http::Status;
     ///
-    /// fn handle_404&lt;&#39;r&gt;(status: Status, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; BoxFuture&lt;&#39;r&gt; {
-    ///    let res = (status, format!(&quot;404: {}&quot;, req.uri()));
+    /// fn handle_404&lt;'r&gt;(status: Status, req: &amp;'r Request&lt;'_&gt;) -&gt; BoxFuture&lt;'r&gt; {
+    ///    let res = (status, format!("404: {}", req.uri()));
     ///    Box::pin(async move { res.respond_to(req) })
     /// }
     ///
-    /// fn handle_500&lt;&#39;r&gt;(_: Status, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; BoxFuture&lt;&#39;r&gt; {
-    ///     Box::pin(async move{ &quot;Whoops, we messed up!&quot;.respond_to(req) })
+    /// fn handle_500&lt;'r&gt;(_: Status, req: &amp;'r Request&lt;'_&gt;) -&gt; BoxFuture&lt;'r&gt; {
+    ///     Box::pin(async move{ "Whoops, we messed up!".respond_to(req) })
     /// }
     ///
-    /// fn handle_default&lt;&#39;r&gt;(status: Status, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; BoxFuture&lt;&#39;r&gt; {
-    ///    let res = (status, format!(&quot;{}: {}&quot;, status, req.uri()));
+    /// fn handle_default&lt;'r&gt;(status: Status, req: &amp;'r Request&lt;'_&gt;) -&gt; BoxFuture&lt;'r&gt; {
+    ///    let res = (status, format!("{}: {}", status, req.uri()));
     ///    Box::pin(async move { res.respond_to(req) })
     /// }
     ///
@@ -615,28 +615,28 @@
     /// use rocket::response::Responder;
     /// use rocket::http::Status;
     ///
-    /// fn handle_404&lt;&#39;r&gt;(status: Status, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; BoxFuture&lt;&#39;r&gt; {
-    ///    let res = (status, format!(&quot;404: {}&quot;, req.uri()));
+    /// fn handle_404&lt;'r&gt;(status: Status, req: &amp;'r Request&lt;'_&gt;) -&gt; BoxFuture&lt;'r&gt; {
+    ///    let res = (status, format!("404: {}", req.uri()));
     ///    Box::pin(async move { res.respond_to(req) })
     /// }
     ///
     /// let catcher = Catcher::new(404, handle_404);
-    /// assert_eq!(catcher.base.path(), &quot;/&quot;);
+    /// assert_eq!(catcher.base.path(), "/");
     ///
-    /// let catcher = catcher.map_base(|_| format!(&quot;/bar&quot;)).unwrap();
-    /// assert_eq!(catcher.base.path(), &quot;/bar&quot;);
+    /// let catcher = catcher.map_base(|_| format!("/bar")).unwrap();
+    /// assert_eq!(catcher.base.path(), "/bar");
     ///
-    /// let catcher = catcher.map_base(|base| format!(&quot;/foo{}&quot;, base)).unwrap();
-    /// assert_eq!(catcher.base.path(), &quot;/foo/bar&quot;);
+    /// let catcher = catcher.map_base(|base| format!("/foo{}", base)).unwrap();
+    /// assert_eq!(catcher.base.path(), "/foo/bar");
     ///
-    /// let catcher = catcher.map_base(|base| format!(&quot;/foo ? {}&quot;, base));
+    /// let catcher = catcher.map_base(|base| format!("/foo ? {}", base));
     /// assert!(catcher.is_err());
     /// ```
-    </span><span class="kw">pub fn </span>map_base&lt;<span class="lifetime">&#39;a</span>, F&gt;(
+    </span><span class="kw">pub fn </span>map_base&lt;<span class="lifetime">'a</span>, F&gt;(
         <span class="kw-2">mut </span><span class="self">self</span>,
         mapper: F
-    ) -&gt; std::result::Result&lt;<span class="self">Self</span>, uri::Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
-        <span class="kw">where </span>F: FnOnce(uri::Origin&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; String
+    ) -&gt; std::result::Result&lt;<span class="self">Self</span>, uri::Error&lt;<span class="lifetime">'static</span>&gt;&gt;
+        <span class="kw">where </span>F: FnOnce(uri::Origin&lt;<span class="lifetime">'a</span>&gt;) -&gt; String
     {
         <span class="self">self</span>.base = uri::Origin::parse_owned(mapper(<span class="self">self</span>.base))<span class="question-mark">?</span>.into_normalized();
         <span class="self">self</span>.base.clear_query();
@@ -646,12 +646,12 @@
 
 <span class="kw">impl </span>Default <span class="kw">for </span>Catcher {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="kw">fn </span>handler&lt;<span class="lifetime">&#39;r</span>&gt;(s: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;r</span>&gt; {
+        <span class="kw">fn </span>handler&lt;<span class="lifetime">'r</span>&gt;(s: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'r</span>&gt; {
             Box::pin(<span class="kw">async move </span>{ <span class="prelude-val">Ok</span>(default_handler(s, req)) })
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>catcher = Catcher::new(<span class="prelude-val">None</span>, handler);
-        catcher.name = <span class="prelude-val">Some</span>(<span class="string">&quot;&lt;Rocket Catcher&gt;&quot;</span>.into());
+        catcher.name = <span class="prelude-val">Some</span>(<span class="string">"&lt;Rocket Catcher&gt;"</span>.into());
         catcher
     }
 }
@@ -659,12 +659,12 @@
 <span class="doccomment">/// Information generated by the `catch` attribute during codegen.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub struct </span>StaticInfo {
-    <span class="doccomment">/// The catcher&#39;s name, i.e, the name of the function.
-    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-    <span class="doccomment">/// The catcher&#39;s status code.
+    <span class="doccomment">/// The catcher's name, i.e, the name of the function.
+    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    <span class="doccomment">/// The catcher's status code.
     </span><span class="kw">pub </span>code: <span class="prelude-ty">Option</span>&lt;u16&gt;,
-    <span class="doccomment">/// The catcher&#39;s handler, i.e, the annotated function.
-    </span><span class="kw">pub </span>handler: <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">fn</span>(Status, <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;r</span>&gt;,
+    <span class="doccomment">/// The catcher's handler, i.e, the annotated function.
+    </span><span class="kw">pub </span>handler: <span class="kw">for</span>&lt;<span class="lifetime">'r</span>&gt; <span class="kw">fn</span>(Status, <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'r</span>&gt;,
 }
 
 <span class="attr">#[doc(hidden)]
@@ -678,108 +678,108 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Catcher {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>n) = <span class="self">self</span>.name {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}{}{} &quot;</span>, <span class="string">&quot;(&quot;</span>.cyan(), n.primary(), <span class="string">&quot;)&quot;</span>.cyan())<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"{}{}{} "</span>, <span class="string">"("</span>.cyan(), n.primary(), <span class="string">")"</span>.cyan())<span class="question-mark">?</span>;
         }
 
-        <span class="kw">if </span><span class="self">self</span>.base.path() != <span class="string">&quot;/&quot; </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, <span class="self">self</span>.base.path().green())<span class="question-mark">?</span>;
+        <span class="kw">if </span><span class="self">self</span>.base.path() != <span class="string">"/" </span>{
+            <span class="macro">write!</span>(f, <span class="string">"{} "</span>, <span class="self">self</span>.base.path().green())<span class="question-mark">?</span>;
         }
 
         <span class="kw">match </span><span class="self">self</span>.code {
-            <span class="prelude-val">Some</span>(code) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, code.blue()),
-            <span class="prelude-val">None </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="string">&quot;default&quot;</span>.blue()),
+            <span class="prelude-val">Some</span>(code) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, code.blue()),
+            <span class="prelude-val">None </span>=&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="string">"default"</span>.blue()),
         }
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Catcher {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;Catcher&quot;</span>)
-            .field(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)
-            .field(<span class="string">&quot;base&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.base)
-            .field(<span class="string">&quot;code&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.code)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"Catcher"</span>)
+            .field(<span class="string">"name"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)
+            .field(<span class="string">"base"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.base)
+            .field(<span class="string">"code"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.code)
             .finish()
     }
 }
 
-<span class="macro">macro_rules! </span>html_error_template {
+<span class="macro">macro_rules!</span> html_error_template {
     (<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$reason</span>:expr, <span class="macro-nonterminal">$description</span>:expr) =&gt; (
         <span class="macro">concat!</span>(
-<span class="string">r#&quot;&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
+<span class="string">r#"&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
 &lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;meta name=&quot;color-scheme&quot; content=&quot;light dark&quot;&gt;
-    &lt;title&gt;&quot;#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">&quot; &quot;</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#&quot;&lt;/title&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="color-scheme" content="light dark"&gt;
+    &lt;title&gt;"#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">" "</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#"&lt;/title&gt;
 &lt;/head&gt;
-&lt;body align=&quot;center&quot;&gt;
-    &lt;div role=&quot;main&quot; align=&quot;center&quot;&gt;
-        &lt;h1&gt;&quot;#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">&quot;: &quot;</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#&quot;&lt;/h1&gt;
-        &lt;p&gt;&quot;#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#&quot;&lt;/p&gt;
+&lt;body align="center"&gt;
+    &lt;div role="main" align="center"&gt;
+        &lt;h1&gt;"#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">": "</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#"&lt;/h1&gt;
+        &lt;p&gt;"#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#"&lt;/p&gt;
         &lt;hr /&gt;
     &lt;/div&gt;
-    &lt;div role=&quot;contentinfo&quot; align=&quot;center&quot;&gt;
+    &lt;div role="contentinfo" align="center"&gt;
         &lt;small&gt;Rocket&lt;/small&gt;
     &lt;/div&gt;
 &lt;/body&gt;
-&lt;/html&gt;&quot;#
+&lt;/html&gt;"#
         </span>)
     )
 }
 
-<span class="macro">macro_rules! </span>json_error_template {
+<span class="macro">macro_rules!</span> json_error_template {
     (<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$reason</span>:expr, <span class="macro-nonterminal">$description</span>:expr) =&gt; (
         <span class="macro">concat!</span>(
-<span class="string">r#&quot;{
-  &quot;error&quot;: {
-    &quot;code&quot;: &quot;#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">r#&quot;,
-    &quot;reason&quot;: &quot;&quot;#</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#&quot;&quot;,
-    &quot;description&quot;: &quot;&quot;#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#&quot;&quot;
+<span class="string">r#"{
+  "error": {
+    "code": "#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">r#",
+    "reason": ""#</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#"",
+    "description": ""#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#""
   }
-}&quot;#
+}"#
         </span>)
     )
 }
 
 <span class="comment">// This is unfortunate, but the `{`, `}` above make it unusable for `format!`.
-</span><span class="macro">macro_rules! </span>json_error_fmt_template {
+</span><span class="macro">macro_rules!</span> json_error_fmt_template {
     (<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$reason</span>:expr, <span class="macro-nonterminal">$description</span>:expr) =&gt; (
         <span class="macro">concat!</span>(
-<span class="string">r#&quot;{{
-  &quot;error&quot;: {{
-    &quot;code&quot;: &quot;#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">r#&quot;,
-    &quot;reason&quot;: &quot;&quot;#</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#&quot;&quot;,
-    &quot;description&quot;: &quot;&quot;#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#&quot;&quot;
+<span class="string">r#"{{
+  "error": {{
+    "code": "#</span>, <span class="macro-nonterminal">$code</span>, <span class="string">r#",
+    "reason": ""#</span>, <span class="macro-nonterminal">$reason</span>, <span class="string">r#"",
+    "description": ""#</span>, <span class="macro-nonterminal">$description</span>, <span class="string">r#""
   }}
-}}&quot;#
+}}"#
         </span>)
     )
 }
 
-<span class="macro">macro_rules! </span>default_handler_fn {
+<span class="macro">macro_rules!</span> default_handler_fn {
     ($(<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$reason</span>:expr, <span class="macro-nonterminal">$description</span>:expr),+) =&gt; (
         <span class="kw">use </span>std::borrow::Cow;
 
-        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>default_handler&lt;<span class="lifetime">&#39;r</span>&gt;(
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>default_handler&lt;<span class="lifetime">'r</span>&gt;(
             status: Status,
-            req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;
-        ) -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+            req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;
+        ) -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
             <span class="kw">let </span>preferred = req.accept().map(|a| a.preferred());
             <span class="kw">let </span>(mime, text) = <span class="kw">if </span>preferred.map_or(<span class="bool-val">false</span>, |a| a.is_json()) {
-                <span class="kw">let </span>json: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; = <span class="kw">match </span>status.code {
+                <span class="kw">let </span>json: Cow&lt;<span class="lifetime">'_</span>, str&gt; = <span class="kw">match </span>status.code {
                     $(<span class="macro-nonterminal">$code </span>=&gt; <span class="macro">json_error_template!</span>(<span class="macro-nonterminal">$code</span>, <span class="macro-nonterminal">$reason</span>, <span class="macro-nonterminal">$description</span>).into(),)*
-                    code =&gt; <span class="macro">format!</span>(<span class="macro">json_error_fmt_template!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Unknown Error&quot;</span>,
-                            <span class="string">&quot;An unknown error has occurred.&quot;</span>), code).into()
+                    code =&gt; <span class="macro">format!</span>(<span class="macro">json_error_fmt_template!</span>(<span class="string">"{}"</span>, <span class="string">"Unknown Error"</span>,
+                            <span class="string">"An unknown error has occurred."</span>), code).into()
                 };
 
                 (ContentType::JSON, json)
             } <span class="kw">else </span>{
-                <span class="kw">let </span>html: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; = <span class="kw">match </span>status.code {
+                <span class="kw">let </span>html: Cow&lt;<span class="lifetime">'_</span>, str&gt; = <span class="kw">match </span>status.code {
                     $(<span class="macro-nonterminal">$code </span>=&gt; <span class="macro">html_error_template!</span>(<span class="macro-nonterminal">$code</span>, <span class="macro-nonterminal">$reason</span>, <span class="macro-nonterminal">$description</span>).into(),)*
-                    code =&gt; <span class="macro">format!</span>(<span class="macro">html_error_template!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Unknown Error&quot;</span>,
-                            <span class="string">&quot;An unknown error has occurred.&quot;</span>), code, code).into(),
+                    code =&gt; <span class="macro">format!</span>(<span class="macro">html_error_template!</span>(<span class="string">"{}"</span>, <span class="string">"Unknown Error"</span>,
+                            <span class="string">"An unknown error has occurred."</span>), code, code).into(),
                 };
 
                 (ContentType::HTML, html)
@@ -796,52 +796,52 @@
     )
 }
 
-<span class="macro">default_handler_fn! </span>{
-    <span class="number">400</span>, <span class="string">&quot;Bad Request&quot;</span>, <span class="string">&quot;The request could not be understood by the server due \
-        to malformed syntax.&quot;</span>,
-    <span class="number">401</span>, <span class="string">&quot;Unauthorized&quot;</span>, <span class="string">&quot;The request requires user authentication.&quot;</span>,
-    <span class="number">402</span>, <span class="string">&quot;Payment Required&quot;</span>, <span class="string">&quot;The request could not be processed due to lack of payment.&quot;</span>,
-    <span class="number">403</span>, <span class="string">&quot;Forbidden&quot;</span>, <span class="string">&quot;The server refused to authorize the request.&quot;</span>,
-    <span class="number">404</span>, <span class="string">&quot;Not Found&quot;</span>, <span class="string">&quot;The requested resource could not be found.&quot;</span>,
-    <span class="number">405</span>, <span class="string">&quot;Method Not Allowed&quot;</span>, <span class="string">&quot;The request method is not supported for the requested resource.&quot;</span>,
-    <span class="number">406</span>, <span class="string">&quot;Not Acceptable&quot;</span>, <span class="string">&quot;The requested resource is capable of generating only content not \
-        acceptable according to the Accept headers sent in the request.&quot;</span>,
-    <span class="number">407</span>, <span class="string">&quot;Proxy Authentication Required&quot;</span>, <span class="string">&quot;Authentication with the proxy is required.&quot;</span>,
-    <span class="number">408</span>, <span class="string">&quot;Request Timeout&quot;</span>, <span class="string">&quot;The server timed out waiting for the request.&quot;</span>,
-    <span class="number">409</span>, <span class="string">&quot;Conflict&quot;</span>, <span class="string">&quot;The request could not be processed because of a conflict in the request.&quot;</span>,
-    <span class="number">410</span>, <span class="string">&quot;Gone&quot;</span>, <span class="string">&quot;The resource requested is no longer available and will not be available again.&quot;</span>,
-    <span class="number">411</span>, <span class="string">&quot;Length Required&quot;</span>, <span class="string">&quot;The request did not specify the length of its content, which is \
-        required by the requested resource.&quot;</span>,
-    <span class="number">412</span>, <span class="string">&quot;Precondition Failed&quot;</span>, <span class="string">&quot;The server does not meet one of the \
-        preconditions specified in the request.&quot;</span>,
-    <span class="number">413</span>, <span class="string">&quot;Payload Too Large&quot;</span>, <span class="string">&quot;The request is larger than the server is \
-        willing or able to process.&quot;</span>,
-    <span class="number">414</span>, <span class="string">&quot;URI Too Long&quot;</span>, <span class="string">&quot;The URI provided was too long for the server to process.&quot;</span>,
-    <span class="number">415</span>, <span class="string">&quot;Unsupported Media Type&quot;</span>, <span class="string">&quot;The request entity has a media type which \
-        the server or resource does not support.&quot;</span>,
-    <span class="number">416</span>, <span class="string">&quot;Range Not Satisfiable&quot;</span>, <span class="string">&quot;The portion of the requested file cannot be \
-        supplied by the server.&quot;</span>,
-    <span class="number">417</span>, <span class="string">&quot;Expectation Failed&quot;</span>, <span class="string">&quot;The server cannot meet the requirements of the \
-        Expect request-header field.&quot;</span>,
-    <span class="number">418</span>, <span class="string">&quot;I&#39;m a teapot&quot;</span>, <span class="string">&quot;I was requested to brew coffee, and I am a teapot.&quot;</span>,
-    <span class="number">421</span>, <span class="string">&quot;Misdirected Request&quot;</span>, <span class="string">&quot;The server cannot produce a response for this request.&quot;</span>,
-    <span class="number">422</span>, <span class="string">&quot;Unprocessable Entity&quot;</span>, <span class="string">&quot;The request was well-formed but was unable to \
-        be followed due to semantic errors.&quot;</span>,
-    <span class="number">426</span>, <span class="string">&quot;Upgrade Required&quot;</span>, <span class="string">&quot;Switching to the protocol in the Upgrade header field is required.&quot;</span>,
-    <span class="number">428</span>, <span class="string">&quot;Precondition Required&quot;</span>, <span class="string">&quot;The server requires the request to be conditional.&quot;</span>,
-    <span class="number">429</span>, <span class="string">&quot;Too Many Requests&quot;</span>, <span class="string">&quot;Too many requests have been received recently.&quot;</span>,
-    <span class="number">431</span>, <span class="string">&quot;Request Header Fields Too Large&quot;</span>, <span class="string">&quot;The server is unwilling to process \
+<span class="macro">default_handler_fn!</span> {
+    <span class="number">400</span>, <span class="string">"Bad Request"</span>, <span class="string">"The request could not be understood by the server due \
+        to malformed syntax."</span>,
+    <span class="number">401</span>, <span class="string">"Unauthorized"</span>, <span class="string">"The request requires user authentication."</span>,
+    <span class="number">402</span>, <span class="string">"Payment Required"</span>, <span class="string">"The request could not be processed due to lack of payment."</span>,
+    <span class="number">403</span>, <span class="string">"Forbidden"</span>, <span class="string">"The server refused to authorize the request."</span>,
+    <span class="number">404</span>, <span class="string">"Not Found"</span>, <span class="string">"The requested resource could not be found."</span>,
+    <span class="number">405</span>, <span class="string">"Method Not Allowed"</span>, <span class="string">"The request method is not supported for the requested resource."</span>,
+    <span class="number">406</span>, <span class="string">"Not Acceptable"</span>, <span class="string">"The requested resource is capable of generating only content not \
+        acceptable according to the Accept headers sent in the request."</span>,
+    <span class="number">407</span>, <span class="string">"Proxy Authentication Required"</span>, <span class="string">"Authentication with the proxy is required."</span>,
+    <span class="number">408</span>, <span class="string">"Request Timeout"</span>, <span class="string">"The server timed out waiting for the request."</span>,
+    <span class="number">409</span>, <span class="string">"Conflict"</span>, <span class="string">"The request could not be processed because of a conflict in the request."</span>,
+    <span class="number">410</span>, <span class="string">"Gone"</span>, <span class="string">"The resource requested is no longer available and will not be available again."</span>,
+    <span class="number">411</span>, <span class="string">"Length Required"</span>, <span class="string">"The request did not specify the length of its content, which is \
+        required by the requested resource."</span>,
+    <span class="number">412</span>, <span class="string">"Precondition Failed"</span>, <span class="string">"The server does not meet one of the \
+        preconditions specified in the request."</span>,
+    <span class="number">413</span>, <span class="string">"Payload Too Large"</span>, <span class="string">"The request is larger than the server is \
+        willing or able to process."</span>,
+    <span class="number">414</span>, <span class="string">"URI Too Long"</span>, <span class="string">"The URI provided was too long for the server to process."</span>,
+    <span class="number">415</span>, <span class="string">"Unsupported Media Type"</span>, <span class="string">"The request entity has a media type which \
+        the server or resource does not support."</span>,
+    <span class="number">416</span>, <span class="string">"Range Not Satisfiable"</span>, <span class="string">"The portion of the requested file cannot be \
+        supplied by the server."</span>,
+    <span class="number">417</span>, <span class="string">"Expectation Failed"</span>, <span class="string">"The server cannot meet the requirements of the \
+        Expect request-header field."</span>,
+    <span class="number">418</span>, <span class="string">"I'm a teapot"</span>, <span class="string">"I was requested to brew coffee, and I am a teapot."</span>,
+    <span class="number">421</span>, <span class="string">"Misdirected Request"</span>, <span class="string">"The server cannot produce a response for this request."</span>,
+    <span class="number">422</span>, <span class="string">"Unprocessable Entity"</span>, <span class="string">"The request was well-formed but was unable to \
+        be followed due to semantic errors."</span>,
+    <span class="number">426</span>, <span class="string">"Upgrade Required"</span>, <span class="string">"Switching to the protocol in the Upgrade header field is required."</span>,
+    <span class="number">428</span>, <span class="string">"Precondition Required"</span>, <span class="string">"The server requires the request to be conditional."</span>,
+    <span class="number">429</span>, <span class="string">"Too Many Requests"</span>, <span class="string">"Too many requests have been received recently."</span>,
+    <span class="number">431</span>, <span class="string">"Request Header Fields Too Large"</span>, <span class="string">"The server is unwilling to process \
         the request because either an individual header field, or all the header \
-        fields collectively, are too large.&quot;</span>,
-    <span class="number">451</span>, <span class="string">&quot;Unavailable For Legal Reasons&quot;</span>, <span class="string">&quot;The requested resource is unavailable \
-        due to a legal demand to deny access to this resource.&quot;</span>,
-    <span class="number">500</span>, <span class="string">&quot;Internal Server Error&quot;</span>, <span class="string">&quot;The server encountered an internal error while \
-        processing this request.&quot;</span>,
-    <span class="number">501</span>, <span class="string">&quot;Not Implemented&quot;</span>, <span class="string">&quot;The server either does not recognize the request \
-        method, or it lacks the ability to fulfill the request.&quot;</span>,
-    <span class="number">503</span>, <span class="string">&quot;Service Unavailable&quot;</span>, <span class="string">&quot;The server is currently unavailable.&quot;</span>,
-    <span class="number">504</span>, <span class="string">&quot;Gateway Timeout&quot;</span>, <span class="string">&quot;The server did not receive a timely response from an upstream server.&quot;</span>,
-    <span class="number">510</span>, <span class="string">&quot;Not Extended&quot;</span>, <span class="string">&quot;Further extensions to the request are required for \
-        the server to fulfill it.&quot;
+        fields collectively, are too large."</span>,
+    <span class="number">451</span>, <span class="string">"Unavailable For Legal Reasons"</span>, <span class="string">"The requested resource is unavailable \
+        due to a legal demand to deny access to this resource."</span>,
+    <span class="number">500</span>, <span class="string">"Internal Server Error"</span>, <span class="string">"The server encountered an internal error while \
+        processing this request."</span>,
+    <span class="number">501</span>, <span class="string">"Not Implemented"</span>, <span class="string">"The server either does not recognize the request \
+        method, or it lacks the ability to fulfill the request."</span>,
+    <span class="number">503</span>, <span class="string">"Service Unavailable"</span>, <span class="string">"The server is currently unavailable."</span>,
+    <span class="number">504</span>, <span class="string">"Gateway Timeout"</span>, <span class="string">"The server did not receive a timely response from an upstream server."</span>,
+    <span class="number">510</span>, <span class="string">"Not Extended"</span>, <span class="string">"Further extensions to the request are required for \
+        the server to fulfill it."
 </span>}
 </code></pre></div></section></main></body></html>

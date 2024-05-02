@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/path_query.rs`."><title>path_query.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/path_query.rs`."><title>path_query.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -399,19 +399,19 @@
 <span class="comment">// INTERNAL DATA STRUCTURE.
 </span><span class="attr">#[doc(hidden)]
 #[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>Data&lt;<span class="lifetime">&#39;a</span>, P: Part&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) value: IndexedStr&lt;<span class="lifetime">&#39;a</span>&gt;,
+</span><span class="kw">pub struct </span>Data&lt;<span class="lifetime">'a</span>, P: Part&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) value: IndexedStr&lt;<span class="lifetime">'a</span>&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) decoded_segments: InitCell&lt;Vec&lt;P::Raw&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, P: Part&gt; Data&lt;<span class="lifetime">&#39;a</span>, P&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>raw(value: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, P: Part&gt; Data&lt;<span class="lifetime">'a</span>, P&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>raw(value: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;) -&gt; <span class="self">Self </span>{
         Data { value: value.into(), decoded_segments: InitCell::new() }
     }
 
     <span class="comment">// INTERNAL METHOD.
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new&lt;S: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(value: S) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new&lt;S: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;&gt;(value: S) -&gt; <span class="self">Self </span>{
         Data {
             value: IndexedStr::from(value.into()),
             decoded_segments: InitCell::new(),
@@ -421,22 +421,22 @@
 
 <span class="doccomment">/// A URI path: `/foo/bar`, `foo/bar`, etc.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub struct </span>Path&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Data&lt;<span class="lifetime">&#39;a</span>, fmt::Path&gt;,
+</span><span class="kw">pub struct </span>Path&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Data&lt;<span class="lifetime">'a</span>, fmt::Path&gt;,
 }
 
 <span class="doccomment">/// A URI query: `?foo&amp;bar`.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
-</span><span class="kw">pub struct </span>Query&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Data&lt;<span class="lifetime">&#39;a</span>, fmt::Query&gt;,
+</span><span class="kw">pub struct </span>Query&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Data&lt;<span class="lifetime">'a</span>, fmt::Query&gt;,
 }
 
 <span class="kw">fn </span>decode_to_indexed_str&lt;P: fmt::Part&gt;(
     value: <span class="kw-2">&amp;</span>RawStr,
-    (indexed, source): (<span class="kw-2">&amp;</span>IndexedStr&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw-2">&amp;</span>RawStr)
-) -&gt; IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt; {
+    (indexed, source): (<span class="kw-2">&amp;</span>IndexedStr&lt;<span class="lifetime">'_</span>&gt;, <span class="kw-2">&amp;</span>RawStr)
+) -&gt; IndexedStr&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">let </span>decoded = <span class="kw">match </span>P::KIND {
         fmt::Kind::Path =&gt; value.percent_decode_lossy(),
         fmt::Kind::Query =&gt; value.url_decode_lossy(),
@@ -446,24 +446,24 @@
         Cow::Borrowed(b) <span class="kw">if </span>indexed.is_indexed() =&gt; {
             <span class="kw">let </span>indexed = IndexedStr::checked_from(b, source.as_str());
             <span class="macro">debug_assert!</span>(indexed.is_some());
-            indexed.unwrap_or_else(|| IndexedStr::from(Cow::Borrowed(<span class="string">&quot;&quot;</span>)))
+            indexed.unwrap_or_else(|| IndexedStr::from(Cow::Borrowed(<span class="string">""</span>)))
         }
         cow =&gt; IndexedStr::from(Cow::Owned(cow.into_owned())),
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Path&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Path&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Returns the raw path value.
     ///
     /// # Example
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/foo%20bar%2dbaz&quot;);
-    /// assert_eq!(uri.path(), &quot;/foo%20bar%2dbaz&quot;);
-    /// assert_eq!(uri.path().raw(), &quot;/foo%20bar%2dbaz&quot;);
+    /// let uri = uri!("/foo%20bar%2dbaz");
+    /// assert_eq!(uri.path(), "/foo%20bar%2dbaz");
+    /// assert_eq!(uri.path().raw(), "/foo%20bar%2dbaz");
     /// ```
-    </span><span class="kw">pub fn </span>raw(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr {
+    </span><span class="kw">pub fn </span>raw(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr {
         <span class="self">self</span>.data.value.from_cow_source(<span class="self">self</span>.source).into()
     }
 
@@ -473,11 +473,11 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/foo%20bar%2dbaz&quot;);
-    /// assert_eq!(uri.path(), &quot;/foo%20bar%2dbaz&quot;);
-    /// assert_eq!(uri.path().as_str(), &quot;/foo%20bar%2dbaz&quot;);
+    /// let uri = uri!("/foo%20bar%2dbaz");
+    /// assert_eq!(uri.path(), "/foo%20bar%2dbaz");
+    /// assert_eq!(uri.path().as_str(), "/foo%20bar%2dbaz");
     /// ```
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.raw().as_str()
     }
 
@@ -485,21 +485,21 @@
     ///
     /// If `absolute`, then a starting  `/` is required.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_normalized(<span class="kw-2">&amp;</span><span class="self">self</span>, absolute: bool) -&gt; bool {
-        (!absolute || <span class="self">self</span>.raw().starts_with(<span class="string">&#39;/&#39;</span>))
+        (!absolute || <span class="self">self</span>.raw().starts_with(<span class="string">'/'</span>))
             &amp;&amp; <span class="self">self</span>.raw_segments().all(|s| !s.is_empty())
     }
 
     <span class="doccomment">/// Normalizes `self`. If `absolute`, a starting  `/` is required.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_normalized(<span class="self">self</span>, absolute: bool) -&gt; Data&lt;<span class="lifetime">&#39;static</span>, fmt::Path&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_normalized(<span class="self">self</span>, absolute: bool) -&gt; Data&lt;<span class="lifetime">'static</span>, fmt::Path&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>path = String::with_capacity(<span class="self">self</span>.raw().len());
-        <span class="kw">let </span>absolute = absolute || <span class="self">self</span>.raw().starts_with(<span class="string">&#39;/&#39;</span>);
+        <span class="kw">let </span>absolute = absolute || <span class="self">self</span>.raw().starts_with(<span class="string">'/'</span>);
         <span class="kw">for </span>(i, seg) <span class="kw">in </span><span class="self">self</span>.raw_segments().filter(|s| !s.is_empty()).enumerate() {
-            <span class="kw">if </span>absolute || i != <span class="number">0 </span>{ path.push(<span class="string">&#39;/&#39;</span>); }
-            <span class="kw">let _ </span>= <span class="macro">write!</span>(path, <span class="string">&quot;{}&quot;</span>, seg);
+            <span class="kw">if </span>absolute || i != <span class="number">0 </span>{ path.push(<span class="string">'/'</span>); }
+            <span class="kw">let _ </span>= <span class="macro">write!</span>(path, <span class="string">"{}"</span>, seg);
         }
 
         <span class="kw">if </span>path.is_empty() &amp;&amp; absolute {
-            path.push(<span class="string">&#39;/&#39;</span>);
+            path.push(<span class="string">'/'</span>);
         }
 
         Data {
@@ -517,29 +517,29 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let uri = Origin::parse(&quot;/&quot;).unwrap();
+    /// let uri = Origin::parse("/").unwrap();
     /// assert_eq!(uri.path().raw_segments().count(), 0);
     ///
-    /// let uri = Origin::parse(&quot;//&quot;).unwrap();
+    /// let uri = Origin::parse("//").unwrap();
     /// let segments: Vec&lt;_&gt; = uri.path().raw_segments().collect();
-    /// assert_eq!(segments, &amp;[&quot;&quot;, &quot;&quot;]);
+    /// assert_eq!(segments, &amp;["", ""]);
     ///
     /// // Recall that `uri!()` normalizes static inputs.
-    /// let uri = uri!(&quot;//&quot;);
+    /// let uri = uri!("//");
     /// assert_eq!(uri.path().raw_segments().count(), 0);
     ///
-    /// let uri = Origin::parse(&quot;/a&quot;).unwrap();
+    /// let uri = Origin::parse("/a").unwrap();
     /// let segments: Vec&lt;_&gt; = uri.path().raw_segments().collect();
-    /// assert_eq!(segments, &amp;[&quot;a&quot;]);
+    /// assert_eq!(segments, &amp;["a"]);
     ///
-    /// let uri = Origin::parse(&quot;/a//b///c/d?query&amp;param&quot;).unwrap();
+    /// let uri = Origin::parse("/a//b///c/d?query&amp;param").unwrap();
     /// let segments: Vec&lt;_&gt; = uri.path().raw_segments().collect();
-    /// assert_eq!(segments, &amp;[&quot;a&quot;, &quot;&quot;, &quot;b&quot;, &quot;&quot;, &quot;&quot;, &quot;c&quot;, &quot;d&quot;]);
+    /// assert_eq!(segments, &amp;["a", "", "b", "", "", "c", "d"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>raw_segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt; {
+    </span><span class="kw">pub fn </span>raw_segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt; {
         <span class="kw">let </span>path = <span class="kw">match </span><span class="self">self</span>.raw() {
-            p <span class="kw">if </span>p.is_empty() || p == <span class="string">&quot;/&quot; </span>=&gt; <span class="prelude-val">None</span>,
+            p <span class="kw">if </span>p.is_empty() || p == <span class="string">"/" </span>=&gt; <span class="prelude-val">None</span>,
             p <span class="kw">if </span>p.starts_with(fmt::Path::DELIMITER) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>p[<span class="number">1</span>..]),
             p =&gt; <span class="prelude-val">Some</span>(p)
         };
@@ -557,11 +557,11 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let uri = Origin::parse(&quot;/a%20b/b%2Fc/d//e?query=some&quot;).unwrap();
+    /// let uri = Origin::parse("/a%20b/b%2Fc/d//e?query=some").unwrap();
     /// let path_segs: Vec&lt;&amp;str&gt; = uri.path().segments().collect();
-    /// assert_eq!(path_segs, &amp;[&quot;a b&quot;, &quot;b/c&quot;, &quot;d&quot;, &quot;e&quot;]);
+    /// assert_eq!(path_segs, &amp;["a b", "b/c", "d", "e"]);
     /// ```
-    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Segments&lt;<span class="lifetime">&#39;a</span>, fmt::Path&gt; {
+    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Segments&lt;<span class="lifetime">'a</span>, fmt::Path&gt; {
         <span class="kw">let </span>cached = <span class="self">self</span>.data.decoded_segments.get_or_init(|| {
             <span class="kw">let </span>(indexed, path) = (<span class="kw-2">&amp;</span><span class="self">self</span>.data.value, <span class="self">self</span>.raw());
             <span class="self">self</span>.raw_segments()
@@ -574,18 +574,18 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Query&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Query&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Returns the raw, undecoded query value.
     ///
     /// # Example
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/foo?baz+bar&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;baz+bar&quot;);
-    /// assert_eq!(uri.query().unwrap().raw(), &quot;baz+bar&quot;);
+    /// let uri = uri!("/foo?baz+bar");
+    /// assert_eq!(uri.query().unwrap(), "baz+bar");
+    /// assert_eq!(uri.query().unwrap().raw(), "baz+bar");
     /// ```
-    </span><span class="kw">pub fn </span>raw(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr {
+    </span><span class="kw">pub fn </span>raw(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr {
         <span class="self">self</span>.data.value.from_cow_source(<span class="self">self</span>.source).into()
     }
 
@@ -595,11 +595,11 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/foo/bar?baz+bar&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;baz+bar&quot;);
-    /// assert_eq!(uri.query().unwrap().as_str(), &quot;baz+bar&quot;);
+    /// let uri = uri!("/foo/bar?baz+bar");
+    /// assert_eq!(uri.query().unwrap(), "baz+bar");
+    /// assert_eq!(uri.query().unwrap().as_str(), "baz+bar");
     /// ```
-    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.raw().as_str()
     }
 
@@ -609,11 +609,11 @@
     }
 
     <span class="doccomment">/// Normalizes `self`.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_normalized(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">&#39;static</span>, fmt::Query&gt;&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_normalized(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">'static</span>, fmt::Query&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>query = String::with_capacity(<span class="self">self</span>.raw().len());
         <span class="kw">for </span>(i, seg) <span class="kw">in </span><span class="self">self</span>.raw_segments().filter(|s| !s.is_empty()).enumerate() {
-            <span class="kw">if </span>i != <span class="number">0 </span>{ query.push(<span class="string">&#39;&amp;&#39;</span>); }
-            <span class="kw">let _ </span>= <span class="macro">write!</span>(query, <span class="string">&quot;{}&quot;</span>, seg);
+            <span class="kw">if </span>i != <span class="number">0 </span>{ query.push(<span class="string">'&amp;'</span>); }
+            <span class="kw">let _ </span>= <span class="macro">write!</span>(query, <span class="string">"{}"</span>, seg);
         }
 
         <span class="kw">if </span>query.is_empty() {
@@ -636,29 +636,29 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let uri = Origin::parse(&quot;/&quot;).unwrap();
+    /// let uri = Origin::parse("/").unwrap();
     /// assert!(uri.query().is_none());
     ///
-    /// let uri = Origin::parse(&quot;/?a=b&amp;dog&quot;).unwrap();
+    /// let uri = Origin::parse("/?a=b&amp;dog").unwrap();
     /// let query_segs: Vec&lt;_&gt; = uri.query().unwrap().raw_segments().collect();
-    /// assert_eq!(query_segs, &amp;[&quot;a=b&quot;, &quot;dog&quot;]);
+    /// assert_eq!(query_segs, &amp;["a=b", "dog"]);
     ///
-    /// // This is not normalized, so the query is `&quot;&quot;`, the empty string.
-    /// let uri = Origin::parse(&quot;/?&amp;&quot;).unwrap();
+    /// // This is not normalized, so the query is `""`, the empty string.
+    /// let uri = Origin::parse("/?&amp;").unwrap();
     /// let query_segs: Vec&lt;_&gt; = uri.query().unwrap().raw_segments().collect();
-    /// assert_eq!(query_segs, &amp;[&quot;&quot;, &quot;&quot;]);
+    /// assert_eq!(query_segs, &amp;["", ""]);
     ///
     /// // Recall that `uri!()` normalizes.
-    /// let uri = uri!(&quot;/?&amp;&quot;);
+    /// let uri = uri!("/?&amp;");
     /// assert!(uri.query().is_none());
     ///
     /// // These are raw and undecoded. Use `segments()` for decoded variant.
-    /// let uri = Origin::parse(&quot;/foo/bar?a+b%2F=some+one%40gmail.com&amp;&amp;%26%3D2&quot;).unwrap();
+    /// let uri = Origin::parse("/foo/bar?a+b%2F=some+one%40gmail.com&amp;&amp;%26%3D2").unwrap();
     /// let query_segs: Vec&lt;_&gt; = uri.query().unwrap().raw_segments().collect();
-    /// assert_eq!(query_segs, &amp;[&quot;a+b%2F=some+one%40gmail.com&quot;, &quot;&quot;, &quot;%26%3D2&quot;]);
+    /// assert_eq!(query_segs, &amp;["a+b%2F=some+one%40gmail.com", "", "%26%3D2"]);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>raw_segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt; {
+    </span><span class="kw">pub fn </span>raw_segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt; {
         <span class="kw">let </span>query = <span class="kw">match </span><span class="self">self</span>.raw() {
             q <span class="kw">if </span>q.is_empty() =&gt; <span class="prelude-val">None</span>,
             q =&gt; <span class="prelude-val">Some</span>(q)
@@ -679,19 +679,19 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let uri = Origin::parse(&quot;/&quot;).unwrap();
+    /// let uri = Origin::parse("/").unwrap();
     /// assert!(uri.query().is_none());
     ///
-    /// let uri = Origin::parse(&quot;/foo/bar?a+b%2F=some+one%40gmail.com&amp;&amp;%26%3D2&quot;).unwrap();
+    /// let uri = Origin::parse("/foo/bar?a+b%2F=some+one%40gmail.com&amp;&amp;%26%3D2").unwrap();
     /// let query_segs: Vec&lt;_&gt; = uri.query().unwrap().segments().collect();
-    /// assert_eq!(query_segs, &amp;[(&quot;a b/&quot;, &quot;some one@gmail.com&quot;), (&quot;&amp;=2&quot;, &quot;&quot;)]);
+    /// assert_eq!(query_segs, &amp;[("a b/", "some one@gmail.com"), ("&amp;=2", "")]);
     /// ```
-    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Segments&lt;<span class="lifetime">&#39;a</span>, fmt::Query&gt; {
+    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Segments&lt;<span class="lifetime">'a</span>, fmt::Query&gt; {
         <span class="kw">let </span>cached = <span class="self">self</span>.data.decoded_segments.get_or_init(|| {
             <span class="kw">let </span>(indexed, query) = (<span class="kw-2">&amp;</span><span class="self">self</span>.data.value, <span class="self">self</span>.raw());
             <span class="self">self</span>.raw_segments()
                 .filter(|s| !s.is_empty())
-                .map(|s| s.split_at_byte(<span class="string">b&#39;=&#39;</span>))
+                .map(|s| s.split_at_byte(<span class="string">b'='</span>))
                 .map(|(k, v)| {
                     <span class="kw">let </span>key = decode_to_indexed_str::&lt;fmt::Query&gt;(k, (indexed, query));
                     <span class="kw">let </span>val = decode_to_indexed_str::&lt;fmt::Query&gt;(v, (indexed, query));
@@ -704,7 +704,7 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_partial_eq {
+<span class="macro">macro_rules!</span> impl_partial_eq {
     (<span class="macro-nonterminal">$A</span>:ty = <span class="macro-nonterminal">$B</span>:ty) =&gt; (
         <span class="kw">impl </span>PartialEq&lt;<span class="macro-nonterminal">$A</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$B </span>{
             <span class="attr">#[inline(always)]
@@ -717,18 +717,18 @@
     )
 }
 
-<span class="macro">macro_rules! </span>impl_traits {
+<span class="macro">macro_rules!</span> impl_traits {
     (<span class="macro-nonterminal">$T</span>:ident) =&gt; (
-        <span class="kw">impl </span>Hash <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">impl </span>Hash <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; {
             <span class="kw">fn </span>hash&lt;H: std::hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
                 <span class="self">self</span>.raw().hash(state);
             }
         }
 
-        <span class="kw">impl </span>Eq <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; { }
+        <span class="kw">impl </span>Eq <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; { }
 
-        <span class="kw">impl </span>IntoOwned <span class="kw">for </span>Data&lt;<span class="lifetime">&#39;_</span>, fmt::<span class="macro-nonterminal">$T</span>&gt; {
-            <span class="kw">type </span>Owned = Data&lt;<span class="lifetime">&#39;static</span>, fmt::<span class="macro-nonterminal">$T</span>&gt;;
+        <span class="kw">impl </span>IntoOwned <span class="kw">for </span>Data&lt;<span class="lifetime">'_</span>, fmt::<span class="macro-nonterminal">$T</span>&gt; {
+            <span class="kw">type </span>Owned = Data&lt;<span class="lifetime">'static</span>, fmt::<span class="macro-nonterminal">$T</span>&gt;;
 
             <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
                 Data {
@@ -738,7 +738,7 @@
             }
         }
 
-        <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">impl </span>std::ops::Deref <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; {
             <span class="kw">type </span>Target = RawStr;
 
             <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
@@ -746,27 +746,27 @@
             }
         }
 
-        <span class="kw">impl </span>AsRef&lt;RawStr&gt; <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">impl </span>AsRef&lt;RawStr&gt; <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; {
             <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>RawStr {
                 <span class="self">self</span>.raw()
             }
         }
 
-        <span class="kw">impl </span>std::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.raw())
+        <span class="kw">impl </span>std::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+                <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.raw())
             }
         }
 
-        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt;);
-        <span class="macro">impl_partial_eq!</span>(str = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt;);
-        <span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>str = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt;);
-        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; = str);
-        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; = <span class="kw-2">&amp;</span>str);
-        <span class="macro">impl_partial_eq!</span>(RawStr = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt;);
-        <span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>RawStr = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt;);
-        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; = RawStr);
-        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">&#39;_</span>&gt; = <span class="kw-2">&amp;</span>RawStr);
+        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt;);
+        <span class="macro">impl_partial_eq!</span>(str = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt;);
+        <span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>str = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt;);
+        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; = str);
+        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; = <span class="kw-2">&amp;</span>str);
+        <span class="macro">impl_partial_eq!</span>(RawStr = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt;);
+        <span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>RawStr = <span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt;);
+        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; = RawStr);
+        <span class="macro">impl_partial_eq!</span>(<span class="macro-nonterminal">$T</span>&lt;<span class="lifetime">'_</span>&gt; = <span class="kw-2">&amp;</span>RawStr);
     )
 }
 

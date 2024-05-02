@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-web-4.4.0/src/middleware/compress.rs`."><title>compress.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="actix_web" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../actix_web/index.html"><img src="https://actix.rs/img/logo.png" alt="actix_web"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-web-4.5.1/src/middleware/compress.rs`."><title>compress.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="actix_web" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../actix_web/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -430,6 +430,49 @@
 <a href="#430" id="430">430</a>
 <a href="#431" id="431">431</a>
 <a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! For middleware documentation, see [`Compress`].
 
 </span><span class="kw">use </span>std::{
@@ -485,7 +528,7 @@
 ///
 /// let app = App::new()
 ///     .wrap(middleware::Compress::default())
-///     .default_service(web::to(|| async { HttpResponse::Ok().body(&quot;hello world&quot;) }));
+///     .default_service(web::to(|| async { HttpResponse::Ok().body("hello world") }));
 /// ```
 ///
 /// Pre-compressed Gzip file being served from disk with correct headers added to bypass middleware:
@@ -493,7 +536,7 @@
 /// use actix_web::{middleware, http::header, web, App, HttpResponse, Responder};
 ///
 /// async fn index_handler() -&gt; actix_web::Result&lt;impl Responder&gt; {
-///     Ok(actix_files::NamedFile::open_async(&quot;./assets/index.html.gz&quot;).await?
+///     Ok(actix_files::NamedFile::open_async("./assets/index.html.gz").await?
 ///         .customize()
 ///         .insert_header(header::ContentEncoding::Gzip))
 /// }
@@ -567,7 +610,7 @@
                 );
 
                 res.headers_mut()
-                    .insert(header::VARY, HeaderValue::from_static(<span class="string">&quot;Accept-Encoding&quot;</span>));
+                    .insert(header::VARY, HeaderValue::from_static(<span class="string">"Accept-Encoding"</span>));
 
                 Either::right(ok(req
                     .into_response(res)
@@ -584,7 +627,7 @@
     }
 }
 
-<span class="macro">pin_project! </span>{
+<span class="macro">pin_project!</span> {
     <span class="kw">pub struct </span>CompressResponse&lt;S, B&gt;
     <span class="kw">where
         </span>S: Service&lt;ServiceRequest&gt;,
@@ -603,7 +646,7 @@
 {
     <span class="kw">type </span>Output = <span class="prelude-ty">Result</span>&lt;ServiceResponse&lt;EitherBody&lt;Encoder&lt;B&gt;&gt;&gt;, Error&gt;;
 
-    <span class="kw">fn </span>poll(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="self">Self</span>::Output&gt; {
+    <span class="kw">fn </span>poll(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="self">Self</span>::Output&gt; {
         <span class="kw">let </span>this = <span class="self">self</span>.as_mut().project();
 
         <span class="kw">match </span><span class="macro">ready!</span>(this.fut.poll(cx)) {
@@ -611,7 +654,7 @@
                 <span class="kw">let </span>enc = <span class="kw">match </span>this.encoding {
                     Encoding::Known(enc) =&gt; <span class="kw-2">*</span>enc,
                     Encoding::Unknown(enc) =&gt; {
-                        <span class="macro">unimplemented!</span>(<span class="string">&quot;encoding &#39;{enc}&#39; should not be here&quot;</span>);
+                        <span class="macro">unimplemented!</span>(<span class="string">"encoding '{enc}' should not be here"</span>);
                     }
                 };
 
@@ -623,8 +666,8 @@
                             <span class="prelude-val">None </span>=&gt; <span class="bool-val">true</span>,
                             <span class="prelude-val">Some</span>(hdr) =&gt; {
                                 <span class="kw">match </span>hdr.to_str().ok().and_then(|hdr| hdr.parse::&lt;Mime&gt;().ok()) {
-                                    <span class="prelude-val">Some</span>(mime) <span class="kw">if </span>mime.type_().as_str() == <span class="string">&quot;image&quot; </span>=&gt; <span class="bool-val">false</span>,
-                                    <span class="prelude-val">Some</span>(mime) <span class="kw">if </span>mime.type_().as_str() == <span class="string">&quot;video&quot; </span>=&gt; <span class="bool-val">false</span>,
+                                    <span class="prelude-val">Some</span>(mime) <span class="kw">if </span>mime.type_().as_str() == <span class="string">"image" </span>=&gt; <span class="bool-val">false</span>,
+                                    <span class="prelude-val">Some</span>(mime) <span class="kw">if </span>mime.type_().as_str() == <span class="string">"video" </span>=&gt; <span class="bool-val">false</span>,
                                     <span class="kw">_ </span>=&gt; <span class="bool-val">true</span>,
                                 }
                             }
@@ -650,52 +693,52 @@
     <span class="attr">#[allow(unused_mut)] </span><span class="comment">// only unused when no compress features enabled
     </span><span class="kw">let </span><span class="kw-2">mut </span>encoding: Vec&lt;<span class="kw-2">&amp;</span>str&gt; = <span class="macro">vec!</span>[];
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-brotli&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-brotli"</span>)]
     </span>{
-        encoding.push(<span class="string">&quot;br&quot;</span>);
+        encoding.push(<span class="string">"br"</span>);
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-gzip&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-gzip"</span>)]
     </span>{
-        encoding.push(<span class="string">&quot;gzip&quot;</span>);
-        encoding.push(<span class="string">&quot;deflate&quot;</span>);
+        encoding.push(<span class="string">"gzip"</span>);
+        encoding.push(<span class="string">"deflate"</span>);
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-zstd&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-zstd"</span>)]
     </span>{
-        encoding.push(<span class="string">&quot;zstd&quot;</span>);
+        encoding.push(<span class="string">"zstd"</span>);
     }
 
     <span class="macro">assert!</span>(
         !encoding.is_empty(),
-        <span class="string">&quot;encoding can not be empty unless __compress feature has been explicitly enabled by itself&quot;
+        <span class="string">"encoding can not be empty unless __compress feature has been explicitly enabled by itself"
     </span>);
 
-    encoding.join(<span class="string">&quot;, &quot;</span>)
+    encoding.join(<span class="string">", "</span>)
 });
 
 <span class="kw">static </span>SUPPORTED_ENCODINGS: <span class="kw-2">&amp;</span>[Encoding] = <span class="kw-2">&amp;</span>[
     Encoding::identity(),
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-brotli&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-brotli"</span>)]
     </span>{
         Encoding::brotli()
     },
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-gzip&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-gzip"</span>)]
     </span>{
         Encoding::gzip()
     },
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-gzip&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-gzip"</span>)]
     </span>{
         Encoding::deflate()
     },
-    <span class="attr">#[cfg(feature = <span class="string">&quot;compress-zstd&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"compress-zstd"</span>)]
     </span>{
         Encoding::zstd()
     },
 ];
 
 <span class="comment">// move cfg(feature) to prevents_double_compressing if more tests are added
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;compress-gzip&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"compress-gzip"</span>)]
 #[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use </span>std::collections::HashSet;
@@ -705,10 +748,10 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use crate</span>::{http::header::ContentType, middleware::DefaultHeaders, test, web, App};
 
-    <span class="kw">const </span>HTML_DATA_PART: <span class="kw-2">&amp;</span>str = <span class="string">&quot;&lt;html&gt;&lt;h1&gt;hello world&lt;/h1&gt;&lt;/html&quot;</span>;
+    <span class="kw">const </span>HTML_DATA_PART: <span class="kw-2">&amp;</span>str = <span class="string">"&lt;html&gt;&lt;h1&gt;hello world&lt;/h1&gt;&lt;/html"</span>;
     <span class="kw">const </span>HTML_DATA: <span class="kw-2">&amp;</span>str = <span class="macro">const_str::repeat!</span>(HTML_DATA_PART, <span class="number">100</span>);
 
-    <span class="kw">const </span>TEXT_DATA_PART: <span class="kw-2">&amp;</span>str = <span class="string">&quot;hello world &quot;</span>;
+    <span class="kw">const </span>TEXT_DATA_PART: <span class="kw-2">&amp;</span>str = <span class="string">"hello world "</span>;
     <span class="kw">const </span>TEXT_DATA: <span class="kw-2">&amp;</span>str = <span class="macro">const_str::repeat!</span>(TEXT_DATA_PART, <span class="number">100</span>);
 
     <span class="macro">assert_impl_all!</span>(Compress: Send, Sync);
@@ -727,11 +770,11 @@
         <span class="macro">assert!</span>(
             res.headers()
                 .get(header::CONTENT_TYPE)
-                .expect(<span class="string">&quot;content-type header should be present&quot;</span>)
+                .expect(<span class="string">"content-type header should be present"</span>)
                 .to_str()
-                .expect(<span class="string">&quot;content-type header should be utf-8&quot;</span>)
+                .expect(<span class="string">"content-type header should be utf-8"</span>)
                 .contains(ct),
-            <span class="string">&quot;response&#39;s content-type did not match {}&quot;</span>,
+            <span class="string">"response's content-type did not match {}"</span>,
             ct
         );
     }
@@ -742,8 +785,8 @@
         <span class="macro">assert_eq!</span>(
             res.headers()
                 .get(header::CONTENT_ENCODING)
-                .expect(<span class="string">&quot;response should be gzip compressed&quot;</span>),
-            <span class="string">&quot;gzip&quot;</span>,
+                .expect(<span class="string">"response should be gzip compressed"</span>),
+            <span class="string">"gzip"</span>,
         );
     }
 
@@ -752,7 +795,7 @@
         assert_successful_res_with_content_type(res, ct);
         <span class="macro">assert!</span>(
             res.headers().get(header::CONTENT_ENCODING).is_none(),
-            <span class="string">&quot;response should not be compressed&quot;</span>,
+            <span class="string">"response should not be compressed"</span>,
         );
     }
 
@@ -762,37 +805,37 @@
             App::new()
                 .wrap(Compress::default())
                 .route(
-                    <span class="string">&quot;/single&quot;</span>,
+                    <span class="string">"/single"</span>,
                     web::get().to(<span class="kw">move </span>|| HttpResponse::Ok().body(TEXT_DATA)),
                 )
                 .service(
-                    web::resource(<span class="string">&quot;/double&quot;</span>)
+                    web::resource(<span class="string">"/double"</span>)
                         .wrap(Compress::default())
-                        .wrap(DefaultHeaders::new().add((<span class="string">&quot;x-double&quot;</span>, <span class="string">&quot;true&quot;</span>)))
+                        .wrap(DefaultHeaders::new().add((<span class="string">"x-double"</span>, <span class="string">"true"</span>)))
                         .route(web::get().to(<span class="kw">move </span>|| HttpResponse::Ok().body(TEXT_DATA))),
                 )
         })
         .<span class="kw">await</span>;
 
         <span class="kw">let </span>req = test::TestRequest::default()
-            .uri(<span class="string">&quot;/single&quot;</span>)
-            .insert_header((header::ACCEPT_ENCODING, <span class="string">&quot;gzip&quot;</span>))
+            .uri(<span class="string">"/single"</span>)
+            .insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>))
             .to_request();
         <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(res.status(), StatusCode::OK);
-        <span class="macro">assert_eq!</span>(res.headers().get(<span class="string">&quot;x-double&quot;</span>), <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq!</span>(res.headers().get(header::CONTENT_ENCODING).unwrap(), <span class="string">&quot;gzip&quot;</span>);
+        <span class="macro">assert_eq!</span>(res.headers().get(<span class="string">"x-double"</span>), <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(res.headers().get(header::CONTENT_ENCODING).unwrap(), <span class="string">"gzip"</span>);
         <span class="kw">let </span>bytes = test::read_body(res).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(gzip_decode(bytes), TEXT_DATA.as_bytes());
 
         <span class="kw">let </span>req = test::TestRequest::default()
-            .uri(<span class="string">&quot;/double&quot;</span>)
-            .insert_header((header::ACCEPT_ENCODING, <span class="string">&quot;gzip&quot;</span>))
+            .uri(<span class="string">"/double"</span>)
+            .insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>))
             .to_request();
         <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(res.status(), StatusCode::OK);
-        <span class="macro">assert_eq!</span>(res.headers().get(<span class="string">&quot;x-double&quot;</span>).unwrap(), <span class="string">&quot;true&quot;</span>);
-        <span class="macro">assert_eq!</span>(res.headers().get(header::CONTENT_ENCODING).unwrap(), <span class="string">&quot;gzip&quot;</span>);
+        <span class="macro">assert_eq!</span>(res.headers().get(<span class="string">"x-double"</span>).unwrap(), <span class="string">"true"</span>);
+        <span class="macro">assert_eq!</span>(res.headers().get(header::CONTENT_ENCODING).unwrap(), <span class="string">"gzip"</span>);
         <span class="kw">let </span>bytes = test::read_body(res).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(gzip_decode(bytes), TEXT_DATA.as_bytes());
     }
@@ -804,26 +847,26 @@
                 .wrap(Compress::default())
                 .default_service(web::to(<span class="kw">move </span>|| {
                     HttpResponse::Ok()
-                        .insert_header((header::VARY, <span class="string">&quot;x-test&quot;</span>))
-                        .finish()
+                        .insert_header((header::VARY, <span class="string">"x-test"</span>))
+                        .body(TEXT_DATA)
                 }))
         })
         .<span class="kw">await</span>;
 
         <span class="kw">let </span>req = test::TestRequest::default()
-            .insert_header((header::ACCEPT_ENCODING, <span class="string">&quot;gzip&quot;</span>))
+            .insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>))
             .to_request();
         <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(res.status(), StatusCode::OK);
         <span class="attr">#[allow(clippy::mutable_key_type)]
         </span><span class="kw">let </span>vary_headers = res.headers().get_all(header::VARY).collect::&lt;HashSet&lt;<span class="kw">_</span>&gt;&gt;();
-        <span class="macro">assert!</span>(vary_headers.contains(<span class="kw-2">&amp;</span>HeaderValue::from_static(<span class="string">&quot;x-test&quot;</span>)));
-        <span class="macro">assert!</span>(vary_headers.contains(<span class="kw-2">&amp;</span>HeaderValue::from_static(<span class="string">&quot;accept-encoding&quot;</span>)));
+        <span class="macro">assert!</span>(vary_headers.contains(<span class="kw-2">&amp;</span>HeaderValue::from_static(<span class="string">"x-test"</span>)));
+        <span class="macro">assert!</span>(vary_headers.contains(<span class="kw-2">&amp;</span>HeaderValue::from_static(<span class="string">"accept-encoding"</span>)));
     }
 
     <span class="kw">fn </span>configure_predicate_test(cfg: <span class="kw-2">&amp;mut </span>web::ServiceConfig) {
         cfg.route(
-            <span class="string">&quot;/html&quot;</span>,
+            <span class="string">"/html"</span>,
             web::get().to(|| {
                 HttpResponse::Ok()
                     .content_type(ContentType::html())
@@ -831,7 +874,7 @@
             }),
         )
         .route(
-            <span class="string">&quot;/image&quot;</span>,
+            <span class="string">"/image"</span>,
             web::get().to(|| {
                 HttpResponse::Ok()
                     .content_type(ContentType::jpeg())
@@ -850,16 +893,59 @@
         .<span class="kw">await</span>;
 
         <span class="kw">let </span>req =
-            test::TestRequest::with_uri(<span class="string">&quot;/html&quot;</span>).insert_header((header::ACCEPT_ENCODING, <span class="string">&quot;gzip&quot;</span>));
+            test::TestRequest::with_uri(<span class="string">"/html"</span>).insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>));
         <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req.to_request()).<span class="kw">await</span>;
-        assert_successful_gzip_res_with_content_type(<span class="kw-2">&amp;</span>res, <span class="string">&quot;text/html&quot;</span>);
+        assert_successful_gzip_res_with_content_type(<span class="kw-2">&amp;</span>res, <span class="string">"text/html"</span>);
         <span class="macro">assert_ne!</span>(test::read_body(res).<span class="kw">await</span>, HTML_DATA.as_bytes());
 
         <span class="kw">let </span>req =
-            test::TestRequest::with_uri(<span class="string">&quot;/image&quot;</span>).insert_header((header::ACCEPT_ENCODING, <span class="string">&quot;gzip&quot;</span>));
+            test::TestRequest::with_uri(<span class="string">"/image"</span>).insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>));
         <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req.to_request()).<span class="kw">await</span>;
-        assert_successful_identity_res_with_content_type(<span class="kw-2">&amp;</span>res, <span class="string">&quot;image/jpeg&quot;</span>);
+        assert_successful_identity_res_with_content_type(<span class="kw-2">&amp;</span>res, <span class="string">"image/jpeg"</span>);
         <span class="macro">assert_eq!</span>(test::read_body(res).<span class="kw">await</span>, TEXT_DATA.as_bytes());
+    }
+
+    <span class="attr">#[actix_rt::test]
+    </span><span class="kw">async fn </span>prevents_compression_empty() {
+        <span class="kw">let </span>app = test::init_service({
+            App::new()
+                .wrap(Compress::default())
+                .default_service(web::to(<span class="kw">move </span>|| HttpResponse::Ok().finish()))
+        })
+        .<span class="kw">await</span>;
+
+        <span class="kw">let </span>req = test::TestRequest::default()
+            .insert_header((header::ACCEPT_ENCODING, <span class="string">"gzip"</span>))
+            .to_request();
+        <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(res.status(), StatusCode::OK);
+        <span class="macro">assert!</span>(!res.headers().contains_key(header::CONTENT_ENCODING));
+        <span class="macro">assert!</span>(test::read_body(res).<span class="kw">await</span>.is_empty());
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"compress-brotli"</span>)]
+#[cfg(test)]
+</span><span class="kw">mod </span>tests_brotli {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use crate</span>::{test, web, App};
+
+    <span class="attr">#[actix_rt::test]
+    </span><span class="kw">async fn </span>prevents_compression_empty() {
+        <span class="kw">let </span>app = test::init_service({
+            App::new()
+                .wrap(Compress::default())
+                .default_service(web::to(<span class="kw">move </span>|| HttpResponse::Ok().finish()))
+        })
+        .<span class="kw">await</span>;
+
+        <span class="kw">let </span>req = test::TestRequest::default()
+            .insert_header((header::ACCEPT_ENCODING, <span class="string">"br"</span>))
+            .to_request();
+        <span class="kw">let </span>res = test::call_service(<span class="kw-2">&amp;</span>app, req).<span class="kw">await</span>;
+        <span class="macro">assert_eq!</span>(res.status(), StatusCode::OK);
+        <span class="macro">assert!</span>(!res.headers().contains_key(header::CONTENT_ENCODING));
+        <span class="macro">assert!</span>(test::read_body(res).<span class="kw">await</span>.is_empty());
     }
 }
 </code></pre></div></section></main></body></html>

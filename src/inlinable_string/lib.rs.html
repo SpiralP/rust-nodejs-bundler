@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/inlinable_string-0.1.15/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="inlinable_string" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/inlinable_string-0.1.15/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="inlinable_string" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../inlinable_string/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1032,7 +1032,7 @@
 //! string operations over both `std::string::String` and `InlinableString` (or
 //! even your own custom string type).
 //!
-//! `StringExt`&#39;s API is mostly identical to `std::string::String`; unstable and
+//! `StringExt`'s API is mostly identical to `std::string::String`; unstable and
 //! deprecated methods are not included. A `StringExt` implementation is
 //! provided for both `std::string::String` and `InlinableString`. This enables
 //! `InlinableString` to generally work as a drop-in replacement for
@@ -1044,24 +1044,24 @@
 //! ```
 //! use inlinable_string::{InlinableString, StringExt};
 //!
-//! // Small strings are stored inline and don&#39;t perform heap-allocation.
-//! let mut s = InlinableString::from(&quot;small&quot;);
+//! // Small strings are stored inline and don't perform heap-allocation.
+//! let mut s = InlinableString::from("small");
 //! assert_eq!(s.capacity(), inlinable_string::INLINE_STRING_CAPACITY);
 //!
 //! // Inline strings are transparently promoted to heap-allocated strings when
 //! // they grow too big.
-//! s.push_str(&quot;a really long string that&#39;s bigger than `INLINE_STRING_CAPACITY`&quot;);
+//! s.push_str("a really long string that's bigger than `INLINE_STRING_CAPACITY`");
 //! assert!(s.capacity() &gt; inlinable_string::INLINE_STRING_CAPACITY);
 //!
 //! // This method can work on strings potentially stored inline on the stack,
 //! // on the heap, or plain old `std::string::String`s!
 //! fn takes_a_string_reference(string: &amp;mut StringExt) {
 //!    // Do something with the string...
-//!    string.push_str(&quot;it works!&quot;);
+//!    string.push_str("it works!");
 //! }
 //!
-//! let mut s1 = String::from(&quot;this is a plain std::string::String&quot;);
-//! let mut s2 = InlinableString::from(&quot;inline&quot;);
+//! let mut s1 = String::from("this is a plain std::string::String");
+//! let mut s2 = InlinableString::from("inline");
 //!
 //! // Both work!
 //! takes_a_string_reference(&amp;mut s1);
@@ -1086,25 +1086,25 @@
 //!
 //! # Serialization
 //!
-//! `InlinableString` implements [`serde`][serde-docs]&#39;s `Serialize` and `Deserialize` traits.
+//! `InlinableString` implements [`serde`][serde-docs]'s `Serialize` and `Deserialize` traits.
 //! Add the `serde` feature to your `Cargo.toml` to enable serialization.
 //!
 //! [serde-docs]: https://serde.rs
 
 </span><span class="attr">#![forbid(missing_docs)]
-#![cfg_attr(feature = <span class="string">&quot;nightly&quot;</span>, feature(plugin))]
-#![cfg_attr(all(test, feature = <span class="string">&quot;nightly&quot;</span>), feature(test))]
-#![cfg_attr(feature = <span class="string">&quot;no_std&quot;</span>, no_std)]
+#![cfg_attr(feature = <span class="string">"nightly"</span>, feature(plugin))]
+#![cfg_attr(all(test, feature = <span class="string">"nightly"</span>), feature(test))]
+#![cfg_attr(feature = <span class="string">"no_std"</span>, no_std)]
 
 #[allow(unused_imports)]
-#[cfg_attr(feature = <span class="string">&quot;no_std&quot;</span>, macro_use)]
+#[cfg_attr(feature = <span class="string">"no_std"</span>, macro_use)]
 </span><span class="kw">extern crate </span>alloc;
 
 <span class="attr">#[cfg(test)]
-#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+#[cfg(feature = <span class="string">"nightly"</span>)]
 </span><span class="kw">extern crate </span>test;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
 </span><span class="kw">mod </span>serde_impl;
 
 <span class="kw">pub mod </span>inline_string;
@@ -1138,7 +1138,7 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>InlinableString {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         fmt::Debug::fmt(<span class="kw-2">&amp;</span><span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span>str, f)
     }
 }
@@ -1151,8 +1151,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; iter::FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span>InlinableString {
-    <span class="kw">fn </span>from_iter&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;(iter: I) -&gt; InlinableString {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; iter::FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>InlinableString {
+    <span class="kw">fn </span>from_iter&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;(iter: I) -&gt; InlinableString {
         <span class="kw">let </span><span class="kw-2">mut </span>buf = InlinableString::new();
         buf.extend(iter);
         buf
@@ -1170,14 +1170,14 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Extend&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>char&gt; <span class="kw">for </span>InlinableString {
-    <span class="kw">fn </span>extend&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>char&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: I) {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Extend&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>char&gt; <span class="kw">for </span>InlinableString {
+    <span class="kw">fn </span>extend&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>char&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: I) {
         <span class="self">self</span>.extend(iter.into_iter().cloned());
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Extend&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span>InlinableString {
-    <span class="kw">fn </span>extend&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iterable: I) {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Extend&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>InlinableString {
+    <span class="kw">fn </span>extend&lt;I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iterable: I) {
         <span class="kw">let </span>iterator = iterable.into_iter();
         <span class="kw">let </span>(lower_bound, <span class="kw">_</span>) = iterator.size_hint();
         <span class="self">self</span>.reserve(lower_bound);
@@ -1187,7 +1187,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ops::Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span>InlinableString {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ops::Add&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>InlinableString {
     <span class="kw">type </span>Output = InlinableString;
 
     <span class="attr">#[inline]
@@ -1241,9 +1241,9 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span>InlinableString {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>InlinableString {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; InlinableString {
+    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; InlinableString {
         <span class="kw">if </span>string.len() &lt;= INLINE_STRING_CAPACITY {
             InlinableString::Inline(string.into())
         } <span class="kw">else </span>{
@@ -1279,7 +1279,7 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>InlinableString {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), fmt::Error&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), fmt::Error&gt; {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             InlinableString::Heap(<span class="kw-2">ref </span>s) =&gt; s.fmt(f),
             InlinableString::Inline(<span class="kw-2">ref </span>s) =&gt; s.fmt(f),
@@ -1415,16 +1415,16 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_eq {
+<span class="macro">macro_rules!</span> impl_eq {
     (<span class="macro-nonterminal">$lhs</span>:ty, <span class="macro-nonterminal">$rhs</span>: ty) =&gt; {
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PartialEq&lt;<span class="macro-nonterminal">$rhs</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$lhs </span>{
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; PartialEq&lt;<span class="macro-nonterminal">$rhs</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$lhs </span>{
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$rhs</span>) -&gt; bool {
                 PartialEq::eq(<span class="kw-2">&amp;</span><span class="self">self</span>[..], <span class="kw-2">&amp;</span>other[..])
             }
         }
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PartialEq&lt;<span class="macro-nonterminal">$lhs</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$rhs </span>{
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; PartialEq&lt;<span class="macro-nonterminal">$lhs</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$rhs </span>{
             <span class="attr">#[inline]
             </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$lhs</span>) -&gt; bool {
                 PartialEq::eq(<span class="kw-2">&amp;</span><span class="self">self</span>[..], <span class="kw-2">&amp;</span>other[..])
@@ -1433,13 +1433,13 @@
     };
 }
 
-<span class="macro">impl_eq! </span>{ InlinableString, str }
-<span class="macro">impl_eq! </span>{ InlinableString, String }
-<span class="macro">impl_eq! </span>{ InlinableString, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str }
-<span class="macro">impl_eq! </span>{ InlinableString, InlineString }
-<span class="macro">impl_eq! </span>{ Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;, InlinableString }
+<span class="macro">impl_eq!</span> { InlinableString, str }
+<span class="macro">impl_eq!</span> { InlinableString, String }
+<span class="macro">impl_eq!</span> { InlinableString, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str }
+<span class="macro">impl_eq!</span> { InlinableString, InlineString }
+<span class="macro">impl_eq!</span> { Cow&lt;<span class="lifetime">'a</span>, str&gt;, InlinableString }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; StringExt&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>InlinableString {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; StringExt&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>InlinableString {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>new() -&gt; <span class="self">Self </span>{
         InlinableString::Inline(InlineString::new())
@@ -1569,7 +1569,7 @@
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             InlinableString::Heap(<span class="kw-2">ref mut </span>s) =&gt; s.shrink_to_fit(),
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;inlinable_string: internal error: this branch should be unreachable&quot;</span>),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"inlinable_string: internal error: this branch should be unreachable"</span>),
         };
     }
 
@@ -1704,32 +1704,32 @@
         <span class="macro">assert_eq!</span>(size_of::&lt;InlinableString&gt;(), <span class="number">4 </span>* size_of::&lt;usize&gt;());
     }
 
-    <span class="comment">// First, specifically test operations that overflow InlineString&#39;s capacity
+    <span class="comment">// First, specifically test operations that overflow InlineString's capacity
     // and require promoting the string to heap allocation.
 
     </span><span class="attr">#[test]
     </span><span class="kw">fn </span>test_push_str() {
         <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::new();
-        s.push_str(<span class="string">&quot;small&quot;</span>);
-        <span class="macro">assert_eq!</span>(s, <span class="string">&quot;small&quot;</span>);
+        s.push_str(<span class="string">"small"</span>);
+        <span class="macro">assert_eq!</span>(s, <span class="string">"small"</span>);
 
-        <span class="kw">let </span>long_str = <span class="string">&quot;this is a really long string that is much larger than
-                        INLINE_STRING_CAPACITY and so cannot be stored inline.&quot;</span>;
+        <span class="kw">let </span>long_str = <span class="string">"this is a really long string that is much larger than
+                        INLINE_STRING_CAPACITY and so cannot be stored inline."</span>;
         s.push_str(long_str);
-        <span class="macro">assert_eq!</span>(s, String::from(<span class="string">&quot;small&quot;</span>) + long_str);
+        <span class="macro">assert_eq!</span>(s, String::from(<span class="string">"small"</span>) + long_str);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_write() {
         <span class="kw">use </span>core::fmt::Write;
         <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::new();
-        <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>s, <span class="string">&quot;small&quot;</span>).expect(<span class="string">&quot;!write&quot;</span>);
-        <span class="macro">assert_eq!</span>(s, <span class="string">&quot;small&quot;</span>);
+        <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>s, <span class="string">"small"</span>).expect(<span class="string">"!write"</span>);
+        <span class="macro">assert_eq!</span>(s, <span class="string">"small"</span>);
 
-        <span class="kw">let </span>long_str = <span class="string">&quot;this is a really long string that is much larger than
-                        INLINE_STRING_CAPACITY and so cannot be stored inline.&quot;</span>;
-        <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>s, <span class="string">&quot;{}&quot;</span>, long_str).expect(<span class="string">&quot;!write&quot;</span>);
-        <span class="macro">assert_eq!</span>(s, String::from(<span class="string">&quot;small&quot;</span>) + long_str);
+        <span class="kw">let </span>long_str = <span class="string">"this is a really long string that is much larger than
+                        INLINE_STRING_CAPACITY and so cannot be stored inline."</span>;
+        <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>s, <span class="string">"{}"</span>, long_str).expect(<span class="string">"!write"</span>);
+        <span class="macro">assert_eq!</span>(s, String::from(<span class="string">"small"</span>) + long_str);
     }
 
     <span class="attr">#[test]
@@ -1737,13 +1737,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::new();
 
         <span class="kw">for _ in </span><span class="number">0</span>..INLINE_STRING_CAPACITY {
-            s.push(<span class="string">&#39;a&#39;</span>);
+            s.push(<span class="string">'a'</span>);
         }
-        s.push(<span class="string">&#39;a&#39;</span>);
+        s.push(<span class="string">'a'</span>);
 
         <span class="macro">assert_eq!</span>(
             s,
-            String::from_iter((<span class="number">0</span>..INLINE_STRING_CAPACITY + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">&#39;a&#39;</span>))
+            String::from_iter((<span class="number">0</span>..INLINE_STRING_CAPACITY + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">'a'</span>))
         );
     }
 
@@ -1752,13 +1752,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::new();
 
         <span class="kw">for _ in </span><span class="number">0</span>..INLINE_STRING_CAPACITY {
-            s.insert(<span class="number">0</span>, <span class="string">&#39;a&#39;</span>);
+            s.insert(<span class="number">0</span>, <span class="string">'a'</span>);
         }
-        s.insert(<span class="number">0</span>, <span class="string">&#39;a&#39;</span>);
+        s.insert(<span class="number">0</span>, <span class="string">'a'</span>);
 
         <span class="macro">assert_eq!</span>(
             s,
-            String::from_iter((<span class="number">0</span>..INLINE_STRING_CAPACITY + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">&#39;a&#39;</span>))
+            String::from_iter((<span class="number">0</span>..INLINE_STRING_CAPACITY + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">'a'</span>))
         );
     }
 
@@ -1767,13 +1767,13 @@
         <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::new();
 
         <span class="kw">for _ in </span><span class="number">0</span>..(INLINE_STRING_CAPACITY / <span class="number">3</span>) {
-            s.insert_str(<span class="number">0</span>, <span class="string">&quot;foo&quot;</span>);
+            s.insert_str(<span class="number">0</span>, <span class="string">"foo"</span>);
         }
-        s.insert_str(<span class="number">0</span>, <span class="string">&quot;foo&quot;</span>);
+        s.insert_str(<span class="number">0</span>, <span class="string">"foo"</span>);
 
         <span class="macro">assert_eq!</span>(
             s,
-            String::from_iter((<span class="number">0</span>..(INLINE_STRING_CAPACITY / <span class="number">3</span>) + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">&quot;foo&quot;</span>))
+            String::from_iter((<span class="number">0</span>..(INLINE_STRING_CAPACITY / <span class="number">3</span>) + <span class="number">1</span>).map(|<span class="kw">_</span>| <span class="string">"foo"</span>))
         );
     }
 
@@ -1794,26 +1794,26 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_from_utf8() {
         <span class="kw">let </span>s = &lt;InlinableString <span class="kw">as </span>StringExt&gt;::from_utf8(<span class="macro">vec!</span>[<span class="number">104</span>, <span class="number">101</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">111</span>]);
-        <span class="macro">assert_eq!</span>(s.unwrap(), <span class="string">&quot;hello&quot;</span>);
+        <span class="macro">assert_eq!</span>(s.unwrap(), <span class="string">"hello"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_from_utf16() {
         <span class="kw">let </span>v = <span class="kw-2">&amp;mut </span>[<span class="number">0xD834</span>, <span class="number">0xDD1E</span>, <span class="number">0x006d</span>, <span class="number">0x0075</span>, <span class="number">0x0073</span>, <span class="number">0x0069</span>, <span class="number">0x0063</span>];
         <span class="kw">let </span>s = &lt;InlinableString <span class="kw">as </span>StringExt&gt;::from_utf16(v);
-        <span class="macro">assert_eq!</span>(s.unwrap(), <span class="string">&quot;𝄞music&quot;</span>);
+        <span class="macro">assert_eq!</span>(s.unwrap(), <span class="string">"𝄞music"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_from_utf16_lossy() {
-        <span class="kw">let </span>input = <span class="string">b&quot;Hello \xF0\x90\x80World&quot;</span>;
+        <span class="kw">let </span>input = <span class="string">b"Hello \xF0\x90\x80World"</span>;
         <span class="kw">let </span>output = &lt;InlinableString <span class="kw">as </span>StringExt&gt;::from_utf8_lossy(input);
-        <span class="macro">assert_eq!</span>(output, <span class="string">&quot;Hello \u{FFFD}World&quot;</span>);
+        <span class="macro">assert_eq!</span>(output, <span class="string">"Hello \u{FFFD}World"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_into_bytes() {
-        <span class="kw">let </span>s = InlinableString::from(<span class="string">&quot;hello&quot;</span>);
+        <span class="kw">let </span>s = InlinableString::from(<span class="string">"hello"</span>);
         <span class="kw">let </span>bytes = StringExt::into_bytes(s);
         <span class="macro">assert_eq!</span>(bytes, [<span class="number">104</span>, <span class="number">101</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">111</span>]);
     }
@@ -1841,51 +1841,51 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_shrink_to_fit() {
         <span class="kw">let </span><span class="kw-2">mut </span>s = &lt;InlinableString <span class="kw">as </span>StringExt&gt;::with_capacity(<span class="number">100</span>);
-        StringExt::push_str(<span class="kw-2">&amp;mut </span>s, <span class="string">&quot;foo&quot;</span>);
+        StringExt::push_str(<span class="kw-2">&amp;mut </span>s, <span class="string">"foo"</span>);
         StringExt::shrink_to_fit(<span class="kw-2">&amp;mut </span>s);
         <span class="macro">assert_eq!</span>(InlinableString::capacity(<span class="kw-2">&amp;</span>s), INLINE_STRING_CAPACITY);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_truncate() {
-        <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::from(<span class="string">&quot;foo&quot;</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::from(<span class="string">"foo"</span>);
         StringExt::truncate(<span class="kw-2">&amp;mut </span>s, <span class="number">1</span>);
-        <span class="macro">assert_eq!</span>(s, <span class="string">&quot;f&quot;</span>);
+        <span class="macro">assert_eq!</span>(s, <span class="string">"f"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_pop() {
-        <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::from(<span class="string">&quot;foo&quot;</span>);
-        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
-        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">&#39;o&#39;</span>));
-        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">&#39;f&#39;</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>s = InlinableString::from(<span class="string">"foo"</span>);
+        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">'o'</span>));
+        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">'o'</span>));
+        <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">Some</span>(<span class="string">'f'</span>));
         <span class="macro">assert_eq!</span>(StringExt::pop(<span class="kw-2">&amp;mut </span>s), <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_ord() {
-        <span class="kw">let </span>s1 = InlinableString::from(<span class="string">&quot;foo&quot;</span>);
-        <span class="kw">let </span>s2 = InlinableString::from(<span class="string">&quot;bar&quot;</span>);
+        <span class="kw">let </span>s1 = InlinableString::from(<span class="string">"foo"</span>);
+        <span class="kw">let </span>s2 = InlinableString::from(<span class="string">"bar"</span>);
         <span class="macro">assert_eq!</span>(Ord::cmp(<span class="kw-2">&amp;</span>s1, <span class="kw-2">&amp;</span>s2), Ordering::Greater);
         <span class="macro">assert_eq!</span>(Ord::cmp(<span class="kw-2">&amp;</span>s1, <span class="kw-2">&amp;</span>s1), Ordering::Equal);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_display() {
-        <span class="kw">let </span>short = InlinableString::from(<span class="string">&quot;he&quot;</span>);
-        <span class="kw">let </span>long = InlinableString::from(<span class="string">&quot;hello world&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, short), <span class="string">&quot;he&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, long), <span class="string">&quot;hello world&quot;</span>.to_string());
+        <span class="kw">let </span>short = InlinableString::from(<span class="string">"he"</span>);
+        <span class="kw">let </span>long = InlinableString::from(<span class="string">"hello world"</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{}"</span>, short), <span class="string">"he"</span>.to_string());
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{}"</span>, long), <span class="string">"hello world"</span>.to_string());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_debug() {
-        <span class="kw">let </span>short = InlinableString::from(<span class="string">&quot;he&quot;</span>);
-        <span class="kw">let </span>long = InlinableString::from(<span class="string">&quot;hello world hello world hello world&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, short), <span class="string">&quot;\&quot;he\&quot;&quot;</span>);
+        <span class="kw">let </span>short = InlinableString::from(<span class="string">"he"</span>);
+        <span class="kw">let </span>long = InlinableString::from(<span class="string">"hello world hello world hello world"</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{:?}"</span>, short), <span class="string">"\"he\""</span>);
         <span class="macro">assert_eq!</span>(
-            <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, long),
-            <span class="string">&quot;\&quot;hello world hello world hello world\&quot;&quot;
+            <span class="macro">format!</span>(<span class="string">"{:?}"</span>, long),
+            <span class="string">"\"hello world hello world hello world\""
         </span>);
     }
 
@@ -1894,41 +1894,41 @@
         <span class="kw">if </span>s.len() == <span class="number">0 </span>{
             <span class="prelude-val">None
         </span>} <span class="kw">else </span>{
-            <span class="kw">let </span>val = T::from_str(s).unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;unwrap&quot;</span>));
+            <span class="kw">let </span>val = T::from_str(s).unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">"unwrap"</span>));
             <span class="prelude-val">Some</span>(val)
         }
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_fromstr() {
-        <span class="macro">assert_eq!</span>(parse_non_empty::&lt;InlinableString&gt;(<span class="string">&quot;&quot;</span>), <span class="prelude-val">None</span>);
-        <span class="macro">assert_eq!</span>(parse_non_empty::&lt;u8&gt;(<span class="string">&quot;10&quot;</span>), <span class="prelude-val">Some</span>(<span class="number">10u8</span>));
+        <span class="macro">assert_eq!</span>(parse_non_empty::&lt;InlinableString&gt;(<span class="string">""</span>), <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(parse_non_empty::&lt;u8&gt;(<span class="string">"10"</span>), <span class="prelude-val">Some</span>(<span class="number">10u8</span>));
         <span class="macro">assert_eq!</span>(
-            parse_non_empty::&lt;InlinableString&gt;(<span class="string">&quot;foo&quot;</span>),
-            <span class="prelude-val">Some</span>(InlinableString::from(<span class="string">&quot;foo&quot;</span>))
+            parse_non_empty::&lt;InlinableString&gt;(<span class="string">"foo"</span>),
+            <span class="prelude-val">Some</span>(InlinableString::from(<span class="string">"foo"</span>))
         );
     }
 }
 
 <span class="attr">#[cfg(test)]
-#[cfg(feature = <span class="string">&quot;nightly&quot;</span>)]
+#[cfg(feature = <span class="string">"nightly"</span>)]
 </span><span class="kw">mod </span>benches {
-    <span class="attr">#[cfg(feature = <span class="string">&quot;no_std&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"no_std"</span>)]
     </span><span class="kw">use </span>alloc::string::String;
     <span class="kw">use super</span>::{InlinableString, StringExt};
     <span class="kw">use </span>test::{black_box, Bencher};
 
-    <span class="kw">const </span>SMALL_STR: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;foobar&quot;</span>;
+    <span class="kw">const </span>SMALL_STR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"foobar"</span>;
 
-    <span class="kw">const </span>LARGE_STR: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str =
-        <span class="string">&quot;abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+    <span class="kw">const </span>LARGE_STR: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str =
+        <span class="string">"abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
          abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-         abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz&quot;</span>;
+         abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"</span>;
 
     <span class="attr">#[bench]
     </span><span class="kw">fn </span>bench_std_string_push_str_small_onto_empty(b: <span class="kw-2">&amp;mut </span>Bencher) {

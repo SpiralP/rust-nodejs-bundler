@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/rocket.rs`."><title>rocket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/rocket.rs`."><title>rocket.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1029,17 +1029,17 @@
 ///
 ///   For extreme and rare cases in which [`#[main]`](crate::main) imposes
 ///   obstinate restrictions, use [`rocket::execute()`](crate::execute()) to
-///   execute Rocket&#39;s `launch()` future.
+///   execute Rocket's `launch()` future.
 ///
 /// * **Automatic Launching**
 ///
 ///   Manually progressing an instance of Rocket though its phases is only
-///   necessary when either an instance&#39;s finalized state is to be inspected (in
+///   necessary when either an instance's finalized state is to be inspected (in
 ///   the _ignite_ phase) or the instance is expected to deorbit due to
 ///   [`Rocket::shutdown()`]. In the more common case when neither is required,
 ///   the [`#[launch]`](crate::launch) attribute can be used. When applied to a
 ///   function that returns a `Rocket&lt;Build&gt;`, it automatically initializes an
-///   `async` runtime and launches the function&#39;s returned instance:
+///   `async` runtime and launches the function's returned instance:
 ///
 ///   ```rust,no_run
 ///   # use rocket::launch;
@@ -1100,8 +1100,8 @@
     /// #[launch]
     /// fn rocket() -&gt; _ {
     ///     let figment = Figment::from(rocket::Config::default())
-    ///         .merge(Toml::file(&quot;MyApp.toml&quot;).nested())
-    ///         .merge(Env::prefixed(&quot;MY_APP_&quot;).global());
+    ///         .merge(Toml::file("MyApp.toml").nested())
+    ///         .merge(Env::prefixed("MY_APP_").global());
     ///
     ///     rocket::custom(figment)
     /// }
@@ -1139,7 +1139,7 @@
     /// let config = Config {
     ///     port: 7777,
     ///     address: Ipv4Addr::new(18, 127, 0, 1).into(),
-    ///     temp_dir: &quot;/tmp/config-example&quot;.into(),
+    ///     temp_dir: "/tmp/config-example".into(),
     ///     ..Config::debug_default()
     /// };
     ///
@@ -1147,12 +1147,12 @@
     /// let rocket = rocket::custom(&amp;config).ignite().await?;
     /// assert_eq!(rocket.config().port, 7777);
     /// assert_eq!(rocket.config().address, Ipv4Addr::new(18, 127, 0, 1));
-    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new(&quot;/tmp/config-example&quot;));
+    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new("/tmp/config-example"));
     ///
     /// // Create a new figment which modifies _some_ keys the existing figment:
     /// let figment = rocket.figment().clone()
     ///     .merge((Config::PORT, 8888))
-    ///     .merge((Config::ADDRESS, &quot;171.64.200.10&quot;));
+    ///     .merge((Config::ADDRESS, "171.64.200.10"));
     ///
     /// let rocket = rocket::custom(&amp;config)
     ///     .configure(figment)
@@ -1160,7 +1160,7 @@
     ///
     /// assert_eq!(rocket.config().port, 8888);
     /// assert_eq!(rocket.config().address, Ipv4Addr::new(171, 64, 200, 10));
-    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new(&quot;/tmp/config-example&quot;));
+    /// assert_eq!(rocket.config().temp_dir.relative(), Path::new("/tmp/config-example"));
     /// # Ok(())
     /// # });
     /// ```
@@ -1171,25 +1171,25 @@
     </span>}
 
     <span class="attr">#[track_caller]
-    </span><span class="kw">fn </span>load&lt;<span class="lifetime">&#39;a</span>, B, T, F, M&gt;(<span class="kw-2">mut </span><span class="self">self</span>, kind: <span class="kw-2">&amp;</span>str, base: B, items: Vec&lt;T&gt;, m: M, f: F) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+    </span><span class="kw">fn </span>load&lt;<span class="lifetime">'a</span>, B, T, F, M&gt;(<span class="kw-2">mut </span><span class="self">self</span>, kind: <span class="kw-2">&amp;</span>str, base: B, items: Vec&lt;T&gt;, m: M, f: F) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">'a</span>&gt;&gt; + Clone + fmt::Display,
               B::Error: fmt::Display,
-              M: Fn(<span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;a</span>&gt;, T) -&gt; <span class="prelude-ty">Result</span>&lt;T, uri::Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt;,
+              M: Fn(<span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'a</span>&gt;, T) -&gt; <span class="prelude-ty">Result</span>&lt;T, uri::Error&lt;<span class="lifetime">'static</span>&gt;&gt;,
               F: Fn(<span class="kw-2">&amp;mut </span><span class="self">Self</span>, T),
               T: Clone + fmt::Display,
     {
         <span class="kw">let </span><span class="kw-2">mut </span>base = <span class="kw">match </span>base.clone().try_into() {
             <span class="prelude-val">Ok</span>(origin) =&gt; origin.into_owned(),
             <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;invalid {} base: {}&quot;</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
-                <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, e);
-                <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="string">&quot;in&quot;</span>.primary(), std::panic::Location::caller());
-                <span class="macro">panic!</span>(<span class="string">&quot;aborting due to {} base error&quot;</span>, kind);
+                <span class="macro">error!</span>(<span class="string">"invalid {} base: {}"</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
+                <span class="macro">error_!</span>(<span class="string">"{}"</span>, e);
+                <span class="macro">info_!</span>(<span class="string">"{} {}"</span>, <span class="string">"in"</span>.primary(), std::panic::Location::caller());
+                <span class="macro">panic!</span>(<span class="string">"aborting due to {} base error"</span>, kind);
             }
         };
 
         <span class="kw">if </span>base.query().is_some() {
-            <span class="macro">warn!</span>(<span class="string">&quot;query in {} base &#39;{}&#39; is ignored&quot;</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
+            <span class="macro">warn!</span>(<span class="string">"query in {} base '{}' is ignored"</span>, kind, Paint::white(<span class="kw-2">&amp;</span>base));
             base.clear_query();
         }
 
@@ -1197,10 +1197,10 @@
             <span class="kw">let </span>item = <span class="kw">match </span>m(<span class="kw-2">&amp;</span>base, unmounted_item.clone()) {
                 <span class="prelude-val">Ok</span>(item) =&gt; item,
                 <span class="prelude-val">Err</span>(e) =&gt; {
-                    <span class="macro">error!</span>(<span class="string">&quot;malformed URI in {} {}&quot;</span>, kind, unmounted_item);
-                    <span class="macro">error_!</span>(<span class="string">&quot;{}&quot;</span>, e);
-                    <span class="macro">info_!</span>(<span class="string">&quot;{} {}&quot;</span>, Paint::white(<span class="string">&quot;in&quot;</span>), std::panic::Location::caller());
-                    <span class="macro">panic!</span>(<span class="string">&quot;aborting due to invalid {} URI&quot;</span>, kind);
+                    <span class="macro">error!</span>(<span class="string">"malformed URI in {} {}"</span>, kind, unmounted_item);
+                    <span class="macro">error_!</span>(<span class="string">"{}"</span>, e);
+                    <span class="macro">info_!</span>(<span class="string">"{} {}"</span>, Paint::white(<span class="string">"in"</span>), std::panic::Location::caller());
+                    <span class="macro">panic!</span>(<span class="string">"aborting due to invalid {} URI"</span>, kind);
                 }
             };
 
@@ -1220,10 +1220,10 @@
     ///   * the `base` mount point is not a valid static path: a valid origin
     ///     URI without dynamic parameters.
     ///
-    ///   * any route&#39;s URI is not a valid origin URI.
+    ///   * any route's URI is not a valid origin URI.
     ///
     ///     **Note:** _This kind of panic is guaranteed not to occur if the routes
-    ///     were generated using Rocket&#39;s code generation._
+    ///     were generated using Rocket's code generation._
     ///
     /// # Examples
     ///
@@ -1234,19 +1234,19 @@
     /// ```rust,no_run
     /// # #[macro_use] extern crate rocket;
     /// #
-    /// #[get(&quot;/world&quot;)]
-    /// fn hi() -&gt; &amp;&#39;static str {
-    ///     &quot;Hello!&quot;
+    /// #[get("/world")]
+    /// fn hi() -&gt; &amp;'static str {
+    ///     "Hello!"
     /// }
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     rocket::build().mount(&quot;/hello&quot;, routes![hi])
+    ///     rocket::build().mount("/hello", routes![hi])
     /// }
     /// ```
     ///
-    /// Manually create a route named `hi` at path `&quot;/world&quot;` mounted at base
-    /// `&quot;/hello&quot;`. Requests to the `/hello/world` URI will be dispatched to the
+    /// Manually create a route named `hi` at path `"/world"` mounted at base
+    /// `"/hello"`. Requests to the `/hello/world` URI will be dispatched to the
     /// `hi` route.
     ///
     /// ```rust
@@ -1254,25 +1254,25 @@
     /// use rocket::{Request, Route, Data, route};
     /// use rocket::http::Method;
     ///
-    /// fn hi&lt;&#39;r&gt;(req: &amp;&#39;r Request, _: Data&lt;&#39;r&gt;) -&gt; route::BoxFuture&lt;&#39;r&gt; {
-    ///     route::Outcome::from(req, &quot;Hello!&quot;).pin()
+    /// fn hi&lt;'r&gt;(req: &amp;'r Request, _: Data&lt;'r&gt;) -&gt; route::BoxFuture&lt;'r&gt; {
+    ///     route::Outcome::from(req, "Hello!").pin()
     /// }
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     let hi_route = Route::new(Method::Get, &quot;/world&quot;, hi);
-    ///     rocket::build().mount(&quot;/hello&quot;, vec![hi_route])
+    ///     let hi_route = Route::new(Method::Get, "/world", hi);
+    ///     rocket::build().mount("/hello", vec![hi_route])
     /// }
     /// ```
     </span><span class="attr">#[must_use]
     #[track_caller]
-    </span><span class="kw">pub fn </span>mount&lt;<span class="lifetime">&#39;a</span>, B, R&gt;(<span class="self">self</span>, base: B, routes: R) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+    </span><span class="kw">pub fn </span>mount&lt;<span class="lifetime">'a</span>, B, R&gt;(<span class="self">self</span>, base: B, routes: R) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">'a</span>&gt;&gt; + Clone + fmt::Display,
               B::Error: fmt::Display,
               R: Into&lt;Vec&lt;Route&gt;&gt;
     {
-        <span class="self">self</span>.load(<span class="string">&quot;route&quot;</span>, base, routes.into(),
-            |base, route| route.map_base(|old| <span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, base, old)),
+        <span class="self">self</span>.load(<span class="string">"route"</span>, base, routes.into(),
+            |base, route| route.map_base(|old| <span class="macro">format!</span>(<span class="string">"{}{}"</span>, base, old)),
             |r, route| r.<span class="number">0</span>.routes.push(route))
     }
 
@@ -1290,28 +1290,28 @@
     /// use rocket::Request;
     ///
     /// #[catch(500)]
-    /// fn internal_error() -&gt; &amp;&#39;static str {
-    ///     &quot;Whoops! Looks like we messed up.&quot;
+    /// fn internal_error() -&gt; &amp;'static str {
+    ///     "Whoops! Looks like we messed up."
     /// }
     ///
     /// #[catch(404)]
     /// fn not_found(req: &amp;Request) -&gt; String {
-    ///     format!(&quot;I couldn&#39;t find &#39;{}&#39;. Try something else?&quot;, req.uri())
+    ///     format!("I couldn't find '{}'. Try something else?", req.uri())
     /// }
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     rocket::build().register(&quot;/&quot;, catchers![internal_error, not_found])
+    ///     rocket::build().register("/", catchers![internal_error, not_found])
     /// }
     /// ```
     </span><span class="attr">#[must_use]
-    </span><span class="kw">pub fn </span>register&lt;<span class="lifetime">&#39;a</span>, B, C&gt;(<span class="self">self</span>, base: B, catchers: C) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; + Clone + fmt::Display,
+    </span><span class="kw">pub fn </span>register&lt;<span class="lifetime">'a</span>, B, C&gt;(<span class="self">self</span>, base: B, catchers: C) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>B: TryInto&lt;Origin&lt;<span class="lifetime">'a</span>&gt;&gt; + Clone + fmt::Display,
               B::Error: fmt::Display,
               C: Into&lt;Vec&lt;Catcher&gt;&gt;
     {
-        <span class="self">self</span>.load(<span class="string">&quot;catcher&quot;</span>, base, catchers.into(),
-            |base, catcher| catcher.map_base(|old| <span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, base, old)),
+        <span class="self">self</span>.load(<span class="string">"catcher"</span>, base, catchers.into(),
+            |base, catcher| catcher.map_base(|old| <span class="macro">format!</span>(<span class="string">"{}{}"</span>, base, old)),
             |r, catcher| r.<span class="number">0</span>.catchers.push(catcher))
     }
 
@@ -1338,12 +1338,12 @@
     /// struct MyInt(isize);
     /// struct MyString(String);
     ///
-    /// #[get(&quot;/int&quot;)]
+    /// #[get("/int")]
     /// fn int(state: &amp;State&lt;MyInt&gt;) -&gt; String {
-    ///     format!(&quot;The stateful int is: {}&quot;, state.0)
+    ///     format!("The stateful int is: {}", state.0)
     /// }
     ///
-    /// #[get(&quot;/string&quot;)]
+    /// #[get("/string")]
     /// fn string(state: &amp;State&lt;MyString&gt;) -&gt; &amp;str {
     ///     &amp;state.0
     /// }
@@ -1352,18 +1352,18 @@
     /// fn rocket() -&gt; _ {
     ///     rocket::build()
     ///         .manage(MyInt(10))
-    ///         .manage(MyString(&quot;Hello, managed state!&quot;.to_string()))
-    ///         .mount(&quot;/&quot;, routes![int, string])
+    ///         .manage(MyString("Hello, managed state!".to_string()))
+    ///         .mount("/", routes![int, string])
     /// }
     /// ```
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>manage&lt;T&gt;(<span class="self">self</span>, state: T) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>T: Send + Sync + <span class="lifetime">&#39;static
+        </span><span class="kw">where </span>T: Send + Sync + <span class="lifetime">'static
     </span>{
         <span class="kw">let </span>type_name = std::any::type_name::&lt;T&gt;();
         <span class="kw">if </span>!<span class="self">self</span>.state.set(state) {
-            <span class="macro">error!</span>(<span class="string">&quot;state for type &#39;{}&#39; is already being managed&quot;</span>, type_name);
-            <span class="macro">panic!</span>(<span class="string">&quot;aborting due to duplicated managed state&quot;</span>);
+            <span class="macro">error!</span>(<span class="string">"state for type '{}' is already being managed"</span>, type_name);
+            <span class="macro">panic!</span>(<span class="string">"aborting due to duplicated managed state"</span>);
         }
 
         <span class="self">self
@@ -1385,8 +1385,8 @@
     /// #[launch]
     /// fn rocket() -&gt; _ {
     ///     rocket::build()
-    ///         .attach(AdHoc::on_liftoff(&quot;Liftoff Message&quot;, |_| Box::pin(async {
-    ///             println!(&quot;We have liftoff!&quot;);
+    ///         .attach(AdHoc::on_liftoff("Liftoff Message", |_| Box::pin(async {
+    ///             println!("We have liftoff!");
     ///         })))
     /// }
     /// ```
@@ -1425,15 +1425,15 @@
     /// async fn main() -&gt; Result&lt;(), rocket::Error&gt; {
     ///     let rocket = rocket::build()
     ///         # .configure(rocket::Config::debug_default())
-    ///         .attach(AdHoc::on_ignite(&quot;Manage State&quot;, |rocket| async move {
-    ///             rocket.manage(String::from(&quot;managed string&quot;))
+    ///         .attach(AdHoc::on_ignite("Manage State", |rocket| async move {
+    ///             rocket.manage(String::from("managed string"))
     ///         }));
     ///
     ///     // No fairings are run until ignition occurs.
     ///     assert!(rocket.state::&lt;String&gt;().is_none());
     ///
     ///     let rocket = rocket.ignite().await?;
-    ///     assert_eq!(rocket.state::&lt;String&gt;().unwrap(), &quot;managed string&quot;);
+    ///     assert_eq!(rocket.state::&lt;String&gt;().unwrap(), "managed string");
     ///
     ///     Ok(())
     /// }
@@ -1448,7 +1448,7 @@
         <span class="kw">crate</span>::log::init(<span class="kw-2">&amp;</span>config);
 
         <span class="comment">// Check for safely configured secrets.
-        </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+        </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
         </span><span class="kw">if </span>!config.secret_key.is_provided() {
             <span class="kw">if </span>config.profile != Config::DEBUG_PROFILE {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::new(ErrorKind::InsecureSecretKey(config.profile.clone())));
@@ -1459,9 +1459,9 @@
                     .unwrap_or_else(<span class="kw">crate</span>::config::SecretKey::zero);
             }
         } <span class="kw">else if </span>config.known_secret_key_used() {
-            <span class="macro">warn!</span>(<span class="string">&quot;The configured `secret_key` is exposed and insecure.&quot;</span>);
-            <span class="macro">warn_!</span>(<span class="string">&quot;The configured key is publicly published and thus insecure.&quot;</span>);
-            <span class="macro">warn_!</span>(<span class="string">&quot;Try generating a new key with `head -c64 /dev/urandom | base64`.&quot;</span>);
+            <span class="macro">warn!</span>(<span class="string">"The configured `secret_key` is exposed and insecure."</span>);
+            <span class="macro">warn_!</span>(<span class="string">"The configured key is publicly published and thus insecure."</span>);
+            <span class="macro">warn_!</span>(<span class="string">"Try generating a new key with `head -c64 /dev/urandom | base64`."</span>);
         }
 
         <span class="comment">// Initialize the router; check for collisions.
@@ -1476,8 +1476,8 @@
         <span class="comment">// Log everything we know: config, routes, catchers, fairings.
         // TODO: Store/print managed state type names?
         </span>config.pretty_print(<span class="self">self</span>.figment());
-        log_items(<span class="string">&quot;📬 &quot;</span>, <span class="string">&quot;Routes&quot;</span>, <span class="self">self</span>.routes(), |r| <span class="kw-2">&amp;</span>r.uri.base, |r| <span class="kw-2">&amp;</span>r.uri);
-        log_items(<span class="string">&quot;🥅 &quot;</span>, <span class="string">&quot;Catchers&quot;</span>, <span class="self">self</span>.catchers(), |c| <span class="kw-2">&amp;</span>c.base, |c| <span class="kw-2">&amp;</span>c.base);
+        log_items(<span class="string">"📬 "</span>, <span class="string">"Routes"</span>, <span class="self">self</span>.routes(), |r| <span class="kw-2">&amp;</span>r.uri.base, |r| <span class="kw-2">&amp;</span>r.uri);
+        log_items(<span class="string">"🥅 "</span>, <span class="string">"Catchers"</span>, <span class="self">self</span>.catchers(), |c| <span class="kw-2">&amp;</span>c.base, |c| <span class="kw-2">&amp;</span>c.base);
         <span class="self">self</span>.fairings.pretty_print();
 
         <span class="comment">// Ignite the rocket.
@@ -1499,18 +1499,18 @@
 
 <span class="kw">fn </span>log_items&lt;T, I, B, O&gt;(e: <span class="kw-2">&amp;</span>str, t: <span class="kw-2">&amp;</span>str, items: I, base: B, origin: O)
     <span class="kw">where </span>T: fmt::Display + Copy, I: Iterator&lt;Item = T&gt;,
-          B: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;, O: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;
+          B: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'_</span>&gt;, O: Fn(<span class="kw-2">&amp;</span>T) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'_</span>&gt;
 {
     <span class="kw">let </span><span class="kw-2">mut </span>items: Vec&lt;<span class="kw">_</span>&gt; = items.collect();
     <span class="kw">if </span>!items.is_empty() {
-        <span class="macro">launch_meta!</span>(<span class="string">&quot;{}{}:&quot;</span>, e.emoji(), t.magenta());
+        <span class="macro">launch_meta!</span>(<span class="string">"{}{}:"</span>, e.emoji(), t.magenta());
     }
 
     items.sort_by_key(|i| origin(i).path().as_str().chars().count());
     items.sort_by_key(|i| origin(i).path().segments().len());
     items.sort_by_key(|i| base(i).path().as_str().chars().count());
     items.sort_by_key(|i| base(i).path().segments().len());
-    items.iter().for_each(|i| <span class="macro">launch_meta_!</span>(<span class="string">&quot;{}&quot;</span>, i));
+    items.iter().for_each(|i| <span class="macro">launch_meta_!</span>(<span class="string">"{}"</span>, i));
 }
 
 <span class="kw">impl </span>Rocket&lt;Ignite&gt; {
@@ -1581,7 +1581,7 @@
     <span class="kw">async fn </span>_local_launch(<span class="self">self</span>) -&gt; Rocket&lt;Orbit&gt; {
         <span class="kw">let </span>rocket = <span class="self">self</span>.into_orbit();
         rocket.fairings.handle_liftoff(<span class="kw-2">&amp;</span>rocket).<span class="kw">await</span>;
-        <span class="macro">launch_info!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="string">&quot;🚀 &quot;</span>.emoji(), <span class="string">&quot;Rocket has launched locally&quot;</span>.primary().bold());
+        <span class="macro">launch_info!</span>(<span class="string">"{}{}"</span>, <span class="string">"🚀 "</span>.emoji(), <span class="string">"Rocket has launched locally"</span>.primary().bold());
         rocket
     }
 
@@ -1590,12 +1590,12 @@
             .default_tcp_http_server(|rkt| Box::pin(<span class="kw">async move </span>{
                 rkt.fairings.handle_liftoff(<span class="kw-2">&amp;</span>rkt).<span class="kw">await</span>;
 
-                <span class="kw">let </span>proto = rkt.config.tls_enabled().then(|| <span class="string">&quot;https&quot;</span>).unwrap_or(<span class="string">&quot;http&quot;</span>);
+                <span class="kw">let </span>proto = rkt.config.tls_enabled().then(|| <span class="string">"https"</span>).unwrap_or(<span class="string">"http"</span>);
                 <span class="kw">let </span>socket_addr = SocketAddr::new(rkt.config.address, rkt.config.port);
-                <span class="kw">let </span>addr = <span class="macro">format!</span>(<span class="string">&quot;{}://{}&quot;</span>, proto, socket_addr);
-                <span class="macro">launch_info!</span>(<span class="string">&quot;{}{} {}&quot;</span>,
-                    <span class="string">&quot;🚀 &quot;</span>.emoji(),
-                    <span class="string">&quot;Rocket has launched from&quot;</span>.bold().primary().linger(),
+                <span class="kw">let </span>addr = <span class="macro">format!</span>(<span class="string">"{}://{}"</span>, proto, socket_addr);
+                <span class="macro">launch_info!</span>(<span class="string">"{}{} {}"</span>,
+                    <span class="string">"🚀 "</span>.emoji(),
+                    <span class="string">"Rocket has launched from"</span>.bold().primary().linger(),
                     addr.underline());
             }))
             .<span class="kw">await
@@ -1628,8 +1628,8 @@
     /// #[launch]
     /// fn rocket() -&gt; _ {
     ///     rocket::build()
-    ///         .attach(AdHoc::on_liftoff(&quot;Config&quot;, |rocket| Box::pin(async move {
-    ///             println!(&quot;Rocket launch config: {:?}&quot;, rocket.config());
+    ///         .attach(AdHoc::on_liftoff("Config", |rocket| Box::pin(async move {
+    ///             println!("Rocket launch config: {:?}", rocket.config());
     ///         })))
     /// }
     /// ```
@@ -1655,7 +1655,7 @@
     /// #[launch]
     /// fn rocket() -&gt; _ {
     ///     rocket::build()
-    ///         .attach(AdHoc::on_liftoff(&quot;Shutdown&quot;, |rocket| Box::pin(async move {
+    ///         .attach(AdHoc::on_liftoff("Shutdown", |rocket| Box::pin(async move {
     ///             let shutdown = rocket.shutdown();
     ///             tokio::spawn(async move {
     ///                 time::sleep(time::Duration::from_secs(5)).await;
@@ -1680,18 +1680,18 @@
     /// use rocket::Rocket;
     /// use rocket::fairing::AdHoc;
     ///
-    /// #[get(&quot;/hello&quot;)]
-    /// fn hello() -&gt; &amp;&#39;static str {
-    ///     &quot;Hello, world!&quot;
+    /// #[get("/hello")]
+    /// fn hello() -&gt; &amp;'static str {
+    ///     "Hello, world!"
     /// }
     ///
     /// let rocket = rocket::build()
-    ///     .mount(&quot;/&quot;, routes![hello])
-    ///     .mount(&quot;/hi&quot;, routes![hello]);
+    ///     .mount("/", routes![hello])
+    ///     .mount("/hi", routes![hello]);
     ///
     /// assert_eq!(rocket.routes().count(), 2);
-    /// assert!(rocket.routes().any(|r| r.uri == &quot;/hello&quot;));
-    /// assert!(rocket.routes().any(|r| r.uri == &quot;/hi/hello&quot;));
+    /// assert!(rocket.routes().any(|r| r.uri == "/hello"));
+    /// assert!(rocket.routes().any(|r| r.uri == "/hi/hello"));
     /// ```
     </span><span class="kw">pub fn </span>routes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Route&gt; {
         <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
@@ -1711,18 +1711,18 @@
     /// use rocket::Rocket;
     /// use rocket::fairing::AdHoc;
     ///
-    /// #[catch(404)] fn not_found() -&gt; &amp;&#39;static str { &quot;Nothing here, sorry!&quot; }
-    /// #[catch(500)] fn just_500() -&gt; &amp;&#39;static str { &quot;Whoops!?&quot; }
-    /// #[catch(default)] fn some_default() -&gt; &amp;&#39;static str { &quot;Everything else.&quot; }
+    /// #[catch(404)] fn not_found() -&gt; &amp;'static str { "Nothing here, sorry!" }
+    /// #[catch(500)] fn just_500() -&gt; &amp;'static str { "Whoops!?" }
+    /// #[catch(default)] fn some_default() -&gt; &amp;'static str { "Everything else." }
     ///
     /// let rocket = rocket::build()
-    ///     .register(&quot;/foo&quot;, catchers![not_found])
-    ///     .register(&quot;/&quot;, catchers![just_500, some_default]);
+    ///     .register("/foo", catchers![not_found])
+    ///     .register("/", catchers![just_500, some_default]);
     ///
     /// assert_eq!(rocket.catchers().count(), 3);
-    /// assert!(rocket.catchers().any(|c| c.code == Some(404) &amp;&amp; c.base == &quot;/foo&quot;));
-    /// assert!(rocket.catchers().any(|c| c.code == Some(500) &amp;&amp; c.base == &quot;/&quot;));
-    /// assert!(rocket.catchers().any(|c| c.code == None &amp;&amp; c.base == &quot;/&quot;));
+    /// assert!(rocket.catchers().any(|c| c.code == Some(404) &amp;&amp; c.base == "/foo"));
+    /// assert!(rocket.catchers().any(|c| c.code == Some(500) &amp;&amp; c.base == "/"));
+    /// assert!(rocket.catchers().any(|c| c.code == None &amp;&amp; c.base == "/"));
     /// ```
     </span><span class="kw">pub fn </span>catchers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Catcher&gt; {
         <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
@@ -1739,12 +1739,12 @@
     ///
     /// ```rust
     /// #[derive(PartialEq, Debug)]
-    /// struct MyState(&amp;&#39;static str);
+    /// struct MyState(&amp;'static str);
     ///
-    /// let rocket = rocket::build().manage(MyState(&quot;hello!&quot;));
-    /// assert_eq!(rocket.state::&lt;MyState&gt;().unwrap(), &amp;MyState(&quot;hello!&quot;));
+    /// let rocket = rocket::build().manage(MyState("hello!"));
+    /// assert_eq!(rocket.state::&lt;MyState&gt;().unwrap(), &amp;MyState("hello!"));
     /// ```
-    </span><span class="kw">pub fn </span>state&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    </span><span class="kw">pub fn </span>state&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="kw">match </span><span class="self">self</span>.<span class="number">0</span>.as_state_ref() {
             StateRef::Build(p) =&gt; p.state.try_get(),
             StateRef::Ignite(p) =&gt; p.state.try_get(),
@@ -1821,7 +1821,7 @@
     ///     let result = rocket::build().launch().await;
     ///
     ///     // this is reachable only after `Shutdown::notify()` or `Ctrl+C`.
-    ///     println!(&quot;Rocket: deorbit.&quot;);
+    ///     println!("Rocket: deorbit.");
     /// }
     /// ```
     </span><span class="kw">pub async fn </span>launch(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Rocket&lt;Ignite&gt;, Error&gt; {
@@ -1850,7 +1850,7 @@
 }
 
 <span class="kw">impl</span>&lt;P: Phase&gt; fmt::Debug <span class="kw">for </span>Rocket&lt;P&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }

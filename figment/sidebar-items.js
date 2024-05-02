@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["error","providers","util","value"],"struct":["Error","Figment","Metadata","Profile"],"trait":["Provider"]};
+window.SIDEBAR_ITEMS = {"enum":["Source"],"mod":["error","providers","util","value"],"struct":["Error","Figment","Metadata","Profile"],"trait":["Provider"],"type":["Result"]};

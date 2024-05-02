@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/stream/raw_sse.rs`."><title>raw_sse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/stream/raw_sse.rs`."><title>raw_sse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -279,20 +279,20 @@
 /// ```
 ///
 /// Notice that Multiple encodings are possible for the same data, especially in
-/// the choice of newline. This implementation always uses only &quot;\n&quot; (LF).
+/// the choice of newline. This implementation always uses only "\n" (LF).
 ///
-/// Serializes (via `AsyncRead`) as a series of &quot;${name}:${value}\n&quot; events.
+/// Serializes (via `AsyncRead`) as a series of "${name}:${value}\n" events.
 /// Either or both `name` and `value` may be empty. When the name is empty, this
 /// is a comment. Otherwise, this is a field.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>RawLinedEvent {
-    name: Cursor&lt;Cow&lt;<span class="lifetime">&#39;static</span>, [u8]&gt;&gt;,
-    value: Take&lt;Cursor&lt;Cow&lt;<span class="lifetime">&#39;static</span>, [u8]&gt;&gt;&gt;,
+    name: Cursor&lt;Cow&lt;<span class="lifetime">'static</span>, [u8]&gt;&gt;,
+    value: Take&lt;Cursor&lt;Cow&lt;<span class="lifetime">'static</span>, [u8]&gt;&gt;&gt;,
     state: State,
 }
 
 <span class="doccomment">/// Converts a `Cow&lt;str&gt;` to a `Cow&lt;[u8]&gt;`.
-</span><span class="kw">fn </span>farm(cow: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, [u8]&gt; {
+</span><span class="kw">fn </span>farm(cow: Cow&lt;<span class="lifetime">'_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">'_</span>, [u8]&gt; {
     <span class="kw">match </span>cow {
         Cow::Borrowed(slice) =&gt; Cow::Borrowed(slice.as_bytes()),
         Cow::Owned(vec) =&gt; Cow::Owned(vec.into_bytes())
@@ -302,13 +302,13 @@
 <span class="doccomment">/// Farms `cow`, replacing `\r`, `\n`, and `:` with ` ` in the process.
 ///
 /// This converts any string into a valid event `name`.
-</span><span class="kw">fn </span>farm_name(cow: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, [u8]&gt; {
+</span><span class="kw">fn </span>farm_name(cow: Cow&lt;<span class="lifetime">'_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">'_</span>, [u8]&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>cow = farm(cow);
     <span class="kw">while </span>i &lt; cow.len() {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(k) = memchr::memchr3(<span class="string">b&#39;\r&#39;</span>, <span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;:&#39;</span>, <span class="kw-2">&amp;</span>cow[i..]) {
-            cow.to_mut()[i + k] = <span class="string">b&#39; &#39;</span>;
-            <span class="comment">// This can&#39;t overflow as i + k + 1 &lt;= len, since we found a char.
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(k) = memchr::memchr3(<span class="string">b'\r'</span>, <span class="string">b'\n'</span>, <span class="string">b':'</span>, <span class="kw-2">&amp;</span>cow[i..]) {
+            cow.to_mut()[i + k] = <span class="string">b' '</span>;
+            <span class="comment">// This can't overflow as i + k + 1 &lt;= len, since we found a char.
             </span>i += k + <span class="number">1</span>;
         } <span class="kw">else </span>{
             <span class="kw">break</span>;
@@ -321,13 +321,13 @@
 <span class="doccomment">/// Farms `cow`, replacing `\r` and `\n` with ` ` in the process.
 ///
 /// This converts any string into a valid event `value`.
-</span><span class="kw">fn </span>farm_value(cow: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, [u8]&gt; {
+</span><span class="kw">fn </span>farm_value(cow: Cow&lt;<span class="lifetime">'_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">'_</span>, [u8]&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>cow = farm(cow);
     <span class="kw">while </span>i &lt; cow.len() {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(k) = memchr::memchr2(<span class="string">b&#39;\r&#39;</span>, <span class="string">b&#39;\n&#39;</span>, <span class="kw-2">&amp;</span>cow[i..]) {
-            cow.to_mut()[i + k] = <span class="string">b&#39; &#39;</span>;
-            <span class="comment">// This can&#39;t overflow as i + k + 1 &lt;= len, since we found a char.
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(k) = memchr::memchr2(<span class="string">b'\r'</span>, <span class="string">b'\n'</span>, <span class="kw-2">&amp;</span>cow[i..]) {
+            cow.to_mut()[i + k] = <span class="string">b' '</span>;
+            <span class="comment">// This can't overflow as i + k + 1 &lt;= len, since we found a char.
             </span>i += k + <span class="number">1</span>;
         } <span class="kw">else </span>{
             <span class="kw">break</span>;
@@ -339,7 +339,7 @@
 
 <span class="kw">impl </span>RawLinedEvent {
     <span class="doccomment">/// Create a `RawLinedEvent` from a valid, prefarmed `name` and `value`.
-    </span><span class="kw">fn </span>prefarmed(name: Cow&lt;<span class="lifetime">&#39;static</span>, [u8]&gt;, value: Cow&lt;<span class="lifetime">&#39;static</span>, [u8]&gt;) -&gt; RawLinedEvent {
+    </span><span class="kw">fn </span>prefarmed(name: Cow&lt;<span class="lifetime">'static</span>, [u8]&gt;, value: Cow&lt;<span class="lifetime">'static</span>, [u8]&gt;) -&gt; RawLinedEvent {
         <span class="kw">let </span>name = Cursor::new(name);
         <span class="kw">let </span><span class="kw-2">mut </span>value = Cursor::new(value).take(<span class="number">0</span>);
         advance(<span class="kw-2">&amp;mut </span>value);
@@ -349,10 +349,10 @@
     <span class="doccomment">/// Create a `RawLinedEvent` from potentially invalid `name` and `value`
     /// where `value` is not allowed to be multiple lines.
     ///
-    /// Characters `\n`, `\r`, and &#39;:&#39; in `name` and characters `\r` \`n` in
+    /// Characters `\n`, `\r`, and ':' in `name` and characters `\r` \`n` in
     /// `value` `are replaced with a space ` `.
     </span><span class="kw">pub fn </span>one&lt;N, V&gt;(name: N, value: V) -&gt; RawLinedEvent
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;
     {
         RawLinedEvent::prefarmed(farm_name(name.into()), farm_value(value.into()))
     }
@@ -360,18 +360,18 @@
     <span class="doccomment">/// Create a `RawLinedEvent` from potentially invalid `name` and `value`
     /// where `value` is allowed to be multiple lines.
     ///
-    /// Characters `\n`, `\r`, and &#39;:&#39; in `name` are replaced with a space ` `.
+    /// Characters `\n`, `\r`, and ':' in `name` are replaced with a space ` `.
     /// `value` is allowed to contain any character. New lines (`\r\n` or `\n`)
     /// and carriage returns `\r` result in a new event being emitted.
     </span><span class="kw">pub fn </span>many&lt;N, V&gt;(name: N, value: V) -&gt; RawLinedEvent
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;
     {
         RawLinedEvent::prefarmed(farm_name(name.into()), farm(value.into()))
     }
 
     <span class="doccomment">/// Create a `RawLinedEvent` from known value `value`. The value is emitted
     /// directly with _no_ name and suffixed with a `\n`.
-    </span><span class="kw">pub fn </span>raw&lt;V: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(value: V) -&gt; RawLinedEvent {
+    </span><span class="kw">pub fn </span>raw&lt;V: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(value: V) -&gt; RawLinedEvent {
         <span class="kw">let </span>value = value.into();
         <span class="kw">let </span>len = value.len();
         RawLinedEvent {
@@ -398,7 +398,7 @@
     <span class="comment">// Technically, the position need not be &lt;= len, so we right it.
     </span><span class="kw">let </span>pos = min(buf.get_ref().get_ref().as_ref().len() <span class="kw">as </span>u64, buf.get_ref().position());
     <span class="kw">let </span>inner = buf.get_ref().get_ref().as_ref();
-    <span class="kw">let </span>next = memchr::memchr2(<span class="string">b&#39;\n&#39;</span>, <span class="string">b&#39;\r&#39;</span>, <span class="kw-2">&amp;</span>inner[(pos <span class="kw">as </span>usize)..])
+    <span class="kw">let </span>next = memchr::memchr2(<span class="string">b'\n'</span>, <span class="string">b'\r'</span>, <span class="kw-2">&amp;</span>inner[(pos <span class="kw">as </span>usize)..])
         .map(|i| pos + i <span class="kw">as </span>u64)
         .unwrap_or_else(|| inner.len() <span class="kw">as </span>u64);
 
@@ -412,10 +412,10 @@
     <span class="kw">let </span>pos = min(buf.get_ref().get_ref().as_ref().len() <span class="kw">as </span>u64, buf.get_ref().position());
     <span class="kw">match </span>buf.get_ref().get_ref().as_ref().get(pos <span class="kw">as </span>usize) {
         <span class="comment">// This cannot overflow as clearly `buf.len() &gt;= pos + 1`.
-        </span><span class="prelude-val">Some</span>(<span class="string">b&#39;\n&#39;</span>) =&gt; buf.get_mut().set_position(pos + <span class="number">1</span>),
-        <span class="prelude-val">Some</span>(<span class="string">b&#39;\r&#39;</span>) =&gt; {
+        </span><span class="prelude-val">Some</span>(<span class="string">b'\n'</span>) =&gt; buf.get_mut().set_position(pos + <span class="number">1</span>),
+        <span class="prelude-val">Some</span>(<span class="string">b'\r'</span>) =&gt; {
             <span class="kw">let </span>next = (pos <span class="kw">as </span>usize).saturating_add(<span class="number">1</span>);
-            <span class="kw">if </span>buf.get_ref().get_ref().as_ref().get(next) == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;\n&#39;</span>) {
+            <span class="kw">if </span>buf.get_ref().get_ref().as_ref().get(next) == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b'\n'</span>) {
                 <span class="comment">// This cannot overflow as clearly `buf.len() &gt;= pos + 2`.
                 </span>buf.get_mut().set_position(pos + <span class="number">2</span>);
             } <span class="kw">else </span>{
@@ -428,7 +428,7 @@
 }
 
 
-<span class="macro">macro_rules! </span>dbg_assert_ready {
+<span class="macro">macro_rules!</span> dbg_assert_ready {
     (<span class="macro-nonterminal">$e</span>:expr) =&gt; ({
         <span class="kw">let </span>poll = <span class="macro-nonterminal">$e</span>;
         <span class="macro">debug_assert!</span>(poll.is_ready());
@@ -445,8 +445,8 @@
 </span><span class="kw">impl </span>AsyncRead <span class="kw">for </span>RawLinedEvent {
     <span class="kw">fn </span>poll_read(
         <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">&#39;_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
     ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
         <span class="kw">use </span>bytes::Buf;
 
@@ -464,8 +464,8 @@
                     }
                 }
                 State::Colon =&gt; {
-                    <span class="comment">// Note that we&#39;ve checked `buf.remaining() != 0`.
-                    </span>buf.put_slice(<span class="kw-2">&amp;</span>[<span class="string">b&#39;:&#39;</span>]);
+                    <span class="comment">// Note that we've checked `buf.remaining() != 0`.
+                    </span>buf.put_slice(<span class="kw-2">&amp;</span>[<span class="string">b':'</span>]);
                     <span class="self">self</span>.state = State::Value;
                 }
                 State::Value =&gt; {
@@ -475,8 +475,8 @@
                     }
                 }
                 State::NewLine =&gt; {
-                    <span class="comment">// Note that we&#39;ve checked `buf.remaining() != 0`.
-                    </span>buf.put_slice(<span class="kw-2">&amp;</span>[<span class="string">b&#39;\n&#39;</span>]);
+                    <span class="comment">// Note that we've checked `buf.remaining() != 0`.
+                    </span>buf.put_slice(<span class="kw-2">&amp;</span>[<span class="string">b'\n'</span>]);
                     <span class="kw">if </span><span class="self">self</span>.value.get_ref().has_remaining() {
                         skip(<span class="kw-2">&amp;mut </span><span class="self">self</span>.value);
                         advance(<span class="kw-2">&amp;mut </span><span class="self">self</span>.value);

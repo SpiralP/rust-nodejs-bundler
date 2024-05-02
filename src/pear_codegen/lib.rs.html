@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pear_codegen-0.2.7/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pear_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pear_codegen-0.2.9/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pear_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../pear_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -402,7 +402,8 @@
 <a href="#402" id="402">402</a>
 <a href="#403" id="403">403</a>
 <a href="#404" id="404">404</a>
-</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">&quot;256&quot;</span>]
+<a href="#405" id="405">405</a>
+</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">"256"</span>]
 
 </span><span class="kw">extern crate </span>proc_macro;
 <span class="kw">extern crate </span>proc_macro2;
@@ -421,12 +422,12 @@
 <span class="kw">use </span><span class="kw">crate</span>::parser::<span class="kw-2">*</span>;
 
 <span class="kw">fn </span>parse_marker_ident(span: proc_macro2::Span) -&gt; syn::Ident {
-    <span class="kw">const </span>PARSE_MARKER_IDENT: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;____parse_parse_marker&quot;</span>;
+    <span class="kw">const </span>PARSE_MARKER_IDENT: <span class="kw-2">&amp;</span>str = <span class="string">"____parse_parse_marker"</span>;
     syn::Ident::new(PARSE_MARKER_IDENT, span)
 }
 
 <span class="kw">fn </span>parser_info_ident(span: proc_macro2::Span) -&gt; syn::Ident {
-    <span class="kw">const </span>PARSE_INFO_IDENT: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;____parse_parser_info&quot;</span>;
+    <span class="kw">const </span>PARSE_INFO_IDENT: <span class="kw-2">&amp;</span>str = <span class="string">"____parse_parser_info"</span>;
     syn::Ident::new(PARSE_INFO_IDENT, span)
 }
 
@@ -458,7 +459,7 @@
 
         <span class="kw">let </span>expr = <span class="kw-2">&amp;</span>v.expr;
         <span class="kw">let </span>new_expr = <span class="macro">quote_spanned!</span>(expr.span() =&gt; #expr.map_err(|e| e.into()));
-        <span class="kw">let </span>method_call: syn::Expr = syn::parse2(new_expr).expect(<span class="string">&quot;okay&quot;</span>);
+        <span class="kw">let </span>method_call: syn::Expr = syn::parse2(new_expr).expect(<span class="string">"okay"</span>);
         v.expr = Box::new(method_call);
     }
 
@@ -475,9 +476,9 @@
     }
 
     <span class="kw">fn </span>visit_macro_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, m: <span class="kw-2">&amp;mut </span>syn::Macro) {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>segment) = m.path.segments.last() {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(segment) = m.path.segments.last() {
             <span class="kw">let </span>name = segment.ident.to_string();
-            <span class="kw">if </span>name == <span class="string">&quot;switch&quot; </span>|| name.starts_with(<span class="string">&quot;parse_&quot;</span>) {
+            <span class="kw">if </span>name == <span class="string">"switch" </span>|| name.starts_with(<span class="string">"parse_"</span>) {
                 <span class="kw">let </span>(input, output) = (<span class="kw-2">&amp;</span><span class="self">self</span>.input, <span class="kw-2">&amp;</span><span class="self">self</span>.output);
                 <span class="kw">let </span>tokens = <span class="kw">match </span>syn::parse2::&lt;syn::Expr&gt;(m.tokens.clone()) {
                     <span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>expr) =&gt; {
@@ -494,9 +495,7 @@
 
                 <span class="kw">let </span>parser_info = <span class="macro">quote!</span>([#info; #input; #mark; #output]);
                 m.tokens = <span class="macro">quote_spanned!</span>(m.span() =&gt; #parser_info #tokens);
-            } <span class="kw">else </span>{
-                <span class="kw">return
-            </span>}
+            }
         }
     }
 }
@@ -506,10 +505,10 @@
 
     <span class="kw">let </span>first = f.sig.inputs.first().ok_or_else(|| {
         <span class="kw">let </span>paren_span = f.sig.paren_token.span.join();
-        paren_span.error(<span class="string">&quot;parsing functions require at least one input&quot;</span>)
+        paren_span.error(<span class="string">"parsing functions require at least one input"</span>)
     })<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>e = first.span().error(<span class="string">&quot;invalid type for parser input&quot;</span>);
+    <span class="kw">let </span>e = first.span().error(<span class="string">"invalid type for parser input"</span>);
     <span class="kw">match </span>first {
         Typed(PatType { pat, ty, .. }) =&gt; <span class="kw">match </span><span class="kw-2">**</span>pat {
             Ident(<span class="kw-2">ref </span>p) =&gt; <span class="kw">match </span><span class="kw-2">**</span>ty {
@@ -518,7 +517,7 @@
             }
             <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(e)
         }
-        <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(first.span().error(<span class="string">&quot;invalid type for parser input&quot;</span>))
+        <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(first.span().error(<span class="string">"invalid type for parser input"</span>))
     }
 }
 
@@ -528,7 +527,7 @@
     args: <span class="kw-2">&amp;</span>AttrArgs,
     ret_ty: <span class="kw-2">&amp;</span>syn::Type,
 ) -&gt; PResult&lt;syn::Block&gt; {
-    <span class="kw">let </span>(input, input_ty) = extract_input_ident_ty(<span class="kw-2">&amp;</span>function)<span class="question-mark">?</span>;
+    <span class="kw">let </span>(input, input_ty) = extract_input_ident_ty(function)<span class="question-mark">?</span>;
     <span class="kw">let </span>fn_block = <span class="kw-2">&amp;</span>function.block;
 
     <span class="kw">let </span>span = function.span();
@@ -542,13 +541,13 @@
         ),
         <span class="bool-val">false </span>=&gt; <span class="macro">quote_spanned!</span>(span =&gt; (
             |#info_ident: <span class="kw-2">&amp;</span>#scope::input::ParserInfo, #mark_ident: <span class="kw-2">&amp;mut </span>&lt;#input_ty <span class="kw">as </span>#scope::input::Input&gt;::Marker| {
-                <span class="kw">use </span>#scope::result::AsResult;
-                AsResult::as_result(#fn_block)
+                <span class="kw">use </span>#scope::result::IntoResult;
+                IntoResult::into_result(#fn_block)
             }
         ))
     };
 
-    <span class="kw">let </span>rewind_expr = |span| <span class="macro">quote_spanned! </span>{ span =&gt;
+    <span class="kw">let </span>rewind_expr = |span| <span class="macro">quote_spanned!</span> { span =&gt;
         &lt;#input_ty <span class="kw">as </span>#scope::input::Rewind&gt;::rewind_to(#input, ___mark);
     };
 
@@ -586,19 +585,19 @@
     };
 
     syn::parse(new_block_tokens.into())
-        .map_err(|e| function.span().error(<span class="macro">format!</span>(<span class="string">&quot;bad function: {}&quot;</span>, e)).into())
+        .map_err(|e| function.span().error(<span class="macro">format!</span>(<span class="string">"bad function: {}"</span>, e)))
 }
 
 <span class="kw">fn </span>parser_attribute(input: proc_macro::TokenStream, args: <span class="kw-2">&amp;</span>AttrArgs) -&gt; PResult&lt;TokenStream&gt; {
     <span class="kw">let </span>input: proc_macro2::TokenStream = input.into();
     <span class="kw">let </span>span = input.span();
     <span class="kw">let </span><span class="kw-2">mut </span>function: syn::ItemFn = syn::parse2(input).map_err(|<span class="kw">_</span>| {
-        span.error(<span class="string">&quot;`parser` attribute only supports functions&quot;</span>)
+        span.error(<span class="string">"`parser` attribute only supports functions"</span>)
     })<span class="question-mark">?</span>;
 
     <span class="kw">let </span>ret_ty: syn::Type = <span class="kw">match </span><span class="kw-2">&amp;</span>function.sig.output {
         syn::ReturnType::Default =&gt; {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(function.sig.span().error(<span class="string">&quot;parse function requires return type&quot;</span>));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(function.sig.span().error(<span class="string">"parse function requires return type"</span>));
         },
         syn::ReturnType::Type(<span class="kw">_</span>, ty) =&gt; (<span class="kw-2">**</span>ty).clone(),
     };
@@ -613,12 +612,15 @@
     function.block = Box::new(wrapping_fn_block(<span class="kw-2">&amp;</span>function, scope, args, <span class="kw-2">&amp;</span>ret_ty)<span class="question-mark">?</span>);
     function.attrs.extend(inline);
 
-    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span>(#function))
+    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
+        <span class="attr">#[allow(clippy::all, clippy::pedantic, clippy::nursery)]
+        </span>#function
+    })
 }
 
 <span class="kw">impl </span>Case {
-    <span class="kw">fn </span>to_tokens&lt;<span class="lifetime">&#39;a</span>, I&gt;(context: <span class="kw-2">&amp;</span>Context, <span class="kw-2">mut </span>cases: I) -&gt; TokenStream
-        <span class="kw">where </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Case&gt;
+    <span class="kw">fn </span>to_tokens&lt;<span class="lifetime">'a</span>, I&gt;(context: <span class="kw-2">&amp;</span>Context, <span class="kw-2">mut </span>cases: I) -&gt; TokenStream
+        <span class="kw">where </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Case&gt;
     {
         <span class="kw">let </span>this = <span class="kw">match </span>cases.next() {
             <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="macro">quote!</span>(),
@@ -646,9 +648,9 @@
                     };
 
                     <span class="kw">let </span>name = call.name.clone()
-                        .unwrap_or_else(|| syn::Ident::new(<span class="string">&quot;___&quot;</span>, call.span()));
+                        .unwrap_or_else(|| syn::Ident::new(<span class="string">"___"</span>, call.span()));
 
-                    <span class="comment">// FIXME: We&#39;re repeating ourselves, aren&#39;t we? We alrady do
+                    <span class="comment">// FIXME: We're repeating ourselves, aren't we? We alrady do
                     // this in input insertion in the visitor.
                     </span><span class="kw">let </span><span class="kw-2">mut </span>call_expr = call.expr.clone();
                     call_expr.args.insert(<span class="number">0</span>, input.clone());
@@ -670,7 +672,7 @@
                         }))
                         .unwrap_or_else(|| <span class="macro">quote!</span>(#call_expr.ok()));
 
-                    <span class="macro">quote! </span>{
+                    <span class="macro">quote!</span> {
                         #prefix <span class="kw">let </span><span class="prelude-val">Some</span>(#name) = #guarded_call {
                             #case_expr
                         }
@@ -678,7 +680,7 @@
                 });
 
                 <span class="kw">let </span>rest_tokens = Case::to_tokens(context, cases);
-                <span class="macro">quote_spanned! </span>{ this.span =&gt;
+                <span class="macro">quote_spanned!</span> { this.span =&gt;
                     #(#case_branch)*
                     <span class="kw">else </span>{ #rest_tokens }
                 }
@@ -697,7 +699,7 @@
 /// least one parameter and a return value. To typecheck, the free function must
 /// meet the following typing requirements:
 ///
-/// - The _first_ parameter&#39;s type must be a mutable reference to a [`Pear&lt;I&gt;`]
+/// - The _first_ parameter's type must be a mutable reference to a [`Pear&lt;I&gt;`]
 ///   here `I` implements [`Input`]. This is the _input_ parameter.
 /// - The return type must be [`Result&lt;O, I&gt;`] where `I` is the inner type
 ///   of the input parameter and `O` can be any type.
@@ -712,7 +714,7 @@
 ///   parameter.
 /// - The inputs to every macro whose name starts with `parse_` are prefixed
 ///   with `[PARSER_NAME, INPUT, MARKER, OUTPUT]` where `PARSER_NAME` is the
-///   raw string literal of the functon&#39;s name, `INPUT` is the input
+///   raw string literal of the functon's name, `INPUT` is the input
 ///   parameter expression, `MARKER` is the marker expression, and `OUTPUT`
 ///   is the output type. Aditionally, if the input to the macro is a valid
 ///   Rust expression, it is applied the same transformations as a function
@@ -733,7 +735,7 @@
 ///
 /// - The [`Input::mark()`] method is called before the function executes.
 ///   The returned mark, if any, is stored on the stack.
-/// - A return value of `O` is automatically converted (or &quot;lifted&quot;) into a
+/// - A return value of `O` is automatically converted (or "lifted") into a
 ///   type of [`Result&lt;O, I&gt;`] by wrapping it in `Ok`.
 /// - If the function returns an `Err`, [`Input::context()`] is called with
 ///   the current mark, and the returned context, if any, is pushed into the
@@ -749,25 +751,25 @@
 /// use pear::parsers::*;
 /// #
 /// # use pear::macros::parse_declare;
-/// # parse_declare!(Input&lt;&#39;a&gt;(Token = char, Slice = &amp;&#39;a str, Many = &amp;&#39;a str));
+/// # parse_declare!(Input&lt;'a&gt;(Token = char, Slice = &amp;'a str, Many = &amp;'a str));
 ///
 /// #[parser]
-/// fn ab_in_dots&lt;&#39;a, I: Input&lt;&#39;a&gt;&gt;(input: &amp;mut Pear&lt;I&gt;) -&gt; Result&lt;&amp;&#39;a str, I&gt; {
-///     eat(&#39;.&#39;)?;
-///     let inside = take_while(|&amp;c| c == &#39;a&#39; || c == &#39;b&#39;)?;
-///     eat(&#39;.&#39;)?;
+/// fn ab_in_dots&lt;'a, I: Input&lt;'a&gt;&gt;(input: &amp;mut Pear&lt;I&gt;) -&gt; Result&lt;&amp;'a str, I&gt; {
+///     eat('.')?;
+///     let inside = take_while(|&amp;c| c == 'a' || c == 'b')?;
+///     eat('.')?;
 ///
 ///     inside
 /// }
 ///
 /// #
-/// let x = parse!(ab_in_dots: Text::from(&quot;.abba.&quot;));
-/// assert_eq!(x.unwrap(), &quot;abba&quot;);
+/// let x = parse!(ab_in_dots: Text::from(".abba."));
+/// assert_eq!(x.unwrap(), "abba");
 ///
-/// let x = parse!(ab_in_dots: Text::from(&quot;.ba.&quot;));
-/// assert_eq!(x.unwrap(), &quot;ba&quot;);
+/// let x = parse!(ab_in_dots: Text::from(".ba."));
+/// assert_eq!(x.unwrap(), "ba");
 ///
-/// let x = parse!(ab_in_dots: Text::from(&quot;...&quot;));
+/// let x = parse!(ab_in_dots: Text::from("..."));
 /// assert!(x.is_err());
 /// ```
 </span><span class="attr">#[proc_macro_attribute]
@@ -799,7 +801,7 @@
 /// ```
 </span><span class="attr">#[proc_macro]
 </span><span class="kw">pub fn </span>switch(input: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
-    <span class="comment">// TODO: We lose diagnostic information by using syn&#39;s thing here. We need a
+    <span class="comment">// TODO: We lose diagnostic information by using syn's thing here. We need a
     // way to get a SynParseStream from a TokenStream to not do that.
     </span><span class="kw">match </span>Switch::syn_parse.parse(input) {
         <span class="prelude-val">Ok</span>(switch) =&gt; switch.to_tokens().into(),

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/response.rs`."><title>response.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/response.rs`."><title>response.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1175,32 +1175,32 @@
 ///
 /// The following example builds a `Response` with:
 ///
-///   * **Status**: `418 I&#39;m a teapot`
+///   * **Status**: `418 I'm a teapot`
 ///   * **Content-Type** header: `text/plain; charset=utf-8`
 ///   * **X-Teapot-Make** header: `Rocket`
 ///   * **X-Teapot-Model** headers: `Utopia`, `Series 1`
-///   * **Body**: fixed-size string `&quot;Brewing the best coffee!&quot;`
+///   * **Body**: fixed-size string `"Brewing the best coffee!"`
 ///
 /// ```rust
 /// use std::io::Cursor;
 /// use rocket::response::Response;
 /// use rocket::http::{Status, ContentType};
 ///
-/// let body = &quot;Brewing the best coffee!&quot;;
+/// let body = "Brewing the best coffee!";
 /// let response = Response::build()
 ///     .status(Status::ImATeapot)
 ///     .header(ContentType::Plain)
-///     .raw_header(&quot;X-Teapot-Make&quot;, &quot;Rocket&quot;)
-///     .raw_header(&quot;X-Teapot-Model&quot;, &quot;Utopia&quot;)
-///     .raw_header_adjoin(&quot;X-Teapot-Model&quot;, &quot;Series 1&quot;)
+///     .raw_header("X-Teapot-Make", "Rocket")
+///     .raw_header("X-Teapot-Model", "Utopia")
+///     .raw_header_adjoin("X-Teapot-Model", "Series 1")
 ///     .sized_body(body.len(), Cursor::new(body))
 ///     .finalize();
 /// ```
-</span><span class="kw">pub struct </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
-    response: Response&lt;<span class="lifetime">&#39;r</span>&gt;,
+</span><span class="kw">pub struct </span>Builder&lt;<span class="lifetime">'r</span>&gt; {
+    response: Response&lt;<span class="lifetime">'r</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Builder&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Creates a new `Builder` that will build on top of the `base`
     /// `Response`.
     ///
@@ -1213,7 +1213,7 @@
     /// let builder = Builder::new(Response::new());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>new(base: Response&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>new(base: Response&lt;<span class="lifetime">'r</span>&gt;) -&gt; Builder&lt;<span class="lifetime">'r</span>&gt; {
         Builder {
             response: base,
         }
@@ -1232,7 +1232,7 @@
     ///     .finalize();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>status(<span class="kw-2">&amp;mut </span><span class="self">self</span>, status: Status) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>status(<span class="kw-2">&amp;mut </span><span class="self">self</span>, status: Status) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt; {
         <span class="self">self</span>.response.set_status(status);
         <span class="self">self
     </span>}
@@ -1257,11 +1257,11 @@
     ///     .header(ContentType::HTML)
     ///     .finalize();
     ///
-    /// assert_eq!(response.headers().get(&quot;Content-Type&quot;).count(), 1);
+    /// assert_eq!(response.headers().get("Content-Type").count(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>header&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>header&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;
     {
         <span class="self">self</span>.response.set_header(header);
         <span class="self">self
@@ -1284,15 +1284,15 @@
     /// use rocket::http::hyper::header::ACCEPT;
     ///
     /// let response = Response::build()
-    ///     .header_adjoin(Header::new(ACCEPT.as_str(), &quot;application/json&quot;))
-    ///     .header_adjoin(Header::new(ACCEPT.as_str(), &quot;text/plain&quot;))
+    ///     .header_adjoin(Header::new(ACCEPT.as_str(), "application/json"))
+    ///     .header_adjoin(Header::new(ACCEPT.as_str(), "text/plain"))
     ///     .finalize();
     ///
-    /// assert_eq!(response.headers().get(&quot;Accept&quot;).count(), 2);
+    /// assert_eq!(response.headers().get("Accept").count(), 2);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>header_adjoin&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>header_adjoin&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;
     {
         <span class="self">self</span>.response.adjoin_header(header);
         <span class="self">self
@@ -1309,15 +1309,15 @@
     /// use rocket::Response;
     ///
     /// let response = Response::build()
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;first&quot;)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;second&quot;)
+    ///     .raw_header("X-Custom", "first")
+    ///     .raw_header("X-Custom", "second")
     ///     .finalize();
     ///
-    /// assert_eq!(response.headers().get(&quot;X-Custom&quot;).count(), 1);
+    /// assert_eq!(response.headers().get("X-Custom").count(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>raw_header&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;r
+    </span><span class="kw">pub fn </span>raw_header&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;, <span class="lifetime">'a</span>: <span class="lifetime">'r</span>, <span class="lifetime">'b</span>: <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.response.set_raw_header(name, value);
         <span class="self">self
@@ -1335,22 +1335,22 @@
     /// use rocket::Response;
     ///
     /// let response = Response::build()
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;first&quot;)
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;second&quot;)
+    ///     .raw_header_adjoin("X-Custom", "first")
+    ///     .raw_header_adjoin("X-Custom", "second")
     ///     .finalize();
     ///
-    /// assert_eq!(response.headers().get(&quot;X-Custom&quot;).count(), 2);
+    /// assert_eq!(response.headers().get("X-Custom").count(), 2);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>raw_header_adjoin&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;r
+    </span><span class="kw">pub fn </span>raw_header_adjoin&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;, <span class="lifetime">'a</span>: <span class="lifetime">'r</span>, <span class="lifetime">'b</span>: <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.response.adjoin_raw_header(name, value);
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Sets the body of the `Response` to be the fixed-sized `body` with size
-    /// `size`, which may be `None`. If `size` is `None`, the body&#39;s size will
+    /// `size`, which may be `None`. If `size` is `None`, the body's size will
     /// be computed with calls to `seek` when the response is written out.
     ///
     /// # Example
@@ -1359,13 +1359,13 @@
     /// use std::io::Cursor;
     /// use rocket::Response;
     ///
-    /// let body = &quot;Hello, world!&quot;;
+    /// let body = "Hello, world!";
     /// let response = Response::build()
     ///     .sized_body(body.len(), Cursor::new(body))
     ///     .finalize();
     /// ```
-    </span><span class="kw">pub fn </span>sized_body&lt;B, S&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: S, body: B) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>B: AsyncRead + AsyncSeek + Send + <span class="lifetime">&#39;r</span>,
+    </span><span class="kw">pub fn </span>sized_body&lt;B, S&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: S, body: B) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>B: AsyncRead + AsyncSeek + Send + <span class="lifetime">'r</span>,
               S: Into&lt;<span class="prelude-ty">Option</span>&lt;usize&gt;&gt;
     {
         <span class="self">self</span>.response.set_sized_body(size, body);
@@ -1381,12 +1381,12 @@
     /// use rocket::Response;
     ///
     /// let response = Response::build()
-    ///     .streamed_body(Cursor::new(&quot;Hello, world!&quot;))
+    ///     .streamed_body(Cursor::new("Hello, world!"))
     ///     .finalize();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>streamed_body&lt;B&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, body: B) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>B: AsyncRead + Send + <span class="lifetime">&#39;r
+    </span><span class="kw">pub fn </span>streamed_body&lt;B&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, body: B) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>B: AsyncRead + Send + <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.response.set_streamed_body(body);
         <span class="self">self
@@ -1422,13 +1422,13 @@
     /// }
     ///
     /// let response = Response::build()
-    ///     .upgrade(&quot;raw-echo&quot;, EchoHandler)
-    ///     .streamed_body(std::io::Cursor::new(&quot;We didn&#39;t upgrade!&quot;))
+    ///     .upgrade("raw-echo", EchoHandler)
+    ///     .streamed_body(std::io::Cursor::new("We didn't upgrade!"))
     ///     .finalize();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>upgrade&lt;P, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, protocol: P, handler: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span>P: Into&lt;Uncased&lt;<span class="lifetime">&#39;r</span>&gt;&gt;, H: IoHandler + <span class="lifetime">&#39;r
+    </span><span class="kw">pub fn </span>upgrade&lt;P, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, protocol: P, handler: H) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span>P: Into&lt;Uncased&lt;<span class="lifetime">'r</span>&gt;&gt;, H: IoHandler + <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.response.add_upgrade(protocol.into(), handler);
         <span class="self">self
@@ -1445,12 +1445,12 @@
     /// use rocket::Response;
     ///
     /// let response = Response::build()
-    ///     .streamed_body(Cursor::new(&quot;Hello, world!&quot;))
+    ///     .streamed_body(Cursor::new("Hello, world!"))
     ///     .max_chunk_size(3072)
     ///     .finalize();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>max_chunk_size(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: usize) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>max_chunk_size(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: usize) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt; {
         <span class="self">self</span>.response.set_max_chunk_size(size);
         <span class="self">self
     </span>}
@@ -1470,26 +1470,26 @@
     /// let base = Response::build()
     ///     .status(Status::NotFound)
     ///     .header(ContentType::HTML)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 1&quot;)
+    ///     .raw_header("X-Custom", "value 1")
     ///     .finalize();
     ///
     /// let response = Response::build()
     ///     .status(Status::ImATeapot)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 2&quot;)
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;value 3&quot;)
+    ///     .raw_header("X-Custom", "value 2")
+    ///     .raw_header_adjoin("X-Custom", "value 3")
     ///     .merge(base)
     ///     .finalize();
     ///
     /// assert_eq!(response.status(), Status::NotFound);
     ///
-    /// let ctype: Vec&lt;_&gt; = response.headers().get(&quot;Content-Type&quot;).collect();
+    /// let ctype: Vec&lt;_&gt; = response.headers().get("Content-Type").collect();
     /// assert_eq!(ctype, vec![ContentType::HTML.to_string()]);
     ///
-    /// let custom_values: Vec&lt;_&gt; = response.headers().get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(custom_values, vec![&quot;value 1&quot;]);
+    /// let custom_values: Vec&lt;_&gt; = response.headers().get("X-Custom").collect();
+    /// assert_eq!(custom_values, vec!["value 1"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>merge(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>merge(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">'r</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt; {
         <span class="self">self</span>.response.merge(other);
         <span class="self">self
     </span>}
@@ -1510,26 +1510,26 @@
     /// let other = Response::build()
     ///     .status(Status::NotFound)
     ///     .header(ContentType::HTML)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 1&quot;)
+    ///     .raw_header("X-Custom", "value 1")
     ///     .finalize();
     ///
     /// let response = Response::build()
     ///     .status(Status::ImATeapot)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 2&quot;)
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;value 3&quot;)
+    ///     .raw_header("X-Custom", "value 2")
+    ///     .raw_header_adjoin("X-Custom", "value 3")
     ///     .join(other)
     ///     .finalize();
     ///
     /// assert_eq!(response.status(), Status::ImATeapot);
     ///
-    /// let ctype: Vec&lt;_&gt; = response.headers().get(&quot;Content-Type&quot;).collect();
+    /// let ctype: Vec&lt;_&gt; = response.headers().get("Content-Type").collect();
     /// assert_eq!(ctype, vec![ContentType::HTML.to_string()]);
     ///
-    /// let custom_values: Vec&lt;_&gt; = response.headers().get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(custom_values, vec![&quot;value 2&quot;, &quot;value 3&quot;, &quot;value 1&quot;]);
+    /// let custom_values: Vec&lt;_&gt; = response.headers().get("X-Custom").collect();
+    /// assert_eq!(custom_values, vec!["value 2", "value 3", "value 1"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>join(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>join(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">'r</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>Builder&lt;<span class="lifetime">'r</span>&gt; {
         <span class="self">self</span>.response.join(other);
         <span class="self">self
     </span>}
@@ -1546,14 +1546,14 @@
     /// use rocket::Response;
     /// use rocket::http::Status;
     ///
-    /// let body = &quot;Brewing the best coffee!&quot;;
+    /// let body = "Brewing the best coffee!";
     /// let response = Response::build()
     ///     .status(Status::ImATeapot)
     ///     .sized_body(body.len(), Cursor::new(body))
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 2&quot;)
+    ///     .raw_header("X-Custom", "value 2")
     ///     .finalize();
     /// ```
-    </span><span class="kw">pub fn </span>finalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>finalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
         std::mem::replace(<span class="kw-2">&amp;mut </span><span class="self">self</span>.response, Response::new())
     }
 
@@ -1572,7 +1572,7 @@
     /// assert!(response.is_ok());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>ok&lt;E&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Response&lt;<span class="lifetime">&#39;r</span>&gt;, E&gt; {
+    </span><span class="kw">pub fn </span>ok&lt;E&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Response&lt;<span class="lifetime">'r</span>&gt;, E&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.finalize())
     }
 }
@@ -1591,7 +1591,7 @@
 /// `Connection: Upgrade` header _and_ 2) includes a protocol in its `Upgrade`
 /// header that is registered by the returned `Response`, the connection will be
 /// upgraded. An upgrade response is sent to the client, and the registered
-/// `IoHandler` for the client&#39;s preferred protocol is invoked with an
+/// `IoHandler` for the client's preferred protocol is invoked with an
 /// [`IoStream`](crate::data::IoStream) representing a raw byte stream to the
 /// client. Note that protocol names are treated case-insensitively during
 /// matching.
@@ -1600,7 +1600,7 @@
 /// upgrade response:
 ///   * The response status to `101 Switching Protocols`.
 ///   * The `Connection: Upgrade` header.
-///   * The `Upgrade` header&#39;s value to the selected protocol.
+///   * The `Upgrade` header's value to the selected protocol.
 ///
 /// As such, a response **should never** set a `101` status nor the `Connection`
 /// or `Upgrade` headers: Rocket handles this automatically. Instead, it should
@@ -1611,14 +1611,14 @@
 /// matching, registered protocol, the `IoHandler` is not invoked, and the
 /// original response is sent to the client without alteration.
 </span><span class="attr">#[derive(Default)]
-</span><span class="kw">pub struct </span>Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>Response&lt;<span class="lifetime">'r</span>&gt; {
     status: <span class="prelude-ty">Option</span>&lt;Status&gt;,
-    headers: HeaderMap&lt;<span class="lifetime">&#39;r</span>&gt;,
-    body: Body&lt;<span class="lifetime">&#39;r</span>&gt;,
-    upgrade: HashMap&lt;Uncased&lt;<span class="lifetime">&#39;r</span>&gt;, Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">&#39;r</span>&gt;&gt;&gt;,
+    headers: HeaderMap&lt;<span class="lifetime">'r</span>&gt;,
+    body: Body&lt;<span class="lifetime">'r</span>&gt;,
+    upgrade: HashMap&lt;Uncased&lt;<span class="lifetime">'r</span>&gt;, Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">'r</span>&gt;&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Creates a new, empty `Response` without a status, body, or headers.
     /// Because all HTTP responses must have a status, if a default `Response`
     /// is written to the client without a status, the status defaults to `200
@@ -1637,7 +1637,7 @@
     /// assert!(response.body().is_none());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>new() -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>new() -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
         Response::default()
     }
 
@@ -1652,7 +1652,7 @@
     /// let builder = Response::build();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>build() -&gt; Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>build() -&gt; Builder&lt;<span class="lifetime">'r</span>&gt; {
         Response::build_from(Response::new())
     }
 
@@ -1668,7 +1668,7 @@
     /// let builder = Response::build_from(other);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>build_from(other: Response&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Builder&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>build_from(other: Response&lt;<span class="lifetime">'r</span>&gt;) -&gt; Builder&lt;<span class="lifetime">'r</span>&gt; {
         Builder::new(other)
     }
 
@@ -1723,7 +1723,7 @@
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>content_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;ContentType&gt; {
-        <span class="self">self</span>.headers().get_one(<span class="string">&quot;Content-Type&quot;</span>).and_then(|v| v.parse().ok())
+        <span class="self">self</span>.headers().get_one(<span class="string">"Content-Type"</span>).and_then(|v| v.parse().ok())
     }
 
     <span class="doccomment">/// Returns an iterator over the cookies in `self` as identified by the
@@ -1736,13 +1736,13 @@
     /// use rocket::http::Cookie;
     ///
     /// let mut response = Response::new();
-    /// response.set_header(Cookie::new(&quot;hello&quot;, &quot;world!&quot;));
+    /// response.set_header(Cookie::new("hello", "world!"));
     /// let cookies: Vec&lt;_&gt; = response.cookies().collect();
-    /// assert_eq!(cookies, vec![Cookie::new(&quot;hello&quot;, &quot;world!&quot;)]);
+    /// assert_eq!(cookies, vec![Cookie::new("hello", "world!")]);
     /// ```
-    </span><span class="kw">pub fn </span>cookies(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Cookie&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>cookies(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Cookie&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.headers()
-            .get(<span class="string">&quot;Set-Cookie&quot;</span>)
+            .get(<span class="string">"Set-Cookie"</span>)
             .filter_map(|header| Cookie::parse_encoded(header).ok())
     }
 
@@ -1755,16 +1755,16 @@
     /// use rocket::http::Header;
     ///
     /// let mut response = Response::new();
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;1&quot;);
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;2&quot;);
+    /// response.adjoin_raw_header("X-Custom", "1");
+    /// response.adjoin_raw_header("X-Custom", "2");
     ///
     /// let mut custom_headers = response.headers().iter();
-    /// assert_eq!(custom_headers.next(), Some(Header::new(&quot;X-Custom&quot;, &quot;1&quot;)));
-    /// assert_eq!(custom_headers.next(), Some(Header::new(&quot;X-Custom&quot;, &quot;2&quot;)));
+    /// assert_eq!(custom_headers.next(), Some(Header::new("X-Custom", "1")));
+    /// assert_eq!(custom_headers.next(), Some(Header::new("X-Custom", "2")));
     /// assert_eq!(custom_headers.next(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>headers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>HeaderMap&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>headers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>HeaderMap&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.headers
     }
 
@@ -1791,7 +1791,7 @@
     /// assert_eq!(response.headers().len(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>set_header&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; bool {
+    </span><span class="kw">pub fn </span>set_header&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; bool {
         <span class="self">self</span>.headers.replace(header)
     }
 
@@ -1808,17 +1808,17 @@
     ///
     /// let mut response = Response::new();
     ///
-    /// response.set_raw_header(&quot;X-Custom&quot;, &quot;1&quot;);
-    /// assert_eq!(response.headers().get_one(&quot;X-Custom&quot;), Some(&quot;1&quot;));
+    /// response.set_raw_header("X-Custom", "1");
+    /// assert_eq!(response.headers().get_one("X-Custom"), Some("1"));
     /// assert_eq!(response.headers().len(), 1);
     ///
-    /// response.set_raw_header(&quot;X-Custom&quot;, &quot;2&quot;);
-    /// assert_eq!(response.headers().get_one(&quot;X-Custom&quot;), Some(&quot;2&quot;));
+    /// response.set_raw_header("X-Custom", "2");
+    /// assert_eq!(response.headers().get_one("X-Custom"), Some("2"));
     /// assert_eq!(response.headers().len(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>set_raw_header&lt;<span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;r</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; bool
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>set_raw_header&lt;<span class="lifetime">'a</span>: <span class="lifetime">'r</span>, <span class="lifetime">'b</span>: <span class="lifetime">'r</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; bool
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;
     {
         <span class="self">self</span>.set_header(Header::new(name, value))
     }
@@ -1838,16 +1838,16 @@
     /// use rocket::http::hyper::header::ACCEPT;
     ///
     /// let mut response = Response::new();
-    /// response.adjoin_header(Header::new(ACCEPT.as_str(), &quot;application/json&quot;));
-    /// response.adjoin_header(Header::new(ACCEPT.as_str(), &quot;text/plain&quot;));
+    /// response.adjoin_header(Header::new(ACCEPT.as_str(), "application/json"));
+    /// response.adjoin_header(Header::new(ACCEPT.as_str(), "text/plain"));
     ///
     /// let mut accept_headers = response.headers().iter();
-    /// assert_eq!(accept_headers.next(), Some(Header::new(ACCEPT.as_str(), &quot;application/json&quot;)));
-    /// assert_eq!(accept_headers.next(), Some(Header::new(ACCEPT.as_str(), &quot;text/plain&quot;)));
+    /// assert_eq!(accept_headers.next(), Some(Header::new(ACCEPT.as_str(), "application/json")));
+    /// assert_eq!(accept_headers.next(), Some(Header::new(ACCEPT.as_str(), "text/plain")));
     /// assert_eq!(accept_headers.next(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>adjoin_header&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
+    </span><span class="kw">pub fn </span>adjoin_header&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
         <span class="self">self</span>.headers.add(header)
     }
 
@@ -1865,17 +1865,17 @@
     /// use rocket::http::Header;
     ///
     /// let mut response = Response::new();
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;one&quot;);
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;two&quot;);
+    /// response.adjoin_raw_header("X-Custom", "one");
+    /// response.adjoin_raw_header("X-Custom", "two");
     ///
     /// let mut custom_headers = response.headers().iter();
-    /// assert_eq!(custom_headers.next(), Some(Header::new(&quot;X-Custom&quot;, &quot;one&quot;)));
-    /// assert_eq!(custom_headers.next(), Some(Header::new(&quot;X-Custom&quot;, &quot;two&quot;)));
+    /// assert_eq!(custom_headers.next(), Some(Header::new("X-Custom", "one")));
+    /// assert_eq!(custom_headers.next(), Some(Header::new("X-Custom", "two")));
     /// assert_eq!(custom_headers.next(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>adjoin_raw_header&lt;<span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;r</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V)
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>adjoin_raw_header&lt;<span class="lifetime">'a</span>: <span class="lifetime">'r</span>, <span class="lifetime">'b</span>: <span class="lifetime">'r</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V)
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;
     {
         <span class="self">self</span>.adjoin_header(Header::new(name, value));
     }
@@ -1889,12 +1889,12 @@
     ///
     /// let mut response = Response::new();
     ///
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;one&quot;);
-    /// response.adjoin_raw_header(&quot;X-Custom&quot;, &quot;two&quot;);
-    /// response.adjoin_raw_header(&quot;X-Other&quot;, &quot;hi&quot;);
+    /// response.adjoin_raw_header("X-Custom", "one");
+    /// response.adjoin_raw_header("X-Custom", "two");
+    /// response.adjoin_raw_header("X-Other", "hi");
     /// assert_eq!(response.headers().len(), 3);
     ///
-    /// response.remove_header(&quot;X-Custom&quot;);
+    /// response.remove_header("X-Custom");
     /// assert_eq!(response.headers().len(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
@@ -1914,24 +1914,24 @@
     /// let mut response = Response::new();
     /// assert!(response.body().is_none());
     ///
-    /// let string = &quot;Hello, world!&quot;;
+    /// let string = "Hello, world!";
     /// response.set_sized_body(string.len(), Cursor::new(string));
     /// assert!(response.body().is_some());
     /// # })
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>body(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Body&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>body(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Body&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.body
     }
 
     <span class="doccomment">/// Returns `Ok(Some(_))` if `self` contains a suitable handler for any of
     /// the comma-separated protocols any of the strings in `I`. Returns
-    /// `Ok(None)` if `self` doesn&#39;t support any kind of upgrade. Returns
+    /// `Ok(None)` if `self` doesn't support any kind of upgrade. Returns
     /// `Err(_)` if `protocols` is non-empty but no match was found in `self`.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>take_upgrade&lt;I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>str&gt;&gt;(
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>take_upgrade&lt;I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'r </span>str&gt;&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         protocols: I
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;(Uncased&lt;<span class="lifetime">&#39;r</span>&gt;, Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">&#39;r</span>&gt;&gt;)&gt;, ()&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;(Uncased&lt;<span class="lifetime">'r</span>&gt;, Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">'r</span>&gt;&gt;)&gt;, ()&gt; {
         <span class="kw">if </span><span class="self">self</span>.upgrade.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }
@@ -1939,7 +1939,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>protocols = protocols.peekable();
         <span class="kw">let </span>have_protocols = protocols.peek().is_some();
         <span class="kw">let </span>found = protocols
-            .flat_map(|v| v.split(<span class="string">&#39;,&#39;</span>).map(str::trim))
+            .flat_map(|v| v.split(<span class="string">','</span>).map(str::trim))
             .find_map(|p| <span class="self">self</span>.upgrade.remove_entry(p.as_uncased()));
 
         <span class="kw">match </span>found {
@@ -1975,13 +1975,13 @@
     ///
     /// # rocket::async_test(async {
     /// let mut response = Response::new();
-    /// assert!(response.upgrade(&quot;raw-echo&quot;).is_none());
+    /// assert!(response.upgrade("raw-echo").is_none());
     ///
-    /// response.add_upgrade(&quot;raw-echo&quot;, EchoHandler);
-    /// assert!(response.upgrade(&quot;raw-echo&quot;).is_some());
+    /// response.add_upgrade("raw-echo", EchoHandler);
+    /// assert!(response.upgrade("raw-echo").is_some());
     /// # })
     /// ```
-    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;mut </span><span class="self">self</span>, proto: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Pin&lt;<span class="kw-2">&amp;mut </span>(<span class="kw">dyn </span>IoHandler + <span class="lifetime">&#39;r</span>)&gt;&gt; {
+    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;mut </span><span class="self">self</span>, proto: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Pin&lt;<span class="kw-2">&amp;mut </span>(<span class="kw">dyn </span>IoHandler + <span class="lifetime">'r</span>)&gt;&gt; {
         <span class="self">self</span>.upgrade.get_mut(proto.as_uncased()).map(|h| h.as_mut())
     }
 
@@ -1998,14 +1998,14 @@
     /// let mut response = Response::new();
     /// assert!(response.body().is_none());
     ///
-    /// let string = &quot;Hello, world!&quot;;
+    /// let string = "Hello, world!";
     /// response.set_sized_body(string.len(), Cursor::new(string));
     /// let string = response.body_mut().to_string().await;
-    /// assert_eq!(string.unwrap(), &quot;Hello, world!&quot;);
+    /// assert_eq!(string.unwrap(), "Hello, world!");
     /// # })
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>body_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Body&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>body_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Body&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.body
     }
 
@@ -2017,7 +2017,7 @@
     }
 
     <span class="doccomment">/// Sets the body of `self` to be the fixed-sized `body` with size
-    /// `size`, which may be `None`. If `size` is `None`, the body&#39;s size will
+    /// `size`, which may be `None`. If `size` is `None`, the body's size will
     /// be computing with calls to `seek` just before being written out in a
     /// response.
     ///
@@ -2028,17 +2028,17 @@
     /// use rocket::Response;
     ///
     /// # let o: io::Result&lt;()&gt; = rocket::async_test(async {
-    /// let string = &quot;Hello, world!&quot;;
+    /// let string = "Hello, world!";
     ///
     /// let mut response = Response::new();
     /// response.set_sized_body(string.len(), io::Cursor::new(string));
-    /// assert_eq!(response.body_mut().to_string().await?, &quot;Hello, world!&quot;);
+    /// assert_eq!(response.body_mut().to_string().await?, "Hello, world!");
     /// # Ok(())
     /// # });
     /// # assert!(o.is_ok());
     /// ```
     </span><span class="kw">pub fn </span>set_sized_body&lt;B, S&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, size: S, body: B)
-        <span class="kw">where </span>B: AsyncRead + AsyncSeek + Send + <span class="lifetime">&#39;r</span>,
+        <span class="kw">where </span>B: AsyncRead + AsyncSeek + Send + <span class="lifetime">'r</span>,
               S: Into&lt;<span class="prelude-ty">Option</span>&lt;usize&gt;&gt;
     {
         <span class="self">self</span>.body = Body::with_sized(body, size.into());
@@ -2059,14 +2059,14 @@
     /// # let o: io::Result&lt;()&gt; = rocket::async_test(async {
     /// let mut response = Response::new();
     /// response.set_streamed_body(repeat(97).take(5));
-    /// assert_eq!(response.body_mut().to_string().await?, &quot;aaaaa&quot;);
+    /// assert_eq!(response.body_mut().to_string().await?, "aaaaa");
     /// # Ok(())
     /// # });
     /// # assert!(o.is_ok());
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>set_streamed_body&lt;B&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, body: B)
-        <span class="kw">where </span>B: AsyncRead + Send + <span class="lifetime">&#39;r
+        <span class="kw">where </span>B: AsyncRead + Send + <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.body = Body::with_unsized(body);
     }
@@ -2108,19 +2108,19 @@
     ///
     /// # rocket::async_test(async {
     /// let mut response = Response::new();
-    /// assert!(response.upgrade(&quot;raw-echo&quot;).is_none());
+    /// assert!(response.upgrade("raw-echo").is_none());
     ///
-    /// response.add_upgrade(&quot;raw-echo&quot;, EchoHandler);
-    /// assert!(response.upgrade(&quot;raw-echo&quot;).is_some());
+    /// response.add_upgrade("raw-echo", EchoHandler);
+    /// assert!(response.upgrade("raw-echo").is_some());
     /// # })
     /// ```
     </span><span class="kw">pub fn </span>add_upgrade&lt;N, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, protocol: N, handler: H)
-        <span class="kw">where </span>N: Into&lt;Uncased&lt;<span class="lifetime">&#39;r</span>&gt;&gt;, H: IoHandler + <span class="lifetime">&#39;r
+        <span class="kw">where </span>N: Into&lt;Uncased&lt;<span class="lifetime">'r</span>&gt;&gt;, H: IoHandler + <span class="lifetime">'r
     </span>{
         <span class="self">self</span>.upgrade.insert(protocol.into(), Box::pin(handler));
     }
 
-    <span class="doccomment">/// Sets the body&#39;s maximum chunk size to `size` bytes.
+    <span class="doccomment">/// Sets the body's maximum chunk size to `size` bytes.
     ///
     /// The default max chunk size is [`Body::DEFAULT_MAX_CHUNK`]. The max chunk
     /// size is a property of the body and is thus reset whenever a body is set
@@ -2150,9 +2150,9 @@
         <span class="self">self</span>.body_mut().set_max_chunk_size(size);
     }
 
-    <span class="doccomment">/// Replaces this response&#39;s status and body with that of `other`, if they
+    <span class="doccomment">/// Replaces this response's status and body with that of `other`, if they
     /// exist in `other`. Any headers that exist in `other` replace the ones in
-    /// `self`. Any in `self` that aren&#39;t in `other` remain in `self`.
+    /// `self`. Any in `self` that aren't in `other` remain in `self`.
     ///
     /// # Example
     ///
@@ -2163,25 +2163,25 @@
     /// let base = Response::build()
     ///     .status(Status::NotFound)
     ///     .header(ContentType::HTML)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 1&quot;)
+    ///     .raw_header("X-Custom", "value 1")
     ///     .finalize();
     ///
     /// let response = Response::build()
     ///     .status(Status::ImATeapot)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 2&quot;)
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;value 3&quot;)
+    ///     .raw_header("X-Custom", "value 2")
+    ///     .raw_header_adjoin("X-Custom", "value 3")
     ///     .merge(base)
     ///     .finalize();
     ///
     /// assert_eq!(response.status(), Status::NotFound);
     ///
-    /// let ctype: Vec&lt;_&gt; = response.headers().get(&quot;Content-Type&quot;).collect();
+    /// let ctype: Vec&lt;_&gt; = response.headers().get("Content-Type").collect();
     /// assert_eq!(ctype, vec![ContentType::HTML.to_string()]);
     ///
-    /// let custom_values: Vec&lt;_&gt; = response.headers().get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(custom_values, vec![&quot;value 1&quot;]);
+    /// let custom_values: Vec&lt;_&gt; = response.headers().get("X-Custom").collect();
+    /// assert_eq!(custom_values, vec!["value 1"]);
     /// ```
-    </span><span class="kw">pub fn </span>merge(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">pub fn </span>merge(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(status) = other.status {
             <span class="self">self</span>.status = <span class="prelude-val">Some</span>(status);
         }
@@ -2195,7 +2195,7 @@
         }
     }
 
-    <span class="doccomment">/// Sets `self`&#39;s status and body to that of `other` if they are not already
+    <span class="doccomment">/// Sets `self`'s status and body to that of `other` if they are not already
     /// set in `self`. Any headers present in both `other` and `self` are
     /// adjoined.
     ///
@@ -2208,25 +2208,25 @@
     /// let other = Response::build()
     ///     .status(Status::NotFound)
     ///     .header(ContentType::HTML)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 1&quot;)
+    ///     .raw_header("X-Custom", "value 1")
     ///     .finalize();
     ///
     /// let response = Response::build()
     ///     .status(Status::ImATeapot)
-    ///     .raw_header(&quot;X-Custom&quot;, &quot;value 2&quot;)
-    ///     .raw_header_adjoin(&quot;X-Custom&quot;, &quot;value 3&quot;)
+    ///     .raw_header("X-Custom", "value 2")
+    ///     .raw_header_adjoin("X-Custom", "value 3")
     ///     .join(other)
     ///     .finalize();
     ///
     /// assert_eq!(response.status(), Status::ImATeapot);
     ///
-    /// let ctype: Vec&lt;_&gt; = response.headers().get(&quot;Content-Type&quot;).collect();
+    /// let ctype: Vec&lt;_&gt; = response.headers().get("Content-Type").collect();
     /// assert_eq!(ctype, vec![ContentType::HTML.to_string()]);
     ///
-    /// let custom_values: Vec&lt;_&gt; = response.headers().get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(custom_values, vec![&quot;value 2&quot;, &quot;value 3&quot;, &quot;value 1&quot;]);
+    /// let custom_values: Vec&lt;_&gt; = response.headers().get("X-Custom").collect();
+    /// assert_eq!(custom_values, vec!["value 2", "value 3", "value 1"]);
     /// ```
-    </span><span class="kw">pub fn </span>join(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">pub fn </span>join(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: Response&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="kw">if </span><span class="self">self</span>.status.is_none() {
             <span class="self">self</span>.status = other.status;
         }
@@ -2241,12 +2241,12 @@
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Response&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">writeln!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.status())<span class="question-mark">?</span>;
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Response&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">writeln!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.status())<span class="question-mark">?</span>;
 
         <span class="kw">for </span>header <span class="kw">in </span><span class="self">self</span>.headers().iter() {
-            <span class="macro">writeln!</span>(f, <span class="string">&quot;{}&quot;</span>, header)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(f, <span class="string">"{}"</span>, header)<span class="question-mark">?</span>;
         }
 
         <span class="self">self</span>.body.fmt(f)

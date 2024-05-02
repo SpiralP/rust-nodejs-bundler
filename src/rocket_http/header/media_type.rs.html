@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/header/media_type.rs`."><title>media_type.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/header/media_type.rs`."><title>media_type.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -662,10 +662,10 @@
 /// use rocket::http::MediaType;
 ///
 /// let json = MediaType::JSON;
-/// assert_eq!(json.top(), &quot;application&quot;);
-/// assert_eq!(json.sub(), &quot;json&quot;);
+/// assert_eq!(json.top(), "application");
+/// assert_eq!(json.sub(), "json");
 ///
-/// let json = MediaType::new(&quot;application&quot;, &quot;json&quot;);
+/// let json = MediaType::new("application", "json");
 /// assert_eq!(MediaType::JSON, json);
 /// ```
 ///
@@ -683,9 +683,9 @@
     <span class="doccomment">/// InitCell for the entire media type string.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) source: Source,
     <span class="doccomment">/// The top-level type.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) top: IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) top: IndexedStr&lt;<span class="lifetime">'static</span>&gt;,
     <span class="doccomment">/// The subtype.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) sub: IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) sub: IndexedStr&lt;<span class="lifetime">'static</span>&gt;,
     <span class="doccomment">/// The parameters, if any.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) params: MediaParams
 }
@@ -693,34 +693,34 @@
 <span class="comment">// FIXME: `Static` variant is needed for `const`. Need `const SmallVec::new`.
 </span><span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>MediaParams {
-    Static(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str)]),
-    Dynamic(SmallVec&lt;[(IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;, IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;); <span class="number">2</span>]&gt;)
+    Static(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str)]),
+    Dynamic(SmallVec&lt;[(IndexedStr&lt;<span class="lifetime">'static</span>&gt;, IndexedStr&lt;<span class="lifetime">'static</span>&gt;); <span class="number">2</span>]&gt;)
 }
 
 <span class="attr">#[derive(Debug, Clone, PartialEq, Eq)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Source {
-    Known(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str),
-    Custom(Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;),
+    Known(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str),
+    Custom(Cow&lt;<span class="lifetime">'static</span>, str&gt;),
     <span class="prelude-val">None
 </span>}
 
-<span class="kw">impl </span>From&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt; <span class="kw">for </span>Source {
-    <span class="kw">fn </span>from(custom: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;) -&gt; Source {
+<span class="kw">impl </span>From&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt; <span class="kw">for </span>Source {
+    <span class="kw">fn </span>from(custom: Cow&lt;<span class="lifetime">'static</span>, str&gt;) -&gt; Source {
         Source::Custom(custom)
     }
 }
 
-<span class="macro">macro_rules! </span>media_types {
+<span class="macro">macro_rules!</span> media_types {
     ($(<span class="macro-nonterminal">$name</span>:ident (<span class="macro-nonterminal">$check</span>:ident): <span class="macro-nonterminal">$str</span>:expr, <span class="macro-nonterminal">$t</span>:expr,
         <span class="macro-nonterminal">$s</span>:expr $(; <span class="macro-nonterminal">$k</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr)<span class="kw-2">*</span>,)+) =&gt; {
     $(
         <span class="macro">docify!</span>([
-            Media Type <span class="kw">for </span>@{<span class="string">&quot;**&quot;</span>}! @{<span class="macro-nonterminal">$str</span>}! @{<span class="string">&quot;**&quot;</span>}!: @{<span class="string">&quot;`&quot;</span>} @{<span class="macro-nonterminal">$t</span>}! @[/]! @{<span class="macro-nonterminal">$s</span>}!
-            $(; @{<span class="macro-nonterminal">$k</span>}! @[=]! @{<span class="macro-nonterminal">$v</span>}!)* @{<span class="string">&quot;`&quot;</span>}!.
+            Media Type <span class="kw">for </span>@{<span class="string">"**"</span>}! @{<span class="macro-nonterminal">$str</span>}! @{<span class="string">"**"</span>}!: @{<span class="string">"`"</span>} @{<span class="macro-nonterminal">$t</span>}! @[/]! @{<span class="macro-nonterminal">$s</span>}!
+            $(; @{<span class="macro-nonterminal">$k</span>}! @[=]! @{<span class="macro-nonterminal">$v</span>}!)* @{<span class="string">"`"</span>}!.
         ];
             <span class="attr">#[allow(non_upper_case_globals)]
             </span><span class="kw">pub const </span><span class="macro-nonterminal">$name</span>: MediaType = MediaType::new_known(
-                <span class="macro">concat!</span>(<span class="macro-nonterminal">$t</span>, <span class="string">&quot;/&quot;</span>, <span class="macro-nonterminal">$s</span>, $(<span class="string">&quot;; &quot;</span>, <span class="macro-nonterminal">$k</span>, <span class="string">&quot;=&quot;</span>, <span class="macro-nonterminal">$v</span>),<span class="kw-2">*</span>),
+                <span class="macro">concat!</span>(<span class="macro-nonterminal">$t</span>, <span class="string">"/"</span>, <span class="macro-nonterminal">$s</span>, $(<span class="string">"; "</span>, <span class="macro-nonterminal">$k</span>, <span class="string">"="</span>, <span class="macro-nonterminal">$v</span>),<span class="kw-2">*</span>),
                 <span class="macro-nonterminal">$t</span>, <span class="macro-nonterminal">$s</span>, <span class="kw-2">&amp;</span>[$((<span class="macro-nonterminal">$k</span>, <span class="macro-nonterminal">$v</span>)),<span class="kw-2">*</span>]
             );
         );
@@ -740,8 +740,8 @@
     $(
         <span class="macro">docify!</span>([
             Returns @code{<span class="bool-val">true</span>} <span class="kw">if </span>the @[top-level] and sublevel types of
-            @code{<span class="self">self</span>} are the same <span class="kw">as </span>those of @{<span class="string">&quot;`MediaType::&quot;</span>}! <span class="macro-nonterminal">$name
-            </span>@{<span class="string">&quot;`&quot;</span>}!, i.e @{<span class="string">&quot;`&quot;</span>} @{<span class="macro-nonterminal">$t</span>}! @[/]! @{<span class="macro-nonterminal">$s</span>}! $(; @{<span class="macro-nonterminal">$k</span>}! @[=]! @{<span class="macro-nonterminal">$v</span>}!)* @{<span class="string">&quot;`&quot;</span>}!.
+            @code{<span class="self">self</span>} are the same <span class="kw">as </span>those of @{<span class="string">"`MediaType::"</span>}! <span class="macro-nonterminal">$name
+            </span>@{<span class="string">"`"</span>}!, i.e @{<span class="string">"`"</span>} @{<span class="macro-nonterminal">$t</span>}! @[/]! @{<span class="macro-nonterminal">$s</span>}! $(; @{<span class="macro-nonterminal">$k</span>}! @[=]! @{<span class="macro-nonterminal">$v</span>}!)* @{<span class="string">"`"</span>}!.
         ];
             <span class="attr">#[inline(always)]
             </span><span class="kw">pub fn </span><span class="macro-nonterminal">$check</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -751,7 +751,7 @@
     )+
 }}
 
-<span class="macro">macro_rules! </span>from_extension {
+<span class="macro">macro_rules!</span> from_extension {
     ($(<span class="macro-nonterminal">$ext</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
     <span class="macro">docify!</span>([
         Returns the @[Media-Type] associated with the extension @code{ext}. Not
@@ -759,7 +759,7 @@
         @code{<span class="prelude-val">None</span>} is returned. The currently recognized extensions are:
 
         @nl
-        $(* @{<span class="macro-nonterminal">$ext</span>} - @{<span class="string">&quot;`MediaType::&quot;</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">&quot;`&quot;</span>} @nl)*
+        $(* @{<span class="macro-nonterminal">$ext</span>} - @{<span class="string">"`MediaType::"</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">"`"</span>} @nl)*
         @nl
 
         This list is likely to grow. Extensions are matched
@@ -773,10 +773,10 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let xml = MediaType::from_extension(&quot;xml&quot;);
+        /// let xml = MediaType::from_extension("xml");
         /// assert_eq!(xml, Some(MediaType::XML));
         ///
-        /// let xml = MediaType::from_extension(&quot;XML&quot;);
+        /// let xml = MediaType::from_extension("XML");
         /// assert_eq!(xml, Some(MediaType::XML));
         /// ```
         ///
@@ -786,7 +786,7 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let foo = MediaType::from_extension(&quot;foo&quot;);
+        /// let foo = MediaType::from_extension("foo");
         /// assert!(foo.is_none());
         /// ```
         </span><span class="kw">pub fn </span>from_extension(ext: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;MediaType&gt; {
@@ -798,13 +798,13 @@
     );)
 }
 
-<span class="macro">macro_rules! </span>extension {
+<span class="macro">macro_rules!</span> extension {
     ($(<span class="macro-nonterminal">$ext</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
     <span class="macro">docify!</span>([
         Returns the most common file extension associated with the @[Media-Type]
         @code{<span class="self">self</span>} <span class="kw">if </span>it is known. Otherwise, returns @code{<span class="prelude-val">None</span>}. The
         currently recognized extensions are identical to those <span class="kw">in
-        </span>@{<span class="string">&quot;[`MediaType::from_extension()`]&quot;</span>} with the @{<span class="string">&quot;most common&quot;</span>} extension
+        </span>@{<span class="string">"[`MediaType::from_extension()`]"</span>} with the @{<span class="string">"most common"</span>} extension
         being the first extension appearing <span class="kw">in </span>the list <span class="kw">for </span>a given
         @[Media-Type].
     ];
@@ -816,10 +816,10 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// assert_eq!(MediaType::JSON.extension().unwrap(), &quot;json&quot;);
-        /// assert_eq!(MediaType::JPEG.extension().unwrap(), &quot;jpeg&quot;);
-        /// assert_eq!(MediaType::JPEG.extension().unwrap(), &quot;JPEG&quot;);
-        /// assert_eq!(MediaType::PDF.extension().unwrap(), &quot;pdf&quot;);
+        /// assert_eq!(MediaType::JSON.extension().unwrap(), "json");
+        /// assert_eq!(MediaType::JPEG.extension().unwrap(), "jpeg");
+        /// assert_eq!(MediaType::JPEG.extension().unwrap(), "JPEG");
+        /// assert_eq!(MediaType::PDF.extension().unwrap(), "pdf");
         /// ```
         ///
         /// An unknown extension:
@@ -828,7 +828,7 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let foo = MediaType::new(&quot;foo&quot;, &quot;bar&quot;);
+        /// let foo = MediaType::new("foo", "bar");
         /// assert!(foo.extension().is_none());
         /// ```
         </span><span class="attr">#[inline]
@@ -839,7 +839,7 @@
     );)
 }
 
-<span class="macro">macro_rules! </span>parse_flexible {
+<span class="macro">macro_rules!</span> parse_flexible {
     ($(<span class="macro-nonterminal">$short</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
     <span class="macro">docify!</span>([
         Flexibly parses @code{name} into a @code{MediaType}. The parse is
@@ -847,7 +847,7 @@
         recognizes the following shorthands:
 
         @nl
-        $(* <span class="macro-nonterminal">$short </span>- @{<span class="string">&quot;`MediaType::&quot;</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">&quot;`&quot;</span>} @nl)*
+        $(* <span class="macro-nonterminal">$short </span>- @{<span class="string">"`MediaType::"</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">"`"</span>} @nl)*
         @nl
     ];
         <span class="doccomment">/// For regular parsing, use the
@@ -861,10 +861,10 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let html = MediaType::parse_flexible(&quot;html&quot;);
+        /// let html = MediaType::parse_flexible("html");
         /// assert_eq!(html, Some(MediaType::HTML));
         ///
-        /// let json = MediaType::parse_flexible(&quot;json&quot;);
+        /// let json = MediaType::parse_flexible("json");
         /// assert_eq!(json, Some(MediaType::JSON));
         /// ```
         ///
@@ -874,14 +874,14 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let html = MediaType::parse_flexible(&quot;text/html; charset=utf-8&quot;);
+        /// let html = MediaType::parse_flexible("text/html; charset=utf-8");
         /// assert_eq!(html, Some(MediaType::HTML));
         ///
-        /// let json = MediaType::parse_flexible(&quot;application/json&quot;);
+        /// let json = MediaType::parse_flexible("application/json");
         /// assert_eq!(json, Some(MediaType::JSON));
         ///
-        /// let custom = MediaType::parse_flexible(&quot;application/x+custom&quot;);
-        /// assert_eq!(custom, Some(MediaType::new(&quot;application&quot;, &quot;x+custom&quot;)));
+        /// let custom = MediaType::parse_flexible("application/x+custom");
+        /// assert_eq!(custom, Some(MediaType::new("application", "x+custom")));
         /// ```
         ///
         /// An unrecognized media type:
@@ -890,10 +890,10 @@
         /// # extern crate rocket;
         /// use rocket::http::MediaType;
         ///
-        /// let foo = MediaType::parse_flexible(&quot;foo&quot;);
+        /// let foo = MediaType::parse_flexible("foo");
         /// assert_eq!(foo, None);
         ///
-        /// let bar = MediaType::parse_flexible(&quot;foo/bar/baz&quot;);
+        /// let bar = MediaType::parse_flexible("foo/bar/baz");
         /// assert_eq!(bar, None);
         /// ```
         </span><span class="kw">pub fn </span>parse_flexible(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;MediaType&gt; {
@@ -918,13 +918,13 @@
     /// # extern crate rocket;
     /// use rocket::http::MediaType;
     ///
-    /// let custom = MediaType::new(&quot;application&quot;, &quot;x-person&quot;);
-    /// assert_eq!(custom.top(), &quot;application&quot;);
-    /// assert_eq!(custom.sub(), &quot;x-person&quot;);
+    /// let custom = MediaType::new("application", "x-person");
+    /// assert_eq!(custom.top(), "application");
+    /// assert_eq!(custom.sub(), "x-person");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new&lt;T, S&gt;(top: T, sub: S) -&gt; MediaType
-        <span class="kw">where </span>T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;, S: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;
+        <span class="kw">where </span>T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;, S: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;
     {
         MediaType {
             source: Source::None,
@@ -944,8 +944,8 @@
     /// # extern crate rocket;
     /// use rocket::http::MediaType;
     ///
-    /// let id = MediaType::new(&quot;application&quot;, &quot;x-id&quot;).with_params((&quot;id&quot;, &quot;1&quot;));
-    /// assert_eq!(id.to_string(), &quot;application/x-id; id=1&quot;.to_string());
+    /// let id = MediaType::new("application", "x-id").with_params(("id", "1"));
+    /// assert_eq!(id.to_string(), "application/x-id; id=1".to_string());
     /// ```
     ///
     /// Create a custom `text/person; name=bob; weight=175` media type:
@@ -954,14 +954,14 @@
     /// # extern crate rocket;
     /// use rocket::http::MediaType;
     ///
-    /// let mt = MediaType::new(&quot;text&quot;, &quot;person&quot;)
-    ///     .with_params([(&quot;name&quot;, &quot;bob&quot;), (&quot;ref&quot;, &quot;2382&quot;)]);
+    /// let mt = MediaType::new("text", "person")
+    ///     .with_params([("name", "bob"), ("ref", "2382")]);
     ///
-    /// assert_eq!(mt.to_string(), &quot;text/person; name=bob; ref=2382&quot;.to_string());
+    /// assert_eq!(mt.to_string(), "text/person; name=bob; ref=2382".to_string());
     /// ```
     </span><span class="kw">pub fn </span>with_params&lt;K, V, P&gt;(<span class="kw-2">mut </span><span class="self">self</span>, ps: P) -&gt; MediaType
-        <span class="kw">where </span>K: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
-              V: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+        <span class="kw">where </span>K: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+              V: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
               P: IntoCollection&lt;(K, V)&gt;
     {
         <span class="kw">use </span>Indexed::Concrete;
@@ -982,15 +982,15 @@
     /// ```rust
     /// use rocket::http::MediaType;
     ///
-    /// let custom = MediaType::const_new(&quot;application&quot;, &quot;x-person&quot;, &amp;[]);
-    /// assert_eq!(custom.top(), &quot;application&quot;);
-    /// assert_eq!(custom.sub(), &quot;x-person&quot;);
+    /// let custom = MediaType::const_new("application", "x-person", &amp;[]);
+    /// assert_eq!(custom.top(), "application");
+    /// assert_eq!(custom.sub(), "x-person");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>const_new(
-        top: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-        sub: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-        params: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str)]
+        top: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        sub: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        params: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str)]
     ) -&gt; MediaType {
         MediaType {
             source: Source::None,
@@ -1002,10 +1002,10 @@
 
     <span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new_known(
-        source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-        top: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-        sub: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-        params: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str)]
+        source: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        top: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        sub: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+        params: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str)]
     ) -&gt; MediaType {
         MediaType {
             source: Source::Known(source),
@@ -1015,7 +1015,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>known_source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>known_source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; {
         <span class="kw">match </span><span class="self">self</span>.source {
             Source::Known(string) =&gt; <span class="prelude-val">Some</span>(string),
             Source::Custom(Cow::Borrowed(string)) =&gt; <span class="prelude-val">Some</span>(string),
@@ -1037,9 +1037,9 @@
     /// use rocket::http::MediaType;
     ///
     /// let plain = MediaType::Plain;
-    /// assert_eq!(plain.top(), &quot;text&quot;);
-    /// assert_eq!(plain.top(), &quot;TEXT&quot;);
-    /// assert_eq!(plain.top(), &quot;Text&quot;);
+    /// assert_eq!(plain.top(), "text");
+    /// assert_eq!(plain.top(), "TEXT");
+    /// assert_eq!(plain.top(), "Text");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>top(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -1056,9 +1056,9 @@
     /// use rocket::http::MediaType;
     ///
     /// let plain = MediaType::Plain;
-    /// assert_eq!(plain.sub(), &quot;plain&quot;);
-    /// assert_eq!(plain.sub(), &quot;PlaIN&quot;);
-    /// assert_eq!(plain.sub(), &quot;pLaIn&quot;);
+    /// assert_eq!(plain.sub(), "plain");
+    /// assert_eq!(plain.sub(), "PlaIN");
+    /// assert_eq!(plain.sub(), "pLaIn");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>sub(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -1083,7 +1083,7 @@
     /// let mt = MediaType::Plain;
     /// assert_eq!(mt.specificity(), 2);
     ///
-    /// let mt = MediaType::new(&quot;text&quot;, &quot;*&quot;);
+    /// let mt = MediaType::new("text", "*");
     /// assert_eq!(mt.specificity(), 1);
     ///
     /// let mt = MediaType::Any;
@@ -1091,7 +1091,7 @@
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>specificity(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u8 {
-        (<span class="self">self</span>.top() != <span class="string">&quot;*&quot;</span>) <span class="kw">as </span>u8 + (<span class="self">self</span>.sub() != <span class="string">&quot;*&quot;</span>) <span class="kw">as </span>u8
+        (<span class="self">self</span>.top() != <span class="string">"*"</span>) <span class="kw">as </span>u8 + (<span class="self">self</span>.sub() != <span class="string">"*"</span>) <span class="kw">as </span>u8
     }
 
     <span class="doccomment">/// Compares `self` with `other` and returns `true` if `self` and `other`
@@ -1113,10 +1113,10 @@
     /// use rocket::http::MediaType;
     ///
     /// let plain = MediaType::Plain;
-    /// let plain2 = MediaType::new(&quot;text&quot;, &quot;plain&quot;).with_params((&quot;charset&quot;, &quot;utf-8&quot;));
-    /// let just_plain = MediaType::new(&quot;text&quot;, &quot;plain&quot;);
+    /// let plain2 = MediaType::new("text", "plain").with_params(("charset", "utf-8"));
+    /// let just_plain = MediaType::new("text", "plain");
     ///
-    /// // The `PartialEq` implementation doesn&#39;t consider parameters.
+    /// // The `PartialEq` implementation doesn't consider parameters.
     /// assert!(plain == just_plain);
     /// assert!(just_plain == plain2);
     /// assert!(plain == plain2);
@@ -1130,7 +1130,7 @@
         <span class="self">self </span>== other &amp;&amp; <span class="self">self</span>.params().eq(other.params())
     }
 
-    <span class="doccomment">/// Returns an iterator over the (key, value) pairs of the media type&#39;s
+    <span class="doccomment">/// Returns an iterator over the (key, value) pairs of the media type's
     /// parameter list. The iterator will be empty if the media type has no
     /// parameters.
     ///
@@ -1144,8 +1144,8 @@
     ///
     /// let plain = MediaType::Plain;
     /// let (key, val) = plain.params().next().unwrap();
-    /// assert_eq!(key, &quot;charset&quot;);
-    /// assert_eq!(val, &quot;utf-8&quot;);
+    /// assert_eq!(key, "charset");
+    /// assert_eq!(val, "utf-8");
     /// ```
     ///
     /// The `MediaType::PNG` type has no parameters:
@@ -1158,7 +1158,7 @@
     /// assert_eq!(png.params().count(), 0);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>params(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>UncasedStr, <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span>str)&gt; + <span class="lifetime">&#39;_ </span>{
+    </span><span class="kw">pub fn </span>params(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=(<span class="kw-2">&amp;</span><span class="lifetime">'_ </span>UncasedStr, <span class="kw-2">&amp;</span><span class="lifetime">'_ </span>str)&gt; + <span class="lifetime">'_ </span>{
         <span class="kw">let </span>raw = <span class="kw">match </span><span class="self">self</span>.params {
             MediaParams::Static(slice) =&gt; Either::Left(slice.iter().cloned()),
             MediaParams::Dynamic(<span class="kw-2">ref </span>vec) =&gt; {
@@ -1174,7 +1174,7 @@
 
     <span class="doccomment">/// Returns the first parameter with name `name`, if there is any.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>param&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">pub fn </span>param&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="self">self</span>.params()
             .filter(|(k, <span class="kw">_</span>)| <span class="kw-2">*</span>k == name)
             .map(|(<span class="kw">_</span>, v)| v)
@@ -1187,7 +1187,7 @@
 }
 
 <span class="kw">impl </span>FromStr <span class="kw">for </span>MediaType {
-    <span class="comment">// Ideally we&#39;d return a `ParseError`, but that requires a lifetime.
+    <span class="comment">// Ideally we'd return a `ParseError`, but that requires a lifetime.
     </span><span class="kw">type </span><span class="prelude-val">Err </span>= String;
 
     <span class="attr">#[inline]
@@ -1215,13 +1215,13 @@
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>MediaType {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(src) = <span class="self">self</span>.known_source() {
             src.fmt(f)
         } <span class="kw">else </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}/{}&quot;</span>, <span class="self">self</span>.top(), <span class="self">self</span>.sub())<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"{}/{}"</span>, <span class="self">self</span>.top(), <span class="self">self</span>.sub())<span class="question-mark">?</span>;
             <span class="kw">for </span>(key, val) <span class="kw">in </span><span class="self">self</span>.params() {
-                <span class="macro">write!</span>(f, <span class="string">&quot;; {}={}&quot;</span>, key, val)<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">"; {}={}"</span>, key, val)<span class="question-mark">?</span>;
             }
 
             <span class="prelude-val">Ok</span>(())
@@ -1235,12 +1235,12 @@
     }
 }
 
-<span class="kw">impl </span>Extend&lt;(IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;, IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;)&gt; <span class="kw">for </span>MediaParams {
+<span class="kw">impl </span>Extend&lt;(IndexedStr&lt;<span class="lifetime">'static</span>&gt;, IndexedStr&lt;<span class="lifetime">'static</span>&gt;)&gt; <span class="kw">for </span>MediaParams {
     <span class="kw">fn </span>extend&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, iter: T)
-        <span class="kw">where </span>T: IntoIterator&lt;Item = (IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;, IndexedStr&lt;<span class="lifetime">&#39;static</span>&gt;)&gt;
+        <span class="kw">where </span>T: IntoIterator&lt;Item = (IndexedStr&lt;<span class="lifetime">'static</span>&gt;, IndexedStr&lt;<span class="lifetime">'static</span>&gt;)&gt;
     {
         <span class="kw">match </span><span class="self">self </span>{
-            MediaParams::Static(..) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;can&#39;t add to static collection!&quot;</span>),
+            MediaParams::Static(..) =&gt; <span class="macro">panic!</span>(<span class="string">"can't add to static collection!"</span>),
             MediaParams::Dynamic(<span class="kw-2">ref mut </span>v) =&gt; v.extend(iter)
         }
     }

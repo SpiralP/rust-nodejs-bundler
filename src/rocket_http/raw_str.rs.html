@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/raw_str.rs`."><title>raw_str.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/raw_str.rs`."><title>raw_str.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1176,7 +1176,7 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStrBuf;
     ///
-    /// let raw = RawStrBuf::from(format!(&quot;hello {}&quot;, &quot;world&quot;));
+    /// let raw = RawStrBuf::from(format!("hello {}", "world"));
     /// let string = raw.into_string();
     /// ```
     </span><span class="kw">pub fn </span>into_string(<span class="self">self</span>) -&gt; String {
@@ -1193,10 +1193,10 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello, world!&quot;);
+    /// let raw_str = RawStr::new("Hello, world!");
     ///
     /// // `into` can also be used; note that the type must be specified
-    /// let raw_str: &amp;RawStr = &quot;Hello, world!&quot;.into();
+    /// let raw_str: &amp;RawStr = "Hello, world!".into();
     /// ```
     </span><span class="kw">pub fn </span>new&lt;S: AsRef&lt;str&gt; + <span class="question-mark">?</span>Sized&gt;(string: <span class="kw-2">&amp;</span>S) -&gt; <span class="kw-2">&amp;</span>RawStr {
         RawStr::ref_cast(string.as_ref())
@@ -1213,11 +1213,11 @@
     /// use std::borrow::Cow;
     /// use rocket::http::RawStr;
     ///
-    /// let cow_str = Cow::from(&quot;hello!&quot;);
+    /// let cow_str = Cow::from("hello!");
     /// let cow_raw = RawStr::from_cow_str(cow_str);
-    /// assert_eq!(cow_raw.as_str(), &quot;hello!&quot;);
+    /// assert_eq!(cow_raw.as_str(), "hello!");
     /// ```
-    </span><span class="kw">pub fn </span>from_cow_str(cow: Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; {
+    </span><span class="kw">pub fn </span>from_cow_str(cow: Cow&lt;<span class="lifetime">'_</span>, str&gt;) -&gt; Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; {
         <span class="kw">match </span>cow {
             Cow::Borrowed(b) =&gt; Cow::Borrowed(b.into()),
             Cow::Owned(b) =&gt; Cow::Owned(b.into()),
@@ -1235,11 +1235,11 @@
     /// use std::borrow::Cow;
     /// use rocket::http::RawStr;
     ///
-    /// let cow_raw = Cow::from(RawStr::new(&quot;hello!&quot;));
+    /// let cow_raw = Cow::from(RawStr::new("hello!"));
     /// let cow_str = RawStr::into_cow_str(cow_raw);
-    /// assert_eq!(&amp;*cow_str, &quot;hello!&quot;);
+    /// assert_eq!(&amp;*cow_str, "hello!");
     /// ```
-    </span><span class="kw">pub fn </span>into_cow_str(cow: Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    </span><span class="kw">pub fn </span>into_cow_str(cow: Cow&lt;<span class="lifetime">'_</span>, RawStr&gt;) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="kw">match </span>cow {
             Cow::Borrowed(b) =&gt; Cow::Borrowed(b.as_str()),
             Cow::Owned(b) =&gt; Cow::Owned(b.into_string()),
@@ -1247,7 +1247,7 @@
     }
 
     <span class="doccomment">/// Percent-decodes `self`.
-    </span><span class="kw">fn </span>_percent_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; percent_encoding::PercentDecode&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>_percent_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; percent_encoding::PercentDecode&lt;<span class="lifetime">'_</span>&gt; {
         percent_encoding::percent_decode(<span class="self">self</span>.as_bytes())
     }
 
@@ -1265,9 +1265,9 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello%21&quot;);
+    /// let raw_str = RawStr::new("Hello%21");
     /// let decoded = raw_str.percent_decode();
-    /// assert_eq!(decoded, Ok(&quot;Hello!&quot;.into()));
+    /// assert_eq!(decoded, Ok("Hello!".into()));
     /// ```
     ///
     /// With an invalid string:
@@ -1276,11 +1276,11 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bad_raw_str = RawStr::new(&quot;%FF&quot;);
+    /// let bad_raw_str = RawStr::new("%FF");
     /// assert!(bad_raw_str.percent_decode().is_err());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>percent_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;, Utf8Error&gt; {
+    </span><span class="kw">pub fn </span>percent_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">'_</span>, str&gt;, Utf8Error&gt; {
         <span class="self">self</span>._percent_decode().decode_utf8()
     }
 
@@ -1296,9 +1296,9 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello%21&quot;);
+    /// let raw_str = RawStr::new("Hello%21");
     /// let decoded = raw_str.percent_decode_lossy();
-    /// assert_eq!(decoded, &quot;Hello!&quot;);
+    /// assert_eq!(decoded, "Hello!");
     /// ```
     ///
     /// With an invalid string:
@@ -1307,19 +1307,19 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bad_raw_str = RawStr::new(&quot;a=%FF&quot;);
-    /// assert_eq!(bad_raw_str.percent_decode_lossy(), &quot;a=�&quot;);
+    /// let bad_raw_str = RawStr::new("a=%FF");
+    /// assert_eq!(bad_raw_str.percent_decode_lossy(), "a=�");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>percent_decode_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    </span><span class="kw">pub fn </span>percent_decode_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="self">self</span>._percent_decode().decode_utf8_lossy()
     }
 
-    <span class="doccomment">/// Replaces &#39;+&#39; with &#39; &#39; in `self`, allocating only when necessary.
-    </span><span class="kw">fn </span>_replace_plus(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    <span class="doccomment">/// Replaces '+' with ' ' in `self`, allocating only when necessary.
+    </span><span class="kw">fn </span>_replace_plus(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="kw">let </span>string = <span class="self">self</span>.as_str();
         <span class="kw">let </span><span class="kw-2">mut </span>allocated = String::new(); <span class="comment">// this is allocation free
-        </span><span class="kw">for </span>i <span class="kw">in </span>memchr::memchr_iter(<span class="string">b&#39;+&#39;</span>, string.as_bytes()) {
+        </span><span class="kw">for </span>i <span class="kw">in </span>memchr::memchr_iter(<span class="string">b'+'</span>, string.as_bytes()) {
             <span class="kw">if </span>allocated.is_empty() {
                 allocated = string.into();
             }
@@ -1330,10 +1330,10 @@
             //    UTF-8 before the borrow ends and the underlying `str` is used.
             //
             //    `allocated[i]` is `+` since that is what we searched for. The
-            //    `+` char is ASCII =&gt; the character is one byte wide. &#39; &#39; is
+            //    `+` char is ASCII =&gt; the character is one byte wide. ' ' is
             //    also one byte and ASCII =&gt; UTF-8. The replacement of `+` with
             //    ` ` thus yields a valid UTF-8 string.
-            </span><span class="kw">unsafe </span>{ allocated.as_bytes_mut()[i] = <span class="string">b&#39; &#39;</span>; }
+            </span><span class="kw">unsafe </span>{ allocated.as_bytes_mut()[i] = <span class="string">b' '</span>; }
         }
 
         <span class="kw">match </span>allocated.is_empty() {
@@ -1352,9 +1352,9 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello%21&quot;);
+    /// let raw_str = RawStr::new("Hello%21");
     /// let decoded = raw_str.percent_decode();
-    /// assert_eq!(decoded, Ok(&quot;Hello!&quot;.into()));
+    /// assert_eq!(decoded, Ok("Hello!".into()));
     /// ```
     ///
     /// With an invalid string:
@@ -1363,11 +1363,11 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bad_raw_str = RawStr::new(&quot;%FF&quot;);
+    /// let bad_raw_str = RawStr::new("%FF");
     /// assert!(bad_raw_str.percent_decode().is_err());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>percent_encode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; {
+    </span><span class="kw">pub fn </span>percent_encode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; {
         <span class="self">Self</span>::from_cow_str(percent_encode::&lt;DEFAULT_ENCODE_SET&gt;(<span class="self">self</span>))
     }
 
@@ -1384,7 +1384,7 @@
     /// let encoded = RawStr::percent_encode_bytes(&amp;bytes[..]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>percent_encode_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; {
+    </span><span class="kw">pub fn </span>percent_encode_bytes(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; {
         <span class="self">Self</span>::from_cow_str(percent_encode_bytes::&lt;DEFAULT_ENCODE_SET&gt;(bytes))
     }
 
@@ -1402,11 +1402,11 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello%2C+world%21&quot;);
+    /// let raw_str = RawStr::new("Hello%2C+world%21");
     /// let decoded = raw_str.url_decode();
-    /// assert_eq!(decoded.unwrap(), &quot;Hello, world!&quot;);
+    /// assert_eq!(decoded.unwrap(), "Hello, world!");
     /// ```
-    </span><span class="kw">pub fn </span>url_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;, Utf8Error&gt; {
+    </span><span class="kw">pub fn </span>url_decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">'_</span>, str&gt;, Utf8Error&gt; {
         <span class="kw">let </span>string = <span class="self">self</span>._replace_plus();
         <span class="kw">match </span>percent_encoding::percent_decode(string.as_bytes()).decode_utf8()<span class="question-mark">? </span>{
             Cow::Owned(s) =&gt; <span class="prelude-val">Ok</span>(Cow::Owned(s)),
@@ -1429,9 +1429,9 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str: &amp;RawStr = &quot;Hello%2C+world%21&quot;.into();
+    /// let raw_str: &amp;RawStr = "Hello%2C+world%21".into();
     /// let decoded = raw_str.url_decode_lossy();
-    /// assert_eq!(decoded, &quot;Hello, world!&quot;);
+    /// assert_eq!(decoded, "Hello, world!");
     /// ```
     ///
     /// With an invalid string:
@@ -1440,10 +1440,10 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bad_raw_str = RawStr::new(&quot;a+b=%FF&quot;);
-    /// assert_eq!(bad_raw_str.url_decode_lossy(), &quot;a b=�&quot;);
+    /// let bad_raw_str = RawStr::new("a+b=%FF");
+    /// assert_eq!(bad_raw_str.url_decode_lossy(), "a b=�");
     /// ```
-    </span><span class="kw">pub fn </span>url_decode_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    </span><span class="kw">pub fn </span>url_decode_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="kw">let </span>string = <span class="self">self</span>._replace_plus();
         <span class="kw">match </span>percent_encoding::percent_decode(string.as_bytes()).decode_utf8_lossy() {
             Cow::Owned(s) =&gt; Cow::Owned(s),
@@ -1454,7 +1454,7 @@
     <span class="doccomment">/// Returns an HTML escaped version of `self`. Allocates only when
     /// characters need to be escaped.
     ///
-    /// The following characters are escaped: `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#39;`, `/`,
+    /// The following characters are escaped: `&amp;`, `&lt;`, `&gt;`, `"`, `'`, `/`,
     /// &lt;code&gt;`&lt;/code&gt;. **This suffices as long as the escaped string is not
     /// used in an execution context such as inside of &amp;lt;script&gt; or &amp;lt;style&gt;
     /// tags!** See the [OWASP XSS Prevention Rules] for more information.
@@ -1469,13 +1469,13 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str: &amp;RawStr = &quot;&lt;b&gt;Hi!&lt;/b&gt;&quot;.into();
+    /// let raw_str: &amp;RawStr = "&lt;b&gt;Hi!&lt;/b&gt;".into();
     /// let escaped = raw_str.html_escape();
-    /// assert_eq!(escaped, &quot;&amp;lt;b&amp;gt;Hi!&amp;lt;&amp;#x2F;b&amp;gt;&quot;);
+    /// assert_eq!(escaped, "&amp;lt;b&amp;gt;Hi!&amp;lt;&amp;#x2F;b&amp;gt;");
     ///
-    /// let raw_str: &amp;RawStr = &quot;Hello, &lt;i&gt;world!&lt;/i&gt;&quot;.into();
+    /// let raw_str: &amp;RawStr = "Hello, &lt;i&gt;world!&lt;/i&gt;".into();
     /// let escaped = raw_str.html_escape();
-    /// assert_eq!(escaped, &quot;Hello, &amp;lt;i&amp;gt;world!&amp;lt;&amp;#x2F;i&amp;gt;&quot;);
+    /// assert_eq!(escaped, "Hello, &amp;lt;i&amp;gt;world!&amp;lt;&amp;#x2F;i&amp;gt;");
     /// ```
     ///
     /// Strings without HTML sequences remain untouched:
@@ -1484,23 +1484,23 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str: &amp;RawStr = &quot;Hello!&quot;.into();
+    /// let raw_str: &amp;RawStr = "Hello!".into();
     /// let escaped = raw_str.html_escape();
-    /// assert_eq!(escaped, &quot;Hello!&quot;);
+    /// assert_eq!(escaped, "Hello!");
     ///
-    /// let raw_str: &amp;RawStr = &quot;大阪&quot;.into();
+    /// let raw_str: &amp;RawStr = "大阪".into();
     /// let escaped = raw_str.html_escape();
-    /// assert_eq!(escaped, &quot;大阪&quot;);
+    /// assert_eq!(escaped, "大阪");
     /// ```
     </span><span class="comment">// NOTE: This is the ~fastest (a table-based implementation is slightly
     // faster) implementation benchmarked for dense-ish escaping. For sparser
     // texts, a regex-based-find solution is much faster.
-    </span><span class="kw">pub fn </span>html_escape(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+    </span><span class="kw">pub fn </span>html_escape(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'_</span>, str&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>escaped = <span class="bool-val">false</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>allocated = Vec::new(); <span class="comment">// this is allocation free
         </span><span class="kw">for </span>c <span class="kw">in </span><span class="self">self</span>.as_bytes() {
             <span class="kw">match </span><span class="kw-2">*</span>c {
-                <span class="string">b&#39;&amp;&#39; </span>| <span class="string">b&#39;&lt;&#39; </span>| <span class="string">b&#39;&gt;&#39; </span>| <span class="string">b&#39;&quot;&#39; </span>| <span class="string">b&#39;\&#39;&#39; </span>| <span class="string">b&#39;/&#39; </span>| <span class="string">b&#39;`&#39; </span>=&gt; {
+                <span class="string">b'&amp;' </span>| <span class="string">b'&lt;' </span>| <span class="string">b'&gt;' </span>| <span class="string">b'"' </span>| <span class="string">b'\'' </span>| <span class="string">b'/' </span>| <span class="string">b'`' </span>=&gt; {
                     <span class="kw">if </span>!escaped {
                         <span class="kw">let </span>i = (c <span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span>usize) - (<span class="self">self</span>.as_ptr() <span class="kw">as </span>usize);
                         allocated = Vec::with_capacity(<span class="self">self</span>.len() * <span class="number">2</span>);
@@ -1508,14 +1508,14 @@
                     }
 
                     <span class="kw">match </span><span class="kw-2">*</span>c {
-                        <span class="string">b&#39;&amp;&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;amp;&quot;</span>),
-                        <span class="string">b&#39;&lt;&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;lt;&quot;</span>),
-                        <span class="string">b&#39;&gt;&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;gt;&quot;</span>),
-                        <span class="string">b&#39;&quot;&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;quot;&quot;</span>),
-                        <span class="string">b&#39;\&#39;&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;#x27;&quot;</span>),
-                        <span class="string">b&#39;/&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;#x2F;&quot;</span>),
-                        <span class="comment">// Old versions of IE treat a ` as a &#39;.
-                        </span><span class="string">b&#39;`&#39; </span>=&gt; allocated.extend_from_slice(<span class="string">b&quot;&amp;#96;&quot;</span>),
+                        <span class="string">b'&amp;' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;amp;"</span>),
+                        <span class="string">b'&lt;' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;lt;"</span>),
+                        <span class="string">b'&gt;' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;gt;"</span>),
+                        <span class="string">b'"' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;quot;"</span>),
+                        <span class="string">b'\'' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;#x27;"</span>),
+                        <span class="string">b'/' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;#x2F;"</span>),
+                        <span class="comment">// Old versions of IE treat a ` as a '.
+                        </span><span class="string">b'`' </span>=&gt; allocated.extend_from_slice(<span class="string">b"&amp;#96;"</span>),
                         <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>()
                     }
 
@@ -1532,7 +1532,7 @@
             //
             // 1. In the `!escaped` branch, capacity for the vector is first
             //    allocated. No characters are pushed to `allocated` prior to
-            //    this branch running since the `escaped` flag isn&#39;t set. To
+            //    this branch running since the `escaped` flag isn't set. To
             //    enter this branch, the current byte must be a valid ASCII
             //    character. This implies that every byte preceding forms a
             //    valid UTF-8 string since ASCII characters in UTF-8 are never
@@ -1571,7 +1571,7 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello, world!&quot;);
+    /// let raw_str = RawStr::new("Hello, world!");
     /// assert_eq!(raw_str.len(), 13);
     /// ```
     </span><span class="attr">#[inline]
@@ -1587,10 +1587,10 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello, world!&quot;);
+    /// let raw_str = RawStr::new("Hello, world!");
     /// assert!(!raw_str.is_empty());
     ///
-    /// let raw_str = RawStr::new(&quot;&quot;);
+    /// let raw_str = RawStr::new("");
     /// assert!(raw_str.is_empty());
     /// ```
     </span><span class="attr">#[inline]
@@ -1609,8 +1609,8 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Hello, world!&quot;);
-    /// assert_eq!(raw_str.as_str(), &quot;Hello, world!&quot;);
+    /// let raw_str = RawStr::new("Hello, world!");
+    /// assert_eq!(raw_str.as_str(), "Hello, world!");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub const fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -1625,7 +1625,7 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;hi&quot;);
+    /// let raw_str = RawStr::new("hi");
     /// assert_eq!(raw_str.as_bytes(), &amp;[0x68, 0x69]);
     /// ```
     </span><span class="attr">#[inline(always)]
@@ -1652,7 +1652,7 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;hi&quot;);
+    /// let raw_str = RawStr::new("hi");
     /// let ptr = raw_str.as_ptr();
     /// ```
     </span><span class="kw">pub const fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>u8 {
@@ -1670,8 +1670,8 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let raw_str = RawStr::new(&quot;Content-Type&quot;);
-    /// assert!(raw_str.as_uncased_str() == &quot;content-TYPE&quot;);
+    /// let raw_str = RawStr::new("Content-Type");
+    /// assert!(raw_str.as_uncased_str() == "content-TYPE");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>as_uncased_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -1696,13 +1696,13 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bananas = RawStr::new(&quot;bananas&quot;);
+    /// let bananas = RawStr::new("bananas");
     ///
-    /// assert!(bananas.contains(&quot;nana&quot;));
-    /// assert!(!bananas.contains(&quot;apples&quot;));
+    /// assert!(bananas.contains("nana"));
+    /// assert!(!bananas.contains("apples"));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>contains&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: P) -&gt; bool {
+    </span><span class="kw">pub fn </span>contains&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, pat: P) -&gt; bool {
         pat.is_contained_in(<span class="self">self</span>.as_str())
     }
 
@@ -1724,12 +1724,12 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bananas = RawStr::new(&quot;bananas&quot;);
+    /// let bananas = RawStr::new("bananas");
     ///
-    /// assert!(bananas.starts_with(&quot;bana&quot;));
-    /// assert!(!bananas.starts_with(&quot;nana&quot;));
+    /// assert!(bananas.starts_with("bana"));
+    /// assert!(!bananas.starts_with("nana"));
     /// ```
-    </span><span class="kw">pub fn </span>starts_with&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: P) -&gt; bool {
+    </span><span class="kw">pub fn </span>starts_with&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, pat: P) -&gt; bool {
         pat.is_prefix_of(<span class="self">self</span>.as_str())
     }
 
@@ -1751,13 +1751,13 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let bananas = RawStr::new(&quot;bananas&quot;);
+    /// let bananas = RawStr::new("bananas");
     ///
-    /// assert!(bananas.ends_with(&quot;anas&quot;));
-    /// assert!(!bananas.ends_with(&quot;nana&quot;));
+    /// assert!(bananas.ends_with("anas"));
+    /// assert!(!bananas.ends_with("nana"));
     /// ```
-    </span><span class="kw">pub fn </span>ends_with&lt;<span class="lifetime">&#39;a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: P) -&gt; bool
-        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;
+    </span><span class="kw">pub fn </span>ends_with&lt;<span class="lifetime">'a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, pat: P) -&gt; bool
+        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;, &lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;
     {
         pat.is_suffix_of(<span class="self">self</span>.as_str())
     }
@@ -1766,7 +1766,7 @@
     <span class="doccomment">/// Returns the byte index of the first character of this string slice that
     /// matches the pattern.
     ///
-    /// Returns [`None`] if the pattern doesn&#39;t match.
+    /// Returns [`None`] if the pattern doesn't match.
     ///
     /// The pattern can be a `&amp;str`, [`char`], a slice of [`char`]s, or a
     /// function or closure that determines if a character matches.
@@ -1779,14 +1779,14 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let s = RawStr::new(&quot;Löwe 老虎 Léopard Gepardi&quot;);
+    /// let s = RawStr::new("Löwe 老虎 Léopard Gepardi");
     ///
-    /// assert_eq!(s.find(&#39;L&#39;), Some(0));
-    /// assert_eq!(s.find(&#39;é&#39;), Some(14));
-    /// assert_eq!(s.find(&quot;pard&quot;), Some(17));
+    /// assert_eq!(s.find('L'), Some(0));
+    /// assert_eq!(s.find('é'), Some(14));
+    /// assert_eq!(s.find("pard"), Some(17));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>find&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: P) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+    </span><span class="kw">pub fn </span>find&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, pat: P) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
         pat.into_searcher(<span class="self">self</span>.as_str()).next_match().map(|(i, <span class="kw">_</span>)| i)
     }
 
@@ -1806,18 +1806,18 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let v: Vec&lt;_&gt; = RawStr::new(&quot;Mary had a little lamb&quot;)
-    ///     .split(&#39; &#39;)
+    /// let v: Vec&lt;_&gt; = RawStr::new("Mary had a little lamb")
+    ///     .split(' ')
     ///     .map(|r| r.as_str())
     ///     .collect();
     ///
-    /// assert_eq!(v, [&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);
+    /// assert_eq!(v, ["Mary", "had", "a", "little", "lamb"]);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>split&lt;<span class="lifetime">&#39;a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, pat: P) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt;
-        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;
+    </span><span class="kw">pub fn </span>split&lt;<span class="lifetime">'a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, pat: P) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt;
+        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;
     {
-        <span class="kw">let </span>split: Split&lt;<span class="lifetime">&#39;_</span>, P&gt; = Split(SplitInternal {
+        <span class="kw">let </span>split: Split&lt;<span class="lifetime">'_</span>, P&gt; = Split(SplitInternal {
             start: <span class="number">0</span>,
             end: <span class="self">self</span>.len(),
             matcher: pat.into_searcher(<span class="self">self</span>.as_str()),
@@ -1840,32 +1840,32 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let haystack = RawStr::new(&quot;a good boy!&quot;);
+    /// let haystack = RawStr::new("a good boy!");
     ///
-    /// let (before, after) = haystack.split_at_byte(b&#39;a&#39;);
-    /// assert_eq!(before, &quot;&quot;);
-    /// assert_eq!(after, &quot; good boy!&quot;);
+    /// let (before, after) = haystack.split_at_byte(b'a');
+    /// assert_eq!(before, "");
+    /// assert_eq!(after, " good boy!");
     ///
-    /// let (before, after) = haystack.split_at_byte(b&#39; &#39;);
-    /// assert_eq!(before, &quot;a&quot;);
-    /// assert_eq!(after, &quot;good boy!&quot;);
+    /// let (before, after) = haystack.split_at_byte(b' ');
+    /// assert_eq!(before, "a");
+    /// assert_eq!(after, "good boy!");
     ///
-    /// let (before, after) = haystack.split_at_byte(b&#39;o&#39;);
-    /// assert_eq!(before, &quot;a g&quot;);
-    /// assert_eq!(after, &quot;od boy!&quot;);
+    /// let (before, after) = haystack.split_at_byte(b'o');
+    /// assert_eq!(before, "a g");
+    /// assert_eq!(after, "od boy!");
     ///
-    /// let (before, after) = haystack.split_at_byte(b&#39;!&#39;);
-    /// assert_eq!(before, &quot;a good boy&quot;);
-    /// assert_eq!(after, &quot;&quot;);
+    /// let (before, after) = haystack.split_at_byte(b'!');
+    /// assert_eq!(before, "a good boy");
+    /// assert_eq!(after, "");
     ///
-    /// let (before, after) = haystack.split_at_byte(b&#39;?&#39;);
-    /// assert_eq!(before, &quot;a good boy!&quot;);
-    /// assert_eq!(after, &quot;&quot;);
+    /// let (before, after) = haystack.split_at_byte(b'?');
+    /// assert_eq!(before, "a good boy!");
+    /// assert_eq!(after, "");
     ///
-    /// let haystack = RawStr::new(&quot;&quot;);
-    /// let (before, after) = haystack.split_at_byte(b&#39; &#39;);
-    /// assert_eq!(before, &quot;&quot;);
-    /// assert_eq!(after, &quot;&quot;);
+    /// let haystack = RawStr::new("");
+    /// let (before, after) = haystack.split_at_byte(b' ');
+    /// assert_eq!(before, "");
+    /// assert_eq!(after, "");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>split_at_byte(<span class="kw-2">&amp;</span><span class="self">self</span>, b: u8) -&gt; (<span class="kw-2">&amp;</span>RawStr, <span class="kw-2">&amp;</span>RawStr) {
@@ -1874,7 +1874,7 @@
         }
 
         <span class="kw">match </span>memchr::memchr(b, <span class="self">self</span>.as_bytes()) {
-            <span class="comment">// SAFETY: `b` is a character boundary since it&#39;s ASCII, `i` is in
+            <span class="comment">// SAFETY: `b` is a character boundary since it's ASCII, `i` is in
             // bounds in `self` (or else None), and i is at most len - 1, so i +
             // 1 is at most len.
             </span><span class="prelude-val">Some</span>(i) =&gt; <span class="kw">unsafe </span>{
@@ -1904,12 +1904,12 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// assert_eq!(RawStr::new(&quot;foo:bar&quot;).strip_prefix(&quot;foo:&quot;).unwrap(), &quot;bar&quot;);
-    /// assert_eq!(RawStr::new(&quot;foofoo&quot;).strip_prefix(&quot;foo&quot;).unwrap(), &quot;foo&quot;);
-    /// assert!(RawStr::new(&quot;foo:bar&quot;).strip_prefix(&quot;bar&quot;).is_none());
+    /// assert_eq!(RawStr::new("foo:bar").strip_prefix("foo:").unwrap(), "bar");
+    /// assert_eq!(RawStr::new("foofoo").strip_prefix("foo").unwrap(), "foo");
+    /// assert!(RawStr::new("foo:bar").strip_prefix("bar").is_none());
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>strip_prefix&lt;<span class="lifetime">&#39;a</span>, P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, prefix: P) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt; {
+    </span><span class="kw">pub fn </span>strip_prefix&lt;<span class="lifetime">'a</span>, P: Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, prefix: P) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt; {
         prefix.strip_prefix_of(<span class="self">self</span>.as_str()).map(RawStr::new)
     }
 
@@ -1930,13 +1930,13 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// assert_eq!(RawStr::new(&quot;bar:foo&quot;).strip_suffix(&quot;:foo&quot;).unwrap(), &quot;bar&quot;);
-    /// assert_eq!(RawStr::new(&quot;foofoo&quot;).strip_suffix(&quot;foo&quot;).unwrap(), &quot;foo&quot;);
-    /// assert!(RawStr::new(&quot;bar:foo&quot;).strip_suffix(&quot;bar&quot;).is_none());
+    /// assert_eq!(RawStr::new("bar:foo").strip_suffix(":foo").unwrap(), "bar");
+    /// assert_eq!(RawStr::new("foofoo").strip_suffix("foo").unwrap(), "foo");
+    /// assert!(RawStr::new("bar:foo").strip_suffix("bar").is_none());
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>strip_suffix&lt;<span class="lifetime">&#39;a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, suffix: P) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt;
-        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">&#39;a</span>&gt;,&lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub fn </span>strip_suffix&lt;<span class="lifetime">'a</span>, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, suffix: P) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt;
+        <span class="kw">where </span>P: Pattern&lt;<span class="lifetime">'a</span>&gt;,&lt;P <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         suffix.strip_suffix_of(<span class="self">self</span>.as_str()).map(RawStr::new)
     }
@@ -1944,14 +1944,14 @@
     <span class="doccomment">/// Parses this string slice into another type.
     ///
     /// Because `parse` is so general, it can cause problems with type
-    /// inference. As such, `parse` is one of the few times you&#39;ll see
-    /// the syntax affectionately known as the &#39;turbofish&#39;: `::&lt;&gt;`. This
+    /// inference. As such, `parse` is one of the few times you'll see
+    /// the syntax affectionately known as the 'turbofish': `::&lt;&gt;`. This
     /// helps the inference algorithm understand specifically which type
-    /// you&#39;re trying to parse into.
+    /// you're trying to parse into.
     ///
     /// # Errors
     ///
-    /// Will return `Err` if it&#39;s not possible to parse this string slice into
+    /// Will return `Err` if it's not possible to parse this string slice into
     /// the desired type.
     ///
     /// # Examples
@@ -1962,7 +1962,7 @@
     /// # extern crate rocket;
     /// use rocket::http::RawStr;
     ///
-    /// let four: u32 = RawStr::new(&quot;4&quot;).parse().unwrap();
+    /// let four: u32 = RawStr::new("4").parse().unwrap();
     ///
     /// assert_eq!(4, four);
     /// ```
@@ -1972,7 +1972,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
 </span><span class="kw">mod </span>serde {
     <span class="kw">use </span>serde_::{ser, de, Serialize, Deserialize};
 
@@ -1986,11 +1986,11 @@
         }
     }
 
-    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>: <span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt; Deserialize&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr {
+    <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>: <span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt; Deserialize&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr {
         <span class="kw">fn </span>deserialize&lt;D&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt;
-            <span class="kw">where </span>D: de::Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;
+            <span class="kw">where </span>D: de::Deserializer&lt;<span class="lifetime">'de</span>&gt;
         {
-            &lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str <span class="kw">as </span>Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;&gt;::deserialize(de).map(RawStr::new)
+            &lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str <span class="kw">as </span>Deserialize&lt;<span class="lifetime">'de</span>&gt;&gt;::deserialize(de).map(RawStr::new)
         }
     }
 
@@ -1998,31 +1998,31 @@
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>RawStr {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr {
+    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr {
         RawStr::new(string)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;a</span>, RawStr&gt; {
-    <span class="kw">fn </span>from(raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>RawStr) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">'a</span>, RawStr&gt; {
+    <span class="kw">fn </span>from(raw: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>RawStr) -&gt; <span class="self">Self </span>{
         Cow::Borrowed(raw)
     }
 }
 
-<span class="kw">impl </span>From&lt;RawStrBuf&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; {
+<span class="kw">impl </span>From&lt;RawStrBuf&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; {
     <span class="kw">fn </span>from(raw: RawStrBuf) -&gt; <span class="self">Self </span>{
         Cow::Owned(raw)
     }
 }
 
-<span class="macro">macro_rules! </span>impl_partial {
+<span class="macro">macro_rules!</span> impl_partial {
     (<span class="macro-nonterminal">$A</span>:ty : <span class="macro-nonterminal">$B</span>:ty <span class="kw">as </span><span class="macro-nonterminal">$T</span>:ty) =&gt; (
         <span class="kw">impl </span>PartialEq&lt;<span class="macro-nonterminal">$A</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$B </span>{
             <span class="attr">#[inline(always)]
@@ -2053,15 +2053,15 @@
 <span class="macro">impl_partial!</span>(<span class="kw-2">&amp;</span>str : RawStr);
 <span class="macro">impl_partial!</span>(&amp;&amp;str : RawStr);
 
-<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; : RawStr);
-<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; : <span class="kw-2">&amp;</span>RawStr);
-<span class="macro">impl_partial!</span>(RawStr : Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;);
-<span class="macro">impl_partial!</span>(<span class="kw-2">&amp;</span>RawStr : Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;);
+<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">'_</span>, str&gt; : RawStr);
+<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">'_</span>, str&gt; : <span class="kw-2">&amp;</span>RawStr);
+<span class="macro">impl_partial!</span>(RawStr : Cow&lt;<span class="lifetime">'_</span>, str&gt;);
+<span class="macro">impl_partial!</span>(<span class="kw-2">&amp;</span>RawStr : Cow&lt;<span class="lifetime">'_</span>, str&gt;);
 
-<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; : RawStr <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
-<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; : <span class="kw-2">&amp;</span>RawStr <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
-<span class="macro">impl_partial!</span>(RawStr : Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
-<span class="macro">impl_partial!</span>(<span class="kw-2">&amp;</span>RawStr : Cow&lt;<span class="lifetime">&#39;_</span>, RawStr&gt; <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
+<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; : RawStr <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
+<span class="macro">impl_partial!</span>(Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; : <span class="kw-2">&amp;</span>RawStr <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
+<span class="macro">impl_partial!</span>(RawStr : Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
+<span class="macro">impl_partial!</span>(<span class="kw-2">&amp;</span>RawStr : Cow&lt;<span class="lifetime">'_</span>, RawStr&gt; <span class="kw">as </span><span class="kw-2">&amp;</span>RawStr);
 
 <span class="macro">impl_partial!</span>(String : RawStr);
 <span class="macro">impl_partial!</span>(String : <span class="kw-2">&amp;</span>RawStr);
@@ -2127,7 +2127,7 @@
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>RawStr {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
@@ -2157,14 +2157,14 @@
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>RawStrBuf {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>RawStrBuf {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
@@ -2196,12 +2196,12 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>can_compare() {
-        <span class="kw">let </span>raw_str = RawStr::new(<span class="string">&quot;abc&quot;</span>);
-        <span class="macro">assert_eq!</span>(raw_str, <span class="string">&quot;abc&quot;</span>);
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;abc&quot;</span>, raw_str.as_str());
-        <span class="macro">assert_eq!</span>(raw_str, RawStr::new(<span class="string">&quot;abc&quot;</span>));
-        <span class="macro">assert_eq!</span>(raw_str, <span class="string">&quot;abc&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(<span class="string">&quot;abc&quot;</span>.to_string(), raw_str.as_str());
+        <span class="kw">let </span>raw_str = RawStr::new(<span class="string">"abc"</span>);
+        <span class="macro">assert_eq!</span>(raw_str, <span class="string">"abc"</span>);
+        <span class="macro">assert_eq!</span>(<span class="string">"abc"</span>, raw_str.as_str());
+        <span class="macro">assert_eq!</span>(raw_str, RawStr::new(<span class="string">"abc"</span>));
+        <span class="macro">assert_eq!</span>(raw_str, <span class="string">"abc"</span>.to_string());
+        <span class="macro">assert_eq!</span>(<span class="string">"abc"</span>.to_string(), raw_str.as_str());
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/host.rs`."><title>host.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/host.rs`."><title>host.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -349,10 +349,10 @@
 ///
 /// # URI Construction
 ///
-/// A `Host` is _not_ a [`Uri`](crate::uri::Uri), and none of Rocket&#39;s APIs will
+/// A `Host` is _not_ a [`Uri`](crate::uri::Uri), and none of Rocket's APIs will
 /// accept a `Host` value as such. This is because doing so would facilitate the
 /// construction of URIs to internal routes in a manner controllable by an
-/// attacker, inevitably leading to &quot;HTTP Host header attacks&quot;.
+/// attacker, inevitably leading to "HTTP Host header attacks".
 ///
 /// Instead, a `Host` must be checked before being converted to a [`Uri`]
 /// value. The [`Host::to_authority`] and [`Host::to_absolute`] methods provide
@@ -364,29 +364,29 @@
 /// use rocket::http::uri::Host;
 ///
 /// // A sensitive URI we want to prefix with safe hosts.
-/// #[get(&quot;/token?&lt;secret&gt;&quot;)]
+/// #[get("/token?&lt;secret&gt;")]
 /// fn token(secret: Token) { /* .. */ }
 ///
 /// // Whitelist of known hosts. In a real setting, you might retrieve this
 /// // list from config at ignite-time using tools like `AdHoc::config()`.
-/// const WHITELIST: [Host&lt;&#39;static&gt;; 4] = [
-///     Host::new(uri!(&quot;rocket.rs&quot;)),
-///     Host::new(uri!(&quot;rocket.rs:443&quot;)),
-///     Host::new(uri!(&quot;guide.rocket.rs&quot;)),
-///     Host::new(uri!(&quot;guide.rocket.rs:443&quot;)),
+/// const WHITELIST: [Host&lt;'static&gt;; 4] = [
+///     Host::new(uri!("rocket.rs")),
+///     Host::new(uri!("rocket.rs:443")),
+///     Host::new(uri!("guide.rocket.rs")),
+///     Host::new(uri!("guide.rocket.rs:443")),
 /// ];
 ///
 /// // Use `Host::to_absolute()` to case-insensitively check a host against a
 /// // whitelist, returning an `Absolute` usable as a `uri!()` prefix.
-/// let host = Host::new(uri!(&quot;guide.ROCKET.rs&quot;));
-/// let prefix = host.to_absolute(&quot;https&quot;, &amp;WHITELIST);
+/// let host = Host::new(uri!("guide.ROCKET.rs"));
+/// let prefix = host.to_absolute("https", &amp;WHITELIST);
 ///
 /// // Since `guide.rocket.rs` is in the whitelist, `prefix` is `Some`.
 /// assert!(prefix.is_some());
 /// if let Some(prefix) = prefix {
 ///     // We can use this prefix to safely construct URIs.
-///     let uri = uri!(prefix, token(&quot;some-secret-token&quot;));
-///     assert_eq!(uri, &quot;https://guide.ROCKET.rs/token?secret=some-secret-token&quot;);
+///     let uri = uri!(prefix, token("some-secret-token"));
+///     assert_eq!(uri, "https://guide.ROCKET.rs/token?secret=some-secret-token");
 /// }
 /// ```
 ///
@@ -395,28 +395,28 @@
 /// `Host` is both `Serialize` and `Deserialize`:
 ///
 /// ```rust
-/// # #[cfg(feature = &quot;serde&quot;)] mod serde {
+/// # #[cfg(feature = "serde")] mod serde {
 /// # use serde_ as serde;
 /// use serde::{Serialize, Deserialize};
 /// use rocket::http::uri::Host;
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
+/// # #[serde(crate = "serde_")]
 /// struct UriOwned {
-///     uri: Host&lt;&#39;static&gt;,
+///     uri: Host&lt;'static&gt;,
 /// }
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
-/// struct UriBorrowed&lt;&#39;a&gt; {
-///     uri: Host&lt;&#39;a&gt;,
+/// # #[serde(crate = "serde_")]
+/// struct UriBorrowed&lt;'a&gt; {
+///     uri: Host&lt;'a&gt;,
 /// }
 /// # }
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>Host&lt;<span class="lifetime">&#39;a</span>&gt;(Authority&lt;<span class="lifetime">&#39;a</span>&gt;);
+</span><span class="kw">pub struct </span>Host&lt;<span class="lifetime">'a</span>&gt;(Authority&lt;<span class="lifetime">'a</span>&gt;);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Host&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Host&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Create a new `Host` from an `Authority`. Only the `host` and `port`
     /// parts are preserved.
     ///
@@ -424,16 +424,16 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Host;
     ///
-    /// let host = Host::new(uri!(&quot;developer.mozilla.org&quot;));
-    /// assert_eq!(host.to_string(), &quot;developer.mozilla.org&quot;);
+    /// let host = Host::new(uri!("developer.mozilla.org"));
+    /// assert_eq!(host.to_string(), "developer.mozilla.org");
     ///
-    /// let host = Host::new(uri!(&quot;foo:bar@developer.mozilla.org:1234&quot;));
-    /// assert_eq!(host.to_string(), &quot;developer.mozilla.org:1234&quot;);
+    /// let host = Host::new(uri!("foo:bar@developer.mozilla.org:1234"));
+    /// assert_eq!(host.to_string(), "developer.mozilla.org:1234");
     ///
-    /// let host = Host::new(uri!(&quot;rocket.rs:443&quot;));
-    /// assert_eq!(host.to_string(), &quot;rocket.rs:443&quot;);
+    /// let host = Host::new(uri!("rocket.rs:443"));
+    /// assert_eq!(host.to_string(), "rocket.rs:443");
     /// ```
-    </span><span class="kw">pub const fn </span>new(authority: Authority&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>new(authority: Authority&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self </span>{
         Host(authority)
     }
 
@@ -449,30 +449,30 @@
     /// use rocket::http::uri::Host;
     ///
     /// // Parse from a valid authority URI.
-    /// let host = Host::parse(&quot;user:pass@domain&quot;).expect(&quot;valid host&quot;);
-    /// assert_eq!(host.domain(), &quot;domain&quot;);
+    /// let host = Host::parse("user:pass@domain").expect("valid host");
+    /// assert_eq!(host.domain(), "domain");
     /// assert_eq!(host.port(), None);
     ///
     /// // Parse from a valid host.
-    /// let host = Host::parse(&quot;domain:311&quot;).expect(&quot;valid host&quot;);
-    /// assert_eq!(host.domain(), &quot;doMaIN&quot;);
+    /// let host = Host::parse("domain:311").expect("valid host");
+    /// assert_eq!(host.domain(), "doMaIN");
     /// assert_eq!(host.port(), Some(311));
     ///
     /// // Invalid hosts fail to parse.
-    /// Host::parse(&quot;https://rocket.rs&quot;).expect_err(&quot;invalid host&quot;);
+    /// Host::parse("https://rocket.rs").expect_err("invalid host");
     ///
     /// // Prefer to use `uri!()` when the input is statically known:
-    /// let host = Host::new(uri!(&quot;domain&quot;));
-    /// assert_eq!(host.domain(), &quot;domain&quot;);
+    /// let host = Host::new(uri!("domain"));
+    /// assert_eq!(host.domain(), "domain");
     /// assert_eq!(host.port(), None);
     /// ```
-    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">&#39;a</span>&gt;, Error&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">'a</span>&gt;, Error&lt;<span class="lifetime">'a</span>&gt;&gt; {
         Host::parse_bytes(string.as_bytes())
     }
 
     <span class="doccomment">/// PRIVATE: Used by core.
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>parse_bytes(bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">&#39;a</span>&gt;, Error&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse_bytes(bytes: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">'a</span>&gt;, Error&lt;<span class="lifetime">'a</span>&gt;&gt; {
         <span class="kw">crate</span>::parse::uri::authority_from_bytes(bytes).map(Host::new)
     }
 
@@ -490,12 +490,12 @@
     /// # extern crate rocket;
     /// use rocket::http::uri::Host;
     ///
-    /// let source = format!(&quot;rocket.rs:8000&quot;);
-    /// let host = Host::parse_owned(source).expect(&quot;valid host&quot;);
-    /// assert_eq!(host.domain(), &quot;rocket.rs&quot;);
+    /// let source = format!("rocket.rs:8000");
+    /// let host = Host::parse_owned(source).expect("valid host");
+    /// assert_eq!(host.domain(), "rocket.rs");
     /// assert_eq!(host.port(), Some(8000));
     /// ```
-    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">&#39;static</span>&gt;, Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Host&lt;<span class="lifetime">'static</span>&gt;, Error&lt;<span class="lifetime">'static</span>&gt;&gt; {
         Authority::parse_owned(string).map(Host::new)
     }
 
@@ -507,14 +507,14 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Host;
     ///
-    /// let host = Host::new(uri!(&quot;domain.com:123&quot;));
-    /// assert_eq!(host.domain(), &quot;domain.com&quot;);
+    /// let host = Host::new(uri!("domain.com:123"));
+    /// assert_eq!(host.domain(), "domain.com");
     ///
-    /// let host = Host::new(uri!(&quot;username:password@domain:123&quot;));
-    /// assert_eq!(host.domain(), &quot;domain&quot;);
+    /// let host = Host::new(uri!("username:password@domain:123"));
+    /// assert_eq!(host.domain(), "domain");
     ///
-    /// let host = Host::new(uri!(&quot;[1::2]:123&quot;));
-    /// assert_eq!(host.domain(), &quot;[1::2]&quot;);
+    /// let host = Host::new(uri!("[1::2]:123"));
+    /// assert_eq!(host.domain(), "[1::2]");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>domain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -530,14 +530,14 @@
     /// use rocket::http::uri::Host;
     ///
     /// // With a port.
-    /// let host = Host::new(uri!(&quot;domain:123&quot;));
+    /// let host = Host::new(uri!("domain:123"));
     /// assert_eq!(host.port(), Some(123));
     ///
-    /// let host = Host::new(uri!(&quot;domain.com:8181&quot;));
+    /// let host = Host::new(uri!("domain.com:8181"));
     /// assert_eq!(host.port(), Some(8181));
     ///
     /// // Without a port.
-    /// let host = Host::new(uri!(&quot;domain.foo.bar.tld&quot;));
+    /// let host = Host::new(uri!("domain.foo.bar.tld"));
     /// assert_eq!(host.port(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
@@ -557,26 +557,26 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Host;
     ///
-    /// let whitelist = &amp;[Host::new(uri!(&quot;domain.tld&quot;))];
+    /// let whitelist = &amp;[Host::new(uri!("domain.tld"))];
     ///
     /// // A host in the whitelist returns `Some`.
-    /// let host = Host::new(uri!(&quot;domain.tld&quot;));
+    /// let host = Host::new(uri!("domain.tld"));
     /// let uri = host.to_authority(whitelist);
     /// assert!(uri.is_some());
-    /// assert_eq!(uri.unwrap().to_string(), &quot;domain.tld&quot;);
+    /// assert_eq!(uri.unwrap().to_string(), "domain.tld");
     ///
-    /// let host = Host::new(uri!(&quot;foo:bar@doMaIN.tLd&quot;));
+    /// let host = Host::new(uri!("foo:bar@doMaIN.tLd"));
     /// let uri = host.to_authority(whitelist);
     /// assert!(uri.is_some());
-    /// assert_eq!(uri.unwrap().to_string(), &quot;doMaIN.tLd&quot;);
+    /// assert_eq!(uri.unwrap().to_string(), "doMaIN.tLd");
     ///
     /// // A host _not_ in the whitelist returns `None`.
-    /// let host = Host::new(uri!(&quot;domain.tld:1234&quot;));
+    /// let host = Host::new(uri!("domain.tld:1234"));
     /// let uri = host.to_authority(whitelist);
     /// assert!(uri.is_none());
     /// ```
-    </span><span class="kw">pub fn </span>to_authority&lt;<span class="lifetime">&#39;h</span>, W&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, whitelist: W) -&gt; <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;
-        <span class="kw">where </span>W: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;h </span>Host&lt;<span class="lifetime">&#39;h</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>to_authority&lt;<span class="lifetime">'h</span>, W&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, whitelist: W) -&gt; <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;
+        <span class="kw">where </span>W: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'h </span>Host&lt;<span class="lifetime">'h</span>&gt;&gt;
     {
         <span class="kw">let </span><span class="kw-2">mut </span>auth = whitelist.into_iter().any(|h| h == <span class="self">self</span>).then(|| <span class="self">self</span>.<span class="number">0</span>.clone())<span class="question-mark">?</span>;
         auth.user_info = <span class="prelude-val">None</span>;
@@ -595,56 +595,56 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Host;
     ///
-    /// let whitelist = &amp;[Host::new(uri!(&quot;domain.tld:443&quot;))];
+    /// let whitelist = &amp;[Host::new(uri!("domain.tld:443"))];
     ///
     /// // A host in the whitelist returns `Some`.
-    /// let host = Host::new(uri!(&quot;user@domain.tld:443&quot;));
-    /// let uri = host.to_absolute(&quot;http&quot;, whitelist);
+    /// let host = Host::new(uri!("user@domain.tld:443"));
+    /// let uri = host.to_absolute("http", whitelist);
     /// assert!(uri.is_some());
-    /// assert_eq!(uri.unwrap().to_string(), &quot;http://domain.tld:443&quot;);
+    /// assert_eq!(uri.unwrap().to_string(), "http://domain.tld:443");
     ///
-    /// let host = Host::new(uri!(&quot;domain.TLD:443&quot;));
-    /// let uri = host.to_absolute(&quot;https&quot;, whitelist);
+    /// let host = Host::new(uri!("domain.TLD:443"));
+    /// let uri = host.to_absolute("https", whitelist);
     /// assert!(uri.is_some());
-    /// assert_eq!(uri.unwrap().to_string(), &quot;https://domain.TLD:443&quot;);
+    /// assert_eq!(uri.unwrap().to_string(), "https://domain.TLD:443");
     ///
     /// // A host _not_ in the whitelist returns `None`.
-    /// let host = Host::new(uri!(&quot;domain.tld&quot;));
-    /// let uri = host.to_absolute(&quot;http&quot;, whitelist);
+    /// let host = Host::new(uri!("domain.tld"));
+    /// let uri = host.to_absolute("http", whitelist);
     /// assert!(uri.is_none());
     /// ```
-    </span><span class="kw">pub fn </span>to_absolute&lt;<span class="lifetime">&#39;h</span>, W&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, scheme: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, whitelist: W) -&gt; <span class="prelude-ty">Option</span>&lt;Absolute&lt;<span class="lifetime">&#39;a</span>&gt;&gt;
-        <span class="kw">where </span>W: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;h </span>Host&lt;<span class="lifetime">&#39;h</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>to_absolute&lt;<span class="lifetime">'h</span>, W&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, scheme: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, whitelist: W) -&gt; <span class="prelude-ty">Option</span>&lt;Absolute&lt;<span class="lifetime">'a</span>&gt;&gt;
+        <span class="kw">where </span>W: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'h </span>Host&lt;<span class="lifetime">'h</span>&gt;&gt;
     {
         <span class="kw">let </span>scheme = <span class="kw">crate</span>::parse::uri::scheme_from_str(scheme).ok()<span class="question-mark">?</span>;
         <span class="kw">let </span>authority = <span class="self">self</span>.to_authority(whitelist)<span class="question-mark">?</span>;
-        <span class="prelude-val">Some</span>(Absolute::const_new(scheme, <span class="prelude-val">Some</span>(authority), <span class="string">&quot;&quot;</span>, <span class="prelude-val">None</span>))
+        <span class="prelude-val">Some</span>(Absolute::const_new(scheme, <span class="prelude-val">Some</span>(authority), <span class="string">""</span>, <span class="prelude-val">None</span>))
     }
 }
 
-<span class="macro">impl_serde!</span>(Host&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="string">&quot;an HTTP host&quot;</span>);
+<span class="macro">impl_serde!</span>(Host&lt;<span class="lifetime">'a</span>&gt;, <span class="string">"an HTTP host"</span>);
 
 <span class="macro">impl_base_traits!</span>(Host, domain, port);
 
-<span class="kw">impl </span><span class="kw">crate</span>::ext::IntoOwned <span class="kw">for </span>Host&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">type </span>Owned = Host&lt;<span class="lifetime">&#39;static</span>&gt;;
+<span class="kw">impl </span><span class="kw">crate</span>::ext::IntoOwned <span class="kw">for </span>Host&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">type </span>Owned = Host&lt;<span class="lifetime">'static</span>&gt;;
 
-    <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">'static</span>&gt; {
         Host(<span class="self">self</span>.<span class="number">0</span>.into_owned())
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt; <span class="kw">for </span>Host&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>from(auth: Authority&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>Host&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>from(auth: Authority&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self </span>{
         Host::new(auth)
     }
 }
 
-<span class="kw">impl </span>Display <span class="kw">for </span>Host&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>Display <span class="kw">for </span>Host&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.domain().fmt(f)<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(port) = <span class="self">self</span>.port() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;:{}&quot;</span>, port)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">":{}"</span>, port)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())

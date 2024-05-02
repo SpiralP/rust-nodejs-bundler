@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/fs.rs`."><title>fs.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/fs.rs`."><title>fs.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -536,7 +536,6 @@
 <a href="#536" id="536">536</a>
 <a href="#537" id="537">537</a>
 <a href="#538" id="538">538</a>
-<a href="#539" id="539">539</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! File System Filters
 
 </span><span class="kw">use </span>std::cmp;
@@ -558,7 +557,6 @@
 };
 <span class="kw">use </span>http::StatusCode;
 <span class="kw">use </span>hyper::Body;
-<span class="kw">use </span>mime_guess;
 <span class="kw">use </span>percent_encoding::percent_decode_str;
 <span class="kw">use </span>tokio::fs::File <span class="kw">as </span>TkFile;
 <span class="kw">use </span>tokio::io::AsyncSeekExt;
@@ -582,13 +580,13 @@
 ///
 /// ```
 /// // Always serves this file from the file system.
-/// let route = warp::fs::file(&quot;/www/static/app.js&quot;);
+/// let route = warp::fs::file("/www/static/app.js");
 /// ```
 </span><span class="kw">pub fn </span>file(path: <span class="kw">impl </span>Into&lt;PathBuf&gt;) -&gt; <span class="kw">impl </span>FilterClone&lt;Extract = One&lt;File&gt;, Error = Rejection&gt; {
     <span class="kw">let </span>path = Arc::new(path.into());
     <span class="kw">crate</span>::any()
         .map(<span class="kw">move </span>|| {
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;file: {:?}&quot;</span>, path);
+            <span class="macro">tracing::trace!</span>(<span class="string">"file: {:?}"</span>, path);
             ArcPath(path.clone())
         })
         .and(conditionals())
@@ -598,7 +596,7 @@
 <span class="doccomment">/// Creates a `Filter` that serves a directory at the base `path` joined
 /// by the request path.
 ///
-/// This can be used to serve &quot;static files&quot; from a directory. By far the most
+/// This can be used to serve "static files" from a directory. By far the most
 /// common pattern of serving static files is for `GET` requests, so this
 /// filter automatically includes a `GET` check.
 ///
@@ -610,8 +608,8 @@
 /// // Matches requests that start with `/static`,
 /// // and then uses the rest of that path to lookup
 /// // and serve a file from `/www/static`.
-/// let route = warp::path(&quot;static&quot;)
-///     .and(warp::fs::dir(&quot;/www/static&quot;));
+/// let route = warp::path("static")
+///     .and(warp::fs::dir("/www/static"));
 ///
 /// // For example:
 /// // - `GET /static/app.js` would serve the file `/www/static/app.js`
@@ -638,10 +636,10 @@
                 .unwrap_or(<span class="bool-val">false</span>);
 
             <span class="kw">if </span>is_dir {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;dir: appending index.html to directory path&quot;</span>);
-                buf.push(<span class="string">&quot;index.html&quot;</span>);
+                <span class="macro">tracing::debug!</span>(<span class="string">"dir: appending index.html to directory path"</span>);
+                buf.push(<span class="string">"index.html"</span>);
             }
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir: {:?}&quot;</span>, buf);
+            <span class="macro">tracing::trace!</span>(<span class="string">"dir: {:?}"</span>, buf);
             <span class="prelude-val">Ok</span>(ArcPath(Arc::new(buf)))
         })
     })
@@ -652,20 +650,20 @@
     <span class="kw">let </span>p = <span class="kw">match </span>percent_decode_str(tail).decode_utf8() {
         <span class="prelude-val">Ok</span>(p) =&gt; p,
         <span class="prelude-val">Err</span>(err) =&gt; {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;dir: failed to decode route={:?}: {:?}&quot;</span>, tail, err);
+            <span class="macro">tracing::debug!</span>(<span class="string">"dir: failed to decode route={:?}: {:?}"</span>, tail, err);
             <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
         }
     };
-    <span class="macro">tracing::trace!</span>(<span class="string">&quot;dir? base={:?}, route={:?}&quot;</span>, base.as_ref(), p);
-    <span class="kw">for </span>seg <span class="kw">in </span>p.split(<span class="string">&#39;/&#39;</span>) {
-        <span class="kw">if </span>seg.starts_with(<span class="string">&quot;..&quot;</span>) {
-            <span class="macro">tracing::warn!</span>(<span class="string">&quot;dir: rejecting segment starting with &#39;..&#39;&quot;</span>);
+    <span class="macro">tracing::trace!</span>(<span class="string">"dir? base={:?}, route={:?}"</span>, base.as_ref(), p);
+    <span class="kw">for </span>seg <span class="kw">in </span>p.split(<span class="string">'/'</span>) {
+        <span class="kw">if </span>seg.starts_with(<span class="string">".."</span>) {
+            <span class="macro">tracing::warn!</span>(<span class="string">"dir: rejecting segment starting with '..'"</span>);
             <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
-        } <span class="kw">else if </span>seg.contains(<span class="string">&#39;\\&#39;</span>) {
-            <span class="macro">tracing::warn!</span>(<span class="string">&quot;dir: rejecting segment containing backslash (\\)&quot;</span>);
+        } <span class="kw">else if </span>seg.contains(<span class="string">'\\'</span>) {
+            <span class="macro">tracing::warn!</span>(<span class="string">"dir: rejecting segment containing backslash (\\)"</span>);
             <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
-        } <span class="kw">else if </span><span class="macro">cfg!</span>(windows) &amp;&amp; seg.contains(<span class="string">&#39;:&#39;</span>) {
-            <span class="macro">tracing::warn!</span>(<span class="string">&quot;dir: rejecting segment containing colon (:)&quot;</span>);
+        } <span class="kw">else if </span><span class="macro">cfg!</span>(windows) &amp;&amp; seg.contains(<span class="string">':'</span>) {
+            <span class="macro">tracing::warn!</span>(<span class="string">"dir: rejecting segment containing colon (:)"</span>);
             <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
         } <span class="kw">else </span>{
             buf.push(seg);
@@ -695,7 +693,7 @@
                 .unwrap_or(<span class="bool-val">false</span>);
 
             <span class="macro">tracing::trace!</span>(
-                <span class="string">&quot;if-unmodified-since? {:?} vs {:?} = {}&quot;</span>,
+                <span class="string">"if-unmodified-since? {:?} vs {:?} = {}"</span>,
                 since,
                 last_modified,
                 precondition
@@ -709,7 +707,7 @@
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(since) = <span class="self">self</span>.if_modified_since {
             <span class="macro">tracing::trace!</span>(
-                <span class="string">&quot;if-modified-since? header = {:?}, file = {:?}&quot;</span>,
+                <span class="string">"if-modified-since? header = {:?}, file = {:?}"</span>,
                 since,
                 last_modified
             );
@@ -725,7 +723,7 @@
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(if_range) = <span class="self">self</span>.if_range {
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;if-range? {:?} vs {:?}&quot;</span>, if_range, last_modified);
+            <span class="macro">tracing::trace!</span>(<span class="string">"if-range? {:?} vs {:?}"</span>, if_range, last_modified);
             <span class="kw">let </span>can_range = !if_range.is_modified(<span class="prelude-val">None</span>, last_modified.as_ref());
 
             <span class="kw">if </span>!can_range {
@@ -769,11 +767,11 @@
     /// ```
     /// use warp::{Filter, reply::Reply};
     ///
-    /// let route = warp::path(&quot;static&quot;)
-    ///     .and(warp::fs::dir(&quot;/www/static&quot;))
+    /// let route = warp::path("static")
+    ///     .and(warp::fs::dir("/www/static"))
     ///     .map(|reply: warp::filters::fs::File| {
-    ///         if reply.path().ends_with(&quot;video.mp4&quot;) {
-    ///             warp::reply::with_header(reply, &quot;Content-Type&quot;, &quot;video/mp4&quot;).into_response()
+    ///         if reply.path().ends_with("video.mp4") {
+    ///             warp::reply::with_header(reply, "Content-Type", "video/mp4").into_response()
     ///         } else {
     ///             reply.into_response()
     ///         }
@@ -784,7 +782,7 @@
     }
 }
 
-<span class="comment">// Silly wrapper since Arc&lt;PathBuf&gt; doesn&#39;t implement AsRef&lt;Path&gt; ;_;
+<span class="comment">// Silly wrapper since Arc&lt;PathBuf&gt; doesn't implement AsRef&lt;Path&gt; ;_;
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">struct </span>ArcPath(Arc&lt;PathBuf&gt;);
 
@@ -809,16 +807,16 @@
         <span class="prelude-val">Err</span>(err) =&gt; {
             <span class="kw">let </span>rej = <span class="kw">match </span>err.kind() {
                 io::ErrorKind::NotFound =&gt; {
-                    <span class="macro">tracing::debug!</span>(<span class="string">&quot;file not found: {:?}&quot;</span>, path.as_ref().display());
+                    <span class="macro">tracing::debug!</span>(<span class="string">"file not found: {:?}"</span>, path.as_ref().display());
                     reject::not_found()
                 }
                 io::ErrorKind::PermissionDenied =&gt; {
-                    <span class="macro">tracing::warn!</span>(<span class="string">&quot;file permission denied: {:?}&quot;</span>, path.as_ref().display());
+                    <span class="macro">tracing::warn!</span>(<span class="string">"file permission denied: {:?}"</span>, path.as_ref().display());
                     reject::known(FilePermissionError { _p: () })
                 }
                 <span class="kw">_ </span>=&gt; {
                     <span class="macro">tracing::error!</span>(
-                        <span class="string">&quot;file open error (path={:?}): {} &quot;</span>,
+                        <span class="string">"file open error (path={:?}): {} "</span>,
                         path.as_ref().display(),
                         err
                     );
@@ -834,7 +832,7 @@
     <span class="kw">match </span>f.metadata().<span class="kw">await </span>{
         <span class="prelude-val">Ok</span>(meta) =&gt; <span class="prelude-val">Ok</span>((f, meta)),
         <span class="prelude-val">Err</span>(err) =&gt; {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;file metadata error: {}&quot;</span>, err);
+            <span class="macro">tracing::debug!</span>(<span class="string">"file metadata error: {}"</span>, err);
             <span class="prelude-val">Err</span>(reject::not_found())
         }
     }
@@ -864,7 +862,7 @@
                         <span class="kw">if </span>sub_len != len {
                             <span class="kw-2">*</span>resp.status_mut() = StatusCode::PARTIAL_CONTENT;
                             resp.headers_mut().typed_insert(
-                                ContentRange::bytes(start..end, len).expect(<span class="string">&quot;valid ContentRange&quot;</span>),
+                                ContentRange::bytes(start..end, len).expect(<span class="string">"valid ContentRange"</span>),
                             );
 
                             len = sub_len;
@@ -933,7 +931,7 @@
             <span class="kw">if </span>start &lt; end &amp;&amp; end &lt;= max_len {
                 <span class="prelude-val">Ok</span>((start, end))
             } <span class="kw">else </span>{
-                <span class="macro">tracing::trace!</span>(<span class="string">&quot;unsatisfiable byte range: {}-{}/{}&quot;</span>, start, end, max_len);
+                <span class="macro">tracing::trace!</span>(<span class="string">"unsatisfiable byte range: {}-{}/{}"</span>, start, end, max_len);
                 <span class="prelude-val">Err</span>(BadRange)
             }
         })
@@ -974,13 +972,13 @@
                 <span class="kw">let </span>n = <span class="kw">match </span><span class="macro">ready!</span>(poll_read_buf(Pin::new(<span class="kw-2">&amp;mut </span>f), cx, <span class="kw-2">&amp;mut </span>buf)) {
                     <span class="prelude-val">Ok</span>(n) =&gt; n <span class="kw">as </span>u64,
                     <span class="prelude-val">Err</span>(err) =&gt; {
-                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;file read error: {}&quot;</span>, err);
+                        <span class="macro">tracing::debug!</span>(<span class="string">"file read error: {}"</span>, err);
                         <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)));
                     }
                 };
 
                 <span class="kw">if </span>n == <span class="number">0 </span>{
-                    <span class="macro">tracing::debug!</span>(<span class="string">&quot;file read found EOF before expected length&quot;</span>);
+                    <span class="macro">tracing::debug!</span>(<span class="string">"file read found EOF before expected length"</span>);
                     <span class="kw">return </span>Poll::Ready(<span class="prelude-val">None</span>);
                 }
 
@@ -1009,7 +1007,7 @@
 <span class="kw">fn </span>optimal_buf_size(metadata: <span class="kw-2">&amp;</span>Metadata) -&gt; usize {
     <span class="kw">let </span>block_size = get_block_size(metadata);
 
-    <span class="comment">// If file length is smaller than block size, don&#39;t waste space
+    <span class="comment">// If file length is smaller than block size, don't waste space
     // reserving a bigger-than-needed buffer.
     </span>cmp::min(block_size <span class="kw">as </span>u64, metadata.len()) <span class="kw">as </span>usize
 }
@@ -1020,7 +1018,7 @@
     <span class="comment">//TODO: blksize() returns u64, should handle bad cast...
     //(really, a block size bigger than 4gb?)
 
-    // Use device blocksize unless it&#39;s really small.
+    // Use device blocksize unless it's really small.
     </span>cmp::max(metadata.blksize() <span class="kw">as </span>usize, DEFAULT_READ_BUF_SIZE)
 }
 
@@ -1031,12 +1029,12 @@
 
 <span class="comment">// ===== Rejections =====
 
-</span><span class="macro">unit_error! </span>{
-    <span class="kw">pub</span>(<span class="kw">crate</span>) FileOpenError: <span class="string">&quot;file open error&quot;
+</span><span class="macro">unit_error!</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) FileOpenError: <span class="string">"file open error"
 </span>}
 
-<span class="macro">unit_error! </span>{
-    <span class="kw">pub</span>(<span class="kw">crate</span>) FilePermissionError: <span class="string">&quot;file perimission error&quot;
+<span class="macro">unit_error!</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) FilePermissionError: <span class="string">"file perimission error"
 </span>}
 
 <span class="attr">#[cfg(test)]
@@ -1046,21 +1044,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_sanitize_path() {
-        <span class="kw">let </span>base = <span class="string">&quot;/var/www&quot;</span>;
+        <span class="kw">let </span>base = <span class="string">"/var/www"</span>;
 
         <span class="kw">fn </span>p(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>::std::path::Path {
             s.as_ref()
         }
 
         <span class="macro">assert_eq!</span>(
-            sanitize_path(base, <span class="string">&quot;/foo.html&quot;</span>).unwrap(),
-            p(<span class="string">&quot;/var/www/foo.html&quot;</span>)
+            sanitize_path(base, <span class="string">"/foo.html"</span>).unwrap(),
+            p(<span class="string">"/var/www/foo.html"</span>)
         );
 
         <span class="comment">// bad paths
-        </span>sanitize_path(base, <span class="string">&quot;/../foo.html&quot;</span>).expect_err(<span class="string">&quot;dot dot&quot;</span>);
+        </span>sanitize_path(base, <span class="string">"/../foo.html"</span>).expect_err(<span class="string">"dot dot"</span>);
 
-        sanitize_path(base, <span class="string">&quot;/C:\\/foo.html&quot;</span>).expect_err(<span class="string">&quot;C:\\&quot;</span>);
+        sanitize_path(base, <span class="string">"/C:\\/foo.html"</span>).expect_err(<span class="string">"C:\\"</span>);
     }
 
     <span class="attr">#[test]

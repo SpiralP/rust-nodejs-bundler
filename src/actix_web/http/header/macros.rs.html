@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-web-4.4.0/src/http/header/macros.rs`."><title>macros.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="actix_web" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../actix_web/index.html"><img src="https://actix.rs/img/logo.png" alt="actix_web"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-web-4.5.1/src/http/header/macros.rs`."><title>macros.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="actix_web" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://actix.rs/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../actix_web/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -318,7 +318,7 @@
 <a href="#318" id="318">318</a>
 <a href="#319" id="319">319</a>
 <a href="#320" id="320">320</a>
-</pre></div><pre class="rust"><code><span class="macro">macro_rules! </span>common_header_test_module {
+</pre></div><pre class="rust"><code><span class="macro">macro_rules!</span> common_header_test_module {
     (<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$tm</span>:ident{$(<span class="macro-nonterminal">$tf</span>:item)<span class="kw-2">*</span>}) =&gt; {
         <span class="attr">#[cfg(test)]
         </span><span class="kw">mod </span><span class="macro-nonterminal">$tm </span>{
@@ -338,7 +338,7 @@
 }
 
 <span class="attr">#[cfg(test)]
-</span><span class="macro">macro_rules! </span>common_header_test {
+</span><span class="macro">macro_rules!</span> common_header_test {
     (<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$raw</span>:expr) =&gt; {
         <span class="attr">#[test]
         </span><span class="kw">fn </span><span class="macro-nonterminal">$id</span>() {
@@ -356,17 +356,17 @@
             <span class="kw">let </span>req = req.finish();
             <span class="kw">let </span>value = HeaderField::parse(<span class="kw-2">&amp;</span>req);
 
-            <span class="kw">let </span>result = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, value.unwrap());
+            <span class="kw">let </span>result = <span class="macro">format!</span>(<span class="string">"{}"</span>, value.unwrap());
             <span class="kw">let </span>expected = ::std::string::String::from_utf8(raw[<span class="number">0</span>].to_vec()).unwrap();
 
             <span class="kw">let </span>result_cmp: Vec&lt;String&gt; = result
                 .to_ascii_lowercase()
-                .split(<span class="string">&#39; &#39;</span>)
+                .split(<span class="string">' '</span>)
                 .map(|x| x.to_owned())
                 .collect();
             <span class="kw">let </span>expected_cmp: Vec&lt;String&gt; = expected
                 .to_ascii_lowercase()
-                .split(<span class="string">&#39; &#39;</span>)
+                .split(<span class="string">' '</span>)
                 .map(|x| x.to_owned())
                 .collect();
 
@@ -402,18 +402,18 @@
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = iter.next() {
                     joined.push_str(s);
                     <span class="kw">for </span>s <span class="kw">in </span>iter {
-                        joined.push_str(<span class="string">&quot;, &quot;</span>);
+                        joined.push_str(<span class="string">", "</span>);
                         joined.push_str(s);
                     }
                 }
-                <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, exp), joined);
+                <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{}"</span>, exp), joined);
             }
         }
     };
 }
 
-<span class="macro">macro_rules! </span>common_header {
-    <span class="comment">// TODO: these docs are wrong, there&#39;s no $n or $nn
+<span class="macro">macro_rules!</span> common_header {
+    <span class="comment">// TODO: these docs are wrong, there's no $n or $nn
     // $attrs:meta: Attributes associated with the header item (usually docs)
     // $id:ident: Identifier of the header
     // $n:expr: Lowercase name of the header
@@ -440,7 +440,7 @@
 
         <span class="kw">impl </span>::core::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$id </span>{
             <span class="attr">#[inline]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; ::core::fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; ::core::fmt::Result {
                 <span class="macro-nonterminal">$crate::http::header::fmt_comma_delimited</span>(f, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[..])
             }
         }
@@ -452,7 +452,7 @@
             </span><span class="kw">fn </span>try_into_value(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="macro-nonterminal">$crate::http::header::HeaderValue</span>, <span class="self">Self</span>::Error&gt; {
                 <span class="kw">use </span>::core::fmt::Write;
                 <span class="kw">let </span><span class="kw-2">mut </span>writer = <span class="macro-nonterminal">$crate::http::header::Writer::new</span>();
-                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
+                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">"{}"</span>, <span class="self">self</span>);
                 <span class="macro-nonterminal">$crate::http::header::HeaderValue::from_maybe_shared</span>(writer.take())
             }
         }
@@ -487,7 +487,7 @@
 
         <span class="kw">impl </span>::core::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$id </span>{
             <span class="attr">#[inline]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; ::core::fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; ::core::fmt::Result {
                 <span class="macro-nonterminal">$crate::http::header::fmt_comma_delimited</span>(f, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[..])
             }
         }
@@ -499,7 +499,7 @@
             </span><span class="kw">fn </span>try_into_value(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="macro-nonterminal">$crate::http::header::HeaderValue</span>, <span class="self">Self</span>::Error&gt; {
                 <span class="kw">use </span>::core::fmt::Write;
                 <span class="kw">let </span><span class="kw-2">mut </span>writer = <span class="macro-nonterminal">$crate::http::header::Writer::new</span>();
-                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
+                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">"{}"</span>, <span class="self">self</span>);
                 <span class="macro-nonterminal">$crate::http::header::HeaderValue::from_maybe_shared</span>(writer.take())
             }
         }
@@ -526,7 +526,7 @@
 
         <span class="kw">impl </span>::core::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$id </span>{
             <span class="attr">#[inline]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; ::core::fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; ::core::fmt::Result {
                 ::core::fmt::Display::fmt(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, f)
             }
         }
@@ -541,7 +541,7 @@
         }
     };
 
-    <span class="comment">// List header, one or more items with &quot;*&quot; option
+    <span class="comment">// List header, one or more items with "*" option
     </span>($(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>:meta]</span>)<span class="kw-2">*</span>(<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$name</span>:expr) =&gt; {Any / (<span class="macro-nonterminal">$item</span>:ty)+}) =&gt; {
         $(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>]</span>)*
         <span class="attr">#[derive(Clone, Debug, PartialEq, Eq)]
@@ -565,7 +565,7 @@
                     .headers()
                     .get(<span class="self">Self</span>::name())
                     .and_then(|hdr| hdr.to_str().ok())
-                    .map(|hdr| hdr.trim() == <span class="string">&quot;*&quot;</span>);
+                    .map(|hdr| hdr.trim() == <span class="string">"*"</span>);
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>) = is_any {
                     <span class="prelude-val">Ok</span>(<span class="macro-nonterminal">$id::Any</span>)
@@ -578,9 +578,9 @@
 
         <span class="kw">impl </span>::core::fmt::Display <span class="kw">for </span><span class="macro-nonterminal">$id </span>{
             <span class="attr">#[inline]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; ::core::fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; ::core::fmt::Result {
                 <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-                    <span class="macro-nonterminal">$id::Any </span>=&gt; f.write_str(<span class="string">&quot;*&quot;</span>),
+                    <span class="macro-nonterminal">$id::Any </span>=&gt; f.write_str(<span class="string">"*"</span>),
                     <span class="macro-nonterminal">$id::Items</span>(<span class="kw-2">ref </span>fields) =&gt;
                         <span class="macro-nonterminal">$crate::http::header::fmt_comma_delimited</span>(f, <span class="kw-2">&amp;</span>fields[..])
                 }
@@ -594,7 +594,7 @@
             </span><span class="kw">fn </span>try_into_value(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="macro-nonterminal">$crate::http::header::HeaderValue</span>, <span class="self">Self</span>::Error&gt; {
                 <span class="kw">use </span>::core::fmt::Write;
                 <span class="kw">let </span><span class="kw-2">mut </span>writer = <span class="macro-nonterminal">$crate::http::header::Writer::new</span>();
-                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
+                <span class="kw">let _ </span>= <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>writer, <span class="string">"{}"</span>, <span class="self">self</span>);
                 <span class="macro-nonterminal">$crate::http::header::HeaderValue::from_maybe_shared</span>(writer.take())
             }
         }
@@ -602,35 +602,35 @@
 
     <span class="comment">// optional test module
     </span>($(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>:meta]</span>)<span class="kw-2">*</span>(<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$name</span>:expr) =&gt; (<span class="macro-nonterminal">$item</span>:ty)* <span class="macro-nonterminal">$tm</span>:ident{$(<span class="macro-nonterminal">$tf</span>:item)<span class="kw-2">*</span>}) =&gt; {
-        <span class="macro">crate::http::header::common_header! </span>{
+        <span class="macro">crate::http::header::common_header!</span> {
             $(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>]</span>)*
             (<span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$name</span>) =&gt; (<span class="macro-nonterminal">$item</span>)*
         }
 
-        <span class="macro">crate::http::header::common_header_test_module! </span>{ <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
+        <span class="macro">crate::http::header::common_header_test_module!</span> { <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
     };
     ($(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>:meta]</span>)<span class="kw-2">*</span>(<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$n</span>:expr) =&gt; (<span class="macro-nonterminal">$item</span>:ty)+ <span class="macro-nonterminal">$tm</span>:ident{$(<span class="macro-nonterminal">$tf</span>:item)<span class="kw-2">*</span>}) =&gt; {
-        <span class="macro">crate::http::header::common_header! </span>{
+        <span class="macro">crate::http::header::common_header!</span> {
             $(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>]</span>)*
             (<span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$n</span>) =&gt; (<span class="macro-nonterminal">$item</span>)+
         }
 
-        <span class="macro">crate::http::header::common_header_test_module! </span>{ <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
+        <span class="macro">crate::http::header::common_header_test_module!</span> { <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
     };
     ($(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>:meta]</span>)<span class="kw-2">*</span>(<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$name</span>:expr) =&gt; [<span class="macro-nonterminal">$item</span>:ty] <span class="macro-nonterminal">$tm</span>:ident{$(<span class="macro-nonterminal">$tf</span>:item)<span class="kw-2">*</span>}) =&gt; {
-        <span class="macro">crate::http::header::common_header! </span>{
+        <span class="macro">crate::http::header::common_header!</span> {
             $(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>]</span>)* (<span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$name</span>) =&gt; [<span class="macro-nonterminal">$item</span>]
         }
 
-        <span class="macro">crate::http::header::common_header_test_module! </span>{ <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
+        <span class="macro">crate::http::header::common_header_test_module!</span> { <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
     };
     ($(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>:meta]</span>)<span class="kw-2">*</span>(<span class="macro-nonterminal">$id</span>:ident, <span class="macro-nonterminal">$name</span>:expr) =&gt; {Any / (<span class="macro-nonterminal">$item</span>:ty)+} <span class="macro-nonterminal">$tm</span>:ident{$(<span class="macro-nonterminal">$tf</span>:item)<span class="kw-2">*</span>}) =&gt; {
-        <span class="macro">crate::http::header::common_header! </span>{
+        <span class="macro">crate::http::header::common_header!</span> {
             $(<span class="attr">#[<span class="macro-nonterminal">$attrs</span>]</span>)*
             (<span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$name</span>) =&gt; {Any / (<span class="macro-nonterminal">$item</span>)+}
         }
 
-        <span class="macro">crate::http::header::common_header_test_module! </span>{ <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
+        <span class="macro">crate::http::header::common_header_test_module!</span> { <span class="macro-nonterminal">$id</span>, <span class="macro-nonterminal">$tm </span>{ $(<span class="macro-nonterminal">$tf</span>)* }}
     };
 }
 

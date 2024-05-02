@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs`."><title>version.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/version.rs`."><title>version.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../version_check/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -330,8 +330,8 @@
     /// use version_check::Version;
     ///
     /// match Version::read() {
-    ///     Some(d) =&gt; format!(&quot;Version is: {}&quot;, d),
-    ///     None =&gt; format!(&quot;Failed to read the version.&quot;)
+    ///     Some(d) =&gt; format!("Version is: {}", d),
+    ///     None =&gt; format!("Failed to read the version.")
     /// };
     /// ```
     </span><span class="kw">pub fn </span>read() -&gt; <span class="prelude-ty">Option</span>&lt;Version&gt; {
@@ -350,31 +350,31 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// let version = Version::parse(&quot;1.18.0&quot;).unwrap();
-    /// assert!(version.exactly(&quot;1.18.0&quot;));
+    /// let version = Version::parse("1.18.0").unwrap();
+    /// assert!(version.exactly("1.18.0"));
     ///
-    /// let version = Version::parse(&quot;1.20.0-nightly&quot;).unwrap();
-    /// assert!(version.exactly(&quot;1.20.0&quot;));
-    /// assert!(version.exactly(&quot;1.20.0-beta&quot;));
+    /// let version = Version::parse("1.20.0-nightly").unwrap();
+    /// assert!(version.exactly("1.20.0"));
+    /// assert!(version.exactly("1.20.0-beta"));
     ///
-    /// let version = Version::parse(&quot;1.3&quot;).unwrap();
-    /// assert!(version.exactly(&quot;1.3.0&quot;));
+    /// let version = Version::parse("1.3").unwrap();
+    /// assert!(version.exactly("1.3.0"));
     ///
-    /// let version = Version::parse(&quot;1&quot;).unwrap();
-    /// assert!(version.exactly(&quot;1.0.0&quot;));
+    /// let version = Version::parse("1").unwrap();
+    /// assert!(version.exactly("1.0.0"));
     ///
-    /// assert!(Version::parse(&quot;one.two.three&quot;).is_none());
-    /// assert!(Version::parse(&quot;1.65536.2&quot;).is_none());
-    /// assert!(Version::parse(&quot;1. 2&quot;).is_none());
-    /// assert!(Version::parse(&quot;&quot;).is_none());
-    /// assert!(Version::parse(&quot;1.&quot;).is_none());
-    /// assert!(Version::parse(&quot;1.2.3.4&quot;).is_none());
+    /// assert!(Version::parse("one.two.three").is_none());
+    /// assert!(Version::parse("1.65536.2").is_none());
+    /// assert!(Version::parse("1. 2").is_none());
+    /// assert!(Version::parse("").is_none());
+    /// assert!(Version::parse("1.").is_none());
+    /// assert!(Version::parse("1.2.3.4").is_none());
     /// ```
     </span><span class="kw">pub fn </span>parse(version: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Version&gt; {
-        <span class="kw">let </span>splits = version.split(<span class="string">&#39;-&#39;</span>)
+        <span class="kw">let </span>splits = version.split(<span class="string">'-'</span>)
             .nth(<span class="number">0</span>)
-            .unwrap_or(<span class="string">&quot;&quot;</span>)
-            .split(<span class="string">&#39;.&#39;</span>)
+            .unwrap_or(<span class="string">""</span>)
+            .split(<span class="string">'.'</span>)
             .map(|s| s.parse::&lt;u16&gt;());
 
         <span class="kw">let </span><span class="kw-2">mut </span>mmp = [<span class="number">0u16</span>; <span class="number">3</span>];
@@ -396,10 +396,10 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// assert!(Version::from_mmp(1, 35, 0).exactly(&quot;1.35.0&quot;));
-    /// assert!(Version::from_mmp(1, 33, 0).exactly(&quot;1.33.0&quot;));
-    /// assert!(Version::from_mmp(1, 35, 1).exactly(&quot;1.35.1&quot;));
-    /// assert!(Version::from_mmp(1, 13, 2).exactly(&quot;1.13.2&quot;));
+    /// assert!(Version::from_mmp(1, 35, 0).exactly("1.35.0"));
+    /// assert!(Version::from_mmp(1, 33, 0).exactly("1.33.0"));
+    /// assert!(Version::from_mmp(1, 35, 1).exactly("1.35.1"));
+    /// assert!(Version::from_mmp(1, 13, 2).exactly("1.13.2"));
     /// ```
     </span><span class="kw">pub fn </span>from_mmp(major: u16, minor: u16, patch: u16) -&gt; Version {
         Version(((major <span class="kw">as </span>u64) &lt;&lt; <span class="number">32</span>) | ((minor <span class="kw">as </span>u64) &lt;&lt; <span class="number">16</span>) | patch <span class="kw">as </span>u64)
@@ -412,10 +412,10 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// assert_eq!(Version::parse(&quot;1.35.0&quot;).unwrap().to_mmp(), (1, 35, 0));
-    /// assert_eq!(Version::parse(&quot;1.33.0&quot;).unwrap().to_mmp(), (1, 33, 0));
-    /// assert_eq!(Version::parse(&quot;1.35.1&quot;).unwrap().to_mmp(), (1, 35, 1));
-    /// assert_eq!(Version::parse(&quot;1.13.2&quot;).unwrap().to_mmp(), (1, 13, 2));
+    /// assert_eq!(Version::parse("1.35.0").unwrap().to_mmp(), (1, 35, 0));
+    /// assert_eq!(Version::parse("1.33.0").unwrap().to_mmp(), (1, 33, 0));
+    /// assert_eq!(Version::parse("1.35.1").unwrap().to_mmp(), (1, 35, 1));
+    /// assert_eq!(Version::parse("1.13.2").unwrap().to_mmp(), (1, 13, 2));
     /// ```
     </span><span class="kw">pub fn </span>to_mmp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u16, u16, u16) {
         <span class="kw">let </span>major = <span class="self">self</span>.<span class="number">0 </span>&gt;&gt; <span class="number">32</span>;
@@ -434,19 +434,19 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// let version = Version::parse(&quot;1.35.0&quot;).unwrap();
+    /// let version = Version::parse("1.35.0").unwrap();
     ///
-    /// assert!(version.at_least(&quot;1.33.0&quot;));
-    /// assert!(version.at_least(&quot;1.35.0&quot;));
-    /// assert!(version.at_least(&quot;1.13.2&quot;));
+    /// assert!(version.at_least("1.33.0"));
+    /// assert!(version.at_least("1.35.0"));
+    /// assert!(version.at_least("1.13.2"));
     ///
-    /// assert!(!version.at_least(&quot;1.35.1&quot;));
-    /// assert!(!version.at_least(&quot;1.55.0&quot;));
+    /// assert!(!version.at_least("1.35.1"));
+    /// assert!(!version.at_least("1.55.0"));
     ///
-    /// let version = Version::parse(&quot;1.12.5&quot;).unwrap();
+    /// let version = Version::parse("1.12.5").unwrap();
     ///
-    /// assert!(version.at_least(&quot;1.12.0&quot;));
-    /// assert!(!version.at_least(&quot;1.35.0&quot;));
+    /// assert!(version.at_least("1.12.0"));
+    /// assert!(!version.at_least("1.35.0"));
     /// ```
     </span><span class="kw">pub fn </span>at_least(<span class="kw-2">&amp;</span><span class="self">self</span>, version: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Version::parse(version)
@@ -464,14 +464,14 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// let version = Version::parse(&quot;1.35.0&quot;).unwrap();
+    /// let version = Version::parse("1.35.0").unwrap();
     ///
-    /// assert!(version.at_most(&quot;1.35.1&quot;));
-    /// assert!(version.at_most(&quot;1.55.0&quot;));
-    /// assert!(version.at_most(&quot;1.35.0&quot;));
+    /// assert!(version.at_most("1.35.1"));
+    /// assert!(version.at_most("1.55.0"));
+    /// assert!(version.at_most("1.35.0"));
     ///
-    /// assert!(!version.at_most(&quot;1.33.0&quot;));
-    /// assert!(!version.at_most(&quot;1.13.2&quot;));
+    /// assert!(!version.at_most("1.33.0"));
+    /// assert!(!version.at_most("1.13.2"));
     /// ```
     </span><span class="kw">pub fn </span>at_most(<span class="kw-2">&amp;</span><span class="self">self</span>, version: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Version::parse(version)
@@ -489,13 +489,13 @@
     /// ```rust
     /// use version_check::Version;
     ///
-    /// let version = Version::parse(&quot;1.35.0&quot;).unwrap();
+    /// let version = Version::parse("1.35.0").unwrap();
     ///
-    /// assert!(version.exactly(&quot;1.35.0&quot;));
+    /// assert!(version.exactly("1.35.0"));
     ///
-    /// assert!(!version.exactly(&quot;1.33.0&quot;));
-    /// assert!(!version.exactly(&quot;1.35.1&quot;));
-    /// assert!(!version.exactly(&quot;1.13.2&quot;));
+    /// assert!(!version.exactly("1.33.0"));
+    /// assert!(!version.exactly("1.35.1"));
+    /// assert!(!version.exactly("1.13.2"));
     /// ```
     </span><span class="kw">pub fn </span>exactly(<span class="kw-2">&amp;</span><span class="self">self</span>, version: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Version::parse(version)
@@ -507,14 +507,14 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Version {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">let </span>(major, minor, patch) = <span class="self">self</span>.to_mmp();
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}.{}.{}&quot;</span>, major, minor, patch)
+        <span class="macro">write!</span>(f, <span class="string">"{}.{}.{}"</span>, major, minor, patch)
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Version {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
-        <span class="comment">// We don&#39;t use `debug_*` because it&#39;s not available in `1.0.0`.
-        </span><span class="macro">write!</span>(f, <span class="string">&quot;Version({:?}, {:?})&quot;</span>, <span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.to_mmp())
+        <span class="comment">// We don't use `debug_*` because it's not available in `1.0.0`.
+        </span><span class="macro">write!</span>(f, <span class="string">"Version({:?}, {:?})"</span>, <span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.to_mmp())
     }
 }
 
@@ -522,9 +522,9 @@
 </span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::Version;
 
-    <span class="macro">macro_rules! </span>assert_to_mmp {
-        <span class="comment">// We don&#39;t use `.into::&lt;Option&lt;_&gt;&gt;` because it&#39;s not available in 1.0.
-        // We don&#39;t use the message part of `assert!` for the same reason.
+    <span class="macro">macro_rules!</span> assert_to_mmp {
+        <span class="comment">// We don't use `.into::&lt;Option&lt;_&gt;&gt;` because it's not available in 1.0.
+        // We don't use the message part of `assert!` for the same reason.
         </span>(<span class="macro-nonterminal">$s</span>:expr, <span class="prelude-val">None</span>) =&gt; (
             <span class="macro">assert_eq!</span>(Version::parse(<span class="macro-nonterminal">$s</span>), <span class="prelude-val">None</span>);
         );
@@ -533,7 +533,7 @@
         )
     }
 
-    <span class="macro">macro_rules! </span>assert_from_mmp {
+    <span class="macro">macro_rules!</span> assert_from_mmp {
         ((<span class="macro-nonterminal">$x</span>:expr, <span class="macro-nonterminal">$y</span>:expr, <span class="macro-nonterminal">$z</span>:expr) =&gt; <span class="macro-nonterminal">$s</span>:expr) =&gt; {
             <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(Version::from_mmp(<span class="macro-nonterminal">$x</span>, <span class="macro-nonterminal">$y</span>, <span class="macro-nonterminal">$z</span>)), Version::parse(<span class="macro-nonterminal">$s</span>));
         };
@@ -541,80 +541,80 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_str_to_mmp() {
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1&quot;</span>, (<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.2&quot;</span>, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.18.0&quot;</span>, (<span class="number">1</span>, <span class="number">18</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;3.19.0&quot;</span>, (<span class="number">3</span>, <span class="number">19</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.19.0-nightly&quot;</span>, (<span class="number">1</span>, <span class="number">19</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.12.2349&quot;</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">2349</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;0.12&quot;</span>, (<span class="number">0</span>, <span class="number">12</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.12.5&quot;</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.12&quot;</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1&quot;</span>, (<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.4.4-nightly (d84693b93 2017-07-09))&quot;</span>, (<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.58879.4478-dev&quot;</span>, (<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>));
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.58879.4478-dev (d84693b93 2017-07-09))&quot;</span>, (<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1"</span>, (<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.2"</span>, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.18.0"</span>, (<span class="number">1</span>, <span class="number">18</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"3.19.0"</span>, (<span class="number">3</span>, <span class="number">19</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.19.0-nightly"</span>, (<span class="number">1</span>, <span class="number">19</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.12.2349"</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">2349</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"0.12"</span>, (<span class="number">0</span>, <span class="number">12</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.12.5"</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.12"</span>, (<span class="number">1</span>, <span class="number">12</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1"</span>, (<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.4.4-nightly (d84693b93 2017-07-09))"</span>, (<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.58879.4478-dev"</span>, (<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>));
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.58879.4478-dev (d84693b93 2017-07-09))"</span>, (<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_malformed() {
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.65536.2&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;-1.2.3&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1. 2&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot; &quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;.&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;one&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.&quot;</span>, <span class="prelude-val">None</span>);
-        <span class="macro">assert_to_mmp!</span>(<span class="string">&quot;1.2.3.4.5.6&quot;</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.65536.2"</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"-1.2.3"</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1. 2"</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">""</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">" "</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"."</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"one"</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1."</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_to_mmp!</span>(<span class="string">"1.2.3.4.5.6"</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_from_mmp() {
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">18</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;1.18.0&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">3</span>, <span class="number">19</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;3.19.0&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">19</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;1.19.0&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">2349</span>) =&gt; <span class="string">&quot;1.12.2349&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">0</span>, <span class="number">12</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;0.12&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>) =&gt; <span class="string">&quot;1.12.5&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;1.12&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) =&gt; <span class="string">&quot;1&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>) =&gt; <span class="string">&quot;1.4.4&quot;</span>);
-        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>) =&gt; <span class="string">&quot;1.58879.4478&quot;</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">18</span>, <span class="number">0</span>) =&gt; <span class="string">"1.18.0"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">3</span>, <span class="number">19</span>, <span class="number">0</span>) =&gt; <span class="string">"3.19.0"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">19</span>, <span class="number">0</span>) =&gt; <span class="string">"1.19.0"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">2349</span>) =&gt; <span class="string">"1.12.2349"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">0</span>, <span class="number">12</span>, <span class="number">0</span>) =&gt; <span class="string">"0.12"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>) =&gt; <span class="string">"1.12.5"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">12</span>, <span class="number">0</span>) =&gt; <span class="string">"1.12"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) =&gt; <span class="string">"1"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">4</span>, <span class="number">4</span>) =&gt; <span class="string">"1.4.4"</span>);
+        <span class="macro">assert_from_mmp!</span>((<span class="number">1</span>, <span class="number">58879</span>, <span class="number">4478</span>) =&gt; <span class="string">"1.58879.4478"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_comparisons() {
-        <span class="kw">let </span>version = Version::parse(<span class="string">&quot;1.18.0&quot;</span>).unwrap();
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.18.0&quot;</span>));
-        <span class="macro">assert!</span>(version.at_least(<span class="string">&quot;1.12.0&quot;</span>));
-        <span class="macro">assert!</span>(version.at_least(<span class="string">&quot;1.12&quot;</span>));
-        <span class="macro">assert!</span>(version.at_least(<span class="string">&quot;1&quot;</span>));
-        <span class="macro">assert!</span>(version.at_most(<span class="string">&quot;1.18.1&quot;</span>));
-        <span class="macro">assert!</span>(!version.exactly(<span class="string">&quot;1.19.0&quot;</span>));
-        <span class="macro">assert!</span>(!version.exactly(<span class="string">&quot;1.18.1&quot;</span>));
+        <span class="kw">let </span>version = Version::parse(<span class="string">"1.18.0"</span>).unwrap();
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.18.0"</span>));
+        <span class="macro">assert!</span>(version.at_least(<span class="string">"1.12.0"</span>));
+        <span class="macro">assert!</span>(version.at_least(<span class="string">"1.12"</span>));
+        <span class="macro">assert!</span>(version.at_least(<span class="string">"1"</span>));
+        <span class="macro">assert!</span>(version.at_most(<span class="string">"1.18.1"</span>));
+        <span class="macro">assert!</span>(!version.exactly(<span class="string">"1.19.0"</span>));
+        <span class="macro">assert!</span>(!version.exactly(<span class="string">"1.18.1"</span>));
 
-        <span class="kw">let </span>version = Version::parse(<span class="string">&quot;1.20.0-nightly&quot;</span>).unwrap();
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.20.0-beta&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.20.0-nightly&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.20.0&quot;</span>));
-        <span class="macro">assert!</span>(!version.exactly(<span class="string">&quot;1.19&quot;</span>));
+        <span class="kw">let </span>version = Version::parse(<span class="string">"1.20.0-nightly"</span>).unwrap();
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.20.0-beta"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.20.0-nightly"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.20.0"</span>));
+        <span class="macro">assert!</span>(!version.exactly(<span class="string">"1.19"</span>));
 
-        <span class="kw">let </span>version = Version::parse(<span class="string">&quot;1.3&quot;</span>).unwrap();
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.3.0&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.3.0-stable&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.3&quot;</span>));
-        <span class="macro">assert!</span>(!version.exactly(<span class="string">&quot;1.5.0-stable&quot;</span>));
+        <span class="kw">let </span>version = Version::parse(<span class="string">"1.3"</span>).unwrap();
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.3.0"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.3.0-stable"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.3"</span>));
+        <span class="macro">assert!</span>(!version.exactly(<span class="string">"1.5.0-stable"</span>));
 
-        <span class="kw">let </span>version = Version::parse(<span class="string">&quot;1&quot;</span>).unwrap();
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.0.0&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1.0&quot;</span>));
-        <span class="macro">assert!</span>(version.exactly(<span class="string">&quot;1&quot;</span>));
+        <span class="kw">let </span>version = Version::parse(<span class="string">"1"</span>).unwrap();
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.0.0"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1.0"</span>));
+        <span class="macro">assert!</span>(version.exactly(<span class="string">"1"</span>));
 
-        <span class="macro">assert!</span>(Version::parse(<span class="string">&quot;one.two.three&quot;</span>).is_none());
+        <span class="macro">assert!</span>(Version::parse(<span class="string">"one.two.three"</span>).is_none());
     }
 
-    <span class="macro">macro_rules! </span>reflexive_display {
+    <span class="macro">macro_rules!</span> reflexive_display {
         (<span class="macro-nonterminal">$s</span>:expr) =&gt; (
             <span class="macro">assert_eq!</span>(Version::parse(<span class="macro-nonterminal">$s</span>).unwrap().to_string(), <span class="macro-nonterminal">$s</span>);
         )
@@ -622,12 +622,12 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>display() {
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;1.0.0&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;1.2.3&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;1.12.1438&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;1.44.0&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;2.44.0&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;23459.28923.3483&quot;</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"1.0.0"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"1.2.3"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"1.12.1438"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"1.44.0"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"2.44.0"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"23459.28923.3483"</span>);
     }
 }
 </code></pre></div></section></main></body></html>

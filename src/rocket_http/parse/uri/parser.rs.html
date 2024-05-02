@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/parse/uri/parser.rs`."><title>parser.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/parse/uri/parser.rs`."><title>parser.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -210,16 +210,16 @@
 <span class="kw">use </span><span class="kw">crate</span>::parse::uri::tables::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::parse::uri::RawInput;
 
-<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; = pear::input::Result&lt;T, RawInput&lt;<span class="lifetime">&#39;a</span>&gt;&gt;;
+<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, T&gt; = pear::input::Result&lt;T, RawInput&lt;<span class="lifetime">'a</span>&gt;&gt;;
 
 <span class="comment">// SAFETY: Every `unsafe` here comes from bytes -&gt; &amp;str conversions. Since all
 // bytes are checked against tables in `tables.rs`, all of which allow only
 // ASCII characters, these are all safe.
 
-// TODO: We should cap the source we pass into `raw` to the bytes we&#39;ve actually
+// TODO: We should cap the source we pass into `raw` to the bytes we've actually
 // checked. Otherwise, we could have good bytes followed by unchecked bad bytes
 // since eof() may not called. However, note that we only actually expose these
-// parsers via `parse!()`, which _does_ call `eof()`, so we&#39;re externally okay.
+// parsers via `parse!()`, which _does_ call `eof()`, so we're externally okay.
 
 </span><span class="attr">#[parser(rewind)]
 </span><span class="kw">pub fn </span>complete&lt;I, P, O&gt;(input: <span class="kw-2">&amp;mut </span>Pear&lt;I&gt;, p: P) -&gt; input::Result&lt;O, I&gt;
@@ -234,10 +234,10 @@
 /// Once we have this, we should probably set the default so that `authority` is
 /// preferred over `absolute`, otherwise something like `foo:3122` is absolute.
 </span><span class="attr">#[parser]
-</span><span class="kw">pub fn </span>uri&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Uri&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+</span><span class="kw">pub fn </span>uri&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Uri&lt;<span class="lifetime">'a</span>&gt;&gt; {
     <span class="comment">// To resolve all ambiguities with preference, we might need to look at the
     // complete string twice: origin/ref, asterisk/ref, authority/absolute.
-    </span><span class="macro">switch! </span>{
+    </span><span class="macro">switch!</span> {
         asterisk@complete(asterisk) =&gt; Uri::Asterisk(asterisk),
         origin@complete(origin) =&gt; Uri::Origin(origin),
         authority@complete(authority) =&gt; Uri::Authority(authority),
@@ -247,36 +247,36 @@
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>asterisk&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Asterisk&gt; {
-    eat(<span class="string">b&#39;*&#39;</span>)<span class="question-mark">?</span>;
+</span><span class="kw">pub fn </span>asterisk&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Asterisk&gt; {
+    eat(<span class="string">b'*'</span>)<span class="question-mark">?</span>;
     Asterisk
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>origin&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
-    <span class="kw">let </span>(<span class="kw">_</span>, path, query) = (peek(<span class="string">b&#39;/&#39;</span>)<span class="question-mark">?</span>, path()<span class="question-mark">?</span>, query()<span class="question-mark">?</span>);
+</span><span class="kw">pub fn </span>origin&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Origin&lt;<span class="lifetime">'a</span>&gt;&gt; {
+    <span class="kw">let </span>(<span class="kw">_</span>, path, query) = (peek(<span class="string">b'/'</span>)<span class="question-mark">?</span>, path()<span class="question-mark">?</span>, query()<span class="question-mark">?</span>);
     <span class="kw">unsafe </span>{ Origin::raw(input.start.into(), path, query) }
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>authority&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+</span><span class="kw">pub fn </span>authority&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Authority&lt;<span class="lifetime">'a</span>&gt;&gt; {
     <span class="kw">let </span>prefix = take_while(is_reg_name_char)<span class="question-mark">?</span>;
-    <span class="kw">let </span>(user_info, host, port) = <span class="macro">switch! </span>{
-        peek(<span class="string">b&#39;[&#39;</span>) <span class="kw">if </span>prefix.is_empty() =&gt; (<span class="prelude-val">None</span>, host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
-        eat(<span class="string">b&#39;:&#39;</span>) =&gt; {
+    <span class="kw">let </span>(user_info, host, port) = <span class="macro">switch!</span> {
+        peek(<span class="string">b'['</span>) <span class="kw">if </span>prefix.is_empty() =&gt; (<span class="prelude-val">None</span>, host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
+        eat(<span class="string">b':'</span>) =&gt; {
             <span class="kw">let </span>suffix = take_while(is_reg_name_char)<span class="question-mark">?</span>;
-            <span class="macro">switch! </span>{
-                peek(<span class="string">b&#39;:&#39;</span>) =&gt; {
-                    <span class="kw">let </span>end = (take_while(is_user_info_char)<span class="question-mark">?</span>, eat(<span class="string">b&#39;@&#39;</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
+            <span class="macro">switch!</span> {
+                peek(<span class="string">b':'</span>) =&gt; {
+                    <span class="kw">let </span>end = (take_while(is_user_info_char)<span class="question-mark">?</span>, eat(<span class="string">b'@'</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
                     (input.span(prefix, end), host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>)
                 },
-                eat(<span class="string">b&#39;@&#39;</span>) =&gt; (input.span(prefix, suffix), host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
+                eat(<span class="string">b'@'</span>) =&gt; (input.span(prefix, suffix), host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
                 <span class="comment">// FIXME: Rewind to just after prefix to get the right context
                 // to be able to call `port()`. Then remove `maybe_port()`.
                 </span><span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, prefix, maybe_port(<span class="kw-2">&amp;</span>suffix)<span class="question-mark">?</span>)
             }
         },
-        eat(<span class="string">b&#39;@&#39;</span>) =&gt; (<span class="prelude-val">Some</span>(prefix), host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
+        eat(<span class="string">b'@'</span>) =&gt; (<span class="prelude-val">Some</span>(prefix), host()<span class="question-mark">?</span>, port()<span class="question-mark">?</span>),
         <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, prefix, <span class="prelude-val">None</span>),
     };
 
@@ -284,38 +284,38 @@
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>scheme&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt; {
+</span><span class="kw">pub fn </span>scheme&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt; {
     <span class="kw">let </span>scheme = take_some_while(is_scheme_char)<span class="question-mark">?</span>;
     <span class="kw">if </span>!scheme.get(<span class="number">0</span>).map_or(<span class="bool-val">false</span>, |b| b.is_ascii_alphabetic()) {
-        <span class="macro">parse_error!</span>(<span class="string">&quot;invalid scheme&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">parse_error!</span>(<span class="string">"invalid scheme"</span>)<span class="question-mark">?</span>;
     }
 
     scheme
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>absolute&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Absolute&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+</span><span class="kw">pub fn </span>absolute&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Absolute&lt;<span class="lifetime">'a</span>&gt;&gt; {
     <span class="kw">let </span>scheme = scheme()<span class="question-mark">?</span>;
-    <span class="kw">let </span>(<span class="kw">_</span>, (authority, path), query) = (eat(<span class="string">b&#39;:&#39;</span>)<span class="question-mark">?</span>, hier_part()<span class="question-mark">?</span>, query()<span class="question-mark">?</span>);
+    <span class="kw">let </span>(<span class="kw">_</span>, (authority, path), query) = (eat(<span class="string">b':'</span>)<span class="question-mark">?</span>, hier_part()<span class="question-mark">?</span>, query()<span class="question-mark">?</span>);
     <span class="kw">unsafe </span>{ Absolute::raw(input.start.into(), scheme, authority, path, query) }
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>reference&lt;<span class="lifetime">&#39;a</span>&gt;(
-    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Reference&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+</span><span class="kw">pub fn </span>reference&lt;<span class="lifetime">'a</span>&gt;(
+    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Reference&lt;<span class="lifetime">'a</span>&gt;&gt; {
     <span class="kw">let </span>prefix = take_while(is_scheme_char)<span class="question-mark">?</span>;
-    <span class="kw">let </span>(scheme, authority, path) = <span class="macro">switch! </span>{
-        peek(<span class="string">b&#39;:&#39;</span>) <span class="kw">if </span>prefix.is_empty() =&gt; <span class="macro">parse_error!</span>(<span class="string">&quot;missing scheme&quot;</span>)<span class="question-mark">?</span>,
-        eat(<span class="string">b&#39;:&#39;</span>) =&gt; {
+    <span class="kw">let </span>(scheme, authority, path) = <span class="macro">switch!</span> {
+        peek(<span class="string">b':'</span>) <span class="kw">if </span>prefix.is_empty() =&gt; <span class="macro">parse_error!</span>(<span class="string">"missing scheme"</span>)<span class="question-mark">?</span>,
+        eat(<span class="string">b':'</span>) =&gt; {
             <span class="kw">if </span>!prefix.get(<span class="number">0</span>).map_or(<span class="bool-val">false</span>, |b| b.is_ascii_alphabetic()) {
-                <span class="macro">parse_error!</span>(<span class="string">&quot;invalid scheme&quot;</span>)<span class="question-mark">?</span>;
+                <span class="macro">parse_error!</span>(<span class="string">"invalid scheme"</span>)<span class="question-mark">?</span>;
             }
 
             <span class="kw">let </span>(authority, path) = hier_part()<span class="question-mark">?</span>;
             (<span class="prelude-val">Some</span>(prefix), authority, path)
         },
-        peek_slice(<span class="string">b&quot;//&quot;</span>) <span class="kw">if </span>prefix.is_empty() =&gt; {
+        peek_slice(<span class="string">b"//"</span>) <span class="kw">if </span>prefix.is_empty() =&gt; {
             <span class="kw">let </span>(authority, path) = hier_part()<span class="question-mark">?</span>;
             (<span class="prelude-val">None</span>, authority, path)
         },
@@ -331,13 +331,13 @@
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>hier_part&lt;<span class="lifetime">&#39;a</span>&gt;(
-    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, (<span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;)&gt; {
-    <span class="macro">switch! </span>{
-        eat_slice(<span class="string">b&quot;//&quot;</span>) =&gt; {
+</span><span class="kw">pub fn </span>hier_part&lt;<span class="lifetime">'a</span>&gt;(
+    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, (<span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;)&gt; {
+    <span class="macro">switch!</span> {
+        eat_slice(<span class="string">b"//"</span>) =&gt; {
             <span class="kw">let </span>authority = authority()<span class="question-mark">?</span>;
-            <span class="kw">let </span>path = <span class="macro">parse_try!</span>(peek(<span class="string">b&#39;/&#39;</span>) =&gt; path()<span class="question-mark">? </span>=&gt; || none()<span class="question-mark">?</span>);
+            <span class="kw">let </span>path = <span class="macro">parse_try!</span>(peek(<span class="string">b'/'</span>) =&gt; path()<span class="question-mark">? </span>=&gt; || none()<span class="question-mark">?</span>);
             (<span class="prelude-val">Some</span>(authority), path)
         },
         <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, path()<span class="question-mark">?</span>)
@@ -345,20 +345,20 @@
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>host&lt;<span class="lifetime">&#39;a</span>&gt;(
-    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt; {
-    <span class="macro">switch! </span>{
-        peek(<span class="string">b&#39;[&#39;</span>) =&gt; enclosed(<span class="string">b&#39;[&#39;</span>, is_host_char, <span class="string">b&#39;]&#39;</span>)<span class="question-mark">?</span>,
+</span><span class="kw">fn </span>host&lt;<span class="lifetime">'a</span>&gt;(
+    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt; {
+    <span class="macro">switch!</span> {
+        peek(<span class="string">b'['</span>) =&gt; enclosed(<span class="string">b'['</span>, is_host_char, <span class="string">b']'</span>)<span class="question-mark">?</span>,
         <span class="kw">_ </span>=&gt; take_while(is_reg_name_char)<span class="question-mark">?
     </span>}
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>port&lt;<span class="lifetime">&#39;a</span>&gt;(
-    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, <span class="prelude-ty">Option</span>&lt;u16&gt;&gt; {
-    <span class="kw">if </span>!succeeds(input, |i| eat(i, <span class="string">b&#39;:&#39;</span>)) {
+</span><span class="kw">fn </span>port&lt;<span class="lifetime">'a</span>&gt;(
+    input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, <span class="prelude-ty">Option</span>&lt;u16&gt;&gt; {
+    <span class="kw">if </span>!succeeds(input, |i| eat(i, <span class="string">b':'</span>)) {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
     }
 
@@ -366,42 +366,42 @@
     maybe_port(<span class="kw-2">&amp;</span>bytes)<span class="question-mark">?
 </span>}
 
-<span class="comment">// FIXME: The context here is wrong since it&#39;s empty. We should reset to
+<span class="comment">// FIXME: The context here is wrong since it's empty. We should reset to
 // current - bytes.len(). Or something like that.
 </span><span class="attr">#[parser]
-</span><span class="kw">fn </span>maybe_port&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;, bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, <span class="prelude-ty">Option</span>&lt;u16&gt;&gt; {
+</span><span class="kw">fn </span>maybe_port&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;, bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, <span class="prelude-ty">Option</span>&lt;u16&gt;&gt; {
     <span class="kw">if </span>bytes.is_empty() {
         <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
     } <span class="kw">else if </span>bytes.len() &gt; <span class="number">5 </span>{
-        <span class="macro">parse_error!</span>(<span class="string">&quot;port len is out of range&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">parse_error!</span>(<span class="string">"port len is out of range"</span>)<span class="question-mark">?</span>;
     } <span class="kw">else if </span>!bytes.iter().all(|b| b.is_ascii_digit()) {
-        <span class="macro">parse_error!</span>(<span class="string">&quot;invalid port bytes&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">parse_error!</span>(<span class="string">"invalid port bytes"</span>)<span class="question-mark">?</span>;
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>port_num: u32 = <span class="number">0</span>;
     <span class="kw">for </span>(b, i) <span class="kw">in </span>bytes.iter().rev().zip(<span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">10</span>, <span class="number">100</span>, <span class="number">1000</span>, <span class="number">10000</span>]) {
-        port_num += (b - <span class="string">b&#39;0&#39;</span>) <span class="kw">as </span>u32 * i;
+        port_num += (b - <span class="string">b'0'</span>) <span class="kw">as </span>u32 * i;
     }
 
     <span class="kw">if </span>port_num &gt; u16::max_value() <span class="kw">as </span>u32 {
-        <span class="macro">parse_error!</span>(<span class="string">&quot;port out of range: {}&quot;</span>, port_num)<span class="question-mark">?</span>;
+        <span class="macro">parse_error!</span>(<span class="string">"port out of range: {}"</span>, port_num)<span class="question-mark">?</span>;
     }
 
     <span class="prelude-val">Some</span>(port_num <span class="kw">as </span>u16)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>path&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt; {
+</span><span class="kw">fn </span>path&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt; {
     take_while(is_pchar)<span class="question-mark">?
 </span>}
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>query&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt;&gt; {
-    <span class="macro">parse_try!</span>(eat(<span class="string">b&#39;?&#39;</span>) =&gt; take_while(is_qchar)<span class="question-mark">?</span>)
+</span><span class="kw">fn </span>query&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt;&gt; {
+    <span class="macro">parse_try!</span>(eat(<span class="string">b'?'</span>) =&gt; take_while(is_qchar)<span class="question-mark">?</span>)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>fragment&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt;&gt; {
-    <span class="macro">parse_try!</span>(eat(<span class="string">b&#39;#&#39;</span>) =&gt; take_while(is_qchar)<span class="question-mark">?</span>)
+</span><span class="kw">fn </span>fragment&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>RawInput&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt;&gt; {
+    <span class="macro">parse_try!</span>(eat(<span class="string">b'#'</span>) =&gt; take_while(is_qchar)<span class="question-mark">?</span>)
 }
 </code></pre></div></section></main></body></html>

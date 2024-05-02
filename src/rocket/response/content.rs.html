@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/content.rs`."><title>content.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/content.rs`."><title>content.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -99,9 +99,9 @@
 //! # use rocket::get;
 //! use rocket::http::ContentType;
 //!
-//! #[get(&quot;/&quot;)]
-//! fn index() -&gt; (ContentType, &amp;&#39;static str) {
-//!     (ContentType::HTML, &quot;Is this HTML? &lt;p&gt;Sure, why not!&lt;/p&gt;&quot;)
+//! #[get("/")]
+//! fn index() -&gt; (ContentType, &amp;'static str) {
+//!     (ContentType::HTML, "Is this HTML? &lt;p&gt;Sure, why not!&lt;/p&gt;")
 //! }
 //! ```
 //!
@@ -115,21 +115,21 @@
 //! ```rust
 //! use rocket::response::content;
 //!
-//! let response = content::RawHtml(&quot;&lt;h1&gt;Hello, world!&lt;/h1&gt;&quot;);
+//! let response = content::RawHtml("&lt;h1&gt;Hello, world!&lt;/h1&gt;");
 //! ```
 
 </span><span class="kw">use </span><span class="kw">crate</span>::request::Request;
 <span class="kw">use </span><span class="kw">crate</span>::response::{<span class="self">self</span>, Response, Responder};
 <span class="kw">use </span><span class="kw">crate</span>::http::ContentType;
 
-<span class="macro">macro_rules! </span>ctrs {
+<span class="macro">macro_rules!</span> ctrs {
     ($(<span class="macro-nonterminal">$name</span>:ident: <span class="macro-nonterminal">$ct</span>:ident, <span class="macro-nonterminal">$name_str</span>:expr, <span class="macro-nonterminal">$ct_str</span>:expr),+) =&gt; {
         $(
-            <span class="attr">#[doc=<span class="string">&quot;Override the `Content-Type` of the response to &lt;b&gt;&quot;</span>]
+            <span class="attr">#[doc=<span class="string">"Override the `Content-Type` of the response to &lt;b&gt;"</span>]
             #[doc=<span class="macro-nonterminal">$name_str</span>]
-            #[doc=<span class="string">&quot;&lt;/b&gt;, or &lt;i&gt;&quot;</span>]
+            #[doc=<span class="string">"&lt;/b&gt;, or &lt;i&gt;"</span>]
             #[doc=<span class="macro-nonterminal">$ct_str</span>]
-            #[doc=<span class="string">&quot;&lt;/i&gt;.&quot;</span>]
+            #[doc=<span class="string">"&lt;/i&gt;."</span>]
             </span><span class="doccomment">///
             /// Delegates the remainder of the response to the wrapped responder.
             ///
@@ -144,8 +144,8 @@
 
             <span class="doccomment">/// Sets the Content-Type of the response then delegates the
             /// remainder of the response to the wrapped responder.
-            </span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, R: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name</span>&lt;R&gt; {
-                <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+            </span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, R: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt;&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$name</span>&lt;R&gt; {
+                <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
                     (ContentType::<span class="macro-nonterminal">$ct</span>, <span class="self">self</span>.<span class="number">0</span>).respond_to(req)
                 }
             }
@@ -153,19 +153,19 @@
     }
 }
 
-<span class="macro">ctrs! </span>{
+<span class="macro">ctrs!</span> {
     <span class="comment">// FIXME: Add a note that this is _not_ `serde::Json`.
-    </span>RawJson: JSON, <span class="string">&quot;JSON&quot;</span>, <span class="string">&quot;application/json&quot;</span>,
-    RawXml: XML, <span class="string">&quot;XML&quot;</span>, <span class="string">&quot;text/xml&quot;</span>,
-    RawMsgPack: MsgPack, <span class="string">&quot;MessagePack&quot;</span>, <span class="string">&quot;application/msgpack&quot;</span>,
-    RawHtml: HTML, <span class="string">&quot;HTML&quot;</span>, <span class="string">&quot;text/html&quot;</span>,
-    RawText: Text, <span class="string">&quot;plain text&quot;</span>, <span class="string">&quot;text/plain&quot;</span>,
-    RawCss: CSS, <span class="string">&quot;CSS&quot;</span>, <span class="string">&quot;text/css&quot;</span>,
-    RawJavaScript: JavaScript, <span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;application/javascript&quot;
+    </span>RawJson: JSON, <span class="string">"JSON"</span>, <span class="string">"application/json"</span>,
+    RawXml: XML, <span class="string">"XML"</span>, <span class="string">"text/xml"</span>,
+    RawMsgPack: MsgPack, <span class="string">"MessagePack"</span>, <span class="string">"application/msgpack"</span>,
+    RawHtml: HTML, <span class="string">"HTML"</span>, <span class="string">"text/html"</span>,
+    RawText: Text, <span class="string">"plain text"</span>, <span class="string">"text/plain"</span>,
+    RawCss: CSS, <span class="string">"CSS"</span>, <span class="string">"text/css"</span>,
+    RawJavaScript: JavaScript, <span class="string">"JavaScript"</span>, <span class="string">"application/javascript"
 </span>}
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, R: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span>(ContentType, R) {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, R: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt;&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span>(ContentType, R) {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         Response::build()
             .merge(<span class="self">self</span>.<span class="number">1</span>.respond_to(req)<span class="question-mark">?</span>)
             .header(<span class="self">self</span>.<span class="number">0</span>)

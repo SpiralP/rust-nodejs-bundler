@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs`."><title>date.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/date.rs`."><title>date.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../version_check/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -218,8 +218,8 @@
     /// use version_check::Date;
     ///
     /// match Date::read() {
-    ///     Some(d) =&gt; format!(&quot;The release date is: {}&quot;, d),
-    ///     None =&gt; format!(&quot;Failed to read the release date.&quot;)
+    ///     Some(d) =&gt; format!("The release date is: {}", d),
+    ///     None =&gt; format!("Failed to read the release date.")
     /// };
     /// ```
     </span><span class="kw">pub fn </span>read() -&gt; <span class="prelude-ty">Option</span>&lt;Date&gt; {
@@ -236,24 +236,24 @@
     /// ```rust
     /// use version_check::Date;
     ///
-    /// let date = Date::parse(&quot;2016-04-20&quot;).unwrap();
+    /// let date = Date::parse("2016-04-20").unwrap();
     ///
-    /// assert!(date.at_least(&quot;2016-01-10&quot;));
-    /// assert!(date.at_most(&quot;2016-04-20&quot;));
-    /// assert!(date.exactly(&quot;2016-04-20&quot;));
+    /// assert!(date.at_least("2016-01-10"));
+    /// assert!(date.at_most("2016-04-20"));
+    /// assert!(date.exactly("2016-04-20"));
     ///
-    /// assert!(Date::parse(&quot;2021-12-31&quot;).unwrap().exactly(&quot;2021-12-31&quot;));
+    /// assert!(Date::parse("2021-12-31").unwrap().exactly("2021-12-31"));
     ///
-    /// assert!(Date::parse(&quot;March 13, 2018&quot;).is_none());
-    /// assert!(Date::parse(&quot;1-2-3-4-5&quot;).is_none());
-    /// assert!(Date::parse(&quot;2020-300-23120&quot;).is_none());
-    /// assert!(Date::parse(&quot;2020-12-12 1&quot;).is_none());
-    /// assert!(Date::parse(&quot;2020-10&quot;).is_none());
-    /// assert!(Date::parse(&quot;2020&quot;).is_none());
+    /// assert!(Date::parse("March 13, 2018").is_none());
+    /// assert!(Date::parse("1-2-3-4-5").is_none());
+    /// assert!(Date::parse("2020-300-23120").is_none());
+    /// assert!(Date::parse("2020-12-12 1").is_none());
+    /// assert!(Date::parse("2020-10").is_none());
+    /// assert!(Date::parse("2020").is_none());
     /// ```
     </span><span class="kw">pub fn </span>parse(date: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Date&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>ymd = [<span class="number">0u16</span>; <span class="number">3</span>];
-        <span class="kw">for </span>(i, split) <span class="kw">in </span>date.split(<span class="string">&#39;-&#39;</span>).map(|s| s.parse::&lt;u16&gt;()).enumerate() {
+        <span class="kw">for </span>(i, split) <span class="kw">in </span>date.split(<span class="string">'-'</span>).map(|s| s.parse::&lt;u16&gt;()).enumerate() {
             ymd[i] = <span class="kw">match </span>(i, split) {
                 (<span class="number">3</span>, <span class="kw">_</span>) | (<span class="kw">_</span>, <span class="prelude-val">Err</span>(<span class="kw">_</span>)) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
                 (<span class="kw">_</span>, <span class="prelude-val">Ok</span>(v)) =&gt; v,
@@ -279,12 +279,12 @@
     /// ```rust
     /// use version_check::Date;
     ///
-    /// assert!(Date::from_ymd(2021, 7, 30).exactly(&quot;2021-07-30&quot;));
-    /// assert!(Date::from_ymd(2010, 3, 23).exactly(&quot;2010-03-23&quot;));
-    /// assert!(Date::from_ymd(2090, 1, 31).exactly(&quot;2090-01-31&quot;));
+    /// assert!(Date::from_ymd(2021, 7, 30).exactly("2021-07-30"));
+    /// assert!(Date::from_ymd(2010, 3, 23).exactly("2010-03-23"));
+    /// assert!(Date::from_ymd(2090, 1, 31).exactly("2090-01-31"));
     ///
     /// // Truncation: 33 % 32 == 0x21 &amp; 0x1F == 1.
-    /// assert!(Date::from_ymd(2090, 1, 33).exactly(&quot;2090-01-01&quot;));
+    /// assert!(Date::from_ymd(2090, 1, 33).exactly("2090-01-01"));
     /// ```
     </span><span class="kw">pub fn </span>from_ymd(year: u16, month: u8, day: u8) -&gt; Date {
         <span class="kw">let </span>year = (year <span class="kw">as </span>u32) &lt;&lt; <span class="number">9</span>;
@@ -311,14 +311,14 @@
     /// ```rust
     /// use version_check::Date;
     ///
-    /// let date = Date::parse(&quot;2020-01-01&quot;).unwrap();
+    /// let date = Date::parse("2020-01-01").unwrap();
     ///
-    /// assert!(date.at_least(&quot;2019-12-31&quot;));
-    /// assert!(date.at_least(&quot;2020-01-01&quot;));
-    /// assert!(date.at_least(&quot;2014-04-31&quot;));
+    /// assert!(date.at_least("2019-12-31"));
+    /// assert!(date.at_least("2020-01-01"));
+    /// assert!(date.at_least("2014-04-31"));
     ///
-    /// assert!(!date.at_least(&quot;2020-01-02&quot;));
-    /// assert!(!date.at_least(&quot;2024-08-18&quot;));
+    /// assert!(!date.at_least("2020-01-02"));
+    /// assert!(!date.at_least("2024-08-18"));
     /// ```
     </span><span class="kw">pub fn </span>at_least(<span class="kw-2">&amp;</span><span class="self">self</span>, date: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Date::parse(date)
@@ -336,14 +336,14 @@
     /// ```rust
     /// use version_check::Date;
     ///
-    /// let date = Date::parse(&quot;2020-01-01&quot;).unwrap();
+    /// let date = Date::parse("2020-01-01").unwrap();
     ///
-    /// assert!(date.at_most(&quot;2020-01-01&quot;));
-    /// assert!(date.at_most(&quot;2020-01-02&quot;));
-    /// assert!(date.at_most(&quot;2024-08-18&quot;));
+    /// assert!(date.at_most("2020-01-01"));
+    /// assert!(date.at_most("2020-01-02"));
+    /// assert!(date.at_most("2024-08-18"));
     ///
-    /// assert!(!date.at_most(&quot;2019-12-31&quot;));
-    /// assert!(!date.at_most(&quot;2014-04-31&quot;));
+    /// assert!(!date.at_most("2019-12-31"));
+    /// assert!(!date.at_most("2014-04-31"));
     /// ```
     </span><span class="kw">pub fn </span>at_most(<span class="kw-2">&amp;</span><span class="self">self</span>, date: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Date::parse(date)
@@ -361,14 +361,14 @@
     /// ```rust
     /// use version_check::Date;
     ///
-    /// let date = Date::parse(&quot;2020-01-01&quot;).unwrap();
+    /// let date = Date::parse("2020-01-01").unwrap();
     ///
-    /// assert!(date.exactly(&quot;2020-01-01&quot;));
+    /// assert!(date.exactly("2020-01-01"));
     ///
-    /// assert!(!date.exactly(&quot;2019-12-31&quot;));
-    /// assert!(!date.exactly(&quot;2014-04-31&quot;));
-    /// assert!(!date.exactly(&quot;2020-01-02&quot;));
-    /// assert!(!date.exactly(&quot;2024-08-18&quot;));
+    /// assert!(!date.exactly("2019-12-31"));
+    /// assert!(!date.exactly("2014-04-31"));
+    /// assert!(!date.exactly("2020-01-02"));
+    /// assert!(!date.exactly("2024-08-18"));
     /// ```
     </span><span class="kw">pub fn </span>exactly(<span class="kw-2">&amp;</span><span class="self">self</span>, date: <span class="kw-2">&amp;</span>str) -&gt; bool {
         Date::parse(date)
@@ -380,7 +380,7 @@
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Date {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">let </span>(y, m, d) = <span class="self">self</span>.to_ymd();
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}-{:02}-{:02}&quot;</span>, y, m, d)
+        <span class="macro">write!</span>(f, <span class="string">"{}-{:02}-{:02}"</span>, y, m, d)
     }
 }
 
@@ -388,7 +388,7 @@
 </span><span class="kw">mod </span>tests {
     <span class="kw">use </span><span class="kw">super</span>::Date;
 
-    <span class="macro">macro_rules! </span>reflexive_display {
+    <span class="macro">macro_rules!</span> reflexive_display {
         (<span class="macro-nonterminal">$string</span>:expr) =&gt; (
             <span class="macro">assert_eq!</span>(Date::parse(<span class="macro-nonterminal">$string</span>).unwrap().to_string(), <span class="macro-nonterminal">$string</span>);
         )
@@ -396,12 +396,12 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>display() {
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;2019-05-08&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;2000-01-01&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;2000-12-31&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;2090-12-31&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;1999-02-19&quot;</span>);
-        <span class="macro">reflexive_display!</span>(<span class="string">&quot;9999-12-31&quot;</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"2019-05-08"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"2000-01-01"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"2000-12-31"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"2090-12-31"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"1999-02-19"</span>);
+        <span class="macro">reflexive_display!</span>(<span class="string">"9999-12-31"</span>);
     }
 }
 </code></pre></div></section></main></body></html>

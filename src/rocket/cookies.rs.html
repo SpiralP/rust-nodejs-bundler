@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/cookies.rs`."><title>cookies.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/cookies.rs`."><title>cookies.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -623,29 +623,29 @@
 /// # #[macro_use] extern crate rocket;
 /// use rocket::http::{CookieJar, Cookie};
 ///
-/// #[get(&quot;/message&quot;)]
-/// fn message(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-///     jar.add((&quot;message&quot;, &quot;hello!&quot;));
-///     jar.add(Cookie::build((&quot;session&quot;, &quot;bye!&quot;)).expires(None));
+/// #[get("/message")]
+/// fn message(jar: &amp;CookieJar&lt;'_&gt;) {
+///     jar.add(("message", "hello!"));
+///     jar.add(Cookie::build(("session", "bye!")).expires(None));
 ///
 ///     // `get()` does not reflect changes.
-///     assert!(jar.get(&quot;session&quot;).is_none());
-///     assert_eq!(jar.get(&quot;message&quot;).map(|c| c.value()), Some(&quot;hi&quot;));
+///     assert!(jar.get("session").is_none());
+///     assert_eq!(jar.get("message").map(|c| c.value()), Some("hi"));
 ///
 ///     // `get_pending()` does.
-///     let session_pending = jar.get_pending(&quot;session&quot;);
-///     let message_pending = jar.get_pending(&quot;message&quot;);
-///     assert_eq!(session_pending.as_ref().map(|c| c.value()), Some(&quot;bye!&quot;));
-///     assert_eq!(message_pending.as_ref().map(|c| c.value()), Some(&quot;hello!&quot;));
-///     # jar.remove(&quot;message&quot;);
-///     # assert_eq!(jar.get(&quot;message&quot;).map(|c| c.value()), Some(&quot;hi&quot;));
-///     # assert!(jar.get_pending(&quot;message&quot;).is_none());
+///     let session_pending = jar.get_pending("session");
+///     let message_pending = jar.get_pending("message");
+///     assert_eq!(session_pending.as_ref().map(|c| c.value()), Some("bye!"));
+///     assert_eq!(message_pending.as_ref().map(|c| c.value()), Some("hello!"));
+///     # jar.remove("message");
+///     # assert_eq!(jar.get("message").map(|c| c.value()), Some("hi"));
+///     # assert!(jar.get_pending("message").is_none());
 /// }
 /// # fn main() {
 /// #     use rocket::local::blocking::Client;
 /// #     let client = Client::debug_with(routes![message]).unwrap();
-/// #     let response = client.get(&quot;/message&quot;)
-/// #         .cookie((&quot;message&quot;, &quot;hi&quot;))
+/// #     let response = client.get("/message")
+/// #         .cookie(("message", "hi"))
 /// #         .dispatch();
 /// #
 /// #     assert!(response.status().class().is_success());
@@ -673,22 +673,22 @@
 /// ## Examples
 ///
 /// The following example shows `&amp;CookieJar` being used as a request guard in a
-/// handler to retrieve the value of a &quot;message&quot; cookie.
+/// handler to retrieve the value of a "message" cookie.
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// use rocket::http::CookieJar;
 ///
-/// #[get(&quot;/message&quot;)]
-/// fn message&lt;&#39;a&gt;(jar: &amp;&#39;a CookieJar&lt;&#39;_&gt;) -&gt; Option&lt;&amp;&#39;a str&gt; {
-///     jar.get(&quot;message&quot;).map(|cookie| cookie.value())
+/// #[get("/message")]
+/// fn message&lt;'a&gt;(jar: &amp;'a CookieJar&lt;'_&gt;) -&gt; Option&lt;&amp;'a str&gt; {
+///     jar.get("message").map(|cookie| cookie.value())
 /// }
 /// # fn main() {  }
 /// ```
 ///
 /// The following snippet shows `&amp;CookieJar` being retrieved from a `Request` in
 /// a custom request guard implementation for `User`. A [private cookie]
-/// containing a user&#39;s ID is retrieved. If the cookie exists and the ID parses
+/// containing a user's ID is retrieved. If the cookie exists and the ID parses
 /// as an integer, a `User` structure is validated. Otherwise, the guard
 /// forwards.
 ///
@@ -696,21 +696,21 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[cfg(feature = &quot;secrets&quot;)] {
+/// # #[cfg(feature = "secrets")] {
 /// use rocket::http::Status;
 /// use rocket::request::{self, Request, FromRequest};
 /// use rocket::outcome::IntoOutcome;
 ///
-/// // In practice, we&#39;d probably fetch the user from the database.
+/// // In practice, we'd probably fetch the user from the database.
 /// struct User(usize);
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for User {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for User {
 ///     type Error = std::convert::Infallible;
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, Self::Error&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, Self::Error&gt; {
 ///         request.cookies()
-///             .get_private(&quot;user_id&quot;)
+///             .get_private("user_id")
 ///             .and_then(|c| c.value().parse().ok())
 ///             .map(|id| User(id))
 ///             .or_forward(Status::Unauthorized)
@@ -748,13 +748,13 @@
 /// is usually done through tools like `openssl`. Using `openssl`, for instance,
 /// a 256-bit base64 key can be generated with the command `openssl rand -base64
 /// 32`.
-</span><span class="kw">pub struct </span>CookieJar&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span>CookieJar&lt;<span class="lifetime">'a</span>&gt; {
     jar: cookie::CookieJar,
     ops: Mutex&lt;Vec&lt;Op&gt;&gt;,
-    config: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Config,
+    config: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Config,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Clone <span class="kw">for </span>CookieJar&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Clone <span class="kw">for </span>CookieJar&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         CookieJar {
             jar: <span class="self">self</span>.jar.clone(),
@@ -766,25 +766,25 @@
 
 <span class="attr">#[derive(Clone)]
 </span><span class="kw">enum </span>Op {
-    Add(Cookie&lt;<span class="lifetime">&#39;static</span>&gt;, bool),
-    Remove(Cookie&lt;<span class="lifetime">&#39;static</span>&gt;, bool),
+    Add(Cookie&lt;<span class="lifetime">'static</span>&gt;, bool),
+    Remove(Cookie&lt;<span class="lifetime">'static</span>&gt;, bool),
 }
 
 <span class="kw">impl </span>Op {
-    <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">'static</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Op::Add(c, <span class="kw">_</span>) | Op::Remove(c, <span class="kw">_</span>) =&gt; c
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; CookieJar&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; CookieJar&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(config: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Config) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(config: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Config) -&gt; <span class="self">Self </span>{
         CookieJar::from(cookie::CookieJar::new(), config)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from(jar: cookie::CookieJar, config: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Config) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from(jar: cookie::CookieJar, config: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Config) -&gt; <span class="self">Self </span>{
         CookieJar { jar, config, ops: Mutex::new(Vec::new()) }
     }
 
@@ -801,17 +801,17 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::CookieJar;
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     let cookie = jar.get(&quot;name&quot;);
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
+    ///     let cookie = jar.get("name");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="self">self</span>.jar.get(name)
     }
 
     <span class="doccomment">/// Retrieves the _original_ `Cookie` inside this collection with the name
-    /// `name` and authenticates and decrypts the cookie&#39;s value. If the cookie
+    /// `name` and authenticates and decrypts the cookie's value. If the cookie
     /// cannot be found, or the cookie fails to authenticate or decrypt, `None`
     /// is returned.
     ///
@@ -825,14 +825,14 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::CookieJar;
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     let cookie = jar.get_private(&quot;name&quot;);
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
+    ///     let cookie = jar.get_private("name");
     /// }
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">pub fn </span>get_private(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
+    </span><span class="kw">pub fn </span>get_private(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="self">self</span>.jar.private(<span class="kw-2">&amp;</span><span class="self">self</span>.config.secret_key.key).get(name)
     }
 
@@ -851,12 +851,12 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::CookieJar;
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     let pending_cookie = jar.get_pending(&quot;name&quot;);
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
+    ///     let pending_cookie = jar.get_pending("name");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>get_pending(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>get_pending(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="kw">let </span>ops = <span class="self">self</span>.ops.lock();
         <span class="kw">for </span>op <span class="kw">in </span>ops.iter().rev().filter(|op| op.cookie().name() == name) {
             <span class="kw">match </span>op {
@@ -867,11 +867,11 @@
 
         drop(ops);
 
-        <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)] </span>{
+        <span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)] </span>{
             <span class="self">self</span>.get_private(name).or_else(|| <span class="self">self</span>.get(name).cloned())
         }
 
-        <span class="attr">#[cfg(not(feature = <span class="string">&quot;secrets&quot;</span>))] </span>{
+        <span class="attr">#[cfg(not(feature = <span class="string">"secrets"</span>))] </span>{
             <span class="self">self</span>.get(name).cloned()
         }
     }
@@ -881,7 +881,7 @@
     /// Unless a value is set for the given property, the following defaults are
     /// set on `cookie` before being added to `self`:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Strict`
     ///
     /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
@@ -892,25 +892,25 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::{Cookie, SameSite, CookieJar};
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.add((&quot;first&quot;, &quot;value&quot;));
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
+    ///     jar.add(("first", "value"));
     ///
-    ///     let cookie = Cookie::build((&quot;other&quot;, &quot;value_two&quot;))
-    ///         .path(&quot;/&quot;)
+    ///     let cookie = Cookie::build(("other", "value_two"))
+    ///         .path("/")
     ///         .secure(true)
     ///         .same_site(SameSite::Lax);
     ///
     ///     jar.add(cookie);
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
         <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
         <span class="self">Self</span>::set_defaults(<span class="self">self</span>.config, <span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Add(cookie, <span class="bool-val">false</span>));
     }
 
-    <span class="doccomment">/// Adds `cookie` to the collection. The cookie&#39;s value is encrypted with
+    <span class="doccomment">/// Adds `cookie` to the collection. The cookie's value is encrypted with
     /// authenticated encryption assuring confidentiality, integrity, and
     /// authenticity. The cookie can later be retrieved using
     /// [`get_private`](#method.get_private) and removed using
@@ -919,7 +919,7 @@
     /// Unless a value is set for the given property, the following defaults are
     /// set on `cookie` before being added to `self`:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Strict`
     ///    * `HttpOnly`: `true`
     ///    * `Expires`: 1 week from now
@@ -934,32 +934,32 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::CookieJar;
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
-    ///     jar.add_private((&quot;name&quot;, &quot;value&quot;));
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
+    ///     jar.add_private(("name", "value"));
     /// }
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">pub fn </span>add_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
+    </span><span class="kw">pub fn </span>add_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
         <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
         <span class="self">Self</span>::set_private_defaults(<span class="self">self</span>.config, <span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Add(cookie, <span class="bool-val">true</span>));
     }
 
-    <span class="doccomment">/// Removes `cookie` from this collection and generates a &quot;removal&quot; cookie
-    /// to send to the client on response. A &quot;removal&quot; cookie is a cookie that
+    <span class="doccomment">/// Removes `cookie` from this collection and generates a "removal" cookie
+    /// to send to the client on response. A "removal" cookie is a cookie that
     /// has the same name as the original cookie but has an empty value, a
     /// max-age of 0, and an expiration date far in the past.
     ///
     /// **For successful removal, `cookie` must contain the same `path` and
     /// `domain` as the cookie that was originally set. The cookie will fail to
     /// be deleted if any other `path` and `domain` are provided. For
-    /// convenience, a path of `&quot;/&quot;` is automatically set when one is not
-    /// specified.** The full list of defaults when corresponding values aren&#39;t
+    /// convenience, a path of `"/"` is automatically set when one is not
+    /// specified.** The full list of defaults when corresponding values aren't
     /// specified is:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Lax`
     ///
     /// &lt;small&gt;Note: a default setting of `Lax` for `SameSite` carries no
@@ -972,19 +972,19 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::{Cookie, CookieJar};
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
     ///     // `path` and `SameSite` are set to defaults (`/` and `Lax`)
-    ///     jar.remove(&quot;name&quot;);
+    ///     jar.remove("name");
     ///
     ///     // Use a custom-built cookie to set a custom path.
-    ///     jar.remove(Cookie::build(&quot;name&quot;).path(&quot;/login&quot;));
+    ///     jar.remove(Cookie::build("name").path("/login"));
     ///
     ///     // Use a custom-built cookie to set a custom path and domain.
-    ///     jar.remove(Cookie::build(&quot;id&quot;).path(&quot;/guide&quot;).domain(&quot;rocket.rs&quot;));
+    ///     jar.remove(Cookie::build("id").path("/guide").domain("rocket.rs"));
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
         <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
         <span class="self">Self</span>::set_removal_defaults(<span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Remove(cookie, <span class="bool-val">false</span>));
@@ -995,11 +995,11 @@
     /// **For successful removal, `cookie` must contain the same `path` and
     /// `domain` as the cookie that was originally set. The cookie will fail to
     /// be deleted if any other `path` and `domain` are provided. For
-    /// convenience, a path of `&quot;/&quot;` is automatically set when one is not
-    /// specified.** The full list of defaults when corresponding values aren&#39;t
+    /// convenience, a path of `"/"` is automatically set when one is not
+    /// specified.** The full list of defaults when corresponding values aren't
     /// specified is:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Lax`
     ///
     /// &lt;small&gt;Note: a default setting of `Lax` for `SameSite` carries no
@@ -1012,22 +1012,22 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::{CookieJar, Cookie};
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
     ///     // `path` and `SameSite` are set to defaults (`/` and `Lax`)
-    ///     jar.remove_private(&quot;name&quot;);
+    ///     jar.remove_private("name");
     ///
     ///     // Use a custom-built cookie to set a custom path.
-    ///     jar.remove_private(Cookie::build(&quot;name&quot;).path(&quot;/login&quot;));
+    ///     jar.remove_private(Cookie::build("name").path("/login"));
     ///
     ///     // Use a custom-built cookie to set a custom path and domain.
-    ///     let cookie = Cookie::build(&quot;id&quot;).path(&quot;/guide&quot;).domain(&quot;rocket.rs&quot;);
+    ///     let cookie = Cookie::build("id").path("/guide").domain("rocket.rs");
     ///     jar.remove_private(cookie);
     /// }
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">pub fn </span>remove_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
+    </span><span class="kw">pub fn </span>remove_private&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, cookie: C) {
         <span class="kw">let </span><span class="kw-2">mut </span>cookie = cookie.into();
         <span class="self">Self</span>::set_removal_defaults(<span class="kw-2">&amp;mut </span>cookie);
         <span class="self">self</span>.ops.lock().push(Op::Remove(cookie, <span class="bool-val">true</span>));
@@ -1045,14 +1045,14 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::CookieJar;
     ///
-    /// #[get(&quot;/&quot;)]
-    /// fn handler(jar: &amp;CookieJar&lt;&#39;_&gt;) {
+    /// #[get("/")]
+    /// fn handler(jar: &amp;CookieJar&lt;'_&gt;) {
     ///     for c in jar.iter() {
-    ///         println!(&quot;Name: {:?}, Value: {:?}&quot;, c.name(), c.value());
+    ///         println!("Name: {:?}, Value: {:?}", c.name(), c.value());
     ///     }
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=<span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=<span class="kw-2">&amp;</span>Cookie&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="self">self</span>.jar.iter()
     }
 
@@ -1071,7 +1071,7 @@
         <span class="kw">for </span>op <span class="kw">in </span>ops {
             <span class="kw">match </span>op {
                 Op::Add(c, <span class="bool-val">false</span>) =&gt; jar.add(c),
-                <span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
+                <span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
                 </span>Op::Add(c, <span class="bool-val">true</span>) =&gt; {
                     jar.private_mut(<span class="kw-2">&amp;</span><span class="self">self</span>.config.secret_key.key).add(c);
                 }
@@ -1093,15 +1093,15 @@
 
     <span class="doccomment">/// Adds an original `cookie` to this collection.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add_original(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add_original(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">'static</span>&gt;) {
         <span class="self">self</span>.jar.add_original(cookie)
     }
 
     <span class="doccomment">/// Adds an original, private `cookie` to the collection.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
     #[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add_original_private(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>add_original_private(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: Cookie&lt;<span class="lifetime">'static</span>&gt;) {
         <span class="self">self</span>.jar.private_mut(<span class="kw-2">&amp;</span><span class="self">self</span>.config.secret_key.key).add_original(cookie);
     }
 
@@ -1109,13 +1109,13 @@
     /// provided value and if there is none, sets a default value. Default
     /// values are:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Strict`
     ///
     /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
-    </span><span class="kw">fn </span>set_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">fn </span>set_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">'static</span>&gt;) {
         <span class="kw">if </span>cookie.path().is_none() {
-            cookie.set_path(<span class="string">&quot;/&quot;</span>);
+            cookie.set_path(<span class="string">"/"</span>);
         }
 
         <span class="kw">if </span>cookie.same_site().is_none() {
@@ -1130,11 +1130,11 @@
     <span class="doccomment">/// For each property below, this method checks if there is a provided value
     /// and if there is none, sets a default value. Default values are:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Lax`
-    </span><span class="kw">fn </span>set_removal_defaults(cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="kw">fn </span>set_removal_defaults(cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">'static</span>&gt;) {
         <span class="kw">if </span>cookie.path().is_none() {
-            cookie.set_path(<span class="string">&quot;/&quot;</span>);
+            cookie.set_path(<span class="string">"/"</span>);
         }
 
         <span class="kw">if </span>cookie.same_site().is_none() {
@@ -1146,17 +1146,17 @@
     /// provided value and if there is none, sets a default value. Default
     /// values are:
     ///
-    ///    * `path`: `&quot;/&quot;`
+    ///    * `path`: `"/"`
     ///    * `SameSite`: `Strict`
     ///    * `HttpOnly`: `true`
     ///    * `Expires`: 1 week from now
     ///
     /// Furthermore, if TLS is enabled, the `Secure` cookie flag is set.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
-    </span><span class="kw">fn </span>set_private_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">&#39;static</span>&gt;) {
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
+    </span><span class="kw">fn </span>set_private_defaults(config: <span class="kw-2">&amp;</span>Config, cookie: <span class="kw-2">&amp;mut </span>Cookie&lt;<span class="lifetime">'static</span>&gt;) {
         <span class="kw">if </span>cookie.path().is_none() {
-            cookie.set_path(<span class="string">&quot;/&quot;</span>);
+            cookie.set_path(<span class="string">"/"</span>);
         }
 
         <span class="kw">if </span>cookie.same_site().is_none() {
@@ -1177,17 +1177,17 @@
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>CookieJar&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>CookieJar&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span>pending: Vec&lt;<span class="kw">_</span>&gt; = <span class="self">self</span>.ops.lock()
             .iter()
             .map(|c| c.cookie())
             .cloned()
             .collect();
 
-        f.debug_struct(<span class="string">&quot;CookieJar&quot;</span>)
-            .field(<span class="string">&quot;original&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.jar)
-            .field(<span class="string">&quot;pending&quot;</span>, <span class="kw-2">&amp;</span>pending)
+        f.debug_struct(<span class="string">"CookieJar"</span>)
+            .field(<span class="string">"original"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.jar)
+            .field(<span class="string">"pending"</span>, <span class="kw-2">&amp;</span>pending)
             .finish()
     }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/phf_codegen-0.11.2/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="phf_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/phf_codegen-0.11.2/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="phf_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../phf_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -507,7 +507,7 @@
 //! generate a Rust source file that will be included in a library at build
 //! time.
 //!
-//! For more information about `rust-phf` crates, see [the `phf` crate&#39;s documentation][phf].
+//! For more information about `rust-phf` crates, see [the `phf` crate's documentation][phf].
 //!
 //! [phf]: https://docs.rs/phf
 //!
@@ -517,8 +517,8 @@
 //!
 //! ```toml
 //! [build-dependencies]
-//! phf = { version = &quot;0.11.1&quot;, default-features = false }
-//! phf_codegen = &quot;0.11.1&quot;
+//! phf = { version = "0.11.1", default-features = false }
+//! phf_codegen = "0.11.1"
 //! ```
 //!
 //! Then put code on build.rs:
@@ -530,22 +530,22 @@
 //! use std::path::Path;
 //!
 //! fn main() {
-//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);
+//!     let path = Path::new(&amp;env::var("OUT_DIR").unwrap()).join("codegen.rs");
 //!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());
 //!
 //!     write!(
 //!         &amp;mut file,
-//!         &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static str, Keyword&gt; = {}&quot;,
+//!         "static KEYWORDS: phf::Map&lt;&amp;'static str, Keyword&gt; = {}",
 //!         phf_codegen::Map::new()
-//!             .entry(&quot;loop&quot;, &quot;Keyword::Loop&quot;)
-//!             .entry(&quot;continue&quot;, &quot;Keyword::Continue&quot;)
-//!             .entry(&quot;break&quot;, &quot;Keyword::Break&quot;)
-//!             .entry(&quot;fn&quot;, &quot;Keyword::Fn&quot;)
-//!             .entry(&quot;extern&quot;, &quot;Keyword::Extern&quot;)
+//!             .entry("loop", "Keyword::Loop")
+//!             .entry("continue", "Keyword::Continue")
+//!             .entry("break", "Keyword::Break")
+//!             .entry("fn", "Keyword::Fn")
+//!             .entry("extern", "Keyword::Extern")
 //!             .build()
 //!     )
 //!     .unwrap();
-//!     write!(&amp;mut file, &quot;;\n&quot;).unwrap();
+//!     write!(&amp;mut file, ";\n").unwrap();
 //! }
 //! ```
 //!
@@ -561,7 +561,7 @@
 //!     Extern,
 //! }
 //!
-//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));
+//! include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 //!
 //! pub fn parse_keyword(keyword: &amp;str) -&gt; Option&lt;Keyword&gt; {
 //!     KEYWORDS.get(keyword).cloned()
@@ -581,18 +581,18 @@
 //! use std::path::Path;
 //!
 //! fn main() {
-//!     let path = Path::new(&amp;env::var(&quot;OUT_DIR&quot;).unwrap()).join(&quot;codegen.rs&quot;);
+//!     let path = Path::new(&amp;env::var("OUT_DIR").unwrap()).join("codegen.rs");
 //!     let mut file = BufWriter::new(File::create(&amp;path).unwrap());
 //!
 //!     writeln!(
 //!         &amp;mut file,
-//!          &quot;static KEYWORDS: phf::Map&lt;&amp;&#39;static [u8], Keyword&gt; = \n{};\n&quot;,
+//!          "static KEYWORDS: phf::Map&lt;&amp;'static [u8], Keyword&gt; = \n{};\n",
 //!          phf_codegen::Map::&lt;&amp;[u8]&gt;::new()
-//!              .entry(b&quot;loop&quot;, &quot;Keyword::Loop&quot;)
-//!              .entry(b&quot;continue&quot;, &quot;Keyword::Continue&quot;)
-//!              .entry(b&quot;break&quot;, &quot;Keyword::Break&quot;)
-//!              .entry(b&quot;fn&quot;, &quot;Keyword::Fn&quot;)
-//!              .entry(b&quot;extern&quot;, &quot;Keyword::Extern&quot;)
+//!              .entry(b"loop", "Keyword::Loop")
+//!              .entry(b"continue", "Keyword::Continue")
+//!              .entry(b"break", "Keyword::Break")
+//!              .entry(b"fn", "Keyword::Fn")
+//!              .entry(b"extern", "Keyword::Extern")
 //!              .build()
 //!     ).unwrap();
 //! }
@@ -610,7 +610,7 @@
 //!     Extern,
 //! }
 //!
-//! include!(concat!(env!(&quot;OUT_DIR&quot;), &quot;/codegen.rs&quot;));
+//! include!(concat!(env!("OUT_DIR"), "/codegen.rs"));
 //!
 //! pub fn parse_keyword(keyword: &amp;[u8]) -&gt; Option&lt;Keyword&gt; {
 //!     KEYWORDS.get(keyword).cloned()
@@ -619,12 +619,12 @@
 //!
 //! ## Note
 //!
-//! The compiler&#39;s stack will overflow when processing extremely long method
+//! The compiler's stack will overflow when processing extremely long method
 //! chains (500+ calls). When generating large PHF data structures, consider
 //! looping over the entries or making each call a separate statement:
 //!
 //! ```rust
-//! let entries = [(&quot;hello&quot;, &quot;1&quot;), (&quot;world&quot;, &quot;2&quot;)];
+//! let entries = [("hello", "1"), ("world", "2")];
 //!
 //! let mut builder = phf_codegen::Map::new();
 //! for &amp;(key, value) in &amp;entries {
@@ -635,12 +635,12 @@
 //!
 //! ```rust
 //! let mut builder = phf_codegen::Map::new();
-//! builder.entry(&quot;hello&quot;, &quot;1&quot;);
-//! builder.entry(&quot;world&quot;, &quot;2&quot;);
+//! builder.entry("hello", "1");
+//! builder.entry("world", "2");
 //! // ...
 //! ```
 
-</span><span class="attr">#![doc(html_root_url = <span class="string">&quot;https://docs.rs/phf_codegen/0.11&quot;</span>)]
+</span><span class="attr">#![doc(html_root_url = <span class="string">"https://docs.rs/phf_codegen/0.11"</span>)]
 #![allow(clippy::new_without_default)]
 
 </span><span class="kw">use </span>phf_shared::{FmtConst, PhfHash};
@@ -653,7 +653,7 @@
 <span class="kw">struct </span>Delegate&lt;T&gt;(T);
 
 <span class="kw">impl</span>&lt;T: FmtConst&gt; fmt::Display <span class="kw">for </span>Delegate&lt;T&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt_const(f)
     }
 }
@@ -681,7 +681,7 @@
         Map {
             keys: <span class="macro">vec!</span>[],
             values: <span class="macro">vec!</span>[],
-            path: String::from(<span class="string">&quot;::phf&quot;</span>),
+            path: String::from(<span class="string">"::phf"</span>),
         }
     }
 
@@ -706,11 +706,11 @@
     /// # Panics
     ///
     /// Panics if there are any duplicate keys.
-    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayMap&lt;<span class="lifetime">&#39;_</span>, K&gt; {
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayMap&lt;<span class="lifetime">'_</span>, K&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::new();
         <span class="kw">for </span>key <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.keys {
             <span class="kw">if </span>!set.insert(key) {
-                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, Delegate(key));
+                <span class="macro">panic!</span>(<span class="string">"duplicate key `{}`"</span>, Delegate(key));
             }
         }
 
@@ -726,21 +726,21 @@
 }
 
 <span class="doccomment">/// An adapter for printing a [`Map`](Map).
-</span><span class="kw">pub struct </span>DisplayMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
-    path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+</span><span class="kw">pub struct </span>DisplayMap&lt;<span class="lifetime">'a</span>, K&gt; {
+    path: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
     state: HashState,
-    keys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[K],
-    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[String],
+    keys: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[K],
+    values: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[String],
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, K: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K: FmtConst + <span class="lifetime">'a</span>&gt; fmt::Display <span class="kw">for </span>DisplayMap&lt;<span class="lifetime">'a</span>, K&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="comment">// funky formatting here for nice output
         </span><span class="macro">write!</span>(
             f,
-            <span class="string">&quot;{}::Map {{
+            <span class="string">"{}::Map {{
     key: {:?},
-    disps: &amp;[&quot;</span>,
+    disps: &amp;["</span>,
             <span class="self">self</span>.path, <span class="self">self</span>.state.key
         )<span class="question-mark">?</span>;
 
@@ -748,25 +748,25 @@
         </span><span class="kw">for </span><span class="kw-2">&amp;</span>(d1, d2) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.disps {
             <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;
-        ({}, {}),&quot;</span>,
+                <span class="string">"
+        ({}, {}),"</span>,
                 d1, d2
             )<span class="question-mark">?</span>;
         }
 
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;
+            <span class="string">"
     ],
-    entries: &amp;[&quot;</span>,
+    entries: &amp;["</span>,
         )<span class="question-mark">?</span>;
 
         <span class="comment">// write map entries
         </span><span class="kw">for </span><span class="kw-2">&amp;</span>idx <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.map {
             <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;
-        ({}, {}),&quot;</span>,
+                <span class="string">"
+        ({}, {}),"</span>,
                 Delegate(<span class="kw-2">&amp;</span><span class="self">self</span>.keys[idx]),
                 <span class="kw-2">&amp;</span><span class="self">self</span>.values[idx]
             )<span class="question-mark">?</span>;
@@ -774,9 +774,9 @@
 
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;
+            <span class="string">"
     ],
-}}&quot;
+}}"
         </span>)
     }
 }
@@ -800,7 +800,7 @@
 
     <span class="doccomment">/// Adds an entry to the builder.
     </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, entry: T) -&gt; <span class="kw-2">&amp;mut </span>Set&lt;T&gt; {
-        <span class="self">self</span>.map.entry(entry, <span class="string">&quot;()&quot;</span>);
+        <span class="self">self</span>.map.entry(entry, <span class="string">"()"</span>);
         <span class="self">self
     </span>}
 
@@ -810,7 +810,7 @@
     /// # Panics
     ///
     /// Panics if there are any duplicate keys.
-    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplaySet&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplaySet&lt;<span class="lifetime">'_</span>, T&gt; {
         DisplaySet {
             inner: <span class="self">self</span>.map.build(),
         }
@@ -818,13 +818,13 @@
 }
 
 <span class="doccomment">/// An adapter for printing a [`Set`](Set).
-</span><span class="kw">pub struct </span>DisplaySet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    inner: DisplayMap&lt;<span class="lifetime">&#39;a</span>, T&gt;,
+</span><span class="kw">pub struct </span>DisplaySet&lt;<span class="lifetime">'a</span>, T&gt; {
+    inner: DisplayMap&lt;<span class="lifetime">'a</span>, T&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplaySet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}::Set {{ map: {} }}&quot;</span>, <span class="self">self</span>.inner.path, <span class="self">self</span>.inner)
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: FmtConst + <span class="lifetime">'a</span>&gt; fmt::Display <span class="kw">for </span>DisplaySet&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}::Set {{ map: {} }}"</span>, <span class="self">self</span>.inner.path, <span class="self">self</span>.inner)
     }
 }
 
@@ -841,7 +841,7 @@
         OrderedMap {
             keys: <span class="macro">vec!</span>[],
             values: <span class="macro">vec!</span>[],
-            path: String::from(<span class="string">&quot;::phf&quot;</span>),
+            path: String::from(<span class="string">"::phf"</span>),
         }
     }
 
@@ -867,11 +867,11 @@
     /// # Panics
     ///
     /// Panics if there are any duplicate keys.
-    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedMap&lt;<span class="lifetime">&#39;_</span>, K&gt; {
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedMap&lt;<span class="lifetime">'_</span>, K&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>set = HashSet::new();
         <span class="kw">for </span>key <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.keys {
             <span class="kw">if </span>!set.insert(key) {
-                <span class="macro">panic!</span>(<span class="string">&quot;duplicate key `{}`&quot;</span>, Delegate(key));
+                <span class="macro">panic!</span>(<span class="string">"duplicate key `{}`"</span>, Delegate(key));
             }
         }
 
@@ -887,64 +887,64 @@
 }
 
 <span class="doccomment">/// An adapter for printing a [`OrderedMap`](OrderedMap).
-</span><span class="kw">pub struct </span>DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
-    path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+</span><span class="kw">pub struct </span>DisplayOrderedMap&lt;<span class="lifetime">'a</span>, K&gt; {
+    path: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
     state: HashState,
-    keys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[K],
-    values: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[String],
+    keys: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[K],
+    values: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[String],
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, K: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, K&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K: FmtConst + <span class="lifetime">'a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedMap&lt;<span class="lifetime">'a</span>, K&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;{}::OrderedMap {{
+            <span class="string">"{}::OrderedMap {{
     key: {:?},
-    disps: &amp;[&quot;</span>,
+    disps: &amp;["</span>,
             <span class="self">self</span>.path, <span class="self">self</span>.state.key
         )<span class="question-mark">?</span>;
         <span class="kw">for </span><span class="kw-2">&amp;</span>(d1, d2) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.disps {
             <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;
-        ({}, {}),&quot;</span>,
+                <span class="string">"
+        ({}, {}),"</span>,
                 d1, d2
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;
+            <span class="string">"
     ],
-    idxs: &amp;[&quot;</span>,
+    idxs: &amp;["</span>,
         )<span class="question-mark">?</span>;
         <span class="kw">for </span><span class="kw-2">&amp;</span>idx <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.state.map {
             <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;
-        {},&quot;</span>,
+                <span class="string">"
+        {},"</span>,
                 idx
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;
+            <span class="string">"
     ],
-    entries: &amp;[&quot;</span>,
+    entries: &amp;["</span>,
         )<span class="question-mark">?</span>;
         <span class="kw">for </span>(key, value) <span class="kw">in </span><span class="self">self</span>.keys.iter().zip(<span class="self">self</span>.values.iter()) {
             <span class="macro">write!</span>(
                 f,
-                <span class="string">&quot;
-        ({}, {}),&quot;</span>,
+                <span class="string">"
+        ({}, {}),"</span>,
                 Delegate(key),
                 value
             )<span class="question-mark">?</span>;
         }
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;
+            <span class="string">"
     ],
-}}&quot;
+}}"
         </span>)
     }
 }
@@ -970,7 +970,7 @@
 
     <span class="doccomment">/// Adds an entry to the builder.
     </span><span class="kw">pub fn </span>entry(<span class="kw-2">&amp;mut </span><span class="self">self</span>, entry: T) -&gt; <span class="kw-2">&amp;mut </span>OrderedSet&lt;T&gt; {
-        <span class="self">self</span>.map.entry(entry, <span class="string">&quot;()&quot;</span>);
+        <span class="self">self</span>.map.entry(entry, <span class="string">"()"</span>);
         <span class="self">self
     </span>}
 
@@ -981,7 +981,7 @@
     /// # Panics
     ///
     /// Panics if there are any duplicate keys.
-    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedSet&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+    </span><span class="kw">pub fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DisplayOrderedSet&lt;<span class="lifetime">'_</span>, T&gt; {
         DisplayOrderedSet {
             inner: <span class="self">self</span>.map.build(),
         }
@@ -989,15 +989,15 @@
 }
 
 <span class="doccomment">/// An adapter for printing a [`OrderedSet`](OrderedSet).
-</span><span class="kw">pub struct </span>DisplayOrderedSet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    inner: DisplayOrderedMap&lt;<span class="lifetime">&#39;a</span>, T&gt;,
+</span><span class="kw">pub struct </span>DisplayOrderedSet&lt;<span class="lifetime">'a</span>, T&gt; {
+    inner: DisplayOrderedMap&lt;<span class="lifetime">'a</span>, T&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FmtConst + <span class="lifetime">&#39;a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedSet&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: FmtConst + <span class="lifetime">'a</span>&gt; fmt::Display <span class="kw">for </span>DisplayOrderedSet&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(
             f,
-            <span class="string">&quot;{}::OrderedSet {{ map: {} }}&quot;</span>,
+            <span class="string">"{}::OrderedSet {{ map: {} }}"</span>,
             <span class="self">self</span>.inner.path, <span class="self">self</span>.inner
         )
     }

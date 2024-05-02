@@ -1,0 +1,1 @@
+searchState.loadedDescShard("nodejs_bundler_example", 0, "")

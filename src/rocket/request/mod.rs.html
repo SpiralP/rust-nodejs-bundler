@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/request/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/request/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -129,12 +129,12 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="self">self</span>::request::ConnectionMeta;
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// Store and immediately retrieve a vector-like value `$v` (`String` or
-    /// `Vec&lt;T&gt;`) in `$request`&#39;s local cache using a locally generated
+    /// `Vec&lt;T&gt;`) in `$request`'s local cache using a locally generated
     /// anonymous type to avoid type conflicts.
     ///
-    /// Unlike `local_cache_once`, this macro&#39;s generated code _always_ returns
+    /// Unlike `local_cache_once`, this macro's generated code _always_ returns
     /// a unique reference to request-local cache.
     ///
     /// # Note
@@ -147,11 +147,11 @@
     /// ```rust
     /// use rocket::request::{local_cache, local_cache_once};
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     ///
     /// // The first store into local cache for a given type wins.
     /// for i in 0..4 {
-    ///     assert_eq!(request.local_cache(|| i.to_string()), &quot;0&quot;);
+    ///     assert_eq!(request.local_cache(|| i.to_string()), "0");
     /// }
     ///
     /// // This shows that we cannot cache different values of the same type; we
@@ -163,14 +163,14 @@
     ///
     /// // Note that while `local_cache_once!` generates a new type for the
     /// // _macro_ invocation, that type is the same per run-time invocation, so
-    /// // all &quot;calls&quot; to `local_cache_once!` on the same line return the same
+    /// // all "calls" to `local_cache_once!` on the same line return the same
     /// // reference for a given request.
     /// for i in 1..4 {
     ///     // Note that this is `1`, so _not_ the `String` from line 4.
-    ///     assert_eq!(local_cache_once!(request, i.to_string()), &quot;1&quot;);
+    ///     assert_eq!(local_cache_once!(request, i.to_string()), "1");
     /// }
     /// ```
-    </span><span class="macro">macro_rules! </span>local_cache {
+    </span><span class="macro">macro_rules!</span> local_cache {
         (<span class="macro-nonterminal">$request</span>:expr, <span class="macro-nonterminal">$v</span>:expr $(,)<span class="question-mark">?</span>) =&gt; ({
             <span class="kw">struct </span>Local&lt;T: <span class="macro-nonterminal">$crate::form::Shareable</span>&gt;(<span class="macro-nonterminal">$crate::form::SharedStack</span>&lt;T&gt;);
             <span class="kw">let </span>stack = <span class="macro-nonterminal">$request</span>.local_cache(|| Local(<span class="macro-nonterminal">$crate::form::SharedStack::new</span>()));
@@ -179,8 +179,8 @@
     }
 }
 
-<span class="macro">crate::export! </span>{
-    <span class="doccomment">/// Store and immediately retrieve a value `$v` in `$request`&#39;s local cache
+<span class="macro">crate::export!</span> {
+    <span class="doccomment">/// Store and immediately retrieve a value `$v` in `$request`'s local cache
     /// using a locally generated anonymous type to avoid type conflicts.
     ///
     /// The code generated by this macro is expected to be invoked at-most once
@@ -197,27 +197,27 @@
     /// ```rust
     /// use rocket::request::local_cache_once;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     ///
     /// // The first store into local cache for a given type wins.
-    /// assert_eq!(request.local_cache(|| String::from(&quot;hello&quot;)), &quot;hello&quot;);
+    /// assert_eq!(request.local_cache(|| String::from("hello")), "hello");
     ///
     /// // The following returns the cached, previously stored value for the type.
-    /// assert_eq!(request.local_cache(|| String::from(&quot;goodbye&quot;)), &quot;hello&quot;);
+    /// assert_eq!(request.local_cache(|| String::from("goodbye")), "hello");
     ///
     /// // This shows that we cannot cache different values of the same type;
     /// // we _must_ use a proxy type. To avoid the need to write these manually,
     /// // use `local_cache_once!`, which generates one of the fly.
-    /// assert_eq!(local_cache_once!(request, String::from(&quot;hello&quot;)), &quot;hello&quot;);
-    /// assert_eq!(local_cache_once!(request, String::from(&quot;goodbye&quot;)), &quot;goodbye&quot;);
+    /// assert_eq!(local_cache_once!(request, String::from("hello")), "hello");
+    /// assert_eq!(local_cache_once!(request, String::from("goodbye")), "goodbye");
     ///
     /// // But a macro invocation for the same request always resolves to the
     /// // first reference as the unique type is generated at compile-time.
     /// for i in 1..4 {
-    ///     assert_eq!(local_cache_once!(request, i.to_string()), &quot;1&quot;);
+    ///     assert_eq!(local_cache_once!(request, i.to_string()), "1");
     /// }
     /// ```
-    </span><span class="macro">macro_rules! </span>local_cache_once {
+    </span><span class="macro">macro_rules!</span> local_cache_once {
         (<span class="macro-nonterminal">$request</span>:expr, <span class="macro-nonterminal">$v</span>:expr $(,)<span class="question-mark">?</span>) =&gt; ({
             <span class="kw">struct </span>Local&lt;T&gt;(T);
             <span class="kw-2">&amp;</span><span class="macro-nonterminal">$request</span>.local_cache(<span class="kw">move </span>|| Local(<span class="macro-nonterminal">$v</span>)).<span class="number">0

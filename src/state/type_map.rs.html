@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/type_map.rs`."><title>type_map.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/type_map.rs`."><title>type_map.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="state" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../state/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -709,7 +709,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::shim::sync::atomic::{AtomicUsize, Ordering};
 <span class="kw">use </span><span class="kw">crate</span>::shim::thread::yield_now;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"tls"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::tls::LocalValue;
 
 <span class="doccomment">/// A type map storing values based on types.
@@ -733,7 +733,7 @@
 /// // Values must implement `Send`. The type_map itself is `Send`, `!Sync`.
 /// let type_map: TypeMap![Send] = &lt;TypeMap![Send]&gt;::new();
 ///
-/// // Values needn&#39;t implement `Send` nor `Sync`. `TypeMap` is `!Send`, `!Sync`.
+/// // Values needn't implement `Send` nor `Sync`. `TypeMap` is `!Send`, `!Sync`.
 /// let type_map: TypeMap![] = &lt;TypeMap![]&gt;::new();
 /// ```
 ///
@@ -746,7 +746,7 @@
 /// ```rust
 /// use state::TypeMap;
 ///
-/// fn f_send_sync&lt;T: Send + Sync + Clone + &#39;static&gt;(value: T) {
+/// fn f_send_sync&lt;T: Send + Sync + Clone + 'static&gt;(value: T) {
 ///     let type_map = &lt;TypeMap![Send + Sync]&gt;::new();
 ///     type_map.set(value.clone());
 ///
@@ -757,7 +757,7 @@
 ///     type_map.set(value.clone());
 /// }
 ///
-/// fn f_send&lt;T: Send + Clone + &#39;static&gt;(value: T) {
+/// fn f_send&lt;T: Send + Clone + 'static&gt;(value: T) {
 ///     // This would fail to compile since `T` may not be `Sync`.
 ///     // let type_map = &lt;TypeMap![Send + Sync]&gt;::new();
 ///     // type_map.set(value.clone());
@@ -769,7 +769,7 @@
 ///     type_map.set(value.clone());
 /// }
 ///
-/// fn f&lt;T: &#39;static&gt;(value: T) {
+/// fn f&lt;T: 'static&gt;(value: T) {
 ///     // This would fail to compile since `T` may not be `Sync` or `Send`.
 ///     // let type_map = &lt;TypeMap![Send + Sync]&gt;::new();
 ///     // type_map.set(value.clone());
@@ -807,7 +807,7 @@
 /// [`set_local()`](TypeMap::set_local()) method and retrieved via the
 /// [`get_local()`](TypeMap::get_local()) method. The type of the value being
 /// set must be transferable across thread boundaries but need not be
-/// thread-safe. In other words, it must satisfy `Send + &#39;static` but not
+/// thread-safe. In other words, it must satisfy `Send + 'static` but not
 /// necessarily `Sync`. Values retrieved from thread-local state are exactly
 /// that: local to the current thread. As such, you cannot use thread-local
 /// state to synchronize across multiple threads.
@@ -830,8 +830,8 @@
 /// ```rust
 /// # struct T;
 /// # impl T { fn new() -&gt; T { T } }
-/// # #[cfg(not(feature = &quot;tls&quot;))] fn test() { }
-/// # #[cfg(feature = &quot;tls&quot;)] fn test() {
+/// # #[cfg(not(feature = "tls"))] fn test() { }
+/// # #[cfg(feature = "tls")] fn test() {
 /// use state::TypeMap;
 ///
 /// static TYPE_MAP: TypeMap![Send + Sync] = &lt;TypeMap![Send + Sync]&gt;::new();
@@ -869,14 +869,14 @@
 
 <span class="doccomment">/// Type constructor for [`TypeMap`](struct@TypeMap) variants.
 </span><span class="attr">#[macro_export]
-</span><span class="macro">macro_rules! </span>TypeMap {
+</span><span class="macro">macro_rules!</span> TypeMap {
     () =&gt; (<span class="macro-nonterminal">$crate::type_map::TypeMapNeither</span>);
     (Send) =&gt; (<span class="macro-nonterminal">$crate::type_map::TypeMapSend</span>);
     (Send + Sync) =&gt; (<span class="macro-nonterminal">$crate::type_map::TypeMapSendSync</span>);
     (Sync + Send) =&gt; (<span class="macro-nonterminal">$crate::type_map::TypeMapSendSync</span>);
 }
 
-<span class="macro">macro_rules! </span>new {
+<span class="macro">macro_rules!</span> new {
     () =&gt; (
         TypeMap {
             init: Init::new(),
@@ -934,7 +934,7 @@
     /// assert_eq!(TYPE_MAP.set(AtomicUsize::new(1)), false);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>set&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
+    </span><span class="kw">pub fn </span>set&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
         <span class="kw">unsafe </span>{ <span class="self">self</span>._set(state) }
     }
 
@@ -959,9 +959,9 @@
     /// assert_eq!(TYPE_MAP.set_local(|| MyState(Cell::new(2))), false);
     /// ```
     </span><span class="attr">#[inline]
-    #[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+    #[cfg(feature = <span class="string">"tls"</span>)]
     </span><span class="kw">pub fn </span>set_local&lt;T, F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state_init: F) -&gt; bool
-        <span class="kw">where </span>T: Send + <span class="lifetime">&#39;static</span>, F: Fn() -&gt; T + Send + Sync + <span class="lifetime">&#39;static
+        <span class="kw">where </span>T: Send + <span class="lifetime">'static</span>, F: Fn() -&gt; T + Send + Sync + <span class="lifetime">'static
     </span>{
         <span class="self">self</span>.set::&lt;LocalValue&lt;T&gt;&gt;(LocalValue::new(state_init))
     }
@@ -983,14 +983,14 @@
     ///
     /// TYPE_MAP.set_local(|| MyState(Cell::new(10)));
     ///
-    /// let my_state = TYPE_MAP.try_get_local::&lt;MyState&gt;().expect(&quot;MyState&quot;);
+    /// let my_state = TYPE_MAP.try_get_local::&lt;MyState&gt;().expect("MyState");
     /// assert_eq!(my_state.0.get(), 10);
     /// ```
     </span><span class="attr">#[inline]
-    #[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
-    </span><span class="kw">pub fn </span>try_get_local&lt;T: Send + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    #[cfg(feature = <span class="string">"tls"</span>)]
+    </span><span class="kw">pub fn </span>try_get_local&lt;T: Send + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="comment">// TODO: This will take a lock on the HashMap unnecessarily. Ideally
-        // we&#39;d have a `HashMap` per thread mapping from TypeId to (T, F).
+        // we'd have a `HashMap` per thread mapping from TypeId to (T, F).
         </span><span class="self">self</span>.try_get::&lt;LocalValue&lt;T&gt;&gt;().map(|value| value.get())
     }
 
@@ -1018,10 +1018,10 @@
     /// assert_eq!(my_state.0.get(), 10);
     /// ```
     </span><span class="attr">#[inline]
-    #[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
-    </span><span class="kw">pub fn </span>get_local&lt;T: Send + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    #[cfg(feature = <span class="string">"tls"</span>)]
+    </span><span class="kw">pub fn </span>get_local&lt;T: Send + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="self">self</span>.try_get_local::&lt;T&gt;()
-            .expect(<span class="string">&quot;type_map::get_local(): get_local() called before set_local()&quot;</span>)
+            .expect(<span class="string">"type_map::get_local(): get_local() called before set_local()"</span>)
     }
 }
 
@@ -1051,7 +1051,7 @@
     /// assert_eq!(type_map.get::&lt;Cell&lt;u8&gt;&gt;().get(), 99);
     /// ```
     </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="comment">// SAFETY: this can&#39;t be `const` or we violate `Sync`.
+        <span class="comment">// SAFETY: this can't be `const` or we violate `Sync`.
         </span><span class="macro">new!</span>()
     }
 
@@ -1075,7 +1075,7 @@
     /// assert!(!type_map.set(AtomicUsize::new(1)));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>set&lt;T: Send + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
+    </span><span class="kw">pub fn </span>set&lt;T: Send + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
         <span class="kw">unsafe </span>{ <span class="self">self</span>._set(state) }
     }
 }
@@ -1105,7 +1105,7 @@
     /// assert_eq!(type_map.get::&lt;Cell&lt;u8&gt;&gt;().get(), 99);
     /// ```
     </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
-        <span class="comment">// SAFETY: this can&#39;t be `const` or we violate `Sync`.
+        <span class="comment">// SAFETY: this can't be `const` or we violate `Sync`.
         </span><span class="macro">new!</span>()
     }
 
@@ -1129,7 +1129,7 @@
     /// assert!(!type_map.set(Cell::new(17)));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>set&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
+    </span><span class="kw">pub fn </span>set&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
         <span class="kw">unsafe </span>{ <span class="self">self</span>._set(state) }
     }
 }
@@ -1169,7 +1169,7 @@
 
     <span class="doccomment">/// SAFETY: The caller needs to ensure that `T` has the required bounds
     /// `Sync` or `Send` bounds.
-    </span><span class="kw">unsafe fn </span>_set&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
+    </span><span class="kw">unsafe fn </span>_set&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: T) -&gt; bool {
         <span class="kw">if </span><span class="self">self</span>.is_frozen() {
             <span class="kw">return </span><span class="bool-val">false</span>;
         }
@@ -1189,10 +1189,10 @@
     <span class="doccomment">/// SAFETY: The caller needs to ensure that the `T` returned from the `f` is
     /// not dependent on the stability of memory slots in the map. It also needs
     /// to ensure that `f` does not panic if liveness is desired.
-    </span><span class="kw">unsafe fn </span>with_map_ref&lt;<span class="lifetime">&#39;a</span>, F, T: <span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, f: F) -&gt; T
-        <span class="kw">where </span>F: FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>TypeIdMap) -&gt; T
+    </span><span class="kw">unsafe fn </span>with_map_ref&lt;<span class="lifetime">'a</span>, F, T: <span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, f: F) -&gt; T
+        <span class="kw">where </span>F: FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>TypeIdMap) -&gt; T
     {
-        <span class="comment">// If we&#39;re frozen, there can&#39;t be any concurrent writers, so we&#39;re
+        <span class="comment">// If we're frozen, there can't be any concurrent writers, so we're
         // free to read this safely without taking a lock.
         </span><span class="kw">if </span><span class="self">self</span>.is_frozen() {
             f(<span class="self">self</span>.map_ref())
@@ -1224,11 +1224,11 @@
     ///
     /// TYPE_MAP.set(MyState(AtomicUsize::new(0)));
     ///
-    /// let my_state = TYPE_MAP.try_get::&lt;MyState&gt;().expect(&quot;MyState&quot;);
+    /// let my_state = TYPE_MAP.try_get::&lt;MyState&gt;().expect("MyState");
     /// assert_eq!(my_state.0.load(Ordering::Relaxed), 0);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>try_get&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    </span><span class="kw">pub fn </span>try_get&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="comment">// SAFETY: `deanonymization` takes a potentially unstable refrence to an
         // `AnyObject` and converts it into a stable address: it is converting
         // an `&amp;Box&lt;dyn Any&gt;` into the inner `&amp;T`. The inner item is never
@@ -1264,9 +1264,9 @@
     /// assert_eq!(my_state.0.load(Ordering::Relaxed), 0);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>get&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+    </span><span class="kw">pub fn </span>get&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
         <span class="self">self</span>.try_get()
-            .expect(<span class="string">&quot;type_map::get(): get() called before set() for given type&quot;</span>)
+            .expect(<span class="string">"type_map::get(): get() called before set() for given type"</span>)
     }
 
     <span class="doccomment">/// Freezes the type_map. A frozen type_map disallows writes allowing for
@@ -1287,7 +1287,7 @@
     /// // After freezing, calls to `set` or `set_local `will fail.
     /// type_map.freeze();
     /// assert_eq!(type_map.set(1u8), false);
-    /// assert_eq!(type_map.set(&quot;hello&quot;), false);
+    /// assert_eq!(type_map.set("hello"), false);
     ///
     /// // Calls to `get` or `get_local` are synchronization-free when frozen.
     /// assert_eq!(type_map.try_get::&lt;u8&gt;(), None);
@@ -1392,9 +1392,9 @@
 }
 
 <span class="kw">impl</span>&lt;K: kind::Kind&gt; std::fmt::Debug <span class="kw">for </span>TypeMap&lt;K&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
-        f.debug_struct(<span class="string">&quot;TypeMap&quot;</span>)
-            .field(<span class="string">&quot;len&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.len())
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">"TypeMap"</span>)
+            .field(<span class="string">"len"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.len())
             .finish()
     }
 }

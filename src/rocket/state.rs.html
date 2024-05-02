@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/state.rs`."><title>state.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/state.rs`."><title>state.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -255,11 +255,11 @@
 /// type being managed must be thread safe and sendable across thread
 /// boundaries as multiple handlers in multiple threads may be accessing the
 /// value at once. In other words, it must implement [`Send`] + [`Sync`] +
-/// `&#39;static`.
+/// `'static`.
 ///
 /// # Example
 ///
-/// Imagine you have some configuration struct of the type `MyConfig` that you&#39;d
+/// Imagine you have some configuration struct of the type `MyConfig` that you'd
 /// like to initialize at start-up and later access it in several handlers. The
 /// following example does just this:
 ///
@@ -272,12 +272,12 @@
 ///     user_val: String
 /// }
 ///
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn index(state: &amp;State&lt;MyConfig&gt;) -&gt; String {
-///     format!(&quot;The config value is: {}&quot;, state.user_val)
+///     format!("The config value is: {}", state.user_val)
 /// }
 ///
-/// #[get(&quot;/raw&quot;)]
+/// #[get("/raw")]
 /// fn raw_config_value(state: &amp;State&lt;MyConfig&gt;) -&gt; &amp;str {
 ///     &amp;state.user_val
 /// }
@@ -285,15 +285,15 @@
 /// #[launch]
 /// fn rocket() -&gt; _ {
 ///     rocket::build()
-///         .mount(&quot;/&quot;, routes![index, raw_config_value])
-///         .manage(MyConfig { user_val: &quot;user input&quot;.to_string() })
+///         .mount("/", routes![index, raw_config_value])
+///         .manage(MyConfig { user_val: "user input".to_string() })
 /// }
 /// ```
 ///
 /// # Within Request Guards
 ///
 /// Because `State` is itself a request guard, managed state can be retrieved
-/// from another request guard&#39;s implementation using either
+/// from another request guard's implementation using either
 /// [`Request::guard()`] or [`Rocket::state()`]. In the following code example,
 /// the `Item` request guard retrieves `MyConfig` from managed state:
 ///
@@ -304,14 +304,14 @@
 /// use rocket::http::Status;
 ///
 /// # struct MyConfig { user_val: String };
-/// struct Item&lt;&#39;r&gt;(&amp;&#39;r str);
+/// struct Item&lt;'r&gt;(&amp;'r str);
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Item&lt;&#39;r&gt; {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for Item&lt;'r&gt; {
 ///     type Error = ();
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
-///         // Using `State` as a request guard. Use `inner()` to get an `&#39;r`.
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
+///         // Using `State` as a request guard. Use `inner()` to get an `'r`.
 ///         let outcome = request.guard::&lt;&amp;State&lt;MyConfig&gt;&gt;().await
 ///             .map(|my_config| Item(&amp;my_config.user_val));
 ///
@@ -337,23 +337,23 @@
 ///
 /// struct MyManagedState(usize);
 ///
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn handler(state: &amp;State&lt;MyManagedState&gt;) -&gt; String {
 ///     state.0.to_string()
 /// }
 ///
 /// let mut rocket = rocket::build().manage(MyManagedState(127));
-/// let state = State::get(&amp;rocket).expect(&quot;managed `MyManagedState`&quot;);
-/// assert_eq!(handler(state), &quot;127&quot;);
+/// let state = State::get(&amp;rocket).expect("managed `MyManagedState`");
+/// assert_eq!(handler(state), "127");
 ///
 /// let managed = MyManagedState(77);
-/// assert_eq!(handler(State::from(&amp;managed)), &quot;77&quot;);
+/// assert_eq!(handler(State::from(&amp;managed)), "77");
 /// ```
 </span><span class="attr">#[repr(transparent)]
 #[derive(RefCast, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-</span><span class="kw">pub struct </span>State&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(T);
+</span><span class="kw">pub struct </span>State&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt;(T);
 
-<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt; State&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt; State&lt;T&gt; {
     <span class="doccomment">/// Returns the managed state value in `rocket` for the type `T` if it is
     /// being managed by `rocket`. Otherwise, returns `None`.
     ///
@@ -406,7 +406,7 @@
     ///     user_val: String
     /// }
     ///
-    /// fn handler1&lt;&#39;r&gt;(config: &amp;State&lt;MyConfig&gt;) -&gt; String {
+    /// fn handler1&lt;'r&gt;(config: &amp;State&lt;MyConfig&gt;) -&gt; String {
     ///     let config = config.inner().clone();
     ///     config.user_val
     /// }
@@ -422,35 +422,35 @@
     </span>}
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: Send + Sync + <span class="lifetime">&#39;static</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>State&lt;T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: Send + Sync + <span class="lifetime">'static</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>State&lt;T&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(reference: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(reference: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>T) -&gt; <span class="self">Self </span>{
         State::ref_cast(reference)
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: Send + Sync + <span class="lifetime">&#39;static</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>State&lt;T&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: Send + Sync + <span class="lifetime">'static</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>State&lt;T&gt; {
     <span class="kw">type </span>Error = ();
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, ()&gt; {
+    </span><span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, ()&gt; {
         <span class="kw">match </span>State::get(req.rocket()) {
             <span class="prelude-val">Some</span>(state) =&gt; Outcome::Success(state),
             <span class="prelude-val">None </span>=&gt; {
-                <span class="macro">error_!</span>(<span class="string">&quot;Attempted to retrieve unmanaged state `{}`!&quot;</span>, type_name::&lt;T&gt;());
+                <span class="macro">error_!</span>(<span class="string">"Attempted to retrieve unmanaged state `{}`!"</span>, type_name::&lt;T&gt;());
                 Outcome::Error((Status::InternalServerError, ()))
             }
         }
     }
 }
 
-<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt; Sentinel <span class="kw">for </span><span class="kw-2">&amp;</span>State&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt; Sentinel <span class="kw">for </span><span class="kw-2">&amp;</span>State&lt;T&gt; {
     <span class="kw">fn </span>abort(rocket: <span class="kw-2">&amp;</span>Rocket&lt;Ignite&gt;) -&gt; bool {
         <span class="kw">if </span>rocket.state::&lt;T&gt;().is_none() {
             <span class="kw">let </span>type_name = type_name::&lt;T&gt;();
-            <span class="macro">error!</span>(<span class="string">&quot;launching with unmanaged `{}` state.&quot;</span>, type_name.primary().bold());
-            <span class="macro">info_!</span>(<span class="string">&quot;Using `State` requires managing it with `.manage()`.&quot;</span>);
+            <span class="macro">error!</span>(<span class="string">"launching with unmanaged `{}` state."</span>, type_name.primary().bold());
+            <span class="macro">info_!</span>(<span class="string">"Using `State` requires managing it with `.manage()`."</span>);
             <span class="kw">return </span><span class="bool-val">true</span>;
         }
 
@@ -458,13 +458,13 @@
     </span>}
 }
 
-<span class="kw">impl</span>&lt;T: Send + Sync + fmt::Display + <span class="lifetime">&#39;static</span>&gt; fmt::Display <span class="kw">for </span>State&lt;T&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl</span>&lt;T: Send + Sync + fmt::Display + <span class="lifetime">'static</span>&gt; fmt::Display <span class="kw">for </span>State&lt;T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
 
-<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">&#39;static</span>&gt; Deref <span class="kw">for </span>State&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Send + Sync + <span class="lifetime">'static</span>&gt; Deref <span class="kw">for </span>State&lt;T&gt; {
     <span class="kw">type </span>Target = T;
 
     <span class="attr">#[inline(always)]

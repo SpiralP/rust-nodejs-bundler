@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/stream/sse.rs`."><title>sse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/stream/sse.rs`."><title>sse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -825,43 +825,43 @@
 /// use rocket::tokio::time::Duration;
 /// use rocket::response::stream::Event;
 ///
-/// // A `data` event with message &quot;Hello, SSE!&quot;.
-/// let event = Event::data(&quot;Hello, SSE!&quot;);
+/// // A `data` event with message "Hello, SSE!".
+/// let event = Event::data("Hello, SSE!");
 ///
 /// // The same event but with event name of `hello`.
-/// let event = Event::data(&quot;Hello, SSE!&quot;).event(&quot;hello&quot;);
+/// let event = Event::data("Hello, SSE!").event("hello");
 ///
 /// // A `retry` event to set the client-side reconnection time.
 /// let event = Event::retry(Duration::from_secs(5));
 ///
 /// // An event with an attached comment, event name, and ID.
-/// let event = Event::data(&quot;Hello, SSE!&quot;)
-///     .with_comment(&quot;just a hello message&quot;)
-///     .event(&quot;hello&quot;)
-///     .id(&quot;1&quot;);
+/// let event = Event::data("Hello, SSE!")
+///     .with_comment("just a hello message")
+///     .event("hello")
+///     .id("1");
 /// ```
 ///
-/// We largely defer to [MDN&#39;s using server-sent events] documentation for
+/// We largely defer to [MDN's using server-sent events] documentation for
 /// client-side details but reproduce, in our words, relevant server-side
 /// documentation here.
 ///
-/// [MDN&#39;s using server-sent events]:
+/// [MDN's using server-sent events]:
 /// https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
 ///
 /// # Pitfalls
 ///
 /// Server-Sent Events suffer from certain pitfalls. We encourage readers to
 /// read through [pitfalls](struct@EventStream#pitfalls) before making use of
-/// Rocket&#39;s SSE support.
+/// Rocket's SSE support.
 ///
 /// # Comments
 ///
 /// A server-sent _comment_, created via [`Event::comment()`], is an event that
 /// appears only in the raw server-sent event data stream and is inaccessible by
-/// most clients. This includes JavaScript&#39;s `EventSource`. As such, they serve
+/// most clients. This includes JavaScript's `EventSource`. As such, they serve
 /// little utility beyond debugging a raw data stream and keeping a connection
 /// alive. See [heartbeat](struct@EventStream#heartbeat) for information on
-/// Rocket&#39;s `EventStream` keep-alive.
+/// Rocket's `EventStream` keep-alive.
 ///
 /// # Fields
 ///
@@ -873,7 +873,7 @@
 ///     time on the client side. It is the duration the client will wait before
 ///     attempting to reconnect when a connection is lost. Most applications
 ///     will not need to set a `retry`, opting instead to use the
-///     implementation&#39;s default or to reconnect manually on error.
+///     implementation's default or to reconnect manually on error.
 ///
 ///   * `id`
 ///
@@ -886,13 +886,13 @@
 ///   * `event`
 ///
 ///     Sets the event name to associate the next `data` field with. In
-///     JavaScript&#39;s `EventSource`, this is the event to be listened for, which
+///     JavaScript's `EventSource`, this is the event to be listened for, which
 ///     defaults to `message`. An `event` can be attached to other fields via
 ///     the [`Event::event()`] builder method.
 ///
 ///   * `data`
 ///
-///     Sends data to dispatch as an event at the client. In JavaScript&#39;s
+///     Sends data to dispatch as an event at the client. In JavaScript's
 ///     `EventSource`, this (and only this) results in an event handler for
 ///     `event`, specified just prior, being triggered. A data field can be
 ///     created via the [`Event::data()`] or [`Event::json()`] constructors.
@@ -908,7 +908,7 @@
 ///   5. `data`
 ///
 /// The `event` and `id` fields _cannot_ contain new lines or carriage returns.
-/// Rocket&#39;s default implementation automatically converts new lines and
+/// Rocket's default implementation automatically converts new lines and
 /// carriage returns in `event` and `id` fields to spaces.
 ///
 /// The `data` and `comment` fields _cannot_ contain carriage returns. Rocket
@@ -919,11 +919,11 @@
 /// those emitted by [`Event::json()`], have no such restrictions.
 </span><span class="attr">#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 </span><span class="kw">pub struct </span>Event {
-    comment: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+    comment: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
     retry: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
-    id: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
-    event: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
-    data: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+    id: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    event: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
+    data: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
 }
 
 <span class="kw">impl </span>Event {
@@ -934,7 +934,7 @@
 
     <span class="doccomment">/// Creates a new `Event` with an empty data field.
     ///
-    /// This is exactly equivalent to `Event::data(&quot;&quot;)`.
+    /// This is exactly equivalent to `Event::data("")`.
     ///
     /// # Example
     ///
@@ -944,7 +944,7 @@
     /// let event = Event::empty();
     /// ```
     </span><span class="kw">pub fn </span>empty() -&gt; <span class="self">Self </span>{
-        Event::data(<span class="string">&quot;&quot;</span>)
+        Event::data(<span class="string">""</span>)
     }
 
     <span class="doccomment">/// Creates a new `Event` with a data field of `data` serialized as JSON.
@@ -956,17 +956,17 @@
     /// use rocket::response::stream::Event;
     ///
     /// #[derive(Serialize)]
-    /// #[serde(crate = &quot;rocket::serde&quot;)]
-    /// struct MyData&lt;&#39;r&gt; {
-    ///     string: &amp;&#39;r str,
+    /// #[serde(crate = "rocket::serde")]
+    /// struct MyData&lt;'r&gt; {
+    ///     string: &amp;'r str,
     ///     number: usize,
     /// }
     ///
-    /// let data = MyData { string: &quot;hello!&quot;, number: 10 };
+    /// let data = MyData { string: "hello!", number: 10 };
     /// let event = Event::json(&amp;data);
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;json&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"json"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"json"</span>)))]
     </span><span class="kw">pub fn </span>json&lt;T: serde::Serialize&gt;(data: <span class="kw-2">&amp;</span>T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>string = serde_json::to_string(data).unwrap_or_default();
         <span class="self">Self</span>::data(string)
@@ -989,10 +989,10 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// // A `data` event with message &quot;Hello, SSE!&quot;.
-    /// let event = Event::data(&quot;Hello, SSE!&quot;);
+    /// // A `data` event with message "Hello, SSE!".
+    /// let event = Event::data("Hello, SSE!");
     /// ```
-    </span><span class="kw">pub fn </span>data&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(data: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>data&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(data: T) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ data: <span class="prelude-val">Some</span>(data.into()), ..Event::new() }
     }
 
@@ -1008,9 +1008,9 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// let event = Event::comment(&quot;bet you&#39;ll never see me!&quot;);
+    /// let event = Event::comment("bet you'll never see me!");
     /// ```
-    </span><span class="kw">pub fn </span>comment&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(data: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>comment&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(data: T) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ comment: <span class="prelude-val">Some</span>(data.into()), ..Event::new() }
     }
 
@@ -1028,7 +1028,7 @@
         <span class="self">Self </span>{ retry: <span class="prelude-val">Some</span>(period), ..Event::new() }
     }
 
-    <span class="doccomment">/// Sets the value of the &#39;event&#39; (event type) field.
+    <span class="doccomment">/// Sets the value of the 'event' (event type) field.
     ///
     /// Event names may not contain new lines `\n` or carriage returns `\r`. If
     /// `event` _does_ contain new lines or carriage returns, they are replaced
@@ -1039,18 +1039,18 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// // The event name is &quot;start&quot;.
-    /// let event = Event::data(&quot;hi&quot;).event(&quot;start&quot;);
+    /// // The event name is "start".
+    /// let event = Event::data("hi").event("start");
     ///
-    /// // The event name is &quot;then end&quot;, with `\n` replaced with ` `.
-    /// let event = Event::data(&quot;bye&quot;).event(&quot;then\nend&quot;);
+    /// // The event name is "then end", with `\n` replaced with ` `.
+    /// let event = Event::data("bye").event("then\nend");
     /// ```
-    </span><span class="kw">pub fn </span>event&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, event: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>event&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, event: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.event = <span class="prelude-val">Some</span>(event.into());
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Sets the value of the &#39;id&#39; (last event ID) field.
+    <span class="doccomment">/// Sets the value of the 'id' (last event ID) field.
     ///
     /// Event IDs may not contain new lines `\n` or carriage returns `\r`. If
     /// `id` _does_ contain new lines or carriage returns, they are replaced
@@ -1061,14 +1061,14 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// // The event ID is &quot;start&quot;.
-    /// let event = Event::data(&quot;hi&quot;).id(&quot;start&quot;);
+    /// // The event ID is "start".
+    /// let event = Event::data("hi").id("start");
     ///
-    /// // The event ID is &quot;then end&quot;, with `\n` replaced with ` `.
-    /// let event = Event::data(&quot;bye&quot;).id(&quot;then\nend&quot;);
+    /// // The event ID is "then end", with `\n` replaced with ` `.
+    /// let event = Event::data("bye").id("then\nend");
     /// ```
-    /// Sets the value of the &#39;id&#39; field. It may not contain newlines.
-    </span><span class="kw">pub fn </span>id&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, id: T) -&gt; <span class="self">Self </span>{
+    /// Sets the value of the 'id' field. It may not contain newlines.
+    </span><span class="kw">pub fn </span>id&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, id: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.id = <span class="prelude-val">Some</span>(id.into());
         <span class="self">self
     </span>}
@@ -1080,14 +1080,14 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// // The data &quot;hello&quot; will be sent.
-    /// let event = Event::data(&quot;hi&quot;).with_data(&quot;hello&quot;);
+    /// // The data "hello" will be sent.
+    /// let event = Event::data("hi").with_data("hello");
     ///
     /// // The two below are equivalent.
-    /// let event = Event::comment(&quot;bye&quot;).with_data(&quot;goodbye&quot;);
-    /// let event = Event::data(&quot;goodbye&quot;).with_comment(&quot;bye&quot;);
+    /// let event = Event::comment("bye").with_data("goodbye");
+    /// let event = Event::data("goodbye").with_comment("bye");
     /// ```
-    </span><span class="kw">pub fn </span>with_data&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_data&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.data = <span class="prelude-val">Some</span>(data.into());
         <span class="self">self
     </span>}
@@ -1099,14 +1099,14 @@
     /// ```rust
     /// use rocket::response::stream::Event;
     ///
-    /// // The comment &quot;🚀&quot; will be sent.
-    /// let event = Event::comment(&quot;Rocket is great!&quot;).with_comment(&quot;🚀&quot;);
+    /// // The comment "🚀" will be sent.
+    /// let event = Event::comment("Rocket is great!").with_comment("🚀");
     ///
     /// // The two below are equivalent.
-    /// let event = Event::comment(&quot;bye&quot;).with_data(&quot;goodbye&quot;);
-    /// let event = Event::data(&quot;goodbye&quot;).with_comment(&quot;bye&quot;);
+    /// let event = Event::comment("bye").with_data("goodbye");
+    /// let event = Event::data("goodbye").with_comment("bye");
     /// ```
-    </span><span class="kw">pub fn </span>with_comment&lt;T: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_comment&lt;T: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.comment = <span class="prelude-val">Some</span>(data.into());
         <span class="self">self
     </span>}
@@ -1124,8 +1124,8 @@
     ///     .with_retry(Duration::from_secs(10));
     ///
     /// // The two below are equivalent.
-    /// let event = Event::comment(&quot;bye&quot;).with_retry(Duration::from_millis(500));
-    /// let event = Event::retry(Duration::from_millis(500)).with_comment(&quot;bye&quot;);
+    /// let event = Event::comment("bye").with_retry(Duration::from_millis(500));
+    /// let event = Event::retry(Duration::from_millis(500)).with_comment("bye");
     /// ```
     </span><span class="kw">pub fn </span>with_retry(<span class="kw-2">mut </span><span class="self">self</span>, period: Duration) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.retry = <span class="prelude-val">Some</span>(period);
@@ -1134,12 +1134,12 @@
 
     <span class="kw">fn </span>into_stream(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Stream&lt;Item = RawLinedEvent&gt; {
         <span class="kw">let </span>events = [
-            <span class="self">self</span>.comment.map(|v| RawLinedEvent::many(<span class="string">&quot;&quot;</span>, v)),
-            <span class="self">self</span>.retry.map(|r| RawLinedEvent::one(<span class="string">&quot;retry&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, r.as_millis()))),
-            <span class="self">self</span>.id.map(|v| RawLinedEvent::one(<span class="string">&quot;id&quot;</span>, v)),
-            <span class="self">self</span>.event.map(|v| RawLinedEvent::one(<span class="string">&quot;event&quot;</span>, v)),
-            <span class="self">self</span>.data.map(|v| RawLinedEvent::many(<span class="string">&quot;data&quot;</span>, v)),
-            <span class="prelude-val">Some</span>(RawLinedEvent::raw(<span class="string">&quot;&quot;</span>)),
+            <span class="self">self</span>.comment.map(|v| RawLinedEvent::many(<span class="string">""</span>, v)),
+            <span class="self">self</span>.retry.map(|r| RawLinedEvent::one(<span class="string">"retry"</span>, <span class="macro">format!</span>(<span class="string">"{}"</span>, r.as_millis()))),
+            <span class="self">self</span>.id.map(|v| RawLinedEvent::one(<span class="string">"id"</span>, v)),
+            <span class="self">self</span>.event.map(|v| RawLinedEvent::one(<span class="string">"event"</span>, v)),
+            <span class="self">self</span>.data.map(|v| RawLinedEvent::many(<span class="string">"data"</span>, v)),
+            <span class="prelude-val">Some</span>(RawLinedEvent::raw(<span class="string">""</span>)),
         ];
 
         stream::iter(events).filter_map(ready)
@@ -1171,7 +1171,7 @@
 ///
 /// # Examples
 ///
-/// Use [`EventStream!`] to yield an infinite series of &quot;ping&quot; SSE messages to
+/// Use [`EventStream!`] to yield an infinite series of "ping" SSE messages to
 /// the client, one per second:
 ///
 /// ```rust
@@ -1179,12 +1179,12 @@
 /// use rocket::response::stream::{Event, EventStream};;
 /// use rocket::tokio::time::{self, Duration};
 ///
-/// #[get(&quot;/events&quot;)]
+/// #[get("/events")]
 /// fn stream() -&gt; EventStream![] {
 ///     EventStream! {
 ///         let mut interval = time::interval(Duration::from_secs(1));
 ///         loop {
-///             yield Event::data(&quot;ping&quot;);
+///             yield Event::data("ping");
 ///             interval.tick().await;
 ///         }
 ///     }
@@ -1198,13 +1198,13 @@
 /// use rocket::response::stream::{Event, EventStream};
 /// use rocket::tokio::time::Duration;
 ///
-/// #[get(&quot;/events&quot;)]
+/// #[get("/events")]
 /// fn events() -&gt; EventStream![] {
 ///     EventStream! {
 ///         for i in 0..3 {
 ///             yield Event::retry(Duration::from_secs(10));
-///             yield Event::data(format!(&quot;{}&quot;, i)).id(&quot;cat&quot;).event(&quot;bar&quot;);
-///             yield Event::comment(&quot;silly boy&quot;);
+///             yield Event::data(format!("{}", i)).id("cat").event("bar");
+///             yield Event::comment("silly boy");
 ///         }
 ///     }
 /// }
@@ -1218,20 +1218,20 @@
 /// # Borrowing
 ///
 /// If an `EventStream` contains a borrow, the extended type syntax
-/// `EventStream![Event + &#39;_]` must be used:
+/// `EventStream![Event + '_]` must be used:
 ///
 /// ```rust
 /// # use rocket::get;
 /// use rocket::State;
 /// use rocket::response::stream::{Event, EventStream};
 ///
-/// #[get(&quot;/events&quot;)]
-/// fn events(ctxt: &amp;State&lt;bool&gt;) -&gt; EventStream![Event + &#39;_] {
+/// #[get("/events")]
+/// fn events(ctxt: &amp;State&lt;bool&gt;) -&gt; EventStream![Event + '_] {
 ///     EventStream! {
 ///         // By using `ctxt` in the stream, the borrow is moved into it. Thus,
-///         // the stream object contains a borrow, prompting the &#39;_ annotation.
+///         // the stream object contains a borrow, prompting the '_ annotation.
 ///         if *ctxt.inner() {
-///             yield Event::data(&quot;hi&quot;);
+///             yield Event::data("hi");
 ///         }
 ///     }
 /// }
@@ -1287,7 +1287,7 @@
 }
 
 <span class="kw">impl</span>&lt;S: Stream&lt;Item = Event&gt;&gt; EventStream&lt;S&gt; {
-    <span class="doccomment">/// Sets a &quot;ping&quot; interval for this `EventStream` to avoid connection
+    <span class="doccomment">/// Sets a "ping" interval for this `EventStream` to avoid connection
     /// timeouts when no data is being transferred. The default `interval` is 30
     /// seconds.
     ///
@@ -1301,7 +1301,7 @@
     /// use rocket::response::stream::{Event, EventStream};
     /// use rocket::tokio::time::Duration;
     ///
-    /// #[get(&quot;/events&quot;)]
+    /// #[get("/events")]
     /// fn events() -&gt; EventStream![] {
     ///     // Remove the default heartbeat.
     ///     # let event_stream = rocket::futures::stream::pending();
@@ -1313,7 +1313,7 @@
     ///
     ///     // Do the same but for a generated `EventStream`:
     ///     let stream = EventStream! {
-    ///         yield Event::data(&quot;hello&quot;);
+    ///         yield Event::data("hello");
     ///     };
     ///
     ///     stream.heartbeat(Duration::from_secs(15))
@@ -1330,7 +1330,7 @@
 
         <span class="self">self</span>.heartbeat
             .map(|beat| IntervalStream::new(interval(beat)))
-            .map(|stream| stream.map(|<span class="kw">_</span>| RawLinedEvent::raw(<span class="string">&quot;:&quot;</span>)))
+            .map(|stream| stream.map(|<span class="kw">_</span>| RawLinedEvent::raw(<span class="string">":"</span>)))
     }
 
     <span class="kw">fn </span>into_stream(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Stream&lt;Item = RawLinedEvent&gt; {
@@ -1362,7 +1362,7 @@
     /// use rocket::response::stream::{Event, EventStream};
     /// use rocket::futures::stream;
     ///
-    /// let raw = stream::iter(vec![Event::data(&quot;a&quot;), Event::data(&quot;b&quot;)]);
+    /// let raw = stream::iter(vec![Event::data("a"), Event::data("b")]);
     /// let stream = EventStream::from(raw);
     /// ```
     </span><span class="kw">fn </span>from(stream: S) -&gt; <span class="self">Self </span>{
@@ -1370,18 +1370,18 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, S: Stream&lt;Item = Event&gt; + Send + <span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>EventStream&lt;S&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, S: Stream&lt;Item = Event&gt; + Send + <span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'r</span>&gt; <span class="kw">for </span>EventStream&lt;S&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'r</span>&gt; {
         Response::build()
             .header(ContentType::EventStream)
-            .raw_header(<span class="string">&quot;Cache-Control&quot;</span>, <span class="string">&quot;no-cache&quot;</span>)
-            .raw_header(<span class="string">&quot;Expires&quot;</span>, <span class="string">&quot;0&quot;</span>)
+            .raw_header(<span class="string">"Cache-Control"</span>, <span class="string">"no-cache"</span>)
+            .raw_header(<span class="string">"Expires"</span>, <span class="string">"0"</span>)
             .streamed_body(<span class="self">self</span>.into_reader())
             .ok()
     }
 }
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// Type and stream expression macro for [`struct@EventStream`].
     ///
     /// See [`stream!`](crate::response::stream::stream) for the syntax
@@ -1391,7 +1391,7 @@
     ///
     /// See [`struct@EventStream`] and the [module level
     /// docs](crate::response::stream#typed-streams) for usage details.
-    </span><span class="macro">macro_rules! </span>EventStream {
+    </span><span class="macro">macro_rules!</span> EventStream {
         () =&gt; (<span class="macro-nonterminal">$</span><span class="macro">crate::_typed_stream!</span>(<span class="macro-nonterminal">EventStream</span>, <span class="macro-nonterminal">$crate::response::stream::Event</span>));
         ($(<span class="macro-nonterminal">$s</span>:tt)<span class="kw-2">*</span>) =&gt; (<span class="macro-nonterminal">$</span><span class="macro">crate::_typed_stream!</span>(<span class="macro-nonterminal">EventStream</span>, $(<span class="macro-nonterminal">$s</span>)<span class="kw-2">*</span>));
     }
@@ -1409,7 +1409,7 @@
             <span class="kw">crate</span>::async_test(<span class="kw">async move </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>string = String::new();
                 <span class="kw">let </span><span class="kw-2">mut </span>reader = ReaderStream::from(<span class="self">self</span>.into_stream());
-                reader.read_to_string(<span class="kw-2">&amp;mut </span>string).<span class="kw">await</span>.expect(<span class="string">&quot;event -&gt; string&quot;</span>);
+                reader.read_to_string(<span class="kw-2">&amp;mut </span>string).<span class="kw">await</span>.expect(<span class="string">"event -&gt; string"</span>);
                 string
             })
         }
@@ -1421,7 +1421,7 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>string = String::new();
                 <span class="kw">let </span>reader = <span class="self">self</span>.into_reader();
                 <span class="macro">tokio::pin!</span>(reader);
-                reader.read_to_string(<span class="kw-2">&amp;mut </span>string).<span class="kw">await</span>.expect(<span class="string">&quot;event stream -&gt; string&quot;</span>);
+                reader.read_to_string(<span class="kw-2">&amp;mut </span>string).<span class="kw">await</span>.expect(<span class="string">"event stream -&gt; string"</span>);
                 string
             })
         }
@@ -1429,138 +1429,138 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_event_data() {
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;a\nb&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:a\ndata:b\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"a\nb"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:a\ndata:b\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;a\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:a\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"a\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:a\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;cats make me happy!&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:cats make me happy!\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"cats make me happy!"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:cats make me happy!\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;in the\njungle\nthe mighty\njungle&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"in the\njungle\nthe mighty\njungle"</span>);
         <span class="macro">assert_eq!</span>(event.into_string(),
-            <span class="string">&quot;data:in the\ndata:jungle\ndata:the mighty\ndata:jungle\n\n&quot;</span>);
+            <span class="string">"data:in the\ndata:jungle\ndata:the mighty\ndata:jungle\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;in the\njungle\r\nthe mighty\rjungle&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"in the\njungle\r\nthe mighty\rjungle"</span>);
         <span class="macro">assert_eq!</span>(event.into_string(),
-            <span class="string">&quot;data:in the\ndata:jungle\ndata:the mighty\ndata:jungle\n\n&quot;</span>);
+            <span class="string">"data:in the\ndata:jungle\ndata:the mighty\ndata:jungle\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\nb\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\nb\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\r\nb\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\r\nb\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\r\nb\r\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\r\nb\r\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\n\nb\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\n\nb\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\n\rb\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\n\rb\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\n\rb\r&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:\ndata:b\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\n\rb\r"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:\ndata:b\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::comment(<span class="string">&quot;\n\rb\r&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;:\n:\n:b\n:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::comment(<span class="string">"\n\rb\r"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">":\n:\n:b\n:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\n\n\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:\ndata:\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\n\n\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:\ndata:\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;\n&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\ndata:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"\n"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\ndata:\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;data:\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">""</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"data:\n\n"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_event_fields() {
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>).id(<span class="string">&quot;moo&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;id:moo\ndata:foo\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>).id(<span class="string">"moo"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"id:moo\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>).id(<span class="string">&quot;moo&quot;</span>).with_retry(Duration::from_secs(<span class="number">45</span>));
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;retry:45000\nid:moo\ndata:foo\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>).id(<span class="string">"moo"</span>).with_retry(Duration::from_secs(<span class="number">45</span>));
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"retry:45000\nid:moo\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo\nbar&quot;</span>).id(<span class="string">&quot;moo&quot;</span>).with_retry(Duration::from_secs(<span class="number">45</span>));
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;retry:45000\nid:moo\ndata:foo\ndata:bar\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo\nbar"</span>).id(<span class="string">"moo"</span>).with_retry(Duration::from_secs(<span class="number">45</span>));
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"retry:45000\nid:moo\ndata:foo\ndata:bar\n\n"</span>);
 
         <span class="kw">let </span>event = Event::retry(Duration::from_secs(<span class="number">45</span>));
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;retry:45000\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"retry:45000\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::comment(<span class="string">&quot;incoming data...&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;:incoming data...\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::comment(<span class="string">"incoming data..."</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">":incoming data...\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>).id(<span class="string">&quot;moo&quot;</span>).with_comment(<span class="string">&quot;cows, ey?&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;:cows, ey?\nid:moo\ndata:foo\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>).id(<span class="string">"moo"</span>).with_comment(<span class="string">"cows, ey?"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">":cows, ey?\nid:moo\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo\nbar&quot;</span>)
-            .id(<span class="string">&quot;moo&quot;</span>)
-            .event(<span class="string">&quot;milk&quot;</span>)
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo\nbar"</span>)
+            .id(<span class="string">"moo"</span>)
+            .event(<span class="string">"milk"</span>)
             .with_retry(Duration::from_secs(<span class="number">3</span>));
 
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;retry:3000\nid:moo\nevent:milk\ndata:foo\ndata:bar\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"retry:3000\nid:moo\nevent:milk\ndata:foo\ndata:bar\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>)
-            .id(<span class="string">&quot;moo&quot;</span>)
-            .event(<span class="string">&quot;milk&quot;</span>)
-            .with_comment(<span class="string">&quot;??&quot;</span>)
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>)
+            .id(<span class="string">"moo"</span>)
+            .event(<span class="string">"milk"</span>)
+            .with_comment(<span class="string">"??"</span>)
             .with_retry(Duration::from_secs(<span class="number">3</span>));
 
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;:??\nretry:3000\nid:moo\nevent:milk\ndata:foo\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">":??\nretry:3000\nid:moo\nevent:milk\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>)
-            .id(<span class="string">&quot;moo&quot;</span>)
-            .event(<span class="string">&quot;milk&quot;</span>)
-            .with_comment(<span class="string">&quot;?\n?&quot;</span>)
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>)
+            .id(<span class="string">"moo"</span>)
+            .event(<span class="string">"milk"</span>)
+            .with_comment(<span class="string">"?\n?"</span>)
             .with_retry(Duration::from_secs(<span class="number">3</span>));
 
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;:?\n:?\nretry:3000\nid:moo\nevent:milk\ndata:foo\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">":?\n:?\nretry:3000\nid:moo\nevent:milk\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo\r\nbar\nbaz&quot;</span>)
-            .id(<span class="string">&quot;moo&quot;</span>)
-            .event(<span class="string">&quot;milk&quot;</span>)
-            .with_comment(<span class="string">&quot;?\n?&quot;</span>)
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo\r\nbar\nbaz"</span>)
+            .id(<span class="string">"moo"</span>)
+            .event(<span class="string">"milk"</span>)
+            .with_comment(<span class="string">"?\n?"</span>)
             .with_retry(Duration::from_secs(<span class="number">3</span>));
 
         <span class="macro">assert_eq!</span>(event.into_string(),
-            <span class="string">&quot;:?\n:?\nretry:3000\nid:moo\nevent:milk\ndata:foo\ndata:bar\ndata:baz\n\n&quot;</span>);
+            <span class="string">":?\n:?\nretry:3000\nid:moo\nevent:milk\ndata:foo\ndata:bar\ndata:baz\n\n"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_bad_chars() {
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;foo&quot;</span>).id(<span class="string">&quot;dead\nbeef&quot;</span>).event(<span class="string">&quot;m\noo&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;id:dead beef\nevent:m oo\ndata:foo\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"foo"</span>).id(<span class="string">"dead\nbeef"</span>).event(<span class="string">"m\noo"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"id:dead beef\nevent:m oo\ndata:foo\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;f\no&quot;</span>).id(<span class="string">&quot;d\r\nbe\rf&quot;</span>).event(<span class="string">&quot;m\n\r&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;id:d  be f\nevent:m  \ndata:f\ndata:o\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"f\no"</span>).id(<span class="string">"d\r\nbe\rf"</span>).event(<span class="string">"m\n\r"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"id:d  be f\nevent:m  \ndata:f\ndata:o\n\n"</span>);
 
-        <span class="kw">let </span>event = Event::data(<span class="string">&quot;f\no&quot;</span>).id(<span class="string">&quot;\r\n\n\r\n\r\r&quot;</span>).event(<span class="string">&quot;\n\rb&quot;</span>);
-        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">&quot;id:       \nevent:  b\ndata:f\ndata:o\n\n&quot;</span>);
+        <span class="kw">let </span>event = Event::data(<span class="string">"f\no"</span>).id(<span class="string">"\r\n\n\r\n\r\r"</span>).event(<span class="string">"\n\rb"</span>);
+        <span class="macro">assert_eq!</span>(event.into_string(), <span class="string">"id:       \nevent:  b\ndata:f\ndata:o\n\n"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_event_stream() {
         <span class="kw">use </span>futures::stream::iter;
 
-        <span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">&quot;foo&quot;</span>)]));
-        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">&quot;:\n\n&quot;</span>, <span class="string">&quot;&quot;</span>), <span class="string">&quot;data:foo\n\n&quot;</span>);
+        <span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">"foo"</span>)]));
+        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">":\n\n"</span>, <span class="string">""</span>), <span class="string">"data:foo\n\n"</span>);
 
-        <span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">&quot;a&quot;</span>), Event::data(<span class="string">&quot;b&quot;</span>)]));
-        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">&quot;:\n\n&quot;</span>, <span class="string">&quot;&quot;</span>), <span class="string">&quot;data:a\n\ndata:b\n\n&quot;</span>);
+        <span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">"a"</span>), Event::data(<span class="string">"b"</span>)]));
+        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">":\n\n"</span>, <span class="string">""</span>), <span class="string">"data:a\n\ndata:b\n\n"</span>);
 
         <span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[
-                Event::data(<span class="string">&quot;a\nb&quot;</span>),
-                Event::data(<span class="string">&quot;b&quot;</span>),
-                Event::data(<span class="string">&quot;c\n\nd&quot;</span>),
-                Event::data(<span class="string">&quot;e&quot;</span>),
+                Event::data(<span class="string">"a\nb"</span>),
+                Event::data(<span class="string">"b"</span>),
+                Event::data(<span class="string">"c\n\nd"</span>),
+                Event::data(<span class="string">"e"</span>),
         ]));
 
-        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">&quot;:\n\n&quot;</span>, <span class="string">&quot;&quot;</span>),
-            <span class="string">&quot;data:a\ndata:b\n\ndata:b\n\ndata:c\ndata:\ndata:d\n\ndata:e\n\n&quot;</span>);
+        <span class="macro">assert_eq!</span>(stream.into_string().replace(<span class="string">":\n\n"</span>, <span class="string">""</span>),
+            <span class="string">"data:a\ndata:b\n\ndata:b\n\ndata:c\ndata:\ndata:d\n\ndata:e\n\n"</span>);
     }
 
     <span class="attr">#[test]
@@ -1568,7 +1568,7 @@
         <span class="kw">use </span>futures::future::ready;
         <span class="kw">use </span>futures::stream::{once, iter, StreamExt};
 
-        <span class="kw">const </span>HEARTBEAT: <span class="kw-2">&amp;</span>str = <span class="string">&quot;:\n&quot;</span>;
+        <span class="kw">const </span>HEARTBEAT: <span class="kw-2">&amp;</span>str = <span class="string">":\n"</span>;
 
         <span class="comment">// Set a heartbeat interval of 250ms. Send nothing for 600ms. We should
         // get 2 or 3 heartbeats, the latter if one is sent eagerly. Maybe 4.
@@ -1580,34 +1580,34 @@
             .into_string();
 
         <span class="kw">let </span>heartbeats = string.matches(HEARTBEAT).count();
-        <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">2 </span>&amp;&amp; heartbeats &lt;= <span class="number">4</span>, <span class="string">&quot;got {} beat(s)&quot;</span>, heartbeats);
+        <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">2 </span>&amp;&amp; heartbeats &lt;= <span class="number">4</span>, <span class="string">"got {} beat(s)"</span>, heartbeats);
 
-        <span class="kw">let </span>stream = <span class="macro">EventStream! </span>{
+        <span class="kw">let </span>stream = <span class="macro">EventStream!</span> {
             time::sleep(Duration::from_millis(<span class="number">250</span>)).<span class="kw">await</span>;
-            <span class="kw">yield </span>Event::data(<span class="string">&quot;foo&quot;</span>);
+            <span class="kw">yield </span>Event::data(<span class="string">"foo"</span>);
             time::sleep(Duration::from_millis(<span class="number">250</span>)).<span class="kw">await</span>;
-            <span class="kw">yield </span>Event::data(<span class="string">&quot;bar&quot;</span>);
+            <span class="kw">yield </span>Event::data(<span class="string">"bar"</span>);
         };
 
-        <span class="comment">// We expect: foo\n\n [heartbeat] bar\n\n [maybe beartbeat].
+        <span class="comment">// We expect: foo\n\n [heartbeat] bar\n\n [maybe heartbeat].
         </span><span class="kw">let </span>string = stream.heartbeat(Duration::from_millis(<span class="number">350</span>)).into_string();
         <span class="kw">let </span>heartbeats = string.matches(HEARTBEAT).count();
-        <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">1 </span>&amp;&amp; heartbeats &lt;= <span class="number">3</span>, <span class="string">&quot;got {} beat(s)&quot;</span>, heartbeats);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:foo\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:bar\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
+        <span class="macro">assert!</span>(heartbeats &gt;= <span class="number">1 </span>&amp;&amp; heartbeats &lt;= <span class="number">3</span>, <span class="string">"got {} beat(s)"</span>, heartbeats);
+        <span class="macro">assert!</span>(string.contains(<span class="string">"data:foo\n\n"</span>), <span class="string">"string = {:?}"</span>, string);
+        <span class="macro">assert!</span>(string.contains(<span class="string">"data:bar\n\n"</span>), <span class="string">"string = {:?}"</span>, string);
 
-        <span class="comment">// We shouldn&#39;t send a heartbeat if a message is immediately available.
-        </span><span class="kw">let </span>stream = EventStream::from(once(ready(Event::data(<span class="string">&quot;hello&quot;</span>))));
+        <span class="comment">// We shouldn't send a heartbeat if a message is immediately available.
+        </span><span class="kw">let </span>stream = EventStream::from(once(ready(Event::data(<span class="string">"hello"</span>))));
         <span class="kw">let </span>string = stream.heartbeat(Duration::from_secs(<span class="number">1</span>)).into_string();
-        <span class="macro">assert_eq!</span>(string, <span class="string">&quot;data:hello\n\n&quot;</span>, <span class="string">&quot;string = {:?}&quot;</span>, string);
+        <span class="macro">assert_eq!</span>(string, <span class="string">"data:hello\n\n"</span>, <span class="string">"string = {:?}"</span>, string);
 
-        <span class="comment">// It&#39;s okay if we do it with two, though.
-        </span><span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">&quot;a&quot;</span>), Event::data(<span class="string">&quot;b&quot;</span>)]));
+        <span class="comment">// It's okay if we do it with two, though.
+        </span><span class="kw">let </span>stream = EventStream::from(iter(<span class="macro">vec!</span>[Event::data(<span class="string">"a"</span>), Event::data(<span class="string">"b"</span>)]));
         <span class="kw">let </span>string = stream.heartbeat(Duration::from_secs(<span class="number">1</span>)).into_string();
         <span class="kw">let </span>heartbeats = string.matches(HEARTBEAT).count();
         <span class="macro">assert!</span>(heartbeats &lt;= <span class="number">1</span>);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:a\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
-        <span class="macro">assert!</span>(string.contains(<span class="string">&quot;data:b\n\n&quot;</span>), <span class="string">&quot;string = {:?}&quot;</span>, string);
+        <span class="macro">assert!</span>(string.contains(<span class="string">"data:a\n\n"</span>), <span class="string">"string = {:?}"</span>, string);
+        <span class="macro">assert!</span>(string.contains(<span class="string">"data:b\n\n"</span>), <span class="string">"string = {:?}"</span>, string);
     }
 }
 </code></pre></div></section></main></body></html>

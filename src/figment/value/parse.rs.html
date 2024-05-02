@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.12/src/value/parse.rs`."><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.18/src/value/parse.rs`."><title>parse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../figment/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -190,8 +190,8 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::value::{Value, Dict, escape::escape};
 
-<span class="kw">type </span>Input&lt;<span class="lifetime">&#39;a</span>&gt; = Pear&lt;Text&lt;<span class="lifetime">&#39;a</span>&gt;&gt;;
-<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; = pear::input::Result&lt;T, Input&lt;<span class="lifetime">&#39;a</span>&gt;&gt;;
+<span class="kw">type </span>Input&lt;<span class="lifetime">'a</span>&gt; = Pear&lt;Text&lt;<span class="lifetime">'a</span>&gt;&gt;;
+<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, T&gt; = pear::input::Result&lt;T, Input&lt;<span class="lifetime">'a</span>&gt;&gt;;
 
 <span class="attr">#[inline(always)]
 </span><span class="kw">fn </span>is_whitespace(<span class="kw-2">&amp;</span>byte: <span class="kw-2">&amp;</span>char) -&gt; bool {
@@ -200,68 +200,68 @@
 
 <span class="attr">#[inline(always)]
 </span><span class="kw">fn </span>is_not_separator(<span class="kw-2">&amp;</span>byte: <span class="kw-2">&amp;</span>char) -&gt; bool {
-    !<span class="macro">matches!</span>(byte, <span class="string">&#39;,&#39; </span>| <span class="string">&#39;{&#39; </span>| <span class="string">&#39;}&#39; </span>| <span class="string">&#39;[&#39; </span>| <span class="string">&#39;]&#39;</span>)
+    !<span class="macro">matches!</span>(byte, <span class="string">',' </span>| <span class="string">'{' </span>| <span class="string">'}' </span>| <span class="string">'[' </span>| <span class="string">']'</span>)
 }
 
 <span class="comment">// TODO: Be more permissive here?
 </span><span class="attr">#[inline(always)]
 </span><span class="kw">fn </span>is_ident_char(<span class="kw-2">&amp;</span>byte: <span class="kw-2">&amp;</span>char) -&gt; bool {
-    byte.is_ascii_alphanumeric() || byte == <span class="string">&#39;_&#39; </span>|| byte == <span class="string">&#39;-&#39;
+    byte.is_ascii_alphanumeric() || byte == <span class="string">'_' </span>|| byte == <span class="string">'-'
 </span>}
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>string&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, String&gt; {
+</span><span class="kw">fn </span>string&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>is_escaped = <span class="bool-val">false</span>;
     <span class="kw">let </span>str_char = |<span class="kw-2">&amp;</span>c: <span class="kw-2">&amp;</span>char| -&gt; bool {
         <span class="kw">if </span>is_escaped { is_escaped = <span class="bool-val">false</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
-        <span class="kw">if </span>c == <span class="string">&#39;\\&#39; </span>{ is_escaped = <span class="bool-val">true</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
-        c != <span class="string">&#39;&quot;&#39;
+        <span class="kw">if </span>c == <span class="string">'\\' </span>{ is_escaped = <span class="bool-val">true</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
+        c != <span class="string">'"'
     </span>};
 
-    <span class="kw">let </span>inner = (eat(<span class="string">&#39;&quot;&#39;</span>)<span class="question-mark">?</span>, take_while(str_char)<span class="question-mark">?</span>, eat(<span class="string">&#39;&quot;&#39;</span>)<span class="question-mark">?</span>).<span class="number">1</span>;
+    <span class="kw">let </span>inner = (eat(<span class="string">'"'</span>)<span class="question-mark">?</span>, take_while(str_char)<span class="question-mark">?</span>, eat(<span class="string">'"'</span>)<span class="question-mark">?</span>).<span class="number">1</span>;
     <span class="kw">match </span>escape(inner) {
         <span class="prelude-val">Ok</span>(string) =&gt; string.into_owned(),
-        <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">parse_error!</span>(<span class="string">&quot;invalid string: {}&quot;</span>, e)<span class="question-mark">?</span>,
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">parse_error!</span>(<span class="string">"invalid string: {}"</span>, e)<span class="question-mark">?</span>,
     }
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>key&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, String&gt; {
-    <span class="macro">switch! </span>{
-        peek(<span class="string">&#39;&quot;&#39;</span>) =&gt; <span class="prelude-val">Ok</span>(string()<span class="question-mark">?</span>),
+</span><span class="kw">fn </span>key&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, String&gt; {
+    <span class="macro">switch!</span> {
+        peek(<span class="string">'"'</span>) =&gt; <span class="prelude-val">Ok</span>(string()<span class="question-mark">?</span>),
         <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(take_some_while(is_ident_char)<span class="question-mark">?</span>.to_string())
     }
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>key_value&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, (String, Value)&gt; {
-    <span class="kw">let </span>key = (surrounded(key, is_whitespace)<span class="question-mark">?</span>, eat(<span class="string">&#39;=&#39;</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
+</span><span class="kw">fn </span>key_value&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, (String, Value)&gt; {
+    <span class="kw">let </span>key = (surrounded(key, is_whitespace)<span class="question-mark">?</span>, eat(<span class="string">'='</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
     (key, surrounded(value, is_whitespace)<span class="question-mark">?</span>)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>array&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Vec&lt;Value&gt;&gt; {
-    <span class="prelude-val">Ok</span>(delimited_collect(<span class="string">&#39;[&#39;</span>, value, <span class="string">&#39;,&#39;</span>, <span class="string">&#39;]&#39;</span>)<span class="question-mark">?</span>)
+</span><span class="kw">fn </span>array&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Vec&lt;Value&gt;&gt; {
+    <span class="prelude-val">Ok</span>(delimited_collect(<span class="string">'['</span>, value, <span class="string">','</span>, <span class="string">']'</span>)<span class="question-mark">?</span>)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>dict&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Dict&gt; {
-    <span class="prelude-val">Ok</span>(delimited_collect(<span class="string">&#39;{&#39;</span>, key_value, <span class="string">&#39;,&#39;</span>, <span class="string">&#39;}&#39;</span>)<span class="question-mark">?</span>)
+</span><span class="kw">fn </span>dict&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Dict&gt; {
+    <span class="prelude-val">Ok</span>(delimited_collect(<span class="string">'{'</span>, key_value, <span class="string">','</span>, <span class="string">'}'</span>)<span class="question-mark">?</span>)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>value&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Value&gt; {
+</span><span class="kw">fn </span>value&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Value&gt; {
     skip_while(is_whitespace)<span class="question-mark">?</span>;
-    <span class="kw">let </span>val = <span class="macro">switch! </span>{
-        eat_slice(<span class="string">&quot;true&quot;</span>) =&gt; Value::from(<span class="bool-val">true</span>),
-        eat_slice(<span class="string">&quot;false&quot;</span>) =&gt; Value::from(<span class="bool-val">false</span>),
-        peek(<span class="string">&#39;{&#39;</span>) =&gt; Value::from(dict()<span class="question-mark">?</span>),
-        peek(<span class="string">&#39;[&#39;</span>) =&gt; Value::from(array()<span class="question-mark">?</span>),
-        peek(<span class="string">&#39;&quot;&#39;</span>) =&gt; Value::from(string()<span class="question-mark">?</span>),
-        peek(<span class="string">&#39;\&#39;&#39;</span>) =&gt; Value::from((eat(<span class="string">&#39;\&#39;&#39;</span>)<span class="question-mark">?</span>, eat_any()<span class="question-mark">?</span>, eat(<span class="string">&#39;\&#39;&#39;</span>)<span class="question-mark">?</span>).<span class="number">1</span>),
+    <span class="kw">let </span>val = <span class="macro">switch!</span> {
+        eat_slice(<span class="string">"true"</span>) =&gt; Value::from(<span class="bool-val">true</span>),
+        eat_slice(<span class="string">"false"</span>) =&gt; Value::from(<span class="bool-val">false</span>),
+        peek(<span class="string">'{'</span>) =&gt; Value::from(dict()<span class="question-mark">?</span>),
+        peek(<span class="string">'['</span>) =&gt; Value::from(array()<span class="question-mark">?</span>),
+        peek(<span class="string">'"'</span>) =&gt; Value::from(string()<span class="question-mark">?</span>),
+        peek(<span class="string">'\''</span>) =&gt; Value::from((eat(<span class="string">'\''</span>)<span class="question-mark">?</span>, eat_any()<span class="question-mark">?</span>, eat(<span class="string">'\''</span>)<span class="question-mark">?</span>).<span class="number">1</span>),
         <span class="kw">_ </span>=&gt; {
             <span class="kw">let </span>value = take_while(is_not_separator)<span class="question-mark">?</span>.trim();
-            <span class="kw">if </span>value.contains(<span class="string">&#39;.&#39;</span>) {
+            <span class="kw">if </span>value.contains(<span class="string">'.'</span>) {
                 <span class="kw">if let </span><span class="prelude-val">Ok</span>(float) = value.parse::&lt;f64&gt;() {
                     <span class="kw">return </span><span class="prelude-val">Ok</span>(Value::from(float));
                 }
@@ -295,11 +295,11 @@
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::util::map;
 
-    <span class="macro">macro_rules! </span>assert_parse_eq {
+    <span class="macro">macro_rules!</span> assert_parse_eq {
         (<span class="macro-nonterminal">$string</span>:expr =&gt; <span class="macro-nonterminal">$expected</span>:expr) =&gt; ({
             <span class="kw">let </span>expected = Value::from(<span class="macro-nonterminal">$expected</span>);
             <span class="kw">let </span>actual: Value = <span class="macro-nonterminal">$string</span>.parse().unwrap();
-            <span class="macro">assert_eq!</span>(actual, expected, <span class="string">&quot;got {:?}, expected {:?}&quot;</span>, actual, expected);
+            <span class="macro">assert_eq!</span>(actual, expected, <span class="string">"got {:?}, expected {:?}"</span>, actual, expected);
         });
 
         ($(<span class="macro-nonterminal">$string</span>:expr =&gt; <span class="macro-nonterminal">$expected</span>:expr $(,)<span class="question-mark">?</span>)<span class="kw-2">*</span>) =&gt; (
@@ -310,40 +310,40 @@
     <span class="attr">#[test]
     #[allow(clippy::approx_constant)] </span><span class="comment">// false positive: using the PI constant would be wrong here
     </span><span class="kw">fn </span>check_simple_values_parse() {
-        <span class="macro">assert_parse_eq! </span>{
-            <span class="string">&quot;true&quot; </span>=&gt; <span class="bool-val">true</span>,
-            <span class="string">&quot;false&quot; </span>=&gt; <span class="bool-val">false</span>,
-            <span class="string">&quot;\&quot;false\&quot;&quot; </span>=&gt; <span class="string">&quot;false&quot;</span>,
-            <span class="string">&quot;\&quot;true\&quot;&quot; </span>=&gt; <span class="string">&quot;true&quot;</span>,
-            <span class="string">&quot;  false&quot; </span>=&gt; <span class="bool-val">false</span>,
-            <span class="string">&quot;  false  &quot; </span>=&gt; <span class="bool-val">false</span>,
-            <span class="string">&quot;true  &quot; </span>=&gt; <span class="bool-val">true</span>,
-            <span class="string">&quot;1&quot; </span>=&gt; <span class="number">1u8</span>,
-            <span class="string">&quot; 0&quot; </span>=&gt; <span class="number">0u8</span>,
-            <span class="string">&quot; -0&quot; </span>=&gt; <span class="number">0i8</span>,
-            <span class="string">&quot; -2&quot; </span>=&gt; -<span class="number">2</span>,
-            <span class="string">&quot; 123 &quot; </span>=&gt; <span class="number">123u8</span>,
-            <span class="string">&quot;\&quot;a\&quot;&quot; </span>=&gt; <span class="string">&quot;a&quot;</span>,
-            <span class="string">&quot;a &quot; </span>=&gt; <span class="string">&quot;a&quot;</span>,
-            <span class="string">&quot;   a &quot; </span>=&gt; <span class="string">&quot;a&quot;</span>,
-            <span class="string">&quot;\&quot; a\&quot;&quot; </span>=&gt; <span class="string">&quot; a&quot;</span>,
-            <span class="string">&quot;\&quot;a  \&quot;&quot; </span>=&gt; <span class="string">&quot;a  &quot;</span>,
-            <span class="string">&quot;\&quot; a  \&quot;&quot; </span>=&gt; <span class="string">&quot; a  &quot;</span>,
-            <span class="string">&quot;1.2&quot; </span>=&gt; <span class="number">1.2</span>,
-            <span class="string">&quot;  1.2&quot; </span>=&gt; <span class="number">1.2</span>,
-            <span class="string">&quot;3.14159&quot; </span>=&gt; <span class="number">3.14159</span>,
-            <span class="string">&quot;\&quot;\\t\&quot;&quot; </span>=&gt; <span class="string">&quot;\t&quot;</span>,
-            <span class="string">&quot;\&quot;abc\\td\&quot;&quot; </span>=&gt; <span class="string">&quot;abc\td&quot;</span>,
-            <span class="string">&quot;\&quot;abc\\td\\n\&quot;&quot; </span>=&gt; <span class="string">&quot;abc\td\n&quot;</span>,
-            <span class="string">&quot;\&quot;abc\\td\\n\\n\&quot;&quot; </span>=&gt; <span class="string">&quot;abc\td\n\n&quot;</span>,
-            <span class="string">&quot;\&quot;abc\\td\&quot;&quot; </span>=&gt; <span class="string">&quot;abc\td&quot;</span>,
-            <span class="string">&quot;\&quot;\\\&quot;\&quot;&quot; </span>=&gt; <span class="string">&quot;\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;\\n\\f\\b\\\\\\r\\\&quot;\&quot;&quot; </span>=&gt; <span class="string">&quot;\n\u{c}\u{8}\\\r\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;\\\&quot;hi\\\&quot;\&quot;&quot; </span>=&gt; <span class="string">&quot;\&quot;hi\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;hi\\u1234there\&quot;&quot; </span>=&gt; <span class="string">&quot;hi\u{1234}there&quot;</span>,
-            <span class="string">&quot;\&quot;\\\\\&quot;&quot; </span>=&gt; <span class="string">&quot;\\&quot;</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            <span class="string">"true" </span>=&gt; <span class="bool-val">true</span>,
+            <span class="string">"false" </span>=&gt; <span class="bool-val">false</span>,
+            <span class="string">"\"false\"" </span>=&gt; <span class="string">"false"</span>,
+            <span class="string">"\"true\"" </span>=&gt; <span class="string">"true"</span>,
+            <span class="string">"  false" </span>=&gt; <span class="bool-val">false</span>,
+            <span class="string">"  false  " </span>=&gt; <span class="bool-val">false</span>,
+            <span class="string">"true  " </span>=&gt; <span class="bool-val">true</span>,
+            <span class="string">"1" </span>=&gt; <span class="number">1u8</span>,
+            <span class="string">" 0" </span>=&gt; <span class="number">0u8</span>,
+            <span class="string">" -0" </span>=&gt; <span class="number">0i8</span>,
+            <span class="string">" -2" </span>=&gt; -<span class="number">2</span>,
+            <span class="string">" 123 " </span>=&gt; <span class="number">123u8</span>,
+            <span class="string">"\"a\"" </span>=&gt; <span class="string">"a"</span>,
+            <span class="string">"a " </span>=&gt; <span class="string">"a"</span>,
+            <span class="string">"   a " </span>=&gt; <span class="string">"a"</span>,
+            <span class="string">"\" a\"" </span>=&gt; <span class="string">" a"</span>,
+            <span class="string">"\"a  \"" </span>=&gt; <span class="string">"a  "</span>,
+            <span class="string">"\" a  \"" </span>=&gt; <span class="string">" a  "</span>,
+            <span class="string">"1.2" </span>=&gt; <span class="number">1.2</span>,
+            <span class="string">"  1.2" </span>=&gt; <span class="number">1.2</span>,
+            <span class="string">"3.14159" </span>=&gt; <span class="number">3.14159</span>,
+            <span class="string">"\"\\t\"" </span>=&gt; <span class="string">"\t"</span>,
+            <span class="string">"\"abc\\td\"" </span>=&gt; <span class="string">"abc\td"</span>,
+            <span class="string">"\"abc\\td\\n\"" </span>=&gt; <span class="string">"abc\td\n"</span>,
+            <span class="string">"\"abc\\td\\n\\n\"" </span>=&gt; <span class="string">"abc\td\n\n"</span>,
+            <span class="string">"\"abc\\td\"" </span>=&gt; <span class="string">"abc\td"</span>,
+            <span class="string">"\"\\\"\"" </span>=&gt; <span class="string">"\""</span>,
+            <span class="string">"\"\\n\\f\\b\\\\\\r\\\"\"" </span>=&gt; <span class="string">"\n\u{c}\u{8}\\\r\""</span>,
+            <span class="string">"\"\\\"hi\\\"\"" </span>=&gt; <span class="string">"\"hi\""</span>,
+            <span class="string">"\"hi\\u1234there\"" </span>=&gt; <span class="string">"hi\u{1234}there"</span>,
+            <span class="string">"\"\\\\\"" </span>=&gt; <span class="string">"\\"</span>,
             <span class="comment">// unterminated strings pass through as themselves
-            </span><span class="string">&quot;\&quot;\\\&quot;&quot; </span>=&gt; <span class="string">&quot;\&quot;\\\&quot;&quot;</span>,
+            </span><span class="string">"\"\\\"" </span>=&gt; <span class="string">"\"\\\""</span>,
         }
     }
 
@@ -351,20 +351,20 @@
     </span><span class="kw">fn </span>check_compund_values_parse() {
         <span class="kw">fn </span>v&lt;T: Into&lt;Value&gt;&gt;(v: T) -&gt; Value { v.into() }
 
-        <span class="macro">assert_parse_eq! </span>{
-            <span class="string">&quot;[1,2,3]&quot; </span>=&gt; <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">2u8</span>, <span class="number">3u8</span>],
-            <span class="string">&quot;{a=b}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="string">&quot;b&quot;</span>],
-            <span class="string">&quot;{\&quot;a\&quot;=b}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="string">&quot;b&quot;</span>],
-            <span class="string">&quot;{\&quot;a.b.c\&quot;=b}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a.b.c&quot; </span>=&gt; <span class="string">&quot;b&quot;</span>],
-            <span class="string">&quot;{a=1,b=3}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="number">1u8</span>, <span class="string">&quot;b&quot; </span>=&gt; <span class="number">3u8</span>],
-            <span class="string">&quot;{a=1,b=hi}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; v(<span class="number">1u8</span>), <span class="string">&quot;b&quot; </span>=&gt; v(<span class="string">&quot;hi&quot;</span>)],
-            <span class="string">&quot;[1,[2],3]&quot; </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="macro">vec!</span>[<span class="number">2u8</span>]), v(<span class="number">3u8</span>)],
-            <span class="string">&quot;{a=[[-2]]}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="macro">vec!</span>[<span class="macro">vec!</span>[-<span class="number">2</span>]]],
-            <span class="string">&quot;{a=[[-2]],b=\&quot; hi\&quot;}&quot; </span>=&gt; <span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; v(<span class="macro">vec!</span>[<span class="macro">vec!</span>[-<span class="number">2</span>]]), <span class="string">&quot;b&quot; </span>=&gt; v(<span class="string">&quot; hi&quot;</span>)],
-            <span class="string">&quot;[1,true,hi,\&quot;a \&quot;]&quot; </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="bool-val">true</span>), v(<span class="string">&quot;hi&quot;</span>), v(<span class="string">&quot;a &quot;</span>)],
-            <span class="string">&quot;[1,{a=b},hi]&quot; </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="string">&quot;b&quot;</span>]), v(<span class="string">&quot;hi&quot;</span>)],
-            <span class="string">&quot;[[ -1], {a=[ b ]},  hi ]&quot; </span>=&gt;
-                <span class="macro">vec!</span>[v(<span class="macro">vec!</span>[-<span class="number">1</span>]), v(<span class="macro">map!</span>[<span class="string">&quot;a&quot; </span>=&gt; <span class="macro">vec!</span>[<span class="string">&quot;b&quot;</span>]]), v(<span class="string">&quot;hi&quot;</span>)],
+        <span class="macro">assert_parse_eq!</span> {
+            <span class="string">"[1,2,3]" </span>=&gt; <span class="macro">vec!</span>[<span class="number">1u8</span>, <span class="number">2u8</span>, <span class="number">3u8</span>],
+            <span class="string">"{a=b}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="string">"b"</span>],
+            <span class="string">"{\"a\"=b}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="string">"b"</span>],
+            <span class="string">"{\"a.b.c\"=b}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a.b.c" </span>=&gt; <span class="string">"b"</span>],
+            <span class="string">"{a=1,b=3}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="number">1u8</span>, <span class="string">"b" </span>=&gt; <span class="number">3u8</span>],
+            <span class="string">"{a=1,b=hi}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; v(<span class="number">1u8</span>), <span class="string">"b" </span>=&gt; v(<span class="string">"hi"</span>)],
+            <span class="string">"[1,[2],3]" </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="macro">vec!</span>[<span class="number">2u8</span>]), v(<span class="number">3u8</span>)],
+            <span class="string">"{a=[[-2]]}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="macro">vec!</span>[<span class="macro">vec!</span>[-<span class="number">2</span>]]],
+            <span class="string">"{a=[[-2]],b=\" hi\"}" </span>=&gt; <span class="macro">map!</span>[<span class="string">"a" </span>=&gt; v(<span class="macro">vec!</span>[<span class="macro">vec!</span>[-<span class="number">2</span>]]), <span class="string">"b" </span>=&gt; v(<span class="string">" hi"</span>)],
+            <span class="string">"[1,true,hi,\"a \"]" </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="bool-val">true</span>), v(<span class="string">"hi"</span>), v(<span class="string">"a "</span>)],
+            <span class="string">"[1,{a=b},hi]" </span>=&gt; <span class="macro">vec!</span>[v(<span class="number">1u8</span>), v(<span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="string">"b"</span>]), v(<span class="string">"hi"</span>)],
+            <span class="string">"[[ -1], {a=[ b ]},  hi ]" </span>=&gt;
+                <span class="macro">vec!</span>[v(<span class="macro">vec!</span>[-<span class="number">1</span>]), v(<span class="macro">map!</span>[<span class="string">"a" </span>=&gt; <span class="macro">vec!</span>[<span class="string">"b"</span>]]), v(<span class="string">"hi"</span>)],
         }
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/headers-0.3.9/src/util/flat_csv.rs`."><title>flat_csv.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="headers" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/headers-0.3.9/src/util/flat_csv.rs`."><title>flat_csv.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="headers" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../headers/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -221,16 +221,16 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Comma {}
 
 <span class="kw">impl </span>Separator <span class="kw">for </span>Comma {
-    <span class="kw">const </span>BYTE: u8 = <span class="string">b&#39;,&#39;</span>;
-    <span class="kw">const </span>CHAR: char = <span class="string">&#39;,&#39;</span>;
+    <span class="kw">const </span>BYTE: u8 = <span class="string">b','</span>;
+    <span class="kw">const </span>CHAR: char = <span class="string">','</span>;
 }
 
 <span class="attr">#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>SemiColon {}
 
 <span class="kw">impl </span>Separator <span class="kw">for </span>SemiColon {
-    <span class="kw">const </span>BYTE: u8 = <span class="string">b&#39;;&#39;</span>;
-    <span class="kw">const </span>CHAR: char = <span class="string">&#39;;&#39;</span>;
+    <span class="kw">const </span>BYTE: u8 = <span class="string">b';'</span>;
+    <span class="kw">const </span>CHAR: char = <span class="string">';'</span>;
 }
 
 <span class="kw">impl</span>&lt;Sep: Separator&gt; FlatCsv&lt;Sep&gt; {
@@ -240,7 +240,7 @@
             value_str
                 .split(<span class="kw">move </span>|c| {
                     <span class="kw">if </span>in_quotes {
-                        <span class="kw">if </span>c == <span class="string">&#39;&quot;&#39; </span>{
+                        <span class="kw">if </span>c == <span class="string">'"' </span>{
                             in_quotes = <span class="bool-val">false</span>;
                         }
                         <span class="bool-val">false </span><span class="comment">// dont split
@@ -248,7 +248,7 @@
                         <span class="kw">if </span>c == Sep::CHAR {
                             <span class="bool-val">true </span><span class="comment">// split
                         </span>} <span class="kw">else </span>{
-                            <span class="kw">if </span>c == <span class="string">&#39;&quot;&#39; </span>{
+                            <span class="kw">if </span>c == <span class="string">'"' </span>{
                                 in_quotes = <span class="bool-val">true</span>;
                             }
                             <span class="bool-val">false </span><span class="comment">// dont split
@@ -261,9 +261,9 @@
 }
 
 <span class="kw">impl</span>&lt;Sep: Separator&gt; TryFromValues <span class="kw">for </span>FlatCsv&lt;Sep&gt; {
-    <span class="kw">fn </span>try_from_values&lt;<span class="lifetime">&#39;i</span>, I&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt;
+    <span class="kw">fn </span>try_from_values&lt;<span class="lifetime">'i</span>, I&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt;
     <span class="kw">where
-        </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>HeaderValue&gt;,
+        </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'i </span>HeaderValue&gt;,
     {
         <span class="kw">let </span>flat = values.collect();
         <span class="prelude-val">Ok</span>(flat)
@@ -279,8 +279,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, Sep&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>FlatCsv&lt;Sep&gt;&gt; <span class="kw">for </span>HeaderValue {
-    <span class="kw">fn </span>from(flat: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>FlatCsv&lt;Sep&gt;) -&gt; HeaderValue {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, Sep&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>FlatCsv&lt;Sep&gt;&gt; <span class="kw">for </span>HeaderValue {
+    <span class="kw">fn </span>from(flat: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>FlatCsv&lt;Sep&gt;) -&gt; HeaderValue {
         flat.value.clone()
     }
 }
@@ -291,10 +291,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, Sep: Separator&gt; FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>HeaderValue&gt; <span class="kw">for </span>FlatCsv&lt;Sep&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, Sep: Separator&gt; FromIterator&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>HeaderValue&gt; <span class="kw">for </span>FlatCsv&lt;Sep&gt; {
     <span class="kw">fn </span>from_iter&lt;I&gt;(iter: I) -&gt; <span class="self">Self
     </span><span class="kw">where
-        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>HeaderValue&gt;,
+        </span>I: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>HeaderValue&gt;,
     {
         <span class="kw">let </span><span class="kw-2">mut </span>values = iter.into_iter();
 
@@ -302,7 +302,7 @@
         </span><span class="kw">if let </span>(<span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>)) = values.size_hint() {
             <span class="kw">return </span>values
                 .next()
-                .expect(<span class="string">&quot;size_hint claimed 1 item&quot;</span>)
+                .expect(<span class="string">"size_hint claimed 1 item"</span>)
                 .clone()
                 .into();
         }
@@ -315,12 +315,12 @@
             .unwrap_or_else(|| BytesMut::new());
 
         <span class="kw">for </span>val <span class="kw">in </span>values {
-            buf.extend_from_slice(<span class="kw-2">&amp;</span>[Sep::BYTE, <span class="string">b&#39; &#39;</span>]);
+            buf.extend_from_slice(<span class="kw-2">&amp;</span>[Sep::BYTE, <span class="string">b' '</span>]);
             buf.extend_from_slice(val.as_bytes());
         }
 
         <span class="kw">let </span>val = HeaderValue::from_maybe_shared(buf.freeze())
-            .expect(<span class="string">&quot;comma separated HeaderValues are valid&quot;</span>);
+            .expect(<span class="string">"comma separated HeaderValues are valid"</span>);
 
         val.into()
     }
@@ -336,7 +336,7 @@
 
         <span class="comment">// Common case is there is only 1 value, optimize for that
         </span><span class="kw">if let </span>(<span class="number">1</span>, <span class="prelude-val">Some</span>(<span class="number">1</span>)) = values.size_hint() {
-            <span class="kw">return </span>values.next().expect(<span class="string">&quot;size_hint claimed 1 item&quot;</span>).into();
+            <span class="kw">return </span>values.next().expect(<span class="string">"size_hint claimed 1 item"</span>).into();
         }
 
         <span class="comment">// Otherwise, there are multiple, so this should merge them into 1.
@@ -346,12 +346,12 @@
             .unwrap_or_else(|| BytesMut::new());
 
         <span class="kw">for </span>val <span class="kw">in </span>values {
-            buf.extend_from_slice(<span class="kw-2">&amp;</span>[Sep::BYTE, <span class="string">b&#39; &#39;</span>]);
+            buf.extend_from_slice(<span class="kw-2">&amp;</span>[Sep::BYTE, <span class="string">b' '</span>]);
             buf.extend_from_slice(val.as_bytes());
         }
 
         <span class="kw">let </span>val = HeaderValue::from_maybe_shared(buf.freeze())
-            .expect(<span class="string">&quot;comma separated HeaderValues are valid&quot;</span>);
+            .expect(<span class="string">"comma separated HeaderValues are valid"</span>);
 
         val.into()
     }
@@ -363,36 +363,36 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>comma() {
-        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">&quot;aaa, b; bb, ccc&quot;</span>);
+        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">"aaa, b; bb, ccc"</span>);
         <span class="kw">let </span>csv = FlatCsv::&lt;Comma&gt;::from(val);
 
         <span class="kw">let </span><span class="kw-2">mut </span>values = csv.iter();
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;aaa&quot;</span>));
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;b; bb&quot;</span>));
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;ccc&quot;</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"aaa"</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"b; bb"</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"ccc"</span>));
         <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>semicolon() {
-        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">&quot;aaa; b, bb; ccc&quot;</span>);
+        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">"aaa; b, bb; ccc"</span>);
         <span class="kw">let </span>csv = FlatCsv::&lt;SemiColon&gt;::from(val);
 
         <span class="kw">let </span><span class="kw-2">mut </span>values = csv.iter();
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;aaa&quot;</span>));
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;b, bb&quot;</span>));
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;ccc&quot;</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"aaa"</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"b, bb"</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"ccc"</span>));
         <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>quoted_text() {
-        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">&quot;foo=\&quot;bar,baz\&quot;, sherlock=holmes&quot;</span>);
+        <span class="kw">let </span>val = HeaderValue::from_static(<span class="string">"foo=\"bar,baz\", sherlock=holmes"</span>);
         <span class="kw">let </span>csv = FlatCsv::&lt;Comma&gt;::from(val);
 
         <span class="kw">let </span><span class="kw-2">mut </span>values = csv.iter();
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;foo=\&quot;bar,baz\&quot;&quot;</span>));
-        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">&quot;sherlock=holmes&quot;</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"foo=\"bar,baz\""</span>));
+        <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">Some</span>(<span class="string">"sherlock=holmes"</span>));
         <span class="macro">assert_eq!</span>(values.next(), <span class="prelude-val">None</span>);
     }
 }

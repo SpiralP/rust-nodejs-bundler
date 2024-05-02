@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/error.rs`."><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -299,7 +299,7 @@
 ///
 /// A value of this type panics if it is dropped without first being inspected.
 /// An _inspection_ occurs when any method is called. For instance, if
-/// `println!(&quot;Error: {}&quot;, e)` is called, where `e: Error`, the `Display::fmt`
+/// `println!("Error: {}", e)` is called, where `e: Error`, the `Display::fmt`
 /// method being called by `println!` results in `e` being marked as inspected;
 /// a subsequent `drop` of the value will _not_ result in a panic. The following
 /// snippet illustrates this:
@@ -307,8 +307,8 @@
 /// ```rust
 /// # let _ = async {
 /// if let Err(error) = rocket::build().launch().await {
-///     // This println &quot;inspects&quot; the error.
-///     println!(&quot;Launch failed! Error: {}&quot;, error);
+///     // This println "inspects" the error.
+///     println!("Launch failed! Error: {}", error);
 ///
 ///     // This call to drop (explicit here for demonstration) will do nothing.
 ///     drop(error);
@@ -419,8 +419,8 @@
     /// # let _ = async {
     /// if let Err(error) = rocket::build().launch().await {
     ///     match error.kind() {
-    ///         ErrorKind::Io(e) =&gt; println!(&quot;found an i/o launch error: {}&quot;, e),
-    ///         e =&gt; println!(&quot;something else happened: {}&quot;, e)
+    ///         ErrorKind::Io(e) =&gt; println!("found an i/o launch error: {}", e),
+    ///         e =&gt; println!("something else happened: {}", e)
     ///     }
     /// }
     /// # };
@@ -432,7 +432,7 @@
     }
 
     <span class="doccomment">/// Prints the error with color (if enabled) and detail. Returns a string
-    /// that indicates the abort condition such as &quot;aborting due to i/o error&quot;.
+    /// that indicates the abort condition such as "aborting due to i/o error".
     ///
     /// This function is called on `Drop` to display the error message. By
     /// contrast, the `Display` implementation prints a succinct version of the
@@ -442,74 +442,74 @@
     /// # let _ = async {
     /// if let Err(error) = rocket::build().launch().await {
     ///     let abort = error.pretty_print();
-    ///     panic!(&quot;{}&quot;, abort);
+    ///     panic!("{}", abort);
     /// }
     /// # };
     /// ```
-    </span><span class="kw">pub fn </span>pretty_print(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    </span><span class="kw">pub fn </span>pretty_print(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="self">self</span>.mark_handled();
         <span class="kw">match </span><span class="self">self</span>.kind() {
             ErrorKind::Bind(<span class="kw-2">ref </span>e) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to bind network socket to given address/port.&quot;</span>);
-                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, e);
-                <span class="string">&quot;aborting due to socket bind error&quot;
+                <span class="macro">error!</span>(<span class="string">"Rocket failed to bind network socket to given address/port."</span>);
+                <span class="macro">info_!</span>(<span class="string">"{}"</span>, e);
+                <span class="string">"aborting due to socket bind error"
             </span>}
             ErrorKind::Io(<span class="kw-2">ref </span>e) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to launch due to an I/O error.&quot;</span>);
-                <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, e);
-                <span class="string">&quot;aborting due to i/o error&quot;
+                <span class="macro">error!</span>(<span class="string">"Rocket failed to launch due to an I/O error."</span>);
+                <span class="macro">info_!</span>(<span class="string">"{}"</span>, e);
+                <span class="string">"aborting due to i/o error"
             </span>}
             ErrorKind::Collisions(<span class="kw-2">ref </span>collisions) =&gt; {
                 <span class="kw">fn </span>log_collisions&lt;T: fmt::Display&gt;(kind: <span class="kw-2">&amp;</span>str, collisions: <span class="kw-2">&amp;</span>[(T, T)]) {
                     <span class="kw">if </span>collisions.is_empty() { <span class="kw">return </span>}
 
-                    <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to launch due to the following {} collisions:&quot;</span>, kind);
+                    <span class="macro">error!</span>(<span class="string">"Rocket failed to launch due to the following {} collisions:"</span>, kind);
                     <span class="kw">for </span><span class="kw-2">&amp;</span>(<span class="kw-2">ref </span>a, <span class="kw-2">ref </span>b) <span class="kw">in </span>collisions {
-                        <span class="macro">info_!</span>(<span class="string">&quot;{} {} {}&quot;</span>, a, <span class="string">&quot;collides with&quot;</span>.red().italic(), b)
+                        <span class="macro">info_!</span>(<span class="string">"{} {} {}"</span>, a, <span class="string">"collides with"</span>.red().italic(), b)
                     }
                 }
 
-                log_collisions(<span class="string">&quot;route&quot;</span>, <span class="kw-2">&amp;</span>collisions.routes);
-                log_collisions(<span class="string">&quot;catcher&quot;</span>, <span class="kw-2">&amp;</span>collisions.catchers);
+                log_collisions(<span class="string">"route"</span>, <span class="kw-2">&amp;</span>collisions.routes);
+                log_collisions(<span class="string">"catcher"</span>, <span class="kw-2">&amp;</span>collisions.catchers);
 
-                <span class="macro">info_!</span>(<span class="string">&quot;Note: Route collisions can usually be resolved by ranking routes.&quot;</span>);
-                <span class="string">&quot;aborting due to detected routing collisions&quot;
+                <span class="macro">info_!</span>(<span class="string">"Note: Route collisions can usually be resolved by ranking routes."</span>);
+                <span class="string">"aborting due to detected routing collisions"
             </span>}
             ErrorKind::FailedFairings(<span class="kw-2">ref </span>failures) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to launch due to failing fairings:&quot;</span>);
+                <span class="macro">error!</span>(<span class="string">"Rocket failed to launch due to failing fairings:"</span>);
                 <span class="kw">for </span>fairing <span class="kw">in </span>failures {
-                    <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, fairing.name);
+                    <span class="macro">info_!</span>(<span class="string">"{}"</span>, fairing.name);
                 }
 
-                <span class="string">&quot;aborting due to fairing failure(s)&quot;
+                <span class="string">"aborting due to fairing failure(s)"
             </span>}
             ErrorKind::InsecureSecretKey(profile) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;secrets enabled in non-debug without `secret_key`&quot;</span>);
-                <span class="macro">info_!</span>(<span class="string">&quot;selected profile: {}&quot;</span>, profile.primary().bold());
-                <span class="macro">info_!</span>(<span class="string">&quot;disable `secrets` feature or configure a `secret_key`&quot;</span>);
-                <span class="string">&quot;aborting due to insecure configuration&quot;
+                <span class="macro">error!</span>(<span class="string">"secrets enabled in non-debug without `secret_key`"</span>);
+                <span class="macro">info_!</span>(<span class="string">"selected profile: {}"</span>, profile.primary().bold());
+                <span class="macro">info_!</span>(<span class="string">"disable `secrets` feature or configure a `secret_key`"</span>);
+                <span class="string">"aborting due to insecure configuration"
             </span>}
             ErrorKind::Config(error) =&gt; {
                 <span class="kw">crate</span>::config::pretty_print_error(error.clone());
-                <span class="string">&quot;aborting due to invalid configuration&quot;
+                <span class="string">"aborting due to invalid configuration"
             </span>}
             ErrorKind::SentinelAborts(<span class="kw-2">ref </span>errors) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to launch due to aborting sentinels:&quot;</span>);
+                <span class="macro">error!</span>(<span class="string">"Rocket failed to launch due to aborting sentinels:"</span>);
                 <span class="kw">for </span>sentry <span class="kw">in </span>errors {
                     <span class="kw">let </span>name = sentry.type_name.primary().bold();
                     <span class="kw">let </span>(file, line, col) = sentry.location;
-                    <span class="macro">info_!</span>(<span class="string">&quot;{} ({}:{}:{})&quot;</span>, name, file, line, col);
+                    <span class="macro">info_!</span>(<span class="string">"{} ({}:{}:{})"</span>, name, file, line, col);
                 }
 
-                <span class="string">&quot;aborting due to sentinel-triggered abort(s)&quot;
+                <span class="string">"aborting due to sentinel-triggered abort(s)"
             </span>}
             ErrorKind::Shutdown(<span class="kw">_</span>, error) =&gt; {
-                <span class="macro">error!</span>(<span class="string">&quot;Rocket failed to shutdown gracefully.&quot;</span>);
+                <span class="macro">error!</span>(<span class="string">"Rocket failed to shutdown gracefully."</span>);
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(e) = error {
-                    <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, e);
+                    <span class="macro">info_!</span>(<span class="string">"{}"</span>, e);
                 }
 
-                <span class="string">&quot;aborting due to failed shutdown&quot;
+                <span class="string">"aborting due to failed shutdown"
             </span>}
         }
     }
@@ -519,24 +519,24 @@
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorKind {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            ErrorKind::Bind(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;binding failed: {}&quot;</span>, e),
-            ErrorKind::Io(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;I/O error: {}&quot;</span>, e),
-            ErrorKind::Collisions(<span class="kw">_</span>) =&gt; <span class="string">&quot;collisions detected&quot;</span>.fmt(f),
-            ErrorKind::FailedFairings(<span class="kw">_</span>) =&gt; <span class="string">&quot;launch fairing(s) failed&quot;</span>.fmt(f),
-            ErrorKind::InsecureSecretKey(<span class="kw">_</span>) =&gt; <span class="string">&quot;insecure secret key config&quot;</span>.fmt(f),
-            ErrorKind::Config(<span class="kw">_</span>) =&gt; <span class="string">&quot;failed to extract configuration&quot;</span>.fmt(f),
-            ErrorKind::SentinelAborts(<span class="kw">_</span>) =&gt; <span class="string">&quot;sentinel(s) aborted&quot;</span>.fmt(f),
-            ErrorKind::Shutdown(<span class="kw">_</span>, <span class="prelude-val">Some</span>(e)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;shutdown failed: {}&quot;</span>, e),
-            ErrorKind::Shutdown(<span class="kw">_</span>, <span class="prelude-val">None</span>) =&gt; <span class="string">&quot;shutdown failed&quot;</span>.fmt(f),
+            ErrorKind::Bind(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"binding failed: {}"</span>, e),
+            ErrorKind::Io(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"I/O error: {}"</span>, e),
+            ErrorKind::Collisions(<span class="kw">_</span>) =&gt; <span class="string">"collisions detected"</span>.fmt(f),
+            ErrorKind::FailedFairings(<span class="kw">_</span>) =&gt; <span class="string">"launch fairing(s) failed"</span>.fmt(f),
+            ErrorKind::InsecureSecretKey(<span class="kw">_</span>) =&gt; <span class="string">"insecure secret key config"</span>.fmt(f),
+            ErrorKind::Config(<span class="kw">_</span>) =&gt; <span class="string">"failed to extract configuration"</span>.fmt(f),
+            ErrorKind::SentinelAborts(<span class="kw">_</span>) =&gt; <span class="string">"sentinel(s) aborted"</span>.fmt(f),
+            ErrorKind::Shutdown(<span class="kw">_</span>, <span class="prelude-val">Some</span>(e)) =&gt; <span class="macro">write!</span>(f, <span class="string">"shutdown failed: {}"</span>, e),
+            ErrorKind::Shutdown(<span class="kw">_</span>, <span class="prelude-val">None</span>) =&gt; <span class="string">"shutdown failed"</span>.fmt(f),
         }
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Error {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.mark_handled();
         <span class="self">self</span>.kind().fmt(f)
     }
@@ -544,20 +544,20 @@
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.mark_handled();
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.kind())
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.kind())
     }
 }
 
 <span class="kw">impl </span>Drop <span class="kw">for </span>Error {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="comment">// Don&#39;t panic if the message has been seen. Don&#39;t double-panic.
+        <span class="comment">// Don't panic if the message has been seen. Don't double-panic.
         </span><span class="kw">if </span><span class="self">self</span>.was_handled() || std::thread::panicking() {
             <span class="kw">return
         </span>}
 
-        <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.pretty_print());
+        <span class="macro">panic!</span>(<span class="string">"{}"</span>, <span class="self">self</span>.pretty_print());
     }
 }
 </code></pre></div></section></main></body></html>

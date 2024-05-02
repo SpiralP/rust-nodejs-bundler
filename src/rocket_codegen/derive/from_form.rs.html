@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/derive/from_form.rs`."><title>from_form.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/derive/from_form.rs`."><title>from_form.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -294,7 +294,7 @@
 <span class="kw">type </span>WherePredicates = syn::punctuated::Punctuated&lt;syn::WherePredicate, <span class="macro">syn::Token!</span>[,]&gt;;
 
 <span class="comment">// F: fn(field_ty: Ty, field_context: Expr)
-</span><span class="kw">fn </span>fields_map&lt;F&gt;(fields: Fields&lt;<span class="lifetime">&#39;_</span>&gt;, map_f: F) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt;
+</span><span class="kw">fn </span>fields_map&lt;F&gt;(fields: Fields&lt;<span class="lifetime">'_</span>&gt;, map_f: F) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt;
     <span class="kw">where </span>F: Fn(<span class="kw-2">&amp;</span>syn::Type, <span class="kw-2">&amp;</span>syn::Expr) -&gt; TokenStream
 {
     <span class="kw">let </span><span class="kw-2">mut </span>matchers = <span class="macro">vec!</span>[];
@@ -302,8 +302,8 @@
         <span class="kw">let </span>(ident, ty) = (field.context_ident(), field.stripped_ty());
         <span class="kw">let </span>field_context: syn::Expr = syn::parse2(<span class="macro">quote_spanned!</span>(ty.span() =&gt; {
             <span class="kw">let </span>__o = __c.__opts;
-            __c.#ident.get_or_insert_with(|| &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::init(__o))
-        })).expect(<span class="string">&quot;form context expression&quot;</span>);
+            __c.#ident.get_or_insert_with(|| &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::init(__o))
+        })).expect(<span class="string">"form context expression"</span>);
 
         <span class="kw">let </span>push = map_f(<span class="kw-2">&amp;</span>ty, <span class="kw-2">&amp;</span>field_context);
         <span class="kw">if </span>fields.are_unnamed() {
@@ -321,18 +321,18 @@
         }));
     }
 
-    <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
         __c.__parent = __f.name.parent();
 
         <span class="kw">match </span>__f.name.key_lossy().as_str() {
             #(#matchers,)*
-            __k <span class="kw">if </span>__k == <span class="string">&quot;_method&quot; </span>|| !__c.__opts.strict =&gt; { <span class="comment">/* ok */ </span>},
+            __k <span class="kw">if </span>__k == <span class="string">"_method" </span>|| !__c.__opts.strict =&gt; { <span class="comment">/* ok */ </span>},
             <span class="kw">_ </span>=&gt; __c.__errors.push(__f.unexpected()),
         }
     })
 }
 
-<span class="kw">fn </span>generic_bounds_tokens(input: Input&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
+<span class="kw">fn </span>generic_bounds_tokens(input: Input&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
     MapperBuild::new()
         .try_enum_map(|m, e| mapper::enum_null(m, e))
         .try_fields_map(|<span class="kw">_</span>, fields| {
@@ -340,22 +340,22 @@
 
             <span class="kw">let </span>bounds = fields.iter()
                 .filter(|f| !f.ty.is_concrete(<span class="kw-2">&amp;</span>generic_idents))
-                .map(|f| f.ty.with_replaced_lifetimes(syn::Lifetime::new(<span class="string">&quot;&#39;r&quot;</span>, f.ty.span())))
-                .map(|ty| <span class="macro">quote_spanned!</span>(ty.span() =&gt; #ty: #_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;));
+                .map(|f| f.ty.with_replaced_lifetimes(syn::Lifetime::new(<span class="string">"'r"</span>, f.ty.span())))
+                .map(|ty| <span class="macro">quote_spanned!</span>(ty.span() =&gt; #ty: #_form::FromForm&lt;<span class="lifetime">'r</span>&gt;));
 
             <span class="prelude-val">Ok</span>(<span class="macro">quote!</span>(#(#bounds),<span class="kw-2">*</span>))
         })
         .map_input(input)
 }
 
-<span class="kw">fn </span>generic_bounds(input: Input&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;WherePredicates&gt; {
+<span class="kw">fn </span>generic_bounds(input: Input&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;WherePredicates&gt; {
     <span class="prelude-val">Ok</span>(WherePredicates::parse_terminated.parse2(generic_bounds_tokens(input)<span class="question-mark">?</span>)<span class="question-mark">?</span>)
 }
 
-<span class="kw">fn </span>context_type(input: Input&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(TokenStream, syn::Generics)&gt; {
+<span class="kw">fn </span>context_type(input: Input&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(TokenStream, syn::Generics)&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>gen = input.generics().clone();
 
-    <span class="kw">let </span>lifetime = <span class="macro">syn::parse_quote!</span>(<span class="lifetime">&#39;r</span>);
+    <span class="kw">let </span>lifetime = <span class="macro">syn::parse_quote!</span>(<span class="lifetime">'r</span>);
     <span class="kw">if </span>!gen.replace_lifetime(<span class="number">0</span>, <span class="kw-2">&amp;</span>lifetime) {
         gen.insert_lifetime(syn::LifetimeParam::new(lifetime.clone()));
     }
@@ -366,33 +366,33 @@
 }
 
 <span class="kw">pub fn </span>derive_from_form(input: proc_macro::TokenStream) -&gt; TokenStream {
-    DeriveGenerator::build_for(input, <span class="macro">quote!</span>(<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; #_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;))
+    DeriveGenerator::build_for(input, <span class="macro">quote!</span>(<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; #_form::FromForm&lt;<span class="lifetime">'r</span>&gt;))
         .support(Support::Struct | Support::Lifetime | Support::Type)
         .replace_generic(<span class="number">0</span>, <span class="number">0</span>)
         .type_bound_mapper(MapperBuild::new().try_input_map(|<span class="kw">_</span>, i| generic_bounds_tokens(i)))
         .validator(ValidatorBuild::new()
             .input_validate(|<span class="kw">_</span>, i| <span class="kw">match </span>i.generics().lifetimes().enumerate().last() {
-                <span class="prelude-val">Some</span>((i, lt)) <span class="kw">if </span>i &gt;= <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(lt.span().error(<span class="string">&quot;only one lifetime is supported&quot;</span>)),
+                <span class="prelude-val">Some</span>((i, lt)) <span class="kw">if </span>i &gt;= <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(lt.span().error(<span class="string">"only one lifetime is supported"</span>)),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">Ok</span>(())
             })
             .fields_validate(|<span class="kw">_</span>, fields| {
                 <span class="kw">if </span>fields.is_empty() {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(fields.span().error(<span class="string">&quot;at least one field is required&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(fields.span().error(<span class="string">"at least one field is required"</span>));
                 } <span class="kw">else if </span>fields.are_unnamed() &amp;&amp; fields.count() != <span class="number">1 </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(fields.span().error(<span class="string">&quot;tuple struct must have exactly one field&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(fields.span().error(<span class="string">"tuple struct must have exactly one field"</span>));
                 } <span class="kw">else if let </span><span class="prelude-val">Some</span>(d) = first_duplicate(fields.iter(), |f| f.field_names())<span class="question-mark">? </span>{
                     <span class="kw">let </span>(field_a_i, field_a, name_a) = d.<span class="number">0</span>;
                     <span class="kw">let </span>(field_b_i, field_b, name_b) = d.<span class="number">1</span>;
 
                     <span class="kw">if </span>field_a_i == field_b_i {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(field_a.error(<span class="string">&quot;field has conflicting names&quot;</span>)
-                            .span_note(name_a, <span class="string">&quot;this field name...&quot;</span>)
-                            .span_note(name_b, <span class="string">&quot;...conflicts with this field name&quot;</span>));
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(field_a.error(<span class="string">"field has conflicting names"</span>)
+                            .span_note(name_a, <span class="string">"this field name..."</span>)
+                            .span_note(name_b, <span class="string">"...conflicts with this field name"</span>));
                     }
 
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(name_b.error(<span class="string">&quot;field name conflicts with previous name&quot;</span>)
-                        .span_help(field_b, <span class="string">&quot;declared in this field&quot;</span>)
-                        .span_note(field_a, <span class="string">&quot;previous field with conflicting name&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(name_b.error(<span class="string">"field name conflicts with previous name"</span>)
+                        .span_help(field_b, <span class="string">"declared in this field"</span>)
+                        .span_note(field_a, <span class="string">"previous field with conflicting name"</span>));
                 }
 
                 <span class="prelude-val">Ok</span>(())
@@ -404,7 +404,7 @@
                 <span class="kw">let </span>(ctxt_ty, gen) = context_type(input)<span class="question-mark">?</span>;
                 <span class="kw">let </span>(impl_gen, <span class="kw">_</span>, where_clause)  = gen.split_for_impl();
                 <span class="kw">let </span>output = mapper::input_default(mapper, input)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned! </span>{ input.span() =&gt;
+                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { input.span() =&gt;
                     <span class="doccomment">/// Rocket generated FormForm context.
                     </span><span class="attr">#[doc(hidden)]
                     #[allow(unknown_lints)]
@@ -412,8 +412,8 @@
                     #[allow(private_in_public, private_bounds)]
                     </span>#vis <span class="kw">struct </span>#ctxt_ty #impl_gen #where_clause {
                         __opts: #_form::Options,
-                        __errors: #_form::Errors&lt;<span class="lifetime">&#39;r</span>&gt;,
-                        __parent: #_Option&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>#_form::Name&gt;,
+                        __errors: #_form::Errors&lt;<span class="lifetime">'r</span>&gt;,
+                        __parent: #_Option&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>#_form::Name&gt;,
                         #output
                     }
                 })
@@ -422,15 +422,15 @@
             .field_map(|<span class="kw">_</span>, field| {
                 <span class="kw">let </span>ident = field.context_ident();
                 <span class="kw">let </span><span class="kw-2">mut </span>ty = field.stripped_ty();
-                ty.replace_lifetimes(<span class="macro">syn::parse_quote!</span>(<span class="lifetime">&#39;r</span>));
+                ty.replace_lifetimes(<span class="macro">syn::parse_quote!</span>(<span class="lifetime">'r</span>));
                 <span class="kw">let </span>field_ty = <span class="macro">quote_respanned!</span>(ty.span() =&gt;
-                    #_Option&lt;&lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::Context&gt;
+                    #_Option&lt;&lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::Context&gt;
                 );
 
                 <span class="macro">quote_spanned!</span>(ty.span() =&gt; #ident: #field_ty,)
             })
         )
-        .outer_mapper(<span class="macro">quote! </span>{
+        .outer_mapper(<span class="macro">quote!</span> {
             <span class="attr">#[allow(unused_imports)]
             </span><span class="kw">use </span>#_http::uncased::AsUncased;
         })
@@ -442,7 +442,7 @@
                 <span class="kw">let </span>(ctxt_ty, gen) = context_type(input)<span class="question-mark">?</span>;
                 <span class="kw">let </span>(<span class="kw">_</span>, ty_gen, <span class="kw">_</span>) = gen.split_for_impl();
                 <span class="kw">let </span>output = mapper::input_default(mapper, input)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+                <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
                     <span class="kw">type </span>Context = #ctxt_ty #ty_gen;
 
                     <span class="kw">fn </span>init(__opts: #_form::Options) -&gt; <span class="self">Self</span>::Context {
@@ -463,13 +463,13 @@
             })
         )
         .inner_mapper(MapperBuild::new()
-            .with_output(|<span class="kw">_</span>, output| <span class="macro">quote! </span>{
-                <span class="kw">fn </span>push_value(__c: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, __f: #_form::ValueField&lt;<span class="lifetime">&#39;r</span>&gt;) {
+            .with_output(|<span class="kw">_</span>, output| <span class="macro">quote!</span> {
+                <span class="kw">fn </span>push_value(__c: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, __f: #_form::ValueField&lt;<span class="lifetime">'r</span>&gt;) {
                     #output
                 }
             })
             .try_fields_map(|<span class="kw">_</span>, f| fields_map(f, |ty, ctxt| <span class="macro">quote_spanned!</span>(ty.span() =&gt; {
-                &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::push_value(#ctxt, __f.shift());
+                &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::push_value(#ctxt, __f.shift());
             })))
         )
         .inner_mapper(MapperBuild::new()
@@ -477,25 +477,25 @@
                 <span class="kw">let </span>(ctxt_ty, gen) = context_type(input)<span class="question-mark">?</span>;
                 <span class="kw">let </span>(<span class="kw">_</span>, ty_gen, <span class="kw">_</span>) = gen.split_for_impl();
                 <span class="kw">let </span>output = mapper::input_default(mapper, input)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+                <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
                     <span class="kw">async fn </span>push_data(
                         __c: <span class="kw-2">&amp;mut </span>#ctxt_ty #ty_gen,
-                        __f: #_form::DataField&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;_</span>&gt;
+                        __f: #_form::DataField&lt;<span class="lifetime">'r</span>, <span class="lifetime">'_</span>&gt;
                     ) {
                         #output
                     }
                 })
             })
-            <span class="comment">// Without the `let _fut`, we get a wild lifetime error. It don&#39;t
-            // make no sense, Rust async/await: it don&#39;t make no sense.
+            <span class="comment">// Without the `let _fut`, we get a wild lifetime error. It don't
+            // make no sense, Rust async/await: it don't make no sense.
             </span>.try_fields_map(|<span class="kw">_</span>, f| fields_map(f, |ty, ctxt| <span class="macro">quote_spanned!</span>(ty.span() =&gt; {
-                <span class="kw">let </span>_fut = &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::push_data(#ctxt, __f.shift());
+                <span class="kw">let </span>_fut = &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::push_data(#ctxt, __f.shift());
                 _fut.<span class="kw">await</span>;
             })))
         )
         .inner_mapper(MapperBuild::new()
-            .with_output(|<span class="kw">_</span>, output| <span class="macro">quote! </span>{
-                <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>__c: <span class="self">Self</span>::Context) -&gt; #_Result&lt;<span class="self">Self</span>, #_form::Errors&lt;<span class="lifetime">&#39;r</span>&gt;&gt; {
+            .with_output(|<span class="kw">_</span>, output| <span class="macro">quote!</span> {
+                <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>__c: <span class="self">Self</span>::Context) -&gt; #_Result&lt;<span class="self">Self</span>, #_form::Errors&lt;<span class="lifetime">'r</span>&gt;&gt; {
                     <span class="attr">#[allow(unused_imports)]
                     </span><span class="kw">use </span>#_form::validate::<span class="kw-2">*</span>;
 
@@ -542,17 +542,17 @@
                 <span class="kw">let </span>name_buf_opt = f.name_buf_opt()<span class="question-mark">?</span>;
                 <span class="kw">let </span>default = default(f)<span class="question-mark">?
                     </span>.unwrap_or_else(|| <span class="macro">quote_spanned!</span>(ty.span() =&gt; {
-                        &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::default(__opts)
+                        &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::default(__opts)
                     }));
 
                 <span class="kw">let </span>_err = _Err;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned! </span>{ ty.span() =&gt; {
+                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { ty.span() =&gt; {
                     <span class="kw">let </span>__opts = __c.__opts;
                     <span class="kw">let </span>__name = #name_buf_opt;
                     __c.#ident
                         .map_or_else(
                             || #default.ok_or_else(|| #_form::ErrorKind::Missing.into()),
-                            &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::finalize
+                            &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::finalize
                         )
                         .map_err(|__e| <span class="kw">match </span>__name {
                             <span class="prelude-val">Some</span>(__name) =&gt; __e.with_name(__name),

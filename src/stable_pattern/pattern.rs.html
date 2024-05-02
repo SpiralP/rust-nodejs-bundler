@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/stable-pattern-0.1.0/src/pattern.rs`."><title>pattern.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="stable_pattern" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/stable-pattern-0.1.0/src/pattern.rs`."><title>pattern.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="stable_pattern" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../stable_pattern/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1607,14 +1607,14 @@
 //! implementing `FnMut(char) -&gt; bool`.
 //!
 //! ```
-//! let s = &quot;Can you find a needle in a haystack?&quot;;
+//! let s = "Can you find a needle in a haystack?";
 //!
 //! // &amp;str pattern
-//! assert_eq!(s.find(&quot;you&quot;), Some(4));
+//! assert_eq!(s.find("you"), Some(4));
 //! // char pattern
-//! assert_eq!(s.find(&#39;n&#39;), Some(2));
+//! assert_eq!(s.find('n'), Some(2));
 //! // slice of chars pattern
-//! assert_eq!(s.find(&amp;[&#39;a&#39;, &#39;e&#39;, &#39;i&#39;, &#39;o&#39;, &#39;u&#39;][..]), Some(1));
+//! assert_eq!(s.find(&amp;['a', 'e', 'i', 'o', 'u'][..]), Some(1));
 //! // closure pattern
 //! assert_eq!(s.find(|c: char| c.is_ascii_punctuation()), Some(35));
 //! ```
@@ -1628,11 +1628,11 @@
 
 </span><span class="doccomment">/// A string pattern.
 ///
-/// A `Pattern&lt;&#39;a&gt;` expresses that the implementing type
-/// can be used as a string pattern for searching in a [`&amp;&#39;a str`][str].
+/// A `Pattern&lt;'a&gt;` expresses that the implementing type
+/// can be used as a string pattern for searching in a [`&amp;'a str`][str].
 ///
-/// For example, both `&#39;a&#39;` and `&quot;aa&quot;` are patterns that
-/// would match at index `1` in the string `&quot;baaaab&quot;`.
+/// For example, both `'a'` and `"aa"` are patterns that
+/// would match at index `1` in the string `"baaaab"`.
 ///
 /// The trait itself acts as a builder for an associated
 /// [`Searcher`] type, which does the actual work of finding
@@ -1655,60 +1655,60 @@
 ///
 /// ```
 /// // &amp;str
-/// assert_eq!(&quot;abaaa&quot;.find(&quot;ba&quot;), Some(1));
-/// assert_eq!(&quot;abaaa&quot;.find(&quot;bac&quot;), None);
+/// assert_eq!("abaaa".find("ba"), Some(1));
+/// assert_eq!("abaaa".find("bac"), None);
 ///
 /// // char
-/// assert_eq!(&quot;abaaa&quot;.find(&#39;a&#39;), Some(0));
-/// assert_eq!(&quot;abaaa&quot;.find(&#39;b&#39;), Some(1));
-/// assert_eq!(&quot;abaaa&quot;.find(&#39;c&#39;), None);
+/// assert_eq!("abaaa".find('a'), Some(0));
+/// assert_eq!("abaaa".find('b'), Some(1));
+/// assert_eq!("abaaa".find('c'), None);
 ///
 /// // &amp;[char]
-/// assert_eq!(&quot;ab&quot;.find(&amp;[&#39;b&#39;, &#39;a&#39;][..]), Some(0));
-/// assert_eq!(&quot;abaaa&quot;.find(&amp;[&#39;a&#39;, &#39;z&#39;][..]), Some(0));
-/// assert_eq!(&quot;abaaa&quot;.find(&amp;[&#39;c&#39;, &#39;d&#39;][..]), None);
+/// assert_eq!("ab".find(&amp;['b', 'a'][..]), Some(0));
+/// assert_eq!("abaaa".find(&amp;['a', 'z'][..]), Some(0));
+/// assert_eq!("abaaa".find(&amp;['c', 'd'][..]), None);
 ///
 /// // FnMut(char) -&gt; bool
-/// assert_eq!(&quot;abcdef_z&quot;.find(|ch| ch &gt; &#39;d&#39; &amp;&amp; ch &lt; &#39;y&#39;), Some(4));
-/// assert_eq!(&quot;abcddd_z&quot;.find(|ch| ch &gt; &#39;d&#39; &amp;&amp; ch &lt; &#39;y&#39;), None);
+/// assert_eq!("abcdef_z".find(|ch| ch &gt; 'd' &amp;&amp; ch &lt; 'y'), Some(4));
+/// assert_eq!("abcddd_z".find(|ch| ch &gt; 'd' &amp;&amp; ch &lt; 'y'), None);
 /// ```
-</span><span class="kw">pub trait </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;: Sized {
+</span><span class="kw">pub trait </span>Pattern&lt;<span class="lifetime">'a</span>&gt;: Sized {
     <span class="doccomment">/// Associated searcher for this pattern
-    </span><span class="kw">type </span>Searcher: Searcher&lt;<span class="lifetime">&#39;a</span>&gt;;
+    </span><span class="kw">type </span>Searcher: Searcher&lt;<span class="lifetime">'a</span>&gt;;
 
     <span class="doccomment">/// Constructs the associated searcher from
     /// `self` and the `haystack` to search in.
-    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="self">Self</span>::Searcher;
+    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="self">Self</span>::Searcher;
 
     <span class="doccomment">/// Checks whether the pattern matches anywhere in the haystack
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         <span class="self">self</span>.into_searcher(haystack).next_match().is_some()
     }
 
     <span class="doccomment">/// Checks whether the pattern matches at the front of the haystack
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         <span class="macro">matches!</span>(<span class="self">self</span>.into_searcher(haystack).next(), SearchStep::Match(<span class="number">0</span>, <span class="kw">_</span>))
     }
 
     <span class="doccomment">/// Checks whether the pattern matches at the back of the haystack
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool
+    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool
     <span class="kw">where
-        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="macro">matches!</span>(<span class="self">self</span>.into_searcher(haystack).next_back(), SearchStep::Match(<span class="kw">_</span>, j) <span class="kw">if </span>haystack.len() == j)
     }
 
     <span class="doccomment">/// Removes the pattern from the front of haystack, if it matches.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if let </span>SearchStep::Match(start, len) = <span class="self">self</span>.into_searcher(haystack).next() {
             <span class="macro">debug_assert_eq!</span>(
                 start, <span class="number">0</span>,
-                <span class="string">&quot;The first search step from Searcher \
-                 must include the first character&quot;
+                <span class="string">"The first search step from Searcher \
+                 must include the first character"
             </span>);
             <span class="comment">// SAFETY: `Searcher` is known to return valid indices.
             </span><span class="kw">unsafe </span>{ <span class="prelude-val">Some</span>(haystack.get_unchecked(len..)) }
@@ -1719,16 +1719,16 @@
 
     <span class="doccomment">/// Removes the pattern from the back of haystack, if it matches.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="kw">if let </span>SearchStep::Match(start, end) = <span class="self">self</span>.into_searcher(haystack).next_back() {
             <span class="macro">debug_assert_eq!</span>(
                 end,
                 haystack.len(),
-                <span class="string">&quot;The first search step from ReverseSearcher \
-                 must include the last character&quot;
+                <span class="string">"The first search step from ReverseSearcher \
+                 must include the last character"
             </span>);
             <span class="comment">// SAFETY: `Searcher` is known to return valid indices.
             </span><span class="kw">unsafe </span>{ <span class="prelude-val">Some</span>(haystack.get_unchecked(..start)) }
@@ -1769,11 +1769,11 @@
 /// [`next()`][Searcher::next] methods are required to lie on valid utf8
 /// boundaries in the haystack. This enables consumers of this trait to
 /// slice the haystack without additional runtime checks.
-</span><span class="kw">pub unsafe trait </span>Searcher&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub unsafe trait </span>Searcher&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Getter for the underlying string to be searched in
     ///
     /// Will always return the same [`&amp;str`][str].
-    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str;
+    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str;
 
     <span class="doccomment">/// Performs the next search step starting from the front.
     ///
@@ -1793,7 +1793,7 @@
     /// pattern, however [`Reject`][SearchStep::Reject] results may be split up
     /// into arbitrary many adjacent fragments. Both ranges may have zero length.
     ///
-    /// As an example, the pattern `&quot;aaa&quot;` and the haystack `&quot;cbaaaaab&quot;`
+    /// As an example, the pattern `"aaa"` and the haystack `"cbaaaaab"`
     /// might produce the stream
     /// `[Reject(0, 1), Reject(1, 2), Match(2, 5), Reject(5, 8)]`
     </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SearchStep;
@@ -1846,7 +1846,7 @@
 ///
 /// For the reason why this trait is marked unsafe, see them
 /// parent trait [`Searcher`].
-</span><span class="kw">pub unsafe trait </span>ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;: Searcher&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub unsafe trait </span>ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;: Searcher&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Performs the next search step starting from the back.
     ///
     /// - Returns [`Match(a, b)`][SearchStep::Match] if `haystack[a..b]`
@@ -1865,7 +1865,7 @@
     /// pattern, however [`Reject`][SearchStep::Reject] results may be split up
     /// into arbitrary many adjacent fragments. Both ranges may have zero length.
     ///
-    /// As an example, the pattern `&quot;aaa&quot;` and the haystack `&quot;cbaaaaab&quot;`
+    /// As an example, the pattern `"aaa"` and the haystack `"cbaaaaab"`
     /// might produce the stream
     /// `[Reject(7, 8), Match(4, 7), Reject(1, 4), Reject(0, 1)]`.
     </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SearchStep;
@@ -1907,7 +1907,7 @@
 ///   to the results of `next_back()` in reverse order.
 /// - `next()` and `next_back()` need to behave as
 ///   the two ends of a range of values, that is they
-///   can not &quot;walk past each other&quot;.
+///   can not "walk past each other".
 ///
 /// # Examples
 ///
@@ -1916,18 +1916,18 @@
 /// from both ends.
 ///
 /// `(&amp;str)::Searcher` is not a `DoubleEndedSearcher` because
-/// the pattern `&quot;aa&quot;` in the haystack `&quot;aaa&quot;` matches as either
-/// `&quot;[aa]a&quot;` or `&quot;a[aa]&quot;`, depending from which side it is searched.
-</span><span class="kw">pub trait </span>DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt;: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; {}
+/// the pattern `"aa"` in the haystack `"aaa"` matches as either
+/// `"[aa]a"` or `"a[aa]"`, depending from which side it is searched.
+</span><span class="kw">pub trait </span>DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt;: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; {}
 
 <span class="comment">/////////////////////////////////////////////////////////////////////////////
 // Impl for char
 /////////////////////////////////////////////////////////////////////////////
 
-</span><span class="doccomment">/// Associated type for `&lt;char as Pattern&lt;&#39;a&gt;&gt;::Searcher`.
+</span><span class="doccomment">/// Associated type for `&lt;char as Pattern&lt;'a&gt;&gt;::Searcher`.
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>CharSearcher&lt;<span class="lifetime">&#39;a</span>&gt; {
-    haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+</span><span class="kw">pub struct </span>CharSearcher&lt;<span class="lifetime">'a</span>&gt; {
+    haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
     <span class="comment">// safety invariant: `finger`/`finger_back` must be a valid utf8 byte index of `haystack`
     // This invariant can be broken *within* next_match and next_match_back, however
     // they must exit with fingers on valid code point boundaries.
@@ -1951,9 +1951,9 @@
     </span>utf8_encoded: [u8; <span class="number">4</span>],
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Searcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>&gt; Searcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.haystack
     }
     <span class="attr">#[inline]
@@ -1993,12 +1993,12 @@
             </span><span class="kw">let </span>last_byte = <span class="kw">unsafe </span>{ <span class="kw-2">*</span><span class="self">self</span>.utf8_encoded.get_unchecked(<span class="self">self</span>.utf8_size - <span class="number">1</span>) };
             <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = memchr::memchr(last_byte, bytes) {
                 <span class="comment">// The new finger is the index of the byte we found,
-                // plus one, since we memchr&#39;d for the last byte of the character.
+                // plus one, since we memchr'd for the last byte of the character.
                 //
-                // Note that this doesn&#39;t always give us a finger on a UTF8 boundary.
-                // If we *didn&#39;t* find our character
+                // Note that this doesn't always give us a finger on a UTF8 boundary.
+                // If we *didn't* find our character
                 // we may have indexed to the non-last byte of a 3-byte or 4-byte character.
-                // We can&#39;t just skip to the next valid starting byte because a character like
+                // We can't just skip to the next valid starting byte because a character like
                 // ꁁ (U+A041 YI SYLLABLE PA), utf-8 `EA 81 81` will have us always find
                 // the second byte when searching for the third.
                 //
@@ -2029,7 +2029,7 @@
     <span class="comment">// let next_reject use the default implementation from the Searcher trait
 </span>}
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>&gt; ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SearchStep {
         <span class="kw">let </span>old_finger = <span class="self">self</span>.finger_back;
@@ -2065,7 +2065,7 @@
                 </span><span class="kw">let </span>index = <span class="self">self</span>.finger + index;
                 <span class="comment">// memrchr will return the index of the byte we wish to
                 // find. In case of an ASCII character, this is indeed
-                // were we wish our new finger to be (&quot;after&quot; the found
+                // were we wish our new finger to be ("after" the found
                 // char in the paradigm of reverse iteration). For
                 // multibyte chars we need to skip down by the number of more
                 // bytes they have than ASCII
@@ -2080,7 +2080,7 @@
                         }
                     }
                 }
-                <span class="comment">// We can&#39;t use finger_back = index - size + 1 here. If we found the last char
+                <span class="comment">// We can't use finger_back = index - size + 1 here. If we found the last char
                 // of a different-sized character (or the middle byte of a different character)
                 // we need to bump the finger_back down to `index`. This similarly makes
                 // `finger_back` have the potential to no longer be on a boundary,
@@ -2089,7 +2089,7 @@
                 //
                 // Unlike next_match this does not
                 // have the problem of repeated bytes in utf-8 because
-                // we&#39;re searching for the last byte, and we can only have
+                // we're searching for the last byte, and we can only have
                 // found the last byte when searching in reverse.
                 </span><span class="self">self</span>.finger_back = index;
             } <span class="kw">else </span>{
@@ -2103,20 +2103,20 @@
     <span class="comment">// let next_reject_back use the default implementation from the Searcher trait
 </span>}
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">&#39;a</span>&gt; {}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSearcher&lt;<span class="lifetime">'a</span>&gt; {}
 
 <span class="doccomment">/// Searches for chars that are equal to a given [`char`].
 ///
 /// # Examples
 ///
 /// ```
-/// assert_eq!(&quot;Hello world&quot;.find(&#39;o&#39;), Some(4));
+/// assert_eq!("Hello world".find('o'), Some(4));
 /// ```
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>char {
-    <span class="kw">type </span>Searcher = CharSearcher&lt;<span class="lifetime">&#39;a</span>&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>char {
+    <span class="kw">type </span>Searcher = CharSearcher&lt;<span class="lifetime">'a</span>&gt;;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="self">Self</span>::Searcher {
+    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="self">Self</span>::Searcher {
         <span class="kw">let </span><span class="kw-2">mut </span>utf8_encoded = [<span class="number">0</span>; <span class="number">4</span>];
         <span class="kw">let </span>utf8_size = <span class="self">self</span>.encode_utf8(<span class="kw-2">&amp;mut </span>utf8_encoded).len();
         CharSearcher {
@@ -2130,7 +2130,7 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         <span class="kw">if </span>(<span class="self">self </span><span class="kw">as </span>u32) &lt; <span class="number">128 </span>{
             haystack.as_bytes().contains(<span class="kw-2">&amp;</span>(<span class="self">self </span><span class="kw">as </span>u8))
         } <span class="kw">else </span>{
@@ -2140,27 +2140,27 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         <span class="self">self</span>.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]).is_prefix_of(haystack)
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="self">self</span>.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]).strip_prefix_of(haystack)
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool
+    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool
     <span class="kw">where
-        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="self">self</span>.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]).is_suffix_of(haystack)
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
     <span class="kw">where
-        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+        </span><span class="self">Self</span>::Searcher: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
     {
         <span class="self">self</span>.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]).strip_suffix_of(haystack)
     }
@@ -2195,24 +2195,24 @@
 <span class="kw">struct </span>MultiCharEqPattern&lt;C: MultiCharEq&gt;(C);
 
 <span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">struct </span>MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C: MultiCharEq&gt; {
+</span><span class="kw">struct </span>MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C: MultiCharEq&gt; {
     char_eq: C,
-    haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-    char_indices: core::str::CharIndices&lt;<span class="lifetime">&#39;a</span>&gt;,
+    haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+    char_indices: core::str::CharIndices&lt;<span class="lifetime">'a</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, C: MultiCharEq&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>MultiCharEqPattern&lt;C&gt; {
-    <span class="kw">type </span>Searcher = MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, C: MultiCharEq&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>MultiCharEqPattern&lt;C&gt; {
+    <span class="kw">type </span>Searcher = MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C&gt;;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C&gt; {
+    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C&gt; {
         MultiCharEqSearcher { haystack, char_eq: <span class="self">self</span>.<span class="number">0</span>, char_indices: haystack.char_indices() }
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, C: MultiCharEq&gt; Searcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, C: MultiCharEq&gt; Searcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.haystack
     }
 
@@ -2235,7 +2235,7 @@
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, C: MultiCharEq&gt; ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, C: MultiCharEq&gt; ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SearchStep {
         <span class="kw">let </span>s = <span class="kw-2">&amp;mut </span><span class="self">self</span>.char_indices;
@@ -2255,56 +2255,56 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, C: MultiCharEq&gt; DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">&#39;a</span>, C&gt; {}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, C: MultiCharEq&gt; DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>MultiCharEqSearcher&lt;<span class="lifetime">'a</span>, C&gt; {}
 
 <span class="comment">/////////////////////////////////////////////////////////////////////////////
 
-</span><span class="macro">macro_rules! </span>pattern_methods {
+</span><span class="macro">macro_rules!</span> pattern_methods {
     (<span class="macro-nonterminal">$t</span>:ty, <span class="macro-nonterminal">$pmap</span>:expr, <span class="macro-nonterminal">$smap</span>:expr) =&gt; {
         <span class="kw">type </span>Searcher = <span class="macro-nonterminal">$t</span>;
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="macro-nonterminal">$t </span>{
+        </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="macro-nonterminal">$t </span>{
             (<span class="macro-nonterminal">$smap</span>)((<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).into_searcher(haystack))
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+        </span><span class="kw">fn </span>is_contained_in(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
             (<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).is_contained_in(haystack)
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+        </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
             (<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).is_prefix_of(haystack)
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+        </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
             (<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).strip_prefix_of(haystack)
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool
+        </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool
         <span class="kw">where
-            </span><span class="macro-nonterminal">$t</span>: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span><span class="macro-nonterminal">$t</span>: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {
             (<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).is_suffix_of(haystack)
         }
 
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;
+        </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;
         <span class="kw">where
-            </span><span class="macro-nonterminal">$t</span>: ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt;,
+            </span><span class="macro-nonterminal">$t</span>: ReverseSearcher&lt;<span class="lifetime">'a</span>&gt;,
         {
             (<span class="macro-nonterminal">$pmap</span>)(<span class="self">self</span>).strip_suffix_of(haystack)
         }
     };
 }
 
-<span class="macro">macro_rules! </span>searcher_methods {
+<span class="macro">macro_rules!</span> searcher_methods {
     (forward) =&gt; {
         <span class="attr">#[inline]
-        </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+        </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
             <span class="self">self</span>.<span class="number">0</span>.haystack()
         }
         <span class="attr">#[inline]
@@ -2342,82 +2342,82 @@
 
 // Todo: Change / Remove due to ambiguity in meaning.
 
-</span><span class="doccomment">/// Associated type for `&lt;&amp;[char] as Pattern&lt;&#39;a&gt;&gt;::Searcher`.
+</span><span class="doccomment">/// Associated type for `&lt;&amp;[char] as Pattern&lt;'a&gt;&gt;::Searcher`.
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>CharSliceSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;(&lt;MultiCharEqPattern&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[char]&gt; <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher);
+</span><span class="kw">pub struct </span>CharSliceSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt;(&lt;MultiCharEqPattern&lt;<span class="kw-2">&amp;</span><span class="lifetime">'b </span>[char]&gt; <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher);
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; Searcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; Searcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
     <span class="macro">searcher_methods!</span>(forward);
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
     <span class="macro">searcher_methods!</span>(reverse);
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharSliceSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {}
 
 <span class="doccomment">/// Searches for chars that are equal to any of the [`char`]s in the slice.
 ///
 /// # Examples
 ///
 /// ```
-/// assert_eq!(&quot;Hello world&quot;.find(&amp;[&#39;l&#39;, &#39;l&#39;] as &amp;[_]), Some(2));
-/// assert_eq!(&quot;Hello world&quot;.find(&amp;[&#39;l&#39;, &#39;l&#39;][..]), Some(2));
+/// assert_eq!("Hello world".find(&amp;['l', 'l'] as &amp;[_]), Some(2));
+/// assert_eq!("Hello world".find(&amp;['l', 'l'][..]), Some(2));
 /// ```
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[char] {
-    <span class="macro">pattern_methods!</span>(CharSliceSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;, MultiCharEqPattern, CharSliceSearcher);
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>[char] {
+    <span class="macro">pattern_methods!</span>(CharSliceSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt;, MultiCharEqPattern, CharSliceSearcher);
 }
 
 <span class="comment">/////////////////////////////////////////////////////////////////////////////
 // Impl for F: FnMut(char) -&gt; bool
 /////////////////////////////////////////////////////////////////////////////
 
-</span><span class="doccomment">/// Associated type for `&lt;F as Pattern&lt;&#39;a&gt;&gt;::Searcher`.
+</span><span class="doccomment">/// Associated type for `&lt;F as Pattern&lt;'a&gt;&gt;::Searcher`.
 </span><span class="attr">#[derive(Clone)]
-</span><span class="kw">pub struct </span>CharPredicateSearcher&lt;<span class="lifetime">&#39;a</span>, F&gt;(&lt;MultiCharEqPattern&lt;F&gt; <span class="kw">as </span>Pattern&lt;<span class="lifetime">&#39;a</span>&gt;&gt;::Searcher)
+</span><span class="kw">pub struct </span>CharPredicateSearcher&lt;<span class="lifetime">'a</span>, F&gt;(&lt;MultiCharEqPattern&lt;F&gt; <span class="kw">as </span>Pattern&lt;<span class="lifetime">'a</span>&gt;&gt;::Searcher)
 <span class="kw">where
     </span>F: FnMut(char) -&gt; bool;
 
-<span class="kw">impl</span>&lt;F&gt; fmt::Debug <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">&#39;_</span>, F&gt;
+<span class="kw">impl</span>&lt;F&gt; fmt::Debug <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">'_</span>, F&gt;
 <span class="kw">where
     </span>F: FnMut(char) -&gt; bool,
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;CharPredicateSearcher&quot;</span>)
-            .field(<span class="string">&quot;haystack&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.haystack)
-            .field(<span class="string">&quot;char_indices&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.char_indices)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"CharPredicateSearcher"</span>)
+            .field(<span class="string">"haystack"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.haystack)
+            .field(<span class="string">"char_indices"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>.char_indices)
             .finish()
     }
 }
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, F&gt; Searcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">&#39;a</span>, F&gt;
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, F&gt; Searcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">'a</span>, F&gt;
 <span class="kw">where
     </span>F: FnMut(char) -&gt; bool,
 {
     <span class="macro">searcher_methods!</span>(forward);
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, F&gt; ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">&#39;a</span>, F&gt;
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, F&gt; ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">'a</span>, F&gt;
 <span class="kw">where
     </span>F: FnMut(char) -&gt; bool,
 {
     <span class="macro">searcher_methods!</span>(reverse);
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, F&gt; DoubleEndedSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">&#39;a</span>, F&gt; <span class="kw">where </span>F: FnMut(char) -&gt; bool {}
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, F&gt; DoubleEndedSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>CharPredicateSearcher&lt;<span class="lifetime">'a</span>, F&gt; <span class="kw">where </span>F: FnMut(char) -&gt; bool {}
 
 <span class="doccomment">/// Searches for [`char`]s that match the given predicate.
 ///
 /// # Examples
 ///
 /// ```
-/// assert_eq!(&quot;Hello world&quot;.find(char::is_uppercase), Some(0));
-/// assert_eq!(&quot;Hello world&quot;.find(|c| &quot;aeiou&quot;.contains(c)), Some(1));
+/// assert_eq!("Hello world".find(char::is_uppercase), Some(0));
+/// assert_eq!("Hello world".find(|c| "aeiou".contains(c)), Some(1));
 /// ```
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, F&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>F
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, F&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>F
 <span class="kw">where
     </span>F: FnMut(char) -&gt; bool,
 {
-    <span class="macro">pattern_methods!</span>(CharPredicateSearcher&lt;<span class="lifetime">&#39;a</span>, F&gt;, MultiCharEqPattern, CharPredicateSearcher);
+    <span class="macro">pattern_methods!</span>(CharPredicateSearcher&lt;<span class="lifetime">'a</span>, F&gt;, MultiCharEqPattern, CharPredicateSearcher);
 }
 
 <span class="comment">/////////////////////////////////////////////////////////////////////////////
@@ -2425,8 +2425,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 </span><span class="doccomment">/// Delegates to the `&amp;str` impl.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;c</span>&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;c </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str {
-    <span class="macro">pattern_methods!</span>(StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;, |<span class="kw-2">&amp;</span>s| s, |s| s);
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, <span class="lifetime">'c</span>&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'c </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>str {
+    <span class="macro">pattern_methods!</span>(StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt;, |<span class="kw-2">&amp;</span>s| s, |s| s);
 }
 
 <span class="comment">/////////////////////////////////////////////////////////////////////////////
@@ -2435,31 +2435,31 @@
 
 </span><span class="doccomment">/// Non-allocating substring search.
 ///
-/// Will handle the pattern `&quot;&quot;` as returning empty matches at each character
+/// Will handle the pattern `""` as returning empty matches at each character
 /// boundary.
 ///
 /// # Examples
 ///
 /// ```
-/// assert_eq!(&quot;Hello world&quot;.find(&quot;world&quot;), Some(6));
+/// assert_eq!("Hello world".find("world"), Some(6));
 /// ```
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; Pattern&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str {
-    <span class="kw">type </span>Searcher = StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; Pattern&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>str {
+    <span class="kw">type </span>Searcher = StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt;;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+    </span><span class="kw">fn </span>into_searcher(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
         StrSearcher::new(haystack, <span class="self">self</span>)
     }
 
     <span class="doccomment">/// Checks whether the pattern matches at the front of the haystack.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         haystack.as_bytes().starts_with(<span class="self">self</span>.as_bytes())
     }
 
     <span class="doccomment">/// Removes the pattern from the front of haystack, if it matches.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>strip_prefix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_prefix_of(haystack) {
             <span class="comment">// SAFETY: prefix was just verified to exist.
             </span><span class="kw">unsafe </span>{ <span class="prelude-val">Some</span>(haystack.get_unchecked(<span class="self">self</span>.as_bytes().len()..)) }
@@ -2470,13 +2470,13 @@
 
     <span class="doccomment">/// Checks whether the pattern matches at the back of the haystack.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; bool {
+    </span><span class="kw">fn </span>is_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; bool {
         haystack.as_bytes().ends_with(<span class="self">self</span>.as_bytes())
     }
 
     <span class="doccomment">/// Removes the pattern from the back of haystack, if it matches.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">fn </span>strip_suffix_of(<span class="self">self</span>, haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_suffix_of(haystack) {
             <span class="kw">let </span>i = haystack.len() - <span class="self">self</span>.as_bytes().len();
             <span class="comment">// SAFETY: suffix was just verified to exist.
@@ -2492,10 +2492,10 @@
 /////////////////////////////////////////////////////////////////////////////
 
 </span><span class="attr">#[derive(Clone, Debug)]
-</span><span class="doccomment">/// Associated type for `&lt;&amp;str as Pattern&lt;&#39;a&gt;&gt;::Searcher`.
-</span><span class="kw">pub struct </span>StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
-    haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-    needle: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str,
+</span><span class="doccomment">/// Associated type for `&lt;&amp;str as Pattern&lt;'a&gt;&gt;::Searcher`.
+</span><span class="kw">pub struct </span>StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
+    haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+    needle: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>str,
 
     searcher: StrSearcherImpl,
 }
@@ -2514,8 +2514,8 @@
     is_match_bw: bool,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
-    <span class="kw">fn </span>new(haystack: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, needle: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str) -&gt; StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
+    <span class="kw">fn </span>new(haystack: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, needle: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>str) -&gt; StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
         <span class="kw">if </span>needle.is_empty() {
             StrSearcher {
                 haystack,
@@ -2540,9 +2540,9 @@
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; Searcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; Searcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+    </span><span class="kw">fn </span>haystack(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
         <span class="self">self</span>.haystack
     }
 
@@ -2624,7 +2624,7 @@
     }
 }
 
-<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; ReverseSearcher&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>StrSearcher&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; ReverseSearcher&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>StrSearcher&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; SearchStep {
         <span class="kw">match </span><span class="self">self</span>.searcher {
@@ -2706,7 +2706,7 @@
     </span>crit_pos_back: usize,
     period: usize,
     <span class="doccomment">/// `byteset` is an extension (not part of the two way algorithm);
-    /// it&#39;s a 64-bit &quot;fingerprint&quot; where each set bit `j` corresponds
+    /// it's a 64-bit "fingerprint" where each set bit `j` corresponds
     /// to a (byte &amp; 63) == j present in the needle.
     </span>byteset: u64,
 
@@ -2723,7 +2723,7 @@
     This is the Two-Way search algorithm, which was introduced in the paper:
     Crochemore, M., Perrin, D., 1991, Two-way string-matching, Journal of the ACM 38(3):651-675.
 
-    Here&#39;s some background information.
+    Here's some background information.
 
     A *word* is a string of symbols. The *length* of a word should be a familiar
     notion, and here we denote it for any word x by |x|.
@@ -2731,8 +2731,8 @@
 
     If x is any non-empty word, then an integer p with 0 &lt; p &lt;= |x| is said to be a
     *period* for x iff for all i with 0 &lt;= i &lt;= |x| - p - 1, we have x[i] == x[i+p].
-    For example, both 1 and 2 are periods for the string &quot;aa&quot;. As another example,
-    the only period of the string &quot;abcd&quot; is 4.
+    For example, both 1 and 2 are periods for the string "aa". As another example,
+    the only period of the string "abcd" is 4.
 
     We denote by period(x) the *smallest* period of x (provided that x is non-empty).
     This is always well-defined since every non-empty word x has at least one period,
@@ -2749,13 +2749,13 @@
 
     then w is said to be a *repetition* for the factorization (u, v).
 
-    Just to unpack this, there are four possibilities here. Let w = &quot;abc&quot;. Then we
+    Just to unpack this, there are four possibilities here. Let w = "abc". Then we
     might have:
 
-      - w is a suffix of u and w is a prefix of v. ex: (&quot;lolabc&quot;, &quot;abcde&quot;)
-      - w is a suffix of u and v is a prefix of w. ex: (&quot;lolabc&quot;, &quot;ab&quot;)
-      - u is a suffix of w and w is a prefix of v. ex: (&quot;bc&quot;, &quot;abchi&quot;)
-      - u is a suffix of w and v is a prefix of w. ex: (&quot;bc&quot;, &quot;a&quot;)
+      - w is a suffix of u and w is a prefix of v. ex: ("lolabc", "abcde")
+      - w is a suffix of u and v is a prefix of w. ex: ("lolabc", "ab")
+      - u is a suffix of w and w is a prefix of v. ex: ("bc", "abchi")
+      - u is a suffix of w and v is a prefix of w. ex: ("bc", "a")
 
     Note that the word vu is a repetition for any factorization (u,v) of x = uv,
     so every factorization has at least one repetition.
@@ -2788,8 +2788,8 @@
 
     The purpose of maximal_suffix is to find such a critical factorization.
 
-    If the period is short, compute another factorization x = u&#39; v&#39; to use
-    for reverse search, chosen instead so that |v&#39;| &lt; period(x).
+    If the period is short, compute another factorization x = u' v' to use
+    for reverse search, chosen instead so that |v'| &lt; period(x).
 
 */
 </span><span class="kw">impl </span>TwoWaySearcher {
@@ -2803,22 +2803,22 @@
             (crit_pos_true, period_true)
         };
 
-        <span class="comment">// A particularly readable explanation of what&#39;s going on here can be found
-        // in Crochemore and Rytter&#39;s book &quot;Text Algorithms&quot;, ch 13. Specifically
-        // see the code for &quot;Algorithm CP&quot; on p. 323.
+        <span class="comment">// A particularly readable explanation of what's going on here can be found
+        // in Crochemore and Rytter's book "Text Algorithms", ch 13. Specifically
+        // see the code for "Algorithm CP" on p. 323.
         //
-        // What&#39;s going on is we have some critical factorization (u, v) of the
+        // What's going on is we have some critical factorization (u, v) of the
         // needle, and we want to determine whether u is a suffix of
-        // &amp;v[..period]. If it is, we use &quot;Algorithm CP1&quot;. Otherwise we use
-        // &quot;Algorithm CP2&quot;, which is optimized for when the period of the needle
+        // &amp;v[..period]. If it is, we use "Algorithm CP1". Otherwise we use
+        // "Algorithm CP2", which is optimized for when the period of the needle
         // is large.
         </span><span class="kw">if </span>needle[..crit_pos] == needle[period..period + crit_pos] {
             <span class="comment">// short period case -- the period is exact
             // compute a separate critical factorization for the reversed needle
-            // x = u&#39; v&#39; where |v&#39;| &lt; period(x).
+            // x = u' v' where |v'| &lt; period(x).
             //
             // This is sped up by the period being known already.
-            // Note that a case like x = &quot;acba&quot; may be factored exactly forwards
+            // Note that a case like x = "acba" may be factored exactly forwards
             // (crit_pos = 1, period = 3) while being factored with approximate
             // period in reverse (crit_pos = 2, period = 2). We use the given
             // reverse factorization but keep the exact period.
@@ -2841,7 +2841,7 @@
             }
         } <span class="kw">else </span>{
             <span class="comment">// long period case -- we have an approximation to the actual period,
-            // and don&#39;t use memorization.
+            // and don't use memorization.
             //
             // Approximate the period by lower bound max(|u|, |v|) + 1.
             // The critical factorization is efficient to use for both forward and
@@ -2884,10 +2884,10 @@
         <span class="comment">// `next()` uses `self.position` as its cursor
         </span><span class="kw">let </span>old_pos = <span class="self">self</span>.position;
         <span class="kw">let </span>needle_last = needle.len() - <span class="number">1</span>;
-        <span class="lifetime">&#39;search</span>: <span class="kw">loop </span>{
+        <span class="lifetime">'search</span>: <span class="kw">loop </span>{
             <span class="comment">// Check that we have room to search in
             // position + needle_last can not overflow if we assume slices
-            // are bounded by isize&#39;s range.
+            // are bounded by isize's range.
             </span><span class="kw">let </span>tail_byte = <span class="kw">match </span>haystack.get(<span class="self">self</span>.position + needle_last) {
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>b) =&gt; b,
                 <span class="prelude-val">None </span>=&gt; {
@@ -2906,7 +2906,7 @@
                 <span class="kw">if </span>!long_period {
                     <span class="self">self</span>.memory = <span class="number">0</span>;
                 }
-                <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                <span class="kw">continue </span><span class="lifetime">'search</span>;
             }
 
             <span class="comment">// See if the right part of the needle matches
@@ -2918,7 +2918,7 @@
                     <span class="kw">if </span>!long_period {
                         <span class="self">self</span>.memory = <span class="number">0</span>;
                     }
-                    <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                    <span class="kw">continue </span><span class="lifetime">'search</span>;
                 }
             }
 
@@ -2930,7 +2930,7 @@
                     <span class="kw">if </span>!long_period {
                         <span class="self">self</span>.memory = needle.len() - <span class="self">self</span>.period;
                     }
-                    <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                    <span class="kw">continue </span><span class="lifetime">'search</span>;
                 }
             }
 
@@ -2953,12 +2953,12 @@
     // and local_period(u, v) = local_period(reverse(v), reverse(u)), so if (u, v)
     // is a critical factorization, so is (reverse(v), reverse(u)).
     //
-    // For the reverse case we have computed a critical factorization x = u&#39; v&#39;
+    // For the reverse case we have computed a critical factorization x = u' v'
     // (field `crit_pos_back`). We need |u| &lt; period(x) for the forward case and
-    // thus |v&#39;| &lt; period(x) for the reverse.
+    // thus |v'| &lt; period(x) for the reverse.
     //
     // To search in reverse through the haystack, we search forward through
-    // a reversed haystack with a reversed needle, matching first u&#39; and then v&#39;.
+    // a reversed haystack with a reversed needle, matching first u' and then v'.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>next_back&lt;S&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, haystack: <span class="kw-2">&amp;</span>[u8], needle: <span class="kw-2">&amp;</span>[u8], long_period: bool) -&gt; S::Output
     <span class="kw">where
@@ -2967,7 +2967,7 @@
         <span class="comment">// `next_back()` uses `self.end` as its cursor -- so that `next()` and `next_back()`
         // are independent.
         </span><span class="kw">let </span>old_end = <span class="self">self</span>.end;
-        <span class="lifetime">&#39;search</span>: <span class="kw">loop </span>{
+        <span class="lifetime">'search</span>: <span class="kw">loop </span>{
             <span class="comment">// Check that we have room to search in
             // end - needle.len() will wrap around when there is no more room,
             // but due to slice length limits it can never wrap all the way back
@@ -2990,7 +2990,7 @@
                 <span class="kw">if </span>!long_period {
                     <span class="self">self</span>.memory_back = needle.len();
                 }
-                <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                <span class="kw">continue </span><span class="lifetime">'search</span>;
             }
 
             <span class="comment">// See if the left part of the needle matches
@@ -3005,7 +3005,7 @@
                     <span class="kw">if </span>!long_period {
                         <span class="self">self</span>.memory_back = needle.len();
                     }
-                    <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                    <span class="kw">continue </span><span class="lifetime">'search</span>;
                 }
             }
 
@@ -3017,7 +3017,7 @@
                     <span class="kw">if </span>!long_period {
                         <span class="self">self</span>.memory_back = <span class="self">self</span>.period;
                     }
-                    <span class="kw">continue </span><span class="lifetime">&#39;search</span>;
+                    <span class="kw">continue </span><span class="lifetime">'search</span>;
                 }
             }
 
@@ -3082,9 +3082,9 @@
 
     <span class="comment">// Compute the maximal suffix of the reverse of `arr`.
     //
-    // The maximal suffix is a possible critical factorization (u&#39;, v&#39;) of `arr`.
+    // The maximal suffix is a possible critical factorization (u', v') of `arr`.
     //
-    // Returns `i` where `i` is the starting index of v&#39;, from the back;
+    // Returns `i` where `i` is the starting index of v', from the back;
     // returns immediately when a period of `known_period` is reached.
     //
     // `order_greater` determines if lexical order is `&lt;` or `&gt;`. Both

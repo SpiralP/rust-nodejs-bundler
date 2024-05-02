@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/field.rs`."><title>field.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/field.rs`."><title>field.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -236,11 +236,11 @@
 /// [`DataField`]s. All fields from url-encoded forms, and fields without
 /// Content-Types from multipart forms, are preprocessed as a `ValueField`.
 </span><span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>ValueField&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>ValueField&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// The (decoded) name of the form field.
-    </span><span class="kw">pub </span>name: NameView&lt;<span class="lifetime">&#39;r</span>&gt;,
+    </span><span class="kw">pub </span>name: NameView&lt;<span class="lifetime">'r</span>&gt;,
     <span class="doccomment">/// The (decoded) value of the form field.
-    </span><span class="kw">pub </span>value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>str,
+    </span><span class="kw">pub </span>value: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>str,
 }
 
 <span class="doccomment">/// A multipart form field with an underlying data stream.
@@ -249,21 +249,21 @@
 /// [`DataField`]s. Multipart form fields with a `Content-Type` are preprocessed
 /// as a `DataField`. The underlying data is _not_ read into memory, but
 /// instead, streamable from the contained [`Data`] structure.
-</span><span class="kw">pub struct </span>DataField&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;i</span>&gt; {
+</span><span class="kw">pub struct </span>DataField&lt;<span class="lifetime">'r</span>, <span class="lifetime">'i</span>&gt; {
     <span class="doccomment">/// The (decoded) name of the form field.
-    </span><span class="kw">pub </span>name: NameView&lt;<span class="lifetime">&#39;r</span>&gt;,
-    <span class="doccomment">/// The form fields&#39;s file name.
-    </span><span class="kw">pub </span>file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>FileName&gt;,
-    <span class="doccomment">/// The form field&#39;s Content-Type, as submitted, which may or may not
+    </span><span class="kw">pub </span>name: NameView&lt;<span class="lifetime">'r</span>&gt;,
+    <span class="doccomment">/// The form fields's file name.
+    </span><span class="kw">pub </span>file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>FileName&gt;,
+    <span class="doccomment">/// The form field's Content-Type, as submitted, which may or may not
     /// reflect on `data`.
     </span><span class="kw">pub </span>content_type: ContentType,
     <span class="doccomment">/// The request in which the form field was submitted.
-    </span><span class="kw">pub </span>request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;i</span>&gt;,
+    </span><span class="kw">pub </span>request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'i</span>&gt;,
     <span class="doccomment">/// The raw data stream.
-    </span><span class="kw">pub </span>data: Data&lt;<span class="lifetime">&#39;r</span>&gt;,
+    </span><span class="kw">pub </span>data: Data&lt;<span class="lifetime">'r</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; ValueField&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; ValueField&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// Parse a field string, where both the key and value are assumed to be
     /// URL-decoded while preserving the `=` delimiter, into a `ValueField`.
     ///
@@ -276,29 +276,29 @@
     /// ```rust
     /// use rocket::form::ValueField;
     ///
-    /// let parsed = ValueField::parse(&quot;a cat=an A+ pet&quot;);
-    /// assert_eq!(parsed.name, &quot;a cat&quot;);
-    /// assert_eq!(parsed.value, &quot;an A+ pet&quot;);
+    /// let parsed = ValueField::parse("a cat=an A+ pet");
+    /// assert_eq!(parsed.name, "a cat");
+    /// assert_eq!(parsed.value, "an A+ pet");
     ///
-    /// let parsed = ValueField::parse(&quot;a cat is an A+ pet&quot;);
-    /// assert_eq!(parsed.name, &quot;a cat is an A+ pet&quot;);
-    /// assert_eq!(parsed.value, &quot;&quot;);
+    /// let parsed = ValueField::parse("a cat is an A+ pet");
+    /// assert_eq!(parsed.name, "a cat is an A+ pet");
+    /// assert_eq!(parsed.value, "");
     ///
-    /// let parsed = ValueField::parse(&quot;cat.food=yum?&quot;);
-    /// assert_eq!(parsed.name, &quot;cat&quot;);
-    /// assert_eq!(parsed.name.source(), &quot;cat.food&quot;);
-    /// assert_eq!(parsed.value, &quot;yum?&quot;);
+    /// let parsed = ValueField::parse("cat.food=yum?");
+    /// assert_eq!(parsed.name, "cat");
+    /// assert_eq!(parsed.name.source(), "cat.food");
+    /// assert_eq!(parsed.value, "yum?");
     /// ```
-    </span><span class="kw">pub fn </span>parse(field: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>parse(field: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) -&gt; <span class="self">Self </span>{
         <span class="comment">// WHATWG URL Living Standard 5.1 steps 3.2, 3.3.
-        </span><span class="kw">let </span>(name, val) = RawStr::new(field).split_at_byte(<span class="string">b&#39;=&#39;</span>);
+        </span><span class="kw">let </span>(name, val) = RawStr::new(field).split_at_byte(<span class="string">b'='</span>);
         ValueField::from((name.as_str(), val.as_str()))
     }
 
     <span class="doccomment">/// Create a `ValueField` from a value, which is assumed to be URL-decoded.
     /// The field `name` will be empty.
     ///
-    /// This is equivalent to `ValueField::from((&quot;&quot;, value))`. To create a
+    /// This is equivalent to `ValueField::from(("", value))`. To create a
     /// `ValueField` from both a `name` and a `value`, use
     /// `ValueField::from((name, value))`.
     ///
@@ -307,31 +307,31 @@
     /// ```rust
     /// use rocket::form::ValueField;
     ///
-    /// let parsed = ValueField::from_value(&quot;A+=kitten&quot;);
-    /// assert_eq!(parsed.name, &quot;&quot;);
-    /// assert_eq!(parsed.value, &quot;A+=kitten&quot;);
+    /// let parsed = ValueField::from_value("A+=kitten");
+    /// assert_eq!(parsed.name, "");
+    /// assert_eq!(parsed.value, "A+=kitten");
     /// ```
-    </span><span class="kw">pub fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) -&gt; <span class="self">Self </span>{
-        ValueField::from((<span class="string">&quot;&quot;</span>, value))
+    </span><span class="kw">pub fn </span>from_value(value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) -&gt; <span class="self">Self </span>{
+        ValueField::from((<span class="string">""</span>, value))
     }
 
     <span class="doccomment">/// Shift the `name` of `self` and return `self` with the shifted `name`.
     ///
-    /// See [`NameView::shift()`] for the details on name &quot;shifting&quot;.
+    /// See [`NameView::shift()`] for the details on name "shifting".
     ///
     /// # Example
     ///
     /// ```rust
     /// use rocket::form::ValueField;
     ///
-    /// let parsed = ValueField::parse(&quot;cat.food=yum?&quot;);
-    /// assert_eq!(parsed.name, &quot;cat&quot;);
-    /// assert_eq!(parsed.name.source(), &quot;cat.food&quot;);
-    /// assert_eq!(parsed.name.key_lossy(), &quot;cat&quot;);
+    /// let parsed = ValueField::parse("cat.food=yum?");
+    /// assert_eq!(parsed.name, "cat");
+    /// assert_eq!(parsed.name.source(), "cat.food");
+    /// assert_eq!(parsed.name.key_lossy(), "cat");
     ///
     /// let shifted = parsed.shift();
-    /// assert_eq!(shifted.name, &quot;cat.food&quot;);
-    /// assert_eq!(shifted.name.key_lossy(), &quot;food&quot;);
+    /// assert_eq!(shifted.name, "cat.food");
+    /// assert_eq!(shifted.name.key_lossy(), "food");
     /// ```
     </span><span class="kw">pub fn </span>shift(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.name.shift();
@@ -352,15 +352,15 @@
     /// use rocket::form::ValueField;
     /// use rocket::form::error::{ErrorKind, Entity};
     ///
-    /// let field = ValueField::parse(&quot;cat.food=yum?&quot;);
+    /// let field = ValueField::parse("cat.food=yum?");
     /// let error = field.unexpected();
     ///
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;cat.food&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;yum?&quot;);
+    /// assert_eq!(error.name.as_ref().unwrap(), "cat.food");
+    /// assert_eq!(error.value.as_ref().unwrap(), "yum?");
     /// assert_eq!(error.kind, ErrorKind::Unexpected);
     /// assert_eq!(error.entity, Entity::ValueField);
     /// ```
-    </span><span class="kw">pub fn </span>unexpected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+    </span><span class="kw">pub fn </span>unexpected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">'v</span>&gt; {
         Error::from(ErrorKind::Unexpected)
             .with_name(<span class="self">self</span>.name.source())
             .with_value(<span class="self">self</span>.value)
@@ -381,15 +381,15 @@
     /// use rocket::form::ValueField;
     /// use rocket::form::error::{ErrorKind, Entity};
     ///
-    /// let field = ValueField::parse(&quot;cat.food=yum?&quot;);
+    /// let field = ValueField::parse("cat.food=yum?");
     /// let error = field.missing();
     ///
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;cat.food&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;yum?&quot;);
+    /// assert_eq!(error.name.as_ref().unwrap(), "cat.food");
+    /// assert_eq!(error.value.as_ref().unwrap(), "yum?");
     /// assert_eq!(error.kind, ErrorKind::Missing);
     /// assert_eq!(error.entity, Entity::ValueField);
     /// ```
-    </span><span class="kw">pub fn </span>missing(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+    </span><span class="kw">pub fn </span>missing(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">'v</span>&gt; {
         Error::from(ErrorKind::Missing)
             .with_name(<span class="self">self</span>.name.source())
             .with_value(<span class="self">self</span>.value)
@@ -397,18 +397,18 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt; {
     <span class="doccomment">/// Shift the `name` of `self` and return `self` with the shifted `name`.
     ///
     /// This is identical to [`ValueField::shift()`] but for `DataField`s. See
-    /// [`NameView::shift()`] for the details on name &quot;shifting&quot;.
+    /// [`NameView::shift()`] for the details on name "shifting".
     ///
     /// # Example
     ///
     /// ```rust
     /// use rocket::form::DataField;
     ///
-    /// fn push_data(field: DataField&lt;&#39;_, &#39;_&gt;) {
+    /// fn push_data(field: DataField&lt;'_, '_&gt;) {
     ///     let shifted = field.shift();
     /// }
     /// ```
@@ -430,25 +430,25 @@
     /// ```rust
     /// use rocket::form::DataField;
     ///
-    /// fn push_data(field: DataField&lt;&#39;_, &#39;_&gt;) {
+    /// fn push_data(field: DataField&lt;'_, '_&gt;) {
     ///     let error = field.unexpected();
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>unexpected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+    </span><span class="kw">pub fn </span>unexpected(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Error&lt;<span class="lifetime">'v</span>&gt; {
         Error::from(ErrorKind::Unexpected)
             .with_name(<span class="self">self</span>.name.source())
             .with_entity(Entity::DataField)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str)&gt; <span class="kw">for </span>ValueField&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>from((name, value): (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str)) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str)&gt; <span class="kw">for </span>ValueField&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>from((name, value): (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str)) -&gt; <span class="self">Self </span>{
         ValueField { name: NameView::new(name), value }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; PartialEq&lt;ValueField&lt;<span class="lifetime">&#39;b</span>&gt;&gt; <span class="kw">for </span>ValueField&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ValueField&lt;<span class="lifetime">&#39;b</span>&gt;) -&gt; bool {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; PartialEq&lt;ValueField&lt;<span class="lifetime">'b</span>&gt;&gt; <span class="kw">for </span>ValueField&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ValueField&lt;<span class="lifetime">'b</span>&gt;) -&gt; bool {
         <span class="self">self</span>.name == other.name &amp;&amp; <span class="self">self</span>.value == other.value
     }
 }

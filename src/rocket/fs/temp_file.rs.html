@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fs/temp_file.rs`."><title>temp_file.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fs/temp_file.rs`."><title>temp_file.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -604,7 +604,7 @@
 /// [`env::temp_dir()`]: std::env::temp_dir()
 ///
 /// When used as a form guard, the extension `$ext` is identified by the form
-/// field&#39;s `Content-Type` ([`ContentType::extension()`]). When used as a data
+/// field's `Content-Type` ([`ContentType::extension()`]). When used as a data
 /// guard, the extension is identified by the Content-Type of the request, if
 /// any. If there is no Content-Type, the limit `file` is used.
 ///
@@ -622,9 +622,9 @@
 /// # use rocket::post;
 /// use rocket::fs::TempFile;
 ///
-/// #[post(&quot;/upload&quot;, data = &quot;&lt;file&gt;&quot;)]
-/// async fn upload(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
-///     file.persist_to(&quot;/tmp/complete/file.txt&quot;).await?;
+/// #[post("/upload", data = "&lt;file&gt;")]
+/// async fn upload(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
+///     file.persist_to("/tmp/complete/file.txt").await?;
 ///     Ok(())
 /// }
 /// ```
@@ -637,13 +637,13 @@
 /// use rocket::form::Form;
 ///
 /// #[derive(FromForm)]
-/// struct Upload&lt;&#39;f&gt; {
-///     upload: TempFile&lt;&#39;f&gt;
+/// struct Upload&lt;'f&gt; {
+///     upload: TempFile&lt;'f&gt;
 /// }
 ///
-/// #[post(&quot;/form&quot;, data = &quot;&lt;form&gt;&quot;)]
-/// async fn upload(mut form: Form&lt;Upload&lt;&#39;_&gt;&gt;) -&gt; std::io::Result&lt;()&gt; {
-///     form.upload.persist_to(&quot;/tmp/complete/file.txt&quot;).await?;
+/// #[post("/form", data = "&lt;form&gt;")]
+/// async fn upload(mut form: Form&lt;Upload&lt;'_&gt;&gt;) -&gt; std::io::Result&lt;()&gt; {
+///     form.upload.persist_to("/tmp/complete/file.txt").await?;
 ///     Ok(())
 /// }
 /// ```
@@ -651,21 +651,21 @@
 /// See also the [`Capped`] documentation for an example of `Capped&lt;TempFile&gt;`
 /// as a data guard.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub enum </span>TempFile&lt;<span class="lifetime">&#39;v</span>&gt; {
+</span><span class="kw">pub enum </span>TempFile&lt;<span class="lifetime">'v</span>&gt; {
     <span class="attr">#[doc(hidden)]
     </span>File {
-        file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>FileName&gt;,
+        file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>FileName&gt;,
         content_type: <span class="prelude-ty">Option</span>&lt;ContentType&gt;,
         path: Either&lt;TempPath, PathBuf&gt;,
         len: u64,
     },
     <span class="attr">#[doc(hidden)]
     </span>Buffered {
-        content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>[u8],
+        content: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>[u8],
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; TempFile&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; TempFile&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// Persists the temporary file, moving it to `path`. If a file exists at
     /// the target path, `self` will atomically replace it. `self.path()` is
     /// updated to `path`.
@@ -702,16 +702,16 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     # assert!(file.path().is_none());
-    ///     # let some_path = std::env::temp_dir().join(&quot;some-persist.txt&quot;);
+    ///     # let some_path = std::env::temp_dir().join("some-persist.txt");
     ///     file.persist_to(&amp;some_path).await?;
     ///     assert_eq!(file.path(), Some(&amp;*some_path));
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # let file = TempFile::Buffered { content: "hi".as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>persist_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -724,7 +724,7 @@
                 <span class="kw">match </span>path {
                     Either::Left(temp) =&gt; {
                         <span class="kw">let </span>result = task::spawn_blocking(<span class="kw">move </span>|| temp.persist(new_path)).<span class="kw">await
-                            </span>.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::BrokenPipe, <span class="string">&quot;spawn_block&quot;</span>))<span class="question-mark">?</span>;
+                            </span>.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::BrokenPipe, <span class="string">"spawn_block"</span>))<span class="question-mark">?</span>;
 
                         <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = result {
                             <span class="kw-2">*</span>either = Either::Left(e.path);
@@ -770,19 +770,19 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     # assert!(file.path().is_none());
-    ///     # let some_path = std::env::temp_dir().join(&quot;some-file.txt&quot;);
+    ///     # let some_path = std::env::temp_dir().join("some-file.txt");
     ///     file.copy_to(&amp;some_path).await?;
     ///     # assert_eq!(file.path(), Some(&amp;*some_path));
-    ///     # let some_other_path = std::env::temp_dir().join(&quot;some-other.txt&quot;);
+    ///     # let some_other_path = std::env::temp_dir().join("some-other.txt");
     ///     file.copy_to(&amp;some_other_path).await?;
     ///     assert_eq!(file.path(), Some(&amp;*some_path));
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # let file = TempFile::Buffered { content: "hi".as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>copy_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -794,7 +794,7 @@
                 <span class="kw">match </span>old_path {
                     Either::Left(temp) =&gt; {
                         <span class="kw">let </span>result = task::spawn_blocking(<span class="kw">move </span>|| temp.keep()).<span class="kw">await
-                            </span>.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::BrokenPipe, <span class="string">&quot;spawn_block&quot;</span>))<span class="question-mark">?</span>;
+                            </span>.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::BrokenPipe, <span class="string">"spawn_block"</span>))<span class="question-mark">?</span>;
 
                         <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = result {
                             <span class="kw-2">*</span>either = Either::Left(e.path);
@@ -838,16 +838,16 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     # assert!(file.path().is_none());
-    ///     # let some_path = std::env::temp_dir().join(&quot;some-copy.txt&quot;);
+    ///     # let some_path = std::env::temp_dir().join("some-copy.txt");
     ///     file.move_copy_to(&amp;some_path).await?;
     ///     # assert_eq!(file.path(), Some(&amp;*some_path));
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # let file = TempFile::Buffered { content: "hi".as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub async fn </span>move_copy_to&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P) -&gt; io::Result&lt;()&gt;
@@ -879,16 +879,16 @@
     /// use rocket::fs::TempFile;
     /// use rocket::tokio::io;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     let mut stream = file.open().await?;
     ///     io::copy(&amp;mut stream, &amp;mut io::stdout()).await?;
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # let file = TempFile::Buffered { content: "hi".as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
-    </span><span class="kw">pub async fn </span>open(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw">impl </span>AsyncBufRead + <span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">pub async fn </span>open(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="kw">impl </span>AsyncBufRead + <span class="lifetime">'_</span>&gt; {
         <span class="kw">use </span>tokio_util::either::Either;
 
         <span class="kw">match </span><span class="self">self </span>{
@@ -915,8 +915,8 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// fn handler(file: TempFile&lt;&#39;_&gt;) {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// fn handler(file: TempFile&lt;'_&gt;) {
     ///     let file_len = file.len();
     /// }
     /// ```
@@ -938,16 +938,16 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     # assert!(file.path().is_none());
-    ///     # let some_path = std::env::temp_dir().join(&quot;some-path.txt&quot;);
+    ///     # let some_path = std::env::temp_dir().join("some-path.txt");
     ///     file.persist_to(&amp;some_path).await?;
     ///     assert_eq!(file.path(), Some(&amp;*some_path));
     ///
     ///     Ok(())
     /// }
-    /// # let file = TempFile::Buffered { content: &quot;hi&quot;.as_bytes() };
+    /// # let file = TempFile::Buffered { content: "hi".as_bytes() };
     /// # rocket::async_test(handle(file)).unwrap();
     /// ```
     </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt; {
@@ -961,7 +961,7 @@
     <span class="doccomment">/// Returns the sanitized file name as specified in the form field.
     ///
     /// A multipart data form field can optionally specify the name of a file. A
-    /// browser will typically send the actual name of a user&#39;s selected file in
+    /// browser will typically send the actual name of a user's selected file in
     /// this field, but clients are also able to specify _any_ name, including
     /// invalid or dangerous file names. This method returns a sanitized version
     /// of that value, if it was specified, suitable and safe for use as a
@@ -969,7 +969,7 @@
     ///
     /// Note that you will likely want to prepend or append random or
     /// user-specific components to the name to avoid collisions; UUIDs make for
-    /// a good &quot;random&quot; data.
+    /// a good "random" data.
     ///
     /// See [`FileName::as_str()`] for specifics on sanitization.
     ///
@@ -977,11 +977,11 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) -&gt; std::io::Result&lt;()&gt; {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) -&gt; std::io::Result&lt;()&gt; {
     ///     # let some_dir = std::env::temp_dir();
     ///     if let Some(name) = file.name() {
-    ///         // Because of Rocket&#39;s sanitization, this is safe.
+    ///         // Because of Rocket's sanitization, this is safe.
     ///         file.persist_to(&amp;some_dir.join(name)).await?;
     ///     }
     ///
@@ -998,8 +998,8 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// async fn handle(mut file: TempFile&lt;&#39;_&gt;) {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// async fn handle(mut file: TempFile&lt;'_&gt;) {
     ///     let raw_name = file.raw_name();
     /// }
     /// ```
@@ -1013,15 +1013,15 @@
     <span class="doccomment">/// Returns the Content-Type of the file as specified in the form field.
     ///
     /// A multipart data form field can optionally specify the content-type of a
-    /// file. A browser will typically sniff the file&#39;s extension to set the
+    /// file. A browser will typically sniff the file's extension to set the
     /// content-type. This method returns that value, if it was specified.
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
     /// use rocket::fs::TempFile;
     ///
-    /// #[post(&quot;/&quot;, data = &quot;&lt;file&gt;&quot;)]
-    /// fn handle(file: TempFile&lt;&#39;_&gt;) {
+    /// #[post("/", data = "&lt;file&gt;")]
+    /// fn handle(file: TempFile&lt;'_&gt;) {
     ///     let content_type = file.content_type();
     /// }
     /// ```
@@ -1032,22 +1032,22 @@
         </span>}
     }
 
-    <span class="kw">async fn </span>from&lt;<span class="lifetime">&#39;a</span>&gt;(
-        req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;,
-        data: Data&lt;<span class="lifetime">&#39;_</span>&gt;,
-        file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>FileName&gt;,
+    <span class="kw">async fn </span>from&lt;<span class="lifetime">'a</span>&gt;(
+        req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;,
+        data: Data&lt;<span class="lifetime">'_</span>&gt;,
+        file_name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>FileName&gt;,
         content_type: <span class="prelude-ty">Option</span>&lt;ContentType&gt;,
-    ) -&gt; io::Result&lt;Capped&lt;TempFile&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt; {
+    ) -&gt; io::Result&lt;Capped&lt;TempFile&lt;<span class="lifetime">'a</span>&gt;&gt;&gt; {
         <span class="kw">let </span>limit = content_type.as_ref()
             .and_then(|ct| ct.extension())
-            .and_then(|ext| req.limits().find(<span class="kw-2">&amp;</span>[<span class="string">&quot;file&quot;</span>, ext.as_str()]))
-            .or_else(|| req.limits().get(<span class="string">&quot;file&quot;</span>))
+            .and_then(|ext| req.limits().find(<span class="kw-2">&amp;</span>[<span class="string">"file"</span>, ext.as_str()]))
+            .or_else(|| req.limits().get(<span class="string">"file"</span>))
             .unwrap_or(Limits::FILE);
 
         <span class="kw">let </span>temp_dir = req.rocket().config().temp_dir.relative();
         <span class="kw">let </span>file = task::spawn_blocking(<span class="kw">move </span>|| NamedTempFile::new_in(temp_dir));
         <span class="kw">let </span>file = file.<span class="kw">await</span>;
-        <span class="kw">let </span>file = file.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::Other, <span class="string">&quot;spawn_block panic&quot;</span>))<span class="question-mark">??</span>;
+        <span class="kw">let </span>file = file.map_err(|<span class="kw">_</span>| io::Error::new(io::ErrorKind::Other, <span class="string">"spawn_block panic"</span>))<span class="question-mark">??</span>;
         <span class="kw">let </span>(file, temp_path) = file.into_parts();
 
         <span class="kw">let </span><span class="kw-2">mut </span>file = File::from_std(file);
@@ -1065,32 +1065,32 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; FromFormField&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Capped&lt;TempFile&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
-    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; FromFormField&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Capped&lt;TempFile&lt;<span class="lifetime">'v</span>&gt;&gt; {
+    <span class="kw">fn </span>from_value(field: ValueField&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Errors&lt;<span class="lifetime">'v</span>&gt;&gt; {
         <span class="kw">let </span>n = N { written: field.value.len() <span class="kw">as </span>u64, complete: <span class="bool-val">true  </span>};
         <span class="prelude-val">Ok</span>(Capped::new(TempFile::Buffered { content: field.value.as_bytes() }, n))
     }
 
     <span class="kw">async fn </span>from_data(
-        f: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+        f: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Errors&lt;<span class="lifetime">'v</span>&gt;&gt; {
         <span class="prelude-val">Ok</span>(TempFile::from(f.request, f.data, f.file_name, <span class="prelude-val">Some</span>(f.content_type)).<span class="kw">await</span><span class="question-mark">?</span>)
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;TempFile&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;TempFile&lt;<span class="lifetime">'_</span>&gt;&gt; {
     <span class="kw">type </span>Error = io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; data::Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; data::Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">use </span>yansi::Paint;
 
         <span class="kw">let </span>has_form = |ty: <span class="kw-2">&amp;</span>ContentType| ty.is_form_data() || ty.is_form();
         <span class="kw">if </span>req.content_type().map_or(<span class="bool-val">false</span>, has_form) {
-            <span class="kw">let </span>(tf, form) = (<span class="string">&quot;TempFile&lt;&#39;_&gt;&quot;</span>.primary(), <span class="string">&quot;Form&lt;TempFile&lt;&#39;_&gt;&gt;&quot;</span>.primary());
-            <span class="macro">warn_!</span>(<span class="string">&quot;Request contains a form that will not be processed.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Bare `{}` data guard writes raw, unprocessed streams to disk.&quot;</span>, tf);
-            <span class="macro">info_!</span>(<span class="string">&quot;Did you mean to use `{}` instead?&quot;</span>, form);
+            <span class="kw">let </span>(tf, form) = (<span class="string">"TempFile&lt;'_&gt;"</span>.primary(), <span class="string">"Form&lt;TempFile&lt;'_&gt;&gt;"</span>.primary());
+            <span class="macro">warn_!</span>(<span class="string">"Request contains a form that will not be processed."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Bare `{}` data guard writes raw, unprocessed streams to disk."</span>, tf);
+            <span class="macro">info_!</span>(<span class="string">"Did you mean to use `{}` instead?"</span>, form);
         }
 
         TempFile::from(req, data, <span class="prelude-val">None</span>, req.content_type().cloned()).<span class="kw">await
@@ -1098,6 +1098,6 @@
     }
 }
 
-<span class="macro">impl_strict_from_form_field_from_capped!</span>(TempFile&lt;<span class="lifetime">&#39;v</span>&gt;);
-<span class="macro">impl_strict_from_data_from_capped!</span>(TempFile&lt;<span class="lifetime">&#39;_</span>&gt;);
+<span class="macro">impl_strict_from_form_field_from_capped!</span>(TempFile&lt;<span class="lifetime">'v</span>&gt;);
+<span class="macro">impl_strict_from_data_from_capped!</span>(TempFile&lt;<span class="lifetime">'_</span>&gt;);
 </code></pre></div></section></main></body></html>

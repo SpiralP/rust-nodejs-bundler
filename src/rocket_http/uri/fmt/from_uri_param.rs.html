@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/fmt/from_uri_param.rs`."><title>from_uri_param.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/fmt/from_uri_param.rs`."><title>from_uri_param.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -461,8 +461,8 @@
 /// the _identity_ implementations automatically. For a type `T`, these are:
 ///
 ///   * `impl&lt;P: Part&gt; FromUriParam&lt;P, T&gt; for T`
-///   * `impl&lt;&#39;x, P: Part&gt; FromUriParam&lt;P, &amp;&#39;x T&gt; for T`
-///   * `impl&lt;&#39;x, P: Part&gt; FromUriParam&lt;P, &amp;&#39;x mut T&gt; for T`
+///   * `impl&lt;'x, P: Part&gt; FromUriParam&lt;P, &amp;'x T&gt; for T`
+///   * `impl&lt;'x, P: Part&gt; FromUriParam&lt;P, &amp;'x mut T&gt; for T`
 ///
 /// See [`impl_from_uri_param_identity!`](crate::impl_from_uri_param_identity!)
 /// for usage details.
@@ -473,9 +473,9 @@
 /// In particular, for a route URI parameter of type `T` and a user-supplied
 /// expression `e` of type `S`, `&lt;T as FromUriParam&lt;S&gt;&gt;::from_uri_param(e)` is
 /// invoked. The returned value of type `T::Target` is used in place of the
-/// user&#39;s value and rendered using its [`UriDisplay`] implementation.
+/// user's value and rendered using its [`UriDisplay`] implementation.
 ///
-/// This trait allows types that differ from the route URI parameter&#39;s types to
+/// This trait allows types that differ from the route URI parameter's types to
 /// be used in their place at no cost. For instance, the following
 /// implementation, provided by Rocket, allows an `&amp;str` to be used in a `uri!`
 /// invocation for route URI parameters declared as `String`:
@@ -485,9 +485,9 @@
 /// # use rocket::http::uri::fmt::{FromUriParam, Part};
 /// # struct S;
 /// # type String = S;
-/// impl&lt;&#39;a, P: Part&gt; FromUriParam&lt;P, &amp;&#39;a str&gt; for String {
-///     type Target = &amp;&#39;a str;
-/// #   fn from_uri_param(s: &amp;&#39;a str) -&gt; Self::Target { &quot;hi&quot; }
+/// impl&lt;'a, P: Part&gt; FromUriParam&lt;P, &amp;'a str&gt; for String {
+///     type Target = &amp;'a str;
+/// #   fn from_uri_param(s: &amp;'a str) -&gt; Self::Target { "hi" }
 /// }
 /// ```
 ///
@@ -536,16 +536,16 @@
 ///
 /// # Implementing
 ///
-/// This trait should only be implemented when you&#39;d like to allow a type
-/// different from the route&#39;s declared type to be used in its place in a `uri!`
-/// invocation. For instance, if the route has a type of `T` and you&#39;d like to
-/// use a type of `S` in a `uri!` invocation, you&#39;d implement `FromUriParam&lt;P,
+/// This trait should only be implemented when you'd like to allow a type
+/// different from the route's declared type to be used in its place in a `uri!`
+/// invocation. For instance, if the route has a type of `T` and you'd like to
+/// use a type of `S` in a `uri!` invocation, you'd implement `FromUriParam&lt;P,
 /// T&gt; for S` where `P` is `Path` for conversions valid in the path part of a
 /// URI, `Uri` for conversions valid in the query part of a URI, or `P: Part`
 /// when a conversion is valid in either case.
 ///
 /// This is typically only warranted for owned-value types with corresponding
-/// reference types: `String` and `&amp;str`, for instance. In this case, it&#39;s
+/// reference types: `String` and `&amp;str`, for instance. In this case, it's
 /// desirable to allow an `&amp;str` to be used in place of a `String`.
 ///
 /// When implementing `FromUriParam`, be aware that Rocket will use the
@@ -566,22 +566,22 @@
 /// use rocket::http::uri::fmt::{Formatter, UriDisplay, FromUriParam, Query};
 ///
 /// #[derive(FromForm)]
-/// struct User&lt;&#39;a&gt; {
-///     name: &amp;&#39;a str,
+/// struct User&lt;'a&gt; {
+///     name: &amp;'a str,
 ///     nickname: String,
 /// }
 ///
-/// impl UriDisplay&lt;Query&gt; for User&lt;&#39;_&gt; {
+/// impl UriDisplay&lt;Query&gt; for User&lt;'_&gt; {
 ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-///         f.write_named_value(&quot;name&quot;, &amp;self.name)?;
-///         f.write_named_value(&quot;nickname&quot;, &amp;self.nickname)
+///         f.write_named_value("name", &amp;self.name)?;
+///         f.write_named_value("nickname", &amp;self.nickname)
 ///     }
 /// }
 ///
-/// impl&lt;&#39;a, &#39;b&gt; FromUriParam&lt;Query, (&amp;&#39;a str, &amp;&#39;b str)&gt; for User&lt;&#39;a&gt; {
-///     type Target = User&lt;&#39;a&gt;;
+/// impl&lt;'a, 'b&gt; FromUriParam&lt;Query, (&amp;'a str, &amp;'b str)&gt; for User&lt;'a&gt; {
+///     type Target = User&lt;'a&gt;;
 ///
-///     fn from_uri_param((name, nickname): (&amp;&#39;a str, &amp;&#39;b str)) -&gt; User&lt;&#39;a&gt; {
+///     fn from_uri_param((name, nickname): (&amp;'a str, &amp;'b str)) -&gt; User&lt;'a&gt; {
 ///         User { name: name.into(), nickname: nickname.to_string() }
 ///     }
 /// }
@@ -595,28 +595,28 @@
 /// # use rocket::http::uri::fmt::{Formatter, UriDisplay, FromUriParam, Query};
 /// #
 /// # #[derive(FromForm)]
-/// # struct User&lt;&#39;a&gt; { name: &amp;&#39;a str, nickname: String, }
+/// # struct User&lt;'a&gt; { name: &amp;'a str, nickname: String, }
 /// #
-/// # impl UriDisplay&lt;Query&gt; for User&lt;&#39;_&gt; {
+/// # impl UriDisplay&lt;Query&gt; for User&lt;'_&gt; {
 /// #     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-/// #         f.write_named_value(&quot;name&quot;, &amp;self.name)?;
-/// #         f.write_named_value(&quot;nickname&quot;, &amp;self.nickname)
+/// #         f.write_named_value("name", &amp;self.name)?;
+/// #         f.write_named_value("nickname", &amp;self.nickname)
 /// #     }
 /// # }
 /// #
-/// # impl&lt;&#39;a, &#39;b&gt; FromUriParam&lt;Query, (&amp;&#39;a str, &amp;&#39;b str)&gt; for User&lt;&#39;a&gt; {
-/// #     type Target = User&lt;&#39;a&gt;;
-/// #     fn from_uri_param((name, nickname): (&amp;&#39;a str, &amp;&#39;b str)) -&gt; User&lt;&#39;a&gt; {
+/// # impl&lt;'a, 'b&gt; FromUriParam&lt;Query, (&amp;'a str, &amp;'b str)&gt; for User&lt;'a&gt; {
+/// #     type Target = User&lt;'a&gt;;
+/// #     fn from_uri_param((name, nickname): (&amp;'a str, &amp;'b str)) -&gt; User&lt;'a&gt; {
 /// #         User { name: name.into(), nickname: nickname.to_string() }
 /// #     }
 /// # }
 /// #
-/// #[post(&quot;/&lt;name&gt;?&lt;user..&gt;&quot;)]
-/// fn some_route(name: &amp;str, user: User&lt;&#39;_&gt;)  { /* .. */ }
+/// #[post("/&lt;name&gt;?&lt;user..&gt;")]
+/// fn some_route(name: &amp;str, user: User&lt;'_&gt;)  { /* .. */ }
 ///
-/// let uri = uri!(some_route(name = &quot;hey&quot;, user = (&quot;Robert Mike&quot;, &quot;Bob&quot;)));
-/// assert_eq!(uri.path(), &quot;/hey&quot;);
-/// assert_eq!(uri.query().unwrap(), &quot;name=Robert%20Mike&amp;nickname=Bob&quot;);
+/// let uri = uri!(some_route(name = "hey", user = ("Robert Mike", "Bob")));
+/// assert_eq!(uri.path(), "/hey");
+/// assert_eq!(uri.query().unwrap(), "name=Robert%20Mike&amp;nickname=Bob");
 /// ```
 ///
 /// [`uri!`]: ../../../../rocket/macro.uri.html
@@ -635,7 +635,7 @@
 
 <span class="attr">#[doc(hidden)]
 #[macro_export(local_inner_macros)]
-</span><span class="macro">macro_rules! </span>impl_conversion_ref {
+</span><span class="macro">macro_rules!</span> impl_conversion_ref {
     ($(($(<span class="macro-nonterminal">$l</span>:tt)+) <span class="macro-nonterminal">$A</span>:ty =&gt; <span class="macro-nonterminal">$B</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; (
         <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>$(($(<span class="macro-nonterminal">$l</span>)+,) <span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>),<span class="kw-2">*</span>);
     );
@@ -650,8 +650,8 @@
 
     ($([<span class="macro-nonterminal">$P</span>:ty] ($(<span class="macro-nonterminal">$l</span>:tt)<span class="kw-2">*</span>) <span class="macro-nonterminal">$A</span>:ty =&gt; <span class="macro-nonterminal">$B</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; ($(
         <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>[<span class="macro-nonterminal">$P</span>] ($(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>);
-        <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>[<span class="macro-nonterminal">$P</span>] (<span class="lifetime">&#39;x</span>, $(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;x </span><span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>);
-        <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>[<span class="macro-nonterminal">$P</span>] (<span class="lifetime">&#39;x</span>, $(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;x </span><span class="kw-2">mut </span><span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>);
+        <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>[<span class="macro-nonterminal">$P</span>] (<span class="lifetime">'x</span>, $(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="kw-2">&amp;</span><span class="lifetime">'x </span><span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>);
+        <span class="macro">impl_conversion_ref!</span>(@<span class="kw">_ </span>[<span class="macro-nonterminal">$P</span>] (<span class="lifetime">'x</span>, $(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="kw-2">&amp;</span><span class="lifetime">'x </span><span class="kw-2">mut </span><span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>);
     )<span class="kw-2">*</span>);
 
     ($([<span class="macro-nonterminal">$P</span>:ty] <span class="macro-nonterminal">$A</span>:ty =&gt; <span class="macro-nonterminal">$B</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; ( <span class="macro">impl_conversion_ref!</span>($([<span class="macro-nonterminal">$P</span>] () <span class="macro-nonterminal">$A </span>=&gt; <span class="macro-nonterminal">$B</span>),<span class="kw-2">*</span>););
@@ -670,8 +670,8 @@
 /// For a type `T`, the _identity_ implementations of `FromUriParam` are:
 ///
 ///   * `impl&lt;P: Part&gt; FromUriParam&lt;P, T&gt; for T`
-///   * `impl&lt;&#39;x&gt; FromUriParam&lt;P, &amp;&#39;x T&gt; for T`
-///   * `impl&lt;&#39;x&gt; FromUriParam&lt;P, &amp;&#39;x mut T&gt; for T`
+///   * `impl&lt;'x&gt; FromUriParam&lt;P, &amp;'x T&gt; for T`
+///   * `impl&lt;'x&gt; FromUriParam&lt;P, &amp;'x mut T&gt; for T`
 ///
 /// where `P` is one of:
 ///
@@ -694,8 +694,8 @@
 ///      adding the tokens `generics` to the `impl` generics of the generated
 ///      implementation.
 ///
-///      * Example: `impl_from_uri_param_identity!((&#39;a) MyType&lt;&#39;a&gt;);`
-///      * Generates: `impl&lt;&#39;a, P: Part&gt; FromUriParam&lt;P, _&gt; for MyType&lt;&#39;a&gt; { ... }`
+///      * Example: `impl_from_uri_param_identity!(('a) MyType&lt;'a&gt;);`
+///      * Generates: `impl&lt;'a, P: Part&gt; FromUriParam&lt;P, _&gt; for MyType&lt;'a&gt; { ... }`
 ///
 ///   3. `impl_from_uri_param_identity!([Part] Type);`
 ///
@@ -709,14 +709,14 @@
 ///
 ///      See 2 and 3.
 ///
-///      * Example: `impl_from_uri_param_identity!([Path] (&#39;a) MyType&lt;&#39;a&gt;);`
-///      * Generates: `impl&lt;&#39;a&gt; FromUriParam&lt;Path, _&gt; for MyType&lt;&#39;a&gt; { ... }`
+///      * Example: `impl_from_uri_param_identity!([Path] ('a) MyType&lt;'a&gt;);`
+///      * Generates: `impl&lt;'a&gt; FromUriParam&lt;Path, _&gt; for MyType&lt;'a&gt; { ... }`
 ///
 /// [`FromUriParam`]: crate::uri::fmt::FromUriParam
 /// [`Path`]: crate::uri::fmt::Path
 /// [`Query`]: crate::uri::fmt::Query
 </span><span class="attr">#[macro_export(local_inner_macros)]
-</span><span class="macro">macro_rules! </span>impl_from_uri_param_identity {
+</span><span class="macro">macro_rules!</span> impl_from_uri_param_identity {
     ($(($(<span class="macro-nonterminal">$l</span>:tt)<span class="kw-2">*</span>) <span class="macro-nonterminal">$T</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; ($( <span class="macro">impl_conversion_ref!</span>(($(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$T </span>=&gt; <span class="macro-nonterminal">$T</span>); )<span class="kw-2">*</span>);
     ($([<span class="macro-nonterminal">$P</span>:ty] ($(<span class="macro-nonterminal">$l</span>:tt)<span class="kw-2">*</span>) <span class="macro-nonterminal">$T</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; ($( <span class="macro">impl_conversion_ref!</span>([<span class="macro-nonterminal">$P</span>] ($(<span class="macro-nonterminal">$l</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$T </span>=&gt; <span class="macro-nonterminal">$T</span>); )<span class="kw-2">*</span>);
     ($([<span class="macro-nonterminal">$P</span>:ty] <span class="macro-nonterminal">$T</span>:ty),* $(,)<span class="question-mark">?</span>) =&gt; ($( <span class="macro">impl_conversion_ref!</span>([<span class="macro-nonterminal">$P</span>] <span class="macro-nonterminal">$T </span>=&gt; <span class="macro-nonterminal">$T</span>); )<span class="kw-2">*</span>);
@@ -730,7 +730,7 @@
     NonZeroUsize, NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128,
 };
 
-<span class="macro">impl_from_uri_param_identity! </span>{
+<span class="macro">impl_from_uri_param_identity!</span> {
     String,
     i8, i16, i32, i64, i128, isize,
     u8, u16, u32, u64, u128, usize,
@@ -741,41 +741,41 @@
     time::Date, time::Time, time::PrimitiveDateTime,
 }
 
-<span class="macro">impl_from_uri_param_identity! </span>{
-    (<span class="lifetime">&#39;a</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-    (<span class="lifetime">&#39;a</span>) Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;
+<span class="macro">impl_from_uri_param_identity!</span> {
+    (<span class="lifetime">'a</span>) <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+    (<span class="lifetime">'a</span>) Cow&lt;<span class="lifetime">'a</span>, str&gt;
 }
 
-<span class="macro">impl_conversion_ref! </span>{
-    (<span class="lifetime">&#39;a</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str =&gt; String,
+<span class="macro">impl_conversion_ref!</span> {
+    (<span class="lifetime">'a</span>) <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str =&gt; String,
 
-    (<span class="lifetime">&#39;a</span>) String =&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str
+    (<span class="lifetime">'a</span>) String =&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str
 }
 
-<span class="macro">impl_from_uri_param_identity!</span>([fmt::Path] (<span class="lifetime">&#39;a</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path);
+<span class="macro">impl_from_uri_param_identity!</span>([fmt::Path] (<span class="lifetime">'a</span>) <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Path);
 <span class="macro">impl_from_uri_param_identity!</span>([fmt::Path] PathBuf);
 
-<span class="macro">impl_conversion_ref! </span>{
-    [fmt::Path] (<span class="lifetime">&#39;a</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path =&gt; PathBuf,
-    [fmt::Path] (<span class="lifetime">&#39;a</span>) PathBuf =&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path
+<span class="macro">impl_conversion_ref!</span> {
+    [fmt::Path] (<span class="lifetime">'a</span>) <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Path =&gt; PathBuf,
+    [fmt::Path] (<span class="lifetime">'a</span>) PathBuf =&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Path
 }
 
 <span class="doccomment">/// A no cost conversion allowing an `&amp;str` to be used in place of a `PathBuf`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromUriParam&lt;fmt::Path, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; <span class="kw">for </span>PathBuf {
-    <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromUriParam&lt;fmt::Path, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; <span class="kw">for </span>PathBuf {
+    <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Path;
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Path {
+    </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Path {
         Path::new(param)
     }
 }
 
 <span class="doccomment">/// A no cost conversion allowing an `&amp;&amp;str` to be used in place of a `PathBuf`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; FromUriParam&lt;fmt::Path, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str&gt; <span class="kw">for </span>PathBuf {
-    <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>Path;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; FromUriParam&lt;fmt::Path, <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>str&gt; <span class="kw">for </span>PathBuf {
+    <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Path;
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>Path {
+    </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">&amp;</span><span class="lifetime">'b </span>str) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'b </span>Path {
         Path::new(<span class="kw-2">*</span>param)
     }
 }
@@ -836,7 +836,7 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_map_conversion {
+<span class="macro">macro_rules!</span> impl_map_conversion {
     (<span class="macro-nonterminal">$From</span>:ident =&gt; <span class="macro-nonterminal">$To</span>:ident) =&gt; (
         <span class="kw">impl</span>&lt;K, V, A, B&gt; FromUriParam&lt;fmt::Query, <span class="macro-nonterminal">$From</span>&lt;A, B&gt;&gt; <span class="kw">for </span><span class="macro-nonterminal">$To</span>&lt;K, V&gt;
             <span class="kw">where </span>A: UriDisplay&lt;fmt::Query&gt;, K: FromUriParam&lt;fmt::Query, A&gt;,
@@ -852,14 +852,14 @@
     );
 
     (&amp; $([<span class="macro-nonterminal">$</span><span class="kw-2">mut</span>:<span class="macro-nonterminal">tt</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$From</span>:ident =&gt; <span class="macro-nonterminal">$To</span>:ident) =&gt; (
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, K, V, A, B&gt; FromUriParam&lt;fmt::Query, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>$(<span class="macro-nonterminal">$</span><span class="kw-2">mut</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;&gt; <span class="kw">for </span><span class="macro-nonterminal">$To</span>&lt;K, V&gt;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, K, V, A, B&gt; FromUriParam&lt;fmt::Query, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>$(<span class="macro-nonterminal">$</span><span class="kw-2">mut</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;&gt; <span class="kw">for </span><span class="macro-nonterminal">$To</span>&lt;K, V&gt;
             <span class="kw">where </span>A: UriDisplay&lt;fmt::Query&gt;, K: FromUriParam&lt;fmt::Query, A&gt;,
                   B: UriDisplay&lt;fmt::Query&gt;, V: FromUriParam&lt;fmt::Query, B&gt;
         {
-            <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;;
+            <span class="kw">type </span>Target = <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;;
 
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>$(<span class="macro-nonterminal">$</span><span class="kw-2">mut</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;) -&gt; <span class="self">Self</span>::Target {
+            </span><span class="kw">fn </span>from_uri_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>$(<span class="macro-nonterminal">$</span><span class="kw-2">mut</span>)<span class="question-mark">? </span><span class="macro-nonterminal">$From</span>&lt;A, B&gt;) -&gt; <span class="self">Self</span>::Target {
                 param
             }
         }

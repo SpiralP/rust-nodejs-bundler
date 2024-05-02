@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/router/router.rs`."><title>router.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/router/router.rs`."><title>router.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -708,10 +708,10 @@
         <span class="self">self</span>.catchers.values().flat_map(|v| v.iter())
     }
 
-    <span class="kw">pub fn </span>route&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;r</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;r</span>&gt;
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Route&gt; + <span class="lifetime">&#39;r </span>{
+    <span class="kw">pub fn </span>route&lt;<span class="lifetime">'r</span>, <span class="lifetime">'a</span>: <span class="lifetime">'r</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'r</span>&gt;
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Route&gt; + <span class="lifetime">'r </span>{
         <span class="comment">// Note that routes are presorted by ascending rank on each `add`.
         </span><span class="self">self</span>.routes.get(<span class="kw-2">&amp;</span>req.method())
             .into_iter()
@@ -719,7 +719,7 @@
     }
 
     <span class="comment">// For many catchers, using aho-corasick or similar should be much faster.
-    </span><span class="kw">pub fn </span>catch&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Catcher&gt; {
+    </span><span class="kw">pub fn </span>catch&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'r</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Catcher&gt; {
         <span class="comment">// Note that catchers are presorted by descending base length.
         </span><span class="kw">let </span>explicit = <span class="self">self</span>.catchers.get(<span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(status.code))
             .and_then(|c| c.iter().find(|c| c.matches(status, req)));
@@ -740,8 +740,8 @@
         }
     }
 
-    <span class="kw">fn </span>collisions&lt;<span class="lifetime">&#39;a</span>, I, T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, items: I) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (T, T)&gt; + <span class="lifetime">&#39;a
-        </span><span class="kw">where </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T&gt; + Clone + <span class="lifetime">&#39;a</span>, T: Collide + Clone + <span class="lifetime">&#39;a</span>,
+    <span class="kw">fn </span>collisions&lt;<span class="lifetime">'a</span>, I, T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, items: I) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (T, T)&gt; + <span class="lifetime">'a
+        </span><span class="kw">where </span>I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T&gt; + Clone + <span class="lifetime">'a</span>, T: Collide + Clone + <span class="lifetime">'a</span>,
     {
         items.clone().enumerate()
             .flat_map(<span class="kw">move </span>|(i, a)| {
@@ -778,7 +778,7 @@
         }
     }
 
-    <span class="kw">fn </span>router_with_routes(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str]) -&gt; Router {
+    <span class="kw">fn </span>router_with_routes(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str]) -&gt; Router {
         <span class="kw">let </span><span class="kw-2">mut </span>router = Router::new();
         <span class="kw">for </span>route <span class="kw">in </span>routes {
             <span class="kw">let </span>route = Route::new(Get, route, dummy_handler);
@@ -788,7 +788,7 @@
         router
     }
 
-    <span class="kw">fn </span>router_with_ranked_routes(routes: <span class="kw-2">&amp;</span>[(isize, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str)]) -&gt; Router {
+    <span class="kw">fn </span>router_with_ranked_routes(routes: <span class="kw-2">&amp;</span>[(isize, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str)]) -&gt; Router {
         <span class="kw">let </span><span class="kw-2">mut </span>router = Router::new();
         <span class="kw">for </span><span class="kw-2">&amp;</span>(rank, route) <span class="kw">in </span>routes {
             <span class="kw">let </span>route = Route::ranked(rank, Get, route, dummy_handler);
@@ -798,7 +798,7 @@
         router
     }
 
-    <span class="kw">fn </span>router_with_rankless_routes(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str]) -&gt; Router {
+    <span class="kw">fn </span>router_with_rankless_routes(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str]) -&gt; Router {
         <span class="kw">let </span><span class="kw-2">mut </span>router = Router::new();
         <span class="kw">for </span>route <span class="kw">in </span>routes {
             <span class="kw">let </span>route = Route::ranked(<span class="number">0</span>, Get, route, dummy_handler);
@@ -808,231 +808,231 @@
         router
     }
 
-    <span class="kw">fn </span>rankless_route_collisions(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str]) -&gt; bool {
+    <span class="kw">fn </span>rankless_route_collisions(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str]) -&gt; bool {
         <span class="kw">let </span>router = router_with_rankless_routes(routes);
         router.has_collisions()
     }
 
-    <span class="kw">fn </span>default_rank_route_collisions(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str]) -&gt; bool {
+    <span class="kw">fn </span>default_rank_route_collisions(routes: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str]) -&gt; bool {
         <span class="kw">let </span>router = router_with_routes(routes);
         router.has_collisions()
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_rankless_collisions() {
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello/bob&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/&lt;c&gt;/d&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/c/d&quot;</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello/bob"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/&lt;c&gt;/d"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/c/d"</span>]));
 
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/c&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/b&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/&lt;c&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/c/d&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a/&lt;_..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a/&lt;_..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/foo&quot;</span>, <span class="string">&quot;/foo/&lt;_..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/foo/bar/baz&quot;</span>, <span class="string">&quot;/foo/&lt;_..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/d/&lt;b..&gt;&quot;</span>, <span class="string">&quot;/a/d&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_..&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_..&gt;&quot;</span>, <span class="string">&quot;/a&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b"</span>, <span class="string">"/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/c"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/b"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/&lt;c&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;a..&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/&lt;a..&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/c/d"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/a/&lt;_..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;"</span>, <span class="string">"/a/&lt;_..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/foo"</span>, <span class="string">"/foo/&lt;_..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/foo/bar/baz"</span>, <span class="string">"/foo/&lt;_..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/d/&lt;b..&gt;"</span>, <span class="string">"/a/d"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_..&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_..&gt;"</span>, <span class="string">"/a"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
 
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_..&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_..&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;/b&quot;</span>, <span class="string">&quot;/a/b&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/a/b"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/a/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_..&gt;"</span>, <span class="string">"/a/b"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_..&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;/b"</span>, <span class="string">"/a/b"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/&lt;foo..&gt;"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_collisions_normalize() {
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello/&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//hello/&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//hello/&quot;</span>, <span class="string">&quot;/hello//&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/hello//&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/hello///&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello///bob&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;//&quot;</span>, <span class="string">&quot;/a//&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;a..&gt;//&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;a..&gt;//&quot;</span>, <span class="string">&quot;/a/b//c//d/&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;a..&gt;/&quot;</span>, <span class="string">&quot;/a/bd/e/&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;/&quot;</span>, <span class="string">&quot;/a/bd/e/&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//&quot;</span>, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;a..&gt;//&quot;</span>, <span class="string">&quot;/a/b//c//d/e/&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a//&lt;a..&gt;//&quot;</span>, <span class="string">&quot;/a/b//c//d/e/&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;///&lt;_&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;///a//b&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//a///&lt;_&gt;&quot;</span>, <span class="string">&quot;/a//&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//&lt;_..&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;//&lt;_..&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;///&lt;a&gt;/&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;///&lt;a..&gt;/&quot;</span>, <span class="string">&quot;/a/&lt;a..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello/"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//hello/"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//hello/"</span>, <span class="string">"/hello//"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/hello//"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/hello///"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello///bob"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;//"</span>, <span class="string">"/a//&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;a..&gt;//"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;a..&gt;//"</span>, <span class="string">"/a/b//c//d/"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;a..&gt;/"</span>, <span class="string">"/a/bd/e/"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;/"</span>, <span class="string">"/a/bd/e/"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//"</span>, <span class="string">"/&lt;foo..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;a..&gt;//"</span>, <span class="string">"/a/b//c//d/e/"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a//&lt;a..&gt;//"</span>, <span class="string">"/a/b//c//d/e/"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"///&lt;_&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"///a//b"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//a///&lt;_&gt;"</span>, <span class="string">"/a//&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//&lt;_..&gt;"</span>, <span class="string">"/a/b"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"//&lt;_..&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"///&lt;a&gt;/"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"///&lt;a..&gt;/"</span>, <span class="string">"/a/&lt;a..&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hello"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_collisions_query() {
-        <span class="comment">// Query shouldn&#39;t affect things when rankless.
-        </span><span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello?&lt;foo&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;?foo=bar&quot;</span>, <span class="string">&quot;/hello?foo=bar&amp;cat=fat&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;?foo=bar&quot;</span>, <span class="string">&quot;/hello?foo=bar&amp;cat=fat&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/&lt;b&gt;?&lt;foo&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello/bob?a=b&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;?d=e&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;foo&gt;?a=b&quot;</span>, <span class="string">&quot;/foo?d=e&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;foo&gt;?a=b&amp;&lt;c&gt;&quot;</span>, <span class="string">&quot;/&lt;foo&gt;?d=e&amp;&lt;c&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;foo&gt;?a=b&amp;&lt;c&gt;&quot;</span>, <span class="string">&quot;/&lt;foo&gt;?d=e&quot;</span>]));
+        <span class="comment">// Query shouldn't affect things when rankless.
+        </span><span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello?&lt;foo&gt;"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;?foo=bar"</span>, <span class="string">"/hello?foo=bar&amp;cat=fat"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;?foo=bar"</span>, <span class="string">"/hello?foo=bar&amp;cat=fat"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/&lt;b&gt;?&lt;foo&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello/bob?a=b"</span>, <span class="string">"/hello/&lt;b&gt;?d=e"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;foo&gt;?a=b"</span>, <span class="string">"/foo?d=e"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;foo&gt;?a=b&amp;&lt;c&gt;"</span>, <span class="string">"/&lt;foo&gt;?d=e&amp;&lt;c&gt;"</span>]));
+        <span class="macro">assert!</span>(rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;foo&gt;?a=b&amp;&lt;c&gt;"</span>, <span class="string">"/&lt;foo&gt;?d=e"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_collisions() {
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b/c&quot;</span>]));
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/c/d&quot;</span>, <span class="string">&quot;/a/b/c/&lt;d&gt;/e&quot;</span>]));
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/d/&lt;b..&gt;&quot;</span>, <span class="string">&quot;/a/b/c&quot;</span>]));
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>]));
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/a&quot;</span>]));
-        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;_&gt;&quot;</span>, <span class="string">&quot;/&lt;_&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b"</span>, <span class="string">"/a/b/c"</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/c/d"</span>, <span class="string">"/a/b/c/&lt;d&gt;/e"</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/d/&lt;b..&gt;"</span>, <span class="string">"/a/b/c"</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;"</span>, <span class="string">"/"</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/a"</span>]));
+        <span class="macro">assert!</span>(!rankless_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;_&gt;"</span>, <span class="string">"/&lt;_&gt;"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_collision_when_ranked() {
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello/bob&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b/c/d&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/c/d&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi&quot;</span>, <span class="string">&quot;/&lt;hi&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/a/&lt;path..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;path..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b/&lt;c..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;&quot;</span>, <span class="string">&quot;/static&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_..&gt;&quot;</span>, <span class="string">&quot;/static&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;path..&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;_&gt;/&lt;_&gt;&quot;</span>, <span class="string">&quot;/foo/bar&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/foo/&lt;_&gt;&quot;</span>, <span class="string">&quot;/foo/bar&quot;</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hello/bob"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b/c/d"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/c/d"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hi"</span>, <span class="string">"/&lt;hi&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/a/&lt;path..&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/&lt;path..&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/b"</span>, <span class="string">"/a/b/&lt;c..&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;"</span>, <span class="string">"/static"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_..&gt;"</span>, <span class="string">"/static"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;path..&gt;"</span>, <span class="string">"/"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;_&gt;/&lt;_&gt;"</span>, <span class="string">"/foo/bar"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/foo/&lt;_&gt;"</span>, <span class="string">"/foo/bar"</span>]));
 
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/&lt;b..&gt;&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hello/&lt;b&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a/&lt;path..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;b&gt;/c&quot;</span>, <span class="string">&quot;/&lt;d&gt;/&lt;c..&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/&lt;b..&gt;"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hello/&lt;b&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hello"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a/&lt;path..&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;b&gt;/c"</span>, <span class="string">"/&lt;d&gt;/&lt;c..&gt;"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_collision_when_ranked() {
-        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a/&lt;b&gt;/&lt;c..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;c&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a/&lt;b&gt;/&lt;c..&gt;"</span>, <span class="string">"/a/&lt;c&gt;"</span>]));
+        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/b"</span>, <span class="string">"/a/&lt;b&gt;"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_collision_when_ranked_query() {
-        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?a=b&quot;</span>, <span class="string">&quot;/a?c=d&quot;</span>]));
-        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?a=b&amp;&lt;b&gt;&quot;</span>, <span class="string">&quot;/a?&lt;c&gt;&amp;c=d&quot;</span>]));
-        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?a=b&amp;&lt;b..&gt;&quot;</span>, <span class="string">&quot;/a?&lt;c&gt;&amp;c=d&quot;</span>]));
+        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a?a=b"</span>, <span class="string">"/a?c=d"</span>]));
+        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a?a=b&amp;&lt;b&gt;"</span>, <span class="string">"/a?&lt;c&gt;&amp;c=d"</span>]));
+        <span class="macro">assert!</span>(default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/a?a=b&amp;&lt;b..&gt;"</span>, <span class="string">"/a?&lt;c&gt;&amp;c=d"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_collision_when_ranked_query() {
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/?&lt;c..&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi&quot;</span>, <span class="string">&quot;/hi?&lt;c&gt;&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi&quot;</span>, <span class="string">&quot;/hi?c&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi?&lt;c&gt;&quot;</span>, <span class="string">&quot;/hi?c&quot;</span>]));
-        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;foo&gt;?a=b&quot;</span>, <span class="string">&quot;/&lt;foo&gt;?c=d&amp;&lt;d&gt;&quot;</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/?&lt;c..&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hi"</span>, <span class="string">"/hi?&lt;c&gt;"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hi"</span>, <span class="string">"/hi?c"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/hi?&lt;c&gt;"</span>, <span class="string">"/hi?c"</span>]));
+        <span class="macro">assert!</span>(!default_rank_route_collisions(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;foo&gt;?a=b"</span>, <span class="string">"/&lt;foo&gt;?c=d&amp;&lt;d&gt;"</span>]));
     }
 
-    <span class="kw">fn </span>matches&lt;<span class="lifetime">&#39;a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Router, method: Method, uri: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Route&gt; {
-        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">&quot;client&quot;</span>);
+    <span class="kw">fn </span>matches&lt;<span class="lifetime">'a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Router, method: Method, uri: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Route&gt; {
+        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">"client"</span>);
         <span class="kw">let </span>request = client.req(method, Origin::parse(uri).unwrap());
         router.route(<span class="kw-2">&amp;</span>request).collect()
     }
 
-    <span class="kw">fn </span>route&lt;<span class="lifetime">&#39;a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Router, method: Method, uri: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Route&gt; {
+    <span class="kw">fn </span>route&lt;<span class="lifetime">'a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Router, method: Method, uri: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Route&gt; {
         matches(router, method, uri).into_iter().next()
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_ok_routing() {
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello&quot;</span>).is_some());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/hello"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello"</span>).is_some());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hi&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/bobbbbbbbbbby&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/dsfhjasdf&quot;</span>).is_some());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hi"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/bobbbbbbbbbby"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/dsfhjasdf"</span>).is_some());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/hi&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/b/&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/i/a&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/jdlk/asdij&quot;</span>).is_some());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/hi"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/b/"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/i/a"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/jdlk/asdij"</span>).is_some());
 
         <span class="kw">let </span><span class="kw-2">mut </span>router = Router::new();
-        router.add_route(Route::new(Put, <span class="string">&quot;/hello&quot;</span>, dummy_handler));
-        router.add_route(Route::new(Post, <span class="string">&quot;/hello&quot;</span>, dummy_handler));
-        router.add_route(Route::new(Delete, <span class="string">&quot;/hello&quot;</span>, dummy_handler));
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/hello&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">&quot;/hello&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Delete, <span class="string">&quot;/hello&quot;</span>).is_some());
+        router.add_route(Route::new(Put, <span class="string">"/hello"</span>, dummy_handler));
+        router.add_route(Route::new(Post, <span class="string">"/hello"</span>, dummy_handler));
+        router.add_route(Route::new(Delete, <span class="string">"/hello"</span>, dummy_handler));
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/hello"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">"/hello"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Delete, <span class="string">"/hello"</span>).is_some());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a..&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;//&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hi&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/hi&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/b/&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/i/a&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/b/c/d/e/f&quot;</span>).is_some());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a..&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"//"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hi"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/hi"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/b/"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/i/a"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/b/c/d/e/f"</span>).is_some());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/foo/&lt;a..&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/foo&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/foo/&quot;</span>).is_some());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/foo///bar&quot;</span>).is_some());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/foo/&lt;a..&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/foo"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/foo/"</span>).is_some());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/foo///bar"</span>).is_some());
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_err_routing() {
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Options, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hell&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hi&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/there&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/i&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hillo&quot;</span>).is_none());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/hello"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Options, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hell"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hi"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/there"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/i"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hillo"</span>).is_none());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Options, <span class="string">&quot;/hello&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/there&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/hello/i&quot;</span>).is_none());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Post, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Options, <span class="string">"/hello"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/there"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/hello/i"</span>).is_none());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/b/c&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/a/b/c/d&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/hello/hi&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/a/b&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">&quot;/a/b&quot;</span>).is_none());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/b/c"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/a/b/c/d"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/hello/hi"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/a/b"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Put, <span class="string">"/a/b"</span>).is_none());
 
-        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">&quot;/prefix/&lt;a..&gt;&quot;</span>]);
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/&quot;</span>).is_none());
-        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">&quot;/prefi/&quot;</span>).is_none());
+        <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span>[<span class="string">"/prefix/&lt;a..&gt;"</span>]);
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/"</span>).is_none());
+        <span class="macro">assert!</span>(route(<span class="kw-2">&amp;</span>router, Get, <span class="string">"/prefi/"</span>).is_none());
     }
 
-    <span class="macro">macro_rules! </span>assert_ranked_match {
+    <span class="macro">macro_rules!</span> assert_ranked_match {
         (<span class="macro-nonterminal">$routes</span>:expr, <span class="macro-nonterminal">$to</span>:expr =&gt; <span class="macro-nonterminal">$want</span>:expr) =&gt; ({
             <span class="kw">let </span>router = router_with_routes(<span class="macro-nonterminal">$routes</span>);
             <span class="macro">assert!</span>(!router.has_collisions());
@@ -1043,54 +1043,54 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_default_ranking() {
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/&lt;name&gt;&quot;</span>], <span class="string">&quot;/hello&quot; </span>=&gt; <span class="string">&quot;/hello&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;name&gt;&quot;</span>, <span class="string">&quot;/hello&quot;</span>], <span class="string">&quot;/hello&quot; </span>=&gt; <span class="string">&quot;/hello&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/hi&quot;</span>, <span class="string">&quot;/hi/&lt;b&gt;&quot;</span>], <span class="string">&quot;/hi&quot; </span>=&gt; <span class="string">&quot;/hi&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/b&quot;</span>, <span class="string">&quot;/hi/c&quot;</span>], <span class="string">&quot;/hi/c&quot; </span>=&gt; <span class="string">&quot;/hi/c&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>, <span class="string">&quot;/hi/a&quot;</span>], <span class="string">&quot;/hi/c&quot; </span>=&gt; <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi/a&quot;</span>, <span class="string">&quot;/hi/&lt;c&gt;&quot;</span>], <span class="string">&quot;/hi/c&quot; </span>=&gt; <span class="string">&quot;/hi/&lt;c&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a?b=c&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>], <span class="string">&quot;/b&quot; </span>=&gt; <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>], <span class="string">&quot;/b?v=1&quot; </span>=&gt; <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a?b=c&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/a?b&quot;</span>], <span class="string">&quot;/a?b&quot; </span>=&gt; <span class="string">&quot;/a?b&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?b&quot;</span>], <span class="string">&quot;/a?b&quot; </span>=&gt; <span class="string">&quot;/a?b&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/&lt;a&gt;?b&quot;</span>], <span class="string">&quot;/a?b&quot; </span>=&gt; <span class="string">&quot;/a&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?&lt;c&gt;&amp;b&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?&lt;c&gt;&amp;b&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a?b&quot; </span>=&gt; <span class="string">&quot;/a?&lt;c&gt;&amp;b&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/a?&lt;c&gt;&amp;b&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>], <span class="string">&quot;/a?c&quot; </span>=&gt; <span class="string">&quot;/a?&lt;b&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>], <span class="string">&quot;/&quot; </span>=&gt; <span class="string">&quot;/&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>], <span class="string">&quot;/hi&quot; </span>=&gt; <span class="string">&quot;/&lt;foo..&gt;&quot;</span>);
-        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;/hi&quot;</span>, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>], <span class="string">&quot;/hi&quot; </span>=&gt; <span class="string">&quot;/hi&quot;</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/hello"</span>, <span class="string">"/&lt;name&gt;"</span>], <span class="string">"/hello" </span>=&gt; <span class="string">"/hello"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;name&gt;"</span>, <span class="string">"/hello"</span>], <span class="string">"/hello" </span>=&gt; <span class="string">"/hello"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/hi"</span>, <span class="string">"/hi/&lt;b&gt;"</span>], <span class="string">"/hi" </span>=&gt; <span class="string">"/hi"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/b"</span>, <span class="string">"/hi/c"</span>], <span class="string">"/hi/c" </span>=&gt; <span class="string">"/hi/c"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>, <span class="string">"/hi/a"</span>], <span class="string">"/hi/c" </span>=&gt; <span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/hi/a"</span>, <span class="string">"/hi/&lt;c&gt;"</span>], <span class="string">"/hi/c" </span>=&gt; <span class="string">"/hi/&lt;c&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/a?&lt;b&gt;"</span>], <span class="string">"/a?b=c" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/a?&lt;b&gt;"</span>], <span class="string">"/a" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a?&lt;b&gt;"</span>, <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>], <span class="string">"/a" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a?&lt;b&gt;"</span>, <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>], <span class="string">"/b" </span>=&gt; <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a?&lt;b&gt;"</span>, <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>], <span class="string">"/b?v=1" </span>=&gt; <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a?&lt;b&gt;"</span>, <span class="string">"/&lt;a&gt;?&lt;b&gt;"</span>], <span class="string">"/a?b=c" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/a?b"</span>], <span class="string">"/a?b" </span>=&gt; <span class="string">"/a?b"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/a?b"</span>], <span class="string">"/a?b" </span>=&gt; <span class="string">"/a?b"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/&lt;a&gt;?b"</span>], <span class="string">"/a?b" </span>=&gt; <span class="string">"/a"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a?&lt;c&gt;&amp;b"</span>, <span class="string">"/a?&lt;b&gt;"</span>], <span class="string">"/a" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a?&lt;c&gt;&amp;b"</span>, <span class="string">"/a?&lt;b&gt;"</span>], <span class="string">"/a?b" </span>=&gt; <span class="string">"/a?&lt;c&gt;&amp;b"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/a?&lt;c&gt;&amp;b"</span>, <span class="string">"/a?&lt;b&gt;"</span>], <span class="string">"/a?c" </span>=&gt; <span class="string">"/a?&lt;b&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/&lt;foo..&gt;"</span>], <span class="string">"/" </span>=&gt; <span class="string">"/"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/"</span>, <span class="string">"/&lt;foo..&gt;"</span>], <span class="string">"/hi" </span>=&gt; <span class="string">"/&lt;foo..&gt;"</span>);
+        <span class="macro">assert_ranked_match!</span>(<span class="kw-2">&amp;</span>[<span class="string">"/hi"</span>, <span class="string">"/&lt;foo..&gt;"</span>], <span class="string">"/hi" </span>=&gt; <span class="string">"/hi"</span>);
     }
 
-    <span class="kw">fn </span>ranked_collisions(routes: <span class="kw-2">&amp;</span>[(isize, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str)]) -&gt; bool {
+    <span class="kw">fn </span>ranked_collisions(routes: <span class="kw-2">&amp;</span>[(isize, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str)]) -&gt; bool {
         <span class="kw">let </span>router = router_with_ranked_routes(routes);
         router.has_collisions()
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_no_manual_ranked_collisions() {
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">5</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">5</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">&quot;/&lt;a..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/&lt;a..&gt;&quot;</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">5</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">1</span>, <span class="string">"/b/&lt;b&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">0</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">5</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
+        <span class="macro">assert!</span>(!ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">1</span>, <span class="string">"/&lt;a..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/&lt;a..&gt;"</span>)]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_ranked_collisions() {
-        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">&quot;/a/c/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
-        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">&quot;/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)]));
+        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
+        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">"/a/c/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
+        <span class="macro">assert!</span>(ranked_collisions(<span class="kw-2">&amp;</span>[(<span class="number">2</span>, <span class="string">"/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b..&gt;"</span>)]));
     }
 
-    <span class="macro">macro_rules! </span>assert_ranked_routing {
+    <span class="macro">macro_rules!</span> assert_ranked_routing {
         (to: <span class="macro-nonterminal">$to</span>:expr, with: <span class="macro-nonterminal">$routes</span>:expr, expect: $(<span class="macro-nonterminal">$want</span>:expr),+) =&gt; ({
             <span class="kw">let </span>router = router_with_ranked_routes(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$routes</span>);
             <span class="kw">let </span>routed_to = matches(<span class="kw-2">&amp;</span>router, Get, <span class="macro-nonterminal">$to</span>);
@@ -1106,67 +1106,67 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_ranked_routing() {
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)],
-            expect: (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)
+            to: <span class="string">"/a/b"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b&gt;"</span>)],
+            expect: (<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/&lt;b&gt;"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/b/b&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>)],
-            expect: (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>)
+            to: <span class="string">"/b/b"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">3</span>, <span class="string">"/b/b"</span>)],
+            expect: (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">3</span>, <span class="string">"/b/b"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/b/b&quot;</span>,
-            with: [(<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>)],
-            expect: (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>)
+            to: <span class="string">"/b/b"</span>,
+            with: [(<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">3</span>, <span class="string">"/b/b"</span>)],
+            expect: (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">3</span>, <span class="string">"/b/b"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/b/b&quot;</span>,
-            with: [(<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>)],
-            expect: (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">3</span>, <span class="string">&quot;/b/b&quot;</span>)
+            to: <span class="string">"/b/b"</span>,
+            with: [(<span class="number">3</span>, <span class="string">"/b/b"</span>), (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>)],
+            expect: (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">3</span>, <span class="string">"/b/b"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/b/b&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>), (<span class="number">0</span>, <span class="string">&quot;/b/b&quot;</span>)],
-            expect: (<span class="number">0</span>, <span class="string">&quot;/b/b&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>)
+            to: <span class="string">"/b/b"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/a/&lt;b&gt;"</span>), (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>), (<span class="number">0</span>, <span class="string">"/b/b"</span>)],
+            expect: (<span class="number">0</span>, <span class="string">"/b/b"</span>), (<span class="number">2</span>, <span class="string">"/b/&lt;b&gt;"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/profile/sergio/edit&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/edit&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/profile/&lt;d&gt;&quot;</span>), (<span class="number">0</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;&quot;</span>)],
-            expect: (<span class="number">0</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/edit&quot;</span>)
+            to: <span class="string">"/profile/sergio/edit"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/edit"</span>), (<span class="number">2</span>, <span class="string">"/profile/&lt;d&gt;"</span>), (<span class="number">0</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;"</span>)],
+            expect: (<span class="number">0</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;"</span>), (<span class="number">1</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/edit"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/profile/sergio/edit&quot;</span>,
-            with: [(<span class="number">0</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/edit&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/profile/&lt;d&gt;&quot;</span>), (<span class="number">5</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;&quot;</span>)],
-            expect: (<span class="number">0</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/edit&quot;</span>), (<span class="number">5</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;&quot;</span>)
+            to: <span class="string">"/profile/sergio/edit"</span>,
+            with: [(<span class="number">0</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/edit"</span>), (<span class="number">2</span>, <span class="string">"/profile/&lt;d&gt;"</span>), (<span class="number">5</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;"</span>)],
+            expect: (<span class="number">0</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/edit"</span>), (<span class="number">5</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b&quot;</span>,
-            with: [(<span class="number">0</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)],
-            expect: (<span class="number">0</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>)
+            to: <span class="string">"/a/b"</span>,
+            with: [(<span class="number">0</span>, <span class="string">"/a/b"</span>), (<span class="number">1</span>, <span class="string">"/a/&lt;b..&gt;"</span>)],
+            expect: (<span class="number">0</span>, <span class="string">"/a/b"</span>), (<span class="number">1</span>, <span class="string">"/a/&lt;b..&gt;"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b/c/d/e/f&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/b/&lt;c..&gt;&quot;</span>)],
-            expect: (<span class="number">1</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>), (<span class="number">2</span>, <span class="string">&quot;/a/b/&lt;c..&gt;&quot;</span>)
+            to: <span class="string">"/a/b/c/d/e/f"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/b/&lt;c..&gt;"</span>)],
+            expect: (<span class="number">1</span>, <span class="string">"/a/&lt;b..&gt;"</span>), (<span class="number">2</span>, <span class="string">"/a/b/&lt;c..&gt;"</span>)
         );
 
         <span class="macro">assert_ranked_routing!</span>(
-            to: <span class="string">&quot;/hi&quot;</span>,
-            with: [(<span class="number">1</span>, <span class="string">&quot;/hi/&lt;foo..&gt;&quot;</span>), (<span class="number">0</span>, <span class="string">&quot;/hi/&lt;foo&gt;&quot;</span>)],
-            expect: (<span class="number">1</span>, <span class="string">&quot;/hi/&lt;foo..&gt;&quot;</span>)
+            to: <span class="string">"/hi"</span>,
+            with: [(<span class="number">1</span>, <span class="string">"/hi/&lt;foo..&gt;"</span>), (<span class="number">0</span>, <span class="string">"/hi/&lt;foo&gt;"</span>)],
+            expect: (<span class="number">1</span>, <span class="string">"/hi/&lt;foo..&gt;"</span>)
         );
     }
 
-    <span class="macro">macro_rules! </span>assert_default_ranked_routing {
+    <span class="macro">macro_rules!</span> assert_default_ranked_routing {
         (to: <span class="macro-nonterminal">$to</span>:expr, with: <span class="macro-nonterminal">$routes</span>:expr, expect: $(<span class="macro-nonterminal">$want</span>:expr),+) =&gt; ({
             <span class="kw">let </span>router = router_with_routes(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$routes</span>);
             <span class="kw">let </span>routed_to = matches(<span class="kw-2">&amp;</span>router, Get, <span class="macro-nonterminal">$to</span>);
@@ -1181,33 +1181,33 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_default_ranked_routing() {
         <span class="macro">assert_default_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b?v=1&quot;</span>,
-            with: [<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>],
-            expect: <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;
+            to: <span class="string">"/a/b?v=1"</span>,
+            with: [<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/a/b"</span>],
+            expect: <span class="string">"/a/b"</span>, <span class="string">"/a/&lt;b&gt;"
         </span>);
 
         <span class="macro">assert_default_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b?v=1&quot;</span>,
-            with: [<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>],
-            expect: <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;
+            to: <span class="string">"/a/b?v=1"</span>,
+            with: [<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;v&gt;"</span>],
+            expect: <span class="string">"/a/b?&lt;v&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/&lt;b&gt;"
         </span>);
 
         <span class="macro">assert_default_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b?v=1&quot;</span>,
-            with: [<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;v&gt;&quot;</span>],
-            expect: <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;
+            to: <span class="string">"/a/b?v=1"</span>,
+            with: [<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;v&gt;"</span>, <span class="string">"/a/&lt;b&gt;?&lt;v&gt;"</span>],
+            expect: <span class="string">"/a/b?&lt;v&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/&lt;b&gt;?&lt;v&gt;"</span>, <span class="string">"/a/&lt;b&gt;"
         </span>);
 
         <span class="macro">assert_default_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b&quot;</span>,
-            with: [<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;v&gt;&quot;</span>],
-            expect: <span class="string">&quot;/a/b?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;v&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;&quot;
+            to: <span class="string">"/a/b"</span>,
+            with: [<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;v&gt;"</span>, <span class="string">"/a/&lt;b&gt;?&lt;v&gt;"</span>],
+            expect: <span class="string">"/a/b?&lt;v&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/&lt;b&gt;?&lt;v&gt;"</span>, <span class="string">"/a/&lt;b&gt;"
         </span>);
 
         <span class="macro">assert_default_ranked_routing!</span>(
-            to: <span class="string">&quot;/a/b?c&quot;</span>,
-            with: [<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>, <span class="string">&quot;/a/b?c&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?c&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;c&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;</span>],
-            expect: <span class="string">&quot;/a/b?c&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?c&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;c&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;&quot;
+            to: <span class="string">"/a/b?c"</span>,
+            with: [<span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>, <span class="string">"/a/b?c"</span>, <span class="string">"/a/&lt;b&gt;?c"</span>, <span class="string">"/a/&lt;b&gt;?&lt;c&gt;"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;"</span>],
+            expect: <span class="string">"/a/b?c"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>, <span class="string">"/a/b"</span>, <span class="string">"/a/&lt;b&gt;?c"</span>, <span class="string">"/a/&lt;b&gt;?&lt;c&gt;"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;"
         </span>);
     }
 
@@ -1221,13 +1221,13 @@
         router
     }
 
-    <span class="kw">fn </span>catcher&lt;<span class="lifetime">&#39;a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Router, status: Status, uri: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Catcher&gt; {
-        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">&quot;client&quot;</span>);
+    <span class="kw">fn </span>catcher&lt;<span class="lifetime">'a</span>&gt;(router: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Router, status: Status, uri: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Catcher&gt; {
+        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">"client"</span>);
         <span class="kw">let </span>request = client.get(Origin::parse(uri).unwrap());
         router.catch(status, <span class="kw-2">&amp;</span>request)
     }
 
-    <span class="macro">macro_rules! </span>assert_catcher_routing {
+    <span class="macro">macro_rules!</span> assert_catcher_routing {
         (
             catch: [$((<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$uri</span>:expr)),+],
             reqs: [$(<span class="macro-nonterminal">$r</span>:expr),+],
@@ -1239,10 +1239,10 @@
 
             <span class="kw">let </span>router = router_with_catchers(<span class="kw-2">&amp;</span>catchers);
             <span class="kw">for </span>(req, expected) <span class="kw">in </span>requests.iter().zip(expected.iter()) {
-                <span class="kw">let </span>req_status = Status::from_code(req.<span class="number">0</span>).expect(<span class="string">&quot;valid status&quot;</span>);
-                <span class="kw">let </span>catcher = catcher(<span class="kw-2">&amp;</span>router, req_status, req.<span class="number">1</span>).expect(<span class="string">&quot;some catcher&quot;</span>);
-                <span class="macro">assert_eq!</span>(catcher.code, expected.<span class="number">0</span>, <span class="string">&quot;&lt;- got, expected -&gt;&quot;</span>);
-                <span class="macro">assert_eq!</span>(catcher.base.path(), expected.<span class="number">1</span>, <span class="string">&quot;&lt;- got, expected -&gt;&quot;</span>);
+                <span class="kw">let </span>req_status = Status::from_code(req.<span class="number">0</span>).expect(<span class="string">"valid status"</span>);
+                <span class="kw">let </span>catcher = catcher(<span class="kw-2">&amp;</span>router, req_status, req.<span class="number">1</span>).expect(<span class="string">"some catcher"</span>);
+                <span class="macro">assert_eq!</span>(catcher.code, expected.<span class="number">0</span>, <span class="string">"&lt;- got, expected -&gt;"</span>);
+                <span class="macro">assert_eq!</span>(catcher.base.path(), expected.<span class="number">1</span>, <span class="string">"&lt;- got, expected -&gt;"</span>);
             }
         })
     }
@@ -1250,77 +1250,77 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_catcher_routing() {
         <span class="comment">// Check that the default `/` catcher catches everything.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>)],
-            reqs: [(<span class="number">404</span>, <span class="string">&quot;/a/b/c&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">415</span>, <span class="string">&quot;/a/b/d&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a/b/c/d?foo&quot;</span>)],
-            with: [(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>)]
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="prelude-val">None</span>, <span class="string">"/"</span>)],
+            reqs: [(<span class="number">404</span>, <span class="string">"/a/b/c"</span>), (<span class="number">500</span>, <span class="string">"/a/b"</span>), (<span class="number">415</span>, <span class="string">"/a/b/d"</span>), (<span class="number">422</span>, <span class="string">"/a/b/c/d?foo"</span>)],
+            with: [(<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>)]
         }
 
-        <span class="comment">// Check prefixes when they&#39;re exact.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>)],
+        <span class="comment">// Check prefixes when they're exact.
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>)],
             reqs: [
-                (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b&quot;</span>)
+                (<span class="number">404</span>, <span class="string">"/"</span>), (<span class="number">500</span>, <span class="string">"/"</span>),
+                (<span class="number">404</span>, <span class="string">"/a"</span>), (<span class="number">500</span>, <span class="string">"/a"</span>),
+                (<span class="number">404</span>, <span class="string">"/a/b"</span>), (<span class="number">500</span>, <span class="string">"/a/b"</span>)
             ],
             with: [
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>),
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>),
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>)
+                (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>),
+                (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>),
+                (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>)
             ]
         }
 
-        <span class="comment">// Check prefixes when they&#39;re not exact.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>)],
+        <span class="comment">// Check prefixes when they're not exact.
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>)],
             reqs: [
-                (<span class="number">404</span>, <span class="string">&quot;/foo&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/bar&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/baz/bar&quot;</span>), (<span class="number">418</span>, <span class="string">&quot;/poodle?yes&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a/foo&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/bar/baz&quot;</span>), (<span class="number">510</span>, <span class="string">&quot;/a/c&quot;</span>), (<span class="number">423</span>, <span class="string">&quot;/a/c/b&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a/b/c&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b/c/d&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b?foo&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/a/b/yes&quot;</span>)
+                (<span class="number">404</span>, <span class="string">"/foo"</span>), (<span class="number">500</span>, <span class="string">"/bar"</span>), (<span class="number">422</span>, <span class="string">"/baz/bar"</span>), (<span class="number">418</span>, <span class="string">"/poodle?yes"</span>),
+                (<span class="number">404</span>, <span class="string">"/a/foo"</span>), (<span class="number">500</span>, <span class="string">"/a/bar/baz"</span>), (<span class="number">510</span>, <span class="string">"/a/c"</span>), (<span class="number">423</span>, <span class="string">"/a/c/b"</span>),
+                (<span class="number">404</span>, <span class="string">"/a/b/c"</span>), (<span class="number">500</span>, <span class="string">"/a/b/c/d"</span>), (<span class="number">500</span>, <span class="string">"/a/b?foo"</span>), (<span class="number">400</span>, <span class="string">"/a/b/yes"</span>)
             ],
             with: [
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>),
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a&quot;</span>),
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>)
+                (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>),
+                (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a"</span>),
+                (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>)
             ]
         }
 
         <span class="comment">// Check that we prefer specific to default.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="number">400</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>)],
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="number">400</span>, <span class="string">"/"</span>), (<span class="number">404</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>)],
             reqs: [
-                (<span class="number">400</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/bar&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/foo/bar&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/bar&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/foo/bar&quot;</span>),
-                (<span class="number">405</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">405</span>, <span class="string">&quot;/bar&quot;</span>), (<span class="number">406</span>, <span class="string">&quot;/foo/bar&quot;</span>)
+                (<span class="number">400</span>, <span class="string">"/"</span>), (<span class="number">400</span>, <span class="string">"/bar"</span>), (<span class="number">400</span>, <span class="string">"/foo/bar"</span>),
+                (<span class="number">404</span>, <span class="string">"/"</span>), (<span class="number">404</span>, <span class="string">"/bar"</span>), (<span class="number">404</span>, <span class="string">"/foo/bar"</span>),
+                (<span class="number">405</span>, <span class="string">"/"</span>), (<span class="number">405</span>, <span class="string">"/bar"</span>), (<span class="number">406</span>, <span class="string">"/foo/bar"</span>)
             ],
             with: [
-                (<span class="number">400</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/&quot;</span>),
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>)
+                (<span class="number">400</span>, <span class="string">"/"</span>), (<span class="number">400</span>, <span class="string">"/"</span>), (<span class="number">400</span>, <span class="string">"/"</span>),
+                (<span class="number">404</span>, <span class="string">"/"</span>), (<span class="number">404</span>, <span class="string">"/"</span>), (<span class="number">404</span>, <span class="string">"/"</span>),
+                (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/"</span>)
             ]
         }
 
         <span class="comment">// Check that we prefer longer prefixes over specific.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a&quot;</span>)],
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="number">404</span>, <span class="string">"/a"</span>), (<span class="number">422</span>, <span class="string">"/a"</span>)],
             reqs: [
-                (<span class="number">404</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a/b/c&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a/b/c&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a/c&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a/cat/bar&quot;</span>),
-                (<span class="number">422</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a/c&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a/cat/bar&quot;</span>)
+                (<span class="number">404</span>, <span class="string">"/a/b"</span>), (<span class="number">404</span>, <span class="string">"/a/b/c"</span>), (<span class="number">422</span>, <span class="string">"/a/b/c"</span>),
+                (<span class="number">404</span>, <span class="string">"/a"</span>), (<span class="number">404</span>, <span class="string">"/a/c"</span>), (<span class="number">404</span>, <span class="string">"/a/cat/bar"</span>),
+                (<span class="number">422</span>, <span class="string">"/a"</span>), (<span class="number">422</span>, <span class="string">"/a/c"</span>), (<span class="number">422</span>, <span class="string">"/a/cat/bar"</span>)
             ],
             with: [
-                (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>),
-                (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">404</span>, <span class="string">&quot;/a&quot;</span>),
-                (<span class="number">422</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a&quot;</span>), (<span class="number">422</span>, <span class="string">&quot;/a&quot;</span>)
+                (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>),
+                (<span class="number">404</span>, <span class="string">"/a"</span>), (<span class="number">404</span>, <span class="string">"/a"</span>), (<span class="number">404</span>, <span class="string">"/a"</span>),
+                (<span class="number">422</span>, <span class="string">"/a"</span>), (<span class="number">422</span>, <span class="string">"/a"</span>), (<span class="number">422</span>, <span class="string">"/a"</span>)
             ]
         }
 
         <span class="comment">// Just a fun one.
-        </span><span class="macro">assert_catcher_routing! </span>{
-            catch: [(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b/c&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b&quot;</span>)],
-            reqs: [(<span class="number">404</span>, <span class="string">&quot;/a/b/c&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">400</span>, <span class="string">&quot;/a/b/d&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b/c/d?foo&quot;</span>)],
-            with: [(<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>), (<span class="number">500</span>, <span class="string">&quot;/a/b/c&quot;</span>)]
+        </span><span class="macro">assert_catcher_routing!</span> {
+            catch: [(<span class="prelude-val">None</span>, <span class="string">"/"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="number">500</span>, <span class="string">"/a/b/c"</span>), (<span class="number">500</span>, <span class="string">"/a/b"</span>)],
+            reqs: [(<span class="number">404</span>, <span class="string">"/a/b/c"</span>), (<span class="number">500</span>, <span class="string">"/a/b"</span>), (<span class="number">400</span>, <span class="string">"/a/b/d"</span>), (<span class="number">500</span>, <span class="string">"/a/b/c/d?foo"</span>)],
+            with: [(<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="number">500</span>, <span class="string">"/a/b"</span>), (<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>), (<span class="number">500</span>, <span class="string">"/a/b/c"</span>)]
         }
     }
 }

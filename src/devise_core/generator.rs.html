@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/devise_core-0.4.1/src/generator.rs`."><title>generator.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="devise_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/devise_core-0.4.1/src/generator.rs`."><title>generator.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="devise_core" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../devise_core/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -314,15 +314,15 @@
 <span class="kw">impl </span>TraitItem {
     <span class="kw">fn </span>parse&lt;T: ToTokens&gt;(raw: T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>item: syn::ItemImpl = syn::parse2(<span class="macro">quote!</span>(#raw <span class="kw">for </span>Foo {}))
-            .expect(<span class="string">&quot;invalid impl token stream&quot;</span>);
+            .expect(<span class="string">"invalid impl token stream"</span>);
 
         <span class="kw">let </span>path = item.trait_.clone()
-            .expect(<span class="string">&quot;impl does not have trait&quot;</span>)
+            .expect(<span class="string">"impl does not have trait"</span>)
             .<span class="number">1</span>;
 
         <span class="kw">let </span>name = path.segments.last()
             .map(|s| s.ident.clone())
-            .expect(<span class="string">&quot;trait to impl for is empty&quot;</span>);
+            .expect(<span class="string">"trait to impl for is empty"</span>);
 
         <span class="self">Self </span>{ item, path, name }
     }
@@ -353,7 +353,7 @@
     {
         <span class="kw">let </span>item = TraitItem::parse(trait_impl);
         <span class="kw">let </span>input: syn::DeriveInput = syn::parse2(input.into())
-            .expect(<span class="string">&quot;invalid derive input&quot;</span>);
+            .expect(<span class="string">"invalid derive input"</span>);
 
         DeriveGenerator {
             item,
@@ -390,22 +390,22 @@
         <span class="self">self
     </span>}
 
-    <span class="kw">pub fn </span>validator&lt;V: Validator + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, validator: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+    <span class="kw">pub fn </span>validator&lt;V: Validator + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, validator: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="self">self</span>.validator = <span class="prelude-val">Some</span>(Box::new(validator));
         <span class="self">self
     </span>}
 
-    <span class="kw">pub fn </span>type_bound_mapper&lt;V: Mapper + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+    <span class="kw">pub fn </span>type_bound_mapper&lt;V: Mapper + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="self">self</span>.type_bound_mapper = <span class="prelude-val">Some</span>(Box::new(mapper));
         <span class="self">self
     </span>}
 
-    <span class="kw">pub fn </span>inner_mapper&lt;V: Mapper + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+    <span class="kw">pub fn </span>inner_mapper&lt;V: Mapper + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="self">self</span>.inner_mappers.push(Box::new(mapper));
         <span class="self">self
     </span>}
 
-    <span class="kw">pub fn </span>outer_mapper&lt;V: Mapper + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
+    <span class="kw">pub fn </span>outer_mapper&lt;V: Mapper + <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mapper: V) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="self">self</span>.outer_mappers.push(Box::new(mapper));
         <span class="self">self
     </span>}
@@ -418,20 +418,20 @@
         <span class="kw">match </span>input {
             Input::Struct(v) =&gt; {
                 <span class="kw">if </span>v.fields().are_named() &amp;&amp; !support.contains(Support::NamedStruct) {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;named structs are not supported&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"named structs are not supported"</span>));
                 }
 
                 <span class="kw">if </span>!v.fields().are_named() &amp;&amp; !support.contains(Support::TupleStruct) {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;tuple structs are not supported&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"tuple structs are not supported"</span>));
                 }
             }
             Input::Enum(..) <span class="kw">if </span>!support.contains(Support::Enum) =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;enums are not supported&quot;</span>));
+                <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"enums are not supported"</span>));
             }
             Input::Union(..) <span class="kw">if </span>!support.contains(Support::Union) =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;unions are not supported&quot;</span>));
+                <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"unions are not supported"</span>));
             }
-            <span class="kw">_ </span>=&gt; { <span class="comment">/* we&#39;re okay! */ </span>}
+            <span class="kw">_ </span>=&gt; { <span class="comment">/* we're okay! */ </span>}
         }
 
         <span class="comment">// Step 1b: Second, check for generics support.
@@ -441,15 +441,15 @@
             <span class="kw">let </span>span = generic.span();
             <span class="kw">match </span>generic {
                 Type(..) <span class="kw">if </span>!support.contains(Support::Type) =&gt; {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;type generics are not supported&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"type generics are not supported"</span>));
                 }
                 Lifetime(..) <span class="kw">if </span>!support.contains(Support::Lifetime) =&gt; {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;lifetime generics are not supported&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"lifetime generics are not supported"</span>));
                 }
                 Const(..) <span class="kw">if </span>!support.contains(Support::Const) =&gt; {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;const generics are not supported&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"const generics are not supported"</span>));
                 }
-                <span class="kw">_ </span>=&gt; { <span class="comment">/* we&#39;re okay! */ </span>}
+                <span class="kw">_ </span>=&gt; { <span class="comment">/* we're okay! */ </span>}
             }
         }
 
@@ -460,7 +460,7 @@
 
         <span class="comment">// Step 2: Generate the code!
 
-        // Step 2a: Copy user&#39;s generics to mutate with bounds + replacements.
+        // Step 2a: Copy user's generics to mutate with bounds + replacements.
         </span><span class="kw">let </span><span class="kw-2">mut </span>type_generics = <span class="self">self</span>.input.generics().clone();
 
         <span class="comment">// Step 2b: Perform generic replacememnt: replace generics in the input
@@ -469,9 +469,9 @@
         // identifer in the type with the same name with the identifer of the
         // replacement trait generic. For example:
         //   * replace: trait_i = 1, type_i = 0
-        //   * trait: impl&lt;&#39;_a, &#39;_b: &#39;_a&gt; GenExample&lt;&#39;_a, &#39;_b&gt;
-        //   * type: GenFooAB&lt;&#39;x, &#39;y: &#39;x&gt;
-        //   * new type: GenFooAB&lt;&#39;_b, &#39;y: &#39;b&gt;
+        //   * trait: impl&lt;'_a, '_b: '_a&gt; GenExample&lt;'_a, '_b&gt;
+        //   * type: GenFooAB&lt;'x, 'y: 'x&gt;
+        //   * new type: GenFooAB&lt;'_b, 'y: 'b&gt;
         </span><span class="kw">for </span>(trait_i, type_i) <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.generic_replacements {
             <span class="kw">let </span>idents = <span class="self">self</span>.item.generics.params.iter()
                 .nth(<span class="kw-2">*</span>trait_i)
@@ -504,14 +504,14 @@
             <span class="kw">let </span>tokens = mapper.map_input((<span class="kw-2">&amp;</span><span class="self">self</span>.input).into())<span class="question-mark">?</span>;
             <span class="kw">let </span>bounds = Punctuated::&lt;syn::WherePredicate, <span class="macro">Token!</span>[,]&gt;::parse_terminated
                 .parse2(tokens)
-                .map_err(|e| e.span().error(<span class="macro">format!</span>(<span class="string">&quot;invalid type bounds: {}&quot;</span>, e)))<span class="question-mark">?</span>;
+                .map_err(|e| e.span().error(<span class="macro">format!</span>(<span class="string">"invalid type bounds: {}"</span>, e)))<span class="question-mark">?</span>;
 
             type_generics.add_where_predicates(bounds);
         }
 
         <span class="comment">// Step 2e: Determine which generics from the type need to be added to
-        // the trait&#39;s `impl&lt;&gt;` generics. These are all of the generics in the
-        // type that aren&#39;t in the trait&#39;s `impl&lt;&gt;` already.
+        // the trait's `impl&lt;&gt;` generics. These are all of the generics in the
+        // type that aren't in the trait's `impl&lt;&gt;` already.
         </span><span class="kw">let </span><span class="kw-2">mut </span>type_generics_for_impl = <span class="self">self</span>.item.generics.clone();
         <span class="kw">for </span>type_gen <span class="kw">in </span><span class="kw-2">&amp;</span>type_generics.params {
             <span class="kw">let </span>type_gen_in_trait_gens = type_generics_for_impl.params.iter()
@@ -530,7 +530,7 @@
 
         <span class="comment">// Step 2g: Generate the complete implementation.
         </span><span class="kw">let </span>(target, trait_path) = (<span class="kw-2">&amp;</span><span class="self">self</span>.input.ident(), <span class="kw-2">&amp;</span><span class="self">self</span>.item.path);
-        <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+        <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
             <span class="attr">#[allow(non_snake_case)]
             </span><span class="kw">const _</span>: () = {
                 #(#item_code)*
@@ -544,8 +544,8 @@
 
     <span class="kw">pub fn </span>debug(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self </span>{
         <span class="kw">match </span><span class="self">self</span>._to_tokens() {
-            <span class="prelude-val">Ok</span>(tokens) =&gt; <span class="macro">println!</span>(<span class="string">&quot;Tokens produced: {}&quot;</span>, tokens.to_string()),
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">println!</span>(<span class="string">&quot;Error produced: {:?}&quot;</span>, e)
+            <span class="prelude-val">Ok</span>(tokens) =&gt; <span class="macro">println!</span>(<span class="string">"Tokens produced: {}"</span>, tokens.to_string()),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">println!</span>(<span class="string">"Error produced: {:?}"</span>, e)
         }
 
         <span class="self">self
@@ -567,11 +567,11 @@
 
                     <span class="kw">let </span>id = <span class="kw-2">&amp;</span>last.ident;
                     <span class="kw">let </span>msg = <span class="kw">match </span>diag.level() {
-                        Error =&gt; <span class="macro">format!</span>(<span class="string">&quot;error occurred while deriving `{}`&quot;</span>, id),
-                        Warning =&gt; <span class="macro">format!</span>(<span class="string">&quot;warning issued by `{}` derive&quot;</span>, id),
-                        Note =&gt; <span class="macro">format!</span>(<span class="string">&quot;note issued by `{}` derive&quot;</span>, id),
-                        Help =&gt; <span class="macro">format!</span>(<span class="string">&quot;help provided by `{}` derive&quot;</span>, id),
-                        <span class="kw">_ </span>=&gt; <span class="macro">format!</span>(<span class="string">&quot;while deriving `{}`&quot;</span>, id)
+                        Error =&gt; <span class="macro">format!</span>(<span class="string">"error occurred while deriving `{}`"</span>, id),
+                        Warning =&gt; <span class="macro">format!</span>(<span class="string">"warning issued by `{}` derive"</span>, id),
+                        Note =&gt; <span class="macro">format!</span>(<span class="string">"note issued by `{}` derive"</span>, id),
+                        Help =&gt; <span class="macro">format!</span>(<span class="string">"help provided by `{}` derive"</span>, id),
+                        <span class="kw">_ </span>=&gt; <span class="macro">format!</span>(<span class="string">"while deriving `{}`"</span>, id)
                     };
 
                     diag.span_note(Span::call_site(), msg)

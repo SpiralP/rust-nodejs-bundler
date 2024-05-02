@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/request/from_param.rs`."><title>from_param.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/request/from_param.rs`."><title>from_param.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -360,7 +360,7 @@
 
 <span class="doccomment">/// Trait to convert a dynamic path segment string to a concrete value.
 ///
-/// This trait is used by Rocket&#39;s code generation facilities to parse dynamic
+/// This trait is used by Rocket's code generation facilities to parse dynamic
 /// path segment string values into a given type. That is, when a path contains
 /// a dynamic segment `&lt;param&gt;` where `param` has some type `T` that implements
 /// `FromParam`, `T::from_param` will be called.
@@ -369,17 +369,17 @@
 ///
 /// If the conversion fails, the incoming request will be forwarded to the next
 /// matching route, if any. For instance, consider the following route and
-/// handler for the dynamic `&quot;/&lt;id&gt;&quot;` path:
+/// handler for the dynamic `"/&lt;id&gt;"` path:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/&lt;id&gt;&quot;)]
+/// #[get("/&lt;id&gt;")]
 /// fn hello(id: usize) -&gt; String {
 /// # let _id = id;
 /// # /*
 ///     ...
 /// # */
-/// # &quot;&quot;.to_string()
+/// # "".to_string()
 /// }
 /// # fn main() {  }
 /// ```
@@ -400,18 +400,18 @@
 /// determine if the `FromParam` call failed and to retrieve the error value
 /// from the failed `from_param` call.
 ///
-/// For instance, imagine you&#39;ve asked for an `&lt;id&gt;` as a `usize`. To determine
+/// For instance, imagine you've asked for an `&lt;id&gt;` as a `usize`. To determine
 /// when the `&lt;id&gt;` was not a valid `usize` and retrieve the string that failed
 /// to parse, you can use a `Result&lt;usize, &amp;str&gt;` type for the `&lt;id&gt;` parameter
 /// as follows:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/&lt;id&gt;&quot;)]
+/// #[get("/&lt;id&gt;")]
 /// fn hello(id: Result&lt;usize, &amp;str&gt;) -&gt; String {
 ///     match id {
-///         Ok(id_num) =&gt; format!(&quot;usize: {}&quot;, id_num),
-///         Err(string) =&gt; format!(&quot;Not a usize: {}&quot;, string)
+///         Ok(id_num) =&gt; format!("usize: {}", id_num),
+///         Err(string) =&gt; format!("Not a usize: {}", string)
 ///     }
 /// }
 /// # fn main() {  }
@@ -446,7 +446,7 @@
 ///
 ///     _This implementation always returns successfully._
 ///
-///     The path segment is parsed by `T`&#39;s `FromParam` implementation. If the
+///     The path segment is parsed by `T`'s `FromParam` implementation. If the
 ///     parse succeeds, a `Some(parsed_value)` is returned. Otherwise, a `None`
 ///     is returned.
 ///
@@ -454,7 +454,7 @@
 ///
 ///     _This implementation always returns successfully._
 ///
-///     The path segment is parsed by `T`&#39;s `FromParam` implementation. The
+///     The path segment is parsed by `T`'s `FromParam` implementation. The
 ///     returned `Result` value is returned.
 ///
 /// # Example
@@ -469,8 +469,8 @@
 /// `key` and the number after the colon is stored in `value`:
 ///
 /// ```rust
-/// struct MyParam&lt;&#39;r&gt; {
-///     key: &amp;&#39;r str,
+/// struct MyParam&lt;'r&gt; {
+///     key: &amp;'r str,
 ///     value: usize
 /// }
 /// ```
@@ -480,15 +480,15 @@
 /// ```rust
 /// use rocket::request::FromParam;
 /// # #[allow(dead_code)]
-/// # struct MyParam&lt;&#39;r&gt; { key: &amp;&#39;r str, value: usize }
+/// # struct MyParam&lt;'r&gt; { key: &amp;'r str, value: usize }
 ///
-/// impl&lt;&#39;r&gt; FromParam&lt;&#39;r&gt; for MyParam&lt;&#39;r&gt; {
-///     type Error = &amp;&#39;r str;
+/// impl&lt;'r&gt; FromParam&lt;'r&gt; for MyParam&lt;'r&gt; {
+///     type Error = &amp;'r str;
 ///
-///     fn from_param(param: &amp;&#39;r str) -&gt; Result&lt;Self, Self::Error&gt; {
-///         // We can convert `param` into a `str` since we&#39;ll check every
+///     fn from_param(param: &amp;'r str) -&gt; Result&lt;Self, Self::Error&gt; {
+///         // We can convert `param` into a `str` since we'll check every
 ///         // character for safety later.
-///         let (key, val_str) = match param.find(&#39;:&#39;) {
+///         let (key, val_str) = match param.find(':') {
 ///             Some(i) if i &gt; 0 =&gt; (&amp;param[..i], &amp;param[(i + 1)..]),
 ///             _ =&gt; return Err(param)
 ///         };
@@ -511,65 +511,65 @@
 /// # #[macro_use] extern crate rocket;
 /// # use rocket::request::FromParam;
 /// # #[allow(dead_code)]
-/// # struct MyParam&lt;&#39;r&gt; { key: &amp;&#39;r str, value: usize }
-/// # impl&lt;&#39;r&gt; FromParam&lt;&#39;r&gt; for MyParam&lt;&#39;r&gt; {
-/// #     type Error = &amp;&#39;r str;
-/// #     fn from_param(param: &amp;&#39;r str) -&gt; Result&lt;Self, Self::Error&gt; {
+/// # struct MyParam&lt;'r&gt; { key: &amp;'r str, value: usize }
+/// # impl&lt;'r&gt; FromParam&lt;'r&gt; for MyParam&lt;'r&gt; {
+/// #     type Error = &amp;'r str;
+/// #     fn from_param(param: &amp;'r str) -&gt; Result&lt;Self, Self::Error&gt; {
 /// #         Err(param)
 /// #     }
 /// # }
 /// #
-/// #[get(&quot;/&lt;key_val&gt;&quot;)]
+/// #[get("/&lt;key_val&gt;")]
 /// fn hello(key_val: MyParam) -&gt; String {
 /// # let _kv = key_val;
 /// # /*
 ///     ...
 /// # */
-/// # &quot;&quot;.to_string()
+/// # "".to_string()
 /// }
 /// # fn main() {  }
 /// ```
-</span><span class="kw">pub trait </span>FromParam&lt;<span class="lifetime">&#39;a</span>&gt;: Sized {
+</span><span class="kw">pub trait </span>FromParam&lt;<span class="lifetime">'a</span>&gt;: Sized {
     <span class="doccomment">/// The associated error to be returned if parsing/validation fails.
     </span><span class="kw">type </span>Error: std::fmt::Debug;
 
     <span class="doccomment">/// Parses and validates an instance of `Self` from a path parameter string
     /// or returns an `Error` if parsing or validation fails.
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="self">Self</span>::Error&gt; {
         <span class="prelude-val">Ok</span>(param)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>String {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>String {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[track_caller]
     #[inline(always)]
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, <span class="self">Self</span>::Error&gt; {
         <span class="attr">#[cfg(debug_assertions)] </span>{
             <span class="kw">let </span>loc = std::panic::Location::caller();
-            <span class="macro">warn_!</span>(<span class="string">&quot;Note: Using `String` as a parameter type is inefficient. Use `&amp;str` instead.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;`String` is used a parameter guard in {}:{}.&quot;</span>, loc.file(), loc.line());
+            <span class="macro">warn_!</span>(<span class="string">"Note: Using `String` as a parameter type is inefficient. Use `&amp;str` instead."</span>);
+            <span class="macro">info_!</span>(<span class="string">"`String` is used a parameter guard in {}:{}."</span>, loc.file(), loc.line());
         }
 
         <span class="prelude-val">Ok</span>(param.to_string())
     }
 }
 
-<span class="macro">macro_rules! </span>impl_with_fromstr {
+<span class="macro">macro_rules!</span> impl_with_fromstr {
     ($(<span class="macro-nonterminal">$T</span>:ty),+) =&gt; ($(
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
-            <span class="kw">type </span>Error = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str;
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
+            <span class="kw">type </span>Error = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str;
 
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+            </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
                 &lt;<span class="macro-nonterminal">$T </span><span class="kw">as </span>FromStr&gt;::from_str(param).map_err(|<span class="kw">_</span>| param)
             }
         }
@@ -582,18 +582,18 @@
 };
 <span class="kw">use </span>std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddrV4, SocketAddrV6, SocketAddr};
 
-<span class="macro">impl_with_fromstr! </span>{
+<span class="macro">impl_with_fromstr!</span> {
     i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize, f32, f64,
     NonZeroI8, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize,
     NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize,
     bool, IpAddr, Ipv4Addr, Ipv6Addr, SocketAddrV4, SocketAddrV6, SocketAddr
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>PathBuf {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>PathBuf {
     <span class="kw">type </span>Error = PathError;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::http::private::Indexed;
 
         <span class="kw">let </span>segments = <span class="kw-2">&amp;</span>[Indexed::Indexed(<span class="number">0</span>, param.len())];
@@ -601,11 +601,11 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FromParam&lt;<span class="lifetime">&#39;a</span>&gt;&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: FromParam&lt;<span class="lifetime">'a</span>&gt;&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         <span class="kw">match </span>T::from_param(param) {
             <span class="prelude-val">Ok</span>(val) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(val)),
             <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(e)),
@@ -613,11 +613,11 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: FromParam&lt;<span class="lifetime">&#39;a</span>&gt;&gt; FromParam&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: FromParam&lt;<span class="lifetime">'a</span>&gt;&gt; FromParam&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_param(param: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         <span class="kw">match </span>T::from_param(param) {
             <span class="prelude-val">Ok</span>(val) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(val)),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
@@ -638,21 +638,21 @@
 /// **`PathBuf`**
 ///
 /// The `PathBuf` implementation constructs a path from the segments iterator.
-/// Each segment is percent-decoded. If a segment equals &quot;..&quot; before or after
+/// Each segment is percent-decoded. If a segment equals ".." before or after
 /// decoding, the previous segment (if any) is omitted. For security purposes,
-/// any other segments that begin with &quot;*&quot; or &quot;.&quot; are ignored.  If a
+/// any other segments that begin with "*" or "." are ignored.  If a
 /// percent-decoded segment results in invalid UTF8, an `Err` is returned with
 /// the `Utf8Error`.
-</span><span class="kw">pub trait </span>FromSegments&lt;<span class="lifetime">&#39;r</span>&gt;: Sized {
+</span><span class="kw">pub trait </span>FromSegments&lt;<span class="lifetime">'r</span>&gt;: Sized {
     <span class="doccomment">/// The associated error to be returned when parsing fails.
     </span><span class="kw">type </span>Error: std::fmt::Debug;
 
     <span class="doccomment">/// Parses an instance of `Self` from many dynamic path parameter strings or
     /// returns an `Error` if one cannot be parsed.
-    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">&#39;r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
+    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">'r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromSegments&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Segments&lt;<span class="lifetime">&#39;r</span>, Path&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromSegments&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Segments&lt;<span class="lifetime">'r</span>, Path&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline(always)]
@@ -662,7 +662,7 @@
 }
 
 <span class="doccomment">/// Creates a `PathBuf` from a `Segments` iterator. The returned `PathBuf` is
-/// percent-decoded. If a segment is equal to &quot;..&quot;, the previous segment (if
+/// percent-decoded. If a segment is equal to "..", the previous segment (if
 /// any) is skipped.
 ///
 /// For security purposes, if a segment meets any of the following conditions,
@@ -677,19 +677,19 @@
 /// As a result of these conditions, a `PathBuf` derived via `FromSegments` is
 /// safe to interpolate within, or use as a suffix of, a path without additional
 /// checks.
-</span><span class="kw">impl </span>FromSegments&lt;<span class="lifetime">&#39;_</span>&gt; <span class="kw">for </span>PathBuf {
+</span><span class="kw">impl </span>FromSegments&lt;<span class="lifetime">'_</span>&gt; <span class="kw">for </span>PathBuf {
     <span class="kw">type </span>Error = PathError;
 
-    <span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">&#39;_</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+    <span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">'_</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         segments.to_path_buf(<span class="bool-val">false</span>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromSegments&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromSegments&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromSegments&lt;<span class="lifetime">'r</span>&gt;&gt; FromSegments&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">&#39;r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Result</span>&lt;T, T::Error&gt;, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">'r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Result</span>&lt;T, T::Error&gt;, <span class="self">Self</span>::Error&gt; {
         <span class="kw">match </span>T::from_segments(segments) {
             <span class="prelude-val">Ok</span>(val) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(val)),
             <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(e)),
@@ -697,11 +697,11 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromSegments&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromSegments&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromSegments&lt;<span class="lifetime">'r</span>&gt;&gt; FromSegments&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">&#39;r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, <span class="self">Self</span>::Error&gt; {
+    </span><span class="kw">fn </span>from_segments(segments: Segments&lt;<span class="lifetime">'r</span>, Path&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, <span class="self">Self</span>::Error&gt; {
         <span class="kw">match </span>T::from_segments(segments) {
             <span class="prelude-val">Ok</span>(val) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(val)),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)

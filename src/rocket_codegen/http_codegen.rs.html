@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/http_codegen.rs`."><title>http_codegen.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/http_codegen.rs`."><title>http_codegen.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -250,16 +250,16 @@
 </span><span class="kw">pub struct </span>Optional&lt;T&gt;(<span class="kw">pub </span><span class="prelude-ty">Option</span>&lt;T&gt;);
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Origin&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>http::uri::Origin&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="kw">pub </span>Span);
+</span><span class="kw">pub struct </span>Origin&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>http::uri::Origin&lt;<span class="lifetime">'a</span>&gt;, <span class="kw">pub </span>Span);
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Absolute&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>http::uri::Absolute&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="kw">pub </span>Span);
+</span><span class="kw">pub struct </span>Absolute&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>http::uri::Absolute&lt;<span class="lifetime">'a</span>&gt;, <span class="kw">pub </span>Span);
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Authority&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>http::uri::Authority&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="kw">pub </span>Span);
+</span><span class="kw">pub struct </span>Authority&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>http::uri::Authority&lt;<span class="lifetime">'a</span>&gt;, <span class="kw">pub </span>Span);
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Reference&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>http::uri::Reference&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="kw">pub </span>Span);
+</span><span class="kw">pub struct </span>Reference&lt;<span class="lifetime">'a</span>&gt;(<span class="kw">pub </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>http::uri::Reference&lt;<span class="lifetime">'a</span>&gt;, <span class="kw">pub </span>Span);
 
 <span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>Asterisk(<span class="kw">pub </span>http::uri::Asterisk, <span class="kw">pub </span>Span);
@@ -268,7 +268,7 @@
     <span class="kw">fn </span>from_meta(meta: <span class="kw-2">&amp;</span>MetaItem) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>num = usize::from_meta(meta)<span class="question-mark">?</span>;
         <span class="kw">if </span>num &lt; <span class="number">100 </span>|| num &gt;= <span class="number">600 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(meta.value_span().error(<span class="string">&quot;status must be in range [100, 599]&quot;</span>));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(meta.value_span().error(<span class="string">"status must be in range [100, 599]"</span>));
         }
 
         <span class="prelude-val">Ok</span>(Status(http::Status::new(num <span class="kw">as </span>u16)))
@@ -286,7 +286,7 @@
     <span class="kw">fn </span>from_meta(meta: <span class="kw-2">&amp;</span>MetaItem) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
         http::ContentType::parse_flexible(<span class="kw-2">&amp;</span>String::from_meta(meta)<span class="question-mark">?</span>)
             .map(ContentType)
-            .ok_or_else(|| meta.value_span().error(<span class="string">&quot;invalid or unknown content type&quot;</span>))
+            .ok_or_else(|| meta.value_span().error(<span class="string">"invalid or unknown content type"</span>))
     }
 }
 
@@ -301,12 +301,12 @@
 <span class="kw">impl </span>FromMeta <span class="kw">for </span>MediaType {
     <span class="kw">fn </span>from_meta(meta: <span class="kw-2">&amp;</span>MetaItem) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>mt = http::MediaType::parse_flexible(<span class="kw-2">&amp;</span>String::from_meta(meta)<span class="question-mark">?</span>)
-            .ok_or_else(|| meta.value_span().error(<span class="string">&quot;invalid or unknown media type&quot;</span>))<span class="question-mark">?</span>;
+            .ok_or_else(|| meta.value_span().error(<span class="string">"invalid or unknown media type"</span>))<span class="question-mark">?</span>;
 
         <span class="kw">if </span>!mt.is_known() {
             <span class="comment">// FIXME(diag: warning)
             </span>meta.value_span()
-                .warning(<span class="macro">format!</span>(<span class="string">&quot;&#39;{}&#39; is not a known media type&quot;</span>, mt))
+                .warning(<span class="macro">format!</span>(<span class="string">"'{}' is not a known media type"</span>, mt))
                 .emit_as_item_tokens();
         }
 
@@ -320,14 +320,14 @@
         <span class="kw">let </span>(keys, values) = <span class="self">self</span>.<span class="number">0</span>.params().map(|(k, v)| (k.as_str(), v)).split2();
         <span class="kw">let </span>http = <span class="macro">quote!</span>(::rocket::http);
 
-        tokens.extend(<span class="macro">quote! </span>{
+        tokens.extend(<span class="macro">quote!</span> {
             #http::MediaType::const_new(#top, #sub, <span class="kw-2">&amp;</span>[#((#keys, #values)),<span class="kw-2">*</span>])
         });
     }
 }
 
-<span class="kw">const </span>VALID_METHODS_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;`GET`, `PUT`, `POST`, `DELETE`, `HEAD`, \
-    `PATCH`, `OPTIONS`&quot;</span>;
+<span class="kw">const </span>VALID_METHODS_STR: <span class="kw-2">&amp;</span>str = <span class="string">"`GET`, `PUT`, `POST`, `DELETE`, `HEAD`, \
+    `PATCH`, `OPTIONS`"</span>;
 
 <span class="kw">const </span>VALID_METHODS: <span class="kw-2">&amp;</span>[http::Method] = <span class="kw-2">&amp;</span>[
     http::Method::Get, http::Method::Put, http::Method::Post,
@@ -338,15 +338,15 @@
 <span class="kw">impl </span>FromMeta <span class="kw">for </span>Method {
     <span class="kw">fn </span>from_meta(meta: <span class="kw-2">&amp;</span>MetaItem) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>span = meta.value_span();
-        <span class="kw">let </span>help_text = <span class="macro">format!</span>(<span class="string">&quot;method must be one of: {}&quot;</span>, VALID_METHODS_STR);
+        <span class="kw">let </span>help_text = <span class="macro">format!</span>(<span class="string">"method must be one of: {}"</span>, VALID_METHODS_STR);
 
         <span class="kw">if let </span>MetaItem::Path(path) = meta {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(ident) = path.last_ident() {
                 <span class="kw">let </span>method = ident.to_string().parse()
-                    .map_err(|<span class="kw">_</span>| span.error(<span class="string">&quot;invalid HTTP method&quot;</span>).help(<span class="kw-2">&amp;*</span>help_text))<span class="question-mark">?</span>;
+                    .map_err(|<span class="kw">_</span>| span.error(<span class="string">"invalid HTTP method"</span>).help(<span class="kw-2">&amp;*</span>help_text))<span class="question-mark">?</span>;
 
                 <span class="kw">if </span>!VALID_METHODS.contains(<span class="kw-2">&amp;</span>method) {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">&quot;invalid HTTP method for route handlers&quot;</span>)
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(span.error(<span class="string">"invalid HTTP method for route handlers"</span>)
                                .help(<span class="kw-2">&amp;*</span>help_text));
                 }
 
@@ -354,7 +354,7 @@
             }
         }
 
-        <span class="prelude-val">Err</span>(span.error(<span class="macro">format!</span>(<span class="string">&quot;expected identifier, found {}&quot;</span>, meta.description()))
+        <span class="prelude-val">Err</span>(span.error(<span class="macro">format!</span>(<span class="string">"expected identifier, found {}"</span>, meta.description()))
                 .help(<span class="kw-2">&amp;*</span>help_text))
     }
 }
@@ -391,7 +391,7 @@
     }
 }
 
-<span class="kw">impl </span>ToTokens <span class="kw">for </span>Origin&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>ToTokens <span class="kw">for </span>Origin&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>to_tokens(<span class="kw-2">&amp;</span><span class="self">self</span>, tokens: <span class="kw-2">&amp;mut </span>TokenStream) {
         <span class="kw">let </span>(origin, span) = (<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>);
         <span class="kw">let </span>origin = origin.clone().into_normalized();
@@ -399,13 +399,13 @@
 
         <span class="kw">let </span>path = origin.path().as_str();
         <span class="kw">let </span>query = Optional(origin.query().map(|q| q.as_str()));
-        tokens.extend(<span class="macro">quote_spanned! </span>{ span =&gt;
+        tokens.extend(<span class="macro">quote_spanned!</span> { span =&gt;
             #_uri::Origin::const_new(#path, #query)
         });
     }
 }
 
-<span class="kw">impl </span>ToTokens <span class="kw">for </span>Absolute&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>ToTokens <span class="kw">for </span>Absolute&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>to_tokens(<span class="kw-2">&amp;</span><span class="self">self</span>, tokens: <span class="kw-2">&amp;mut </span>TokenStream) {
         <span class="kw">let </span>(absolute, span) = (<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>);
         <span class="macro">define_spanned_export!</span>(span =&gt; _uri);
@@ -415,13 +415,13 @@
         <span class="kw">let </span>auth = Optional(absolute.authority().map(|a| Authority(a, span)));
         <span class="kw">let </span>path = absolute.path().as_str();
         <span class="kw">let </span>query = Optional(absolute.query().map(|q| q.as_str()));
-        tokens.extend(<span class="macro">quote_spanned! </span>{ span =&gt;
+        tokens.extend(<span class="macro">quote_spanned!</span> { span =&gt;
             #_uri::Absolute::const_new(#scheme, #auth, #path, #query)
         });
     }
 }
 
-<span class="kw">impl </span>ToTokens <span class="kw">for </span>Authority&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>ToTokens <span class="kw">for </span>Authority&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>to_tokens(<span class="kw-2">&amp;</span><span class="self">self</span>, tokens: <span class="kw-2">&amp;mut </span>TokenStream) {
         <span class="kw">let </span>(authority, span) = (<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>);
         <span class="macro">define_spanned_export!</span>(span =&gt; _uri);
@@ -429,13 +429,13 @@
         <span class="kw">let </span>user_info = Optional(authority.user_info());
         <span class="kw">let </span>host = authority.host();
         <span class="kw">let </span>port = Optional(authority.port());
-        tokens.extend(<span class="macro">quote_spanned! </span>{ span =&gt;
+        tokens.extend(<span class="macro">quote_spanned!</span> { span =&gt;
             #_uri::Authority::const_new(#user_info, #host, #port)
         });
     }
 }
 
-<span class="kw">impl </span>ToTokens <span class="kw">for </span>Reference&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>ToTokens <span class="kw">for </span>Reference&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>to_tokens(<span class="kw-2">&amp;</span><span class="self">self</span>, tokens: <span class="kw-2">&amp;mut </span>TokenStream) {
         <span class="kw">let </span>(reference, span) = (<span class="self">self</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="number">1</span>);
         <span class="macro">define_spanned_export!</span>(span =&gt; _uri);
@@ -446,7 +446,7 @@
         <span class="kw">let </span>path = reference.path().as_str();
         <span class="kw">let </span>query = Optional(reference.query().map(|q| q.as_str()));
         <span class="kw">let </span>frag = Optional(reference.fragment().map(|f| f.as_str()));
-        tokens.extend(<span class="macro">quote_spanned! </span>{ span =&gt;
+        tokens.extend(<span class="macro">quote_spanned!</span> { span =&gt;
             #_uri::Reference::const_new(#scheme, #auth, #path, #query, #frag)
         });
     }

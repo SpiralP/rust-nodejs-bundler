@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/path.rs`."><title>path.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/path.rs`."><title>path.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -652,7 +652,7 @@
 <a href="#652" id="652">652</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Path Filters
 //!
-//! The [`Filter`](crate::Filter)s here work on the &quot;path&quot; of requests.
+//! The [`Filter`](crate::Filter)s here work on the "path" of requests.
 //!
 //! - [`path`](./fn.path.html) matches a specific segment, like `/foo`.
 //! - [`param`](./fn.param.html) tries to parse a segment into a type, like `/:u16`.
@@ -669,18 +669,18 @@
 //! use warp::Filter;
 //!
 //! // GET /hi
-//! let hi = warp::path(&quot;hi&quot;).map(|| {
-//!     &quot;Hello, World!&quot;
+//! let hi = warp::path("hi").map(|| {
+//!     "Hello, World!"
 //! });
 //! ```
 //!
-//! How about multiple segments? It&#39;s easiest with the `path!` macro:
+//! How about multiple segments? It's easiest with the `path!` macro:
 //!
 //! ```
 //! # use warp::Filter;
 //! // GET /hello/from/warp
-//! let hello_from_warp = warp::path!(&quot;hello&quot; / &quot;from&quot; / &quot;warp&quot;).map(|| {
-//!     &quot;Hello from warp!&quot;
+//! let hello_from_warp = warp::path!("hello" / "from" / "warp").map(|| {
+//!     "Hello from warp!"
 //! });
 //! ```
 //!
@@ -689,8 +689,8 @@
 //! ```
 //! # use warp::Filter;
 //! // GET /sum/:u32/:u32
-//! let sum = warp::path!(&quot;sum&quot; / u32 / u32).map(|a, b| {
-//!     format!(&quot;{} + {} = {}&quot;, a, b, a + b)
+//! let sum = warp::path!("sum" / u32 / u32).map(|a, b| {
+//!     format!("{} + {} = {}", a, b, a + b)
 //! });
 //! ```
 //!
@@ -699,8 +699,8 @@
 //! ```
 //! # use warp::Filter;
 //! // GET /:u16/times/:u16
-//! let times = warp::path!(u16 / &quot;times&quot; / u16).map(|a, b| {
-//!     format!(&quot;{} times {} = {}&quot;, a, b, a * b)
+//! let times = warp::path!(u16 / "times" / u16).map(|a, b| {
+//!     format!("{} times {} = {}", a, b, a * b)
 //! });
 //! ```
 //!
@@ -713,30 +713,30 @@
 //! # let times = sum.clone();
 //! // GET /math/sum/:u32/:u32
 //! // GET /math/:u16/times/:u16
-//! let math = warp::path(&quot;math&quot;);
+//! let math = warp::path("math");
 //! let math_sum = math.and(sum);
 //! let math_times = math.and(times);
 //! ```
 //!
-//! What! `and`? What&#39;s that do?
+//! What! `and`? What's that do?
 //!
-//! It combines the filters in a sort of &quot;this and then that&quot; order. In fact,
-//! it&#39;s exactly what the `path!` macro has been doing internally.
+//! It combines the filters in a sort of "this and then that" order. In fact,
+//! it's exactly what the `path!` macro has been doing internally.
 //!
 //! ```
 //! # use warp::Filter;
 //! // GET /bye/:string
-//! let bye = warp::path(&quot;bye&quot;)
+//! let bye = warp::path("bye")
 //!     .and(warp::path::param())
 //!     .map(|name: String| {
-//!         format!(&quot;Good bye, {}!&quot;, name)
+//!         format!("Good bye, {}!", name)
 //!     });
 //! ```
 //!
 //! Ah, so, can filters do things besides `and`?
 //!
 //! Why, yes they can! They can also `or`! As you might expect, `or` creates a
-//! &quot;this or else that&quot; chain of filters. If the first doesn&#39;t succeed, then
+//! "this or else that" chain of filters. If the first doesn't succeed, then
 //! it tries the other.
 //!
 //! So, those `math` routes could have been **mounted** all as one, with `or`.
@@ -744,11 +744,11 @@
 //!
 //! ```
 //! # use warp::Filter;
-//! # let sum = warp::path(&quot;sum&quot;);
-//! # let times = warp::path(&quot;times&quot;);
+//! # let sum = warp::path("sum");
+//! # let times = warp::path("times");
 //! // GET /math/sum/:u32/:u32
 //! // GET /math/:u16/times/:u16
-//! let math = warp::path(&quot;math&quot;)
+//! let math = warp::path("math")
 //!     .and(sum.or(times));
 //! ```
 //!
@@ -757,7 +757,7 @@
 //!
 //! ```
 //! # use warp::Filter;
-//! # let hi = warp::path(&quot;hi&quot;);
+//! # let hi = warp::path("hi");
 //! # let hello_from_warp = hi.clone();
 //! # let bye = hi.clone();
 //! # let math = hi.clone();
@@ -812,26 +812,26 @@
 /// ```
 /// use warp::Filter;
 ///
-/// // Matches &#39;/hello&#39;
-/// let hello = warp::path(&quot;hello&quot;)
-///     .map(|| &quot;Hello, World!&quot;);
+/// // Matches '/hello'
+/// let hello = warp::path("hello")
+///     .map(|| "Hello, World!");
 /// ```
 </span><span class="kw">pub fn </span>path&lt;P&gt;(p: P) -&gt; Exact&lt;Opaque&lt;P&gt;&gt;
 <span class="kw">where
     </span>P: AsRef&lt;str&gt;,
 {
     <span class="kw">let </span>s = p.as_ref();
-    <span class="macro">assert!</span>(!s.is_empty(), <span class="string">&quot;exact path segments should not be empty&quot;</span>);
+    <span class="macro">assert!</span>(!s.is_empty(), <span class="string">"exact path segments should not be empty"</span>);
     <span class="macro">assert!</span>(
-        !s.contains(<span class="string">&#39;/&#39;</span>),
-        <span class="string">&quot;exact path segments should not contain a slash: {:?}&quot;</span>,
+        !s.contains(<span class="string">'/'</span>),
+        <span class="string">"exact path segments should not contain a slash: {:?}"</span>,
         s
     );
 
     Exact(Opaque(p))
     <span class="comment">/*
     segment(move |seg| {
-        tracing::trace!(&quot;{:?}?: {:?}&quot;, p, seg);
+        tracing::trace!("{:?}?: {:?}", p, seg);
         if seg == p {
             Ok(())
         } else {
@@ -861,7 +861,7 @@
         route::with(|route| {
             <span class="kw">let </span>p = <span class="self">self</span>.<span class="number">0</span>.as_ref();
             future::ready(with_segment(route, |seg| {
-                <span class="macro">tracing::trace!</span>(<span class="string">&quot;{:?}?: {:?}&quot;</span>, p, seg);
+                <span class="macro">tracing::trace!</span>(<span class="string">"{:?}?: {:?}"</span>, p, seg);
 
                 <span class="kw">if </span>seg == p {
                     <span class="prelude-val">Ok</span>(())
@@ -883,9 +883,9 @@
 /// ```
 /// use warp::Filter;
 ///
-/// // Matches &#39;/&#39;
+/// // Matches '/'
 /// let hello = warp::path::end()
-///     .map(|| &quot;Hello, World!&quot;);
+///     .map(|| "Hello, World!");
 /// ```
 </span><span class="kw">pub fn </span>end() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (), Error = Rejection&gt; + Copy {
     filter_fn(<span class="kw">move </span>|route| {
@@ -900,8 +900,8 @@
 <span class="doccomment">/// Extract a parameter from a path segment.
 ///
 /// This will try to parse a value from the current request path
-/// segment, and if successful, the value is returned as the `Filter`&#39;s
-/// &quot;extracted&quot; value.
+/// segment, and if successful, the value is returned as the `Filter`'s
+/// "extracted" value.
 ///
 /// If the value could not be parsed, rejects with a `404 Not Found`.
 ///
@@ -912,13 +912,13 @@
 ///
 /// let route = warp::path::param()
 ///     .map(|id: u32| {
-///         format!(&quot;You asked for /{}&quot;, id)
+///         format!("You asked for /{}", id)
 ///     });
 /// ```
-</span><span class="kw">pub fn </span>param&lt;T: FromStr + Send + <span class="lifetime">&#39;static</span>&gt;(
+</span><span class="kw">pub fn </span>param&lt;T: FromStr + Send + <span class="lifetime">'static</span>&gt;(
 ) -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;T&gt;, Error = Rejection&gt; + Copy {
     filter_segment(|seg| {
-        <span class="macro">tracing::trace!</span>(<span class="string">&quot;param?: {:?}&quot;</span>, seg);
+        <span class="macro">tracing::trace!</span>(<span class="string">"param?: {:?}"</span>, seg);
         <span class="kw">if </span>seg.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(reject::not_found());
         }
@@ -936,11 +936,11 @@
 /// ```
 /// use warp::Filter;
 ///
-/// let route = warp::path(&quot;foo&quot;)
+/// let route = warp::path("foo")
 ///     .and(warp::path::tail())
 ///     .map(|tail| {
-///         // GET /foo/bar/baz would return &quot;bar/baz&quot;.
-///         format!(&quot;The tail after foo is {:?}&quot;, tail)
+///         // GET /foo/bar/baz would return "bar/baz".
+///         format!("The tail after foo is {:?}", tail)
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>tail() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;Tail&gt;, Error = Infallible&gt; + Copy {
@@ -974,7 +974,7 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Tail {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         fmt::Debug::fmt(<span class="self">self</span>.as_str(), f)
     }
 }
@@ -990,11 +990,11 @@
 /// ```
 /// use warp::Filter;
 ///
-/// let route = warp::path(&quot;foo&quot;)
+/// let route = warp::path("foo")
 ///     .and(warp::path::peek())
 ///     .map(|peek| {
-///         // GET /foo/bar/baz would return &quot;bar/baz&quot;.
-///         format!(&quot;The path after foo is {:?}&quot;, peek)
+///         // GET /foo/bar/baz would return "bar/baz".
+///         format!("The path after foo is {:?}", peek)
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>peek() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;Peek&gt;, Error = Infallible&gt; + Copy {
@@ -1023,12 +1023,12 @@
 
     <span class="doccomment">/// Get an iterator over the segments of the peeked path.
     </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>str&gt; {
-        <span class="self">self</span>.as_str().split(<span class="string">&#39;/&#39;</span>).filter(|seg| !seg.is_empty())
+        <span class="self">self</span>.as_str().split(<span class="string">'/'</span>).filter(|seg| !seg.is_empty())
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Peek {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         fmt::Debug::fmt(<span class="self">self</span>.as_str(), f)
     }
 }
@@ -1057,11 +1057,11 @@
 ///             .or_insert(0)
 ///     });
 ///
-/// let route = warp::path(&quot;foo&quot;)
-///     .and(warp::path(&quot;bar&quot;))
+/// let route = warp::path("foo")
+///     .and(warp::path("bar"))
 ///     .and(access_counter)
 ///     .map(|count| {
-///         format!(&quot;This is the {}th visit to this URL!&quot;, count)
+///         format!("This is the {}th visit to this URL!", count)
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>full() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;FullPath&gt;, Error = Infallible&gt; + Copy {
@@ -1079,7 +1079,7 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>FullPath {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         fmt::Debug::fmt(<span class="self">self</span>.as_str(), f)
     }
 }
@@ -1087,7 +1087,7 @@
 <span class="kw">fn </span>filter_segment&lt;F, U&gt;(func: F) -&gt; <span class="kw">impl </span>Filter&lt;Extract = U, Error = Rejection&gt; + Copy
 <span class="kw">where
     </span>F: Fn(<span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;U, Rejection&gt; + Copy,
-    U: Tuple + Send + <span class="lifetime">&#39;static</span>,
+    U: Tuple + Send + <span class="lifetime">'static</span>,
 {
     filter_fn(<span class="kw">move </span>|route| future::ready(with_segment(route, func)))
 }
@@ -1108,9 +1108,9 @@
 <span class="kw">fn </span>segment(route: <span class="kw-2">&amp;</span>Route) -&gt; <span class="kw-2">&amp;</span>str {
     route
         .path()
-        .splitn(<span class="number">2</span>, <span class="string">&#39;/&#39;</span>)
+        .splitn(<span class="number">2</span>, <span class="string">'/'</span>)
         .next()
-        .expect(<span class="string">&quot;split always has at least 1&quot;</span>)
+        .expect(<span class="string">"split always has at least 1"</span>)
 }
 
 <span class="kw">fn </span>path_and_query(route: <span class="kw-2">&amp;</span>Route) -&gt; PathAndQuery {
@@ -1118,7 +1118,7 @@
         .uri()
         .path_and_query()
         .cloned()
-        .unwrap_or_else(|| PathAndQuery::from_static(<span class="string">&quot;&quot;</span>))
+        .unwrap_or_else(|| PathAndQuery::from_static(<span class="string">""</span>))
 }
 
 <span class="doccomment">/// Convenient way to chain multiple path filters together.
@@ -1134,9 +1134,9 @@
 /// use warp::Filter;
 ///
 /// // Match `/sum/:a/:b`
-/// let route = warp::path!(&quot;sum&quot; / u32 / u32)
+/// let route = warp::path!("sum" / u32 / u32)
 ///     .map(|a, b| {
-///         format!(&quot;{} + {} = {}&quot;, a, b, a + b)
+///         format!("{} + {} = {}", a, b, a + b)
 ///     });
 /// ```
 ///
@@ -1145,39 +1145,39 @@
 /// ```
 /// use warp::Filter;
 ///
-/// let route = warp::path(&quot;sum&quot;)
+/// let route = warp::path("sum")
 ///     .and(warp::path::param::&lt;u32&gt;())
 ///     .and(warp::path::param::&lt;u32&gt;())
 ///     .and(warp::path::end())
 ///     .map(|a, b| {
-///         format!(&quot;{} + {} = {}&quot;, a, b, a + b)
+///         format!("{} + {} = {}", a, b, a + b)
 ///     });
 /// ```
 ///
 /// # Path Prefixes
 ///
 /// The `path!` macro automatically assumes the path should include an `end()`
-/// filter. To build up a path filter *prefix*, such that the `end()` isn&#39;t
+/// filter. To build up a path filter *prefix*, such that the `end()` isn't
 /// included, use the `/ ..` syntax.
 ///
 ///
 /// ```
 /// use warp::Filter;
 ///
-/// let prefix = warp::path!(&quot;math&quot; / &quot;sum&quot; / ..);
+/// let prefix = warp::path!("math" / "sum" / ..);
 ///
 /// let sum = warp::path!(u32 / u32)
 ///     .map(|a, b| {
-///         format!(&quot;{} + {} = {}&quot;, a, b, a + b)
+///         format!("{} + {} = {}", a, b, a + b)
 ///     });
 ///
 /// let help = warp::path::end()
-///     .map(|| &quot;This API returns the sum of two u32&#39;s&quot;);
+///     .map(|| "This API returns the sum of two u32's");
 ///
 /// let api = prefix.and(sum.or(help));
 /// ```
 </span><span class="attr">#[macro_export]
-</span><span class="macro">macro_rules! </span>path {
+</span><span class="macro">macro_rules!</span> path {
     ($(<span class="macro-nonterminal">$pieces</span>:tt)<span class="kw-2">*</span>) =&gt; ({
         <span class="macro-nonterminal">$</span><span class="macro">crate::__internal_path!</span>(@<span class="macro-nonterminal">start </span>$(<span class="macro-nonterminal">$pieces</span>)<span class="kw-2">*</span>)
     });
@@ -1186,12 +1186,12 @@
 <span class="attr">#[doc(hidden)]
 #[macro_export]
 </span><span class="comment">// not public API
-</span><span class="macro">macro_rules! </span>__internal_path {
+</span><span class="macro">macro_rules!</span> __internal_path {
     (@start) =&gt; (
         <span class="macro-nonterminal">$crate::path::end</span>()
     );
     (@start ..) =&gt; ({
-        <span class="macro">compile_error!</span>(<span class="string">&quot;&#39;..&#39; cannot be the only segment&quot;</span>)
+        <span class="macro">compile_error!</span>(<span class="string">"'..' cannot be the only segment"</span>)
     });
     (@start <span class="macro-nonterminal">$first</span>:tt $(/ <span class="macro-nonterminal">$tail</span>:tt)<span class="kw-2">*</span>) =&gt; ({
         <span class="macro-nonterminal">$</span><span class="macro">crate::__internal_path!</span>(@<span class="macro-nonterminal">munch $crate::any</span>(); [<span class="macro-nonterminal">$first</span>] [$(/ <span class="macro-nonterminal">$tail</span>)<span class="kw-2">*</span>])
@@ -1215,12 +1215,12 @@
     );
 
     (@segment ..) =&gt; (
-        <span class="macro">compile_error!</span>(<span class="string">&quot;&#39;..&#39; must be the last segment&quot;</span>)
+        <span class="macro">compile_error!</span>(<span class="string">"'..' must be the last segment"</span>)
     );
     (@segment <span class="macro-nonterminal">$param</span>:ty) =&gt; (
         <span class="macro-nonterminal">$crate::path::param</span>::&lt;<span class="macro-nonterminal">$param</span>&gt;()
     );
-    <span class="comment">// Constructs a unique ZST so the &amp;&#39;static str pointer doesn&#39;t need to
+    <span class="comment">// Constructs a unique ZST so the &amp;'static str pointer doesn't need to
     // be carried around.
     </span>(@segment <span class="macro-nonterminal">$s</span>:literal) =&gt; ({
         <span class="attr">#[derive(Clone, Copy)]
@@ -1238,19 +1238,19 @@
 <span class="comment">// path! compile fail tests
 
 </span><span class="doccomment">/// ```compile_fail
-/// warp::path!(&quot;foo&quot; / .. / &quot;bar&quot;);
+/// warp::path!("foo" / .. / "bar");
 /// ```
 ///
 /// ```compile_fail
-/// warp::path!(.. / &quot;bar&quot;);
+/// warp::path!(.. / "bar");
 /// ```
 ///
 /// ```compile_fail
-/// warp::path!(&quot;foo&quot; ..);
+/// warp::path!("foo" ..);
 /// ```
 ///
 /// ```compile_fail
-/// warp::path!(&quot;foo&quot; / .. /);
+/// warp::path!("foo" / .. /);
 /// ```
 ///
 /// ```compile_fail
@@ -1284,21 +1284,21 @@
         <span class="kw">use </span>std::mem::{size_of, size_of_val};
 
         <span class="macro">assert_eq!</span>(
-            size_of_val(<span class="kw-2">&amp;</span>path(<span class="string">&quot;hello&quot;</span>)),
+            size_of_val(<span class="kw-2">&amp;</span>path(<span class="string">"hello"</span>)),
             size_of::&lt;<span class="kw-2">&amp;</span>str&gt;(),
-            <span class="string">&quot;exact(&amp;str) is size of &amp;str&quot;
+            <span class="string">"exact(&amp;str) is size of &amp;str"
         </span>);
 
         <span class="macro">assert_eq!</span>(
-            size_of_val(<span class="kw-2">&amp;</span>path(String::from(<span class="string">&quot;world&quot;</span>))),
+            size_of_val(<span class="kw-2">&amp;</span>path(String::from(<span class="string">"world"</span>))),
             size_of::&lt;String&gt;(),
-            <span class="string">&quot;exact(String) is size of String&quot;
+            <span class="string">"exact(String) is size of String"
         </span>);
 
         <span class="macro">assert_eq!</span>(
-            size_of_val(<span class="kw-2">&amp;</span><span class="macro">path!</span>(<span class="string">&quot;zst&quot;</span>)),
+            size_of_val(<span class="kw-2">&amp;</span><span class="macro">path!</span>(<span class="string">"zst"</span>)),
             size_of::&lt;()&gt;(),
-            <span class="string">&quot;path!(&amp;str) is ZST&quot;
+            <span class="string">"path!(&amp;str) is ZST"
         </span>);
     }
 }

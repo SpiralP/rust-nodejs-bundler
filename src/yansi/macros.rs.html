@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.0-rc.1/src/macros.rs`."><title>macros.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.1/src/macros.rs`."><title>macros.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../yansi/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -357,7 +357,24 @@
 <a href="#357" id="357">357</a>
 <a href="#358" id="358">358</a>
 <a href="#359" id="359">359</a>
-</pre></div><pre class="rust"><code><span class="macro">macro_rules! </span>set_enum {
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+</pre></div><pre class="rust"><code><span class="macro">macro_rules!</span> set_enum {
     (<span class="macro-nonterminal">$T</span>:ident { $(<span class="macro-nonterminal">$v</span>:ident),+ $(,)<span class="question-mark">? </span>}) =&gt; {
         <span class="kw">impl </span><span class="macro-nonterminal">$T </span>{
             <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>bit_mask(<span class="self">self</span>) -&gt; u16 {
@@ -386,26 +403,30 @@
     };
 }
 
-<span class="macro">macro_rules! </span>constructor {
-    ([$(<span class="macro-nonterminal">$q</span>:tt)<span class="kw-2">*</span>] <span class="macro-nonterminal">$r</span>:ty, <span class="macro-nonterminal">$R</span>:ty, <span class="macro-nonterminal">$p</span>:ident, <span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:ident : <span class="macro-nonterminal">$T</span>:ty),+])<span class="question-mark">?</span>) =&gt; {
+<span class="macro">macro_rules!</span> constructor {
+    (
+        [$(<span class="macro-nonterminal">$q</span>:tt)<span class="kw-2">*</span>] <span class="macro-nonterminal">$r</span>:ty, <span class="macro-nonterminal">$R</span>:ty, <span class="macro-nonterminal">$p</span>:ident,
+        $(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>:meta]</span>)* <span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:ident : <span class="macro-nonterminal">$T</span>:ty),+])<span class="question-mark">?
+    </span>) =&gt; {
         <span class="doccomment">/// Returns `self` with the
-        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">&quot;()`](Self::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">&quot;())&quot;</span>)]
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">"()`](Self::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">"())"</span>)]
         </span><span class="doccomment">/// set to
-        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$V</span>), <span class="string">&quot;`].&quot;</span>)]
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$V</span>), <span class="string">"`]."</span>)]
         </span><span class="doccomment">///
         /// # Example
         ///
         /// ```rust
         </span><span class="attr">#[doc = <span class="macro">concat!</span>(
-            <span class="string">&quot;# let value = yansi::Painted::new(0);&quot;</span>,
-            $($(<span class="string">&quot;\n# let &quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$a</span>), <span class="string">&quot; = 0;&quot;</span>),+)<span class="question-mark">?
+            <span class="string">"# let value = yansi::Painted::new(0);"</span>,
+            $($(<span class="string">"\n# let "</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$a</span>), <span class="string">" = 0;"</span>),+)<span class="question-mark">?
         </span>)]
         #[doc = <span class="macro">concat!</span>(
-            <span class="string">&quot;println!(\&quot;{}\&quot;, value.&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$prop</span>), <span class="string">&quot;(&quot;</span>, $(<span class="macro">stringify!</span>($(<span class="macro-nonterminal">$a</span>),+),)<span class="question-mark">? </span><span class="string">&quot;));&quot;
+            <span class="string">"println!(\"{}\", value."</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$prop</span>), <span class="string">"("</span>, $(<span class="macro">stringify!</span>($(<span class="macro-nonterminal">$a</span>),+),)<span class="question-mark">? </span><span class="string">"));"
         </span>)]
         </span><span class="doccomment">/// ```
         </span><span class="attr">#[inline]
-        </span>$(<span class="macro-nonterminal">$q</span>)* <span class="kw">fn </span><span class="macro-nonterminal">$prop</span>(<span class="self">self</span>: <span class="macro-nonterminal">$r </span>$($(,<span class="macro-nonterminal">$a</span>: <span class="macro-nonterminal">$T</span>)+)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$R </span>{
+        </span>$(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>]</span>)*
+        $(<span class="macro-nonterminal">$q</span>)* <span class="kw">fn </span><span class="macro-nonterminal">$prop</span>(<span class="self">self</span>: <span class="macro-nonterminal">$r </span>$($(,<span class="macro-nonterminal">$a</span>: <span class="macro-nonterminal">$T</span>)+)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$R </span>{
             <span class="kw">let </span>v = <span class="macro-nonterminal">$V </span>$(($(<span class="macro-nonterminal">$a</span>),<span class="kw-2">*</span>))<span class="question-mark">?</span>;
             <span class="self">self</span>.apply(<span class="kw">crate</span>::style::Application::<span class="macro-nonterminal">$p</span>(v))
         }
@@ -420,25 +441,29 @@
     };
 }
 
-<span class="macro">macro_rules! </span>signature {
-    ([$(<span class="macro-nonterminal">$q</span>:tt)<span class="kw-2">*</span>] <span class="macro-nonterminal">$r</span>:ty, <span class="macro-nonterminal">$R</span>:ty, <span class="macro-nonterminal">$p</span>:ident, <span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:ident : <span class="macro-nonterminal">$T</span>:ty),+])<span class="question-mark">?</span>) =&gt; {
+<span class="macro">macro_rules!</span> signature {
+    (
+        [$(<span class="macro-nonterminal">$q</span>:tt)<span class="kw-2">*</span>] <span class="macro-nonterminal">$r</span>:ty, <span class="macro-nonterminal">$R</span>:ty, <span class="macro-nonterminal">$p</span>:ident,
+        $(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>:meta]</span>)* <span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:ident : <span class="macro-nonterminal">$T</span>:ty),+])<span class="question-mark">?
+    </span>) =&gt; {
         <span class="doccomment">/// Returns `self` with the
-        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">&quot;()`](Self::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">&quot;())&quot;</span>)]
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">"()`](Self::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$p</span>), <span class="string">"())"</span>)]
         </span><span class="doccomment">/// set to
-        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">&quot;[`&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$V</span>), <span class="string">&quot;`].&quot;</span>)]
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"[`"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$V</span>), <span class="string">"`]."</span>)]
         </span><span class="doccomment">///
         /// # Example
         ///
         /// ```rust
         </span><span class="attr">#[doc = <span class="macro">concat!</span>(
-            <span class="string">&quot;# let value = yansi::Painted::new(0);&quot;</span>,
-            $($(<span class="string">&quot;\n# let &quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$a</span>), <span class="string">&quot; = 0;&quot;</span>),+)<span class="question-mark">?
+            <span class="string">"# let value = yansi::Painted::new(0);"</span>,
+            $($(<span class="string">"\n# let "</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$a</span>), <span class="string">" = 0;"</span>),+)<span class="question-mark">?
         </span>)]
         #[doc = <span class="macro">concat!</span>(
-            <span class="string">&quot;println!(\&quot;{}\&quot;, value.&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$prop</span>), <span class="string">&quot;(&quot;</span>, $(<span class="macro">stringify!</span>($(<span class="macro-nonterminal">$a</span>),+),)<span class="question-mark">? </span><span class="string">&quot;));&quot;
+            <span class="string">"println!(\"{}\", value."</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$prop</span>), <span class="string">"("</span>, $(<span class="macro">stringify!</span>($(<span class="macro-nonterminal">$a</span>),+),)<span class="question-mark">? </span><span class="string">"));"
         </span>)]
         </span><span class="doccomment">/// ```
-        </span>$(<span class="macro-nonterminal">$q</span>)* <span class="kw">fn </span><span class="macro-nonterminal">$prop</span>(<span class="self">self</span>: <span class="macro-nonterminal">$r </span>$($(,<span class="macro-nonterminal">$a</span>: <span class="macro-nonterminal">$T</span>)+)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$R</span>;
+        </span>$(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>]</span>)*
+        $(<span class="macro-nonterminal">$q</span>)* <span class="kw">fn </span><span class="macro-nonterminal">$prop</span>(<span class="self">self</span>: <span class="macro-nonterminal">$r </span>$($(,<span class="macro-nonterminal">$a</span>: <span class="macro-nonterminal">$T</span>)+)<span class="question-mark">?</span>) -&gt; <span class="macro-nonterminal">$R</span>;
     };
 
     ([$(<span class="macro-nonterminal">$q</span>:tt)<span class="kw-2">*</span>] $(<span class="attr">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$r</span>:ty, <span class="macro-nonterminal">$R</span>:ty, <span class="macro-nonterminal">$kind</span>:ident (<span class="macro-nonterminal">$A</span>:ty)) =&gt; {
@@ -447,16 +472,19 @@
     };
 }
 
-<span class="macro">macro_rules! </span>define_property {
+<span class="macro">macro_rules!</span> define_property {
     ([<span class="macro-nonterminal">$d</span>:tt] $(<span class="attr">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$kind</span>:ident (<span class="macro-nonterminal">$A</span>:ty) {
-        $(<span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:tt)<span class="kw-2">*</span>])<span class="question-mark">?</span>),* $(,)<span class="question-mark">?
+        $($(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>:meta]</span>)* <span class="macro-nonterminal">$prop</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([$(<span class="macro-nonterminal">$a</span>:tt)<span class="kw-2">*</span>])<span class="question-mark">?</span>),* $(,)<span class="question-mark">?
     </span>}) =&gt; {
-        <span class="macro">macro_rules! </span><span class="macro-nonterminal">$kind </span>{
+        <span class="macro">macro_rules!</span> <span class="macro-nonterminal">$kind </span>{
             (<span class="macro-nonterminal">$d </span>([<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$qual</span>:tt)<span class="kw-2">*</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$cont</span>:ident (<span class="macro-nonterminal">$r</span>:ty) -&gt; <span class="macro-nonterminal">$R</span>:ty) =&gt; (
                 <span class="macro-nonterminal">$</span><span class="macro">cont!</span>([<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$qual</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>] $(<span class="attr">#[<span class="macro-nonterminal">$attr</span>]</span>)* <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$R</span>, <span class="macro-nonterminal">$kind</span>(<span class="macro-nonterminal">$A</span>));
 
                 $(
-                    <span class="macro-nonterminal">$</span><span class="macro">cont!</span>([<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$qual</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>] <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$R</span>, <span class="macro-nonterminal">$kind</span>, <span class="macro-nonterminal">$prop </span>=&gt; <span class="macro-nonterminal">$V </span>$([$(<span class="macro-nonterminal">$a</span>)<span class="kw-2">*</span>] )<span class="question-mark">?</span>);
+                    <span class="macro-nonterminal">$</span><span class="macro">cont!</span>(
+                        [<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$qual</span>)<span class="kw-2">*</span>)<span class="question-mark">?</span>]
+                        <span class="macro-nonterminal">$r</span>, <span class="macro-nonterminal">$R</span>, <span class="macro-nonterminal">$kind</span>, $(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>]</span>)* <span class="macro-nonterminal">$prop </span>=&gt; <span class="macro-nonterminal">$V </span>$([$(<span class="macro-nonterminal">$a</span>)<span class="kw-2">*</span>] )<span class="question-mark">?
+                    </span>);
                 )*
             )
         }
@@ -470,8 +498,8 @@
 }
 
 <span class="comment">// Check that every variant of a property is covered.
-</span><span class="macro">macro_rules! </span>check_property_exhaustiveness {
-    (<span class="macro-nonterminal">$A</span>:ident $({ $( <span class="macro-nonterminal">$p</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([ $(<span class="macro-nonterminal">$a</span>:tt)* ])<span class="question-mark">?</span>),* $(,)<span class="question-mark">? </span>})<span class="question-mark">? </span>) =&gt; {
+</span><span class="macro">macro_rules!</span> check_property_exhaustiveness {
+    (<span class="macro-nonterminal">$A</span>:ident $({ $($(<span class="attr">#[<span class="macro-nonterminal">$pattr</span>:meta]</span>)* <span class="macro-nonterminal">$p</span>:ident =&gt; <span class="macro-nonterminal">$V</span>:path $([ $(<span class="macro-nonterminal">$a</span>:tt)* ])<span class="question-mark">?</span>),* $(,)<span class="question-mark">? </span>})<span class="question-mark">? </span>) =&gt; {
         <span class="kw">const _</span>: () = {$(
             <span class="kw">use crate</span>::<span class="kw-2">*</span>;
             <span class="kw">fn </span>_check() {
@@ -484,14 +512,14 @@
     }
 }
 
-<span class="macro">macro_rules! </span>define_properties {
+<span class="macro">macro_rules!</span> define_properties {
     ($($(<span class="attr">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$kind</span>:ident (<span class="macro-nonterminal">$A</span>:ident) $({ $(<span class="macro-nonterminal">$t</span>:tt)* })<span class="question-mark">?</span>),* $(,)<span class="question-mark">?</span>) =&gt; {
         $(<span class="macro">define_property!</span>($(<span class="attr">#[<span class="macro-nonterminal">$attr</span>]</span>)* <span class="macro-nonterminal">$kind</span>(<span class="macro-nonterminal">$A</span>) $({ $(<span class="macro-nonterminal">$t</span>)* })<span class="question-mark">?</span>);)*
         $(<span class="macro">check_property_exhaustiveness!</span>(<span class="macro-nonterminal">$A </span>$({ $(<span class="macro-nonterminal">$t</span>)* })<span class="question-mark">?</span>);)*
     }
 }
 
-<span class="macro">macro_rules! </span>properties {
+<span class="macro">macro_rules!</span> properties {
     ($([$(<span class="macro-nonterminal">$qual</span>:tt)<span class="kw-2">*</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$cont</span>:ident (<span class="macro-nonterminal">$r</span>:ty) -&gt; <span class="macro-nonterminal">$R</span>:ty) =&gt; (
         <span class="macro">fg!</span>($([$(<span class="macro-nonterminal">$qual</span>)<span class="kw-2">*</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$cont </span>(<span class="macro-nonterminal">$r</span>) -&gt; <span class="macro-nonterminal">$R</span>);
         <span class="macro">bg!</span>($([$(<span class="macro-nonterminal">$qual</span>)<span class="kw-2">*</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$cont </span>(<span class="macro-nonterminal">$r</span>) -&gt; <span class="macro-nonterminal">$R</span>);
@@ -501,7 +529,7 @@
     )
 }
 
-<span class="macro">define_properties! </span>{
+<span class="macro">define_properties!</span> {
     <span class="doccomment">/// Returns a styled value derived from `self` with the foreground set to
     /// `value`.
     ///
@@ -668,7 +696,13 @@
         mask =&gt; Quirk::Mask,
         wrap =&gt; Quirk::Wrap,
         linger =&gt; Quirk::Linger,
-        clear =&gt; Quirk::Clear,
+        <span class="attr">#[deprecated(
+            since = <span class="string">"1.0.1"</span>,
+            note = <span class="string">"renamed to `resetting()` due to conflicts with `Vec::clear()`.\n\
+                The `clear()` method will be removed in a future release."
+        </span>)]
+        </span>clear =&gt; Quirk::Clear,
+        resetting =&gt; Quirk::Resetting,
         bright =&gt; Quirk::Bright,
         on_bright =&gt; Quirk::OnBright,
     },
@@ -683,7 +717,7 @@
     /// Enable styling `painted` only when both `stdout` and `stderr` are TTYs:
     ///
     /// ```rust
-    /// # #[cfg(feature = &quot;detect-tty&quot;)] {
+    /// # #[cfg(feature = "detect-tty")] {
     /// use yansi::{Paint, Condition};
     ///
     /// # let painted = ();
@@ -693,7 +727,7 @@
     </span>whenever(Condition),
 }
 
-<span class="macro">macro_rules! </span>impl_fmt_trait {
+<span class="macro">macro_rules!</span> impl_fmt_trait {
     (<span class="macro-nonterminal">$F</span>:path, <span class="macro-nonterminal">$f</span>:literal &lt;<span class="macro-nonterminal">$G</span>:ident&gt; <span class="macro-nonterminal">$T</span>:ty =&gt; <span class="macro-nonterminal">$s</span>:ident.<span class="macro-nonterminal">$v</span>:ident (<span class="macro-nonterminal">$V</span>:ty)) =&gt; {
         <span class="kw">impl</span>&lt;<span class="macro-nonterminal">$G</span>: <span class="macro-nonterminal">$F</span>&gt; <span class="macro-nonterminal">$F </span><span class="kw">for </span><span class="macro-nonterminal">$T </span>{
             <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$s</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter) -&gt; core::fmt::Result {
@@ -703,17 +737,17 @@
     };
 }
 
-<span class="macro">macro_rules! </span>impl_fmt_traits {
+<span class="macro">macro_rules!</span> impl_fmt_traits {
     ($(<span class="macro-nonterminal">$t</span>:tt)<span class="kw-2">*</span>) =&gt; {
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::Display, <span class="string">&quot;{}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::Debug, <span class="string">&quot;{:?}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::Octal, <span class="string">&quot;{:o}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::LowerHex, <span class="string">&quot;{:x}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::UpperHex, <span class="string">&quot;{:X}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::Pointer, <span class="string">&quot;{:p}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::Binary, <span class="string">&quot;{:b}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::LowerExp, <span class="string">&quot;{:e}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
-        <span class="macro">impl_fmt_trait!</span>(core::fmt::UpperExp, <span class="string">&quot;{:E}&quot; </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::Display, <span class="string">"{}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::Debug, <span class="string">"{:?}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::Octal, <span class="string">"{:o}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::LowerHex, <span class="string">"{:x}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::UpperHex, <span class="string">"{:X}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::Pointer, <span class="string">"{:p}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::Binary, <span class="string">"{:b}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::LowerExp, <span class="string">"{:e}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
+        <span class="macro">impl_fmt_trait!</span>(core::fmt::UpperExp, <span class="string">"{:E}" </span>$(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>);
     };
 }
 </code></pre></div></section></main></body></html>

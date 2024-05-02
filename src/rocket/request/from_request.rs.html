@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/request/from_request.rs`."><title>from_request.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/request/from_request.rs`."><title>from_request.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -554,10 +554,10 @@
 /// # type MyError = String;
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for MyType {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for MyType {
 ///     type Error = MyError;
 ///
-///     async fn from_request(req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, Self::Error&gt; {
+///     async fn from_request(req: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, Self::Error&gt; {
 ///         /* .. */
 ///         # unimplemented!()
 ///     }
@@ -575,7 +575,7 @@
 /// # #[macro_use] extern crate rocket;
 /// # use rocket::http::Method;
 /// # type A = Method; type B = Method; type C = Method; type T = ();
-/// #[get(&quot;/&lt;param&gt;&quot;)]
+/// #[get("/&lt;param&gt;")]
 /// fn index(param: isize, a: A, b: B, c: C) -&gt; T { /* ... */ }
 /// # fn main() {}
 /// ```
@@ -606,7 +606,7 @@
 /// * **Forward**(Status)
 ///
 ///   If the `Outcome` is [`Forward`], the request will be forwarded to the next
-///   matching route until either one succeds or there are no further matching
+///   matching route until either one succeeds or there are no further matching
 ///   routes to attempt. In the latter case, the request will be sent to the
 ///   [`Catcher`](crate::Catcher) for the designated `Status`. Note that users
 ///   can request an `Option&lt;S&gt;` to catch `Forward`s.
@@ -661,20 +661,20 @@
 ///   * **&amp;ContentType**
 ///
 ///     Extracts the [`ContentType`] from the incoming request via
-///     [`Request::content_type()`]. If the request didn&#39;t specify a
+///     [`Request::content_type()`]. If the request didn't specify a
 ///     Content-Type, the request is forwarded with a 500 Internal Server Error
 ///     status.
 ///
 ///   * **&amp;ContentType**
 ///
 ///     Extracts the [`Accept`] from the incoming request via
-///     [`Request::accept()`]. If the request didn&#39;t specify an `Accept`, the
+///     [`Request::accept()`]. If the request didn't specify an `Accept`, the
 ///     request is forwarded with a 500 Internal Server Error status.
 ///
 ///   * ***IpAddr**
 ///
 ///     Extracts the client ip address of the incoming request as an [`IpAddr`]
-///     via [`Request::client_ip()`]. If the client&#39;s IP address is not known,
+///     via [`Request::client_ip()`]. If the client's IP address is not known,
 ///     the request is forwarded with a 500 Internal Server Error status.
 ///
 ///   * **SocketAddr**
@@ -685,7 +685,7 @@
 ///
 ///   * **Option&amp;lt;T&gt;** _where_ **T: FromRequest**
 ///
-///     The type `T` is derived from the incoming request using `T`&#39;s
+///     The type `T` is derived from the incoming request using `T`'s
 ///     `FromRequest` implementation. If the derivation is a `Success`, the
 ///     derived value is returned in `Some`. Otherwise, a `None` is returned.
 ///
@@ -693,7 +693,7 @@
 ///
 ///   * **Result&amp;lt;T, T::Error&gt;** _where_ **T: FromRequest**
 ///
-///     The type `T` is derived from the incoming request using `T`&#39;s
+///     The type `T` is derived from the incoming request using `T`'s
 ///     `FromRequest` implementation. If derivation is a `Success`, the value is
 ///     returned in `Ok`. If the derivation is an `Error`, the error value is
 ///     returned in `Err`. If the derivation is a `Forward`, the request is
@@ -703,9 +703,9 @@
 ///
 /// # Example
 ///
-/// Imagine you&#39;re running an authenticated API service that requires that some
+/// Imagine you're running an authenticated API service that requires that some
 /// requests be sent along with a valid API key in a header field. You want to
-/// ensure that the handlers corresponding to these requests don&#39;t get called
+/// ensure that the handlers corresponding to these requests don't get called
 /// unless there is an API key in the request and the key is valid. The
 /// following example implements this using an `ApiKey` type and a `FromRequest`
 /// implementation for that type. The `ApiKey` type is then used in the
@@ -717,7 +717,7 @@
 /// use rocket::http::Status;
 /// use rocket::request::{self, Outcome, Request, FromRequest};
 ///
-/// struct ApiKey&lt;&#39;r&gt;(&amp;&#39;r str);
+/// struct ApiKey&lt;'r&gt;(&amp;'r str);
 ///
 /// #[derive(Debug)]
 /// enum ApiKeyError {
@@ -726,16 +726,16 @@
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for ApiKey&lt;&#39;r&gt; {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for ApiKey&lt;'r&gt; {
 ///     type Error = ApiKeyError;
 ///
-///     async fn from_request(req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
+///     async fn from_request(req: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
 ///         /// Returns true if `key` is a valid API key string.
 ///         fn is_valid(key: &amp;str) -&gt; bool {
-///             key == &quot;valid_api_key&quot;
+///             key == "valid_api_key"
 ///         }
 ///
-///         match req.headers().get_one(&quot;x-api-key&quot;) {
+///         match req.headers().get_one("x-api-key") {
 ///             None =&gt; Outcome::Error((Status::BadRequest, ApiKeyError::Missing)),
 ///             Some(key) if is_valid(key) =&gt; Outcome::Success(ApiKey(key)),
 ///             Some(_) =&gt; Outcome::Error((Status::BadRequest, ApiKeyError::Invalid)),
@@ -743,9 +743,9 @@
 ///     }
 /// }
 ///
-/// #[get(&quot;/sensitive&quot;)]
-/// fn sensitive(key: ApiKey&lt;&#39;_&gt;) -&gt; &amp;&#39;static str {
-///     &quot;Sensitive data.&quot;
+/// #[get("/sensitive")]
+/// fn sensitive(key: ApiKey&lt;'_&gt;) -&gt; &amp;'static str {
+///     "Sensitive data."
 /// }
 /// ```
 ///
@@ -761,7 +761,7 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[cfg(feature = &quot;secrets&quot;)] mod wrapper {
+/// # #[cfg(feature = "secrets")] mod wrapper {
 /// # use rocket::outcome::{IntoOutcome, try_outcome};
 /// # use rocket::request::{self, Outcome, FromRequest, Request};
 /// # use rocket::http::Status;
@@ -773,9 +773,9 @@
 /// #     }
 /// # }
 /// # #[rocket::async_trait]
-/// # impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Database {
+/// # impl&lt;'r&gt; FromRequest&lt;'r&gt; for Database {
 /// #     type Error = ();
-/// #     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Database, ()&gt; {
+/// #     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Database, ()&gt; {
 /// #         Outcome::Success(Database)
 /// #     }
 /// # }
@@ -783,13 +783,13 @@
 /// # struct Admin { user: User }
 /// #
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for User {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for User {
 ///     type Error = ();
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;User, ()&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;User, ()&gt; {
 ///         let db = try_outcome!(request.guard::&lt;Database&gt;().await);
 ///         request.cookies()
-///             .get_private(&quot;user_id&quot;)
+///             .get_private("user_id")
 ///             .and_then(|cookie| cookie.value().parse().ok())
 ///             .and_then(|id| db.get_user(id).ok())
 ///             .or_forward(Status::Unauthorized)
@@ -797,10 +797,10 @@
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Admin {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for Admin {
 ///     type Error = ();
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Admin, ()&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Admin, ()&gt; {
 ///         // This will unconditionally query the database!
 ///         let user = try_outcome!(request.guard::&lt;User&gt;().await);
 ///         if user.is_admin {
@@ -811,10 +811,10 @@
 ///     }
 /// }
 ///
-/// #[get(&quot;/dashboard&quot;)]
+/// #[get("/dashboard")]
 /// fn admin_dashboard(admin: Admin) { }
 ///
-/// #[get(&quot;/dashboard&quot;, rank = 2)]
+/// #[get("/dashboard", rank = 2)]
 /// fn user_dashboard(user: User) { }
 /// # } // end of cfg wrapper
 /// ```
@@ -826,7 +826,7 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[cfg(feature = &quot;secrets&quot;)] mod wrapper {
+/// # #[cfg(feature = "secrets")] mod wrapper {
 /// # use rocket::outcome::{IntoOutcome, try_outcome};
 /// # use rocket::request::{self, Outcome, FromRequest, Request};
 /// # use rocket::http::Status;
@@ -838,26 +838,26 @@
 /// #     }
 /// # }
 /// # #[rocket::async_trait]
-/// # impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Database {
+/// # impl&lt;'r&gt; FromRequest&lt;'r&gt; for Database {
 /// #     type Error = ();
-/// #     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Database, ()&gt; {
+/// #     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Database, ()&gt; {
 /// #         Outcome::Success(Database)
 /// #     }
 /// # }
 /// #
-/// # struct Admin&lt;&#39;a&gt; { user: &amp;&#39;a User }
+/// # struct Admin&lt;'a&gt; { user: &amp;'a User }
 /// #
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for &amp;&#39;r User {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for &amp;'r User {
 ///     type Error = std::convert::Infallible;
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
 ///         // This closure will execute at most once per request, regardless of
 ///         // the number of times the `User` guard is executed.
 ///         let user_result = request.local_cache_async(async {
 ///             let db = request.guard::&lt;Database&gt;().await.succeeded()?;
 ///             request.cookies()
-///                 .get_private(&quot;user_id&quot;)
+///                 .get_private("user_id")
 ///                 .and_then(|cookie| cookie.value().parse().ok())
 ///                 .and_then(|id| db.get_user(id).ok())
 ///         }).await;
@@ -867,10 +867,10 @@
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for Admin&lt;&#39;r&gt; {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for Admin&lt;'r&gt; {
 ///     type Error = std::convert::Infallible;
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; Outcome&lt;Self, Self::Error&gt; {
 ///         let user = try_outcome!(request.guard::&lt;&amp;User&gt;().await);
 ///         if user.is_admin {
 ///             Outcome::Success(Admin { user })
@@ -882,12 +882,12 @@
 /// # } // end of cfg wrapper
 /// ```
 ///
-/// Notice that these request guards provide access to *borrowed* data (`&amp;&#39;a
-/// User` and `Admin&lt;&#39;a&gt;`) as the data is now owned by the request&#39;s cache.
+/// Notice that these request guards provide access to *borrowed* data (`&amp;'a
+/// User` and `Admin&lt;'a&gt;`) as the data is now owned by the request's cache.
 ///
-/// [request-local state]: https://rocket.rs/v0.5-rc/guide/state/#request-local-state
+/// [request-local state]: https://rocket.rs/v0.5/guide/state/#request-local-state
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>FromRequest&lt;<span class="lifetime">&#39;r</span>&gt;: Sized {
+</span><span class="kw">pub trait </span>FromRequest&lt;<span class="lifetime">'r</span>&gt;: Sized {
     <span class="doccomment">/// The associated error to be returned if derivation fails.
     </span><span class="kw">type </span>Error: Debug;
 
@@ -897,32 +897,32 @@
     /// the derivation fails in an unrecoverable fashion, `Error` is returned.
     /// `Forward` is returned to indicate that the request should be forwarded
     /// to other matching routes, if any.
-    </span><span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
+    </span><span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt;;
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Method {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Method {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         Success(request.method())
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Origin&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>Origin&lt;<span class="lifetime">'r</span>&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         Success(request.uri())
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Host&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>Host&lt;<span class="lifetime">'r</span>&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.host() {
             <span class="prelude-val">Some</span>(host) =&gt; Success(host),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -931,10 +931,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Route {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>Route {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.route() {
             <span class="prelude-val">Some</span>(route) =&gt; Success(route),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -943,19 +943,19 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>CookieJar&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>CookieJar&lt;<span class="lifetime">'r</span>&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         Success(request.cookies())
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Accept {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>Accept {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.accept() {
             <span class="prelude-val">Some</span>(accept) =&gt; Success(accept),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -964,10 +964,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>ContentType {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'r </span>ContentType {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.content_type() {
             <span class="prelude-val">Some</span>(content_type) =&gt; Success(content_type),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -976,10 +976,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>IpAddr {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>IpAddr {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.client_ip() {
             <span class="prelude-val">Some</span>(addr) =&gt; Success(addr),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -988,10 +988,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>SocketAddr {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>SocketAddr {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>request.remote() {
             <span class="prelude-val">Some</span>(addr) =&gt; Success(addr),
             <span class="prelude-val">None </span>=&gt; Forward(Status::InternalServerError)
@@ -1000,10 +1000,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromRequest&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromRequest&lt;<span class="lifetime">'r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>T::from_request(request).<span class="kw">await </span>{
             Success(val) =&gt; Success(<span class="prelude-val">Ok</span>(val)),
             Error((<span class="kw">_</span>, e)) =&gt; Success(<span class="prelude-val">Err</span>(e)),
@@ -1013,10 +1013,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromRequest&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromRequest&lt;<span class="lifetime">'r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         <span class="kw">match </span>T::from_request(request).<span class="kw">await </span>{
             Success(val) =&gt; Success(<span class="prelude-val">Some</span>(val)),
             Error(<span class="kw">_</span>) | Forward(<span class="kw">_</span>) =&gt; Success(<span class="prelude-val">None</span>),
@@ -1025,10 +1025,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromRequest&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Outcome&lt;T, T::Error&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromRequest&lt;<span class="lifetime">'r</span>&gt;&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Outcome&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = Infallible;
 
-    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
+    <span class="kw">async fn </span>from_request(request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; Outcome&lt;<span class="self">Self</span>, Infallible&gt; {
         Success(T::from_request(request).<span class="kw">await</span>)
     }
 }

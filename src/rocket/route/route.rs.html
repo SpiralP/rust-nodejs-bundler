@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/route/route.rs`."><title>route.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/route/route.rs`."><title>route.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -380,45 +380,45 @@
 ///
 /// A route consists of exactly the information in its fields. While a `Route`
 /// can be instantiated directly, doing so should be a rare or nonexistent
-/// event. Instead, a Rocket application should use Rocket&#39;s
+/// event. Instead, a Rocket application should use Rocket's
 /// [`#[route]`](macro@crate::route) series of attributes to generate a `Route`.
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// # use std::path::PathBuf;
-/// #[get(&quot;/route/&lt;path..&gt;?query&quot;, rank = 2, format = &quot;json&quot;)]
+/// #[get("/route/&lt;path..&gt;?query", rank = 2, format = "json")]
 /// fn route_name(path: PathBuf) { /* handler procedure */ }
 ///
 /// use rocket::http::{Method, MediaType};
 ///
 /// let route = routes![route_name].remove(0);
-/// assert_eq!(route.name.unwrap(), &quot;route_name&quot;);
+/// assert_eq!(route.name.unwrap(), "route_name");
 /// assert_eq!(route.method, Method::Get);
-/// assert_eq!(route.uri, &quot;/route/&lt;path..&gt;?query&quot;);
+/// assert_eq!(route.uri, "/route/&lt;path..&gt;?query");
 /// assert_eq!(route.rank, 2);
 /// assert_eq!(route.format.unwrap(), MediaType::JSON);
 /// ```
 ///
 /// Note that the `rank` and `format` attribute parameters are optional. See
 /// [`#[route]`](macro@crate::route) for details on macro usage. Note also that
-/// a route&#39;s mounted _base_ becomes part of its URI; see [`RouteUri`] for
+/// a route's mounted _base_ becomes part of its URI; see [`RouteUri`] for
 /// details.
 ///
 /// # Routing
 ///
 /// A request _matches_ a route _iff_:
 ///
-///   * The route&#39;s method matches that of the incoming request.
-///   * The route&#39;s format (if any) matches that of the incoming request.
+///   * The route's method matches that of the incoming request.
+///   * The route's format (if any) matches that of the incoming request.
 ///     - If route specifies a format, it only matches requests for that format.
-///     - If route doesn&#39;t specify a format, it matches requests for any format.
-///     - A route&#39;s `format` matches against the `Accept` header in the request
-///       when the route&#39;s method [`supports_payload()`] and `Content-Type`
+///     - If route doesn't specify a format, it matches requests for any format.
+///     - A route's `format` matches against the `Accept` header in the request
+///       when the route's method [`supports_payload()`] and `Content-Type`
 ///       header otherwise.
 ///     - Non-specific `Accept` header components (`*`) match anything.
-///   * All static components in the route&#39;s path match the corresponding
+///   * All static components in the route's path match the corresponding
 ///     components in the same position in the incoming request.
-///   * All static components in the route&#39;s query string are also in the
+///   * All static components in the route's query string are also in the
 ///     request query string, though in any position. If there is no query
 ///     in the route, requests with and without queries match.
 ///
@@ -450,12 +450,12 @@
 ///
 /// ## Default Ranking
 ///
-/// Most collisions are automatically resolved by Rocket&#39;s _default rank_. The
+/// Most collisions are automatically resolved by Rocket's _default rank_. The
 /// default rank prefers static components over dynamic components in both paths
-/// and queries: the _more_ static a route&#39;s path and query are, the lower its
+/// and queries: the _more_ static a route's path and query are, the lower its
 /// rank and thus the higher its precedence.
 ///
-/// There are three &quot;colors&quot; to paths and queries:
+/// There are three "colors" to paths and queries:
 ///   1. `static` - all components are static
 ///   2. `partial` - at least one, but not all, components are dynamic
 ///   3. `wild` - all components are dynamic
@@ -495,63 +495,63 @@
 /// }
 ///
 /// assert_rank! {
-///     &quot;/?foo&quot; =&gt; -12,                 // static path, static query
-///     &quot;/foo/bar?a=b&amp;bob&quot; =&gt; -12,      // static path, static query
-///     &quot;/?a=b&amp;bob&quot; =&gt; -12,             // static path, static query
+///     "/?foo" =&gt; -12,                 // static path, static query
+///     "/foo/bar?a=b&amp;bob" =&gt; -12,      // static path, static query
+///     "/?a=b&amp;bob" =&gt; -12,             // static path, static query
 ///
-///     &quot;/?a&amp;&lt;zoo..&gt;&quot; =&gt; -11,           // static path, partial query
-///     &quot;/foo?a&amp;&lt;zoo..&gt;&quot; =&gt; -11,        // static path, partial query
-///     &quot;/?a&amp;&lt;zoo&gt;&quot; =&gt; -11,             // static path, partial query
+///     "/?a&amp;&lt;zoo..&gt;" =&gt; -11,           // static path, partial query
+///     "/foo?a&amp;&lt;zoo..&gt;" =&gt; -11,        // static path, partial query
+///     "/?a&amp;&lt;zoo&gt;" =&gt; -11,             // static path, partial query
 ///
-///     &quot;/?&lt;zoo..&gt;&quot; =&gt; -10,             // static path, wild query
-///     &quot;/foo?&lt;zoo..&gt;&quot; =&gt; -10,          // static path, wild query
-///     &quot;/foo?&lt;a&gt;&amp;&lt;b&gt;&quot; =&gt; -10,          // static path, wild query
+///     "/?&lt;zoo..&gt;" =&gt; -10,             // static path, wild query
+///     "/foo?&lt;zoo..&gt;" =&gt; -10,          // static path, wild query
+///     "/foo?&lt;a&gt;&amp;&lt;b&gt;" =&gt; -10,          // static path, wild query
 ///
-///     &quot;/&quot; =&gt; -9,                      // static path, no query
-///     &quot;/foo/bar&quot; =&gt; -9,               // static path, no query
+///     "/" =&gt; -9,                      // static path, no query
+///     "/foo/bar" =&gt; -9,               // static path, no query
 ///
-///     &quot;/a/&lt;b&gt;?foo&quot; =&gt; -8,             // partial path, static query
-///     &quot;/a/&lt;b..&gt;?foo&quot; =&gt; -8,           // partial path, static query
-///     &quot;/&lt;a&gt;/b?foo&quot; =&gt; -8,             // partial path, static query
+///     "/a/&lt;b&gt;?foo" =&gt; -8,             // partial path, static query
+///     "/a/&lt;b..&gt;?foo" =&gt; -8,           // partial path, static query
+///     "/&lt;a&gt;/b?foo" =&gt; -8,             // partial path, static query
 ///
-///     &quot;/a/&lt;b&gt;?&lt;b&gt;&amp;c&quot; =&gt; -7,           // partial path, partial query
-///     &quot;/a/&lt;b..&gt;?a&amp;&lt;c..&gt;&quot; =&gt; -7,       // partial path, partial query
+///     "/a/&lt;b&gt;?&lt;b&gt;&amp;c" =&gt; -7,           // partial path, partial query
+///     "/a/&lt;b..&gt;?a&amp;&lt;c..&gt;" =&gt; -7,       // partial path, partial query
 ///
-///     &quot;/a/&lt;b&gt;?&lt;c..&gt;&quot; =&gt; -6,           // partial path, wild query
-///     &quot;/a/&lt;b..&gt;?&lt;c&gt;&amp;&lt;d&gt;&quot; =&gt; -6,       // partial path, wild query
-///     &quot;/a/&lt;b..&gt;?&lt;c&gt;&quot; =&gt; -6,           // partial path, wild query
+///     "/a/&lt;b&gt;?&lt;c..&gt;" =&gt; -6,           // partial path, wild query
+///     "/a/&lt;b..&gt;?&lt;c&gt;&amp;&lt;d&gt;" =&gt; -6,       // partial path, wild query
+///     "/a/&lt;b..&gt;?&lt;c&gt;" =&gt; -6,           // partial path, wild query
 ///
-///     &quot;/a/&lt;b&gt;&quot; =&gt; -5,                 // partial path, no query
-///     &quot;/&lt;a&gt;/b&quot; =&gt; -5,                 // partial path, no query
-///     &quot;/a/&lt;b..&gt;&quot; =&gt; -5,               // partial path, no query
+///     "/a/&lt;b&gt;" =&gt; -5,                 // partial path, no query
+///     "/&lt;a&gt;/b" =&gt; -5,                 // partial path, no query
+///     "/a/&lt;b..&gt;" =&gt; -5,               // partial path, no query
 ///
-///     &quot;/&lt;b&gt;/&lt;c&gt;?foo&amp;bar&quot; =&gt; -4,       // wild path, static query
-///     &quot;/&lt;a&gt;/&lt;b..&gt;?foo&quot; =&gt; -4,         // wild path, static query
-///     &quot;/&lt;b..&gt;?cat&quot; =&gt; -4,             // wild path, static query
+///     "/&lt;b&gt;/&lt;c&gt;?foo&amp;bar" =&gt; -4,       // wild path, static query
+///     "/&lt;a&gt;/&lt;b..&gt;?foo" =&gt; -4,         // wild path, static query
+///     "/&lt;b..&gt;?cat" =&gt; -4,             // wild path, static query
 ///
-///     &quot;/&lt;b&gt;/&lt;c&gt;?&lt;foo&gt;&amp;bar&quot; =&gt; -3,     // wild path, partial query
-///     &quot;/&lt;a&gt;/&lt;b..&gt;?a&amp;&lt;b..&gt;&quot; =&gt; -3,     // wild path, partial query
-///     &quot;/&lt;b..&gt;?cat&amp;&lt;dog&gt;&quot; =&gt; -3,       // wild path, partial query
+///     "/&lt;b&gt;/&lt;c&gt;?&lt;foo&gt;&amp;bar" =&gt; -3,     // wild path, partial query
+///     "/&lt;a&gt;/&lt;b..&gt;?a&amp;&lt;b..&gt;" =&gt; -3,     // wild path, partial query
+///     "/&lt;b..&gt;?cat&amp;&lt;dog&gt;" =&gt; -3,       // wild path, partial query
 ///
-///     &quot;/&lt;b&gt;/&lt;c&gt;?&lt;foo&gt;&quot; =&gt; -2,         // wild path, wild query
-///     &quot;/&lt;a&gt;/&lt;b..&gt;?&lt;b..&gt;&quot; =&gt; -2,       // wild path, wild query
-///     &quot;/&lt;b..&gt;?&lt;c&gt;&amp;&lt;dog&gt;&quot; =&gt; -2,       // wild path, wild query
+///     "/&lt;b&gt;/&lt;c&gt;?&lt;foo&gt;" =&gt; -2,         // wild path, wild query
+///     "/&lt;a&gt;/&lt;b..&gt;?&lt;b..&gt;" =&gt; -2,       // wild path, wild query
+///     "/&lt;b..&gt;?&lt;c&gt;&amp;&lt;dog&gt;" =&gt; -2,       // wild path, wild query
 ///
-///     &quot;/&lt;b&gt;/&lt;c&gt;&quot; =&gt; -1,               // wild path, no query
-///     &quot;/&lt;a&gt;/&lt;b..&gt;&quot; =&gt; -1,             // wild path, no query
-///     &quot;/&lt;b..&gt;&quot; =&gt; -1,                 // wild path, no query
+///     "/&lt;b&gt;/&lt;c&gt;" =&gt; -1,               // wild path, no query
+///     "/&lt;a&gt;/&lt;b..&gt;" =&gt; -1,             // wild path, no query
+///     "/&lt;b..&gt;" =&gt; -1,                 // wild path, no query
 /// }
 /// ```
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>Route {
     <span class="doccomment">/// The name of this route, if one was given.
-    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
     <span class="doccomment">/// The method this route matches against.
     </span><span class="kw">pub </span>method: Method,
     <span class="doccomment">/// The function that should be called when the route matches.
     </span><span class="kw">pub </span>handler: Box&lt;<span class="kw">dyn </span>Handler&gt;,
     <span class="doccomment">/// The route URI.
-    </span><span class="kw">pub </span>uri: RouteUri&lt;<span class="lifetime">&#39;static</span>&gt;,
+    </span><span class="kw">pub </span>uri: RouteUri&lt;<span class="lifetime">'static</span>&gt;,
     <span class="doccomment">/// The rank of this route. Lower ranks have higher priorities.
     </span><span class="kw">pub </span>rank: isize,
     <span class="doccomment">/// The media type this route matches against, if any.
@@ -576,10 +576,10 @@
     /// # use rocket::route::dummy_handler as handler;
     ///
     /// // this is a rank 1 route matching requests to `GET /`
-    /// let index = Route::new(Method::Get, &quot;/&quot;, handler);
+    /// let index = Route::new(Method::Get, "/", handler);
     /// assert_eq!(index.rank, -9);
     /// assert_eq!(index.method, Method::Get);
-    /// assert_eq!(index.uri, &quot;/&quot;);
+    /// assert_eq!(index.uri, "/");
     /// ```
     </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>new&lt;H: Handler&gt;(method: Method, uri: <span class="kw-2">&amp;</span>str, handler: H) -&gt; Route {
@@ -601,21 +601,21 @@
     /// use rocket::http::Method;
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let foo = Route::ranked(1, Method::Post, &quot;/foo?bar&quot;, handler);
+    /// let foo = Route::ranked(1, Method::Post, "/foo?bar", handler);
     /// assert_eq!(foo.rank, 1);
     /// assert_eq!(foo.method, Method::Post);
-    /// assert_eq!(foo.uri, &quot;/foo?bar&quot;);
+    /// assert_eq!(foo.uri, "/foo?bar");
     ///
-    /// let foo = Route::ranked(None, Method::Post, &quot;/foo?bar&quot;, handler);
+    /// let foo = Route::ranked(None, Method::Post, "/foo?bar", handler);
     /// assert_eq!(foo.rank, -12);
     /// assert_eq!(foo.method, Method::Post);
-    /// assert_eq!(foo.uri, &quot;/foo?bar&quot;);
+    /// assert_eq!(foo.uri, "/foo?bar");
     /// ```
     </span><span class="attr">#[track_caller]
     </span><span class="kw">pub fn </span>ranked&lt;H, R&gt;(rank: R, method: Method, uri: <span class="kw-2">&amp;</span>str, handler: H) -&gt; Route
-        <span class="kw">where </span>H: Handler + <span class="lifetime">&#39;static</span>, R: Into&lt;<span class="prelude-ty">Option</span>&lt;isize&gt;&gt;,
+        <span class="kw">where </span>H: Handler + <span class="lifetime">'static</span>, R: Into&lt;<span class="prelude-ty">Option</span>&lt;isize&gt;&gt;,
     {
-        <span class="kw">let </span>uri = RouteUri::new(<span class="string">&quot;/&quot;</span>, uri);
+        <span class="kw">let </span>uri = RouteUri::new(<span class="string">"/"</span>, uri);
         <span class="kw">let </span>rank = rank.into().unwrap_or_else(|| uri.default_rank());
         Route {
             name: <span class="prelude-val">None</span>,
@@ -641,18 +641,18 @@
     /// use rocket::http::{Method, uri::Origin};
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar&quot;, handler);
-    /// assert_eq!(index.uri.base(), &quot;/&quot;);
-    /// assert_eq!(index.uri.unmounted_origin.path(), &quot;/foo/bar&quot;);
-    /// assert_eq!(index.uri.path(), &quot;/foo/bar&quot;);
+    /// let index = Route::new(Method::Get, "/foo/bar", handler);
+    /// assert_eq!(index.uri.base(), "/");
+    /// assert_eq!(index.uri.unmounted_origin.path(), "/foo/bar");
+    /// assert_eq!(index.uri.path(), "/foo/bar");
     ///
-    /// let index = index.map_base(|base| format!(&quot;{}{}&quot;, &quot;/boo&quot;, base)).unwrap();
-    /// assert_eq!(index.uri.base(), &quot;/boo&quot;);
-    /// assert_eq!(index.uri.unmounted_origin.path(), &quot;/foo/bar&quot;);
-    /// assert_eq!(index.uri.path(), &quot;/boo/foo/bar&quot;);
+    /// let index = index.map_base(|base| format!("{}{}", "/boo", base)).unwrap();
+    /// assert_eq!(index.uri.base(), "/boo");
+    /// assert_eq!(index.uri.unmounted_origin.path(), "/foo/bar");
+    /// assert_eq!(index.uri.path(), "/boo/foo/bar");
     /// ```
-    </span><span class="kw">pub fn </span>map_base&lt;<span class="lifetime">&#39;a</span>, F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, mapper: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, uri::Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
-        <span class="kw">where </span>F: FnOnce(uri::Origin&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; String
+    </span><span class="kw">pub fn </span>map_base&lt;<span class="lifetime">'a</span>, F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, mapper: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, uri::Error&lt;<span class="lifetime">'static</span>&gt;&gt;
+        <span class="kw">where </span>F: FnOnce(uri::Origin&lt;<span class="lifetime">'a</span>&gt;) -&gt; String
     {
         <span class="kw">let </span>base = mapper(<span class="self">self</span>.uri.base);
         <span class="self">self</span>.uri = RouteUri::try_new(<span class="kw-2">&amp;</span>base, <span class="kw-2">&amp;</span><span class="self">self</span>.uri.unmounted_origin.to_string())<span class="question-mark">?</span>;
@@ -661,24 +661,24 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Route {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>n) = <span class="self">self</span>.name {
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}{}{} &quot;</span>, <span class="string">&quot;(&quot;</span>.cyan(), n.primary(), <span class="string">&quot;)&quot;</span>.cyan())<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"{}{}{} "</span>, <span class="string">"("</span>.cyan(), n.primary(), <span class="string">")"</span>.cyan())<span class="question-mark">?</span>;
         }
 
-        <span class="macro">write!</span>(f, <span class="string">&quot;{} &quot;</span>, <span class="self">self</span>.method.green())<span class="question-mark">?</span>;
-        <span class="kw">if </span><span class="self">self</span>.uri.base() != <span class="string">&quot;/&quot; </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.uri.base().blue().underline())<span class="question-mark">?</span>;
+        <span class="macro">write!</span>(f, <span class="string">"{} "</span>, <span class="self">self</span>.method.green())<span class="question-mark">?</span>;
+        <span class="kw">if </span><span class="self">self</span>.uri.base() != <span class="string">"/" </span>{
+            <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.uri.base().blue().underline())<span class="question-mark">?</span>;
         }
 
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.uri.unmounted_origin.blue())<span class="question-mark">?</span>;
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.uri.unmounted_origin.blue())<span class="question-mark">?</span>;
 
         <span class="kw">if </span><span class="self">self</span>.rank &gt; <span class="number">1 </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot; [{}]&quot;</span>, <span class="self">self</span>.rank.primary().bold())<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">" [{}]"</span>, <span class="self">self</span>.rank.primary().bold())<span class="question-mark">?</span>;
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>format) = <span class="self">self</span>.format {
-            <span class="macro">write!</span>(f, <span class="string">&quot; {}&quot;</span>, format.yellow())<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">" {}"</span>, format.yellow())<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -686,13 +686,13 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Route {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;Route&quot;</span>)
-            .field(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)
-            .field(<span class="string">&quot;method&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.method)
-            .field(<span class="string">&quot;uri&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.uri)
-            .field(<span class="string">&quot;rank&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.rank)
-            .field(<span class="string">&quot;format&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.format)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"Route"</span>)
+            .field(<span class="string">"name"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)
+            .field(<span class="string">"method"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.method)
+            .field(<span class="string">"uri"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.uri)
+            .field(<span class="string">"rank"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.rank)
+            .field(<span class="string">"format"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.format)
             .finish()
     }
 }
@@ -700,20 +700,20 @@
 <span class="doccomment">/// Information generated by the `route` attribute during codegen.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub struct </span>StaticInfo {
-    <span class="doccomment">/// The route&#39;s name, i.e, the name of the function.
-    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-    <span class="doccomment">/// The route&#39;s method.
+    <span class="doccomment">/// The route's name, i.e, the name of the function.
+    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    <span class="doccomment">/// The route's method.
     </span><span class="kw">pub </span>method: Method,
-    <span class="doccomment">/// The route&#39;s URi, without the base mount point.
-    </span><span class="kw">pub </span>uri: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
-    <span class="doccomment">/// The route&#39;s format, if any.
+    <span class="doccomment">/// The route's URi, without the base mount point.
+    </span><span class="kw">pub </span>uri: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+    <span class="doccomment">/// The route's format, if any.
     </span><span class="kw">pub </span>format: <span class="prelude-ty">Option</span>&lt;MediaType&gt;,
-    <span class="doccomment">/// The route&#39;s handler, i.e, the annotated function.
-    </span><span class="kw">pub </span>handler: <span class="kw">for</span>&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span><span class="kw">crate</span>::Request&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw">crate</span>::Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;r</span>&gt;,
-    <span class="doccomment">/// The route&#39;s rank, if any.
+    <span class="doccomment">/// The route's handler, i.e, the annotated function.
+    </span><span class="kw">pub </span>handler: <span class="kw">for</span>&lt;<span class="lifetime">'r</span>&gt; <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="lifetime">'r </span><span class="kw">crate</span>::Request&lt;<span class="lifetime">'_</span>&gt;, <span class="kw">crate</span>::Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'r</span>&gt;,
+    <span class="doccomment">/// The route's rank, if any.
     </span><span class="kw">pub </span>rank: <span class="prelude-ty">Option</span>&lt;isize&gt;,
     <span class="doccomment">/// Route-derived sentinels, if any.
-    /// This isn&#39;t `&amp;&#39;static [SentryInfo]` because `type_name()` isn&#39;t `const`.
+    /// This isn't `&amp;'static [SentryInfo]` because `type_name()` isn't `const`.
     </span><span class="kw">pub </span>sentinels: Vec&lt;Sentry&gt;,
 }
 
@@ -721,7 +721,7 @@
 </span><span class="kw">impl </span>From&lt;StaticInfo&gt; <span class="kw">for </span>Route {
     <span class="kw">fn </span>from(info: StaticInfo) -&gt; Route {
         <span class="comment">// This should never panic since `info.path` is statically checked.
-        </span><span class="kw">let </span>uri = RouteUri::new(<span class="string">&quot;/&quot;</span>, info.uri);
+        </span><span class="kw">let </span>uri = RouteUri::new(<span class="string">"/"</span>, info.uri);
 
         Route {
             name: <span class="prelude-val">Some</span>(info.name.into()),

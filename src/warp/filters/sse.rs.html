@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/sse.rs`."><title>sse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/sse.rs`."><title>sse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -524,21 +524,21 @@
 //!
 //! fn sse_events() -&gt; impl Stream&lt;Item = Result&lt;Event, Infallible&gt;&gt; {
 //!     iter(vec![
-//!         Ok(Event::default().data(&quot;unnamed event&quot;)),
+//!         Ok(Event::default().data("unnamed event")),
 //!         Ok(
-//!             Event::default().event(&quot;chat&quot;)
-//!             .data(&quot;chat message&quot;)
+//!             Event::default().event("chat")
+//!             .data("chat message")
 //!         ),
 //!         Ok(
 //!             Event::default().id(13.to_string())
-//!             .event(&quot;chat&quot;)
-//!             .data(&quot;other chat message\nwith next line&quot;)
+//!             .event("chat")
+//!             .data("other chat message\nwith next line")
 //!             .retry(Duration::from_millis(5000))
 //!         )
 //!     ])
 //! }
 //!
-//! let app = warp::path(&quot;push-notifications&quot;)
+//! let app = warp::path("push-notifications")
 //!     .and(warp::get())
 //!     .map(|| {
 //!         warp::sse::reply(warp::sse::keep_alive().stream(sse_events()))
@@ -568,7 +568,7 @@
 <span class="kw">use </span>http::header::{HeaderValue, CACHE_CONTROL, CONTENT_TYPE};
 <span class="kw">use </span>hyper::Body;
 <span class="kw">use </span>pin_project::pin_project;
-<span class="kw">use </span>serde_json::{<span class="self">self</span>, Error};
+<span class="kw">use </span>serde_json::Error;
 <span class="kw">use </span>tokio::time::{<span class="self">self</span>, Sleep};
 
 <span class="kw">use </span><span class="self">self</span>::sealed::SseError;
@@ -596,42 +596,42 @@
 
 <span class="kw">impl </span>Event {
     <span class="doccomment">/// Set Server-sent event data
-    /// data field(s) (&quot;data:&lt;content&gt;&quot;)
+    /// data field(s) ("data:&lt;content&gt;")
     </span><span class="kw">pub fn </span>data&lt;T: Into&lt;String&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; Event {
         <span class="self">self</span>.data = <span class="prelude-val">Some</span>(DataType::Text(data.into()));
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Set Server-sent event data
-    /// data field(s) (&quot;data:&lt;content&gt;&quot;)
+    /// data field(s) ("data:&lt;content&gt;")
     </span><span class="kw">pub fn </span>json_data&lt;T: Serialize&gt;(<span class="kw-2">mut </span><span class="self">self</span>, data: T) -&gt; <span class="prelude-ty">Result</span>&lt;Event, Error&gt; {
         <span class="self">self</span>.data = <span class="prelude-val">Some</span>(DataType::Json(serde_json::to_string(<span class="kw-2">&amp;</span>data)<span class="question-mark">?</span>));
         <span class="prelude-val">Ok</span>(<span class="self">self</span>)
     }
 
     <span class="doccomment">/// Set Server-sent event comment
-    /// Comment field (&quot;:&lt;comment-text&gt;&quot;)
+    /// Comment field (":&lt;comment-text&gt;")
     </span><span class="kw">pub fn </span>comment&lt;T: Into&lt;String&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, comment: T) -&gt; Event {
         <span class="self">self</span>.comment = <span class="prelude-val">Some</span>(comment.into());
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Set Server-sent event event
-    /// Event name field (&quot;event:&lt;event-name&gt;&quot;)
+    /// Event name field ("event:&lt;event-name&gt;")
     </span><span class="kw">pub fn </span>event&lt;T: Into&lt;String&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, event: T) -&gt; Event {
         <span class="self">self</span>.event = <span class="prelude-val">Some</span>(event.into());
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Set Server-sent event retry
-    /// Retry timeout field (&quot;retry:&lt;timeout&gt;&quot;)
+    /// Retry timeout field ("retry:&lt;timeout&gt;")
     </span><span class="kw">pub fn </span>retry(<span class="kw-2">mut </span><span class="self">self</span>, duration: Duration) -&gt; Event {
         <span class="self">self</span>.retry = <span class="prelude-val">Some</span>(duration);
         <span class="self">self
     </span>}
 
     <span class="doccomment">/// Set Server-sent event id
-    /// Identifier field (&quot;id:&lt;identifier&gt;&quot;)
+    /// Identifier field ("id:&lt;identifier&gt;")
     </span><span class="kw">pub fn </span>id&lt;T: Into&lt;String&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, id: T) -&gt; Event {
         <span class="self">self</span>.id = <span class="prelude-val">Some</span>(id.into());
         <span class="self">self
@@ -639,43 +639,43 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Event {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>comment) = <span class="kw-2">&amp;</span><span class="self">self</span>.comment {
-            <span class="string">&quot;:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+            <span class="string">":"</span>.fmt(f)<span class="question-mark">?</span>;
             comment.fmt(f)<span class="question-mark">?</span>;
-            f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+            f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>event) = <span class="kw-2">&amp;</span><span class="self">self</span>.event {
-            <span class="string">&quot;event:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+            <span class="string">"event:"</span>.fmt(f)<span class="question-mark">?</span>;
             event.fmt(f)<span class="question-mark">?</span>;
-            f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+            f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
         }
 
         <span class="kw">match </span><span class="self">self</span>.data {
             <span class="prelude-val">Some</span>(DataType::Text(<span class="kw-2">ref </span>data)) =&gt; {
-                <span class="kw">for </span>line <span class="kw">in </span>data.split(<span class="string">&#39;\n&#39;</span>) {
-                    <span class="string">&quot;data:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+                <span class="kw">for </span>line <span class="kw">in </span>data.split(<span class="string">'\n'</span>) {
+                    <span class="string">"data:"</span>.fmt(f)<span class="question-mark">?</span>;
                     line.fmt(f)<span class="question-mark">?</span>;
-                    f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+                    f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
                 }
             }
             <span class="prelude-val">Some</span>(DataType::Json(<span class="kw-2">ref </span>data)) =&gt; {
-                <span class="string">&quot;data:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+                <span class="string">"data:"</span>.fmt(f)<span class="question-mark">?</span>;
                 data.fmt(f)<span class="question-mark">?</span>;
-                f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+                f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
             }
             <span class="prelude-val">None </span>=&gt; {}
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>id) = <span class="kw-2">&amp;</span><span class="self">self</span>.id {
-            <span class="string">&quot;id:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+            <span class="string">"id:"</span>.fmt(f)<span class="question-mark">?</span>;
             id.fmt(f)<span class="question-mark">?</span>;
-            f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+            f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>duration) = <span class="kw-2">&amp;</span><span class="self">self</span>.retry {
-            <span class="string">&quot;retry:&quot;</span>.fmt(f)<span class="question-mark">?</span>;
+            <span class="string">"retry:"</span>.fmt(f)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>secs = duration.as_secs();
             <span class="kw">let </span>millis = duration.subsec_millis();
@@ -686,19 +686,19 @@
 
                 <span class="comment">// pad milliseconds
                 </span><span class="kw">if </span>millis &lt; <span class="number">10 </span>{
-                    f.write_str(<span class="string">&quot;00&quot;</span>)<span class="question-mark">?</span>;
+                    f.write_str(<span class="string">"00"</span>)<span class="question-mark">?</span>;
                 } <span class="kw">else if </span>millis &lt; <span class="number">100 </span>{
-                    f.write_char(<span class="string">&#39;0&#39;</span>)<span class="question-mark">?</span>;
+                    f.write_char(<span class="string">'0'</span>)<span class="question-mark">?</span>;
                 }
             }
 
             <span class="comment">// format milliseconds
             </span>millis.fmt(f)<span class="question-mark">?</span>;
 
-            f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+            f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
         }
 
-        f.write_char(<span class="string">&#39;\n&#39;</span>)<span class="question-mark">?</span>;
+        f.write_char(<span class="string">'\n'</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 }
@@ -713,7 +713,7 @@
 /// async {
 ///     assert_eq!(
 ///         warp::test::request()
-///            .header(&quot;Last-Event-ID&quot;, &quot;12&quot;)
+///            .header("Last-Event-ID", "12")
 ///            .filter(&amp;app)
 ///            .await
 ///            .unwrap(),
@@ -732,7 +732,7 @@
 ///     // The identifier is not a valid
 ///     assert!(
 ///        warp::test::request()
-///            .header(&quot;Last-Event-ID&quot;, &quot;abc&quot;)
+///            .header("Last-Event-ID", "abc")
 ///            .filter(&amp;app)
 ///            .await
 ///            .is_err(),
@@ -741,9 +741,9 @@
 /// ```
 </span><span class="kw">pub fn </span>last_event_id&lt;T&gt;() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;<span class="prelude-ty">Option</span>&lt;T&gt;&gt;, Error = Rejection&gt; + Copy
 <span class="kw">where
-    </span>T: FromStr + Send + Sync + <span class="lifetime">&#39;static</span>,
+    </span>T: FromStr + Send + Sync + <span class="lifetime">'static</span>,
 {
-    header::optional(<span class="string">&quot;last-event-id&quot;</span>)
+    header::optional(<span class="string">"last-event-id"</span>)
 }
 
 <span class="doccomment">/// Server-sent events reply
@@ -774,11 +774,11 @@
 /// fn event_stream() -&gt; impl Stream&lt;Item = Result&lt;Event, Infallible&gt;&gt; {
 ///         iter(vec![
 ///             // Unnamed event with data only
-///             Ok(Event::default().data(&quot;payload&quot;)),
+///             Ok(Event::default().data("payload")),
 ///             // Named event with ID and retry timeout
 ///             Ok(
-///                 Event::default().data(&quot;other message\nwith next line&quot;)
-///                 .event(&quot;chat&quot;)
+///                 Event::default().data("other message\nwith next line")
+///                 .event("chat")
 ///                 .id(1.to_string())
 ///                 .retry(Duration::from_millis(15000))
 ///             ),
@@ -787,28 +787,28 @@
 ///                 Event::default().id(2.to_string())
 ///                 .json_data(Msg {
 ///                     from: 2,
-///                     text: &quot;hello&quot;.into(),
+///                     text: "hello".into(),
 ///                 }).unwrap(),
 ///             )
 ///         ])
 /// }
 ///
 /// async {
-///     let app = warp::path(&quot;sse&quot;).and(warp::get()).map(|| {
+///     let app = warp::path("sse").and(warp::get()).map(|| {
 ///        warp::sse::reply(event_stream())
 ///     });
 ///
 ///     let res = warp::test::request()
-///         .method(&quot;GET&quot;)
-///         .header(&quot;Connection&quot;, &quot;Keep-Alive&quot;)
-///         .path(&quot;/sse&quot;)
+///         .method("GET")
+///         .header("Connection", "Keep-Alive")
+///         .path("/sse")
 ///         .reply(&amp;app)
 ///         .await
 ///         .into_body();
 ///
 ///     assert_eq!(
 ///         res,
-///         r#&quot;data:payload
+///         r#"data:payload
 ///
 /// event:chat
 /// data:other message
@@ -816,17 +816,17 @@
 /// id:1
 /// retry:15000
 ///
-/// data:{&quot;from&quot;:2,&quot;text&quot;:&quot;hello&quot;}
+/// data:{"from":2,"text":"hello"}
 /// id:2
 ///
-/// &quot;#
+/// "#
 ///     );
 /// };
 /// ```
 </span><span class="kw">pub fn </span>reply&lt;S&gt;(event_stream: S) -&gt; <span class="kw">impl </span>Reply
 <span class="kw">where
-    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">&#39;static</span>,
-    S::Error: StdError + Send + Sync + <span class="lifetime">&#39;static</span>,
+    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">'static</span>,
+    S::Error: StdError + Send + Sync + <span class="lifetime">'static</span>,
 {
     SseReply { event_stream }
 }
@@ -838,8 +838,8 @@
 
 <span class="kw">impl</span>&lt;S&gt; Reply <span class="kw">for </span>SseReply&lt;S&gt;
 <span class="kw">where
-    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">&#39;static</span>,
-    S::Error: StdError + Send + Sync + <span class="lifetime">&#39;static</span>,
+    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">'static</span>,
+    S::Error: StdError + Send + Sync + <span class="lifetime">'static</span>,
 {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; Response {
@@ -847,7 +847,7 @@
             </span>.event_stream
             .map_err(|error| {
                 <span class="comment">// FIXME: error logging
-                </span><span class="macro">log::error!</span>(<span class="string">&quot;sse stream error: {}&quot;</span>, error);
+                </span><span class="macro">log::error!</span>(<span class="string">"sse stream error: {}"</span>, error);
                 SseError
             })
             .into_stream()
@@ -856,10 +856,10 @@
         <span class="kw">let </span><span class="kw-2">mut </span>res = Response::new(Body::wrap_stream(body_stream));
         <span class="comment">// Set appropriate content type
         </span>res.headers_mut()
-            .insert(CONTENT_TYPE, HeaderValue::from_static(<span class="string">&quot;text/event-stream&quot;</span>));
+            .insert(CONTENT_TYPE, HeaderValue::from_static(<span class="string">"text/event-stream"</span>));
         <span class="comment">// Disable response body caching
         </span>res.headers_mut()
-            .insert(CACHE_CONTROL, HeaderValue::from_static(<span class="string">&quot;no-cache&quot;</span>));
+            .insert(CACHE_CONTROL, HeaderValue::from_static(<span class="string">"no-cache"</span>));
         res
     }
 }
@@ -868,7 +868,7 @@
 /// of each message, and the associated stream.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>KeepAlive {
-    comment_text: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;,
+    comment_text: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
     max_interval: Duration,
 }
 
@@ -884,7 +884,7 @@
     <span class="doccomment">/// Customize the text of the keep-alive message.
     ///
     /// Default is an empty comment.
-    </span><span class="kw">pub fn </span>text(<span class="kw-2">mut </span><span class="self">self</span>, text: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>text(<span class="kw-2">mut </span><span class="self">self</span>, text: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.comment_text = text.into();
         <span class="self">self
     </span>}
@@ -895,10 +895,10 @@
     </span><span class="kw">pub fn </span>stream&lt;S&gt;(
         <span class="self">self</span>,
         event_stream: S,
-    ) -&gt; <span class="kw">impl </span>TryStream&lt;<span class="prelude-val">Ok </span>= Event, Error = <span class="kw">impl </span>StdError + Send + Sync + <span class="lifetime">&#39;static</span>&gt; + Send + <span class="lifetime">&#39;static
+    ) -&gt; <span class="kw">impl </span>TryStream&lt;<span class="prelude-val">Ok </span>= Event, Error = <span class="kw">impl </span>StdError + Send + Sync + <span class="lifetime">'static</span>&gt; + Send + <span class="lifetime">'static
     </span><span class="kw">where
-        </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">&#39;static</span>,
-        S::Error: StdError + Send + Sync + <span class="lifetime">&#39;static</span>,
+        </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">'static</span>,
+        S::Error: StdError + Send + Sync + <span class="lifetime">'static</span>,
     {
         <span class="kw">let </span>alive_timer = time::sleep(<span class="self">self</span>.max_interval);
         SseKeepAlive {
@@ -915,7 +915,7 @@
 </span><span class="kw">struct </span>SseKeepAlive&lt;S&gt; {
     <span class="attr">#[pin]
     </span>event_stream: S,
-    comment_text: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;,
+    comment_text: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
     max_interval: Duration,
     <span class="attr">#[pin]
     </span>alive_timer: Sleep,
@@ -945,7 +945,7 @@
 /// }
 ///
 /// fn main() {
-///     let routes = warp::path(&quot;ticks&quot;)
+///     let routes = warp::path("ticks")
 ///         .and(warp::get())
 ///         .map(|| {
 ///             let mut counter: u64 = 0;
@@ -958,7 +958,7 @@
 ///             // reply using server-sent events
 ///             let stream = warp::sse::keep_alive()
 ///                 .interval(Duration::from_secs(5))
-///                 .text(&quot;thump&quot;.to_string())
+///                 .text("thump".to_string())
 ///                 .stream(event_stream);
 ///             warp::sse::reply(stream)
 ///         });
@@ -968,19 +968,19 @@
 /// See [notes](https://www.w3.org/TR/2009/WD-eventsource-20090421/#notes).
 </span><span class="kw">pub fn </span>keep_alive() -&gt; KeepAlive {
     KeepAlive {
-        comment_text: Cow::Borrowed(<span class="string">&quot;&quot;</span>),
+        comment_text: Cow::Borrowed(<span class="string">""</span>),
         max_interval: Duration::from_secs(<span class="number">15</span>),
     }
 }
 
 <span class="kw">impl</span>&lt;S&gt; Stream <span class="kw">for </span>SseKeepAlive&lt;S&gt;
 <span class="kw">where
-    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">&#39;static</span>,
-    S::Error: StdError + Send + Sync + <span class="lifetime">&#39;static</span>,
+    </span>S: TryStream&lt;<span class="prelude-val">Ok </span>= Event&gt; + Send + <span class="lifetime">'static</span>,
+    S::Error: StdError + Send + Sync + <span class="lifetime">'static</span>,
 {
     <span class="kw">type </span>Item = <span class="prelude-ty">Result</span>&lt;Event, SseError&gt;;
 
-    <span class="kw">fn </span>poll_next(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
+    <span class="kw">fn </span>poll_next(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>pin = <span class="self">self</span>.project();
         <span class="kw">match </span>pin.event_stream.try_poll_next(cx) {
             Poll::Pending =&gt; <span class="kw">match </span>Pin::new(<span class="kw-2">&amp;mut </span>pin.alive_timer).poll(cx) {
@@ -1002,7 +1002,7 @@
             }
             Poll::Ready(<span class="prelude-val">None</span>) =&gt; Poll::Ready(<span class="prelude-val">None</span>),
             Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(error))) =&gt; {
-                <span class="macro">log::error!</span>(<span class="string">&quot;sse::keep error: {}&quot;</span>, error);
+                <span class="macro">log::error!</span>(<span class="string">"sse::keep error: {}"</span>, error);
                 Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(SseError)))
             }
         }
@@ -1017,8 +1017,8 @@
     </span><span class="kw">pub struct </span>SseError;
 
     <span class="kw">impl </span>fmt::Display <span class="kw">for </span>SseError {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-            <span class="macro">write!</span>(f, <span class="string">&quot;sse error&quot;</span>)
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+            <span class="macro">write!</span>(f, <span class="string">"sse error"</span>)
         }
     }
 

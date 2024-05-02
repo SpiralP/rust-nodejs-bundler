@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fairing/fairings.rs`."><title>fairings.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fairing/fairings.rs`."><title>fairings.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -212,7 +212,7 @@
     </span>all_fairings: Vec&lt;Box&lt;<span class="kw">dyn </span>Fairing&gt;&gt;,
     <span class="comment">// Ignite fairings that have failed.
     </span>failures: Vec&lt;Info&gt;,
-    <span class="comment">// The number of ignite fairings from `self.ignite` we&#39;ve run.
+    <span class="comment">// The number of ignite fairings from `self.ignite` we've run.
     </span>num_ignited: usize,
     <span class="comment">// The vectors below hold indices into `all_fairings`.
     </span>ignite: Vec&lt;usize&gt;,
@@ -222,7 +222,7 @@
     shutdown: Vec&lt;usize&gt;,
 }
 
-<span class="macro">macro_rules! </span>iter {
+<span class="macro">macro_rules!</span> iter {
     (<span class="macro-nonterminal">$_self</span>:ident . <span class="macro-nonterminal">$kind</span>:ident) =&gt; ({
         <span class="macro">iter!</span>(<span class="macro-nonterminal">$_self</span>, <span class="macro-nonterminal">$_self</span>.<span class="macro-nonterminal">$kind</span>.iter()).map(|v| v.<span class="number">1</span>)
     });
@@ -255,7 +255,7 @@
         <span class="kw">let </span>this_info = this.info();
         <span class="kw">if </span>this_info.kind.is(Kind::Singleton) {
             <span class="comment">// If we already ran a duplicate on ignite, then fail immediately.
-            // There is no way to uphold the &quot;only run last singleton&quot; promise.
+            // There is no way to uphold the "only run last singleton" promise.
             //
             // How can this happen? Like this:
             //   1. Attach A (singleton).
@@ -272,7 +272,7 @@
                 }
             }
 
-            <span class="comment">// Finds `k` in `from` and removes it if it&#39;s there.
+            <span class="comment">// Finds `k` in `from` and removes it if it's there.
             </span><span class="kw">let </span>remove = |k: usize, from: <span class="kw-2">&amp;mut </span>Vec&lt;usize&gt;| {
                 <span class="kw">if let </span><span class="prelude-val">Ok</span>(j) = from.binary_search(<span class="kw-2">&amp;</span>k) {
                     from.remove(j);
@@ -313,7 +313,7 @@
 
     <span class="kw">pub async fn </span>handle_ignite(<span class="kw-2">mut </span>rocket: Rocket&lt;Build&gt;) -&gt; Rocket&lt;Build&gt; {
         <span class="kw">while </span>rocket.fairings.num_ignited &lt; rocket.fairings.ignite.len() {
-            <span class="comment">// We&#39;re going to move `rocket` while borrowing `fairings`...
+            <span class="comment">// We're going to move `rocket` while borrowing `fairings`...
             </span><span class="kw">let </span><span class="kw-2">mut </span>fairings = std::mem::replace(<span class="kw-2">&amp;mut </span>rocket.fairings, Fairings::new());
             <span class="kw">for </span>fairing <span class="kw">in </span><span class="macro">iter!</span>(fairings.ignite).skip(fairings.num_ignited) {
                 <span class="kw">let </span>info = fairing.info();
@@ -344,14 +344,14 @@
     }
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">pub async fn </span>handle_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;) {
+    </span><span class="kw">pub async fn </span>handle_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">'_</span>&gt;) {
         <span class="kw">for </span>fairing <span class="kw">in </span><span class="macro">iter!</span>(<span class="self">self</span>.request) {
             fairing.on_request(req, data).<span class="kw">await
         </span>}
     }
 
     <span class="attr">#[inline(always)]
-    </span><span class="kw">pub async fn </span>handle_response&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">pub async fn </span>handle_response&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="kw">for </span>fairing <span class="kw">in </span><span class="macro">iter!</span>(<span class="self">self</span>.response) {
             fairing.on_response(req, res).<span class="kw">await</span>;
         }
@@ -373,28 +373,28 @@
     <span class="kw">pub fn </span>pretty_print(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">let </span>active_fairings = <span class="self">self</span>.active().collect::&lt;HashSet&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">if </span>!active_fairings.is_empty() {
-            <span class="macro">launch_meta!</span>(<span class="string">&quot;{}{}:&quot;</span>, <span class="string">&quot;📡 &quot;</span>.emoji(), <span class="string">&quot;Fairings&quot;</span>.magenta());
+            <span class="macro">launch_meta!</span>(<span class="string">"{}{}:"</span>, <span class="string">"📡 "</span>.emoji(), <span class="string">"Fairings"</span>.magenta());
 
             <span class="kw">for </span>(<span class="kw">_</span>, fairing) <span class="kw">in </span><span class="macro">iter!</span>(<span class="self">self</span>, active_fairings.into_iter()) {
                 <span class="kw">let </span>(name, kind) = (fairing.info().name, fairing.info().kind);
-                <span class="macro">launch_meta_!</span>(<span class="string">&quot;{} ({})&quot;</span>, name.primary().bold(), kind.blue().bold());
+                <span class="macro">launch_meta_!</span>(<span class="string">"{} ({})"</span>, name.primary().bold(), kind.blue().bold());
             }
         }
     }
 }
 
 <span class="kw">impl </span>std::fmt::Debug <span class="kw">for </span>Fairings {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
-        <span class="kw">fn </span>debug_info&lt;<span class="lifetime">&#39;a</span>&gt;(iter: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw">dyn </span>Fairing&gt;) -&gt; Vec&lt;Info&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">fn </span>debug_info&lt;<span class="lifetime">'a</span>&gt;(iter: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw">dyn </span>Fairing&gt;) -&gt; Vec&lt;Info&gt; {
             iter.map(|f| f.info()).collect()
         }
 
-        f.debug_struct(<span class="string">&quot;Fairings&quot;</span>)
-            .field(<span class="string">&quot;launch&quot;</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.ignite)))
-            .field(<span class="string">&quot;liftoff&quot;</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.liftoff)))
-            .field(<span class="string">&quot;request&quot;</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.request)))
-            .field(<span class="string">&quot;response&quot;</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.response)))
-            .field(<span class="string">&quot;shutdown&quot;</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.shutdown)))
+        f.debug_struct(<span class="string">"Fairings"</span>)
+            .field(<span class="string">"launch"</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.ignite)))
+            .field(<span class="string">"liftoff"</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.liftoff)))
+            .field(<span class="string">"request"</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.request)))
+            .field(<span class="string">"response"</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.response)))
+            .field(<span class="string">"shutdown"</span>, <span class="kw-2">&amp;</span>debug_info(<span class="macro">iter!</span>(<span class="self">self</span>.shutdown)))
             .finish()
     }
 }

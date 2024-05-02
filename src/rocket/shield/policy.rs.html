@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/shield/policy.rs`."><title>policy.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/shield/policy.rs`."><title>policy.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -916,12 +916,12 @@
 /// [`Shield`]: crate::shield::Shield
 /// [`enable()`]: crate::shield::Shield::enable()
 /// [`disable()`]: crate::shield::Shield::disable()
-</span><span class="kw">pub trait </span>Policy: Default + Send + Sync + <span class="lifetime">&#39;static </span>{
+</span><span class="kw">pub trait </span>Policy: Default + Send + Sync + <span class="lifetime">'static </span>{
     <span class="doccomment">/// The actual name of the HTTP header.
     ///
     /// This name must uniquely identify the header as it is used to determine
     /// whether two implementations of `Policy` are for the same header. Use the
-    /// real HTTP header&#39;s name.
+    /// real HTTP header's name.
     ///
     /// # Example
     ///
@@ -934,11 +934,11 @@
     /// struct MyPolicy;
     ///
     /// impl Policy for MyPolicy {
-    ///     const NAME: &amp;&#39;static str = &quot;X-My-Policy&quot;;
-    /// #   fn header(&amp;self) -&gt; Header&lt;&#39;static&gt; { unimplemented!() }
+    ///     const NAME: &amp;'static str = "X-My-Policy";
+    /// #   fn header(&amp;self) -&gt; Header&lt;'static&gt; { unimplemented!() }
     /// }
     /// ```
-    </span><span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
+    </span><span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
 
     <span class="doccomment">/// Returns the [`Header`](../../rocket/http/struct.Header.html) to attach
     /// to all outgoing responses.
@@ -954,37 +954,37 @@
     /// struct MyPolicy;
     ///
     /// impl Policy for MyPolicy {
-    /// #   const NAME: &amp;&#39;static str = &quot;X-My-Policy&quot;;
-    ///     fn header(&amp;self) -&gt; Header&lt;&#39;static&gt; {
-    ///         Header::new(Self::NAME, &quot;value-to-enable&quot;)
+    /// #   const NAME: &amp;'static str = "X-My-Policy";
+    ///     fn header(&amp;self) -&gt; Header&lt;'static&gt; {
+    ///         Header::new(Self::NAME, "value-to-enable")
     ///     }
     /// }
     /// ```
-    </span><span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt;;
+    </span><span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">'static</span>&gt;;
 }
 
 <span class="doccomment">/// Hack to make `Policy` Object-Safe.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait </span>SubPolicy: Send + Sync {
-    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>UncasedStr;
-    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt;;
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>UncasedStr;
+    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">'static</span>&gt;;
 }
 
 <span class="kw">impl</span>&lt;P: Policy&gt; SubPolicy <span class="kw">for </span>P {
-    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>UncasedStr {
+    <span class="kw">fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>UncasedStr {
         P::NAME.into()
     }
 
-    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">'static</span>&gt; {
         Policy::header(<span class="self">self</span>)
     }
 }
 
-<span class="macro">macro_rules! </span>impl_policy {
+<span class="macro">macro_rules!</span> impl_policy {
     (<span class="macro-nonterminal">$T</span>:ty, <span class="macro-nonterminal">$name</span>:expr) =&gt; (
         <span class="kw">impl </span>Policy <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
-            <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="macro-nonterminal">$name</span>;
+            <span class="kw">const </span>NAME: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="macro-nonterminal">$name</span>;
 
-            <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+            <span class="kw">fn </span>header(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Header&lt;<span class="lifetime">'static</span>&gt; {
                 <span class="self">self</span>.into()
             }
         }
@@ -992,14 +992,14 @@
 }
 
 <span class="comment">// Keep this in-sync with the top-level module docs.
-</span><span class="macro">impl_policy!</span>(XssFilter, <span class="string">&quot;X-XSS-Protection&quot;</span>);
-<span class="macro">impl_policy!</span>(NoSniff, <span class="string">&quot;X-Content-Type-Options&quot;</span>);
-<span class="macro">impl_policy!</span>(Frame, <span class="string">&quot;X-Frame-Options&quot;</span>);
-<span class="macro">impl_policy!</span>(Hsts, <span class="string">&quot;Strict-Transport-Security&quot;</span>);
-<span class="macro">impl_policy!</span>(ExpectCt, <span class="string">&quot;Expect-CT&quot;</span>);
-<span class="macro">impl_policy!</span>(Referrer, <span class="string">&quot;Referrer-Policy&quot;</span>);
-<span class="macro">impl_policy!</span>(Prefetch, <span class="string">&quot;X-DNS-Prefetch-Control&quot;</span>);
-<span class="macro">impl_policy!</span>(Permission, <span class="string">&quot;Permissions-Policy&quot;</span>);
+</span><span class="macro">impl_policy!</span>(XssFilter, <span class="string">"X-XSS-Protection"</span>);
+<span class="macro">impl_policy!</span>(NoSniff, <span class="string">"X-Content-Type-Options"</span>);
+<span class="macro">impl_policy!</span>(Frame, <span class="string">"X-Frame-Options"</span>);
+<span class="macro">impl_policy!</span>(Hsts, <span class="string">"Strict-Transport-Security"</span>);
+<span class="macro">impl_policy!</span>(ExpectCt, <span class="string">"Expect-CT"</span>);
+<span class="macro">impl_policy!</span>(Referrer, <span class="string">"Referrer-Policy"</span>);
+<span class="macro">impl_policy!</span>(Prefetch, <span class="string">"X-DNS-Prefetch-Control"</span>);
+<span class="macro">impl_policy!</span>(Permission, <span class="string">"Permissions-Policy"</span>);
 
 <span class="doccomment">/// The [Referrer-Policy] header: controls the value set by the browser for the
 /// [Referer] header.
@@ -1055,17 +1055,17 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Referrer&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Referrer&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(referrer: <span class="kw-2">&amp;</span>Referrer) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>policy_string = <span class="kw">match </span>referrer {
-            Referrer::NoReferrer =&gt; <span class="string">&quot;no-referrer&quot;</span>,
-            Referrer::NoReferrerWhenDowngrade =&gt; <span class="string">&quot;no-referrer-when-downgrade&quot;</span>,
-            Referrer::Origin =&gt; <span class="string">&quot;origin&quot;</span>,
-            Referrer::OriginWhenCrossOrigin =&gt; <span class="string">&quot;origin-when-cross-origin&quot;</span>,
-            Referrer::SameOrigin =&gt; <span class="string">&quot;same-origin&quot;</span>,
-            Referrer::StrictOrigin =&gt; <span class="string">&quot;strict-origin&quot;</span>,
-            Referrer::StrictOriginWhenCrossOrigin =&gt; <span class="string">&quot;strict-origin-when-cross-origin&quot;</span>,
-            Referrer::UnsafeUrl =&gt; <span class="string">&quot;unsafe-url&quot;</span>,
+            Referrer::NoReferrer =&gt; <span class="string">"no-referrer"</span>,
+            Referrer::NoReferrerWhenDowngrade =&gt; <span class="string">"no-referrer-when-downgrade"</span>,
+            Referrer::Origin =&gt; <span class="string">"origin"</span>,
+            Referrer::OriginWhenCrossOrigin =&gt; <span class="string">"origin-when-cross-origin"</span>,
+            Referrer::SameOrigin =&gt; <span class="string">"same-origin"</span>,
+            Referrer::StrictOrigin =&gt; <span class="string">"strict-origin"</span>,
+            Referrer::StrictOriginWhenCrossOrigin =&gt; <span class="string">"strict-origin-when-cross-origin"</span>,
+            Referrer::UnsafeUrl =&gt; <span class="string">"unsafe-url"</span>,
         };
 
         Header::new(Referrer::NAME, policy_string)
@@ -1075,12 +1075,12 @@
 <span class="doccomment">/// The [Expect-CT] header: enables reporting and/or enforcement of [Certificate
 /// Transparency].
 ///
-/// [Certificate Transparency] can detect and prevent the use of misissued,
-/// malicious, or revoked TLS certificates. It solves a variety of problems with
-/// public TLS/SSL certificate management and is valuable measure for all public
-/// TLS applications.
+/// [Certificate Transparency] can detect and prevent the use of incorrectly
+/// issued malicious, or revoked TLS certificates. It solves a variety of
+/// problems with public TLS/SSL certificate management and is valuable measure
+/// for all public TLS applications.
 ///
-/// If you&#39;re just [getting started] with certificate transparency, ensure that
+/// If you're just [getting started] with certificate transparency, ensure that
 /// your [site is in compliance][getting started] before you enable enforcement
 /// with [`ExpectCt::Enforce`] or [`ExpectCt::ReportAndEnforce`]. Failure to do
 /// so will result in the browser refusing to communicate with your application.
@@ -1096,14 +1096,14 @@
     </span>Enforce(Duration),
 
     <span class="doccomment">/// Report to `Absolute`, but do not enforce, compliance violations for the
-    /// next [`Duration`]. Doesn&#39;t provide any protection but is a good way make
+    /// next [`Duration`]. Doesn't provide any protection but is a good way make
     /// sure things are working correctly before turning on enforcement in
     /// production.
-    </span>Report(Duration, Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+    </span>Report(Duration, Absolute&lt;<span class="lifetime">'static</span>&gt;),
 
     <span class="doccomment">/// Enforce compliance and report violations to `Absolute` for the next
     /// [`Duration`].
-    </span>ReportAndEnforce(Duration, Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+    </span>ReportAndEnforce(Duration, Absolute&lt;<span class="lifetime">'static</span>&gt;),
 }
 
 <span class="doccomment">/// Defaults to [`ExpectCt::Enforce`] with a 30 day duration, enforce CT
@@ -1116,15 +1116,15 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>ExpectCt&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>ExpectCt&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(expect: <span class="kw-2">&amp;</span>ExpectCt) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>policy_string =  <span class="kw">match </span>expect {
-            ExpectCt::Enforce(age) =&gt; <span class="macro">format!</span>(<span class="string">&quot;max-age={}, enforce&quot;</span>, age.whole_seconds()),
+            ExpectCt::Enforce(age) =&gt; <span class="macro">format!</span>(<span class="string">"max-age={}, enforce"</span>, age.whole_seconds()),
             ExpectCt::Report(age, uri) =&gt; {
-                <span class="macro">format!</span>(<span class="string">r#&quot;max-age={}, report-uri=&quot;{}&quot;&quot;#</span>, age.whole_seconds(), uri)
+                <span class="macro">format!</span>(<span class="string">r#"max-age={}, report-uri="{}""#</span>, age.whole_seconds(), uri)
             }
             ExpectCt::ReportAndEnforce(age, uri) =&gt; {
-                <span class="macro">format!</span>(<span class="string">&quot;max-age={}, enforce, report-uri=\&quot;{}\&quot;&quot;</span>, age.whole_seconds(), uri)
+                <span class="macro">format!</span>(<span class="string">"max-age={}, enforce, report-uri=\"{}\""</span>, age.whole_seconds(), uri)
             }
         };
 
@@ -1150,9 +1150,9 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>NoSniff&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>NoSniff&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(<span class="kw">_</span>: <span class="kw-2">&amp;</span>NoSniff) -&gt; <span class="self">Self </span>{
-        Header::new(NoSniff::NAME, <span class="string">&quot;nosniff&quot;</span>)
+        Header::new(NoSniff::NAME, <span class="string">"nosniff"</span>)
     }
 }
 
@@ -1180,10 +1180,10 @@
     /// next [`Duration`].
     </span>Enable(Duration),
 
-    <span class="doccomment">/// Like [`Hsts::Enable`], but also apply to all of the site&#39;s subdomains.
+    <span class="doccomment">/// Like [`Hsts::Enable`], but also apply to all of the site's subdomains.
     </span>IncludeSubDomains(Duration),
 
-    <span class="doccomment">/// Send a &quot;preload&quot; HSTS header, which requests inclusion in the HSTS
+    <span class="doccomment">/// Send a "preload" HSTS header, which requests inclusion in the HSTS
     /// preload list. This variant implies [`Hsts::IncludeSubDomains`], which
     /// implies [`Hsts::Enable`].
     ///
@@ -1195,7 +1195,7 @@
     ///
     /// Google maintains an [HSTS preload service] that can be used to prevent
     /// the browser from ever connecting to your site over an insecure
-    /// connection. Read more at [MDN]. Don&#39;t enable this before you have
+    /// connection. Read more at [MDN]. Don't enable this before you have
     /// registered your site and you ensure that it meets the requirements
     /// specified by the preload service.
     ///
@@ -1211,27 +1211,27 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Hsts&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Hsts&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(hsts: <span class="kw-2">&amp;</span>Hsts) -&gt; <span class="self">Self </span>{
         <span class="kw">if </span>hsts == <span class="kw-2">&amp;</span>Hsts::default() {
-            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">&#39;static</span>&gt; = Header {
+            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">'static</span>&gt; = Header {
                 name: Uncased::from_borrowed(Hsts::NAME),
-                value: Cow::Borrowed(<span class="string">&quot;max-age=31536000&quot;</span>)
+                value: Cow::Borrowed(<span class="string">"max-age=31536000"</span>)
             };
 
             <span class="kw">return </span>DEFAULT.clone();
         }
 
         <span class="kw">let </span>policy_string = <span class="kw">match </span>hsts {
-            Hsts::Enable(age) =&gt; <span class="macro">format!</span>(<span class="string">&quot;max-age={}&quot;</span>, age.whole_seconds()),
+            Hsts::Enable(age) =&gt; <span class="macro">format!</span>(<span class="string">"max-age={}"</span>, age.whole_seconds()),
             Hsts::IncludeSubDomains(age) =&gt; {
-                <span class="macro">format!</span>(<span class="string">&quot;max-age={}; includeSubDomains&quot;</span>, age.whole_seconds())
+                <span class="macro">format!</span>(<span class="string">"max-age={}; includeSubDomains"</span>, age.whole_seconds())
             }
             Hsts::Preload(age) =&gt; {
                 <span class="comment">// Google says it needs to be &gt;= 365 days for preload list.
                 </span><span class="kw">static </span>YEAR: Duration = Duration::seconds(<span class="number">31536000</span>);
 
-                <span class="macro">format!</span>(<span class="string">&quot;max-age={}; includeSubDomains; preload&quot;</span>, age.max(<span class="kw-2">&amp;</span>YEAR).whole_seconds())
+                <span class="macro">format!</span>(<span class="string">"max-age={}; includeSubDomains; preload"</span>, age.max(<span class="kw-2">&amp;</span>YEAR).whole_seconds())
             }
         };
 
@@ -1268,11 +1268,11 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Frame&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Frame&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(frame: <span class="kw-2">&amp;</span>Frame) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw">match </span>frame {
-            Frame::Deny =&gt; <span class="string">&quot;DENY&quot;</span>,
-            Frame::SameOrigin =&gt; <span class="string">&quot;SAMEORIGIN&quot;</span>,
+        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="kw">match </span>frame {
+            Frame::Deny =&gt; <span class="string">"DENY"</span>,
+            Frame::SameOrigin =&gt; <span class="string">"SAMEORIGIN"</span>,
         };
 
         Header::new(Frame::NAME, policy_string)
@@ -1304,12 +1304,12 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>XssFilter&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>XssFilter&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(filter: <span class="kw-2">&amp;</span>XssFilter) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="kw">match </span>filter {
-            XssFilter::Disable =&gt; <span class="string">&quot;0&quot;</span>,
-            XssFilter::Enable =&gt; <span class="string">&quot;1&quot;</span>,
-            XssFilter::EnableBlock =&gt; <span class="string">&quot;1; mode=block&quot;</span>,
+        <span class="kw">let </span>policy_string: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="kw">match </span>filter {
+            XssFilter::Disable =&gt; <span class="string">"0"</span>,
+            XssFilter::Enable =&gt; <span class="string">"1"</span>,
+            XssFilter::EnableBlock =&gt; <span class="string">"1; mode=block"</span>,
         };
 
         Header::new(XssFilter::NAME, policy_string)
@@ -1321,8 +1321,8 @@
 /// Tells the browser if it should perform domain name resolution on both links
 /// that the user may choose to follow as well as URLs for items referenced by
 /// the document including images, CSS, JavaScript, and so forth. Disabling
-/// prefetching is useful if you don&#39;t control the link on the pages, or know
-/// that you don&#39;t want to leak information to these domains.
+/// prefetching is useful if you don't control the link on the pages, or know
+/// that you don't want to leak information to these domains.
 ///
 /// [X-DNS-Prefetch-Control]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
 </span><span class="kw">pub enum </span>Prefetch {
@@ -1338,11 +1338,11 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Prefetch&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Prefetch&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(prefetch: <span class="kw-2">&amp;</span>Prefetch) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>policy_string = <span class="kw">match </span>prefetch {
-            Prefetch::On =&gt; <span class="string">&quot;on&quot;</span>,
-            Prefetch::Off =&gt; <span class="string">&quot;off&quot;</span>,
+            Prefetch::On =&gt; <span class="string">"on"</span>,
+            Prefetch::Off =&gt; <span class="string">"off"</span>,
         };
 
         Header::new(Prefetch::NAME, policy_string)
@@ -1377,7 +1377,7 @@
 ///     .block(Feature::Usb)
 ///     .allow(Feature::Camera, Allow::This)
 ///     .allow(Feature::Microphone, Allow::This)
-///     .allow(Feature::Payment, [Allow::This, Allow::Origin(uri!(&quot;https://rocket.rs&quot;))]);
+///     .allow(Feature::Payment, [Allow::This, Allow::Origin(uri!("https://rocket.rs"))]);
 ///
 /// rocket::build().attach(Shield::default().enable(permission));
 /// ```
@@ -1422,7 +1422,7 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::shield::{Permission, Feature, Allow};
     ///
-    /// let rocket = Allow::Origin(uri!(&quot;https://rocket.rs&quot;));
+    /// let rocket = Allow::Origin(uri!("https://rocket.rs"));
     ///
     /// let perm = Permission::allowed(Feature::Usb, Allow::This);
     /// let perm = Permission::allowed(Feature::Usb, Allow::Any);
@@ -1470,7 +1470,7 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::shield::{Permission, Feature, Allow};
     ///
-    /// let rocket = Allow::Origin(uri!(&quot;https://rocket.rs&quot;));
+    /// let rocket = Allow::Origin(uri!("https://rocket.rs"));
     /// let perm = Permission::allowed(Feature::Usb, Allow::This)
     ///     .allow(Feature::Payment, [rocket, Allow::This]);
     /// ```
@@ -1487,7 +1487,7 @@
             <span class="kw">if let </span>Allow::Origin(absolute) = allow {
                 <span class="kw">let </span>auth = absolute.authority();
                 <span class="kw">if </span>auth.is_none() || <span class="macro">matches!</span>(auth, <span class="prelude-val">Some</span>(a) <span class="kw">if </span>a.host().is_empty()) {
-                    <span class="macro">panic!</span>(<span class="string">&quot;...&quot;</span>)
+                    <span class="macro">panic!</span>(<span class="string">"..."</span>)
                 }
             }
         }
@@ -1541,7 +1541,7 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::shield::{Permission, Feature, Allow};
     ///
-    /// let foo = uri!(&quot;https://foo.com:1234&quot;);
+    /// let foo = uri!("https://foo.com:1234");
     /// let perm = Permission::blocked(Feature::Camera)
     ///     .allow(Feature::Gyroscope, [Allow::This, Allow::Origin(foo.clone())])
     ///     .block(Feature::Payment)
@@ -1560,12 +1560,12 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Permission&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>Permission&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
     <span class="kw">fn </span>from(perm: <span class="kw-2">&amp;</span>Permission) -&gt; <span class="self">Self </span>{
         <span class="kw">if </span>perm == <span class="kw-2">&amp;</span>Permission::default() {
-            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">&#39;static</span>&gt; = Header {
+            <span class="kw">static </span>DEFAULT: Header&lt;<span class="lifetime">'static</span>&gt; = Header {
                 name: Uncased::from_borrowed(Permission::NAME),
-                value: Cow::Borrowed(<span class="string">&quot;interest-cohort=()&quot;</span>)
+                value: Cow::Borrowed(<span class="string">"interest-cohort=()"</span>)
             };
 
             <span class="kw">return </span>DEFAULT.clone();
@@ -1578,12 +1578,12 @@
                     .flatten()
                     .map(|origin| origin.rendered())
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-                    .join(<span class="string">&quot; &quot;</span>);
+                    .join(<span class="string">" "</span>);
 
-                <span class="macro">format!</span>(<span class="string">&quot;{}=({})&quot;</span>, feature, list)
+                <span class="macro">format!</span>(<span class="string">"{}=({})"</span>, feature, list)
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-            .join(<span class="string">&quot;, &quot;</span>);
+            .join(<span class="string">", "</span>);
 
         Header::new(Permission::NAME, value)
     }
@@ -1598,7 +1598,7 @@
     ///
     /// The `user_info`, `path`, and `query` parts of the URI, if any, are
     /// ignored.
-    </span>Origin(Absolute&lt;<span class="lifetime">&#39;static</span>&gt;),
+    </span>Origin(Absolute&lt;<span class="lifetime">'static</span>&gt;),
     <span class="doccomment">/// Any origin at all.
     ///
     /// The feature will be allowed in all browsing contexts regardless of their
@@ -1612,11 +1612,11 @@
 }
 
 <span class="kw">impl </span>Allow {
-    <span class="kw">fn </span>rendered(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, str&gt; {
+    <span class="kw">fn </span>rendered(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'static</span>, str&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Allow::Origin(uri) =&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>string = String::with_capacity(<span class="number">32</span>);
-                string.push(<span class="string">&#39;&quot;&#39;</span>);
+                string.push(<span class="string">'"'</span>);
                 string.push_str(uri.scheme());
 
                 <span class="comment">// This should never fail when rendering a header for `Shield`
@@ -1624,17 +1624,17 @@
                 </span><span class="kw">if let </span><span class="prelude-val">Some</span>(auth) = uri.authority() {
                     <span class="kw">use </span>std::fmt::Write;
 
-                    <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">&quot;://{}&quot;</span>, auth.host());
+                    <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">"://{}"</span>, auth.host());
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(port) = auth.port() {
-                        <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">&quot;:{}&quot;</span>, port);
+                        <span class="kw">let _ </span>= <span class="macro">write!</span>(string, <span class="string">":{}"</span>, port);
                     }
                 }
 
-                string.push(<span class="string">&#39;&quot;&#39;</span>);
+                string.push(<span class="string">'"'</span>);
                 string.into()
             }
-            Allow::Any =&gt; <span class="string">&quot;*&quot;</span>.into(),
-            Allow::This =&gt; <span class="string">&quot;self&quot;</span>.into(),
+            Allow::Any =&gt; <span class="string">"*"</span>.into(),
+            Allow::This =&gt; <span class="string">"self"</span>.into(),
         }
     }
 }
@@ -1645,89 +1645,89 @@
 </span><span class="kw">pub enum </span>Feature {
     <span class="comment">// Standardized.
 
-    </span><span class="doccomment">/// The &quot;accelerometer&quot; feature.
+    </span><span class="doccomment">/// The "accelerometer" feature.
     </span>Accelerometer,
-    <span class="doccomment">/// The &quot;ambient-light-sensor&quot; feature.
+    <span class="doccomment">/// The "ambient-light-sensor" feature.
     </span>AmbientLightSensor,
-    <span class="doccomment">/// The &quot;autoplay&quot; feature.
+    <span class="doccomment">/// The "autoplay" feature.
     </span>Autoplay,
-    <span class="doccomment">/// The &quot;battery&quot; feature.
+    <span class="doccomment">/// The "battery" feature.
     </span>Battery,
-    <span class="doccomment">/// The &quot;camera&quot; feature.
+    <span class="doccomment">/// The "camera" feature.
     </span>Camera,
-    <span class="doccomment">/// The &quot;cross-origin-isolated&quot; feature.
+    <span class="doccomment">/// The "cross-origin-isolated" feature.
     </span>CrossOriginIsolated,
-    <span class="doccomment">/// The &quot;display-capture&quot; feature.
+    <span class="doccomment">/// The "display-capture" feature.
     </span>Displaycapture,
-    <span class="doccomment">/// The &quot;document-domain&quot; feature.
+    <span class="doccomment">/// The "document-domain" feature.
     </span>DocumentDomain,
-    <span class="doccomment">/// The &quot;encrypted-media&quot; feature.
+    <span class="doccomment">/// The "encrypted-media" feature.
     </span>EncryptedMedia,
-    <span class="doccomment">/// The &quot;execution-while-not-rendered&quot; feature.
+    <span class="doccomment">/// The "execution-while-not-rendered" feature.
     </span>ExecutionWhileNotRendered,
-    <span class="doccomment">/// The &quot;execution-while-out-of-viewport&quot; feature.
+    <span class="doccomment">/// The "execution-while-out-of-viewport" feature.
     </span>ExecutionWhileOutOfviewport,
-    <span class="doccomment">/// The &quot;fullscreen&quot; feature.
+    <span class="doccomment">/// The "fullscreen" feature.
     </span>Fullscreen,
-    <span class="doccomment">/// The &quot;geolocation&quot; feature.
+    <span class="doccomment">/// The "geolocation" feature.
     </span>Geolocation,
-    <span class="doccomment">/// The &quot;gyroscope&quot; feature.
+    <span class="doccomment">/// The "gyroscope" feature.
     </span>Gyroscope,
-    <span class="doccomment">/// The &quot;magnetometer&quot; feature.
+    <span class="doccomment">/// The "magnetometer" feature.
     </span>Magnetometer,
-    <span class="doccomment">/// The &quot;microphone&quot; feature.
+    <span class="doccomment">/// The "microphone" feature.
     </span>Microphone,
-    <span class="doccomment">/// The &quot;midi&quot; feature.
+    <span class="doccomment">/// The "midi" feature.
     </span>Midi,
-    <span class="doccomment">/// The &quot;navigation-override&quot; feature.
+    <span class="doccomment">/// The "navigation-override" feature.
     </span>NavigationOverride,
-    <span class="doccomment">/// The &quot;payment&quot; feature.
+    <span class="doccomment">/// The "payment" feature.
     </span>Payment,
-    <span class="doccomment">/// The &quot;picture-in-picture&quot; feature.
+    <span class="doccomment">/// The "picture-in-picture" feature.
     </span>PictureInPicture,
-    <span class="doccomment">/// The &quot;publickey-credentials-get&quot; feature.
+    <span class="doccomment">/// The "publickey-credentials-get" feature.
     </span>PublickeyCredentialsGet,
-    <span class="doccomment">/// The &quot;screen-wake-lock&quot; feature.
+    <span class="doccomment">/// The "screen-wake-lock" feature.
     </span>ScreenWakeLock,
-    <span class="doccomment">/// The &quot;sync-xhr&quot; feature.
+    <span class="doccomment">/// The "sync-xhr" feature.
     </span>SyncXhr,
-    <span class="doccomment">/// The &quot;usb&quot; feature.
+    <span class="doccomment">/// The "usb" feature.
     </span>Usb,
-    <span class="doccomment">/// The &quot;web-share&quot; feature.
+    <span class="doccomment">/// The "web-share" feature.
     </span>WebShare,
-    <span class="doccomment">/// The &quot;xr-spatial-tracking&quot; feature.
+    <span class="doccomment">/// The "xr-spatial-tracking" feature.
     </span>XrSpatialTracking,
 
     <span class="comment">// Proposed.
 
-    </span><span class="doccomment">/// The &quot;clipboard-read&quot; feature.
+    </span><span class="doccomment">/// The "clipboard-read" feature.
     </span>ClipboardRead,
-    <span class="doccomment">/// The &quot;clipboard-write&quot; feature.
+    <span class="doccomment">/// The "clipboard-write" feature.
     </span>ClipboardWrite,
-    <span class="doccomment">/// The &quot;gamepad&quot; feature.
+    <span class="doccomment">/// The "gamepad" feature.
     </span>Gamepad,
-    <span class="doccomment">/// The &quot;speaker-selection&quot; feature.
+    <span class="doccomment">/// The "speaker-selection" feature.
     </span>SpeakerSelection,
-    <span class="doccomment">/// The &quot;interest-cohort&quot; feature.
+    <span class="doccomment">/// The "interest-cohort" feature.
     </span>InterestCohort,
 
     <span class="comment">// Experimental.
 
-    </span><span class="doccomment">/// The &quot;conversion-measurement&quot; feature.
+    </span><span class="doccomment">/// The "conversion-measurement" feature.
     </span>ConversionMeasurement,
-    <span class="doccomment">/// The &quot;focus-without-user-activation&quot; feature.
+    <span class="doccomment">/// The "focus-without-user-activation" feature.
     </span>FocusWithoutUserActivation,
-    <span class="doccomment">/// The &quot;hid&quot; feature.
+    <span class="doccomment">/// The "hid" feature.
     </span>Hid,
-    <span class="doccomment">/// The &quot;idle-detection&quot; feature.
+    <span class="doccomment">/// The "idle-detection" feature.
     </span>IdleDetection,
-    <span class="doccomment">/// The &quot;serial&quot; feature.
+    <span class="doccomment">/// The "serial" feature.
     </span>Serial,
-    <span class="doccomment">/// The &quot;sync-script&quot; feature.
+    <span class="doccomment">/// The "sync-script" feature.
     </span>SyncScript,
-    <span class="doccomment">/// The &quot;trust-token-redemption&quot; feature.
+    <span class="doccomment">/// The "trust-token-redemption" feature.
     </span>TrustTokenRedemption,
-    <span class="doccomment">/// The &quot;vertical-scroll&quot; feature.
+    <span class="doccomment">/// The "vertical-scroll" feature.
     </span>VerticalScroll,
 }
 
@@ -1739,60 +1739,60 @@
     /// ```rust
     /// use rocket::shield::Feature;
     ///
-    /// assert_eq!(Feature::Camera.as_str(), &quot;camera&quot;);
-    /// assert_eq!(Feature::SyncScript.as_str(), &quot;sync-script&quot;);
+    /// assert_eq!(Feature::Camera.as_str(), "camera");
+    /// assert_eq!(Feature::SyncScript.as_str(), "sync-script");
     /// ```
-    </span><span class="kw">pub const fn </span>as_str(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+    </span><span class="kw">pub const fn </span>as_str(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">use </span>Feature::<span class="kw-2">*</span>;
 
         <span class="kw">match </span><span class="self">self </span>{
-            Accelerometer =&gt; <span class="string">&quot;accelerometer&quot;</span>,
-            AmbientLightSensor =&gt; <span class="string">&quot;ambient-light-sensor&quot;</span>,
-            Autoplay =&gt; <span class="string">&quot;autoplay&quot;</span>,
-            Battery =&gt; <span class="string">&quot;battery&quot;</span>,
-            Camera =&gt; <span class="string">&quot;camera&quot;</span>,
-            CrossOriginIsolated =&gt; <span class="string">&quot;cross-origin-isolated&quot;</span>,
-            Displaycapture =&gt; <span class="string">&quot;display-capture&quot;</span>,
-            DocumentDomain =&gt; <span class="string">&quot;document-domain&quot;</span>,
-            EncryptedMedia =&gt; <span class="string">&quot;encrypted-media&quot;</span>,
-            ExecutionWhileNotRendered =&gt; <span class="string">&quot;execution-while-not-rendered&quot;</span>,
-            ExecutionWhileOutOfviewport =&gt; <span class="string">&quot;execution-while-out-of-viewport&quot;</span>,
-            Fullscreen =&gt; <span class="string">&quot;fullscreen&quot;</span>,
-            Geolocation =&gt; <span class="string">&quot;geolocation&quot;</span>,
-            Gyroscope =&gt; <span class="string">&quot;gyroscope&quot;</span>,
-            Magnetometer =&gt; <span class="string">&quot;magnetometer&quot;</span>,
-            Microphone =&gt; <span class="string">&quot;microphone&quot;</span>,
-            Midi =&gt; <span class="string">&quot;midi&quot;</span>,
-            NavigationOverride =&gt; <span class="string">&quot;navigation-override&quot;</span>,
-            Payment =&gt; <span class="string">&quot;payment&quot;</span>,
-            PictureInPicture =&gt; <span class="string">&quot;picture-in-picture&quot;</span>,
-            PublickeyCredentialsGet =&gt; <span class="string">&quot;publickey-credentials-get&quot;</span>,
-            ScreenWakeLock =&gt; <span class="string">&quot;screen-wake-lock&quot;</span>,
-            SyncXhr =&gt; <span class="string">&quot;sync-xhr&quot;</span>,
-            Usb =&gt; <span class="string">&quot;usb&quot;</span>,
-            WebShare =&gt; <span class="string">&quot;web-share&quot;</span>,
-            XrSpatialTracking =&gt; <span class="string">&quot;xr-spatial-tracking&quot;</span>,
+            Accelerometer =&gt; <span class="string">"accelerometer"</span>,
+            AmbientLightSensor =&gt; <span class="string">"ambient-light-sensor"</span>,
+            Autoplay =&gt; <span class="string">"autoplay"</span>,
+            Battery =&gt; <span class="string">"battery"</span>,
+            Camera =&gt; <span class="string">"camera"</span>,
+            CrossOriginIsolated =&gt; <span class="string">"cross-origin-isolated"</span>,
+            Displaycapture =&gt; <span class="string">"display-capture"</span>,
+            DocumentDomain =&gt; <span class="string">"document-domain"</span>,
+            EncryptedMedia =&gt; <span class="string">"encrypted-media"</span>,
+            ExecutionWhileNotRendered =&gt; <span class="string">"execution-while-not-rendered"</span>,
+            ExecutionWhileOutOfviewport =&gt; <span class="string">"execution-while-out-of-viewport"</span>,
+            Fullscreen =&gt; <span class="string">"fullscreen"</span>,
+            Geolocation =&gt; <span class="string">"geolocation"</span>,
+            Gyroscope =&gt; <span class="string">"gyroscope"</span>,
+            Magnetometer =&gt; <span class="string">"magnetometer"</span>,
+            Microphone =&gt; <span class="string">"microphone"</span>,
+            Midi =&gt; <span class="string">"midi"</span>,
+            NavigationOverride =&gt; <span class="string">"navigation-override"</span>,
+            Payment =&gt; <span class="string">"payment"</span>,
+            PictureInPicture =&gt; <span class="string">"picture-in-picture"</span>,
+            PublickeyCredentialsGet =&gt; <span class="string">"publickey-credentials-get"</span>,
+            ScreenWakeLock =&gt; <span class="string">"screen-wake-lock"</span>,
+            SyncXhr =&gt; <span class="string">"sync-xhr"</span>,
+            Usb =&gt; <span class="string">"usb"</span>,
+            WebShare =&gt; <span class="string">"web-share"</span>,
+            XrSpatialTracking =&gt; <span class="string">"xr-spatial-tracking"</span>,
 
-            ClipboardRead =&gt; <span class="string">&quot;clipboard-read&quot;</span>,
-            ClipboardWrite =&gt; <span class="string">&quot;clipboard-write&quot;</span>,
-            Gamepad =&gt; <span class="string">&quot;gamepad&quot;</span>,
-            SpeakerSelection =&gt; <span class="string">&quot;speaker-selection&quot;</span>,
-            InterestCohort =&gt; <span class="string">&quot;interest-cohort&quot;</span>,
+            ClipboardRead =&gt; <span class="string">"clipboard-read"</span>,
+            ClipboardWrite =&gt; <span class="string">"clipboard-write"</span>,
+            Gamepad =&gt; <span class="string">"gamepad"</span>,
+            SpeakerSelection =&gt; <span class="string">"speaker-selection"</span>,
+            InterestCohort =&gt; <span class="string">"interest-cohort"</span>,
 
-            ConversionMeasurement =&gt; <span class="string">&quot;conversion-measurement&quot;</span>,
-            FocusWithoutUserActivation =&gt; <span class="string">&quot;focus-without-user-activation&quot;</span>,
-            Hid =&gt; <span class="string">&quot;hid&quot;</span>,
-            IdleDetection =&gt; <span class="string">&quot;idle-detection&quot;</span>,
-            Serial =&gt; <span class="string">&quot;serial&quot;</span>,
-            SyncScript =&gt; <span class="string">&quot;sync-script&quot;</span>,
-            TrustTokenRedemption =&gt; <span class="string">&quot;trust-token-redemption&quot;</span>,
-            VerticalScroll =&gt; <span class="string">&quot;vertical-scroll&quot;</span>,
+            ConversionMeasurement =&gt; <span class="string">"conversion-measurement"</span>,
+            FocusWithoutUserActivation =&gt; <span class="string">"focus-without-user-activation"</span>,
+            Hid =&gt; <span class="string">"hid"</span>,
+            IdleDetection =&gt; <span class="string">"idle-detection"</span>,
+            Serial =&gt; <span class="string">"serial"</span>,
+            SyncScript =&gt; <span class="string">"sync-script"</span>,
+            TrustTokenRedemption =&gt; <span class="string">"trust-token-redemption"</span>,
+            VerticalScroll =&gt; <span class="string">"vertical-scroll"</span>,
         }
     }
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Feature {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.as_str().fmt(f)
     }
 }

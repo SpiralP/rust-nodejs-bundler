@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/version_check-0.9.4/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="version_check" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../version_check/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -505,8 +505,8 @@
 //!   ```rust
 //!   extern crate version_check as rustc;
 //!
-//!   if rustc::is_min_version(&quot;1.13.0&quot;).unwrap_or(false) {
-//!       println!(&quot;cargo:rustc-cfg=question_mark_operator&quot;);
+//!   if rustc::is_min_version("1.13.0").unwrap_or(false) {
+//!       println!("cargo:rustc-cfg=question_mark_operator");
 //!   }
 //!   ```
 //!
@@ -518,10 +518,10 @@
 //!   ```rust
 //!   extern crate version_check as rustc;
 //!
-//!   match rustc::is_min_date(&quot;2018-12-18&quot;) {
-//!       Some(true) =&gt; &quot;Yep! It&#39;s recent!&quot;,
-//!       Some(false) =&gt; &quot;No, it&#39;s older.&quot;,
-//!       None =&gt; &quot;Couldn&#39;t determine the rustc version.&quot;
+//!   match rustc::is_min_date("2018-12-18") {
+//!       Some(true) =&gt; "Yep! It's recent!",
+//!       Some(false) =&gt; "No, it's older.",
+//!       None =&gt; "Couldn't determine the rustc version."
 //!   };
 //!   ```
 //!
@@ -534,9 +534,9 @@
 //!   extern crate version_check as rustc;
 //!
 //!   match rustc::is_feature_flaggable() {
-//!       Some(true) =&gt; &quot;Yes! It&#39;s a dev or nightly release!&quot;,
-//!       Some(false) =&gt; &quot;No, it&#39;s stable or beta.&quot;,
-//!       None =&gt; &quot;Couldn&#39;t determine the rustc version.&quot;
+//!       Some(true) =&gt; "Yes! It's a dev or nightly release!",
+//!       Some(false) =&gt; "No, it's stable or beta.",
+//!       None =&gt; "Couldn't determine the rustc version."
 //!   };
 //!   ```
 //!
@@ -545,8 +545,8 @@
 //!   ```rust
 //!   extern crate version_check as rustc;
 //!
-//!   if let Some(true) = rustc::supports_feature(&quot;doc_cfg&quot;) {
-//!      println!(&quot;cargo:rustc-cfg=has_doc_cfg&quot;);
+//!   if let Some(true) = rustc::supports_feature("doc_cfg") {
+//!      println!("cargo:rustc-cfg=has_doc_cfg");
 //!   }
 //!   ```
 //!
@@ -556,9 +556,9 @@
 //!   extern crate version_check as rustc;
 //!
 //!   match rustc::Channel::read() {
-//!       Some(c) if c.is_stable() =&gt; format!(&quot;Yes! It&#39;s stable.&quot;),
-//!       Some(c) =&gt; format!(&quot;No, the channel {} is not stable.&quot;, c),
-//!       None =&gt; format!(&quot;Couldn&#39;t determine the rustc version.&quot;)
+//!       Some(c) if c.is_stable() =&gt; format!("Yes! It's stable."),
+//!       Some(c) =&gt; format!("No, the channel {} is not stable.", c),
+//!       None =&gt; format!("Couldn't determine the rustc version.")
 //!   };
 //!   ```
 //!
@@ -569,8 +569,8 @@
 //! # Alternatives
 //!
 //! This crate is dead simple with no dependencies. If you need something more
-//! and don&#39;t care about panicking if the version cannot be obtained, or if you
-//! don&#39;t mind adding dependencies, see
+//! and don't care about panicking if the version cannot be obtained, or if you
+//! don't mind adding dependencies, see
 //! [rustc_version](https://crates.io/crates/rustc_version).
 
 </span><span class="attr">#![allow(deprecated)]
@@ -589,10 +589,10 @@
 <span class="doccomment">/// Parses (version, date) as available from rustc version string.
 </span><span class="kw">fn </span>version_and_date_from_rustc_version(s: <span class="kw-2">&amp;</span>str) -&gt; (<span class="prelude-ty">Option</span>&lt;String&gt;, <span class="prelude-ty">Option</span>&lt;String&gt;) {
     <span class="kw">let </span>last_line = s.lines().last().unwrap_or(s);
-    <span class="kw">let </span><span class="kw-2">mut </span>components = last_line.trim().split(<span class="string">&quot; &quot;</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>components = last_line.trim().split(<span class="string">" "</span>);
     <span class="kw">let </span>version = components.nth(<span class="number">1</span>);
-    <span class="kw">let </span>date = components.filter(|c| c.ends_with(<span class="string">&#39;)&#39;</span>)).next()
-        .map(|s| s.trim_right().trim_right_matches(<span class="string">&quot;)&quot;</span>).trim_left().trim_left_matches(<span class="string">&#39;(&#39;</span>));
+    <span class="kw">let </span>date = components.filter(|c| c.ends_with(<span class="string">')'</span>)).next()
+        .map(|s| s.trim_right().trim_right_matches(<span class="string">")"</span>).trim_left().trim_left_matches(<span class="string">'('</span>));
     (version.map(|s| s.to_string()), date.map(|s| s.to_string()))
 }
 
@@ -600,16 +600,16 @@
 </span><span class="kw">fn </span>version_and_date_from_rustc_verbose_version(s: <span class="kw-2">&amp;</span>str) -&gt; (<span class="prelude-ty">Option</span>&lt;String&gt;, <span class="prelude-ty">Option</span>&lt;String&gt;) {
     <span class="kw">let </span>(<span class="kw-2">mut </span>version, <span class="kw-2">mut </span>date) = (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
     <span class="kw">for </span>line <span class="kw">in </span>s.lines() {
-        <span class="kw">let </span>split = |s: <span class="kw-2">&amp;</span>str| s.splitn(<span class="number">2</span>, <span class="string">&quot;:&quot;</span>).nth(<span class="number">1</span>).map(|s| s.trim().to_string());
-        <span class="kw">match </span>line.trim().split(<span class="string">&quot; &quot;</span>).nth(<span class="number">0</span>) {
-            <span class="prelude-val">Some</span>(<span class="string">&quot;rustc&quot;</span>) =&gt; {
+        <span class="kw">let </span>split = |s: <span class="kw-2">&amp;</span>str| s.splitn(<span class="number">2</span>, <span class="string">":"</span>).nth(<span class="number">1</span>).map(|s| s.trim().to_string());
+        <span class="kw">match </span>line.trim().split(<span class="string">" "</span>).nth(<span class="number">0</span>) {
+            <span class="prelude-val">Some</span>(<span class="string">"rustc"</span>) =&gt; {
                 <span class="kw">let </span>(v, d) = version_and_date_from_rustc_version(line);
                 version = version.or(v);
                 date = date.or(d);
             },
-            <span class="prelude-val">Some</span>(<span class="string">&quot;release:&quot;</span>) =&gt; version = split(line),
-            <span class="prelude-val">Some</span>(<span class="string">&quot;commit-date:&quot;</span>) <span class="kw">if </span>line.ends_with(<span class="string">&quot;unknown&quot;</span>) =&gt; date = <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="string">&quot;commit-date:&quot;</span>) =&gt; date = split(line),
+            <span class="prelude-val">Some</span>(<span class="string">"release:"</span>) =&gt; version = split(line),
+            <span class="prelude-val">Some</span>(<span class="string">"commit-date:"</span>) <span class="kw">if </span>line.ends_with(<span class="string">"unknown"</span>) =&gt; date = <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="string">"commit-date:"</span>) =&gt; date = split(line),
             <span class="kw">_ </span>=&gt; <span class="kw">continue
         </span>}
     }
@@ -619,8 +619,8 @@
 
 <span class="doccomment">/// Returns (version, date) as available from `rustc --version`.
 </span><span class="kw">fn </span>get_version_and_date() -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="prelude-ty">Option</span>&lt;String&gt;, <span class="prelude-ty">Option</span>&lt;String&gt;)&gt; {
-    <span class="kw">let </span>rustc = env::var(<span class="string">&quot;RUSTC&quot;</span>).unwrap_or_else(|<span class="kw">_</span>| <span class="string">&quot;rustc&quot;</span>.to_string());
-    Command::new(rustc).arg(<span class="string">&quot;--verbose&quot;</span>).arg(<span class="string">&quot;--version&quot;</span>).output().ok()
+    <span class="kw">let </span>rustc = env::var(<span class="string">"RUSTC"</span>).unwrap_or_else(|<span class="kw">_</span>| <span class="string">"rustc"</span>.to_string());
+    Command::new(rustc).arg(<span class="string">"--verbose"</span>).arg(<span class="string">"--version"</span>).output().ok()
         .and_then(|output| String::from_utf8(output.stdout).ok())
         .map(|s| version_and_date_from_rustc_verbose_version(<span class="kw-2">&amp;</span>s))
 }
@@ -639,7 +639,7 @@
         <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None
     </span>};
 
-    <span class="comment">// Can&#39;t use `?` or `try!` for `Option` in 1.0.0.
+    <span class="comment">// Can't use `?` or `try!` for `Option` in 1.0.0.
     </span><span class="kw">match </span>Version::parse(<span class="kw-2">&amp;</span>version_str) {
         <span class="prelude-val">Some</span>(version) =&gt; <span class="kw">match </span>Channel::parse(<span class="kw-2">&amp;</span>version_str) {
             <span class="prelude-val">Some</span>(channel) =&gt; <span class="kw">match </span>Date::parse(<span class="kw-2">&amp;</span>date_str) {
@@ -749,7 +749,7 @@
 
 <span class="doccomment">/// Checks whether the running or installed `rustc` supports feature flags.
 ///
-/// In other words, if the channel is either &quot;nightly&quot; or &quot;dev&quot;.
+/// In other words, if the channel is either "nightly" or "dev".
 ///
 /// Note that support for specific `rustc` features can be enabled or disabled
 /// via the `allow-features` compiler flag, which this function _does not_
@@ -775,8 +775,8 @@
 /// ```rust
 /// use version_check as rustc;
 ///
-/// if let Some(true) = rustc::supports_feature(&quot;doc_cfg&quot;) {
-///    println!(&quot;cargo:rustc-cfg=has_doc_cfg&quot;);
+/// if let Some(true) = rustc::supports_feature("doc_cfg") {
+///    println!("cargo:rustc-cfg=has_doc_cfg");
 /// }
 /// ```
 </span><span class="kw">pub fn </span>supports_feature(feature: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;bool&gt; {
@@ -786,25 +786,25 @@
         <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
     }
 
-    <span class="kw">let </span>env_flags = env::var_os(<span class="string">&quot;CARGO_ENCODED_RUSTFLAGS&quot;</span>)
-        .map(|flags| (flags, <span class="string">&#39;\x1f&#39;</span>))
-        .or_else(|| env::var_os(<span class="string">&quot;RUSTFLAGS&quot;</span>).map(|flags| (flags, <span class="string">&#39; &#39;</span>)));
+    <span class="kw">let </span>env_flags = env::var_os(<span class="string">"CARGO_ENCODED_RUSTFLAGS"</span>)
+        .map(|flags| (flags, <span class="string">'\x1f'</span>))
+        .or_else(|| env::var_os(<span class="string">"RUSTFLAGS"</span>).map(|flags| (flags, <span class="string">' '</span>)));
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>((flags, delim)) = env_flags {
-        <span class="kw">const </span>ALLOW_FEATURES: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;allow-features=&quot;</span>;
+        <span class="kw">const </span>ALLOW_FEATURES: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"allow-features="</span>;
 
         <span class="kw">let </span>rustflags = flags.to_string_lossy();
         <span class="kw">let </span>allow_features = rustflags.split(delim)
-            .map(|flag| flag.trim_left_matches(<span class="string">&quot;-Z&quot;</span>).trim())
+            .map(|flag| flag.trim_left_matches(<span class="string">"-Z"</span>).trim())
             .filter(|flag| flag.starts_with(ALLOW_FEATURES))
             .map(|flag| <span class="kw-2">&amp;</span>flag[ALLOW_FEATURES.len()..]);
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(allow_features) = allow_features.last() {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(allow_features.split(<span class="string">&#39;,&#39;</span>).any(|f| f.trim() == feature));
+            <span class="kw">return </span><span class="prelude-val">Some</span>(allow_features.split(<span class="string">','</span>).any(|f| f.trim() == feature));
         }
     }
 
-    <span class="comment">// If there are no `RUSTFLAGS` or `CARGO_ENCODED_RUSTFLAGS` or they don&#39;t
+    <span class="comment">// If there are no `RUSTFLAGS` or `CARGO_ENCODED_RUSTFLAGS` or they don't
     // contain an `allow-features` flag, assume compiler allows all features.
     </span><span class="prelude-val">Some</span>(<span class="bool-val">true</span>)
 }
@@ -816,33 +816,33 @@
     <span class="kw">use </span><span class="kw">super</span>::version_and_date_from_rustc_version;
     <span class="kw">use </span><span class="kw">super</span>::version_and_date_from_rustc_verbose_version;
 
-    <span class="macro">macro_rules! </span>check_parse {
+    <span class="macro">macro_rules!</span> check_parse {
         (@ <span class="macro-nonterminal">$f</span>:expr, <span class="macro-nonterminal">$s</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr, <span class="macro-nonterminal">$d</span>:expr) =&gt; ({
             <span class="kw">if let </span>(<span class="prelude-val">Some</span>(v), d) = <span class="macro-nonterminal">$f</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$s</span>) {
                 <span class="kw">let </span>e_d: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; = <span class="macro-nonterminal">$d</span>.into();
                 <span class="macro">assert_eq!</span>((v, d), (<span class="macro-nonterminal">$v</span>.to_string(), e_d.map(|s| s.into())));
             } <span class="kw">else </span>{
-                <span class="macro">panic!</span>(<span class="string">&quot;{:?} didn&#39;t parse for version testing.&quot;</span>, <span class="macro-nonterminal">$s</span>);
+                <span class="macro">panic!</span>(<span class="string">"{:?} didn't parse for version testing."</span>, <span class="macro-nonterminal">$s</span>);
             }
         });
         (<span class="macro-nonterminal">$f</span>:expr, <span class="macro-nonterminal">$s</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr, <span class="macro-nonterminal">$d</span>:expr) =&gt; ({
-            <span class="kw">let </span>warn = <span class="string">&quot;warning: invalid logging spec &#39;warning&#39;, ignoring it&quot;</span>;
-            <span class="kw">let </span>warn2 = <span class="string">&quot;warning: sorry, something went wrong :(sad)&quot;</span>;
+            <span class="kw">let </span>warn = <span class="string">"warning: invalid logging spec 'warning', ignoring it"</span>;
+            <span class="kw">let </span>warn2 = <span class="string">"warning: sorry, something went wrong :(sad)"</span>;
             <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="macro-nonterminal">$s </span>=&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
-            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n{}&quot;</span>, warn, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
-            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n{}&quot;</span>, warn2, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
-            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n{}\n{}&quot;</span>, warn, warn2, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
-            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n{}\n{}&quot;</span>, warn2, warn, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
+            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}\n{}"</span>, warn, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
+            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}\n{}"</span>, warn2, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
+            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}\n{}\n{}"</span>, warn, warn2, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
+            <span class="macro">check_parse!</span>(@ <span class="macro-nonterminal">$f</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}\n{}\n{}"</span>, warn2, warn, <span class="macro-nonterminal">$s</span>) =&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
         })
     }
 
-    <span class="macro">macro_rules! </span>check_terse_parse {
+    <span class="macro">macro_rules!</span> check_terse_parse {
         ($(<span class="macro-nonterminal">$s</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr, <span class="macro-nonterminal">$d</span>:expr,)+) =&gt; {$(
             <span class="macro">check_parse!</span>(version_and_date_from_rustc_version, <span class="macro-nonterminal">$s </span>=&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
         )+}
     }
 
-    <span class="macro">macro_rules! </span>check_verbose_parse {
+    <span class="macro">macro_rules!</span> check_verbose_parse {
         ($(<span class="macro-nonterminal">$s</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr, <span class="macro-nonterminal">$d</span>:expr,)+) =&gt; {$(
             <span class="macro">check_parse!</span>(version_and_date_from_rustc_verbose_version, <span class="macro-nonterminal">$s </span>=&gt; <span class="macro-nonterminal">$v</span>, <span class="macro-nonterminal">$d</span>);
         )+}
@@ -850,76 +850,76 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_version_parse() {
-        <span class="macro">check_terse_parse! </span>{
-            <span class="string">&quot;rustc 1.18.0&quot; </span>=&gt; <span class="string">&quot;1.18.0&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.8.0&quot; </span>=&gt; <span class="string">&quot;1.8.0&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.20.0-nightly&quot; </span>=&gt; <span class="string">&quot;1.20.0-nightly&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.20&quot; </span>=&gt; <span class="string">&quot;1.20&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.3&quot; </span>=&gt; <span class="string">&quot;1.3&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1&quot; </span>=&gt; <span class="string">&quot;1&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.5.1-beta&quot; </span>=&gt; <span class="string">&quot;1.5.1-beta&quot;</span>, <span class="prelude-val">None</span>,
-            <span class="string">&quot;rustc 1.20.0 (2017-07-09)&quot; </span>=&gt; <span class="string">&quot;1.20.0&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2017-07-09&quot;</span>),
-            <span class="string">&quot;rustc 1.20.0-dev (2017-07-09)&quot; </span>=&gt; <span class="string">&quot;1.20.0-dev&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2017-07-09&quot;</span>),
-            <span class="string">&quot;rustc 1.20.0-nightly (d84693b93 2017-07-09)&quot; </span>=&gt; <span class="string">&quot;1.20.0-nightly&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2017-07-09&quot;</span>),
-            <span class="string">&quot;rustc 1.20.0 (d84693b93 2017-07-09)&quot; </span>=&gt; <span class="string">&quot;1.20.0&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2017-07-09&quot;</span>),
-            <span class="string">&quot;rustc 1.30.0-nightly (3bc2ca7e4 2018-09-20)&quot; </span>=&gt; <span class="string">&quot;1.30.0-nightly&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2018-09-20&quot;</span>),
+        <span class="macro">check_terse_parse!</span> {
+            <span class="string">"rustc 1.18.0" </span>=&gt; <span class="string">"1.18.0"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.8.0" </span>=&gt; <span class="string">"1.8.0"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.20.0-nightly" </span>=&gt; <span class="string">"1.20.0-nightly"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.20" </span>=&gt; <span class="string">"1.20"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.3" </span>=&gt; <span class="string">"1.3"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1" </span>=&gt; <span class="string">"1"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.5.1-beta" </span>=&gt; <span class="string">"1.5.1-beta"</span>, <span class="prelude-val">None</span>,
+            <span class="string">"rustc 1.20.0 (2017-07-09)" </span>=&gt; <span class="string">"1.20.0"</span>, <span class="prelude-val">Some</span>(<span class="string">"2017-07-09"</span>),
+            <span class="string">"rustc 1.20.0-dev (2017-07-09)" </span>=&gt; <span class="string">"1.20.0-dev"</span>, <span class="prelude-val">Some</span>(<span class="string">"2017-07-09"</span>),
+            <span class="string">"rustc 1.20.0-nightly (d84693b93 2017-07-09)" </span>=&gt; <span class="string">"1.20.0-nightly"</span>, <span class="prelude-val">Some</span>(<span class="string">"2017-07-09"</span>),
+            <span class="string">"rustc 1.20.0 (d84693b93 2017-07-09)" </span>=&gt; <span class="string">"1.20.0"</span>, <span class="prelude-val">Some</span>(<span class="string">"2017-07-09"</span>),
+            <span class="string">"rustc 1.30.0-nightly (3bc2ca7e4 2018-09-20)" </span>=&gt; <span class="string">"1.30.0-nightly"</span>, <span class="prelude-val">Some</span>(<span class="string">"2018-09-20"</span>),
         };
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_verbose_version_parse() {
-        <span class="macro">check_verbose_parse! </span>{
-            <span class="string">&quot;rustc 1.0.0 (a59de37e9 2015-05-13) (built 2015-05-14)\n\
+        <span class="macro">check_verbose_parse!</span> {
+            <span class="string">"rustc 1.0.0 (a59de37e9 2015-05-13) (built 2015-05-14)\n\
                 binary: rustc\n\
                 commit-hash: a59de37e99060162a2674e3ff45409ac73595c0e\n\
                 commit-date: 2015-05-13\n\
                 build-date: 2015-05-14\n\
                 host: x86_64-unknown-linux-gnu\n\
-                release: 1.0.0&quot; </span>=&gt; <span class="string">&quot;1.0.0&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2015-05-13&quot;</span>),
+                release: 1.0.0" </span>=&gt; <span class="string">"1.0.0"</span>, <span class="prelude-val">Some</span>(<span class="string">"2015-05-13"</span>),
 
-            <span class="string">&quot;rustc 1.0.0 (a59de37e9 2015-05-13) (built 2015-05-14)\n\
+            <span class="string">"rustc 1.0.0 (a59de37e9 2015-05-13) (built 2015-05-14)\n\
                 commit-hash: a59de37e99060162a2674e3ff45409ac73595c0e\n\
                 commit-date: 2015-05-13\n\
                 build-date: 2015-05-14\n\
                 host: x86_64-unknown-linux-gnu\n\
-                release: 1.0.0&quot; </span>=&gt; <span class="string">&quot;1.0.0&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2015-05-13&quot;</span>),
+                release: 1.0.0" </span>=&gt; <span class="string">"1.0.0"</span>, <span class="prelude-val">Some</span>(<span class="string">"2015-05-13"</span>),
 
-            <span class="string">&quot;rustc 1.50.0 (cb75ad5db 2021-02-10)\n\
+            <span class="string">"rustc 1.50.0 (cb75ad5db 2021-02-10)\n\
                 binary: rustc\n\
                 commit-hash: cb75ad5db02783e8b0222fee363c5f63f7e2cf5b\n\
                 commit-date: 2021-02-10\n\
                 host: x86_64-unknown-linux-gnu\n\
-                release: 1.50.0&quot; </span>=&gt; <span class="string">&quot;1.50.0&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2021-02-10&quot;</span>),
+                release: 1.50.0" </span>=&gt; <span class="string">"1.50.0"</span>, <span class="prelude-val">Some</span>(<span class="string">"2021-02-10"</span>),
 
-            <span class="string">&quot;rustc 1.52.0-nightly (234781afe 2021-03-07)\n\
+            <span class="string">"rustc 1.52.0-nightly (234781afe 2021-03-07)\n\
                 binary: rustc\n\
                 commit-hash: 234781afe33d3f339b002f85f948046d8476cfc9\n\
                 commit-date: 2021-03-07\n\
                 host: x86_64-unknown-linux-gnu\n\
                 release: 1.52.0-nightly\n\
-                LLVM version: 12.0.0&quot; </span>=&gt; <span class="string">&quot;1.52.0-nightly&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;2021-03-07&quot;</span>),
+                LLVM version: 12.0.0" </span>=&gt; <span class="string">"1.52.0-nightly"</span>, <span class="prelude-val">Some</span>(<span class="string">"2021-03-07"</span>),
 
-            <span class="string">&quot;rustc 1.41.1\n\
+            <span class="string">"rustc 1.41.1\n\
                 binary: rustc\n\
                 commit-hash: unknown\n\
                 commit-date: unknown\n\
                 host: x86_64-unknown-linux-gnu\n\
                 release: 1.41.1\n\
-                LLVM version: 7.0&quot; </span>=&gt; <span class="string">&quot;1.41.1&quot;</span>, <span class="prelude-val">None</span>,
+                LLVM version: 7.0" </span>=&gt; <span class="string">"1.41.1"</span>, <span class="prelude-val">None</span>,
 
-            <span class="string">&quot;rustc 1.49.0\n\
+            <span class="string">"rustc 1.49.0\n\
                 binary: rustc\n\
                 commit-hash: unknown\n\
                 commit-date: unknown\n\
                 host: x86_64-unknown-linux-gnu\n\
-                release: 1.49.0&quot; </span>=&gt; <span class="string">&quot;1.49.0&quot;</span>, <span class="prelude-val">None</span>,
+                release: 1.49.0" </span>=&gt; <span class="string">"1.49.0"</span>, <span class="prelude-val">None</span>,
 
-            <span class="string">&quot;rustc 1.50.0 (Fedora 1.50.0-1.fc33)\n\
+            <span class="string">"rustc 1.50.0 (Fedora 1.50.0-1.fc33)\n\
                 binary: rustc\n\
                 commit-hash: unknown\n\
                 commit-date: unknown\n\
                 host: x86_64-unknown-linux-gnu\n\
-                release: 1.50.0&quot; </span>=&gt; <span class="string">&quot;1.50.0&quot;</span>, <span class="prelude-val">None</span>,
+                release: 1.50.0" </span>=&gt; <span class="string">"1.50.0"</span>, <span class="prelude-val">None</span>,
         };
     }
 
@@ -928,11 +928,11 @@
         <span class="kw">use </span>std::path::Path;
         <span class="kw">use </span>std::io::{BufReader, Read};
 
-        <span class="kw">let </span>subdir = <span class="kw">if </span>verbose { <span class="string">&quot;verbose&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;terse&quot; </span>};
+        <span class="kw">let </span>subdir = <span class="kw">if </span>verbose { <span class="string">"verbose" </span>} <span class="kw">else </span>{ <span class="string">"terse" </span>};
         <span class="kw">let </span>path = Path::new(STATIC_PATH)
             .join(channel)
             .join(subdir)
-            .join(<span class="macro">format!</span>(<span class="string">&quot;rustc-1.{}.0&quot;</span>, minor));
+            .join(<span class="macro">format!</span>(<span class="string">"rustc-1.{}.0"</span>, minor));
 
         <span class="kw">let </span>file = File::open(path).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>buf_reader = BufReader::new(file);
@@ -941,35 +941,35 @@
         contents
     }
 
-    <span class="kw">static </span>STATIC_PATH: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>), <span class="string">&quot;/static&quot;</span>);
+    <span class="kw">static </span>STATIC_PATH: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">"CARGO_MANIFEST_DIR"</span>), <span class="string">"/static"</span>);
 
-    <span class="kw">static </span>DATES: [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str; <span class="number">51</span>] = [
-        <span class="string">&quot;2015-05-13&quot;</span>, <span class="string">&quot;2015-06-19&quot;</span>, <span class="string">&quot;2015-08-03&quot;</span>, <span class="string">&quot;2015-09-15&quot;</span>, <span class="string">&quot;2015-10-27&quot;</span>,
-        <span class="string">&quot;2015-12-04&quot;</span>, <span class="string">&quot;2016-01-19&quot;</span>, <span class="string">&quot;2016-02-29&quot;</span>, <span class="string">&quot;2016-04-11&quot;</span>, <span class="string">&quot;2016-05-18&quot;</span>,
-        <span class="string">&quot;2016-07-03&quot;</span>, <span class="string">&quot;2016-08-15&quot;</span>, <span class="string">&quot;2016-09-23&quot;</span>, <span class="string">&quot;2016-11-07&quot;</span>, <span class="string">&quot;2016-12-16&quot;</span>,
-        <span class="string">&quot;2017-01-19&quot;</span>, <span class="string">&quot;2017-03-10&quot;</span>, <span class="string">&quot;2017-04-24&quot;</span>, <span class="string">&quot;2017-06-06&quot;</span>, <span class="string">&quot;2017-07-17&quot;</span>,
-        <span class="string">&quot;2017-08-27&quot;</span>, <span class="string">&quot;2017-10-09&quot;</span>, <span class="string">&quot;2017-11-20&quot;</span>, <span class="string">&quot;2018-01-01&quot;</span>, <span class="string">&quot;2018-02-12&quot;</span>,
-        <span class="string">&quot;2018-03-25&quot;</span>, <span class="string">&quot;2018-05-07&quot;</span>, <span class="string">&quot;2018-06-19&quot;</span>, <span class="string">&quot;2018-07-30&quot;</span>, <span class="string">&quot;2018-09-11&quot;</span>,
-        <span class="string">&quot;2018-10-24&quot;</span>, <span class="string">&quot;2018-12-04&quot;</span>, <span class="string">&quot;2019-01-16&quot;</span>, <span class="string">&quot;2019-02-28&quot;</span>, <span class="string">&quot;2019-04-10&quot;</span>,
-        <span class="string">&quot;2019-05-20&quot;</span>, <span class="string">&quot;2019-07-03&quot;</span>, <span class="string">&quot;2019-08-13&quot;</span>, <span class="string">&quot;2019-09-23&quot;</span>, <span class="string">&quot;2019-11-04&quot;</span>,
-        <span class="string">&quot;2019-12-16&quot;</span>, <span class="string">&quot;2020-01-27&quot;</span>, <span class="string">&quot;2020-03-09&quot;</span>, <span class="string">&quot;2020-04-20&quot;</span>, <span class="string">&quot;2020-06-01&quot;</span>,
-        <span class="string">&quot;2020-07-13&quot;</span>, <span class="string">&quot;2020-08-24&quot;</span>, <span class="string">&quot;2020-10-07&quot;</span>, <span class="string">&quot;2020-11-16&quot;</span>, <span class="string">&quot;2020-12-29&quot;</span>,
-        <span class="string">&quot;2021-02-10&quot;</span>,
+    <span class="kw">static </span>DATES: [<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str; <span class="number">51</span>] = [
+        <span class="string">"2015-05-13"</span>, <span class="string">"2015-06-19"</span>, <span class="string">"2015-08-03"</span>, <span class="string">"2015-09-15"</span>, <span class="string">"2015-10-27"</span>,
+        <span class="string">"2015-12-04"</span>, <span class="string">"2016-01-19"</span>, <span class="string">"2016-02-29"</span>, <span class="string">"2016-04-11"</span>, <span class="string">"2016-05-18"</span>,
+        <span class="string">"2016-07-03"</span>, <span class="string">"2016-08-15"</span>, <span class="string">"2016-09-23"</span>, <span class="string">"2016-11-07"</span>, <span class="string">"2016-12-16"</span>,
+        <span class="string">"2017-01-19"</span>, <span class="string">"2017-03-10"</span>, <span class="string">"2017-04-24"</span>, <span class="string">"2017-06-06"</span>, <span class="string">"2017-07-17"</span>,
+        <span class="string">"2017-08-27"</span>, <span class="string">"2017-10-09"</span>, <span class="string">"2017-11-20"</span>, <span class="string">"2018-01-01"</span>, <span class="string">"2018-02-12"</span>,
+        <span class="string">"2018-03-25"</span>, <span class="string">"2018-05-07"</span>, <span class="string">"2018-06-19"</span>, <span class="string">"2018-07-30"</span>, <span class="string">"2018-09-11"</span>,
+        <span class="string">"2018-10-24"</span>, <span class="string">"2018-12-04"</span>, <span class="string">"2019-01-16"</span>, <span class="string">"2019-02-28"</span>, <span class="string">"2019-04-10"</span>,
+        <span class="string">"2019-05-20"</span>, <span class="string">"2019-07-03"</span>, <span class="string">"2019-08-13"</span>, <span class="string">"2019-09-23"</span>, <span class="string">"2019-11-04"</span>,
+        <span class="string">"2019-12-16"</span>, <span class="string">"2020-01-27"</span>, <span class="string">"2020-03-09"</span>, <span class="string">"2020-04-20"</span>, <span class="string">"2020-06-01"</span>,
+        <span class="string">"2020-07-13"</span>, <span class="string">"2020-08-24"</span>, <span class="string">"2020-10-07"</span>, <span class="string">"2020-11-16"</span>, <span class="string">"2020-12-29"</span>,
+        <span class="string">"2021-02-10"</span>,
     ];
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_stable_compatibility() {
-        <span class="kw">if </span>env::var_os(<span class="string">&quot;FORCE_STATIC&quot;</span>).is_none() &amp;&amp; fs::metadata(STATIC_PATH).is_err() {
-            <span class="comment">// We exclude `/static` when we package `version_check`, so don&#39;t
-            // run if static files aren&#39;t present unless we know they should be.
+        <span class="kw">if </span>env::var_os(<span class="string">"FORCE_STATIC"</span>).is_none() &amp;&amp; fs::metadata(STATIC_PATH).is_err() {
+            <span class="comment">// We exclude `/static` when we package `version_check`, so don't
+            // run if static files aren't present unless we know they should be.
             </span><span class="kw">return</span>;
         }
 
         <span class="comment">// Ensure we can parse all output from all Linux stable releases.
         </span><span class="kw">for </span>v <span class="kw">in </span><span class="number">0</span>..DATES.len() {
-            <span class="kw">let </span>(version, date) = (<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;1.{}.0&quot;</span>, v), <span class="prelude-val">Some</span>(DATES[v]));
-            <span class="macro">check_terse_parse!</span>(read_static(<span class="bool-val">false</span>, <span class="string">&quot;stable&quot;</span>, v) =&gt; version, date,);
-            <span class="macro">check_verbose_parse!</span>(read_static(<span class="bool-val">true</span>, <span class="string">&quot;stable&quot;</span>, v) =&gt; version, date,);
+            <span class="kw">let </span>(version, date) = (<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"1.{}.0"</span>, v), <span class="prelude-val">Some</span>(DATES[v]));
+            <span class="macro">check_terse_parse!</span>(read_static(<span class="bool-val">false</span>, <span class="string">"stable"</span>, v) =&gt; version, date,);
+            <span class="macro">check_verbose_parse!</span>(read_static(<span class="bool-val">true</span>, <span class="string">"stable"</span>, v) =&gt; version, date,);
         }
     }
 
@@ -979,7 +979,7 @@
         <span class="macro">assert!</span>(version.is_some());
         <span class="macro">assert!</span>(channel.is_some());
 
-        <span class="kw">if let </span><span class="prelude-val">Ok</span>(known_channel) = env::var(<span class="string">&quot;KNOWN_CHANNEL&quot;</span>) {
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(known_channel) = env::var(<span class="string">"KNOWN_CHANNEL"</span>) {
             <span class="macro">assert_eq!</span>(channel, ::Channel::parse(<span class="kw-2">&amp;</span>known_channel));
         }
     }

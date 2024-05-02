@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fs/file_name.rs`."><title>file_name.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fs/file_name.rs`."><title>file_name.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -261,7 +261,7 @@
 /// [`FileName::as_str()`] and is returned by [`TempFile::name()`].
 ///
 /// You will likely want to prepend or append random or user-specific components
-/// to the name to avoid collisions; UUIDs make for a good &quot;random&quot; data. You
+/// to the name to avoid collisions; UUIDs make for a good "random" data. You
 /// may also prefer to avoid the value in the directive entirely by using a
 /// safe, application-generated name instead.
 ///
@@ -280,11 +280,11 @@
     /// ```rust
     /// use rocket::fs::FileName;
     ///
-    /// let name = FileName::new(&quot;some-file.txt&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;some-file&quot;));
+    /// let name = FileName::new("some-file.txt");
+    /// assert_eq!(name.as_str(), Some("some-file"));
     ///
-    /// let name = FileName::new(&quot;some-file.txt&quot;);
-    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), &quot;some-file.txt&quot;);
+    /// let name = FileName::new("some-file.txt");
+    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), "some-file.txt");
     /// ```
     </span><span class="kw">pub fn </span>new&lt;S: AsRef&lt;str&gt; + <span class="question-mark">?</span>Sized&gt;(string: <span class="kw-2">&amp;</span>S) -&gt; <span class="kw-2">&amp;</span>FileName {
         FileName::ref_cast(string.as_ref())
@@ -295,20 +295,20 @@
     ///
     /// # Sanitization
     ///
-    /// A &quot;sanitized&quot; file name is a non-empty string, stripped of its file
+    /// A "sanitized" file name is a non-empty string, stripped of its file
     /// extension, which is not a platform-specific reserved name and does not
     /// contain any platform-specific special characters.
     ///
-    /// On Unix, these are the characters `&#39;.&#39;, &#39;/&#39;, &#39;\\&#39;, &#39;&lt;&#39;, &#39;&gt;&#39;, &#39;|&#39;, &#39;:&#39;,
-    /// &#39;(&#39;, &#39;)&#39;, &#39;&amp;&#39;, &#39;;&#39;, &#39;#&#39;, &#39;?&#39;, &#39;*&#39;`.
+    /// On Unix, these are the characters `'.', '/', '\\', '&lt;', '&gt;', '|', ':',
+    /// '(', ')', '&amp;', ';', '#', '?', '*'`.
     ///
-    /// On Windows (and non-Unix OSs), these are the characters `&#39;.&#39;, &#39;&lt;&#39;, &#39;&gt;&#39;,
-    /// &#39;:&#39;, &#39;&quot;&#39;, &#39;/&#39;, &#39;\&#39;, &#39;|&#39;, &#39;?&#39;, &#39;*&#39;, &#39;,&#39;, &#39;;&#39;, &#39;=&#39;, &#39;(&#39;, &#39;)&#39;, &#39;&amp;&#39;, &#39;#&#39;`,
-    /// and the reserved names `&quot;CON&quot;, &quot;PRN&quot;, &quot;AUX&quot;, &quot;NUL&quot;, &quot;COM1&quot;, &quot;COM2&quot;,
-    /// &quot;COM3&quot;, &quot;COM4&quot;, &quot;COM5&quot;, &quot;COM6&quot;, &quot;COM7&quot;, &quot;COM8&quot;, &quot;COM9&quot;, &quot;LPT1&quot;, &quot;LPT2&quot;,
-    /// &quot;LPT3&quot;, &quot;LPT4&quot;, &quot;LPT5&quot;, &quot;LPT6&quot;, &quot;LPT7&quot;, &quot;LPT8&quot;, &quot;LPT9&quot;`.
+    /// On Windows (and non-Unix OSs), these are the characters `'.', '&lt;', '&gt;',
+    /// ':', '"', '/', '\', '|', '?', '*', ',', ';', '=', '(', ')', '&amp;', '#'`,
+    /// and the reserved names `"CON", "PRN", "AUX", "NUL", "COM1", "COM2",
+    /// "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2",
+    /// "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"`.
     ///
-    /// Additionally, all control characters are considered &quot;special&quot;.
+    /// Additionally, all control characters are considered "special".
     ///
     /// An attempt is made to transform the raw file name into a sanitized
     /// version by identifying a valid substring of the raw file name that meets
@@ -319,38 +319,38 @@
     /// ```rust
     /// use rocket::fs::FileName;
     ///
-    /// let name = FileName::new(&quot;some-file.txt&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;some-file&quot;));
+    /// let name = FileName::new("some-file.txt");
+    /// assert_eq!(name.as_str(), Some("some-file"));
     ///
-    /// let name = FileName::new(&quot;some-file.txt.zip&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;some-file&quot;));
+    /// let name = FileName::new("some-file.txt.zip");
+    /// assert_eq!(name.as_str(), Some("some-file"));
     ///
-    /// let name = FileName::new(&quot;../../../../etc/shadow&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;shadow&quot;));
+    /// let name = FileName::new("../../../../etc/shadow");
+    /// assert_eq!(name.as_str(), Some("shadow"));
     ///
-    /// let name = FileName::new(&quot;/etc/.shadow&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;shadow&quot;));
+    /// let name = FileName::new("/etc/.shadow");
+    /// assert_eq!(name.as_str(), Some("shadow"));
     ///
-    /// let name = FileName::new(&quot;/a/b/some/file.txt.zip&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;file&quot;));
+    /// let name = FileName::new("/a/b/some/file.txt.zip");
+    /// assert_eq!(name.as_str(), Some("file"));
     ///
-    /// let name = FileName::new(&quot;/a/b/some/.file.txt.zip&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;file&quot;));
+    /// let name = FileName::new("/a/b/some/.file.txt.zip");
+    /// assert_eq!(name.as_str(), Some("file"));
     ///
-    /// let name = FileName::new(&quot;/a/b/some/.*file.txt.zip&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;file&quot;));
+    /// let name = FileName::new("/a/b/some/.*file.txt.zip");
+    /// assert_eq!(name.as_str(), Some("file"));
     ///
-    /// let name = FileName::new(&quot;a/\\b/some/.*file&lt;.txt.zip&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;file&quot;));
+    /// let name = FileName::new("a/\\b/some/.*file&lt;.txt.zip");
+    /// assert_eq!(name.as_str(), Some("file"));
     ///
-    /// let name = FileName::new(&quot;&gt;&gt;&gt;.foo.txt&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;foo&quot;));
+    /// let name = FileName::new("&gt;&gt;&gt;.foo.txt");
+    /// assert_eq!(name.as_str(), Some("foo"));
     ///
-    /// let name = FileName::new(&quot;b:c&quot;);
-    /// #[cfg(unix)] assert_eq!(name.as_str(), Some(&quot;b&quot;));
-    /// #[cfg(not(unix))] assert_eq!(name.as_str(), Some(&quot;c&quot;));
+    /// let name = FileName::new("b:c");
+    /// #[cfg(unix)] assert_eq!(name.as_str(), Some("b"));
+    /// #[cfg(not(unix))] assert_eq!(name.as_str(), Some("c"));
     ///
-    /// let name = FileName::new(&quot;//./.&lt;&gt;&quot;);
+    /// let name = FileName::new("//./.&lt;&gt;");
     /// assert_eq!(name.as_str(), None);
     /// ```
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
@@ -358,20 +358,20 @@
         </span><span class="kw">let </span>(bad_char, bad_name) = {
             <span class="kw">static </span>BAD_CHARS: <span class="kw-2">&amp;</span>[char] = <span class="kw-2">&amp;</span>[
                 <span class="comment">// Microsoft says these are invalid.
-                </span><span class="string">&#39;.&#39;</span>, <span class="string">&#39;&lt;&#39;</span>, <span class="string">&#39;&gt;&#39;</span>, <span class="string">&#39;:&#39;</span>, <span class="string">&#39;&quot;&#39;</span>, <span class="string">&#39;/&#39;</span>, <span class="string">&#39;\\&#39;</span>, <span class="string">&#39;|&#39;</span>, <span class="string">&#39;?&#39;</span>, <span class="string">&#39;*&#39;</span>,
+                </span><span class="string">'.'</span>, <span class="string">'&lt;'</span>, <span class="string">'&gt;'</span>, <span class="string">':'</span>, <span class="string">'"'</span>, <span class="string">'/'</span>, <span class="string">'\\'</span>, <span class="string">'|'</span>, <span class="string">'?'</span>, <span class="string">'*'</span>,
 
                 <span class="comment">// `cmd.exe` treats these specially.
-                </span><span class="string">&#39;,&#39;</span>, <span class="string">&#39;;&#39;</span>, <span class="string">&#39;=&#39;</span>,
+                </span><span class="string">','</span>, <span class="string">';'</span>, <span class="string">'='</span>,
 
                 <span class="comment">// These are treated specially by unix-like shells.
-                </span><span class="string">&#39;(&#39;</span>, <span class="string">&#39;)&#39;</span>, <span class="string">&#39;&amp;&#39;</span>, <span class="string">&#39;#&#39;</span>,
+                </span><span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'&amp;'</span>, <span class="string">'#'</span>,
             ];
 
             <span class="comment">// Microsoft says these are reserved.
             </span><span class="kw">static </span>BAD_NAMES: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[
-                <span class="string">&quot;CON&quot;</span>, <span class="string">&quot;PRN&quot;</span>, <span class="string">&quot;AUX&quot;</span>, <span class="string">&quot;NUL&quot;</span>, <span class="string">&quot;COM1&quot;</span>, <span class="string">&quot;COM2&quot;</span>, <span class="string">&quot;COM3&quot;</span>, <span class="string">&quot;COM4&quot;</span>,
-                <span class="string">&quot;COM5&quot;</span>, <span class="string">&quot;COM6&quot;</span>, <span class="string">&quot;COM7&quot;</span>, <span class="string">&quot;COM8&quot;</span>, <span class="string">&quot;COM9&quot;</span>, <span class="string">&quot;LPT1&quot;</span>, <span class="string">&quot;LPT2&quot;</span>,
-                <span class="string">&quot;LPT3&quot;</span>, <span class="string">&quot;LPT4&quot;</span>, <span class="string">&quot;LPT5&quot;</span>, <span class="string">&quot;LPT6&quot;</span>, <span class="string">&quot;LPT7&quot;</span>, <span class="string">&quot;LPT8&quot;</span>, <span class="string">&quot;LPT9&quot;</span>,
+                <span class="string">"CON"</span>, <span class="string">"PRN"</span>, <span class="string">"AUX"</span>, <span class="string">"NUL"</span>, <span class="string">"COM1"</span>, <span class="string">"COM2"</span>, <span class="string">"COM3"</span>, <span class="string">"COM4"</span>,
+                <span class="string">"COM5"</span>, <span class="string">"COM6"</span>, <span class="string">"COM7"</span>, <span class="string">"COM8"</span>, <span class="string">"COM9"</span>, <span class="string">"LPT1"</span>, <span class="string">"LPT2"</span>,
+                <span class="string">"LPT3"</span>, <span class="string">"LPT4"</span>, <span class="string">"LPT5"</span>, <span class="string">"LPT6"</span>, <span class="string">"LPT7"</span>, <span class="string">"LPT8"</span>, <span class="string">"LPT9"</span>,
             ];
 
             <span class="kw">let </span>bad_char = |c| BAD_CHARS.contains(<span class="kw-2">&amp;</span>c) || c.is_control();
@@ -383,10 +383,10 @@
         </span><span class="kw">let </span>(bad_char, bad_name) = {
             <span class="kw">static </span>BAD_CHARS: <span class="kw-2">&amp;</span>[char] = <span class="kw-2">&amp;</span>[
                 <span class="comment">// These have special meaning in a file name.
-                </span><span class="string">&#39;.&#39;</span>, <span class="string">&#39;/&#39;</span>, <span class="string">&#39;\\&#39;</span>,
+                </span><span class="string">'.'</span>, <span class="string">'/'</span>, <span class="string">'\\'</span>,
 
                 <span class="comment">// These are treated specially by shells.
-                </span><span class="string">&#39;&lt;&#39;</span>, <span class="string">&#39;&gt;&#39;</span>, <span class="string">&#39;|&#39;</span>, <span class="string">&#39;:&#39;</span>, <span class="string">&#39;(&#39;</span>, <span class="string">&#39;)&#39;</span>, <span class="string">&#39;&amp;&#39;</span>, <span class="string">&#39;;&#39;</span>, <span class="string">&#39;#&#39;</span>, <span class="string">&#39;?&#39;</span>, <span class="string">&#39;*&#39;</span>,
+                </span><span class="string">'&lt;'</span>, <span class="string">'&gt;'</span>, <span class="string">'|'</span>, <span class="string">':'</span>, <span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'&amp;'</span>, <span class="string">';'</span>, <span class="string">'#'</span>, <span class="string">'?'</span>, <span class="string">'*'</span>,
             ];
 
             <span class="kw">let </span>bad_char = |c| BAD_CHARS.contains(<span class="kw-2">&amp;</span>c) || c.is_control();
@@ -400,7 +400,7 @@
             .and_then(|n| n.to_str())
             .and_then(|n| n.split(bad_char).find(|s| !s.is_empty()))<span class="question-mark">?</span>;
 
-        <span class="comment">// At this point, `file_name` can&#39;t contain `bad_chars` because of
+        <span class="comment">// At this point, `file_name` can't contain `bad_chars` because of
         // `.split()`, but it can be empty or reserved.
         </span><span class="kw">if </span>file_name.is_empty() || bad_name(file_name) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -424,12 +424,12 @@
     /// ```rust
     /// use rocket::fs::FileName;
     ///
-    /// let name = FileName::new(&quot;some-file.txt&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;some-file&quot;));
+    /// let name = FileName::new("some-file.txt");
+    /// assert_eq!(name.as_str(), Some("some-file"));
     /// assert!(!name.is_safe());
     ///
-    /// let name = FileName::new(&quot;some-file&quot;);
-    /// assert_eq!(name.as_str(), Some(&quot;some-file&quot;));
+    /// let name = FileName::new("some-file");
+    /// assert_eq!(name.as_str(), Some("some-file"));
     /// assert!(name.is_safe());
     /// ```
     </span><span class="kw">pub fn </span>is_safe(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
@@ -463,26 +463,26 @@
     /// ```rust
     /// use rocket::fs::FileName;
     ///
-    /// let name = FileName::new(&quot;some-file.txt&quot;);
-    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), &quot;some-file.txt&quot;);
+    /// let name = FileName::new("some-file.txt");
+    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), "some-file.txt");
     ///
-    /// let name = FileName::new(&quot;../../../../etc/shadow&quot;);
-    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), &quot;../../../../etc/shadow&quot;);
+    /// let name = FileName::new("../../../../etc/shadow");
+    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), "../../../../etc/shadow");
     ///
-    /// let name = FileName::new(&quot;../../.ssh/id_rsa&quot;);
-    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), &quot;../../.ssh/id_rsa&quot;);
+    /// let name = FileName::new("../../.ssh/id_rsa");
+    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), "../../.ssh/id_rsa");
     ///
-    /// let name = FileName::new(&quot;/Rocket.toml&quot;);
-    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), &quot;/Rocket.toml&quot;);
+    /// let name = FileName::new("/Rocket.toml");
+    /// assert_eq!(name.dangerous_unsafe_unsanitized_raw(), "/Rocket.toml");
     /// ```
     </span><span class="kw">pub fn </span>dangerous_unsafe_unsanitized_raw(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>RawStr {
         <span class="self">self</span>.<span class="number">0</span>.into()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S: AsRef&lt;str&gt; + <span class="question-mark">?</span>Sized&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>S&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>FileName {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, S: AsRef&lt;str&gt; + <span class="question-mark">?</span>Sized&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>S&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>FileName {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>S) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>S) -&gt; <span class="self">Self </span>{
         FileName::new(string)
     }
 }

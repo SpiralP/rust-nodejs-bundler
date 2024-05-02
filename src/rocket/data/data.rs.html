@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/data/data.rs`."><title>data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/data/data.rs`."><title>data.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -192,7 +192,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::data::data_stream::DataStream;
 <span class="kw">use </span><span class="kw">crate</span>::data::{ByteUnit, StreamReader};
 
-<span class="doccomment">/// The number of bytes to read into the &quot;peek&quot; buffer.
+<span class="doccomment">/// The number of bytes to read into the "peek" buffer.
 </span><span class="kw">pub const </span>PEEK_BYTES: usize = <span class="number">512</span>;
 
 <span class="doccomment">/// Type representing the body data of a request.
@@ -200,13 +200,13 @@
 /// This type is the only means by which the body of a request can be retrieved.
 /// This type is not usually used directly. Instead, data guards (types that
 /// implement [`FromData`](crate::data::FromData)) are created indirectly via
-/// code generation by specifying the `data = &quot;&lt;var&gt;&quot;` route parameter as
+/// code generation by specifying the `data = "&lt;var&gt;"` route parameter as
 /// follows:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// # type DataGuard = String;
-/// #[post(&quot;/submit&quot;, data = &quot;&lt;var&gt;&quot;)]
+/// #[post("/submit", data = "&lt;var&gt;")]
 /// fn submit(var: DataGuard) { /* ... */ }
 /// # fn main() { }
 /// ```
@@ -227,15 +227,15 @@
 /// The `peek` method returns a slice containing at most 512 bytes of buffered
 /// body data. This enables partially or fully reading from a `Data` object
 /// without consuming the `Data` object.
-</span><span class="kw">pub struct </span>Data&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>Data&lt;<span class="lifetime">'r</span>&gt; {
     buffer: Vec&lt;u8&gt;,
     is_complete: bool,
-    stream: StreamReader&lt;<span class="lifetime">&#39;r</span>&gt;,
+    stream: StreamReader&lt;<span class="lifetime">'r</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Data&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Data&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Create a `Data` from a recognized `stream`.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from&lt;S: Into&lt;StreamReader&lt;<span class="lifetime">&#39;r</span>&gt;&gt;&gt;(stream: S) -&gt; Data&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from&lt;S: Into&lt;StreamReader&lt;<span class="lifetime">'r</span>&gt;&gt;&gt;(stream: S) -&gt; Data&lt;<span class="lifetime">'r</span>&gt; {
         <span class="comment">// TODO.async: This used to also set the read timeout to 5 seconds.
         // Such a short read timeout is likely no longer necessary, but some
         // kind of idle timeout should be implemented.
@@ -247,7 +247,7 @@
 
     <span class="doccomment">/// This creates a `data` object from a local data source `data`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>local(data: Vec&lt;u8&gt;) -&gt; Data&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>local(data: Vec&lt;u8&gt;) -&gt; Data&lt;<span class="lifetime">'r</span>&gt; {
         Data {
             buffer: data,
             stream: StreamReader::empty(),
@@ -268,11 +268,11 @@
     /// use rocket::data::{Data, ToByteUnit};
     ///
     /// # const SIZE_LIMIT: u64 = 2 &lt;&lt; 20; // 2MiB
-    /// fn handler(data: Data&lt;&#39;_&gt;) {
+    /// fn handler(data: Data&lt;'_&gt;) {
     ///     let stream = data.open(2.mebibytes());
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>open(<span class="self">self</span>, limit: ByteUnit) -&gt; DataStream&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>open(<span class="self">self</span>, limit: ByteUnit) -&gt; DataStream&lt;<span class="lifetime">'r</span>&gt; {
         DataStream::new(<span class="self">self</span>.buffer, <span class="self">self</span>.stream, limit.into())
     }
 
@@ -280,7 +280,7 @@
     /// `self`.
     ///
     /// The peek buffer contains at most 512 bytes of the body of the request.
-    /// The actual size of the returned buffer is the `min` of the request&#39;s
+    /// The actual size of the returned buffer is the `min` of the request's
     /// body, `num` and `512`. The [`peek_complete`](#method.peek_complete)
     /// method can be used to determine if this buffer contains _all_ of the
     /// data in the body of the request.
@@ -297,11 +297,11 @@
     /// # type MyError = String;
     ///
     /// #[rocket::async_trait]
-    /// impl&lt;&#39;r&gt; FromData&lt;&#39;r&gt; for MyType {
+    /// impl&lt;'r&gt; FromData&lt;'r&gt; for MyType {
     ///     type Error = MyError;
     ///
-    ///     async fn from_data(r: &amp;&#39;r Request&lt;&#39;_&gt;, mut data: Data&lt;&#39;r&gt;) -&gt; Outcome&lt;&#39;r, Self&gt; {
-    ///         if data.peek(2).await != b&quot;hi&quot; {
+    ///     async fn from_data(r: &amp;'r Request&lt;'_&gt;, mut data: Data&lt;'r&gt;) -&gt; Outcome&lt;'r, Self&gt; {
+    ///         if data.peek(2).await != b"hi" {
     ///             return Outcome::Forward((data, Status::BadRequest))
     ///         }
     ///
@@ -322,14 +322,14 @@
     /// impl Fairing for MyType {
     ///     fn info(&amp;self) -&gt; Info {
     ///         Info {
-    ///             name: &quot;Data Peeker&quot;,
+    ///             name: "Data Peeker",
     ///             kind: Kind::Request
     ///         }
     ///     }
     ///
-    ///     async fn on_request(&amp;self, req: &amp;mut Request&lt;&#39;_&gt;, data: &amp;mut Data&lt;&#39;_&gt;) {
-    ///         if data.peek(2).await == b&quot;hi&quot; {
-    ///             /* do something; body data starts with `&quot;hi&quot;` */
+    ///     async fn on_request(&amp;self, req: &amp;mut Request&lt;'_&gt;, data: &amp;mut Data&lt;'_&gt;) {
+    ///         if data.peek(2).await == b"hi" {
+    ///             /* do something; body data starts with `"hi"` */
     ///         }
     ///
     ///         /* .. */
@@ -349,7 +349,7 @@
                 <span class="prelude-val">Ok</span>(<span class="number">0</span>) =&gt; { <span class="self">self</span>.is_complete = <span class="bool-val">true</span>; <span class="kw">break </span>},
                 <span class="prelude-val">Ok</span>(n) =&gt; len += n,
                 <span class="prelude-val">Err</span>(e) =&gt; {
-                    <span class="macro">error_!</span>(<span class="string">&quot;Failed to read into peek buffer: {:?}.&quot;</span>, e);
+                    <span class="macro">error_!</span>(<span class="string">"Failed to read into peek buffer: {:?}."</span>, e);
                     <span class="kw">break</span>;
                 }
             }
@@ -367,9 +367,9 @@
     /// ```rust
     /// use rocket::data::Data;
     ///
-    /// async fn handler(mut data: Data&lt;&#39;_&gt;) {
+    /// async fn handler(mut data: Data&lt;'_&gt;) {
     ///     if data.peek_complete() {
-    ///         println!(&quot;All of the data: {:?}&quot;, data.peek(512).await);
+    ///         println!("All of the data: {:?}", data.peek(512).await);
     ///     }
     /// }
     /// ```

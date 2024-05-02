@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/validate.rs`."><title>validate.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/validate.rs`."><title>validate.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -901,11 +901,11 @@
 //! use rocket::form::FromForm;
 //!
 //! #[derive(FromForm)]
-//! struct MyForm&lt;&#39;r&gt; {
+//! struct MyForm&lt;'r&gt; {
 //!     #[field(validate = range(2..10))]
 //!     id: usize,
-//!     #[field(validate = omits(&quot;password&quot;))]
-//!     password: &amp;&#39;r str,
+//!     #[field(validate = omits("password"))]
+//!     password: &amp;'r str,
 //! }
 //! ```
 //!
@@ -923,23 +923,23 @@
 //! use rocket::form::{Errors, Error, FromForm};
 //!
 //! #[derive(FromForm)]
-//! struct MyForm&lt;&#39;r&gt; {
+//! struct MyForm&lt;'r&gt; {
 //!     // By defining another function...
-//!     #[field(validate = omits(&quot;password&quot;).map_err(pass_help))]
-//!     password: &amp;&#39;r str,
+//!     #[field(validate = omits("password").map_err(pass_help))]
+//!     password: &amp;'r str,
 //!     // or inline using the `msg` helper. `or_else` inverts the validator
-//!     #[field(validate = omits(&quot;password&quot;).or_else(msg!(&quot;please omit `password`&quot;)))]
-//!     password2: &amp;&#39;r str,
+//!     #[field(validate = omits("password").or_else(msg!("please omit `password`")))]
+//!     password2: &amp;'r str,
 //!     // You can even refer to the field in the message...
-//!     #[field(validate = range(1..).or_else(msg!(&quot;`{}` &lt; 1&quot;, self.n)))]
+//!     #[field(validate = range(1..).or_else(msg!("`{}` &lt; 1", self.n)))]
 //!     n: isize,
 //!     // ..or other fields!
-//!     #[field(validate = range(..self.n).or_else(msg!(&quot;`{}` &gt; `{}`&quot;, self.z, self.n)))]
+//!     #[field(validate = range(..self.n).or_else(msg!("`{}` &gt; `{}`", self.z, self.n)))]
 //!     z: isize,
 //! }
 //!
-//! fn pass_help&lt;&#39;a&gt;(errors: Errors&lt;&#39;_&gt;) -&gt; Errors&lt;&#39;a&gt; {
-//!     Error::validation(&quot;passwords can&#39;t contain the text \&quot;password\&quot;&quot;).into()
+//! fn pass_help&lt;'a&gt;(errors: Errors&lt;'_&gt;) -&gt; Errors&lt;'a&gt; {
+//!     Error::validation("passwords can't contain the text \"password\"").into()
 //! }
 //! ```
 //!
@@ -962,10 +962,10 @@
 //! }
 //!
 //! // Implementation of Luhn validator.
-//! fn luhn&lt;&#39;v&gt;(number: &amp;u64, cvv: u16, exp: &amp;time::Date) -&gt; form::Result&lt;&#39;v, ()&gt; {
+//! fn luhn&lt;'v&gt;(number: &amp;u64, cvv: u16, exp: &amp;time::Date) -&gt; form::Result&lt;'v, ()&gt; {
 //!     # let valid = false;
 //!     if !valid {
-//!         Err(Error::validation(&quot;invalid credit card number&quot;))?;
+//!         Err(Error::validation("invalid credit card number"))?;
 //!     }
 //!
 //!     Ok(())
@@ -981,7 +981,7 @@
 
 <span class="kw">use crate</span>::{fs::TempFile, form::{<span class="prelude-ty">Result</span>, Error}};
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// A helper macro for custom validation error messages.
     ///
     /// The macro works similar to [`std::format!`]. It generates a form
@@ -998,11 +998,11 @@
     /// use rocket::form::FromForm;
     ///
     /// #[derive(FromForm)]
-    /// struct Person&lt;&#39;r&gt; {
-    ///     #[field(validate = len(3..).or_else(msg!(&quot;that&#39;s a short name...&quot;)))]
-    ///     name: &amp;&#39;r str,
-    ///     #[field(validate = contains(&#39;f&#39;).and_then(msg!(&quot;please, no `f`!&quot;)))]
-    ///     non_f_name: &amp;&#39;r str,
+    /// struct Person&lt;'r&gt; {
+    ///     #[field(validate = len(3..).or_else(msg!("that's a short name...")))]
+    ///     name: &amp;'r str,
+    ///     #[field(validate = contains('f').and_then(msg!("please, no `f`!")))]
+    ///     non_f_name: &amp;'r str,
     /// }
     /// ```
     ///
@@ -1014,14 +1014,14 @@
     ///
     /// # Syntax
     ///
-    /// The macro has the following &quot;signatures&quot;:
+    /// The macro has the following "signatures":
     ///
     /// ## Variant 1
     ///
     /// ```rust
     /// # use rocket::form;
     /// # trait Expr {}
-    /// fn msg&lt;&#39;a, T, P, E: Expr&gt;(expr: E) -&gt; impl Fn(P) -&gt; form::Result&lt;&#39;a, T&gt;
+    /// fn msg&lt;'a, T, P, E: Expr&gt;(expr: E) -&gt; impl Fn(P) -&gt; form::Result&lt;'a, T&gt;
     /// # { |_| unimplemented!() }
     /// ```
     ///
@@ -1036,12 +1036,12 @@
     /// # use rocket::form;
     /// # trait Format {}
     /// # trait Args {}
-    /// fn msg&lt;&#39;a, T, P, A: Args&gt;(fmt: &amp;str, args: A) -&gt; impl Fn(P) -&gt; form::Result&lt;&#39;a, T&gt;
+    /// fn msg&lt;'a, T, P, A: Args&gt;(fmt: &amp;str, args: A) -&gt; impl Fn(P) -&gt; form::Result&lt;'a, T&gt;
     /// # { |_| unimplemented!() }
     /// ```
     ///
     /// Invokes the first variant as `msg!(format!(fmt, args))`.
-    </span><span class="macro">macro_rules! </span>msg {
+    </span><span class="macro">macro_rules!</span> msg {
         (<span class="macro-nonterminal">$e</span>:expr) =&gt; (|<span class="kw">_</span>| {
             <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::form::Errors::from</span>(
                     <span class="macro-nonterminal">$crate::form::Error::validation</span>(<span class="macro-nonterminal">$e</span>)
@@ -1071,20 +1071,20 @@
 /// }
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
-///     #[field(validate = eq(&quot;Bob Marley&quot;))]
-///     name: &amp;&#39;r str,
+/// struct Foo&lt;'r&gt; {
+///     #[field(validate = eq("Bob Marley"))]
+///     name: &amp;'r str,
 ///     #[field(validate = eq(Kind::Car))]
 ///     vehicle: Kind,
 ///     #[field(validate = eq(&amp;[5, 7, 8]))]
 ///     numbers: Vec&lt;usize&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>eq&lt;<span class="lifetime">&#39;v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>eq&lt;<span class="lifetime">'v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>A: PartialEq&lt;B&gt;
 {
     <span class="kw">if </span>a != <span class="kw-2">&amp;</span>b {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="string">&quot;value does not match expected value&quot;</span>))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="string">"value does not match expected value"</span>))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1117,11 +1117,11 @@
 ///     best_pet: Pet,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>dbg_eq&lt;<span class="lifetime">&#39;v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>dbg_eq&lt;<span class="lifetime">'v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>A: PartialEq&lt;B&gt;, B: Debug
 {
     <span class="kw">if </span>a != <span class="kw-2">&amp;</span>b {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">&quot;value must be {:?}&quot;</span>, b)))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">"value must be {:?}"</span>, b)))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1148,20 +1148,20 @@
 /// }
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
-///     #[field(validate = neq(&quot;Bob Marley&quot;))]
-///     name: &amp;&#39;r str,
+/// struct Foo&lt;'r&gt; {
+///     #[field(validate = neq("Bob Marley"))]
+///     name: &amp;'r str,
 ///     #[field(validate = neq(Kind::Car))]
 ///     vehicle: Kind,
 ///     #[field(validate = neq(&amp;[5, 7, 8]))]
 ///     numbers: Vec&lt;usize&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>neq&lt;<span class="lifetime">&#39;v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>neq&lt;<span class="lifetime">'v</span>, A, B&gt;(a: <span class="kw-2">&amp;</span>A, b: B) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>A: PartialEq&lt;B&gt;
 {
     <span class="kw">if </span>a == <span class="kw-2">&amp;</span>b {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="string">&quot;value is equal to an invalid value&quot;</span>))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="string">"value is equal to an invalid value"</span>))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1178,9 +1178,9 @@
 /// | `HashMap&lt;K, V&gt;`, `BTreeMap&lt;K, V&gt;` | number of key/value pairs in the map |
 /// | [`TempFile`]                      | length of the file in bytes          |
 /// | `Option&lt;T&gt;` where `T: Len`        | length of `T` or 0 if `None`         |
-/// | [`form::Result&lt;&#39;_, T&gt;`]           | length of `T` or 0 if `Err`          |
+/// | [`form::Result&lt;'_, T&gt;`]           | length of `T` or 0 if `Err`          |
 ///
-/// [`form::Result&lt;&#39;_, T&gt;`]: crate::form::Result
+/// [`form::Result&lt;'_, T&gt;`]: crate::form::Result
 </span><span class="kw">pub trait </span>Len&lt;L&gt; {
     <span class="doccomment">/// The length of the value.
     </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; L;
@@ -1192,7 +1192,7 @@
     </span><span class="kw">fn </span>zero_len() -&gt; L;
 }
 
-<span class="macro">macro_rules! </span>impl_len {
+<span class="macro">macro_rules!</span> impl_len {
     (&lt;$(<span class="macro-nonterminal">$gen</span>:ident),<span class="kw-2">*</span>&gt; <span class="macro-nonterminal">$T</span>:ty =&gt; <span class="macro-nonterminal">$L</span>:ty) =&gt; (
         <span class="kw">impl </span>&lt;$(<span class="macro-nonterminal">$gen</span>),<span class="kw-2">*</span>&gt; Len&lt;<span class="macro-nonterminal">$L</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$T </span>{
             <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$L </span>{ <span class="self">self</span>.len() }
@@ -1205,11 +1205,11 @@
 <span class="macro">impl_len!</span>(&lt;&gt; str =&gt; usize);
 <span class="macro">impl_len!</span>(&lt;&gt; String =&gt; usize);
 <span class="macro">impl_len!</span>(&lt;T&gt; Vec&lt;T&gt; =&gt; usize);
-<span class="macro">impl_len!</span>(&lt;&gt; TempFile&lt;<span class="lifetime">&#39;_</span>&gt; =&gt; u64);
+<span class="macro">impl_len!</span>(&lt;&gt; TempFile&lt;<span class="lifetime">'_</span>&gt; =&gt; u64);
 <span class="macro">impl_len!</span>(&lt;K, V&gt; std::collections::HashMap&lt;K, V&gt; =&gt; usize);
 <span class="macro">impl_len!</span>(&lt;K, V&gt; std::collections::BTreeMap&lt;K, V&gt; =&gt; usize);
 
-<span class="kw">impl </span>Len&lt;ByteUnit&gt; <span class="kw">for </span>TempFile&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Len&lt;ByteUnit&gt; <span class="kw">for </span>TempFile&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ByteUnit { <span class="self">self</span>.len().into() }
     <span class="kw">fn </span>len_into_u64(len: ByteUnit) -&gt; u64 { len.into() }
     <span class="kw">fn </span>zero_len() -&gt; ByteUnit { ByteUnit::from(<span class="number">0</span>) }
@@ -1233,20 +1233,20 @@
     <span class="kw">fn </span>zero_len() -&gt; L { T::zero_len() }
 }
 
-<span class="kw">impl</span>&lt;L, T: Len&lt;L&gt;&gt; Len&lt;L&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+<span class="kw">impl</span>&lt;L, T: Len&lt;L&gt;&gt; Len&lt;L&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; L { <span class="self">self</span>.as_ref().ok().len() }
     <span class="kw">fn </span>len_into_u64(len: L) -&gt; u64 { T::len_into_u64(len) }
     <span class="kw">fn </span>zero_len() -&gt; L { T::zero_len() }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"json"</span>)]
 </span><span class="kw">impl</span>&lt;L, T: Len&lt;L&gt;&gt; Len&lt;L&gt; <span class="kw">for </span><span class="kw">crate</span>::serde::json::Json&lt;T&gt; {
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; L { <span class="self">self</span>.<span class="number">0</span>.len() }
     <span class="kw">fn </span>len_into_u64(len: L) -&gt; u64 { T::len_into_u64(len) }
     <span class="kw">fn </span>zero_len() -&gt; L { T::zero_len() }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;msgpack&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"msgpack"</span>)]
 </span><span class="kw">impl</span>&lt;L, T: Len&lt;L&gt;&gt; Len&lt;L&gt; <span class="kw">for </span><span class="kw">crate</span>::serde::msgpack::MsgPack&lt;T&gt; {
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; L { <span class="self">self</span>.<span class="number">0</span>.len() }
     <span class="kw">fn </span>len_into_u64(len: L) -&gt; u64 { T::len_into_u64(len) }
@@ -1277,17 +1277,17 @@
 /// use rocket::fs::TempFile;
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     #[field(validate = len(5..20))]
-///     name: &amp;&#39;r str,
+///     name: &amp;'r str,
 ///     #[field(validate = len(..=200))]
-///     maybe_name: Option&lt;&amp;&#39;r str&gt;,
+///     maybe_name: Option&lt;&amp;'r str&gt;,
 ///     #[field(validate = len(..=2.mebibytes()))]
 ///     #[field(validate = ext(ContentType::Plain))]
-///     file: TempFile&lt;&#39;r&gt;,
+///     file: TempFile&lt;'r&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>len&lt;<span class="lifetime">&#39;v</span>, V, L, R&gt;(value: V, range: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>len&lt;<span class="lifetime">'v</span>, V, L, R&gt;(value: V, range: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Len&lt;L&gt;,
           L: Copy + PartialOrd,
           R: RangeBounds&lt;L&gt;
@@ -1320,15 +1320,15 @@
 /// | `&amp;str`, `String`        | `&amp;str`, `char`, `&amp;[char]` `F: FnMut(char) -&gt; bool` |
 /// | `Vec&lt;T&gt;`                | `T`, `&amp;T`                                          |
 /// | `Option&lt;T&gt;`             | `I` where `T: Contains&lt;I&gt;`                         |
-/// | [`form::Result&lt;&#39;_, T&gt;`] | `I` where `T: Contains&lt;I&gt;`                         |
+/// | [`form::Result&lt;'_, T&gt;`] | `I` where `T: Contains&lt;I&gt;`                         |
 ///
-/// [`form::Result&lt;&#39;_, T&gt;`]: crate::form::Result
+/// [`form::Result&lt;'_, T&gt;`]: crate::form::Result
 </span><span class="kw">pub trait </span>Contains&lt;I&gt; {
     <span class="doccomment">/// Returns `true` if `self` contains `item`.
     </span><span class="kw">fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, item: I) -&gt; bool;
 }
 
-<span class="macro">macro_rules! </span>impl_contains {
+<span class="macro">macro_rules!</span> impl_contains {
     ([$(<span class="macro-nonterminal">$gen</span>:tt)<span class="kw-2">*</span>] <span class="macro-nonterminal">$T</span>:ty [contains] <span class="macro-nonterminal">$I</span>:ty [via] <span class="macro-nonterminal">$P</span>:ty) =&gt; {
         <span class="macro">impl_contains!</span>([$(<span class="macro-nonterminal">$gen</span>)<span class="kw-2">*</span>] <span class="macro-nonterminal">$T </span>[contains] <span class="macro-nonterminal">$I </span>[via] <span class="macro-nonterminal">$P </span>[with] |v| v);
     };
@@ -1380,7 +1380,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;I, T: Contains&lt;I&gt;&gt; Contains&lt;I&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+<span class="kw">impl</span>&lt;I, T: Contains&lt;I&gt;&gt; Contains&lt;I&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, item: I) -&gt; bool {
         <span class="self">self</span>.as_ref().map(|v| v.contains(item)).unwrap_or(<span class="bool-val">false</span>)
     }
@@ -1415,24 +1415,24 @@
 /// enum Pet { Cat, Dog }
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     best_pet: Pet,
 ///     #[field(validate = contains(Pet::Cat))]
 ///     #[field(validate = contains(&amp;self.best_pet))]
 ///     pets: Vec&lt;Pet&gt;,
-///     #[field(validate = contains(&#39;/&#39;))]
-///     #[field(validate = contains(&amp;[&#39;/&#39;, &#39;:&#39;]))]
-///     license: &amp;&#39;r str,
-///     #[field(validate = contains(&quot;@rust-lang.org&quot;))]
-///     #[field(validate = contains(|c: char| c.to_ascii_lowercase() == &#39;s&#39;))]
-///     rust_lang_email: &amp;&#39;r str,
+///     #[field(validate = contains('/'))]
+///     #[field(validate = contains(&amp;['/', ':']))]
+///     license: &amp;'r str,
+///     #[field(validate = contains("@rust-lang.org"))]
+///     #[field(validate = contains(|c: char| c.to_ascii_lowercase() == 's'))]
+///     rust_lang_email: &amp;'r str,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>contains&lt;<span class="lifetime">&#39;v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>contains&lt;<span class="lifetime">'v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Contains&lt;I&gt;
 {
     <span class="kw">if </span>!value.contains(item) {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="string">&quot;value does not contain expected item&quot;</span>))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="string">"value does not contain expected item"</span>))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1467,11 +1467,11 @@
 ///     pets: Vec&lt;Pet&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>dbg_contains&lt;<span class="lifetime">&#39;v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>dbg_contains&lt;<span class="lifetime">'v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Contains&lt;I&gt;, I: Debug + Copy
 {
     <span class="kw">if </span>!value.contains(item) {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">&quot;value must contain {:?}&quot;</span>, item)))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">"value must contain {:?}"</span>, item)))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1501,20 +1501,20 @@
 /// enum Pet { Cat, Dog }
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     #[field(validate = omits(Pet::Cat))]
 ///     pets: Vec&lt;Pet&gt;,
-///     #[field(validate = omits(&#39;@&#39;))]
-///     not_email: &amp;&#39;r str,
-///     #[field(validate = omits(&quot;@gmail.com&quot;))]
-///     non_gmail_email: &amp;&#39;r str,
+///     #[field(validate = omits('@'))]
+///     not_email: &amp;'r str,
+///     #[field(validate = omits("@gmail.com"))]
+///     non_gmail_email: &amp;'r str,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>omits&lt;<span class="lifetime">&#39;v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>omits&lt;<span class="lifetime">'v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Contains&lt;I&gt;
 {
     <span class="kw">if </span>value.contains(item) {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="string">&quot;value contains a disallowed item&quot;</span>))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="string">"value contains a disallowed item"</span>))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1542,20 +1542,20 @@
 /// enum Pet { Cat, Dog }
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     #[field(validate = dbg_omits(Pet::Cat))]
 ///     pets: Vec&lt;Pet&gt;,
-///     #[field(validate = dbg_omits(&#39;@&#39;))]
-///     not_email: &amp;&#39;r str,
-///     #[field(validate = dbg_omits(&quot;@gmail.com&quot;))]
-///     non_gmail_email: &amp;&#39;r str,
+///     #[field(validate = dbg_omits('@'))]
+///     not_email: &amp;'r str,
+///     #[field(validate = dbg_omits("@gmail.com"))]
+///     non_gmail_email: &amp;'r str,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>dbg_omits&lt;<span class="lifetime">&#39;v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>dbg_omits&lt;<span class="lifetime">'v</span>, V, I&gt;(value: V, item: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Contains&lt;I&gt;, I: Copy + Debug
 {
     <span class="kw">if </span>value.contains(item) {
-        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">&quot;value cannot contain {:?}&quot;</span>, item)))<span class="question-mark">?
+        <span class="prelude-val">Err</span>(Error::validation(<span class="macro">format!</span>(<span class="string">"value cannot contain {:?}"</span>, item)))<span class="question-mark">?
     </span>}
 
     <span class="prelude-val">Ok</span>(())
@@ -1581,7 +1581,7 @@
 ///     maybe_adult: u8,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>range&lt;<span class="lifetime">&#39;v</span>, V, R&gt;(value: <span class="kw-2">&amp;</span>V, range: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>range&lt;<span class="lifetime">'v</span>, V, R&gt;(value: <span class="kw-2">&amp;</span>V, range: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: TryInto&lt;isize&gt; + Copy, R: RangeBounds&lt;isize&gt;
 {
     <span class="kw">if let </span><span class="prelude-val">Ok</span>(v) = (<span class="kw-2">*</span>value).try_into() {
@@ -1624,16 +1624,16 @@
 /// use rocket::form::FromForm;
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     #[field(validate = one_of(&amp;[3, 5, 7]))]
 ///     single_digit_primes: Vec&lt;u8&gt;,
-///     #[field(validate = one_of(&quot; \t\n&quot;.chars()))]
-///     has_space_char: &amp;&#39;r str,
-///     #[field(validate = one_of(&quot; \t\n&quot;.chars()).and_then(msg!(&quot;no spaces&quot;)))]
-///     no_space: &amp;&#39;r str,
+///     #[field(validate = one_of(" \t\n".chars()))]
+///     has_space_char: &amp;'r str,
+///     #[field(validate = one_of(" \t\n".chars()).and_then(msg!("no spaces")))]
+///     no_space: &amp;'r str,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>one_of&lt;<span class="lifetime">&#39;v</span>, V, I, R&gt;(value: V, items: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>one_of&lt;<span class="lifetime">'v</span>, V, I, R&gt;(value: V, items: R) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>V: Contains&lt;I&gt;,
           I: Debug,
           R: IntoIterator&lt;Item = I&gt;,
@@ -1646,8 +1646,8 @@
         }
     }
 
-    <span class="kw">let </span>choices: Vec&lt;Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;&gt; = items
-        .map(|item| <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, item).into())
+    <span class="kw">let </span>choices: Vec&lt;Cow&lt;<span class="lifetime">'_</span>, str&gt;&gt; = items
+        .map(|item| <span class="macro">format!</span>(<span class="string">"{:?}"</span>, item).into())
         .collect();
 
     <span class="prelude-val">Err</span>(choices)<span class="question-mark">?
@@ -1675,13 +1675,13 @@
 /// use rocket::fs::TempFile;
 ///
 /// #[derive(FromForm)]
-/// struct Foo&lt;&#39;r&gt; {
+/// struct Foo&lt;'r&gt; {
 ///     #[field(validate = ext(ContentType::PDF))]
 ///     #[field(validate = len(..1.mebibytes()))]
-///     document: TempFile&lt;&#39;r&gt;,
+///     document: TempFile&lt;'r&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>ext&lt;<span class="lifetime">&#39;v</span>&gt;(file: <span class="kw-2">&amp;</span>TempFile&lt;<span class="lifetime">&#39;_</span>&gt;, r#type: ContentType) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt; {
+</span><span class="kw">pub fn </span>ext&lt;<span class="lifetime">'v</span>&gt;(file: <span class="kw-2">&amp;</span>TempFile&lt;<span class="lifetime">'_</span>&gt;, r#type: ContentType) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt; {
     <span class="kw">if let </span><span class="prelude-val">Some</span>(file_ct) = file.content_type() {
         <span class="kw">if </span>file_ct == <span class="kw-2">&amp;</span>r#type {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(());
@@ -1689,10 +1689,10 @@
     }
 
     <span class="kw">let </span>msg = <span class="kw">match </span>(file.content_type().and_then(|c| c.extension()), r#type.extension()) {
-        (<span class="prelude-val">Some</span>(a), <span class="prelude-val">Some</span>(b)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;invalid file type: .{}, must be .{}&quot;</span>, a, b),
-        (<span class="prelude-val">Some</span>(a), <span class="prelude-val">None</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;invalid file type: .{}, must be {}&quot;</span>, a, r#type),
-        (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(b)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;file type must be .{}&quot;</span>, b),
-        (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">format!</span>(<span class="string">&quot;file type must be {}&quot;</span>, r#type),
+        (<span class="prelude-val">Some</span>(a), <span class="prelude-val">Some</span>(b)) =&gt; <span class="macro">format!</span>(<span class="string">"invalid file type: .{}, must be .{}"</span>, a, b),
+        (<span class="prelude-val">Some</span>(a), <span class="prelude-val">None</span>) =&gt; <span class="macro">format!</span>(<span class="string">"invalid file type: .{}, must be {}"</span>, a, r#type),
+        (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(b)) =&gt; <span class="macro">format!</span>(<span class="string">"file type must be .{}"</span>, b),
+        (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">format!</span>(<span class="string">"file type must be {}"</span>, r#type),
     };
 
     <span class="prelude-val">Err</span>(Error::validation(msg))<span class="question-mark">?
@@ -1722,25 +1722,25 @@
 /// struct Foo {
 ///     // These are equivalent. Prefer the former.
 ///     #[field(validate = contains(Pet::Dog))]
-///     #[field(validate = with(|pets| pets.iter().any(|p| *p == Pet::Dog), &quot;missing dog&quot;))]
+///     #[field(validate = with(|pets| pets.iter().any(|p| *p == Pet::Dog), "missing dog"))]
 ///     pets: Vec&lt;Pet&gt;,
 ///     // These are equivalent. Prefer the former.
 ///     #[field(validate = eq(Pet::Dog))]
-///     #[field(validate = with(|p| matches!(p, Pet::Dog), &quot;expected a dog&quot;))]
-///     #[field(validate = with(|p| is_dog(p), &quot;expected a dog&quot;))]
-///   # #[field(validate = with(|p| is_dog(&amp;self.dog), &quot;expected a dog&quot;))]
-///     #[field(validate = with(is_dog, &quot;expected a dog&quot;))]
+///     #[field(validate = with(|p| matches!(p, Pet::Dog), "expected a dog"))]
+///     #[field(validate = with(|p| is_dog(p), "expected a dog"))]
+///   # #[field(validate = with(|p| is_dog(&amp;self.dog), "expected a dog"))]
+///     #[field(validate = with(is_dog, "expected a dog"))]
 ///     dog: Pet,
 ///     // These are equivalent. Prefer the former.
 ///     #[field(validate = contains(&amp;self.dog))]
-///   # #[field(validate = with(|p| is_dog(&amp;self.dog), &quot;expected a dog&quot;))]
-///     #[field(validate = with(|pets| pets.iter().any(|p| p == &amp;self.dog), &quot;missing dog&quot;))]
+///   # #[field(validate = with(|p| is_dog(&amp;self.dog), "expected a dog"))]
+///     #[field(validate = with(|pets| pets.iter().any(|p| p == &amp;self.dog), "missing dog"))]
 ///     one_dog_please: Vec&lt;Pet&gt;,
 /// }
 /// ```
-</span><span class="kw">pub fn </span>with&lt;<span class="lifetime">&#39;v</span>, V, F, M&gt;(value: V, f: F, msg: M) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>with&lt;<span class="lifetime">'v</span>, V, F, M&gt;(value: V, f: F, msg: M) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>F: FnOnce(V) -&gt; bool,
-          M: Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;
+          M: Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;
 {
     <span class="kw">if </span>!f(value) {
         <span class="prelude-val">Err</span>(Error::validation(msg.into()))<span class="question-mark">?
@@ -1763,21 +1763,21 @@
 ///
 /// ```rust
 /// # use rocket::form::FromForm;
-/// # impl FromStr for Token&lt;&#39;_&gt; {
-/// #     type Err = &amp;&#39;static str;
+/// # impl FromStr for Token&lt;'_&gt; {
+/// #     type Err = &amp;'static str;
 /// #     fn from_str(s: &amp;str) -&gt; Result&lt;Self, Self::Err&gt; { todo!() }
 /// # }
 /// use std::str::FromStr;
 ///
 /// #[derive(FromForm)]
 /// #[field(validate = try_with(|s| Token::from_str(s)))]
-/// struct Token&lt;&#39;r&gt;(&amp;&#39;r str);
+/// struct Token&lt;'r&gt;(&amp;'r str);
 ///
 /// #[derive(FromForm)]
 /// #[field(validate = try_with(|s| s.parse::&lt;Token&gt;()))]
-/// struct Token2&lt;&#39;r&gt;(&amp;&#39;r str);
+/// struct Token2&lt;'r&gt;(&amp;'r str);
 /// ```
-</span><span class="kw">pub fn </span>try_with&lt;<span class="lifetime">&#39;v</span>, V, F, T, E&gt;(value: V, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, ()&gt;
+</span><span class="kw">pub fn </span>try_with&lt;<span class="lifetime">'v</span>, V, F, T, E&gt;(value: V, f: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, ()&gt;
     <span class="kw">where </span>F: FnOnce(V) -&gt; std::result::Result&lt;T, E&gt;,
           E: std::fmt::Display
 {

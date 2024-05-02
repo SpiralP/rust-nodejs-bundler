@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/log.rs`."><title>log.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/log.rs`."><title>log.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -243,7 +243,7 @@
 <a href="#243" id="243">243</a>
 <a href="#244" id="244">244</a>
 <a href="#245" id="245">245</a>
-</pre></div><pre class="rust"><code><span class="doccomment">//! Rocket&#39;s logging infrastructure.
+</pre></div><pre class="rust"><code><span class="doccomment">//! Rocket's logging infrastructure.
 
 </span><span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::str::FromStr;
@@ -256,21 +256,21 @@
 </span><span class="kw">pub use </span>log <span class="kw">as </span>private;
 
 <span class="comment">// Expose logging macros (hidden) for use by core/contrib codegen.
-</span><span class="macro">macro_rules! </span>define_log_macro {
+</span><span class="macro">macro_rules!</span> define_log_macro {
     (<span class="macro-nonterminal">$name</span>:ident: <span class="macro-nonterminal">$kind</span>:ident, <span class="macro-nonterminal">$target</span>:expr, <span class="macro-nonterminal">$d</span>:tt) =&gt; (
         <span class="attr">#[doc(hidden)]
         #[macro_export]
-        </span><span class="macro">macro_rules! </span><span class="macro-nonterminal">$name </span>{
+        </span><span class="macro">macro_rules!</span> <span class="macro-nonterminal">$name </span>{
             (<span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$t</span>:tt)<span class="kw-2">*</span>) =&gt; (<span class="macro-nonterminal">$crate::log::private</span>::<span class="macro-nonterminal">$</span><span class="macro">kind!</span>(<span class="macro-nonterminal">target</span>: <span class="macro-nonterminal">$target</span>, <span class="macro-nonterminal">$d </span>(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>))
         }
     );
     (<span class="macro-nonterminal">$name</span>:ident (<span class="macro-nonterminal">$indented</span>:ident): <span class="macro-nonterminal">$kind</span>:ident, <span class="macro-nonterminal">$target</span>:expr, <span class="macro-nonterminal">$d</span>:tt) =&gt; (
         <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$name</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro-nonterminal">$target</span>, <span class="macro-nonterminal">$d</span>);
-        <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$indented</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro">concat!</span>(<span class="macro-nonterminal">$target</span>, <span class="string">&quot;::_&quot;</span>), <span class="macro-nonterminal">$d</span>);
+        <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$indented</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro">concat!</span>(<span class="macro-nonterminal">$target</span>, <span class="string">"::_"</span>), <span class="macro-nonterminal">$d</span>);
     );
     (<span class="macro-nonterminal">$kind</span>:ident, <span class="macro-nonterminal">$indented</span>:ident) =&gt; (
         <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$kind</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro">module_path!</span>(), $);
-        <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$indented</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro">concat!</span>(<span class="macro">module_path!</span>(), <span class="string">&quot;::_&quot;</span>), $);
+        <span class="macro">define_log_macro!</span>(<span class="macro-nonterminal">$indented</span>: <span class="macro-nonterminal">$kind</span>, <span class="macro">concat!</span>(<span class="macro">module_path!</span>(), <span class="string">"::_"</span>), $);
 
         <span class="kw">pub use </span><span class="macro-nonterminal">$indented</span>;
     );
@@ -281,31 +281,31 @@
 <span class="macro">define_log_macro!</span>(info, info_);
 <span class="macro">define_log_macro!</span>(debug, debug_);
 <span class="macro">define_log_macro!</span>(trace, trace_);
-<span class="macro">define_log_macro!</span>(launch_meta (launch_meta_): info, <span class="string">&quot;rocket::launch&quot;</span>, $);
-<span class="macro">define_log_macro!</span>(launch_info (launch_msg_): warn, <span class="string">&quot;rocket::launch&quot;</span>, $);
+<span class="macro">define_log_macro!</span>(launch_meta (launch_meta_): info, <span class="string">"rocket::launch"</span>, $);
+<span class="macro">define_log_macro!</span>(launch_info (launch_msg_): warn, <span class="string">"rocket::launch"</span>, $);
 
-<span class="comment">// `print!` panics when stdout isn&#39;t available, but this macro doesn&#39;t. See
+<span class="comment">// `print!` panics when stdout isn't available, but this macro doesn't. See
 // SergioBenitez/Rocket#2019 and rust-lang/rust#46016 for more.
 //
 // Unfortunately, `libtest` captures output by replacing a special sink that
 // `print!`, and _only_ `print!`, writes to. Using `write!` directly bypasses
 // this sink. As a result, using this better implementation for logging means
-// that test log output isn&#39;t captured, muddying `cargo test` output.
+// that test log output isn't captured, muddying `cargo test` output.
 //
-// As a compromise, we only use this better implementation when we&#39;re not
+// As a compromise, we only use this better implementation when we're not
 // compiled with `debug_assertions` or running tests, so at least tests run in
-// debug-mode won&#39;t spew output. NOTE: `cfg(test)` alone isn&#39;t sufficient: the
+// debug-mode won't spew output. NOTE: `cfg(test)` alone isn't sufficient: the
 // crate is compiled normally for integration tests.
 </span><span class="attr">#[cfg(not(any(debug_assertions, test, doctest)))]
-</span><span class="macro">macro_rules! </span>write_out {
+</span><span class="macro">macro_rules!</span> write_out {
     ($(<span class="macro-nonterminal">$arg</span>:tt)<span class="kw-2">*</span>) =&gt; ({
         <span class="kw">use </span>std::io::{Write, stdout, stderr};
-        <span class="kw">let _ </span>= <span class="macro">write!</span>(stdout(), $(<span class="macro-nonterminal">$arg</span>)<span class="kw-2">*</span>).or_else(|e| <span class="macro">write!</span>(stderr(), <span class="string">&quot;{}&quot;</span>, e));
+        <span class="kw">let _ </span>= <span class="macro">write!</span>(stdout(), $(<span class="macro-nonterminal">$arg</span>)<span class="kw-2">*</span>).or_else(|e| <span class="macro">write!</span>(stderr(), <span class="string">"{}"</span>, e));
     })
 }
 
 <span class="attr">#[cfg(any(debug_assertions, test, doctest))]
-</span><span class="macro">macro_rules! </span>write_out {
+</span><span class="macro">macro_rules!</span> write_out {
     ($(<span class="macro-nonterminal">$arg</span>:tt)<span class="kw-2">*</span>) =&gt; (<span class="macro">print!</span>($(<span class="macro-nonterminal">$arg</span>)<span class="kw-2">*</span>))
 }
 
@@ -315,13 +315,13 @@
 <span class="doccomment">/// Defines the maximum level of log messages to show.
 </span><span class="attr">#[derive(PartialEq, Eq, Debug, Clone, Copy)]
 </span><span class="kw">pub enum </span>LogLevel {
-    <span class="doccomment">/// Only shows errors and warnings: `&quot;critical&quot;`.
+    <span class="doccomment">/// Only shows errors and warnings: `"critical"`.
     </span>Critical,
-    <span class="doccomment">/// Shows everything except debug and trace information: `&quot;normal&quot;`.
+    <span class="doccomment">/// Shows everything except debug and trace information: `"normal"`.
     </span>Normal,
-    <span class="doccomment">/// Shows everything: `&quot;debug&quot;`.
+    <span class="doccomment">/// Shows everything: `"debug"`.
     </span>Debug,
-    <span class="doccomment">/// Shows nothing: &quot;`&quot;off&quot;`&quot;.
+    <span class="doccomment">/// Shows nothing: "`"off"`".
     </span>Off,
 }
 
@@ -330,37 +330,37 @@
 }
 
 <span class="comment">// Whether a record is a special `launch_{meta,info}!` record.
-</span><span class="kw">fn </span>is_launch_record(record: <span class="kw-2">&amp;</span>log::Metadata&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
-    record.target().contains(<span class="string">&quot;rocket::launch&quot;</span>)
+</span><span class="kw">fn </span>is_launch_record(record: <span class="kw-2">&amp;</span>log::Metadata&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
+    record.target().contains(<span class="string">"rocket::launch"</span>)
 }
 
 <span class="kw">impl </span>log::Log <span class="kw">for </span>RocketLogger {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>enabled(<span class="kw-2">&amp;</span><span class="self">self</span>, record: <span class="kw-2">&amp;</span>log::Metadata&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+    </span><span class="kw">fn </span>enabled(<span class="kw-2">&amp;</span><span class="self">self</span>, record: <span class="kw-2">&amp;</span>log::Metadata&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
         <span class="kw">match </span>log::max_level().to_level() {
             <span class="prelude-val">Some</span>(max) =&gt; record.level() &lt;= max || is_launch_record(record),
             <span class="prelude-val">None </span>=&gt; <span class="bool-val">false
         </span>}
     }
 
-    <span class="kw">fn </span>log(<span class="kw-2">&amp;</span><span class="self">self</span>, record: <span class="kw-2">&amp;</span>log::Record&lt;<span class="lifetime">&#39;_</span>&gt;) {
-        <span class="comment">// Print nothing if this level isn&#39;t enabled and this isn&#39;t launch info.
+    <span class="kw">fn </span>log(<span class="kw-2">&amp;</span><span class="self">self</span>, record: <span class="kw-2">&amp;</span>log::Record&lt;<span class="lifetime">'_</span>&gt;) {
+        <span class="comment">// Print nothing if this level isn't enabled and this isn't launch info.
         </span><span class="kw">if </span>!<span class="self">self</span>.enabled(record.metadata()) {
             <span class="kw">return</span>;
         }
 
-        <span class="comment">// Don&#39;t print Hyper, Rustls or r2d2 messages unless debug is enabled.
+        <span class="comment">// Don't print Hyper, Rustls or r2d2 messages unless debug is enabled.
         </span><span class="kw">let </span>max = log::max_level();
         <span class="kw">let </span>from = |path| record.module_path().map_or(<span class="bool-val">false</span>, |m| m.starts_with(path));
-        <span class="kw">let </span>debug_only = from(<span class="string">&quot;hyper&quot;</span>) || from(<span class="string">&quot;rustls&quot;</span>) || from(<span class="string">&quot;r2d2&quot;</span>);
+        <span class="kw">let </span>debug_only = from(<span class="string">"hyper"</span>) || from(<span class="string">"rustls"</span>) || from(<span class="string">"r2d2"</span>);
         <span class="kw">if </span>log::LevelFilter::from(LogLevel::Debug) &gt; max &amp;&amp; debug_only {
             <span class="kw">return</span>;
         }
 
-        <span class="comment">// In Rocket, we abuse targets with suffix &quot;_&quot; to indicate indentation.
-        </span><span class="kw">let </span>indented = record.target().ends_with(<span class="string">&#39;_&#39;</span>);
+        <span class="comment">// In Rocket, we abuse targets with suffix "_" to indicate indentation.
+        </span><span class="kw">let </span>indented = record.target().ends_with(<span class="string">'_'</span>);
         <span class="kw">if </span>indented {
-            <span class="macro">write_out!</span>(<span class="string">&quot;   {} &quot;</span>, <span class="string">&quot;&gt;&gt;&quot;</span>.bold());
+            <span class="macro">write_out!</span>(<span class="string">"   {} "</span>, <span class="string">"&gt;&gt;"</span>.bold());
         }
 
         <span class="comment">// Downgrade a physical launch `warn` to logical `info`.
@@ -370,32 +370,32 @@
 
         <span class="kw">match </span>level {
             log::Level::Error <span class="kw">if </span>!indented =&gt; {
-                <span class="macro">write_out!</span>(<span class="string">&quot;{} {}\n&quot;</span>, <span class="string">&quot;Error:&quot;</span>.red().bold(), record.args().red().wrap());
+                <span class="macro">write_out!</span>(<span class="string">"{} {}\n"</span>, <span class="string">"Error:"</span>.red().bold(), record.args().red().wrap());
             }
             log::Level::Warn <span class="kw">if </span>!indented =&gt; {
-                <span class="macro">write_out!</span>(<span class="string">&quot;{} {}\n&quot;</span>, <span class="string">&quot;Warning:&quot;</span>.yellow().bold(), record.args().yellow().wrap());
+                <span class="macro">write_out!</span>(<span class="string">"{} {}\n"</span>, <span class="string">"Warning:"</span>.yellow().bold(), record.args().yellow().wrap());
             }
-            log::Level::Info =&gt; <span class="macro">write_out!</span>(<span class="string">&quot;{}\n&quot;</span>, record.args().blue().wrap()),
-            log::Level::Trace =&gt; <span class="macro">write_out!</span>(<span class="string">&quot;{}\n&quot;</span>, record.args().magenta().wrap()),
-            log::Level::Warn =&gt; <span class="macro">write_out!</span>(<span class="string">&quot;{}\n&quot;</span>, record.args().yellow().wrap()),
-            log::Level::Error =&gt; <span class="macro">write_out!</span>(<span class="string">&quot;{}\n&quot;</span>, <span class="kw-2">&amp;</span>record.args().red().wrap()),
+            log::Level::Info =&gt; <span class="macro">write_out!</span>(<span class="string">"{}\n"</span>, record.args().blue().wrap()),
+            log::Level::Trace =&gt; <span class="macro">write_out!</span>(<span class="string">"{}\n"</span>, record.args().magenta().wrap()),
+            log::Level::Warn =&gt; <span class="macro">write_out!</span>(<span class="string">"{}\n"</span>, record.args().yellow().wrap()),
+            log::Level::Error =&gt; <span class="macro">write_out!</span>(<span class="string">"{}\n"</span>, <span class="kw-2">&amp;</span>record.args().red().wrap()),
             log::Level::Debug =&gt; {
-                <span class="macro">write_out!</span>(<span class="string">&quot;\n{} &quot;</span>, <span class="string">&quot;--&gt;&quot;</span>.blue().bold());
+                <span class="macro">write_out!</span>(<span class="string">"\n{} "</span>, <span class="string">"--&gt;"</span>.blue().bold());
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(file) = record.file() {
-                    <span class="macro">write_out!</span>(<span class="string">&quot;{}&quot;</span>, file.blue());
+                    <span class="macro">write_out!</span>(<span class="string">"{}"</span>, file.blue());
                 }
 
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(line) = record.line() {
-                    <span class="macro">write_out!</span>(<span class="string">&quot;:{}\n&quot;</span>, line.blue());
+                    <span class="macro">write_out!</span>(<span class="string">":{}\n"</span>, line.blue());
                 }
 
-                <span class="macro">write_out!</span>(<span class="string">&quot;\t{}\n&quot;</span>, record.args());
+                <span class="macro">write_out!</span>(<span class="string">"\t{}\n"</span>, record.args());
             }
         }
     }
 
     <span class="kw">fn </span>flush(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="comment">// NOOP: We don&#39;t buffer any records.
+        <span class="comment">// NOOP: We don't buffer any records.
     </span>}
 }
 
@@ -406,16 +406,16 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>init(config: <span class="kw-2">&amp;</span><span class="kw">crate</span>::Config) {
     <span class="kw">static </span>ROCKET_LOGGER_SET: AtomicBool = AtomicBool::new(<span class="bool-val">false</span>);
 
-    <span class="comment">// Try to initialize Rocket&#39;s logger, recording if we succeeded.
+    <span class="comment">// Try to initialize Rocket's logger, recording if we succeeded.
     </span><span class="kw">if </span>log::set_boxed_logger(Box::new(RocketLogger)).is_ok() {
         ROCKET_LOGGER_SET.store(<span class="bool-val">true</span>, Ordering::Release);
     }
 
-    <span class="comment">// Always disable colors if requested or if the stdout/err aren&#39;t TTYs.
+    <span class="comment">// Always disable colors if requested or if the stdout/err aren't TTYs.
     </span><span class="kw">let </span>should_color = config.cli_colors &amp;&amp; Condition::stdouterr_are_tty();
     yansi::whenever(Condition::cached(should_color));
 
-    <span class="comment">// Set Rocket-logger specific settings only if Rocket&#39;s logger is set.
+    <span class="comment">// Set Rocket-logger specific settings only if Rocket's logger is set.
     </span><span class="kw">if </span>ROCKET_LOGGER_SET.load(Ordering::Acquire) {
         log::set_max_level(config.log_level.into());
     }
@@ -435,24 +435,24 @@
 <span class="kw">impl </span>LogLevel {
     <span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            LogLevel::Critical =&gt; <span class="string">&quot;critical&quot;</span>,
-            LogLevel::Normal =&gt; <span class="string">&quot;normal&quot;</span>,
-            LogLevel::Debug =&gt; <span class="string">&quot;debug&quot;</span>,
-            LogLevel::Off =&gt; <span class="string">&quot;off&quot;</span>,
+            LogLevel::Critical =&gt; <span class="string">"critical"</span>,
+            LogLevel::Normal =&gt; <span class="string">"normal"</span>,
+            LogLevel::Debug =&gt; <span class="string">"debug"</span>,
+            LogLevel::Off =&gt; <span class="string">"off"</span>,
         }
     }
 }
 
 <span class="kw">impl </span>FromStr <span class="kw">for </span>LogLevel {
-    <span class="kw">type </span><span class="prelude-val">Err </span>= <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
+    <span class="kw">type </span><span class="prelude-val">Err </span>= <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
 
     <span class="kw">fn </span>from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
         <span class="kw">let </span>level = <span class="kw">match </span><span class="kw-2">&amp;*</span>s.to_ascii_lowercase() {
-            <span class="string">&quot;critical&quot; </span>=&gt; LogLevel::Critical,
-            <span class="string">&quot;normal&quot; </span>=&gt; LogLevel::Normal,
-            <span class="string">&quot;debug&quot; </span>=&gt; LogLevel::Debug,
-            <span class="string">&quot;off&quot; </span>=&gt; LogLevel::Off,
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;a log level (off, debug, normal, critical)&quot;</span>)
+            <span class="string">"critical" </span>=&gt; LogLevel::Critical,
+            <span class="string">"normal" </span>=&gt; LogLevel::Normal,
+            <span class="string">"debug" </span>=&gt; LogLevel::Debug,
+            <span class="string">"off" </span>=&gt; LogLevel::Off,
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"a log level (off, debug, normal, critical)"</span>)
         };
 
         <span class="prelude-val">Ok</span>(level)
@@ -460,8 +460,8 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>LogLevel {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.as_str())
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.as_str())
     }
 }
 
@@ -471,12 +471,12 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; Deserialize&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>LogLevel {
-    <span class="kw">fn </span>deserialize&lt;D: Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; Deserialize&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>LogLevel {
+    <span class="kw">fn </span>deserialize&lt;D: Deserializer&lt;<span class="lifetime">'de</span>&gt;&gt;(de: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt; {
         <span class="kw">let </span>string = String::deserialize(de)<span class="question-mark">?</span>;
         LogLevel::from_str(<span class="kw-2">&amp;</span>string).map_err(|<span class="kw">_</span>| de::Error::invalid_value(
             de::Unexpected::Str(<span class="kw-2">&amp;</span>string),
-            <span class="kw-2">&amp;</span>figment::error::OneOf( <span class="kw-2">&amp;</span>[<span class="string">&quot;critical&quot;</span>, <span class="string">&quot;normal&quot;</span>, <span class="string">&quot;debug&quot;</span>, <span class="string">&quot;off&quot;</span>])
+            <span class="kw-2">&amp;</span>figment::error::OneOf( <span class="kw-2">&amp;</span>[<span class="string">"critical"</span>, <span class="string">"normal"</span>, <span class="string">"debug"</span>, <span class="string">"off"</span>])
         ))
     }
 }
@@ -484,7 +484,7 @@
 <span class="kw">impl </span>PaintExt <span class="kw">for </span><span class="kw-2">&amp;</span>str {
     <span class="doccomment">/// Paint::masked(), but hidden on Windows due to broken output. See #1122.
     </span><span class="kw">fn </span>emoji(<span class="self">self</span>) -&gt; Painted&lt;<span class="self">Self</span>&gt; {
-        <span class="attr">#[cfg(windows)] </span>{ Paint::new(<span class="string">&quot;&quot;</span>).mask() }
+        <span class="attr">#[cfg(windows)] </span>{ Paint::new(<span class="string">""</span>).mask() }
         <span class="attr">#[cfg(not(windows))] </span>{ Paint::new(<span class="self">self</span>).mask() }
     }
 }

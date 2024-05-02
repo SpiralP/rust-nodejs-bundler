@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/fmt/formatter.rs`."><title>formatter.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/fmt/formatter.rs`."><title>formatter.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -759,31 +759,31 @@
 ///
 /// impl UriDisplay&lt;Query&gt; for Outer {
 ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-///         f.write_named_value(&quot;outer_field&quot;, &amp;self.value)?;
-///         f.write_named_value(&quot;another&quot;, &amp;self.another)?;
-///         f.write_raw(&quot;out&quot;)?;
-///         f.write_raw(&quot;side&quot;)?;
+///         f.write_named_value("outer_field", &amp;self.value)?;
+///         f.write_named_value("another", &amp;self.another)?;
+///         f.write_raw("out")?;
+///         f.write_raw("side")?;
 ///         f.write_value(&amp;self.extra)
 ///     }
 /// }
 ///
 /// impl UriDisplay&lt;Query&gt; for Inner {
 ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-///         f.write_named_value(&quot;inner_field&quot;, &amp;self.value)?;
+///         f.write_named_value("inner_field", &amp;self.value)?;
 ///         f.write_value(&amp;self.extra)?;
-///         f.write_raw(&quot;inside&quot;)
+///         f.write_raw("inside")
 ///     }
 /// }
 ///
 /// let inner = Inner { value: 0, extra: 1 };
 /// let outer = Outer { value: inner, another: 2, extra: 3 };
-/// let uri_string = format!(&quot;{}&quot;, &amp;outer as &amp;dyn UriDisplay&lt;Query&gt;);
-/// assert_eq!(uri_string, &quot;outer_field.inner_field=0&amp;\
+/// let uri_string = format!("{}", &amp;outer as &amp;dyn UriDisplay&lt;Query&gt;);
+/// assert_eq!(uri_string, "outer_field.inner_field=0&amp;\
 ///                         outer_field=1&amp;\
 ///                         outer_field=inside&amp;\
 ///                         another=2&amp;\
 ///                         outside&amp;\
-///                         3&quot;);
+///                         3");
 /// ```
 ///
 /// Note that you can also use the `write!` macro to write directly to the
@@ -801,12 +801,12 @@
 ///
 /// impl&lt;P: Part&gt; UriDisplay&lt;P&gt; for Complex {
 ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;P&gt;) -&gt; fmt::Result {
-///         write!(f, &quot;{}+{}&quot;, self.0, self.1)
+///         write!(f, "{}+{}", self.0, self.1)
 ///     }
 /// }
 ///
-/// let uri_string = format!(&quot;{}&quot;, &amp;Complex(42, 231) as &amp;dyn UriDisplay&lt;Path&gt;);
-/// assert_eq!(uri_string, &quot;42+231&quot;);
+/// let uri_string = format!("{}", &amp;Complex(42, 231) as &amp;dyn UriDisplay&lt;Path&gt;);
+/// assert_eq!(uri_string, "42+231");
 ///
 /// #[derive(UriDisplayQuery)]
 /// struct Message {
@@ -814,25 +814,25 @@
 /// }
 ///
 /// let message = Message { number: Complex(42, 47) };
-/// let uri_string = format!(&quot;{}&quot;, &amp;message as &amp;dyn UriDisplay&lt;Query&gt;);
-/// assert_eq!(uri_string, &quot;number=42+47&quot;);
+/// let uri_string = format!("{}", &amp;message as &amp;dyn UriDisplay&lt;Query&gt;);
+/// assert_eq!(uri_string, "number=42+47");
 /// ```
 ///
 /// [`write_named_value()`]: Formatter::write_value()
 /// [`write_value()`]: Formatter::write_value()
 /// [`write_raw()`]: Formatter::write_raw()
 /// [`refresh()`]: Formatter::refresh()
-</span><span class="kw">pub struct </span>Formatter&lt;<span class="lifetime">&#39;i</span>, P: Part&gt; {
-    prefixes: SmallVec&lt;[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str; <span class="number">3</span>]&gt;,
-    inner: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="kw-2">mut </span>(<span class="kw">dyn </span>Write + <span class="lifetime">&#39;i</span>),
+</span><span class="kw">pub struct </span>Formatter&lt;<span class="lifetime">'i</span>, P: Part&gt; {
+    prefixes: SmallVec&lt;[<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str; <span class="number">3</span>]&gt;,
+    inner: <span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="kw-2">mut </span>(<span class="kw">dyn </span>Write + <span class="lifetime">'i</span>),
     previous: bool,
     fresh: bool,
     _marker: PhantomData&lt;P&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, P: Part&gt; Formatter&lt;<span class="lifetime">&#39;i</span>, P&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, P: Part&gt; Formatter&lt;<span class="lifetime">'i</span>, P&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(inner: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="kw-2">mut </span>(<span class="kw">dyn </span>Write + <span class="lifetime">&#39;i</span>)) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(inner: <span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="kw-2">mut </span>(<span class="kw">dyn </span>Write + <span class="lifetime">'i</span>)) -&gt; <span class="self">Self </span>{
         Formatter {
             inner,
             prefixes: SmallVec::new(),
@@ -871,15 +871,15 @@
     ///
     /// impl&lt;P: Part&gt; UriDisplay&lt;P&gt; for Foo {
     ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;P&gt;) -&gt; fmt::Result {
-    ///         f.write_raw(&quot;f&quot;)?;
-    ///         f.write_raw(&quot;o&quot;)?;
-    ///         f.write_raw(&quot;o&quot;)
+    ///         f.write_raw("f")?;
+    ///         f.write_raw("o")?;
+    ///         f.write_raw("o")
     ///     }
     /// }
     ///
     /// let foo = Foo;
-    /// let uri_string = format!(&quot;{}&quot;, &amp;foo as &amp;dyn UriDisplay&lt;Path&gt;);
-    /// assert_eq!(uri_string, &quot;foo&quot;);
+    /// let uri_string = format!("{}", &amp;foo as &amp;dyn UriDisplay&lt;Path&gt;);
+    /// assert_eq!(uri_string, "foo");
     /// ```
     </span><span class="kw">pub fn </span>write_raw&lt;S: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, string: S) -&gt; fmt::Result {
         <span class="comment">// This implementation is a bit of a lie to the type system. Instead of
@@ -895,11 +895,11 @@
 
             <span class="kw">if </span>P::KIND == Kind::Query &amp;&amp; !<span class="self">self</span>.prefixes.is_empty() {
                 <span class="kw">for </span>(i, prefix) <span class="kw">in </span><span class="self">self</span>.prefixes.iter().enumerate() {
-                    <span class="kw">if </span>i != <span class="number">0 </span>{ <span class="self">self</span>.inner.write_char(<span class="string">&#39;.&#39;</span>)<span class="question-mark">? </span>}
+                    <span class="kw">if </span>i != <span class="number">0 </span>{ <span class="self">self</span>.inner.write_char(<span class="string">'.'</span>)<span class="question-mark">? </span>}
                     <span class="self">self</span>.inner.write_str(prefix)<span class="question-mark">?</span>;
                 }
 
-                <span class="self">self</span>.inner.write_str(<span class="string">&quot;=&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.inner.write_str(<span class="string">"="</span>)<span class="question-mark">?</span>;
             }
         }
 
@@ -931,11 +931,11 @@
     ///
     /// let foo = Foo(123);
     ///
-    /// let uri_string = format!(&quot;{}&quot;, &amp;foo as &amp;dyn UriDisplay&lt;Path&gt;);
-    /// assert_eq!(uri_string, &quot;123&quot;);
+    /// let uri_string = format!("{}", &amp;foo as &amp;dyn UriDisplay&lt;Path&gt;);
+    /// assert_eq!(uri_string, "123");
     ///
-    /// let uri_string = format!(&quot;{}&quot;, &amp;foo as &amp;dyn UriDisplay&lt;Query&gt;);
-    /// assert_eq!(uri_string, &quot;123&quot;);
+    /// let uri_string = format!("{}", &amp;foo as &amp;dyn UriDisplay&lt;Query&gt;);
+    /// assert_eq!(uri_string, "123");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>write_value&lt;T: UriDisplay&lt;P&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: T) -&gt; fmt::Result {
@@ -961,27 +961,27 @@
     ///
     /// impl UriDisplay&lt;Query&gt; for Foo {
     ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-    ///         f.write_raw(&quot;a&quot;)?;
-    ///         f.write_raw(&quot;raw&quot;)?;
+    ///         f.write_raw("a")?;
+    ///         f.write_raw("raw")?;
     ///         f.refresh();
-    ///         f.write_raw(&quot;format&quot;)
+    ///         f.write_raw("format")
     ///     }
     /// }
     ///
-    /// let uri_string = format!(&quot;{}&quot;, &amp;Foo as &amp;dyn UriDisplay&lt;Query&gt;);
-    /// assert_eq!(uri_string, &quot;araw&amp;format&quot;);
+    /// let uri_string = format!("{}", &amp;Foo as &amp;dyn UriDisplay&lt;Query&gt;);
+    /// assert_eq!(uri_string, "araw&amp;format");
     ///
     /// impl UriDisplay&lt;Path&gt; for Foo {
     ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Path&gt;) -&gt; fmt::Result {
-    ///         f.write_raw(&quot;a&quot;)?;
-    ///         f.write_raw(&quot;raw&quot;)?;
+    ///         f.write_raw("a")?;
+    ///         f.write_raw("raw")?;
     ///         f.refresh();
-    ///         f.write_raw(&quot;format&quot;)
+    ///         f.write_raw("format")
     ///     }
     /// }
     ///
-    /// let uri_string = format!(&quot;{}&quot;, &amp;Foo as &amp;dyn UriDisplay&lt;Path&gt;);
-    /// assert_eq!(uri_string, &quot;araw/format&quot;);
+    /// let uri_string = format!("{}", &amp;Foo as &amp;dyn UriDisplay&lt;Path&gt;);
+    /// assert_eq!(uri_string, "araw/format");
     ///
     /// #[derive(UriDisplayQuery)]
     /// struct Message {
@@ -989,8 +989,8 @@
     /// }
     ///
     /// let msg = Message { inner: Foo };
-    /// let uri_string = format!(&quot;{}&quot;, &amp;msg as &amp;dyn UriDisplay&lt;Query&gt;);
-    /// assert_eq!(uri_string, &quot;inner=araw&amp;inner=format&quot;);
+    /// let uri_string = format!("{}", &amp;msg as &amp;dyn UriDisplay&lt;Query&gt;);
+    /// assert_eq!(uri_string, "inner=araw&amp;inner=format");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>refresh(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
@@ -998,15 +998,15 @@
     }
 }
 
-<span class="kw">impl </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt; {
+<span class="kw">impl </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt; {
     <span class="kw">fn </span>with_prefix&lt;F&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, prefix: <span class="kw-2">&amp;</span>str, f: F) -&gt; fmt::Result
         <span class="kw">where </span>F: FnOnce(<span class="kw-2">&amp;mut </span><span class="self">Self</span>) -&gt; fmt::Result
     {
 
-        <span class="kw">struct </span>PrefixGuard&lt;<span class="lifetime">&#39;f</span>, <span class="lifetime">&#39;i</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;f </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">&#39;i</span>, Query&gt;);
+        <span class="kw">struct </span>PrefixGuard&lt;<span class="lifetime">'f</span>, <span class="lifetime">'i</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'f </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">'i</span>, Query&gt;);
 
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;f</span>, <span class="lifetime">&#39;i</span>&gt; PrefixGuard&lt;<span class="lifetime">&#39;f</span>, <span class="lifetime">&#39;i</span>&gt; {
-            <span class="kw">fn </span>new(prefix: <span class="kw-2">&amp;</span>str, f: <span class="kw-2">&amp;</span><span class="lifetime">&#39;f </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">&#39;i</span>, Query&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">impl</span>&lt;<span class="lifetime">'f</span>, <span class="lifetime">'i</span>&gt; PrefixGuard&lt;<span class="lifetime">'f</span>, <span class="lifetime">'i</span>&gt; {
+            <span class="kw">fn </span>new(prefix: <span class="kw-2">&amp;</span>str, f: <span class="kw-2">&amp;</span><span class="lifetime">'f </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">'i</span>, Query&gt;) -&gt; <span class="self">Self </span>{
                 <span class="comment">// SAFETY: The `prefix` string is pushed in a `StackVec` for use
                 // by recursive (nested) calls to `write_raw`. The string is
                 // pushed in `PrefixGuard` here and then popped in `Drop`.
@@ -1015,7 +1015,7 @@
                 // impossible for a `prefix` to be accessed incorrectly as:
                 //
                 //   * Rust _guarantees_ `prefix` is valid for this method
-                //   * `prefix` is only reachable while this method&#39;s stack is
+                //   * `prefix` is only reachable while this method's stack is
                 //     active because it is unconditionally popped before this
                 //     method returns via `PrefixGuard::drop()`.
                 //   * should a panic occur in `f()`, `PrefixGuard::drop()` is
@@ -1031,7 +1031,7 @@
             }
         }
 
-        <span class="kw">impl </span>Drop <span class="kw">for </span>PrefixGuard&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">impl </span>Drop <span class="kw">for </span>PrefixGuard&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt; {
             <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
                 <span class="self">self</span>.<span class="number">0</span>.prefixes.pop();
             }
@@ -1062,13 +1062,13 @@
     /// // generate! In practice, _always_ use the derive.
     /// impl UriDisplay&lt;Query&gt; for Foo {
     ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Query&gt;) -&gt; fmt::Result {
-    ///         f.write_named_value(&quot;name&quot;, &amp;self.name)
+    ///         f.write_named_value("name", &amp;self.name)
     ///     }
     /// }
     ///
     /// let foo = Foo { name: 123 };
-    /// let uri_string = format!(&quot;{}&quot;, &amp;foo as &amp;dyn UriDisplay&lt;Query&gt;);
-    /// assert_eq!(uri_string, &quot;name=123&quot;);
+    /// let uri_string = format!("{}", &amp;foo as &amp;dyn UriDisplay&lt;Query&gt;);
+    /// assert_eq!(uri_string, "name=123");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>write_named_value&lt;T: UriDisplay&lt;Query&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str, value: T) -&gt; fmt::Result {
@@ -1076,7 +1076,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;P: Part&gt; fmt::Write <span class="kw">for </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt; {
+<span class="kw">impl</span>&lt;P: Part&gt; fmt::Write <span class="kw">for </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt; {
     <span class="kw">fn </span>write_str(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>str) -&gt; fmt::Result {
         <span class="self">self</span>.write_raw(s)
     }
@@ -1085,16 +1085,16 @@
 <span class="comment">// Used by code generation.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub enum </span>UriArgumentsKind&lt;A&gt; {
-    Static(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str),
+    Static(<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str),
     Dynamic(A)
 }
 
 <span class="comment">// Used by code generation.
 </span><span class="attr">#[doc(hidden)]
-</span><span class="kw">pub enum </span>UriQueryArgument&lt;<span class="lifetime">&#39;a</span>&gt; {
-    Raw(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str),
-    NameValue(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;),
-    Value(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;)
+</span><span class="kw">pub enum </span>UriQueryArgument&lt;<span class="lifetime">'a</span>&gt; {
+    Raw(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str),
+    NameValue(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;),
+    Value(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;)
 }
 
 <span class="doccomment">/// No prefix at all.
@@ -1106,59 +1106,59 @@
 </span><span class="kw">pub trait </span>ValidRoutePrefix {
     <span class="kw">type </span>Output;
 
-    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output;
+    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">'static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRoutePrefix <span class="kw">for </span>Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRoutePrefix <span class="kw">for </span>Origin&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
-    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">'static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output {
         <span class="comment">// No-op if `self` is already normalized.
         </span><span class="kw">let </span><span class="kw-2">mut </span>prefix = <span class="self">self</span>.into_normalized();
         prefix.clear_query();
 
-        <span class="kw">if </span>prefix.path() == <span class="string">&quot;/&quot; </span>{
+        <span class="kw">if </span>prefix.path() == <span class="string">"/" </span>{
             <span class="comment">// Avoid a double `//` to start.
             </span><span class="kw">return </span>Origin::new(path, query);
-        } <span class="kw">else if </span>path == <span class="string">&quot;/&quot; </span>{
+        } <span class="kw">else if </span>path == <span class="string">"/" </span>{
             <span class="comment">// Appending path to `/` is a no-op, but append any query.
             </span>prefix.set_query(query);
             <span class="kw">return </span>prefix;
         }
 
-        Origin::new(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, prefix.path(), path), query)
+        Origin::new(<span class="macro">format!</span>(<span class="string">"{}{}"</span>, prefix.path(), path), query)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRoutePrefix <span class="kw">for </span>Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRoutePrefix <span class="kw">for </span>Absolute&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
-    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>append(<span class="self">self</span>, path: Cow&lt;<span class="lifetime">'static</span>, str&gt;, query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; <span class="self">Self</span>::Output {
         <span class="comment">// No-op if `self` is already normalized.
         </span><span class="kw">let </span><span class="kw-2">mut </span>prefix = <span class="self">self</span>.into_normalized();
         prefix.clear_query();
 
         <span class="kw">if </span>prefix.authority().is_some() {
             <span class="comment">// The prefix is normalized. Appending a `/` is a no-op.
-            </span><span class="kw">if </span>path == <span class="string">&quot;/&quot; </span>{
+            </span><span class="kw">if </span>path == <span class="string">"/" </span>{
                 prefix.set_query(query);
                 <span class="kw">return </span>prefix;
             }
         }
 
         <span class="comment">// In these cases, appending `path` would be a no-op or worse.
-        </span><span class="kw">if </span>prefix.path().is_empty() || prefix.path() == <span class="string">&quot;/&quot; </span>{
+        </span><span class="kw">if </span>prefix.path().is_empty() || prefix.path() == <span class="string">"/" </span>{
             prefix.set_path(path);
             prefix.set_query(query);
             <span class="kw">return </span>prefix;
         }
 
-        <span class="kw">if </span>path == <span class="string">&quot;/&quot; </span>{
+        <span class="kw">if </span>path == <span class="string">"/" </span>{
             prefix.set_query(query);
             <span class="kw">return </span>prefix;
         }
 
-        prefix.set_path(<span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, prefix.path(), path));
+        prefix.set_path(<span class="macro">format!</span>(<span class="string">"{}{}"</span>, prefix.path(), path));
         prefix.set_query(query);
         prefix
     }
@@ -1172,26 +1172,26 @@
     <span class="kw">fn </span>prepend(<span class="self">self</span>, prefix: T) -&gt; <span class="self">Self</span>::Output;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; <span class="kw">for </span>Reference&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>Reference&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
-    <span class="kw">fn </span>prepend(<span class="self">self</span>, prefix: Origin&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>prepend(<span class="self">self</span>, prefix: Origin&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
         Reference::from(prefix).with_query_fragment_of(<span class="self">self</span>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRouteSuffix&lt;Absolute&lt;<span class="lifetime">&#39;a</span>&gt;&gt; <span class="kw">for </span>Reference&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRouteSuffix&lt;Absolute&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>Reference&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
-    <span class="kw">fn </span>prepend(<span class="self">self</span>, prefix: Absolute&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>prepend(<span class="self">self</span>, prefix: Absolute&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
         Reference::from(prefix).with_query_fragment_of(<span class="self">self</span>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;&gt; <span class="kw">for </span>Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Output = Origin&lt;<span class="lifetime">&#39;a</span>&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>Absolute&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Output = Origin&lt;<span class="lifetime">'a</span>&gt;;
 
-    <span class="kw">fn </span>prepend(<span class="self">self</span>, <span class="kw-2">mut </span>prefix: Origin&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>prepend(<span class="self">self</span>, <span class="kw-2">mut </span>prefix: Origin&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = <span class="self">self</span>.query {
             <span class="kw">if </span>prefix.query().is_none() {
                 prefix.set_query(query.value.into_concrete(<span class="kw-2">&amp;</span><span class="self">self</span>.source));
@@ -1202,10 +1202,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; ValidRouteSuffix&lt;Absolute&lt;<span class="lifetime">&#39;a</span>&gt;&gt; <span class="kw">for </span>Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; ValidRouteSuffix&lt;Absolute&lt;<span class="lifetime">'a</span>&gt;&gt; <span class="kw">for </span>Absolute&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>Output = <span class="self">Self</span>;
 
-    <span class="kw">fn </span>prepend(<span class="self">self</span>, <span class="kw-2">mut </span>prefix: Absolute&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
+    <span class="kw">fn </span>prepend(<span class="self">self</span>, <span class="kw-2">mut </span>prefix: Absolute&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self</span>::Output {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = <span class="self">self</span>.query {
             <span class="kw">if </span>prefix.query().is_none() {
                 prefix.set_query(query.value.into_concrete(<span class="kw-2">&amp;</span><span class="self">self</span>.source));
@@ -1219,8 +1219,8 @@
 <span class="comment">// Used by code generation.
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub struct </span>RouteUriBuilder {
-    <span class="kw">pub </span>path: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;,
-    <span class="kw">pub </span>query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;,
+    <span class="kw">pub </span>path: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+    <span class="kw">pub </span>query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;,
 }
 
 <span class="comment">// Used by code generation.
@@ -1237,14 +1237,14 @@
     <span class="doccomment">/// Create a new `RouteUriBuilder` with the given path/query args.
     </span><span class="kw">pub fn </span>new(
         path_args: UriArgumentsKind&lt;<span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;Path&gt;]&gt;,
-        query_args: <span class="prelude-ty">Option</span>&lt;UriArgumentsKind&lt;<span class="kw-2">&amp;</span>[UriQueryArgument&lt;<span class="lifetime">&#39;_</span>&gt;]&gt;&gt;,
+        query_args: <span class="prelude-ty">Option</span>&lt;UriArgumentsKind&lt;<span class="kw-2">&amp;</span>[UriQueryArgument&lt;<span class="lifetime">'_</span>&gt;]&gt;&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span><span class="self">self</span>::{UriArgumentsKind::<span class="kw-2">*</span>, UriQueryArgument::<span class="kw-2">*</span>};
 
-        <span class="kw">let </span>path: Cow&lt;<span class="lifetime">&#39;static</span>, str&gt; = <span class="kw">match </span>path_args {
+        <span class="kw">let </span>path: Cow&lt;<span class="lifetime">'static</span>, str&gt; = <span class="kw">match </span>path_args {
             Static(path) =&gt; path.into(),
             Dynamic(args) =&gt; {
-                <span class="kw">let </span><span class="kw-2">mut </span>string = String::from(<span class="string">&quot;/&quot;</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>string = String::from(<span class="string">"/"</span>);
                 <span class="kw">let </span><span class="kw-2">mut </span>formatter = Formatter::&lt;Path&gt;::new(<span class="kw-2">&amp;mut </span>string);
                 <span class="kw">for </span>value <span class="kw">in </span>args {
                     <span class="kw">let _ </span>= formatter.write_value(value);
@@ -1254,7 +1254,7 @@
             }
         };
 
-        <span class="kw">let </span>query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;&gt; = <span class="kw">match </span>query_args {
+        <span class="kw">let </span>query: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'_</span>, str&gt;&gt; = <span class="kw">match </span>query_args {
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
             <span class="prelude-val">Some</span>(Static(query)) =&gt; <span class="prelude-val">Some</span>(query.into()),
             <span class="prelude-val">Some</span>(Dynamic(args)) =&gt; {
@@ -1280,12 +1280,12 @@
     }
 
     <span class="kw">pub fn </span>with_suffix&lt;S&gt;(<span class="self">self</span>, suffix: S) -&gt; SuffixedRouteUri&lt;S::Output&gt;
-        <span class="kw">where </span>S: ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
+        <span class="kw">where </span>S: ValidRouteSuffix&lt;Origin&lt;<span class="lifetime">'static</span>&gt;&gt;
     {
         SuffixedRouteUri(suffix.prepend(<span class="self">self</span>.render()))
     }
 
-    <span class="kw">pub fn </span>render(<span class="self">self</span>) -&gt; Origin&lt;<span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">pub fn </span>render(<span class="self">self</span>) -&gt; Origin&lt;<span class="lifetime">'static</span>&gt; {
         Origin::new(<span class="self">self</span>.path, <span class="self">self</span>.query)
     }
 }
@@ -1316,7 +1316,7 @@
     <span class="kw">struct </span>MyValue;
 
     <span class="kw">impl </span>UriDisplay&lt;Query&gt; <span class="kw">for </span>MyValue {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, _f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; std::fmt::Result {
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, _f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; std::fmt::Result {
             <span class="macro">panic!</span>()
         }
     }
@@ -1324,19 +1324,19 @@
     <span class="kw">struct </span>MyDisplay;
 
     <span class="kw">impl </span>UriDisplay&lt;Query&gt; <span class="kw">for </span>MyDisplay {
-        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; std::fmt::Result {
-            <span class="kw">struct </span>Wrapper&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">&#39;b</span>, Query&gt;);
+        <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; std::fmt::Result {
+            <span class="kw">struct </span>Wrapper&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Formatter&lt;<span class="lifetime">'b</span>, Query&gt;);
 
-            <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; Drop <span class="kw">for </span>Wrapper&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; {
+            <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; Drop <span class="kw">for </span>Wrapper&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; {
                 <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-                    <span class="kw">let </span>_overlap = String::from(<span class="string">&quot;12345&quot;</span>);
-                    <span class="self">self</span>.<span class="number">0</span>.write_raw(<span class="string">&quot;world&quot;</span>).ok();
+                    <span class="kw">let </span>_overlap = String::from(<span class="string">"12345"</span>);
+                    <span class="self">self</span>.<span class="number">0</span>.write_raw(<span class="string">"world"</span>).ok();
                     <span class="macro">assert!</span>(<span class="self">self</span>.<span class="number">0</span>.prefixes.is_empty());
                 }
             }
 
             <span class="kw">let </span>wrapper = Wrapper(formatter);
-            <span class="kw">let </span>temporary_string = String::from(<span class="string">&quot;hello&quot;</span>);
+            <span class="kw">let </span>temporary_string = String::from(<span class="string">"hello"</span>);
 
             <span class="comment">// `write_named_value` will push `temp_string` into a buffer and
             // call the formatter for `MyValue`, which panics. At the panic
@@ -1354,8 +1354,8 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>check_consistency() {
-        <span class="kw">let </span>string = <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span>MyDisplay <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;);
-        <span class="macro">assert_eq!</span>(string, <span class="string">&quot;world&quot;</span>);
+        <span class="kw">let </span>string = <span class="macro">format!</span>(<span class="string">"{}"</span>, <span class="kw-2">&amp;</span>MyDisplay <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;Query&gt;);
+        <span class="macro">assert_eq!</span>(string, <span class="string">"world"</span>);
     }
 }
 </code></pre></div></section></main></body></html>

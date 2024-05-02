@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.0-rc.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/yansi-1.0.1/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="yansi" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../yansi/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -363,6 +363,14 @@
 <a href="#363" id="363">363</a>
 <a href="#364" id="364">364</a>
 <a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! A dead simple ANSI terminal color painting library.
 //!
 //! # Features
@@ -422,16 +430,16 @@
 //! ```rust
 //! use yansi::Paint;
 //!
-//! println!(&quot;Testing, {}, {}, {}!&quot;,
-//!     &quot;Ready&quot;.bold(),
-//!     &quot;Set&quot;.yellow().italic(),
-//!     &quot;STOP&quot;.white().on_red().bright().underline().bold());
+//! println!("Testing, {}, {}, {}!",
+//!     "Ready".bold(),
+//!     "Set".yellow().italic(),
+//!     "STOP".white().on_red().bright().underline().bold());
 //! ```
 //!
 //! `&gt;` Testing,
 //! &lt;b&gt;Ready&lt;/b&gt;,
-//! &lt;span style=&quot;color: yellow;&quot;&gt;&lt;i&gt;&lt;b&gt;Set&lt;/b&gt;&lt;/i&gt;&lt;/span&gt;,
-//! &lt;span style=&quot;color: white; background: red;&quot;&gt;&lt;u&gt;&lt;b&gt;STOP&lt;/b&gt;&lt;/u&gt;&lt;/span&gt;!
+//! &lt;span style="color: yellow;"&gt;&lt;i&gt;&lt;b&gt;Set&lt;/b&gt;&lt;/i&gt;&lt;/span&gt;,
+//! &lt;span style="color: white; background: red;"&gt;&lt;u&gt;&lt;b&gt;STOP&lt;/b&gt;&lt;/u&gt;&lt;/span&gt;!
 //!
 //! The methods return a [`Painted`] type which consists of a [`Style`] and a
 //! reference to the receiver. Displaying a [`Painted`] (via `print!()`,
@@ -440,28 +448,28 @@
 //!
 //! ## Uniform `const` Builders
 //!
-//! The builder methods are uniformly available for [`Style`], [`Color`], and
-//! [`Painted`], which means you can chain calls across library types. They are
-//! also `const`, allowing creations of `const` or `static` styles which can be
-//! directly applied via the [`paint()`](Paint::paint()) method, also from the
-//! [`Paint`] trait and thus available for every type:
+//! All builder methods are uniformly available for [`Style`], [`Color`], and
+//! [`Painted`], which means you can chain calls across library types. All
+//! methods are `const`, allowing creations of `const` or `static` [`Style`]s. A
+//! `Style` can be directly applied to values with [`.paint()`](Paint::paint()),
+//! from [`Paint::paint()`], available for every type:
 //!
 //! ```rust
 //! use yansi::{Paint, Style, Color::*};
 //!
-//! // `const` constructors allow static `Style` for easy reuse.
+//! // `const` constructors allow static `Style`s for easy reuse
 //! static ALERT: Style = White.bright().underline().italic().on_red();
 //!
-//! println!(&quot;Testing, {}, {}, {}!&quot;,
-//!     &quot;Ready&quot;.bold(),
-//!     &quot;Set&quot;.yellow().bold(),
-//!     &quot;STOP&quot;.paint(ALERT));
+//! println!("Testing, {}, {}, {}!",
+//!     "Ready".bold(),
+//!     "Set".yellow().bold(),
+//!     "STOP".paint(ALERT));
 //! ```
 //!
 //! `&gt;` Testing,
 //! &lt;b&gt;Ready&lt;/b&gt;,
-//! &lt;span style=&quot;color: yellow;&quot;&gt;&lt;b&gt;Set&lt;/b&gt;&lt;/span&gt;,
-//! &lt;span style=&quot;color: white; background: red;&quot;&gt;&lt;u&gt;&lt;em&gt;STOP&lt;/em&gt;&lt;/u&gt;&lt;/span&gt;!
+//! &lt;span style="color: yellow;"&gt;&lt;b&gt;Set&lt;/b&gt;&lt;/span&gt;,
+//! &lt;span style="color: white; background: red;"&gt;&lt;u&gt;&lt;em&gt;STOP&lt;/em&gt;&lt;/u&gt;&lt;/span&gt;!
 //!
 //! ## Conditional Styling
 //!
@@ -469,30 +477,31 @@
 //!
 //! Styling is enabled by default but can be enabled and disabled globally via
 //! [`enable()`] and [`disable()`]. When styling is disabled, no ANSI escape
-//! codes are emitted, and [_masked_] values are omitted.
+//! codes are emitted, and [_masked_] values are omitted entirely.
 //!
-//! Stying can also be globally enabled _conditionally_ and dynamically  via
-//! [`whenever()`] based on an arbitrary [`Condition`]: a function that returns
-//! `true` to enable styling and `false` to disable it. The condition is
-//! evaluated every time a [`Painted`] items is displayed.
+//! Global styling can also be dynamically enabled and disabled using
+//! [`whenever()`] with an arbitrary [`Condition`]: a function that returns
+//! `true` or `false`. This condition is evaluated each time a [`Painted`] item
+//! is displayed. The associated styling is enabled, and mask values emitted,
+//! exactly when and only when the condition returns `true`.
 //!
 //! ### Per-`Style`
 //!
-//! A specific `Style` can also itself be conditionally applied by using
-//! [`whenever()`](Style::whenever()):
+//! A specific `Style` can itself be conditionally applied by using
+//! [`.whenever()`](Style::whenever()):
 //!
 //! ```rust
-//! # #[cfg(feature = &quot;detect-tty&quot;)] {
+//! # #[cfg(feature = "detect-tty")] {
 //! use yansi::{Paint, Style, Color::*, Condition};
 //!
 //! static WARNING: Style = Black.bold().on_yellow().whenever(Condition::STDERR_IS_TTY);
 //!
-//! eprintln!(&quot;{}&quot;, &quot;Bees can sting!&quot;.paint(WARNING));
+//! eprintln!("{}", "Bees can sting!".paint(WARNING));
 //! # }
 //! ```
 //!
 //! With the above, if `stderr` is a TTY, then:
-//! `&gt;` &lt;span style=&quot;background: yellow; color: black;&quot;&gt;&lt;b&gt;Bees can sting!&lt;/b&gt;&lt;/span&gt;
+//! `&gt;` &lt;span style="background: yellow; color: black;"&gt;&lt;b&gt;Bees can sting!&lt;/b&gt;&lt;/span&gt;
 //!
 //! If it is not a TTY, styling is not emitted:
 //! `&gt;` Bees can sting!
@@ -502,9 +511,10 @@
 //!
 //! # Quirks
 //!
-//! `yansi` implements several &quot;quirks&quot;, applicable via [`Quirk`] and the
-//! respective methods, that modify if and how styling is presented to the
-//! terminal. These quirks do not correspond to any ANSI styling sequences.
+//! As a convenience, `yansi` implements several "quirks", applicable via
+//! [`Quirk`] and the respective methods, that modify if and how styling is
+//! presented to the terminal. These quirks do not correspond to any ANSI
+//! styling sequences.
 //!
 //! ## Masking
 //!
@@ -520,7 +530,7 @@
 //! ```rust
 //! use yansi::Paint;
 //!
-//! println!(&quot;I like colors!{}&quot;, &quot; 🎨&quot;.mask());
+//! println!("I like colors!{}", " 🎨".mask());
 //! ```
 //!
 //! When styling is enabled, this prints: `&gt;` I like colors! 🎨
@@ -535,49 +545,51 @@
 //! Styling can _wrap_ via [`Quirk::Wrap`] or the equivalent
 //! [`wrap()`](Painted::wrap()) constructor. A wrapping style modifies any
 //! styling resets emitted by the internal value so that they correspond to the
-//! wrapping style. In other words, the &quot;reset&quot; style of the wrapped item is
-//! modified to be the wrapping style.
+//! wrapping style. In other words, the "reset" style of the wrapped item is
+//! modified to be the style being `.wrap()`d.
 //!
-//! It is needed only in situations when styling opaque items or items that may
-//! already be styled, such as when implementing a generic logger. It exists to
-//! enable consistent styling across such items:
+//! Wrapping is useful in situations where opaque and arbitrary values must be
+//! styled consistently irrespective of any existing styling. For example, a
+//! generic logger might want to style messages based on log levels
+//! consistently, even when those messages may already include styling. Wrapping
+//! exists to enable such consistent styling:
 //!
 //! ```rust
 //! use yansi::Paint;
 //!
-//! // Imagine that `inner` is opaque and we don&#39;t know it&#39;s styling.
-//! let inner = format!(&quot;{} and {}&quot;, &quot;Stop&quot;.red(), &quot;Go&quot;.green());
+//! // Imagine that `inner` is opaque and we don't know it's styling.
+//! let inner = format!("{} and {}", "Stop".red(), "Go".green());
 //!
 //! // We can use `wrap` to ensure anything in `inner` not styled is blue.
-//! println!(&quot;Hey! {}&quot;, inner.blue().wrap());
+//! println!("Hey! {}", inner.blue().wrap());
 //! ```
 //!
 //! Thanks to wrapping, this prints:
-//! `&gt;` Hey! &lt;span style=&quot;color: blue&quot;&gt;
-//! &lt;span style=&quot;color: red&quot;&gt;Stop&lt;/span&gt; and
-//! &lt;span style=&quot;color: green&quot;&gt;Go&lt;/span&gt;
+//! `&gt;` Hey! &lt;span style="color: blue"&gt;
+//! &lt;span style="color: red"&gt;Stop&lt;/span&gt; and
+//! &lt;span style="color: green"&gt;Go&lt;/span&gt;
 //! &lt;/span&gt;
 //!
-//! Without wrapping, the `red()` reset after &quot;Stop&quot; is not overwritten:
-//! `&gt;` Hey! &lt;span style=&quot;color: red&quot;&gt;Stop&lt;/span&gt; and &lt;span style=&quot;color: green&quot;&gt;Go&lt;/span&gt;
+//! Without wrapping, the reset after `"Stop".red()` would not be overwritten:
+//! `&gt;` Hey! &lt;span style="color: red"&gt;Stop&lt;/span&gt; and &lt;span style="color: green"&gt;Go&lt;/span&gt;
 //!
-//! Wrapping incurs a performance cost via an extra allocation and replacement
-//! if the wrapped item has styling applied to it. Otherwise, it does not
-//! allocate nor incur a meaningful performance cost.
+//! Wrapping incurs a performance cost due to an extra allocation and
+//! replacement if the wrapped item has styling applied to it. Otherwise, it
+//! does not allocate nor incur a meaningful performance cost.
 //!
 //! ## Lingering
 //!
 //! Styling can _linger_ beyond a single value via [`Quirk::Linger`] or the
 //! equivalent [`linger()`](Painted::linger()) constructor. A lingering style
-//! does not clear itself after being applied. In other words, the style lingers
-//! on beyond the value it&#39;s applied to and until something else clears the
+//! does not reset itself after being applied. In other words, the style lingers
+//! on beyond the value it's applied to, until something else resets the
 //! respective styling.
 //!
-//! The complement to lingering is force clearing via [`Quirk::Clear`] or the
-//! equivalent [`clear()`](Painted::clear()) constructor. Force clearing, as the
-//! name implies, forces a clear suffix to be emitted after the value,
-//! irrespective of any lingering applied. It can be used as a way to finalize a
-//! lingering style.
+//! The complement to lingering is force resetting via [`Quirk::Resetting`] or
+//! the equivalent [`resetting()`](Painted::resetting()) constructor. Force
+//! resetting, as the name implies, forces a reset suffix to be emitted after
+//! the value, irrespective of any lingering applied. It can be used as a way to
+//! finalize a lingering style.
 //!
 //! Lingering itself is useful in situations where a given style is to be
 //! repeated across multiple values, or when style is intended to persist even
@@ -588,56 +600,56 @@
 //! ```rust
 //! use yansi::Paint;
 //!
-//! println!(&quot;Hello! {} {} things with {} {}?&quot;,
-//!     &quot;How&quot;.magenta().underline().linger(),
-//!     &quot;are&quot;.italic().linger(),
-//!     &quot;you&quot;.on_yellow(), // doesn&#39;t linger, so all styling is cleared here
-//!     &quot;today&quot;.blue());
+//! println!("Hello! {} {} things with {} {}?",
+//!     "How".magenta().underline().linger(),
+//!     "are".italic().linger(),
+//!     "you".on_yellow(), // doesn't linger, so all styling is reset here
+//!     "today".blue());
 //! ```
 //!
 //! `&gt;` Hello!
-//! &lt;span style=&quot;color: magenta;&quot;&gt;
-//!   &lt;u&gt;How &lt;i&gt;are things with &lt;span style=&quot;background: yellow;&quot;&gt;you&lt;/span&gt;&lt;/i&gt;&lt;/u&gt;
+//! &lt;span style="color: magenta;"&gt;
+//!   &lt;u&gt;How &lt;i&gt;are things with &lt;span style="background: yellow;"&gt;you&lt;/span&gt;&lt;/i&gt;&lt;/u&gt;
 //! &lt;/span&gt;
-//! &lt;span style=&quot;color: blue;&quot;&gt;today&lt;/span&gt;?
+//! &lt;span style="color: blue;"&gt;today&lt;/span&gt;?
 //!
 //! ```rust
 //! use yansi::Paint;
 //!
-//! println!(&quot;Hello! {} {} things with {} {}?&quot;,
-//!     &quot;How&quot;.magenta().underline().linger(),
-//!     &quot;are&quot;.italic(), // doesn&#39;t linger, so all styling is cleared here
-//!     &quot;you&quot;.on_yellow().linger(),
-//!     &quot;today&quot;.blue()); // doesn&#39;t linger; styling is cleared
+//! println!("Hello! {} {} things with {} {}?",
+//!     "How".magenta().underline().linger(),
+//!     "are".italic(), // doesn't linger, so all styling is reset here
+//!     "you".on_yellow().linger(),
+//!     "today".blue()); // doesn't linger; styling is reset
 //! ```
 //!
 //! `&gt;` Hello!
-//! &lt;span style=&quot;color: magenta;&quot;&gt;
+//! &lt;span style="color: magenta;"&gt;
 //!   &lt;u&gt;How &lt;i&gt;are&lt;/i&gt;&lt;/u&gt;
 //! &lt;/span&gt;
 //! things with
-//! &lt;span style=&quot;background: yellow;&quot;&gt;
+//! &lt;span style="background: yellow;"&gt;
 //! you
-//! &lt;span style=&quot;color: blue;&quot;&gt;today&lt;/span&gt;&lt;/span&gt;?
+//! &lt;span style="color: blue;"&gt;today&lt;/span&gt;&lt;/span&gt;?
 //!
 //! ```rust
 //! use yansi::Paint;
 //!
-//! println!(&quot;{} B {} {} {} F&quot;,
-//!     &quot;A&quot;.red().linger(),
-//!     &quot;C&quot;.underline().linger(),
-//!     &quot;D&quot;, // doesn&#39;t linger, but no styling applied, thus no clear
-//!     &quot;E&quot;.clear());  // explicitly clear
+//! println!("{} B {} {} {} F",
+//!     "A".red().linger(),
+//!     "C".underline().linger(),
+//!     "D", // doesn't linger, but no styling applied, thus no reset
+//!     "E".resetting());  // explicitly reset
 //! ```
 //!
-//! `&gt;` &lt;span style=&quot;color: red;&quot;&gt; A B &lt;u&gt;C D E&lt;/u&gt; &lt;/span&gt; F
+//! `&gt;` &lt;span style="color: red;"&gt; A B &lt;u&gt;C D E&lt;/u&gt; &lt;/span&gt; F
 //!
 //! ## Brightening
 //!
 //! Most pimrary colors are available in regular and _bright_ variants, e.g.,
 //! [`Color::Red`] and [`Color::BrightRed`]. The [`Quirk::Bright`] and
 //! [`Quirk::OnBright`] quirks, typically applied via
-//! [`bright()`](Painted::bright()) and [`on_bright()`](Painted::on_bright()),
+//! [`.bright()`](Painted::bright()) and [`.on_bright()`](Painted::on_bright()),
 //! provide an alternative, convenient mechanism to select the bright variant of
 //! the selected foreground or background color, respectively. The quirk
 //! provides no additional colors and is equivalent to selecting the bright
@@ -647,24 +659,24 @@
 //! use yansi::Paint;
 //!
 //! // These are all equivalent.
-//! print!(&quot;{}&quot;, &quot;Regular&quot;.red());
-//! print!(&quot;{}&quot;, &quot;Bright&quot;.bright_red());
-//! print!(&quot;{}&quot;, &quot;Bright&quot;.bright().red());
-//! print!(&quot;{}&quot;, &quot;Bright&quot;.red().bright());
+//! print!("{}", "Regular".red());
+//! print!("{}", "Bright".bright_red());
+//! print!("{}", "Bright".bright().red());
+//! print!("{}", "Bright".red().bright());
 //!
 //! # static STYLE: yansi::Style = yansi::Color::Green.bold();
 //! // The `bright` quirk lets use choose the bright variants of _any_ color,
 //! // even when the color or style is unknown at the call site.
-//! print!(&quot;{}&quot;, &quot;Normal&quot;.paint(STYLE));
-//! print!(&quot;{}&quot;, &quot;Bright&quot;.paint(STYLE).bright());
+//! print!("{}", "Normal".paint(STYLE));
+//! print!("{}", "Bright".paint(STYLE).bright());
 //! ```
 //!
-//! `&gt;` &lt;span style=&quot;color: red;&quot;&gt;Regular&lt;/span&gt;
-//! &lt;span style=&quot;color: hotpink;&quot;&gt;Bright&lt;/span&gt;
-//! &lt;span style=&quot;color: hotpink;&quot;&gt;Bright&lt;/span&gt;
-//! &lt;span style=&quot;color: hotpink;&quot;&gt;Bright&lt;/span&gt;
-//! &lt;span style=&quot;color: green;&quot;&gt;&lt;b&gt;Normal&lt;/b&gt;&lt;/span&gt;
-//! &lt;span style=&quot;color: greenyellow;&quot;&gt;&lt;b&gt;Bright&lt;/b&gt;&lt;/span&gt;
+//! `&gt;` &lt;span style="color: red;"&gt;Regular&lt;/span&gt;
+//! &lt;span style="color: hotpink;"&gt;Bright&lt;/span&gt;
+//! &lt;span style="color: hotpink;"&gt;Bright&lt;/span&gt;
+//! &lt;span style="color: hotpink;"&gt;Bright&lt;/span&gt;
+//! &lt;span style="color: green;"&gt;&lt;b&gt;Normal&lt;/b&gt;&lt;/span&gt;
+//! &lt;span style="color: greenyellow;"&gt;&lt;b&gt;Bright&lt;/b&gt;&lt;/span&gt;
 //!
 //! The `bright()` quirk can be applied before or after a color is selected
 //! while having the same effect.
@@ -672,14 +684,14 @@
 //! # Windows
 //!
 //! Styling is supported and enabled automatically on Windows beginning with
-//! the Windows 10 Anniversary Update, or about [95% of all Windows machines
+//! the Windows 10 Anniversary Update, or about [96% of all Windows machines
 //! worldwide](https://gs.statcounter.com/os-version-market-share/windows/desktop/worldwide),
 //! and likely closer to 100% of developer machines (e.g., 99% of visitors to
 //! [rocket.rs](https://rocket.rs) on Windows are on Windows 10+).
 //!
 //! Yansi enables styling support on Windows by querying the Windows API on the
 //! first attempt to color. If support is available, it is enabled. If support
-//! is not available, styling is disabled and no styling is emitted.
+//! is not available, styling is disabled and no styling sequences are emitted.
 //!
 //! # Crate Features
 //!
@@ -691,20 +703,24 @@
 //! | `detect-env` | N        | `std`        | See [optional conditions].       |
 //! | `hyperlink`  | N        | `std`        | Enables [hyperlinking] support.  |
 //!
-//! With `no-default-features = true`, this crate is `#[no_std]`.
+//! With `default-features = false`, this crate is `#[no_std]`.
 //!
 //! Without any features enabled, all functionality except [wrapping] is
-//! available. To recover wrapping _with_ `#[no_std]`, set `no-default-features
-//! = false` and enable the `alloc` feature, which requires `alloc` support.
+//! available. To recover wrapping _with_ `#[no_std]`, set `default-features =
+//! false` and enable the `alloc` feature, which requires `alloc` support.
 //!
 //! [optional conditions]: Condition#built-in-conditions
 //! [wrapping]: #wrapping
 
-</span><span class="attr">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
-#![cfg_attr(feature = <span class="string">&quot;_nightly&quot;</span>, feature(doc_cfg))]
+</span><span class="attr">#![doc(html_logo_url = <span class="string">"https://raw.githubusercontent.com/SergioBenitez/yansi/master/.github/yansi-logo.png"</span>)]
+#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+#![cfg_attr(feature = <span class="string">"_nightly"</span>, feature(doc_cfg))]
 #![deny(missing_docs)]
 
-#[cfg(all(not(feature = <span class="string">&quot;std&quot;</span>), feature = <span class="string">&quot;alloc&quot;</span>))]
+</span><span class="comment">// FIXME: Remove once `clear()` and `Quirk::Clear` are removed.
+</span><span class="attr">#![allow(useless_deprecated, deprecated)]
+
+#[cfg(all(not(feature = <span class="string">"std"</span>), feature = <span class="string">"alloc"</span>))]
 </span><span class="kw">extern crate </span>alloc;
 
 <span class="attr">#[macro_use]
@@ -718,8 +734,8 @@
 <span class="kw">mod </span>condition;
 <span class="kw">mod </span>set;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;hyperlink&quot;</span>)]
-#[cfg_attr(feature = <span class="string">&quot;_nightly&quot;</span>, doc(cfg(feature = <span class="string">&quot;hyperlink&quot;</span>)))]
+<span class="attr">#[cfg(feature = <span class="string">"hyperlink"</span>)]
+#[cfg_attr(feature = <span class="string">"_nightly"</span>, doc(cfg(feature = <span class="string">"hyperlink"</span>)))]
 </span><span class="kw">pub mod </span>hyperlink;
 
 <span class="kw">pub use </span>paint::{Painted, Paint};

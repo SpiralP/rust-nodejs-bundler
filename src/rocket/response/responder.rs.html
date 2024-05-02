@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/responder.rs`."><title>responder.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/responder.rs`."><title>responder.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -566,7 +566,7 @@
 /// # type T = ();
 /// #
 /// // This works for any `T` that implements `Responder`.
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn index() -&gt; T { /* ... */ }
 /// ```
 ///
@@ -580,7 +580,7 @@
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// # #[cfg(feature = &quot;json&quot;)] mod _main {
+/// # #[cfg(feature = "json")] mod _main {
 /// # type Template = String;
 /// use rocket::http::ContentType;
 /// use rocket::serde::{Serialize, json::Json};
@@ -627,7 +627,7 @@
 ///
 ///   * **Vec&amp;lt;u8&gt;**
 ///
-///     Sets the `Content-Type` to `application/octet-stream`. The vector&#39;s data
+///     Sets the `Content-Type` to `application/octet-stream`. The vector's data
 ///     is used as the body of the response, which is fixed size and not
 ///     streamed. To stream a vector of bytes, use
 ///     `Stream::from(Cursor::new(vec))`.
@@ -636,7 +636,7 @@
 ///
 ///     Responds with a streamed body containing the data in the `File`. No
 ///     `Content-Type` is set. To automatically have a `Content-Type` set based
-///     on the file&#39;s extension, use [`NamedFile`](crate::fs::NamedFile).
+///     on the file's extension, use [`NamedFile`](crate::fs::NamedFile).
 ///
 ///   * **()**
 ///
@@ -700,20 +700,20 @@
 ///    Instead of performing `async` operations in what would be the
 ///    `respond_to` method, perform them in a constructor for the responder. As
 ///    an example, see [`NamedFile::open()`](crate::fs::NamedFile::open()),
-///    which performs the requisite I/O for `NamedFile`&#39;s responder.
+///    which performs the requisite I/O for `NamedFile`'s responder.
 ///
 /// ## Lifetimes
 ///
-/// `Responder` has two lifetimes: `Responder&lt;&#39;r, &#39;o: &#39;r&gt;`.
+/// `Responder` has two lifetimes: `Responder&lt;'r, 'o: 'r&gt;`.
 ///
-///   * `&#39;r` bounds the reference to the `&amp;&#39;r Request`.
+///   * `'r` bounds the reference to the `&amp;'r Request`.
 ///
-///   * `&#39;o` bounds the returned `Response&lt;&#39;o&gt;` to values that live at least as
+///   * `'o` bounds the returned `Response&lt;'o&gt;` to values that live at least as
 ///     long as the request.
 ///
-///     This includes borrows from the `Request` itself (where `&#39;o` would be
-///     `&#39;r` as in `impl&lt;&#39;r&gt; Responder&lt;&#39;r, &#39;r&gt;`) as well as `&#39;static` data
-///     (where `&#39;o` would be `&#39;static` as in `impl&lt;&#39;r&gt; Responder&lt;&#39;r, &#39;static&gt;`).
+///     This includes borrows from the `Request` itself (where `'o` would be
+///     `'r` as in `impl&lt;'r&gt; Responder&lt;'r, 'r&gt;`) as well as `'static` data
+///     (where `'o` would be `'static` as in `impl&lt;'r&gt; Responder&lt;'r, 'static&gt;`).
 ///
 /// In practice, you are likely choosing between four signatures:
 ///
@@ -722,32 +722,32 @@
 /// # use rocket::response::{self, Responder};
 /// # struct A;
 /// // If the response contains no borrowed data.
-/// impl&lt;&#39;r&gt; Responder&lt;&#39;r, &#39;static&gt; for A {
-///     fn respond_to(self, _: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; response::Result&lt;&#39;static&gt; {
+/// impl&lt;'r&gt; Responder&lt;'r, 'static&gt; for A {
+///     fn respond_to(self, _: &amp;'r Request&lt;'_&gt;) -&gt; response::Result&lt;'static&gt; {
 ///         todo!()
 ///     }
 /// }
 ///
-/// # struct B&lt;&#39;r&gt;(&amp;&#39;r str);
+/// # struct B&lt;'r&gt;(&amp;'r str);
 /// // If the response borrows from the request.
-/// impl&lt;&#39;r&gt; Responder&lt;&#39;r, &#39;r&gt; for B&lt;&#39;r&gt; {
-///     fn respond_to(self, _: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; response::Result&lt;&#39;r&gt; {
+/// impl&lt;'r&gt; Responder&lt;'r, 'r&gt; for B&lt;'r&gt; {
+///     fn respond_to(self, _: &amp;'r Request&lt;'_&gt;) -&gt; response::Result&lt;'r&gt; {
 ///         todo!()
 ///     }
 /// }
 ///
 /// # struct C;
 /// // If the response is or wraps a borrow that may outlive the request.
-/// impl&lt;&#39;r, &#39;o: &#39;r&gt; Responder&lt;&#39;r, &#39;o&gt; for &amp;&#39;o C {
-///     fn respond_to(self, _: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; response::Result&lt;&#39;o&gt; {
+/// impl&lt;'r, 'o: 'r&gt; Responder&lt;'r, 'o&gt; for &amp;'o C {
+///     fn respond_to(self, _: &amp;'r Request&lt;'_&gt;) -&gt; response::Result&lt;'o&gt; {
 ///         todo!()
 ///     }
 /// }
 ///
 /// # struct D&lt;R&gt;(R);
 /// // If the response wraps an existing responder.
-/// impl&lt;&#39;r, &#39;o: &#39;r, R: Responder&lt;&#39;r, &#39;o&gt;&gt; Responder&lt;&#39;r, &#39;o&gt; for D&lt;R&gt; {
-///     fn respond_to(self, _: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; response::Result&lt;&#39;o&gt; {
+/// impl&lt;'r, 'o: 'r, R: Responder&lt;'r, 'o&gt;&gt; Responder&lt;'r, 'o&gt; for D&lt;R&gt; {
+///     fn respond_to(self, _: &amp;'r Request&lt;'_&gt;) -&gt; response::Result&lt;'o&gt; {
 ///         todo!()
 ///     }
 /// }
@@ -764,13 +764,13 @@
 /// }
 /// ```
 ///
-/// You&#39;d like to use `Person` as a `Responder` so that you can return a
+/// You'd like to use `Person` as a `Responder` so that you can return a
 /// `Person` directly from a handler:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// # type Person = String;
-/// #[get(&quot;/person/&lt;id&gt;&quot;)]
+/// #[get("/person/&lt;id&gt;")]
 /// fn person(id: usize) -&gt; Option&lt;Person&gt; {
 ///     # /*
 ///     Person::from_id(id)
@@ -796,19 +796,19 @@
 /// use rocket::response::{self, Response, Responder};
 /// use rocket::http::ContentType;
 ///
-/// impl&lt;&#39;r&gt; Responder&lt;&#39;r, &#39;static&gt; for Person {
-///     fn respond_to(self, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; response::Result&lt;&#39;static&gt; {
-///         let string = format!(&quot;{}:{}&quot;, self.name, self.age);
+/// impl&lt;'r&gt; Responder&lt;'r, 'static&gt; for Person {
+///     fn respond_to(self, req: &amp;'r Request&lt;'_&gt;) -&gt; response::Result&lt;'static&gt; {
+///         let string = format!("{}:{}", self.name, self.age);
 ///         Response::build_from(string.respond_to(req)?)
-///             .raw_header(&quot;X-Person-Name&quot;, self.name)
-///             .raw_header(&quot;X-Person-Age&quot;, self.age.to_string())
-///             .header(ContentType::new(&quot;application&quot;, &quot;x-person&quot;))
+///             .raw_header("X-Person-Name", self.name)
+///             .raw_header("X-Person-Age", self.age.to_string())
+///             .header(ContentType::new("application", "x-person"))
 ///             .ok()
 ///     }
 /// }
 /// #
-/// # #[get(&quot;/person&quot;)]
-/// # fn person() -&gt; Person { Person { name: &quot;a&quot;.to_string(), age: 20 } }
+/// # #[get("/person")]
+/// # fn person() -&gt; Person { Person { name: "a".to_string(), age: 20 } }
 /// # fn main() {  }
 /// ```
 ///
@@ -820,45 +820,45 @@
 /// use rocket::response::Responder;
 ///
 /// #[derive(Responder)]
-/// #[response(content_type = &quot;application/x-person&quot;)]
+/// #[response(content_type = "application/x-person")]
 /// struct Person {
 ///     text: String,
-///     name: Header&lt;&#39;static&gt;,
-///     age: Header&lt;&#39;static&gt;,
+///     name: Header&lt;'static&gt;,
+///     age: Header&lt;'static&gt;,
 /// }
 ///
 /// impl Person {
 ///     fn new(name: &amp;str, age: usize) -&gt; Person {
 ///         Person {
-///             text: format!(&quot;{}:{}&quot;, name, age),
-///             name: Header::new(&quot;X-Person-Name&quot;, name.to_string()),
-///             age: Header::new(&quot;X-Person-Age&quot;, age.to_string())
+///             text: format!("{}:{}", name, age),
+///             name: Header::new("X-Person-Name", name.to_string()),
+///             age: Header::new("X-Person-Age", age.to_string())
 ///         }
 ///     }
 /// }
 /// #
-/// # #[rocket::get(&quot;/person&quot;)]
-/// # fn person() -&gt; Person { Person::new(&quot;Bob&quot;, 29) }
+/// # #[rocket::get("/person")]
+/// # fn person() -&gt; Person { Person::new("Bob", 29) }
 /// ```
-</span><span class="kw">pub trait </span>Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub trait </span>Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Returns `Ok` if a `Response` could be generated successfully. Otherwise,
     /// returns an `Err` with a failing `Status`.
     ///
     /// The `request` parameter is the `Request` that this `Responder` is
     /// responding to.
     ///
-    /// When using Rocket&#39;s code generation, if an `Ok(Response)` is returned,
+    /// When using Rocket's code generation, if an `Ok(Response)` is returned,
     /// the response will be written out to the client. If an `Err(Status)` is
     /// returned, the error catcher for the given status is retrieved and called
     /// to generate a final error response, which is then written out to the
     /// client.
-    </span><span class="kw">fn </span>respond_to(<span class="self">self</span>, request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt;;
+    </span><span class="kw">fn </span>respond_to(<span class="self">self</span>, request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt;;
 }
 
 <span class="doccomment">/// Returns a response with Content-Type `text/plain` and a fixed-size body
 /// containing the string `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         Response::build()
             .header(ContentType::Plain)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -868,8 +868,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `text/plain` and a fixed-size body
 /// containing the string `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>String {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>String {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Plain)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -888,8 +888,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `text/plain` and a fixed-size body
 /// containing the string `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Arc&lt;str&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Arc&lt;str&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Plain)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(DerefRef(<span class="self">self</span>)))
@@ -899,8 +899,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `text/plain` and a fixed-size body
 /// containing the string `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Box&lt;str&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Box&lt;str&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Plain)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(DerefRef(<span class="self">self</span>)))
@@ -910,8 +910,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `application/octet-stream` and a
 /// fixed-size body containing the data in `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>[u8] {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'o </span>[u8] {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         Response::build()
             .header(ContentType::Binary)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -921,8 +921,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `application/octet-stream` and a
 /// fixed-size body containing the data in `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Vec&lt;u8&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Vec&lt;u8&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Binary)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -932,8 +932,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `application/octet-stream` and a
 /// fixed-size body containing the data in `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Arc&lt;[u8]&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Arc&lt;[u8]&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Binary)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -943,8 +943,8 @@
 
 <span class="doccomment">/// Returns a response with Content-Type `application/octet-stream` and a
 /// fixed-size body containing the data in `self`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Box&lt;[u8]&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Box&lt;[u8]&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build()
             .header(ContentType::Binary)
             .sized_body(<span class="self">self</span>.len(), Cursor::new(<span class="self">self</span>))
@@ -960,8 +960,8 @@
 ///
 /// use rocket::response::Responder;
 ///
-/// #[get(&quot;/&quot;)]
-/// fn f() -&gt; Box&lt;dyn Responder&lt;&#39;static,&#39;static&gt;&gt; {
+/// #[get("/")]
+/// fn f() -&gt; Box&lt;dyn Responder&lt;'static,'static&gt;&gt; {
 ///     Box::new(())
 /// }
 /// ```
@@ -977,49 +977,49 @@
 ///     Text(String),
 /// }
 ///
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn f() -&gt; Option&lt;Box&lt;String&gt;&gt; {
 ///     None
 /// }
 ///
-/// #[get(&quot;/&quot;)]
+/// #[get("/")]
 /// fn g() -&gt; Content {
-///     Content::Text(&quot;hello&quot;.to_string())
+///     Content::Text("hello".to_string())
 /// }
 /// ```
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, T: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; + Sized&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span>Box&lt;T&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, T: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; + Sized&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span>Box&lt;T&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">let </span>inner = <span class="kw-2">*</span><span class="self">self</span>;
         inner.respond_to(req)
     }
 }
 
 <span class="doccomment">/// Returns a response with a sized body for the file. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>File {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>File {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         tokio::fs::File::from(<span class="self">self</span>).respond_to(req)
     }
 }
 
 <span class="doccomment">/// Returns a response with a sized body for the file. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>tokio::fs::File {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>tokio::fs::File {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         Response::build().sized_body(<span class="prelude-val">None</span>, <span class="self">self</span>).ok()
     }
 }
 
 <span class="doccomment">/// Returns an empty, default `Response`. Always returns `Ok`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>() {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>() {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         <span class="prelude-val">Ok</span>(Response::new())
     }
 }
 
 <span class="doccomment">/// Responds with the inner `Responder` in `Cow`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, R: <span class="question-mark">?</span>Sized + ToOwned&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span>std::borrow::Cow&lt;<span class="lifetime">&#39;o</span>, R&gt;
-    <span class="kw">where </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>R: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; + <span class="lifetime">&#39;o</span>, &lt;R <span class="kw">as </span>ToOwned&gt;::Owned: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; + <span class="lifetime">&#39;r
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, R: <span class="question-mark">?</span>Sized + ToOwned&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span>std::borrow::Cow&lt;<span class="lifetime">'o</span>, R&gt;
+    <span class="kw">where </span><span class="kw-2">&amp;</span><span class="lifetime">'o </span>R: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; + <span class="lifetime">'o</span>, &lt;R <span class="kw">as </span>ToOwned&gt;::Owned: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; + <span class="lifetime">'r
 </span>{
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             std::borrow::Cow::Borrowed(b) =&gt; b.respond_to(req),
             std::borrow::Cow::Owned(o) =&gt; o.respond_to(req),
@@ -1029,12 +1029,12 @@
 
 <span class="doccomment">/// If `self` is `Some`, responds with the wrapped `Responder`. Otherwise prints
 /// a warning message and returns an `Err` of `Status::NotFound`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, R: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;R&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, R: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt;&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;R&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Some</span>(r) =&gt; r.respond_to(req),
             <span class="prelude-val">None </span>=&gt; {
-                <span class="macro">warn_!</span>(<span class="string">&quot;Response was `None`.&quot;</span>);
+                <span class="macro">warn_!</span>(<span class="string">"Response was `None`."</span>);
                 <span class="prelude-val">Err</span>(Status::NotFound)
             },
         }
@@ -1043,10 +1043,10 @@
 
 <span class="doccomment">/// Responds with the wrapped `Responder` in `self`, whether it is `Ok` or
 /// `Err`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>: <span class="lifetime">&#39;o</span>, <span class="lifetime">&#39;e</span>: <span class="lifetime">&#39;o</span>, T, E&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, E&gt;
-    <span class="kw">where </span>T: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>&gt;, E: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;e</span>&gt;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, <span class="lifetime">'t</span>: <span class="lifetime">'o</span>, <span class="lifetime">'e</span>: <span class="lifetime">'o</span>, T, E&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, E&gt;
+    <span class="kw">where </span>T: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'t</span>&gt;, E: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'e</span>&gt;
 {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(responder) =&gt; responder.respond_to(req),
             <span class="prelude-val">Err</span>(responder) =&gt; responder.respond_to(req),
@@ -1056,10 +1056,10 @@
 
 <span class="doccomment">/// Responds with the wrapped `Responder` in `self`, whether it is `Left` or
 /// `Right`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>: <span class="lifetime">&#39;o</span>, <span class="lifetime">&#39;e</span>: <span class="lifetime">&#39;o</span>, T, E&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span><span class="kw">crate</span>::Either&lt;T, E&gt;
-    <span class="kw">where </span>T: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>&gt;, E: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;e</span>&gt;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, <span class="lifetime">'t</span>: <span class="lifetime">'o</span>, <span class="lifetime">'e</span>: <span class="lifetime">'o</span>, T, E&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span><span class="kw">crate</span>::Either&lt;T, E&gt;
+    <span class="kw">where </span>T: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'t</span>&gt;, E: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'e</span>&gt;
 {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="kw">crate</span>::Either::Left(r) =&gt; r.respond_to(req),
             <span class="kw">crate</span>::Either::Right(r) =&gt; r.respond_to(req),
@@ -1081,8 +1081,8 @@
 /// `100` responds with any empty body and the given status code, and all other
 /// status code emit an error message and forward to the `500` (internal server
 /// error) catcher.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;static</span>&gt; <span class="kw">for </span>Status {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;static</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'static</span>&gt; <span class="kw">for </span>Status {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'static</span>&gt; {
         <span class="kw">match </span><span class="self">self</span>.class() {
             StatusClass::ClientError | StatusClass::ServerError =&gt; <span class="prelude-val">Err</span>(<span class="self">self</span>),
             StatusClass::Success <span class="kw">if </span><span class="self">self</span>.code &lt; <span class="number">206 </span>=&gt; {
@@ -1092,7 +1092,7 @@
                 Response::build().status(<span class="self">self</span>).ok()
             }
             <span class="kw">_ </span>=&gt; {
-                <span class="macro">error_!</span>(<span class="string">&quot;Invalid status used as responder: {}.&quot;</span>, <span class="self">self</span>);
+                <span class="macro">error_!</span>(<span class="string">"Invalid status used as responder: {}."</span>, <span class="self">self</span>);
                 <span class="prelude-val">Err</span>(Status::InternalServerError)
             }
         }

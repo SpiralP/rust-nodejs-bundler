@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/error.rs`."><title>error.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/error.rs`."><title>error.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1070,7 +1070,7 @@
 /// use rocket::form::Errors;
 ///
 /// let errors = Errors::new();
-/// let errors_for_foo = errors.iter().filter(|e| e.is_for(&quot;foo.bar&quot;));
+/// let errors_for_foo = errors.iter().filter(|e| e.is_for("foo.bar"));
 /// ```
 ///
 /// ## Constructing
@@ -1083,9 +1083,9 @@
 /// ```rust
 /// use rocket::form;
 ///
-/// fn at_most_10() -&gt; form::Result&lt;&#39;static, usize&gt; {
+/// fn at_most_10() -&gt; form::Result&lt;'static, usize&gt; {
 ///     // Using `From&lt;PartIntError&gt; =&gt; ErrorKind::Int =&gt; Errors`.
-///     let i: usize = &quot;foo&quot;.parse()?;
+///     let i: usize = "foo".parse()?;
 ///
 ///     if i &gt; 10 {
 ///         // `(Option&lt;isize&gt;, Option&lt;isize&gt;) =&gt; ErrorKind::OutOfRange =&gt; Errors`
@@ -1097,16 +1097,16 @@
 /// ```
 </span><span class="attr">#[derive(Default, Debug, PartialEq, Serialize)]
 #[serde(transparent)]
-</span><span class="kw">pub struct </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt;(Vec&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt;);
+</span><span class="kw">pub struct </span>Errors&lt;<span class="lifetime">'v</span>&gt;(Vec&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt;);
 
 <span class="doccomment">/// A form error, potentially tied to a specific form field.
 ///
 /// An `Error` is returned by [`FromForm`], [`FromFormField`], and [`validate`]
 /// procedures, typically as a collection of [`Errors`]. It potentially
 /// identifies a specific field that triggered the error via [`Error::name`] and
-/// the field&#39;s value via [`Error::value`].
+/// the field's value via [`Error::value`].
 ///
-/// An `Error` can occur because of a field&#39;s value that failed to parse or
+/// An `Error` can occur because of a field's value that failed to parse or
 /// because other parts of a field or form were malformed; the [`Error::entity`]
 /// identifies the part of the form that resulted in the error.
 ///
@@ -1123,15 +1123,15 @@
 /// ```rust
 /// use rocket::form::Error;
 ///
-/// fn at_most_10_not_even() -&gt; Result&lt;usize, Error&lt;&#39;static&gt;&gt; {
+/// fn at_most_10_not_even() -&gt; Result&lt;usize, Error&lt;'static&gt;&gt; {
 ///     // Using `From&lt;PartIntError&gt; =&gt; ErrorKind::Int`.
-///     let i: usize = &quot;foo&quot;.parse()?;
+///     let i: usize = "foo".parse()?;
 ///
 ///     if i &gt; 10 {
 ///         // `From&lt;(Option&lt;isize&gt;, Option&lt;isize&gt;)&gt; =&gt; ErrorKind::OutOfRange`
 ///         return Err((None, Some(10isize)).into());
 ///     } else if i % 2 == 0 {
-///         return Err(Error::validation(&quot;integer cannot be even&quot;));
+///         return Err(Error::validation("integer cannot be even"));
 ///     }
 ///
 ///     Ok(i)
@@ -1140,12 +1140,12 @@
 ///
 /// # Setting Field Metadata
 ///
-/// When implementing [`FromFormField`], nothing has to be done for a field&#39;s
+/// When implementing [`FromFormField`], nothing has to be done for a field's
 /// metadata to be set: the blanket [`FromForm`] implementation sets it
 /// automatically.
 ///
 /// When constructed from an `ErrorKind`, the entity is set to
-/// [`Entity::default_for()`] by default. Occasionally, the error&#39;s `entity` may
+/// [`Entity::default_for()`] by default. Occasionally, the error's `entity` may
 /// need to be set manually. Return what would be useful to the end-consumer.
 ///
 /// # Matching Errors to Fields
@@ -1158,7 +1158,7 @@
 /// use rocket::form::Errors;
 ///
 /// let errors = Errors::new();
-/// let errors_for_foo = errors.iter().filter(|e| e.is_for(&quot;foo.bar&quot;));
+/// let errors_for_foo = errors.iter().filter(|e| e.is_for("foo.bar"));
 /// ```
 ///
 /// # Serialization
@@ -1168,18 +1168,18 @@
 ///
 /// | field    | type           | description                                      |
 /// |----------|----------------|--------------------------------------------------|
-/// | `name`   | `Option&lt;&amp;str&gt;` | the erroring field&#39;s name, if known              |
-/// | `value`  | `Option&lt;&amp;str&gt;` | the erroring field&#39;s value, if known             |
+/// | `name`   | `Option&lt;&amp;str&gt;` | the erroring field's name, if known              |
+/// | `value`  | `Option&lt;&amp;str&gt;` | the erroring field's value, if known             |
 /// | `entity` | `&amp;str`         | string representation of the erroring [`Entity`] |
 /// | `msg`    | `&amp;str`         | concise message of the error                     |
 </span><span class="attr">#[derive(Debug, PartialEq)]
-</span><span class="kw">pub struct </span>Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+</span><span class="kw">pub struct </span>Error&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// The name of the field, if it is known.
-    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
-    <span class="doccomment">/// The field&#39;s value, if it is known.
-    </span><span class="kw">pub </span>value: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt;,
+    </span><span class="kw">pub </span>name: <span class="prelude-ty">Option</span>&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;&gt;,
+    <span class="doccomment">/// The field's value, if it is known.
+    </span><span class="kw">pub </span>value: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt;,
     <span class="doccomment">/// The kind of error that occurred.
-    </span><span class="kw">pub </span>kind: ErrorKind&lt;<span class="lifetime">&#39;v</span>&gt;,
+    </span><span class="kw">pub </span>kind: ErrorKind&lt;<span class="lifetime">'v</span>&gt;,
     <span class="doccomment">/// The entity that caused the error.
     </span><span class="kw">pub </span>entity: Entity,
 }
@@ -1194,7 +1194,7 @@
 ///   * `(Option&lt;u64&gt;, Option&lt;u64&gt;)` =&gt; [`ErrorKind::InvalidLength`]
 ///   * `(Option&lt;ByteUnit&gt;, Option&lt;ByteUnit&gt;)` =&gt; [`ErrorKind::InvalidLength`]
 ///   * `(Option&lt;isize&gt;, Option&lt;isize&gt;)` =&gt; [`ErrorKind::OutOfRange`]
-///   * `&amp;[Cow&lt;&#39;_, str&gt;]` or `Vec&lt;Cow&lt;&#39;_, str&gt;&gt;` =&gt; [`ErrorKind::InvalidChoice`]
+///   * `&amp;[Cow&lt;'_, str&gt;]` or `Vec&lt;Cow&lt;'_, str&gt;&gt;` =&gt; [`ErrorKind::InvalidChoice`]
 ///   * [`Utf8Error`] =&gt; [`ErrorKind::Utf8`]
 ///   * [`ParseIntError`] =&gt; [`ErrorKind::Int`]
 ///   * [`ParseFloatError`] =&gt; [`ErrorKind::Float`]
@@ -1205,18 +1205,18 @@
 ///   * `(Status, Box&lt;dyn std::error::Error + Send)` =&gt; [`ErrorKind::Custom`]
 </span><span class="attr">#[derive(Debug)]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span>ErrorKind&lt;<span class="lifetime">&#39;v</span>&gt; {
-    <span class="doccomment">/// The value&#39;s length, in bytes, was outside the range `[min, max]`.
+</span><span class="kw">pub enum </span>ErrorKind&lt;<span class="lifetime">'v</span>&gt; {
+    <span class="doccomment">/// The value's length, in bytes, was outside the range `[min, max]`.
     </span>InvalidLength {
         <span class="doccomment">/// The minimum length required, inclusive.
         </span>min: <span class="prelude-ty">Option</span>&lt;u64&gt;,
         <span class="doccomment">/// The maximum length required, inclusive.
         </span>max: <span class="prelude-ty">Option</span>&lt;u64&gt;,
     },
-    <span class="doccomment">/// The value wasn&#39;t one of the valid `choices`.
+    <span class="doccomment">/// The value wasn't one of the valid `choices`.
     </span>InvalidChoice {
         <span class="doccomment">/// The choices that were expected.
-        </span>choices: Cow&lt;<span class="lifetime">&#39;v</span>, [Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;]&gt;,
+        </span>choices: Cow&lt;<span class="lifetime">'v</span>, [Cow&lt;<span class="lifetime">'v</span>, str&gt;]&gt;,
     },
     <span class="doccomment">/// The integer value was outside the range `[start, end]`.
     </span>OutOfRange {
@@ -1226,7 +1226,7 @@
         </span>end: <span class="prelude-ty">Option</span>&lt;isize&gt;,
     },
     <span class="doccomment">/// A custom validation routine failed with message `.0`.
-    </span>Validation(Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;),
+    </span>Validation(Cow&lt;<span class="lifetime">'v</span>, str&gt;),
     <span class="doccomment">/// One entity was expected but more than one was received.
     </span>Duplicate,
     <span class="doccomment">/// An entity was expected but was not received.
@@ -1275,7 +1275,7 @@
     </span>Index(usize),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; Errors&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// Create an empty collection of errors.
     ///
     /// # Example
@@ -1301,15 +1301,15 @@
     /// let mut errors = Errors::from(ErrorKind::Missing);
     /// assert!(errors[0].name.is_none());
     ///
-    /// let mut errors = errors.with_name(&quot;foo&quot;);
-    /// assert_eq!(errors[0].name.as_ref().unwrap(), &quot;foo&quot;);
+    /// let mut errors = errors.with_name("foo");
+    /// assert_eq!(errors[0].name.as_ref().unwrap(), "foo");
     ///
     /// errors.push(ErrorKind::Duplicate.into());
-    /// let errors = errors.with_name(&quot;bar&quot;);
-    /// assert_eq!(errors[0].name.as_ref().unwrap(), &quot;foo&quot;);
-    /// assert_eq!(errors[1].name.as_ref().unwrap(), &quot;bar&quot;);
+    /// let errors = errors.with_name("bar");
+    /// assert_eq!(errors[0].name.as_ref().unwrap(), "foo");
+    /// assert_eq!(errors[1].name.as_ref().unwrap(), "bar");
     /// ```
-    </span><span class="kw">pub fn </span>with_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, name: N) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, name: N) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.set_name(name);
         <span class="self">self
     </span>}
@@ -1325,15 +1325,15 @@
     /// let mut errors = Errors::from(ErrorKind::Missing);
     /// assert!(errors[0].name.is_none());
     ///
-    /// errors.set_name(&quot;foo&quot;);
-    /// assert_eq!(errors[0].name.as_ref().unwrap(), &quot;foo&quot;);
+    /// errors.set_name("foo");
+    /// assert_eq!(errors[0].name.as_ref().unwrap(), "foo");
     ///
     /// errors.push(ErrorKind::Duplicate.into());
-    /// let errors = errors.with_name(&quot;bar&quot;);
-    /// assert_eq!(errors[0].name.as_ref().unwrap(), &quot;foo&quot;);
-    /// assert_eq!(errors[1].name.as_ref().unwrap(), &quot;bar&quot;);
+    /// let errors = errors.with_name("bar");
+    /// assert_eq!(errors[0].name.as_ref().unwrap(), "foo");
+    /// assert_eq!(errors[1].name.as_ref().unwrap(), "bar");
     /// ```
-    </span><span class="kw">pub fn </span>set_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N) {
+    </span><span class="kw">pub fn </span>set_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N) {
         <span class="kw">let </span>name = name.into();
         <span class="kw">for </span>error <span class="kw">in </span><span class="self">self</span>.iter_mut() {
             <span class="kw">if </span>error.name.is_none() {
@@ -1353,15 +1353,15 @@
     /// let mut errors = Errors::from(ErrorKind::Missing);
     /// assert!(errors[0].value.is_none());
     ///
-    /// let mut errors = errors.with_value(&quot;foo&quot;);
-    /// assert_eq!(errors[0].value.as_ref().unwrap(), &quot;foo&quot;);
+    /// let mut errors = errors.with_value("foo");
+    /// assert_eq!(errors[0].value.as_ref().unwrap(), "foo");
     ///
     /// errors.push(ErrorKind::Duplicate.into());
-    /// let errors = errors.with_value(&quot;bar&quot;);
-    /// assert_eq!(errors[0].value.as_ref().unwrap(), &quot;foo&quot;);
-    /// assert_eq!(errors[1].value.as_ref().unwrap(), &quot;bar&quot;);
+    /// let errors = errors.with_value("bar");
+    /// assert_eq!(errors[0].value.as_ref().unwrap(), "foo");
+    /// assert_eq!(errors[1].value.as_ref().unwrap(), "bar");
     /// ```
-    </span><span class="kw">pub fn </span>with_value(<span class="kw-2">mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_value(<span class="kw-2">mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.set_value(value);
         <span class="self">self
     </span>}
@@ -1377,15 +1377,15 @@
     /// let mut errors = Errors::from(ErrorKind::Missing);
     /// assert!(errors[0].value.is_none());
     ///
-    /// errors.set_value(&quot;foo&quot;);
-    /// assert_eq!(errors[0].value.as_ref().unwrap(), &quot;foo&quot;);
+    /// errors.set_value("foo");
+    /// assert_eq!(errors[0].value.as_ref().unwrap(), "foo");
     ///
     /// errors.push(ErrorKind::Duplicate.into());
-    /// let errors = errors.with_value(&quot;bar&quot;);
-    /// assert_eq!(errors[0].value.as_ref().unwrap(), &quot;foo&quot;);
-    /// assert_eq!(errors[1].value.as_ref().unwrap(), &quot;bar&quot;);
+    /// let errors = errors.with_value("bar");
+    /// assert_eq!(errors[0].value.as_ref().unwrap(), "foo");
+    /// assert_eq!(errors[1].value.as_ref().unwrap(), "bar");
     /// ```
-    </span><span class="kw">pub fn </span>set_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) {
+    </span><span class="kw">pub fn </span>set_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) {
         <span class="self">self</span>.iter_mut().for_each(|e| e.set_value(value));
     }
 
@@ -1418,64 +1418,64 @@
     }
 }
 
-<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">type </span>Owned = Errors&lt;<span class="lifetime">&#39;static</span>&gt;;
+<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>Errors&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">type </span>Owned = Errors&lt;<span class="lifetime">'static</span>&gt;;
 
     <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
         Errors(<span class="self">self</span>.<span class="number">0</span>.into_owned())
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{} error(s):&quot;</span>, <span class="self">self</span>.len())<span class="question-mark">?</span>;
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Errors&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{} error(s):"</span>, <span class="self">self</span>.len())<span class="question-mark">?</span>;
         <span class="kw">for </span>error <span class="kw">in </span><span class="self">self</span>.iter() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;\n{}&quot;</span>, error)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"\n{}"</span>, error)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; std::ops::Deref <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
-    <span class="kw">type </span>Target = Vec&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; std::ops::Deref <span class="kw">for </span>Errors&lt;<span class="lifetime">'v</span>&gt; {
+    <span class="kw">type </span>Target = Vec&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt;;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; std::ops::DerefMut <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; std::ops::DerefMut <span class="kw">for </span>Errors&lt;<span class="lifetime">'v</span>&gt; {
     <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0
     </span>}
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: Into&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt; From&lt;T&gt; <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: Into&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt;&gt; From&lt;T&gt; <span class="kw">for </span>Errors&lt;<span class="lifetime">'v</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>from(e: T) -&gt; <span class="self">Self </span>{
         Errors(<span class="macro">vec!</span>[e.into()])
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; From&lt;Vec&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt; <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; From&lt;Vec&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt;&gt; <span class="kw">for </span>Errors&lt;<span class="lifetime">'v</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(v: Vec&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(v: Vec&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt;) -&gt; <span class="self">Self </span>{
         Errors(v)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; IntoIterator <span class="kw">for </span>Errors&lt;<span class="lifetime">&#39;v</span>&gt; {
-    <span class="kw">type </span>Item = Error&lt;<span class="lifetime">&#39;v</span>&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; IntoIterator <span class="kw">for </span>Errors&lt;<span class="lifetime">'v</span>&gt; {
+    <span class="kw">type </span>Item = Error&lt;<span class="lifetime">'v</span>&gt;;
 
-    <span class="kw">type </span>IntoIter = &lt;Vec&lt;Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt; <span class="kw">as </span>IntoIterator&gt;::IntoIter;
+    <span class="kw">type </span>IntoIter = &lt;Vec&lt;Error&lt;<span class="lifetime">'v</span>&gt;&gt; <span class="kw">as </span>IntoIterator&gt;::IntoIter;
 
     <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
         <span class="self">self</span>.<span class="number">0</span>.into_iter()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; Error&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// Creates a new `Error` with `ErrorKind::Custom`.
     ///
     /// For validation errors, use [`Error::validation()`].
@@ -1485,12 +1485,12 @@
     /// ```rust
     /// use rocket::form::Error;
     ///
-    /// fn from_fmt(error: std::fmt::Error) -&gt; Error&lt;&#39;static&gt; {
+    /// fn from_fmt(error: std::fmt::Error) -&gt; Error&lt;'static&gt; {
     ///     Error::custom(error)
     /// }
     /// ```
     </span><span class="kw">pub fn </span>custom&lt;E&gt;(error: E) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>E: std::error::Error + Send + <span class="lifetime">&#39;static
+        </span><span class="kw">where </span>E: std::error::Error + Send + <span class="lifetime">'static
     </span>{
         (Box::new(error) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;).into()
     }
@@ -1502,11 +1502,11 @@
     /// ```rust
     /// use rocket::form::error::{Error, ErrorKind, Entity};
     ///
-    /// let error = Error::validation(&quot;invalid foo: need bar&quot;);
+    /// let error = Error::validation("invalid foo: need bar");
     /// assert!(matches!(error.kind, ErrorKind::Validation(_)));
     /// assert_eq!(error.entity, Entity::Value);
     /// ```
-    </span><span class="kw">pub fn </span>validation&lt;S: Into&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt;&gt;(msg: S) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>validation&lt;S: Into&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt;&gt;(msg: S) -&gt; <span class="self">Self </span>{
         ErrorKind::Validation(msg.into()).into()
     }
 
@@ -1529,7 +1529,7 @@
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Sets the error&#39;s entity to `entity.`
+    <span class="doccomment">/// Sets the error's entity to `entity.`
     ///
     /// # Example
     ///
@@ -1557,13 +1557,13 @@
     /// let error = Error::from(ErrorKind::Missing);
     /// assert!(error.name.is_none());
     ///
-    /// let error = error.with_name(&quot;foo&quot;);
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;foo&quot;);
+    /// let error = error.with_name("foo");
+    /// assert_eq!(error.name.as_ref().unwrap(), "foo");
     ///
-    /// let error = error.with_name(&quot;bar&quot;);
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;foo&quot;);
+    /// let error = error.with_name("bar");
+    /// assert_eq!(error.name.as_ref().unwrap(), "foo");
     /// ```
-    </span><span class="kw">pub fn </span>with_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, name: N) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>, name: N) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.set_name(name);
         <span class="self">self
     </span>}
@@ -1578,13 +1578,13 @@
     /// let mut error = Error::from(ErrorKind::Missing);
     /// assert!(error.name.is_none());
     ///
-    /// error.set_name(&quot;foo&quot;);
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;foo&quot;);
+    /// error.set_name("foo");
+    /// assert_eq!(error.name.as_ref().unwrap(), "foo");
     ///
-    /// let error = error.with_name(&quot;bar&quot;);
-    /// assert_eq!(error.name.as_ref().unwrap(), &quot;foo&quot;);
+    /// let error = error.with_name("bar");
+    /// assert_eq!(error.name.as_ref().unwrap(), "foo");
     /// ```
-    </span><span class="kw">pub fn </span>set_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N) {
+    </span><span class="kw">pub fn </span>set_name&lt;N: Into&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N) {
         <span class="kw">if </span><span class="self">self</span>.name.is_none() {
             <span class="self">self</span>.name = <span class="prelude-val">Some</span>(name.into());
         }
@@ -1601,13 +1601,13 @@
     /// let error = Error::from(ErrorKind::Missing);
     /// assert!(error.value.is_none());
     ///
-    /// let error = error.with_value(&quot;foo&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;foo&quot;);
+    /// let error = error.with_value("foo");
+    /// assert_eq!(error.value.as_ref().unwrap(), "foo");
     ///
-    /// let error = error.with_value(&quot;bar&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;foo&quot;);
+    /// let error = error.with_value("bar");
+    /// assert_eq!(error.value.as_ref().unwrap(), "foo");
     /// ```
-    </span><span class="kw">pub fn </span>with_value(<span class="kw-2">mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_value(<span class="kw-2">mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.set_value(value);
         <span class="self">self
     </span>}
@@ -1622,13 +1622,13 @@
     /// let mut error = Error::from(ErrorKind::Missing);
     /// assert!(error.value.is_none());
     ///
-    /// error.set_value(&quot;foo&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;foo&quot;);
+    /// error.set_value("foo");
+    /// assert_eq!(error.value.as_ref().unwrap(), "foo");
     ///
-    /// error.set_value(&quot;bar&quot;);
-    /// assert_eq!(error.value.as_ref().unwrap(), &quot;foo&quot;);
+    /// error.set_value("bar");
+    /// assert_eq!(error.value.as_ref().unwrap(), "foo");
     /// ```
-    </span><span class="kw">pub fn </span>set_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str) {
+    </span><span class="kw">pub fn </span>set_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str) {
         <span class="kw">if </span><span class="self">self</span>.value.is_none() {
             <span class="self">self</span>.value = <span class="prelude-val">Some</span>(value.into());
         }
@@ -1638,7 +1638,7 @@
     /// _different_ than simply comparing `name`.**
     ///
     /// Unlike [`Error::is_for_exactly()`], this method returns `true` if the
-    /// error&#39;s field name is a **prefix of `name`**. This is typically what is
+    /// error's field name is a **prefix of `name`**. This is typically what is
     /// desired as errors apply to a field and its children: `a.b` applies to
     /// the nested fields `a.b.c`, `a.b.d` and so on.
     ///
@@ -1650,21 +1650,21 @@
     /// use rocket::form::Error;
     ///
     /// // returns `false` without a field name
-    /// let error = Error::validation(&quot;bad `foo`&quot;);
-    /// assert!(!error.is_for_exactly(&quot;a.b&quot;));
+    /// let error = Error::validation("bad `foo`");
+    /// assert!(!error.is_for_exactly("a.b"));
     ///
     /// // `a.b` is a prefix all of these field names
-    /// let error = error.with_name(&quot;a.b&quot;);
-    /// assert!(error.is_for(&quot;a.b&quot;));
-    /// assert!(error.is_for(&quot;a[b]&quot;));
-    /// assert!(error.is_for(&quot;a.b.c&quot;));
-    /// assert!(error.is_for(&quot;a.b[c]&quot;));
-    /// assert!(error.is_for(&quot;a.b.c[d]&quot;));
-    /// assert!(error.is_for(&quot;a.b.c.d.foo&quot;));
+    /// let error = error.with_name("a.b");
+    /// assert!(error.is_for("a.b"));
+    /// assert!(error.is_for("a[b]"));
+    /// assert!(error.is_for("a.b.c"));
+    /// assert!(error.is_for("a.b[c]"));
+    /// assert!(error.is_for("a.b.c[d]"));
+    /// assert!(error.is_for("a.b.c.d.foo"));
     ///
     /// // ...but not of these.
-    /// assert!(!error.is_for(&quot;a.c&quot;));
-    /// assert!(!error.is_for(&quot;a&quot;));
+    /// assert!(!error.is_for("a.c"));
+    /// assert!(!error.is_for("a"));
     /// ```
     </span><span class="kw">pub fn </span>is_for&lt;N: AsRef&lt;Name&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; bool {
         <span class="self">self</span>.name.as_ref().map(|e_name| {
@@ -1692,7 +1692,7 @@
     /// Returns `false` if `self` has no field name.
     ///
     /// Unlike [`Error::is_for()`], this method returns `true` only when the
-    /// error&#39;s field name is exactly `name`. This is _not_ typically what is
+    /// error's field name is exactly `name`. This is _not_ typically what is
     /// desired.
     ///
     /// # Example
@@ -1701,22 +1701,22 @@
     /// use rocket::form::Error;
     ///
     /// // returns `false` without a field name
-    /// let error = Error::validation(&quot;bad `foo`&quot;);
-    /// assert!(!error.is_for_exactly(&quot;a.b&quot;));
+    /// let error = Error::validation("bad `foo`");
+    /// assert!(!error.is_for_exactly("a.b"));
     ///
-    /// let error = error.with_name(&quot;a.b&quot;);
-    /// assert!(error.is_for_exactly(&quot;a.b&quot;));
-    /// assert!(error.is_for_exactly(&quot;a[b]&quot;));
+    /// let error = error.with_name("a.b");
+    /// assert!(error.is_for_exactly("a.b"));
+    /// assert!(error.is_for_exactly("a[b]"));
     ///
     /// // does not return `true` when the name is a prefix
-    /// assert!(!error.is_for_exactly(&quot;a.b.c&quot;));
-    /// assert!(!error.is_for_exactly(&quot;a.b[c]&quot;));
-    /// assert!(!error.is_for_exactly(&quot;a.b.c[d]&quot;));
-    /// assert!(!error.is_for_exactly(&quot;a.b.c.d.foo&quot;));
+    /// assert!(!error.is_for_exactly("a.b.c"));
+    /// assert!(!error.is_for_exactly("a.b[c]"));
+    /// assert!(!error.is_for_exactly("a.b.c[d]"));
+    /// assert!(!error.is_for_exactly("a.b.c.d.foo"));
     ///
     /// // does not return `true` when the name is different
-    /// assert!(!error.is_for(&quot;a.c&quot;));
-    /// assert!(!error.is_for(&quot;a&quot;));
+    /// assert!(!error.is_for("a.c"));
+    /// assert!(!error.is_for("a"));
     /// ```
     </span><span class="kw">pub fn </span>is_for_exactly&lt;N: AsRef&lt;Name&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; bool {
         <span class="self">self</span>.name.as_ref()
@@ -1726,7 +1726,7 @@
 
     <span class="doccomment">/// Returns the most reasonable [`Status`] associated with this error.
     ///
-    /// For an [`ErrorKind::Custom`], this is the variant&#39;s `Status`, which
+    /// For an [`ErrorKind::Custom`], this is the variant's `Status`, which
     /// defaults to [`Status::UnprocessableEntity`]. For all others, it is:
     ///
     ///  * **`PayloadTooLarge`** if the [error kind](ErrorKind) is:
@@ -1744,7 +1744,7 @@
     ///  use rocket::form::error::{Error, ErrorKind, Entity};
     ///  use rocket::http::Status;
     ///
-    ///  let error = Error::validation(&quot;bad `foo`&quot;);
+    ///  let error = Error::validation("bad `foo`");
     ///  assert_eq!(error.status(), Status::UnprocessableEntity);
     ///
     ///  let error = Error::from((None, Some(10u64)));
@@ -1776,19 +1776,19 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; Serialize <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; Serialize <span class="kw">for </span>Error&lt;<span class="lifetime">'v</span>&gt; {
     <span class="kw">fn </span>serialize&lt;S: Serializer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, ser: S) -&gt; <span class="prelude-ty">Result</span>&lt;S::Ok, S::Error&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>err = ser.serialize_struct(<span class="string">&quot;Error&quot;</span>, <span class="number">3</span>)<span class="question-mark">?</span>;
-        err.serialize_field(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)<span class="question-mark">?</span>;
-        err.serialize_field(<span class="string">&quot;value&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.value)<span class="question-mark">?</span>;
-        err.serialize_field(<span class="string">&quot;entity&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.entity.to_string())<span class="question-mark">?</span>;
-        err.serialize_field(<span class="string">&quot;msg&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.to_string())<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>err = ser.serialize_struct(<span class="string">"Error"</span>, <span class="number">3</span>)<span class="question-mark">?</span>;
+        err.serialize_field(<span class="string">"name"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.name)<span class="question-mark">?</span>;
+        err.serialize_field(<span class="string">"value"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.value)<span class="question-mark">?</span>;
+        err.serialize_field(<span class="string">"entity"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.entity.to_string())<span class="question-mark">?</span>;
+        err.serialize_field(<span class="string">"msg"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.to_string())<span class="question-mark">?</span>;
         err.end()
     }
 }
 
-<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">type </span>Owned = Error&lt;<span class="lifetime">&#39;static</span>&gt;;
+<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>Error&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">type </span>Owned = Error&lt;<span class="lifetime">'static</span>&gt;;
 
     <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
         Error {
@@ -1800,21 +1800,21 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; std::ops::Deref <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;v</span>&gt; {
-    <span class="kw">type </span>Target = ErrorKind&lt;<span class="lifetime">&#39;v</span>&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; std::ops::Deref <span class="kw">for </span>Error&lt;<span class="lifetime">'v</span>&gt; {
+    <span class="kw">type </span>Target = ErrorKind&lt;<span class="lifetime">'v</span>&gt;;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.kind
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Error&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.kind.fmt(f)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: Into&lt;ErrorKind&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt; From&lt;T&gt; <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: Into&lt;ErrorKind&lt;<span class="lifetime">'v</span>&gt;&gt;&gt; From&lt;T&gt; <span class="kw">for </span>Error&lt;<span class="lifetime">'v</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>from(k: T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>kind = k.into();
@@ -1823,7 +1823,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;multer::Error&gt; <span class="kw">for </span>Error&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;multer::Error&gt; <span class="kw">for </span>Error&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>from(error: multer::Error) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span>multer::Error::<span class="kw-2">*</span>;
         <span class="kw">use </span><span class="self">self</span>::ErrorKind::<span class="kw-2">*</span>;
@@ -1850,68 +1850,68 @@
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             ErrorKind::InvalidLength { min, max } =&gt; {
                 <span class="kw">match </span>(min, max) {
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid length: incomplete&quot;</span>)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) <span class="kw">if </span><span class="kw-2">*</span>k &lt; <span class="number">1024 </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;length cannot exceed {}&quot;</span>, k)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;size must not exceed {}&quot;</span>, ByteUnit::from(<span class="kw-2">*</span>k))<span class="question-mark">?</span>,
-                    (<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;cannot be empty&quot;</span>)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) <span class="kw">if </span><span class="kw-2">*</span>k &lt; <span class="number">1024 </span>=&gt; <span class="macro">write!</span>(f, <span class="string">&quot;expected at least {}&quot;</span>, k)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;size must be at least {}&quot;</span>, ByteUnit::from(<span class="kw-2">*</span>k))<span class="question-mark">?</span>,
+                    (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid length: incomplete"</span>)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) <span class="kw">if </span><span class="kw-2">*</span>k &lt; <span class="number">1024 </span>=&gt; <span class="macro">write!</span>(f, <span class="string">"length cannot exceed {}"</span>, k)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) =&gt; <span class="macro">write!</span>(f, <span class="string">"size must not exceed {}"</span>, ByteUnit::from(<span class="kw-2">*</span>k))<span class="question-mark">?</span>,
+                    (<span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"cannot be empty"</span>)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) <span class="kw">if </span><span class="kw-2">*</span>k &lt; <span class="number">1024 </span>=&gt; <span class="macro">write!</span>(f, <span class="string">"expected at least {}"</span>, k)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"size must be at least {}"</span>, ByteUnit::from(<span class="kw-2">*</span>k))<span class="question-mark">?</span>,
                     (<span class="prelude-val">Some</span>(i), <span class="prelude-val">Some</span>(j)) <span class="kw">if </span><span class="kw-2">*</span>i &lt; <span class="number">1024 </span>&amp;&amp; <span class="kw-2">*</span>j &lt; <span class="number">1024 </span>=&gt; {
-                        <span class="macro">write!</span>(f, <span class="string">&quot;length must be between {} and {}&quot;</span>, i, j)<span class="question-mark">?</span>;
+                        <span class="macro">write!</span>(f, <span class="string">"length must be between {} and {}"</span>, i, j)<span class="question-mark">?</span>;
                     }
                     (<span class="prelude-val">Some</span>(i), <span class="prelude-val">Some</span>(j)) =&gt; {
                         <span class="kw">let </span>(i, j) = (ByteUnit::from(<span class="kw-2">*</span>i), ByteUnit::from(<span class="kw-2">*</span>j));
-                        <span class="macro">write!</span>(f, <span class="string">&quot;size must be between {} and {}&quot;</span>, i, j)<span class="question-mark">?</span>;
+                        <span class="macro">write!</span>(f, <span class="string">"size must be between {} and {}"</span>, i, j)<span class="question-mark">?</span>;
                     }
                 }
             }
             ErrorKind::InvalidChoice { choices } =&gt; {
                 <span class="kw">match </span><span class="kw-2">*</span>choices.as_ref() {
-                    [] =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid choice&quot;</span>)<span class="question-mark">?</span>,
-                    [<span class="kw-2">ref </span>choice] =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;expected {}&quot;</span>, choice)<span class="question-mark">?</span>,
+                    [] =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid choice"</span>)<span class="question-mark">?</span>,
+                    [<span class="kw-2">ref </span>choice] =&gt; <span class="macro">write!</span>(f, <span class="string">"expected {}"</span>, choice)<span class="question-mark">?</span>,
                     <span class="kw">_ </span>=&gt; {
-                        <span class="macro">write!</span>(f, <span class="string">&quot;expected one of &quot;</span>)<span class="question-mark">?</span>;
+                        <span class="macro">write!</span>(f, <span class="string">"expected one of "</span>)<span class="question-mark">?</span>;
                         <span class="kw">for </span>(i, choice) <span class="kw">in </span>choices.iter().enumerate() {
-                            <span class="kw">if </span>i != <span class="number">0 </span>{ <span class="macro">write!</span>(f, <span class="string">&quot;, &quot;</span>)<span class="question-mark">?</span>; }
-                            <span class="macro">write!</span>(f, <span class="string">&quot;`{}`&quot;</span>, choice)<span class="question-mark">?</span>;
+                            <span class="kw">if </span>i != <span class="number">0 </span>{ <span class="macro">write!</span>(f, <span class="string">", "</span>)<span class="question-mark">?</span>; }
+                            <span class="macro">write!</span>(f, <span class="string">"`{}`"</span>, choice)<span class="question-mark">?</span>;
                         }
                     }
                 }
             }
             ErrorKind::OutOfRange { start, end } =&gt; {
                 <span class="kw">match </span>(start, end) {
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;value is out of range&quot;</span>)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;value cannot exceed {}&quot;</span>, k)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;value must be at least {}&quot;</span>, k)<span class="question-mark">?</span>,
-                    (<span class="prelude-val">Some</span>(i), <span class="prelude-val">Some</span>(j)) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;value must be between {} and {}&quot;</span>, i, j)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"value is out of range"</span>)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(k)) =&gt; <span class="macro">write!</span>(f, <span class="string">"value cannot exceed {}"</span>, k)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">Some</span>(k), <span class="prelude-val">None</span>) =&gt; <span class="macro">write!</span>(f, <span class="string">"value must be at least {}"</span>, k)<span class="question-mark">?</span>,
+                    (<span class="prelude-val">Some</span>(i), <span class="prelude-val">Some</span>(j)) =&gt; <span class="macro">write!</span>(f, <span class="string">"value must be between {} and {}"</span>, i, j)<span class="question-mark">?</span>,
                 }
             }
             ErrorKind::Validation(msg) =&gt; msg.fmt(f)<span class="question-mark">?</span>,
-            ErrorKind::Duplicate =&gt; <span class="string">&quot;duplicate&quot;</span>.fmt(f)<span class="question-mark">?</span>,
-            ErrorKind::Missing =&gt; <span class="string">&quot;missing&quot;</span>.fmt(f)<span class="question-mark">?</span>,
-            ErrorKind::Unexpected =&gt; <span class="string">&quot;unexpected&quot;</span>.fmt(f)<span class="question-mark">?</span>,
-            ErrorKind::Unknown =&gt; <span class="string">&quot;unknown internal error&quot;</span>.fmt(f)<span class="question-mark">?</span>,
+            ErrorKind::Duplicate =&gt; <span class="string">"duplicate"</span>.fmt(f)<span class="question-mark">?</span>,
+            ErrorKind::Missing =&gt; <span class="string">"missing"</span>.fmt(f)<span class="question-mark">?</span>,
+            ErrorKind::Unexpected =&gt; <span class="string">"unexpected"</span>.fmt(f)<span class="question-mark">?</span>,
+            ErrorKind::Unknown =&gt; <span class="string">"unknown internal error"</span>.fmt(f)<span class="question-mark">?</span>,
             ErrorKind::Custom(<span class="kw">_</span>, e) =&gt; e.fmt(f)<span class="question-mark">?</span>,
-            ErrorKind::Multipart(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid multipart: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Utf8(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid UTF-8: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Int(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid integer: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Bool(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid boolean: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Float(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid float: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Addr(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid address: {}&quot;</span>, e)<span class="question-mark">?</span>,
-            ErrorKind::Io(e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;i/o error: {}&quot;</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Multipart(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid multipart: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Utf8(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid UTF-8: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Int(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid integer: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Bool(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid boolean: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Float(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid float: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Addr(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid address: {}"</span>, e)<span class="question-mark">?</span>,
+            ErrorKind::Io(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"i/o error: {}"</span>, e)<span class="question-mark">?</span>,
         }
 
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">type </span>Owned = ErrorKind&lt;<span class="lifetime">&#39;static</span>&gt;;
+<span class="kw">impl </span><span class="kw">crate</span>::http::ext::IntoOwned <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">type </span>Owned = ErrorKind&lt;<span class="lifetime">'static</span>&gt;;
 
     <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; <span class="self">Self</span>::Owned {
         <span class="kw">use </span>ErrorKind::<span class="kw-2">*</span>;
@@ -1942,8 +1942,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; PartialEq&lt;ErrorKind&lt;<span class="lifetime">&#39;b</span>&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ErrorKind&lt;<span class="lifetime">&#39;b</span>&gt;) -&gt; bool {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; PartialEq&lt;ErrorKind&lt;<span class="lifetime">'b</span>&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>ErrorKind&lt;<span class="lifetime">'b</span>&gt;) -&gt; bool {
         <span class="kw">use </span>ErrorKind::<span class="kw-2">*</span>;
         <span class="kw">match </span>(<span class="self">self</span>, other) {
             (InvalidLength { min: a, max: b }, InvalidLength { min, max }) =&gt; min == a &amp;&amp; max == b,
@@ -1966,56 +1966,56 @@
     }
 }
 
-<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;u64&gt;, <span class="prelude-ty">Option</span>&lt;u64&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;u64&gt;, <span class="prelude-ty">Option</span>&lt;u64&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>from((min, max): (<span class="prelude-ty">Option</span>&lt;u64&gt;, <span class="prelude-ty">Option</span>&lt;u64&gt;)) -&gt; <span class="self">Self </span>{
         ErrorKind::InvalidLength { min, max }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;v</span>: <span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;]&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>from(choices: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;]) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'v</span>: <span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Cow&lt;<span class="lifetime">'v</span>, str&gt;]&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>from(choices: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Cow&lt;<span class="lifetime">'v</span>, str&gt;]) -&gt; <span class="self">Self </span>{
         ErrorKind::InvalidChoice { choices: choices.into() }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;v</span>: <span class="lifetime">&#39;a</span>&gt; From&lt;Vec&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>from(choices: Vec&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'v</span>: <span class="lifetime">'a</span>&gt; From&lt;Vec&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>from(choices: Vec&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt;) -&gt; <span class="self">Self </span>{
         ErrorKind::InvalidChoice { choices: choices.into() }
     }
 }
 
-<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;isize&gt;, <span class="prelude-ty">Option</span>&lt;isize&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;isize&gt;, <span class="prelude-ty">Option</span>&lt;isize&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>from((start, end): (<span class="prelude-ty">Option</span>&lt;isize&gt;, <span class="prelude-ty">Option</span>&lt;isize&gt;)) -&gt; <span class="self">Self </span>{
         ErrorKind::OutOfRange { start, end }
     }
 }
 
-<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;ByteUnit&gt;, <span class="prelude-ty">Option</span>&lt;ByteUnit&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>From&lt;(<span class="prelude-ty">Option</span>&lt;ByteUnit&gt;, <span class="prelude-ty">Option</span>&lt;ByteUnit&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>from((start, end): (<span class="prelude-ty">Option</span>&lt;ByteUnit&gt;, <span class="prelude-ty">Option</span>&lt;ByteUnit&gt;)) -&gt; <span class="self">Self </span>{
         ErrorKind::from((start.map(ByteUnit::as_u64), end.map(ByteUnit::as_u64)))
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;v</span>: <span class="lifetime">&#39;a</span>, <span class="kw">const </span>N: usize&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;; N]&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>from(choices: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;; N]) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'v</span>: <span class="lifetime">'a</span>, <span class="kw">const </span>N: usize&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Cow&lt;<span class="lifetime">'v</span>, str&gt;; N]&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>from(choices: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[Cow&lt;<span class="lifetime">'v</span>, str&gt;; N]) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>choices = <span class="kw-2">&amp;</span>choices[..];
         ErrorKind::InvalidChoice { choices: choices.into() }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>from(e: Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;) -&gt; <span class="self">Self </span>{
         ErrorKind::Custom(Status::UnprocessableEntity, e)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;(Status, Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;(Status, Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)&gt; <span class="kw">for </span>ErrorKind&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">fn </span>from((status, e): (Status, Box&lt;<span class="kw">dyn </span>std::error::Error + Send&gt;)) -&gt; <span class="self">Self </span>{
         ErrorKind::Custom(status, e)
     }
 }
 
-<span class="macro">macro_rules! </span>impl_from_for {
+<span class="macro">macro_rules!</span> impl_from_for {
     (&lt;<span class="macro-nonterminal">$l</span>:lifetime&gt; <span class="macro-nonterminal">$T</span>:ty =&gt; <span class="macro-nonterminal">$V</span>:ty <span class="kw">as </span><span class="macro-nonterminal">$variant</span>:ident) =&gt; (
         <span class="kw">impl</span>&lt;<span class="macro-nonterminal">$l</span>&gt; From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$V </span>{
             <span class="kw">fn </span>from(value: <span class="macro-nonterminal">$T</span>) -&gt; <span class="self">Self </span>{
@@ -2025,24 +2025,24 @@
     )
 }
 
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; Utf8Error =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Utf8);
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; ParseIntError =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Int);
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; ParseFloatError =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Float);
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; ParseBoolError =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Bool);
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; AddrParseError =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Addr);
-<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">&#39;a</span>&gt; io::Error =&gt; ErrorKind&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">as </span>Io);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; Utf8Error =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Utf8);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; ParseIntError =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Int);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; ParseFloatError =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Float);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; ParseBoolError =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Bool);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; AddrParseError =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Addr);
+<span class="macro">impl_from_for!</span>(&lt;<span class="lifetime">'a</span>&gt; io::Error =&gt; ErrorKind&lt;<span class="lifetime">'a</span>&gt; <span class="kw">as </span>Io);
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Entity {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">let </span>string = <span class="kw">match </span><span class="self">self </span>{
-            Entity::Form =&gt; <span class="string">&quot;form&quot;</span>,
-            Entity::Field =&gt; <span class="string">&quot;field&quot;</span>,
-            Entity::ValueField =&gt; <span class="string">&quot;value field&quot;</span>,
-            Entity::DataField =&gt; <span class="string">&quot;data field&quot;</span>,
-            Entity::Name =&gt; <span class="string">&quot;name&quot;</span>,
-            Entity::Value =&gt; <span class="string">&quot;value&quot;</span>,
-            Entity::Key =&gt; <span class="string">&quot;key&quot;</span>,
-            Entity::Index(k) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">&quot;index {}&quot;</span>, k),
+            Entity::Form =&gt; <span class="string">"form"</span>,
+            Entity::Field =&gt; <span class="string">"field"</span>,
+            Entity::ValueField =&gt; <span class="string">"value field"</span>,
+            Entity::DataField =&gt; <span class="string">"data field"</span>,
+            Entity::Name =&gt; <span class="string">"name"</span>,
+            Entity::Value =&gt; <span class="string">"value"</span>,
+            Entity::Key =&gt; <span class="string">"key"</span>,
+            Entity::Index(k) =&gt; <span class="kw">return </span><span class="macro">write!</span>(f, <span class="string">"index {}"</span>, k),
         };
 
         string.fmt(f)
@@ -2059,7 +2059,7 @@
     /// [`Field`]: Entity::Field
     /// [`Form`]: Entity::Form
     /// [`Value`]: Entity::Value
-    </span><span class="kw">pub const fn </span>default_for(kind: <span class="kw-2">&amp;</span>ErrorKind&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub const fn </span>default_for(kind: <span class="kw-2">&amp;</span>ErrorKind&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span>kind {
             | ErrorKind::InvalidLength { .. }
             | ErrorKind::InvalidChoice { .. }

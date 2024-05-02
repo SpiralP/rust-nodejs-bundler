@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cookie-0.18.0/src/prefix.rs`."><title>prefix.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cookie-0.18.1/src/prefix.rs`."><title>prefix.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cookie" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../cookie/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -374,11 +374,11 @@
 ///
 /// Obtained via [`CookieJar::prefixed()`] and [`CookieJar::prefixed_mut()`].
 ///
-/// This jar implements the [HTTP RFC6265 draft] &quot;cookie prefixes&quot; extension by
+/// This jar implements the [HTTP RFC6265 draft] "cookie prefixes" extension by
 /// automatically adding and removing a specified [`Prefix`] from cookies that
 /// are added and retrieved from this jar, respectively. Additionally, upon
 /// being added to this jar, cookies are automatically made to
-/// [conform](Prefix::conform()) to the corresponding prefix&#39;s specifications.
+/// [conform](Prefix::conform()) to the corresponding prefix's specifications.
 ///
 /// **Note:** Cookie prefixes are specified in an HTTP draft! Their meaning and
 /// definition are subject to change.
@@ -390,19 +390,19 @@
     _prefix: PhantomData&lt;<span class="kw">fn</span>() -&gt; P&gt;,
 }
 
-<span class="doccomment">/// The [`&quot;__Host-&quot;`] cookie [`Prefix`].
+<span class="doccomment">/// The [`"__Host-"`] cookie [`Prefix`].
 ///
 /// See [`Prefix`] and [`PrefixedJar`] for usage details.
 ///
-/// [`&quot;__Host-&quot;`]:
+/// [`"__Host-"`]:
 /// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis#name-the-__host-prefix
 </span><span class="kw">pub struct </span>Host;
 
-<span class="doccomment">/// The [`&quot;__Secure-&quot;`] cookie [`Prefix`].
+<span class="doccomment">/// The [`"__Secure-"`] cookie [`Prefix`].
 ///
 /// See [`Prefix`] and [`PrefixedJar`] for usage details.
 ///
-/// [`&quot;__Secure-&quot;`]:
+/// [`"__Secure-"`]:
 /// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis#name-the-__secure-prefix
 </span><span class="kw">pub struct </span>Secure;
 
@@ -424,7 +424,7 @@
     <span class="doccomment">/// The prefix string to prepend.
     ///
     /// See [`Host::PREFIX`] and [`Secure::PREFIX`] for specifics.
-    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
+    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str;
 
     <span class="doccomment">/// Alias to [`Host`].
     </span><span class="attr">#[allow(non_upper_case_globals)]
@@ -441,18 +441,18 @@
     // This is the only required method. Everything else is shared across
     // implementations via the default implementations below and should not be
     // implemented.
-    </span><span class="kw">fn </span>conform(cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt;;
+    </span><span class="kw">fn </span>conform(cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt;;
 
     <span class="doccomment">/// Returns a string with `name` prefixed with `self`.
     </span><span class="attr">#[doc(hidden)]
     #[inline(always)]
     </span><span class="kw">fn </span>prefixed_name(name: <span class="kw-2">&amp;</span>str) -&gt; String {
-        <span class="macro">format!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="self">Self</span>::PREFIX, name)
+        <span class="macro">format!</span>(<span class="string">"{}{}"</span>, <span class="self">Self</span>::PREFIX, name)
     }
 
-    <span class="doccomment">/// Prefix `cookie`&#39;s name with `Self`.
+    <span class="doccomment">/// Prefix `cookie`'s name with `Self`.
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>prefix(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>prefix(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::CookieStr;
 
         cookie.name = CookieStr::Concrete(<span class="kw">match </span>cookie.name {
@@ -466,13 +466,13 @@
         cookie
     }
 
-    <span class="doccomment">/// Remove the prefix `Self` from `cookie`&#39;s name and return it.
+    <span class="doccomment">/// Remove the prefix `Self` from `cookie`'s name and return it.
     ///
-    /// If the prefix isn&#39;t in `cookie`, the cookie is returned unmodified. This
-    /// method is expected to be called only when `cookie`&#39;s name is known to
+    /// If the prefix isn't in `cookie`, the cookie is returned unmodified. This
+    /// method is expected to be called only when `cookie`'s name is known to
     /// contain the prefix.
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>clip(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>clip(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt; {
         <span class="kw">use </span>std::borrow::Cow::<span class="kw-2">*</span>;
         <span class="kw">use </span><span class="kw">crate</span>::CookieStr::<span class="kw-2">*</span>;
 
@@ -494,7 +494,7 @@
     /// conform to the required specification by modifying it.
     </span><span class="attr">#[inline]
     #[doc(hidden)]
-    </span><span class="kw">fn </span>apply(cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>apply(cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt; {
         <span class="self">Self</span>::conform(<span class="self">Self</span>::prefix(cookie))
     }
 }
@@ -508,7 +508,7 @@
 
 <span class="kw">impl</span>&lt;P: Prefix, J: Borrow&lt;CookieJar&gt;&gt; PrefixedJar&lt;P, J&gt; {
     <span class="doccomment">/// Fetches the `Cookie` inside this jar with the prefix `P` and removes the
-    /// prefix before returning it. If the cookie isn&#39;t found, returns `None`.
+    /// prefix before returning it. If the cookie isn't found, returns `None`.
     ///
     /// See [`CookieJar::prefixed()`] for more examples.
     ///
@@ -520,11 +520,11 @@
     ///
     /// // Add a `Host` prefixed cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.prefixed_mut(Host).add((&quot;h0st&quot;, &quot;value&quot;));
-    /// assert_eq!(jar.prefixed(Host).get(&quot;h0st&quot;).unwrap().name(), &quot;h0st&quot;);
-    /// assert_eq!(jar.prefixed(Host).get(&quot;h0st&quot;).unwrap().value(), &quot;value&quot;);
+    /// jar.prefixed_mut(Host).add(("h0st", "value"));
+    /// assert_eq!(jar.prefixed(Host).get("h0st").unwrap().name(), "h0st");
+    /// assert_eq!(jar.prefixed(Host).get("h0st").unwrap().value(), "value");
     /// ```
-    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="self">self</span>.parent.borrow()
             .get(<span class="kw-2">&amp;</span>P::prefixed_name(name))
             .map(|c| P::clip(c.clone()))
@@ -532,8 +532,8 @@
 }
 
 <span class="kw">impl</span>&lt;P: Prefix, J: BorrowMut&lt;CookieJar&gt;&gt; PrefixedJar&lt;P, J&gt; {
-    <span class="doccomment">/// Adds `cookie` to the parent jar. The cookie&#39;s name is prefixed with `P`,
-    /// and the cookie&#39;s attributes are made to [`conform`](Prefix::conform()).
+    <span class="doccomment">/// Adds `cookie` to the parent jar. The cookie's name is prefixed with `P`,
+    /// and the cookie's attributes are made to [`conform`](Prefix::conform()).
     ///
     /// See [`CookieJar::prefixed_mut()`] for more examples.
     ///
@@ -545,16 +545,16 @@
     ///
     /// // Add a `Host` prefixed cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.prefixed_mut(Secure).add(Cookie::build((&quot;name&quot;, &quot;value&quot;)).secure(false));
-    /// assert_eq!(jar.prefixed(Secure).get(&quot;name&quot;).unwrap().value(), &quot;value&quot;);
-    /// assert_eq!(jar.prefixed(Secure).get(&quot;name&quot;).unwrap().secure(), Some(true));
+    /// jar.prefixed_mut(Secure).add(Cookie::build(("name", "value")).secure(false));
+    /// assert_eq!(jar.prefixed(Secure).get("name").unwrap().value(), "value");
+    /// assert_eq!(jar.prefixed(Secure).get("name").unwrap().secure(), Some(true));
     /// ```
-    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+    </span><span class="kw">pub fn </span>add&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
         <span class="self">self</span>.parent.borrow_mut().add(P::apply(cookie.into()));
     }
 
-    <span class="doccomment">/// Adds `cookie` to the parent jar. The cookie&#39;s name is prefixed with `P`,
-    /// and the cookie&#39;s attributes are made to [`conform`](Prefix::conform()).
+    <span class="doccomment">/// Adds `cookie` to the parent jar. The cookie's name is prefixed with `P`,
+    /// and the cookie's attributes are made to [`conform`](Prefix::conform()).
     ///
     /// Adding an original cookie does not affect the [`CookieJar::delta()`]
     /// computation. This method is intended to be used to seed the cookie jar
@@ -569,17 +569,17 @@
     ///
     /// // Add a `Host` prefixed cookie.
     /// let mut jar = CookieJar::new();
-    /// jar.prefixed_mut(Secure).add_original((&quot;name&quot;, &quot;value&quot;));
+    /// jar.prefixed_mut(Secure).add_original(("name", "value"));
     /// assert_eq!(jar.iter().count(), 1);
     /// assert_eq!(jar.delta().count(), 0);
     /// ```
-    </span><span class="kw">pub fn </span>add_original&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+    </span><span class="kw">pub fn </span>add_original&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
         <span class="self">self</span>.parent.borrow_mut().add_original(P::apply(cookie.into()));
     }
 
     <span class="doccomment">/// Removes `cookie` from the parent jar.
     ///
-    /// The cookie&#39;s name is prefixed with `P`, and the cookie&#39;s attributes are
+    /// The cookie's name is prefixed with `P`, and the cookie's attributes are
     /// made to [`conform`](Prefix::conform()) before attempting to remove the
     /// cookie. For correct removal, the passed in `cookie` must contain the
     /// same `path` and `domain` as the cookie that was initially set.
@@ -593,25 +593,25 @@
     /// let mut jar = CookieJar::new();
     /// let mut prefixed_jar = jar.prefixed_mut(Host);
     ///
-    /// prefixed_jar.add((&quot;name&quot;, &quot;value&quot;));
-    /// assert!(prefixed_jar.get(&quot;name&quot;).is_some());
+    /// prefixed_jar.add(("name", "value"));
+    /// assert!(prefixed_jar.get("name").is_some());
     ///
-    /// prefixed_jar.remove(&quot;name&quot;);
-    /// assert!(prefixed_jar.get(&quot;name&quot;).is_none());
+    /// prefixed_jar.remove("name");
+    /// assert!(prefixed_jar.get("name").is_none());
     /// ```
-    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
+    </span><span class="kw">pub fn </span>remove&lt;C: Into&lt;Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cookie: C) {
         <span class="self">self</span>.parent.borrow_mut().remove(P::apply(cookie.into()));
     }
 }
 
 <span class="kw">impl </span>Prefix <span class="kw">for </span>Host {
-    <span class="doccomment">/// The [`&quot;__Host-&quot;` prefix] string.
+    <span class="doccomment">/// The [`"__Host-"` prefix] string.
     ///
-    /// [`&quot;__Host-&quot;` prefix]:
+    /// [`"__Host-"` prefix]:
     /// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis#name-the-__host-prefix
-    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;__Host-&quot;</span>;
+    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"__Host-"</span>;
 
-    <span class="doccomment">/// Modify `cookie` so it conforms to the prefix&#39;s requirements.
+    <span class="doccomment">/// Modify `cookie` so it conforms to the prefix's requirements.
     ///
     /// **Note: this method is called automatically by [`PrefixedJar`]. It _does
     /// not need to_ and _should not_ be called manually under normal
@@ -620,7 +620,7 @@
     /// According to [RFC 6265bis-12 §4.1.3.2]:
     ///
     /// ```text
-    /// If a cookie&#39;s name begins with a case-sensitive match for the string
+    /// If a cookie's name begins with a case-sensitive match for the string
     /// __Host-, then the cookie will have been set with a Secure attribute,
     /// a Path attribute with a value of /, and no Domain attribute.
     /// ```
@@ -628,7 +628,7 @@
     /// As such, to make a cookie conforn, this method:
     ///
     ///   * Sets [`secure`](Cookie::set_secure()) to `true`.
-    ///   * Sets the [`path`](Cookie::set_path()) to `&quot;/&quot;`.
+    ///   * Sets the [`path`](Cookie::set_path()) to `"/"`.
     ///   * Removes the [`domain`](Cookie::unset_domain()), if any.
     ///
     /// [RFC 6265bis-12 §4.1.3.2]:
@@ -640,41 +640,41 @@
     /// use cookie::{CookieJar, Cookie, prefix::Host};
     ///
     /// // A cookie with some non-conformant properties.
-    /// let cookie = Cookie::build((&quot;name&quot;, &quot;some-value&quot;))
+    /// let cookie = Cookie::build(("name", "some-value"))
     ///     .secure(false)
-    ///     .path(&quot;/foo/bar&quot;)
-    ///     .domain(&quot;rocket.rs&quot;)
+    ///     .path("/foo/bar")
+    ///     .domain("rocket.rs")
     ///     .http_only(true);
     ///
     /// // Add the cookie to the jar.
     /// let mut jar = CookieJar::new();
     /// jar.prefixed_mut(Host).add(cookie);
     ///
-    /// // Fetch the cookie: notice it&#39;s been made to conform.
-    /// let cookie = jar.prefixed(Host).get(&quot;name&quot;).unwrap();
-    /// assert_eq!(cookie.name(), &quot;name&quot;);
-    /// assert_eq!(cookie.value(), &quot;some-value&quot;);
+    /// // Fetch the cookie: notice it's been made to conform.
+    /// let cookie = jar.prefixed(Host).get("name").unwrap();
+    /// assert_eq!(cookie.name(), "name");
+    /// assert_eq!(cookie.value(), "some-value");
     /// assert_eq!(cookie.secure(), Some(true));
-    /// assert_eq!(cookie.path(), Some(&quot;/&quot;));
+    /// assert_eq!(cookie.path(), Some("/"));
     /// assert_eq!(cookie.domain(), None);
     /// assert_eq!(cookie.http_only(), Some(true));
     /// ```
-    </span><span class="kw">fn </span>conform(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>conform(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt; {
         cookie.set_secure(<span class="bool-val">true</span>);
-        cookie.set_path(<span class="string">&quot;/&quot;</span>);
+        cookie.set_path(<span class="string">"/"</span>);
         cookie.unset_domain();
         cookie
     }
 }
 
 <span class="kw">impl </span>Prefix <span class="kw">for </span>Secure {
-    <span class="doccomment">/// The [`&quot;__Secure-&quot;` prefix] string.
+    <span class="doccomment">/// The [`"__Secure-"` prefix] string.
     ///
-    /// [`&quot;__Secure-&quot;` prefix]:
+    /// [`"__Secure-"` prefix]:
     /// https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis#name-the-__secure-prefix
-    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = <span class="string">&quot;__Secure-&quot;</span>;
+    </span><span class="kw">const </span>PREFIX: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">"__Secure-"</span>;
 
-    <span class="doccomment">/// Modify `cookie` so it conforms to the prefix&#39;s requirements.
+    <span class="doccomment">/// Modify `cookie` so it conforms to the prefix's requirements.
     ///
     /// **Note: this method is called automatically by [`PrefixedJar`]. It _does
     /// not need to_ and _should not_ be called manually under normal
@@ -683,7 +683,7 @@
     /// According to [RFC 6265bis-12 §4.1.3.1]:
     ///
     /// ```text
-    /// If a cookie&#39;s name begins with a case-sensitive match for the string
+    /// If a cookie's name begins with a case-sensitive match for the string
     /// __Secure-, then the cookie will have been set with a Secure
     /// attribute.
     /// ```
@@ -701,26 +701,26 @@
     /// use cookie::{CookieJar, Cookie, prefix::Secure};
     ///
     /// // A cookie with some non-conformant properties.
-    /// let cookie = Cookie::build((&quot;name&quot;, &quot;some-value&quot;))
+    /// let cookie = Cookie::build(("name", "some-value"))
     ///     .secure(false)
-    ///     .path(&quot;/guide&quot;)
-    ///     .domain(&quot;rocket.rs&quot;)
+    ///     .path("/guide")
+    ///     .domain("rocket.rs")
     ///     .http_only(true);
     ///
     /// // Add the cookie to the jar.
     /// let mut jar = CookieJar::new();
     /// jar.prefixed_mut(Secure).add(cookie);
     ///
-    /// // Fetch the cookie: notice it&#39;s been made to conform.
-    /// let cookie = jar.prefixed(Secure).get(&quot;name&quot;).unwrap();
-    /// assert_eq!(cookie.name(), &quot;name&quot;);
-    /// assert_eq!(cookie.value(), &quot;some-value&quot;);
+    /// // Fetch the cookie: notice it's been made to conform.
+    /// let cookie = jar.prefixed(Secure).get("name").unwrap();
+    /// assert_eq!(cookie.name(), "name");
+    /// assert_eq!(cookie.value(), "some-value");
     /// assert_eq!(cookie.secure(), Some(true));
-    /// assert_eq!(cookie.path(), Some(&quot;/guide&quot;));
-    /// assert_eq!(cookie.domain(), Some(&quot;rocket.rs&quot;));
+    /// assert_eq!(cookie.path(), Some("/guide"));
+    /// assert_eq!(cookie.domain(), Some("rocket.rs"));
     /// assert_eq!(cookie.http_only(), Some(true));
     /// ```
-    </span><span class="kw">fn </span>conform(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>conform(<span class="kw-2">mut </span>cookie: Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Cookie&lt;<span class="lifetime">'_</span>&gt; {
         cookie.set_secure(<span class="bool-val">true</span>);
         cookie
     }

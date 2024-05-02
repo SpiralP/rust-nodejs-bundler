@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/stream/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/stream/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -351,35 +351,35 @@
 //! `$T` is the input to the macro.
 //!
 //! As a concrete example, the route below produces an infinite series of
-//! `&quot;hello&quot;`s, one per second:
+//! `"hello"`s, one per second:
 //!
 //! ```rust
 //! # use rocket::get;
 //! use rocket::tokio::time::{self, Duration};
 //! use rocket::response::stream::TextStream;
 //!
-//! /// Produce an infinite series of `&quot;hello&quot;`s, one per second.
-//! #[get(&quot;/infinite-hellos&quot;)]
-//! fn hello() -&gt; TextStream![&amp;&#39;static str] {
+//! /// Produce an infinite series of `"hello"`s, one per second.
+//! #[get("/infinite-hellos")]
+//! fn hello() -&gt; TextStream![&amp;'static str] {
 //!     TextStream! {
 //!         let mut interval = time::interval(Duration::from_secs(1));
 //!         loop {
-//!             yield &quot;hello&quot;;
+//!             yield "hello";
 //!             interval.tick().await;
 //!         }
 //!     }
 //! }
 //! ```
 //!
-//! The `TextStream![&amp;&#39;static str]` invocation expands to:
+//! The `TextStream![&amp;'static str]` invocation expands to:
 //!
 //! ```rust
 //! # use rocket::response::stream::TextStream;
 //! # use rocket::futures::stream::Stream;
 //! # use rocket::response::stream::stream;
 //! # fn f() -&gt;
-//! TextStream&lt;impl Stream&lt;Item = &amp;&#39;static str&gt;&gt;
-//! # { TextStream::from(stream! { yield &quot;hi&quot; }) }
+//! TextStream&lt;impl Stream&lt;Item = &amp;'static str&gt;&gt;
+//! # { TextStream::from(stream! { yield "hi" }) }
 //! ```
 //!
 //! While the inner `TextStream! { .. }` invocation expands to:
@@ -403,7 +403,7 @@
 //! use rocket::response::stream::TextStream;
 //!
 //! /// Produce a single string borrowed from the request.
-//! #[get(&quot;/infinite-hellos&quot;)]
+//! #[get("/infinite-hellos")]
 //! fn hello(string: &amp;State&lt;String&gt;) -&gt; TextStream![&amp;str] {
 //!     TextStream! {
 //!         yield string.as_str();
@@ -419,31 +419,31 @@
 //! use rocket::State;
 //! use rocket::response::stream::TextStream;
 //!
-//! #[get(&quot;/&quot;)]
-//! fn borrow1(ctxt: &amp;State&lt;bool&gt;) -&gt; TextStream![&amp;&#39;static str + &#39;_] {
+//! #[get("/")]
+//! fn borrow1(ctxt: &amp;State&lt;bool&gt;) -&gt; TextStream![&amp;'static str + '_] {
 //!     TextStream! {
 //!         // By using `ctxt` in the stream, the borrow is moved into it. Thus,
-//!         // the stream object contains a borrow, prompting the &#39;_ annotation.
+//!         // the stream object contains a borrow, prompting the '_ annotation.
 //!         if *ctxt.inner() {
-//!             yield &quot;hello&quot;;
+//!             yield "hello";
 //!         }
 //!     }
 //! }
 //!
 //! // Just as before but yielding an owned yield value.
-//! #[get(&quot;/&quot;)]
-//! fn borrow2(ctxt: &amp;State&lt;bool&gt;) -&gt; TextStream![String + &#39;_] {
+//! #[get("/")]
+//! fn borrow2(ctxt: &amp;State&lt;bool&gt;) -&gt; TextStream![String + '_] {
 //!     TextStream! {
 //!         if *ctxt.inner() {
-//!             yield &quot;hello&quot;.to_string();
+//!             yield "hello".to_string();
 //!         }
 //!     }
 //! }
 //!
 //! // As before but _also_ return a borrowed value. Without it, Rust gives:
-//! // - lifetime `&#39;r` is missing in item created through this procedural macro
-//! #[get(&quot;/&quot;)]
-//! fn borrow3&lt;&#39;r&gt;(ctxt: &amp;&#39;r State&lt;bool&gt;, s: &amp;&#39;r State&lt;String&gt;) -&gt; TextStream![&amp;&#39;r str + &#39;r] {
+//! // - lifetime `'r` is missing in item created through this procedural macro
+//! #[get("/")]
+//! fn borrow3&lt;'r&gt;(ctxt: &amp;'r State&lt;bool&gt;, s: &amp;'r State&lt;String&gt;) -&gt; TextStream![&amp;'r str + 'r] {
 //!     TextStream! {
 //!         if *ctxt.inner() {
 //!             yield s.as_str();
@@ -471,16 +471,16 @@
 //! use rocket::tokio::select;
 //! use rocket::tokio::time::{self, Duration};
 //!
-//! /// Produce an infinite series of `&quot;hello&quot;`s, 1/second, until shutdown.
-//! #[get(&quot;/infinite-hellos&quot;)]
-//! fn hello(mut shutdown: Shutdown) -&gt; TextStream![&amp;&#39;static str] {
+//! /// Produce an infinite series of `"hello"`s, 1/second, until shutdown.
+//! #[get("/infinite-hellos")]
+//! fn hello(mut shutdown: Shutdown) -&gt; TextStream![&amp;'static str] {
 //!     TextStream! {
 //!         let mut interval = time::interval(Duration::from_secs(1));
 //!         loop {
 //!             select! {
-//!                 _ = interval.tick() =&gt; yield &quot;hello&quot;,
+//!                 _ = interval.tick() =&gt; yield "hello",
 //!                 _ = &amp;mut shutdown =&gt; {
-//!                     yield &quot;goodbye&quot;;
+//!                     yield "goodbye";
 //!                     break;
 //!                 }
 //!             };
@@ -504,7 +504,7 @@
 <span class="kw">pub use </span><span class="self">self</span>::reader::ReaderStream;
 <span class="kw">pub use </span><span class="self">self</span>::sse::{Event, EventStream};
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// Retrofitted support for [`Stream`]s with `yield`, `for await` syntax.
     ///
     /// [`Stream`]: https://docs.rs/futures/0.3/futures/stream/trait.Stream.html
@@ -535,12 +535,12 @@
     ///
     /// fn f(stream: impl Stream&lt;Item = u8&gt;) -&gt; impl Stream&lt;Item = String&gt; {
     ///     stream! {
-    ///         for s in &amp;[&quot;hi&quot;, &quot;there&quot;]{
+    ///         for s in &amp;["hi", "there"]{
     ///             yield s.to_string();
     ///         }
     ///
     ///         for await n in stream {
-    ///             yield format!(&quot;n: {}&quot;, n);
+    ///             yield format!("n: {}", n);
     ///         }
     ///     }
     /// }
@@ -550,7 +550,7 @@
     ///
     /// let stream = f(stream::iter(vec![3, 7, 11]));
     /// let strings: Vec&lt;_&gt; = stream.collect().await;
-    /// assert_eq!(strings, [&quot;hi&quot;, &quot;there&quot;, &quot;n: 3&quot;, &quot;n: 7&quot;, &quot;n: 11&quot;]);
+    /// assert_eq!(strings, ["hi", "there", "n: 3", "n: 7", "n: 11"]);
     /// # });
     /// ```
     ///
@@ -563,7 +563,7 @@
     /// use rocket::futures::stream::Stream;
     ///
     /// fn g&lt;S&gt;(stream: S) -&gt; impl Stream&lt;Item = io::Result&lt;u8&gt;&gt;
-    ///     where S: Stream&lt;Item = io::Result&lt;&amp;&#39;static str&gt;&gt;
+    ///     where S: Stream&lt;Item = io::Result&lt;&amp;'static str&gt;&gt;
     /// {
     ///     stream! {
     ///         for await s in stream {
@@ -578,21 +578,21 @@
     /// use rocket::futures::stream::{self, StreamExt};
     ///
     /// let e = io::Error::last_os_error();
-    /// let stream = g(stream::iter(vec![Ok(&quot;3&quot;), Ok(&quot;four&quot;), Err(e), Ok(&quot;2&quot;)]));
+    /// let stream = g(stream::iter(vec![Ok("3"), Ok("four"), Err(e), Ok("2")]));
     /// let results: Vec&lt;_&gt; = stream.collect().await;
     /// assert!(matches!(results.as_slice(), &amp;[Ok(3), Err(_)]));
     /// # });
     /// ```
-    </span><span class="macro">macro_rules! </span>stream {
+    </span><span class="macro">macro_rules!</span> stream {
         ($(<span class="macro-nonterminal">$t</span>:tt)<span class="kw-2">*</span>) =&gt; (<span class="macro-nonterminal">$</span><span class="macro">crate::async_stream::stream!</span>($(<span class="macro-nonterminal">$t</span>)<span class="kw-2">*</span>));
     }
 }
 
 <span class="attr">#[doc(hidden)]
 #[macro_export]
-</span><span class="macro">macro_rules! </span>_typed_stream {
+</span><span class="macro">macro_rules!</span> _typed_stream {
     (<span class="macro-nonterminal">$S</span>:ident, $(<span class="macro-nonterminal">$t</span>:tt)<span class="kw-2">*</span>) =&gt; (
-        <span class="macro-nonterminal">$</span><span class="macro">crate::__typed_stream! </span>{
+        <span class="macro-nonterminal">$</span><span class="macro">crate::__typed_stream!</span> {
             <span class="macro-nonterminal">$crate::response::stream</span>::<span class="macro-nonterminal">$S</span>,
             <span class="macro-nonterminal">$crate::response::stream::stream</span>,
             <span class="macro-nonterminal">$crate::futures::stream::Stream</span>,

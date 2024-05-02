@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/listener.rs`."><title>listener.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/listener.rs`."><title>listener.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -267,11 +267,11 @@
 <span class="doccomment">/// A thin wrapper over raw, DER-encoded X.509 client certificate data.
 </span><span class="comment">// NOTE: `rustls::Certificate` is exactly isomorphic to `CertificateData`.
 </span><span class="attr">#[doc(inline)]
-#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+#[cfg(feature = <span class="string">"tls"</span>)]
 </span><span class="kw">pub use </span>rustls::Certificate <span class="kw">as </span>CertificateData;
 
 <span class="doccomment">/// A thin wrapper over raw, DER-encoded X.509 client certificate data.
-</span><span class="attr">#[cfg(not(feature = <span class="string">&quot;tls&quot;</span>))]
+</span><span class="attr">#[cfg(not(feature = <span class="string">"tls"</span>))]
 #[derive(Clone, Eq, Hash, Ord, PartialEq, PartialOrd)]
 </span><span class="kw">pub struct </span>CertificateData(<span class="kw">pub </span>Vec&lt;u8&gt;);
 
@@ -288,7 +288,7 @@
 <span class="kw">impl </span>Certificates {
     <span class="doccomment">/// Set the the raw certificate chain data. Only the first call actually
     /// sets the data; the remaining do nothing.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+    </span><span class="attr">#[cfg(feature = <span class="string">"tls"</span>)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, data: Vec&lt;CertificateData&gt;) {
         <span class="self">self</span>.<span class="number">0</span>.set(data);
     }
@@ -299,9 +299,9 @@
     }
 }
 
-<span class="comment">// TODO.async: &#39;Listener&#39; and &#39;Connection&#39; provide common enough functionality
+<span class="comment">// TODO.async: 'Listener' and 'Connection' provide common enough functionality
 // that they could be introduced in upstream libraries.
-</span><span class="doccomment">/// A &#39;Listener&#39; yields incoming connections
+</span><span class="doccomment">/// A 'Listener' yields incoming connections
 </span><span class="kw">pub trait </span>Listener {
     <span class="doccomment">/// The connection type returned by this listener.
     </span><span class="kw">type </span>Connection: Connection;
@@ -313,13 +313,13 @@
     /// an `Err` when a fatal problem occurs as Hyper kills the server on `Err`.
     </span><span class="kw">fn </span>poll_accept(
         <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;
     ) -&gt; Poll&lt;io::Result&lt;<span class="self">Self</span>::Connection&gt;&gt;;
 }
 
-<span class="doccomment">/// A &#39;Connection&#39; represents an open connection to a client
+<span class="doccomment">/// A 'Connection' represents an open connection to a client
 </span><span class="kw">pub trait </span>Connection: AsyncRead + AsyncWrite {
-    <span class="doccomment">/// The remote address, i.e. the client&#39;s socket address, if it is known.
+    <span class="doccomment">/// The remote address, i.e. the client's socket address, if it is known.
     </span><span class="kw">fn </span>peer_address(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;;
 
     <span class="doccomment">/// Requests that the connection not delay reading or writing data as much
@@ -338,12 +338,12 @@
     </span><span class="kw">fn </span>peer_certificates(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Certificates&gt; { <span class="prelude-val">None </span>}
 }
 
-<span class="macro">pin_project_lite::pin_project! </span>{
-    <span class="doccomment">/// This is a generic version of hyper&#39;s AddrIncoming that is intended to be
+<span class="macro">pin_project_lite::pin_project!</span> {
+    <span class="doccomment">/// This is a generic version of hyper's AddrIncoming that is intended to be
     /// usable with listeners other than a plain TCP stream, e.g. TLS and/or Unix
     /// sockets. It does so by bridging the `Listener` trait to what hyper wants (an
     /// Accept). This type is internal to Rocket.
-    </span><span class="attr">#[must_use = <span class="string">&quot;streams do nothing unless polled&quot;</span>]
+    </span><span class="attr">#[must_use = <span class="string">"streams do nothing unless polled"</span>]
     </span><span class="kw">pub struct </span>Incoming&lt;L&gt; {
         sleep_on_errors: <span class="prelude-ty">Option</span>&lt;Duration&gt;,
         nodelay: bool,
@@ -369,7 +369,7 @@
     ///
     /// A possible scenario is that the process has hit the max open files
     /// allowed, and so trying to accept a new connection will fail with
-    /// `EMFILE`. In some cases, it&#39;s preferable to just wait for some time, if
+    /// `EMFILE`. In some cases, it's preferable to just wait for some time, if
     /// the application will likely close some files (or connections), and try
     /// to accept the connection again. If this option is `true`, the error
     /// will be logged at the `error` level, since it is still a big deal,
@@ -394,10 +394,10 @@
 
     <span class="kw">fn </span>poll_accept_next(
         <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;
     ) -&gt; Poll&lt;io::Result&lt;L::Connection&gt;&gt; {
         <span class="doccomment">/// This function defines per-connection errors: errors that affect only
-        /// a single connection&#39;s accept() and don&#39;t imply anything about the
+        /// a single connection's accept() and don't imply anything about the
         /// success probability of the next accept(). Thus, we can attempt to
         /// `accept()` another connection immediately. All other errors will
         /// incur a delay before the next `accept()` is performed. The delay is
@@ -423,7 +423,7 @@
                 <span class="prelude-val">Ok</span>(stream) =&gt; {
                     <span class="kw">if </span><span class="kw-2">*</span>this.nodelay {
                         <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = stream.enable_nodelay() {
-                            <span class="macro">warn!</span>(<span class="string">&quot;failed to enable NODELAY: {}&quot;</span>, e);
+                            <span class="macro">warn!</span>(<span class="string">"failed to enable NODELAY: {}"</span>, e);
                         }
                     }
 
@@ -431,10 +431,10 @@
                 },
                 <span class="prelude-val">Err</span>(e) =&gt; {
                     <span class="kw">if </span>is_connection_error(<span class="kw-2">&amp;</span>e) {
-                        <span class="macro">warn!</span>(<span class="string">&quot;single connection accept error {}; accepting next now&quot;</span>, e);
+                        <span class="macro">warn!</span>(<span class="string">"single connection accept error {}; accepting next now"</span>, e);
                     } <span class="kw">else if let </span><span class="prelude-val">Some</span>(duration) = this.sleep_on_errors {
                         <span class="comment">// We might be able to recover. Try again in a bit.
-                        </span><span class="macro">warn!</span>(<span class="string">&quot;accept error {}; recovery attempt in {}ms&quot;</span>, e, duration.as_millis());
+                        </span><span class="macro">warn!</span>(<span class="string">"accept error {}; recovery attempt in {}ms"</span>, e, duration.as_millis());
                         this.pending_error_delay.set(<span class="prelude-val">Some</span>(tokio::time::sleep(<span class="kw-2">*</span>duration)));
                     } <span class="kw">else </span>{
                         <span class="kw">return </span>Poll::Ready(<span class="prelude-val">Err</span>(e));
@@ -452,16 +452,16 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>poll_accept(
         <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;
     ) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;io::Result&lt;<span class="self">Self</span>::Conn&gt;&gt;&gt; {
         <span class="self">self</span>.poll_accept_next(cx).map(<span class="prelude-val">Some</span>)
     }
 }
 
 <span class="kw">impl</span>&lt;L: fmt::Debug&gt; fmt::Debug <span class="kw">for </span>Incoming&lt;L&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;Incoming&quot;</span>)
-            .field(<span class="string">&quot;listener&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.listener)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"Incoming"</span>)
+            .field(<span class="string">"listener"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.listener)
             .finish()
     }
 }
@@ -477,7 +477,7 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>poll_accept(
         <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;
     ) -&gt; Poll&lt;io::Result&lt;<span class="self">Self</span>::Connection&gt;&gt; {
         (<span class="kw-2">*</span><span class="self">self</span>).poll_accept(cx).map_ok(|(stream, _addr)| stream)
     }

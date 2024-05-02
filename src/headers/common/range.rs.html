@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/headers-0.3.9/src/common/range.rs`."><title>range.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="headers" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/headers-0.3.9/src/common/range.rs`."><title>range.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="headers" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../headers/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -420,7 +420,7 @@
 
 <span class="doccomment">/// `Range` header, defined in [RFC7233](https://tools.ietf.org/html/rfc7233#section-3.1)
 ///
-/// The &quot;Range&quot; header field on a GET request modifies the method
+/// The "Range" header field on a GET request modifies the method
 /// semantics to request transfer of only one or more subranges of the
 /// selected representation data, rather than the entire selected
 /// representation data.
@@ -429,14 +429,14 @@
 ///
 /// ```text
 /// Range =	byte-ranges-specifier / other-ranges-specifier
-/// other-ranges-specifier = other-range-unit &quot;=&quot; other-range-set
+/// other-ranges-specifier = other-range-unit "=" other-range-set
 /// other-range-set = 1*VCHAR
 ///
-/// bytes-unit = &quot;bytes&quot;
+/// bytes-unit = "bytes"
 ///
-/// byte-ranges-specifier = bytes-unit &quot;=&quot; byte-range-set
+/// byte-ranges-specifier = bytes-unit "=" byte-range-set
 /// byte-range-set = 1#(byte-range-spec / suffix-byte-range-spec)
-/// byte-range-spec = first-byte-pos &quot;-&quot; [last-byte-pos]
+/// byte-range-spec = first-byte-pos "-" [last-byte-pos]
 /// first-byte-pos = 1*DIGIT
 /// last-byte-pos = 1*DIGIT
 /// ```
@@ -466,13 +466,13 @@
     <span class="doccomment">/// Creates a `Range` header from bounds.
     </span><span class="kw">pub fn </span>bytes(bounds: <span class="kw">impl </span>RangeBounds&lt;u64&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidRange&gt; {
         <span class="kw">let </span>v = <span class="kw">match </span>(bounds.start_bound(), bounds.end_bound()) {
-            (Bound::Unbounded, Bound::Included(end)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;bytes=-{}&quot;</span>, end),
-            (Bound::Unbounded, Bound::Excluded(<span class="kw-2">&amp;</span>end)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;bytes=-{}&quot;</span>, end - <span class="number">1</span>),
-            (Bound::Included(start), Bound::Included(end)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;bytes={}-{}&quot;</span>, start, end),
+            (Bound::Unbounded, Bound::Included(end)) =&gt; <span class="macro">format!</span>(<span class="string">"bytes=-{}"</span>, end),
+            (Bound::Unbounded, Bound::Excluded(<span class="kw-2">&amp;</span>end)) =&gt; <span class="macro">format!</span>(<span class="string">"bytes=-{}"</span>, end - <span class="number">1</span>),
+            (Bound::Included(start), Bound::Included(end)) =&gt; <span class="macro">format!</span>(<span class="string">"bytes={}-{}"</span>, start, end),
             (Bound::Included(start), Bound::Excluded(<span class="kw-2">&amp;</span>end)) =&gt; {
-                <span class="macro">format!</span>(<span class="string">&quot;bytes={}-{}&quot;</span>, start, end - <span class="number">1</span>)
+                <span class="macro">format!</span>(<span class="string">"bytes={}-{}"</span>, start, end - <span class="number">1</span>)
             }
-            (Bound::Included(start), Bound::Unbounded) =&gt; <span class="macro">format!</span>(<span class="string">&quot;bytes={}-&quot;</span>, start),
+            (Bound::Included(start), Bound::Unbounded) =&gt; <span class="macro">format!</span>(<span class="string">"bytes={}-"</span>, start),
             <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidRange { _inner: () }),
         };
 
@@ -480,14 +480,14 @@
     }
 
     <span class="doccomment">/// Iterate the range sets as a tuple of bounds.
-    </span><span class="kw">pub fn </span>iter&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (Bound&lt;u64&gt;, Bound&lt;u64&gt;)&gt; + <span class="lifetime">&#39;a </span>{
+    </span><span class="kw">pub fn </span>iter&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (Bound&lt;u64&gt;, Bound&lt;u64&gt;)&gt; + <span class="lifetime">'a </span>{
         <span class="kw">let </span>s = <span class="self">self
             </span>.<span class="number">0
             </span>.to_str()
-            .expect(<span class="string">&quot;valid string checked in Header::decode()&quot;</span>);
+            .expect(<span class="string">"valid string checked in Header::decode()"</span>);
 
-        s[<span class="string">&quot;bytes=&quot;</span>.len()..].split(<span class="string">&#39;,&#39;</span>).filter_map(|spec| {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = spec.trim().splitn(<span class="number">2</span>, <span class="string">&#39;-&#39;</span>);
+        s[<span class="string">"bytes="</span>.len()..].split(<span class="string">','</span>).filter_map(|spec| {
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = spec.trim().splitn(<span class="number">2</span>, <span class="string">'-'</span>);
             <span class="prelude-val">Some</span>((parse_bound(iter.next()<span class="question-mark">?</span>)<span class="question-mark">?</span>, parse_bound(iter.next()<span class="question-mark">?</span>)<span class="question-mark">?</span>))
         })
     }
@@ -502,15 +502,15 @@
 }
 
 <span class="kw">impl </span>::Header <span class="kw">for </span>Range {
-    <span class="kw">fn </span>name() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>::HeaderName {
+    <span class="kw">fn </span>name() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>::HeaderName {
         <span class="kw-2">&amp;</span>::http::header::RANGE
     }
 
-    <span class="kw">fn </span>decode&lt;<span class="lifetime">&#39;i</span>, I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span>::HeaderValue&gt;&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt; {
+    <span class="kw">fn </span>decode&lt;<span class="lifetime">'i</span>, I: Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'i </span>::HeaderValue&gt;&gt;(values: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ::Error&gt; {
         values
             .next()
             .and_then(|val| {
-                <span class="kw">if </span>val.to_str().ok()<span class="question-mark">?</span>.starts_with(<span class="string">&quot;bytes=&quot;</span>) {
+                <span class="kw">if </span>val.to_str().ok()<span class="question-mark">?</span>.starts_with(<span class="string">"bytes="</span>) {
                     <span class="prelude-val">Some</span>(Range(val.clone()))
                 } <span class="kw">else </span>{
                     <span class="prelude-val">None
@@ -598,13 +598,13 @@ impl ByteRangeSpec {
 }
 
 impl Range {
-    /// Get the most common byte range header (&quot;bytes=from-to&quot;)
+    /// Get the most common byte range header ("bytes=from-to")
     pub fn bytes(from: u64, to: u64) -&gt; Range {
         Range::Bytes(vec![ByteRangeSpec::FromTo(from, to)])
     }
 
     /// Get byte range header with multiple subranges
-    /// (&quot;bytes=from1-to1,from2-to2,fromX-toX&quot;)
+    /// ("bytes=from1-to1,from2-to2,fromX-toX")
     pub fn bytes_multi(ranges: Vec&lt;(u64, u64)&gt;) -&gt; Range {
         Range::Bytes(ranges.iter().map(|r| ByteRangeSpec::FromTo(r.0, r.1)).collect())
     }
@@ -614,9 +614,9 @@ impl Range {
 impl fmt::Display for ByteRangeSpec {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
         match *self {
-            ByteRangeSpec::FromTo(from, to) =&gt; write!(f, &quot;{}-{}&quot;, from, to),
-            ByteRangeSpec::Last(pos) =&gt; write!(f, &quot;-{}&quot;, pos),
-            ByteRangeSpec::AllFrom(pos) =&gt; write!(f, &quot;{}-&quot;, pos),
+            ByteRangeSpec::FromTo(from, to) =&gt; write!(f, "{}-{}", from, to),
+            ByteRangeSpec::Last(pos) =&gt; write!(f, "-{}", pos),
+            ByteRangeSpec::AllFrom(pos) =&gt; write!(f, "{}-", pos),
         }
     }
 }
@@ -626,18 +626,18 @@ impl fmt::Display for Range {
     fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
         match *self {
             Range::Bytes(ref ranges) =&gt; {
-                try!(write!(f, &quot;bytes=&quot;));
+                try!(write!(f, "bytes="));
 
                 for (i, range) in ranges.iter().enumerate() {
                     if i != 0 {
-                        try!(f.write_str(&quot;,&quot;));
+                        try!(f.write_str(","));
                     }
                     try!(Display::fmt(range, f));
                 }
                 Ok(())
             },
             Range::Unregistered(ref unit, ref range_str) =&gt; {
-                write!(f, &quot;{}={}&quot;, unit, range_str)
+                write!(f, "{}={}", unit, range_str)
             },
         }
     }
@@ -647,17 +647,17 @@ impl FromStr for Range {
     type Err = ::Error;
 
     fn from_str(s: &amp;str) -&gt; ::Result&lt;Range&gt; {
-        let mut iter = s.splitn(2, &#39;=&#39;);
+        let mut iter = s.splitn(2, '=');
 
         match (iter.next(), iter.next()) {
-            (Some(&quot;bytes&quot;), Some(ranges)) =&gt; {
+            (Some("bytes"), Some(ranges)) =&gt; {
                 let ranges = from_comma_delimited(ranges);
                 if ranges.is_empty() {
                     return Err(::Error::Header);
                 }
                 Ok(Range::Bytes(ranges))
             }
-            (Some(unit), Some(range_str)) if unit != &quot;&quot; &amp;&amp; range_str != &quot;&quot; =&gt; {
+            (Some(unit), Some(range_str)) if unit != "" &amp;&amp; range_str != "" =&gt; {
                 Ok(Range::Unregistered(unit.to_owned(), range_str.to_owned()))
 
             },
@@ -670,13 +670,13 @@ impl FromStr for ByteRangeSpec {
     type Err = ::Error;
 
     fn from_str(s: &amp;str) -&gt; ::Result&lt;ByteRangeSpec&gt; {
-        let mut parts = s.splitn(2, &#39;-&#39;);
+        let mut parts = s.splitn(2, '-');
 
         match (parts.next(), parts.next()) {
-            (Some(&quot;&quot;), Some(end)) =&gt; {
+            (Some(""), Some(end)) =&gt; {
                 end.parse().or(Err(::Error::Header)).map(ByteRangeSpec::Last)
             },
-            (Some(start), Some(&quot;&quot;)) =&gt; {
+            (Some(start), Some("")) =&gt; {
                 start.parse().or(Err(::Error::Header)).map(ByteRangeSpec::AllFrom)
             },
             (Some(start), Some(end)) =&gt; {
@@ -691,9 +691,9 @@ impl FromStr for ByteRangeSpec {
 }
 
 fn from_comma_delimited&lt;T: FromStr&gt;(s: &amp;str) -&gt; Vec&lt;T&gt; {
-    s.split(&#39;,&#39;)
+    s.split(',')
         .filter_map(|x| match x.trim() {
-            &quot;&quot; =&gt; None,
+            "" =&gt; None,
             y =&gt; Some(y)
         })
         .filter_map(|x| x.parse().ok())
@@ -702,8 +702,8 @@ fn from_comma_delimited&lt;T: FromStr&gt;(s: &amp;str) -&gt; Vec&lt;T&gt; {
 
 impl Header for Range {
 
-    fn header_name() -&gt; &amp;&#39;static str {
-        static NAME: &amp;&#39;static str = &quot;Range&quot;;
+    fn header_name() -&gt; &amp;'static str {
+        static NAME: &amp;'static str = "Range";
         NAME
     }
 
@@ -719,70 +719,70 @@ impl Header for Range {
 
 #[test]
 fn test_parse_bytes_range_valid() {
-    let r: Range = Header::parse_header(&amp;&quot;bytes=1-100&quot;.into()).unwrap();
-    let r2: Range = Header::parse_header(&amp;&quot;bytes=1-100,-&quot;.into()).unwrap();
+    let r: Range = Header::parse_header(&amp;"bytes=1-100".into()).unwrap();
+    let r2: Range = Header::parse_header(&amp;"bytes=1-100,-".into()).unwrap();
     let r3 =  Range::bytes(1, 100);
     assert_eq!(r, r2);
     assert_eq!(r2, r3);
 
-    let r: Range = Header::parse_header(&amp;&quot;bytes=1-100,200-&quot;.into()).unwrap();
-    let r2: Range = Header::parse_header(&amp;&quot;bytes= 1-100 , 101-xxx,  200- &quot;.into()).unwrap();
+    let r: Range = Header::parse_header(&amp;"bytes=1-100,200-".into()).unwrap();
+    let r2: Range = Header::parse_header(&amp;"bytes= 1-100 , 101-xxx,  200- ".into()).unwrap();
     let r3 =  Range::Bytes(
         vec![ByteRangeSpec::FromTo(1, 100), ByteRangeSpec::AllFrom(200)]
     );
     assert_eq!(r, r2);
     assert_eq!(r2, r3);
 
-    let r: Range = Header::parse_header(&amp;&quot;bytes=1-100,-100&quot;.into()).unwrap();
-    let r2: Range = Header::parse_header(&amp;&quot;bytes=1-100, ,,-100&quot;.into()).unwrap();
+    let r: Range = Header::parse_header(&amp;"bytes=1-100,-100".into()).unwrap();
+    let r2: Range = Header::parse_header(&amp;"bytes=1-100, ,,-100".into()).unwrap();
     let r3 =  Range::Bytes(
         vec![ByteRangeSpec::FromTo(1, 100), ByteRangeSpec::Last(100)]
     );
     assert_eq!(r, r2);
     assert_eq!(r2, r3);
 
-    let r: Range = Header::parse_header(&amp;&quot;custom=1-100,-100&quot;.into()).unwrap();
-    let r2 =  Range::Unregistered(&quot;custom&quot;.to_owned(), &quot;1-100,-100&quot;.to_owned());
+    let r: Range = Header::parse_header(&amp;"custom=1-100,-100".into()).unwrap();
+    let r2 =  Range::Unregistered("custom".to_owned(), "1-100,-100".to_owned());
     assert_eq!(r, r2);
 
 }
 
 #[test]
 fn test_parse_unregistered_range_valid() {
-    let r: Range = Header::parse_header(&amp;&quot;custom=1-100,-100&quot;.into()).unwrap();
-    let r2 =  Range::Unregistered(&quot;custom&quot;.to_owned(), &quot;1-100,-100&quot;.to_owned());
+    let r: Range = Header::parse_header(&amp;"custom=1-100,-100".into()).unwrap();
+    let r2 =  Range::Unregistered("custom".to_owned(), "1-100,-100".to_owned());
     assert_eq!(r, r2);
 
-    let r: Range = Header::parse_header(&amp;&quot;custom=abcd&quot;.into()).unwrap();
-    let r2 =  Range::Unregistered(&quot;custom&quot;.to_owned(), &quot;abcd&quot;.to_owned());
+    let r: Range = Header::parse_header(&amp;"custom=abcd".into()).unwrap();
+    let r2 =  Range::Unregistered("custom".to_owned(), "abcd".to_owned());
     assert_eq!(r, r2);
 
-    let r: Range = Header::parse_header(&amp;&quot;custom=xxx-yyy&quot;.into()).unwrap();
-    let r2 =  Range::Unregistered(&quot;custom&quot;.to_owned(), &quot;xxx-yyy&quot;.to_owned());
+    let r: Range = Header::parse_header(&amp;"custom=xxx-yyy".into()).unwrap();
+    let r2 =  Range::Unregistered("custom".to_owned(), "xxx-yyy".to_owned());
     assert_eq!(r, r2);
 }
 
 #[test]
 fn test_parse_invalid() {
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;bytes=1-a,-&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"bytes=1-a,-".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;bytes=1-2-3&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"bytes=1-2-3".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;abc&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"abc".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;bytes=1-100=&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"bytes=1-100=".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;bytes=&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"bytes=".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;custom=&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"custom=".into());
     assert_eq!(r.ok(), None);
 
-    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;&quot;=1-100&quot;.into());
+    let r: ::Result&lt;Range&gt; = Header::parse_header(&amp;"=1-100".into());
     assert_eq!(r.ok(), None);
 }
 
@@ -796,17 +796,17 @@ fn test_fmt() {
         Range::Bytes(
             vec![ByteRangeSpec::FromTo(0, 1000), ByteRangeSpec::AllFrom(2000)]
     ));
-    assert_eq!(&amp;headers.to_string(), &quot;Range: bytes=0-1000,2000-\r\n&quot;);
+    assert_eq!(&amp;headers.to_string(), "Range: bytes=0-1000,2000-\r\n");
 
     headers.clear();
     headers.set(Range::Bytes(vec![]));
 
-    assert_eq!(&amp;headers.to_string(), &quot;Range: bytes=\r\n&quot;);
+    assert_eq!(&amp;headers.to_string(), "Range: bytes=\r\n");
 
     headers.clear();
-    headers.set(Range::Unregistered(&quot;custom&quot;.to_owned(), &quot;1-xxx&quot;.to_owned()));
+    headers.set(Range::Unregistered("custom".to_owned(), "1-xxx".to_owned()));
 
-    assert_eq!(&amp;headers.to_string(), &quot;Range: custom=1-xxx\r\n&quot;);
+    assert_eq!(&amp;headers.to_string(), "Range: custom=1-xxx\r\n");
 }
 
 #[test]
@@ -831,7 +831,7 @@ fn test_byte_range_spec_to_satisfiable_range() {
     assert_eq!(None, ByteRangeSpec::Last(2).to_satisfiable_range(0));
 }
 
-bench_header!(bytes_multi, Range, { vec![b&quot;bytes=1-1001,2001-3001,10001-&quot;.to_vec()]});
-bench_header!(custom_unit, Range, { vec![b&quot;other=0-100000&quot;.to_vec()]});
+bench_header!(bytes_multi, Range, { vec![b"bytes=1-1001,2001-3001,10001-".to_vec()]});
+bench_header!(custom_unit, Range, { vec![b"other=0-100000".to_vec()]});
 */
 </span></code></pre></div></section></main></body></html>

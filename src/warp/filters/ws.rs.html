@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/ws.rs`."><title>ws.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/ws.rs`."><title>ws.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -417,7 +417,6 @@
 <a href="#417" id="417">417</a>
 <a href="#418" id="418">418</a>
 <a href="#419" id="419">419</a>
-<a href="#420" id="420">420</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Websockets Filters
 
 </span><span class="kw">use </span>std::borrow::Cow;
@@ -432,7 +431,6 @@
 <span class="kw">use </span><span class="kw">crate</span>::reply::{Reply, Response};
 <span class="kw">use </span>futures_util::{future, ready, FutureExt, Sink, Stream, TryFutureExt};
 <span class="kw">use </span>headers::{Connection, HeaderMapExt, SecWebsocketAccept, SecWebsocketKey, Upgrade};
-<span class="kw">use </span>http;
 <span class="kw">use </span>hyper::upgrade::OnUpgrade;
 <span class="kw">use </span>tokio_tungstenite::{
     tungstenite::protocol::{<span class="self">self</span>, WebSocketConfig},
@@ -445,7 +443,7 @@
 ///
 /// # Note
 ///
-/// This filter combines multiple filters internally, so you don&#39;t need them:
+/// This filter combines multiple filters internally, so you don't need them:
 ///
 /// - Method must be `GET`
 /// - Header `connection` must be `upgrade`
@@ -463,7 +461,7 @@
 </span><span class="kw">pub fn </span>ws() -&gt; <span class="kw">impl </span>Filter&lt;Extract = One&lt;Ws&gt;, Error = Rejection&gt; + Copy {
     <span class="kw">let </span>connection_has_upgrade = header::header2()
         .and_then(|conn: ::headers::Connection| {
-            <span class="kw">if </span>conn.contains(<span class="string">&quot;upgrade&quot;</span>) {
+            <span class="kw">if </span>conn.contains(<span class="string">"upgrade"</span>) {
                 future::ok(())
             } <span class="kw">else </span>{
                 future::err(<span class="kw">crate</span>::reject::known(MissingConnectionUpgrade))
@@ -473,8 +471,8 @@
 
     <span class="kw">crate</span>::get()
         .and(connection_has_upgrade)
-        .and(header::exact_ignore_case(<span class="string">&quot;upgrade&quot;</span>, <span class="string">&quot;websocket&quot;</span>))
-        .and(header::exact(<span class="string">&quot;sec-websocket-version&quot;</span>, <span class="string">&quot;13&quot;</span>))
+        .and(header::exact_ignore_case(<span class="string">"upgrade"</span>, <span class="string">"websocket"</span>))
+        .and(header::exact(<span class="string">"sec-websocket-version"</span>, <span class="string">"13"</span>))
         <span class="comment">//.and(header::exact2(Upgrade::websocket()))
         //.and(header::exact2(SecWebsocketVersion::V13))
         </span>.and(header::header2::&lt;SecWebsocketKey&gt;())
@@ -501,8 +499,8 @@
     /// The passed function must return a `Future`.
     </span><span class="kw">pub fn </span>on_upgrade&lt;F, U&gt;(<span class="self">self</span>, func: F) -&gt; <span class="kw">impl </span>Reply
     <span class="kw">where
-        </span>F: FnOnce(WebSocket) -&gt; U + Send + <span class="lifetime">&#39;static</span>,
-        U: Future&lt;Output = ()&gt; + Send + <span class="lifetime">&#39;static</span>,
+        </span>F: FnOnce(WebSocket) -&gt; U + Send + <span class="lifetime">'static</span>,
+        U: Future&lt;Output = ()&gt; + Send + <span class="lifetime">'static</span>,
     {
         WsReply {
             ws: <span class="self">self</span>,
@@ -517,7 +515,7 @@
     /// # Deprecated
     ///
     /// Use `max_write_buffer_size()` instead.
-    </span><span class="attr">#[deprecated = <span class="string">&quot;use max_write_buffer_size instead&quot;</span>]
+    </span><span class="attr">#[deprecated = <span class="string">"use max_write_buffer_size instead"</span>]
     </span><span class="kw">pub fn </span>max_send_queue(<span class="self">self</span>, _max: usize) -&gt; <span class="self">Self </span>{
         <span class="self">self
     </span>}
@@ -548,8 +546,8 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Ws {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;Ws&quot;</span>).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"Ws"</span>).finish()
     }
 }
 
@@ -561,8 +559,8 @@
 
 <span class="kw">impl</span>&lt;F, U&gt; Reply <span class="kw">for </span>WsReply&lt;F&gt;
 <span class="kw">where
-    </span>F: FnOnce(WebSocket) -&gt; U + Send + <span class="lifetime">&#39;static</span>,
-    U: Future&lt;Output = ()&gt; + Send + <span class="lifetime">&#39;static</span>,
+    </span>F: FnOnce(WebSocket) -&gt; U + Send + <span class="lifetime">'static</span>,
+    U: Future&lt;Output = ()&gt; + Send + <span class="lifetime">'static</span>,
 {
     <span class="kw">fn </span>into_response(<span class="self">self</span>) -&gt; Response {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(on_upgrade) = <span class="self">self</span>.ws.on_upgrade {
@@ -570,18 +568,18 @@
             <span class="kw">let </span>config = <span class="self">self</span>.ws.config;
             <span class="kw">let </span>fut = on_upgrade
                 .and_then(<span class="kw">move </span>|upgraded| {
-                    <span class="macro">tracing::trace!</span>(<span class="string">&quot;websocket upgrade complete&quot;</span>);
+                    <span class="macro">tracing::trace!</span>(<span class="string">"websocket upgrade complete"</span>);
                     WebSocket::from_raw_socket(upgraded, protocol::Role::Server, config).map(<span class="prelude-val">Ok</span>)
                 })
                 .and_then(<span class="kw">move </span>|socket| on_upgrade_cb(socket).map(<span class="prelude-val">Ok</span>))
                 .map(|result| {
                     <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = result {
-                        <span class="macro">tracing::debug!</span>(<span class="string">&quot;ws upgrade error: {}&quot;</span>, err);
+                        <span class="macro">tracing::debug!</span>(<span class="string">"ws upgrade error: {}"</span>, err);
                     }
                 });
             ::tokio::task::spawn(fut);
         } <span class="kw">else </span>{
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;ws couldn&#39;t be upgraded since no upgrade state was present&quot;</span>);
+            <span class="macro">tracing::debug!</span>(<span class="string">"ws couldn't be upgraded since no upgrade state was present"</span>);
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>res = http::Response::default();
@@ -609,7 +607,7 @@
 /// `WebSocket`.
 ///
 /// **Note!**
-/// Due to rust futures nature, pings won&#39;t be handled until read part of `WebSocket` is polled
+/// Due to rust futures nature, pings won't be handled until read part of `WebSocket` is polled
 
 </span><span class="kw">pub struct </span>WebSocket {
     inner: WebSocketStream&lt;hyper::upgrade::Upgraded&gt;,
@@ -635,15 +633,15 @@
 <span class="kw">impl </span>Stream <span class="kw">for </span>WebSocket {
     <span class="kw">type </span>Item = <span class="prelude-ty">Result</span>&lt;Message, <span class="kw">crate</span>::Error&gt;;
 
-    <span class="kw">fn </span>poll_next(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
+    <span class="kw">fn </span>poll_next(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
         <span class="kw">match </span><span class="macro">ready!</span>(Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_next(cx)) {
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(item)) =&gt; Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Message { inner: item }))),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(e)) =&gt; {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;websocket poll error: {}&quot;</span>, e);
+                <span class="macro">tracing::debug!</span>(<span class="string">"websocket poll error: {}"</span>, e);
                 Poll::Ready(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::Error::new(e))))
             }
             <span class="prelude-val">None </span>=&gt; {
-                <span class="macro">tracing::trace!</span>(<span class="string">&quot;websocket closed&quot;</span>);
+                <span class="macro">tracing::trace!</span>(<span class="string">"websocket closed"</span>);
                 Poll::Ready(<span class="prelude-val">None</span>)
             }
         }
@@ -653,7 +651,7 @@
 <span class="kw">impl </span>Sink&lt;Message&gt; <span class="kw">for </span>WebSocket {
     <span class="kw">type </span>Error = <span class="kw">crate</span>::Error;
 
-    <span class="kw">fn </span>poll_ready(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+    <span class="kw">fn </span>poll_ready(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
         <span class="kw">match </span><span class="macro">ready!</span>(Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_ready(cx)) {
             <span class="prelude-val">Ok</span>(()) =&gt; Poll::Ready(<span class="prelude-val">Ok</span>(())),
             <span class="prelude-val">Err</span>(e) =&gt; Poll::Ready(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::Error::new(e))),
@@ -664,24 +662,24 @@
         <span class="kw">match </span>Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).start_send(item.inner) {
             <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">Ok</span>(()),
             <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;websocket start_send error: {}&quot;</span>, e);
+                <span class="macro">tracing::debug!</span>(<span class="string">"websocket start_send error: {}"</span>, e);
                 <span class="prelude-val">Err</span>(<span class="kw">crate</span>::Error::new(e))
             }
         }
     }
 
-    <span class="kw">fn </span>poll_flush(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+    <span class="kw">fn </span>poll_flush(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
         <span class="kw">match </span><span class="macro">ready!</span>(Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_flush(cx)) {
             <span class="prelude-val">Ok</span>(()) =&gt; Poll::Ready(<span class="prelude-val">Ok</span>(())),
             <span class="prelude-val">Err</span>(e) =&gt; Poll::Ready(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::Error::new(e))),
         }
     }
 
-    <span class="kw">fn </span>poll_close(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
+    <span class="kw">fn </span>poll_close(<span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt;&gt; {
         <span class="kw">match </span><span class="macro">ready!</span>(Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.inner).poll_close(cx)) {
             <span class="prelude-val">Ok</span>(()) =&gt; Poll::Ready(<span class="prelude-val">Ok</span>(())),
             <span class="prelude-val">Err</span>(err) =&gt; {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;websocket close error: {}&quot;</span>, err);
+                <span class="macro">tracing::debug!</span>(<span class="string">"websocket close error: {}"</span>, err);
                 Poll::Ready(<span class="prelude-val">Err</span>(<span class="kw">crate</span>::Error::new(err)))
             }
         }
@@ -689,8 +687,8 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>WebSocket {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;WebSocket&quot;</span>).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"WebSocket"</span>).finish()
     }
 }
 
@@ -744,7 +742,7 @@
     }
 
     <span class="doccomment">/// Construct a Close `Message` with a code and reason.
-    </span><span class="kw">pub fn </span>close_with(code: <span class="kw">impl </span>Into&lt;u16&gt;, reason: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">&#39;static</span>, str&gt;&gt;) -&gt; Message {
+    </span><span class="kw">pub fn </span>close_with(code: <span class="kw">impl </span>Into&lt;u16&gt;, reason: <span class="kw">impl </span>Into&lt;Cow&lt;<span class="lifetime">'static</span>, str&gt;&gt;) -&gt; Message {
         Message {
             inner: protocol::Message::Close(<span class="prelude-val">Some</span>(protocol::frame::CloseFrame {
                 code: protocol::frame::coding::CloseCode::from(code.into()),
@@ -814,7 +812,7 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Message {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         fmt::Debug::fmt(<span class="kw-2">&amp;</span><span class="self">self</span>.inner, f)
     }
 }
@@ -827,13 +825,13 @@
 
 <span class="comment">// ===== Rejections =====
 
-</span><span class="doccomment">/// Connection header did not include &#39;upgrade&#39;
+</span><span class="doccomment">/// Connection header did not include 'upgrade'
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>MissingConnectionUpgrade;
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>MissingConnectionUpgrade {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Connection header did not include &#39;upgrade&#39;&quot;</span>)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Connection header did not include 'upgrade'"</span>)
     }
 }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fairing/ad_hoc.rs`."><title>ad_hoc.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fairing/ad_hoc.rs`."><title>ad_hoc.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -309,8 +309,8 @@
 /// # Example
 ///
 /// The following snippet creates a `Rocket` instance with two ad-hoc fairings.
-/// The first, a liftoff fairing named &quot;Liftoff Printer&quot;, simply prints a message
-/// indicating that Rocket has launched. The second named &quot;Put Rewriter&quot;, a
+/// The first, a liftoff fairing named "Liftoff Printer", simply prints a message
+/// indicating that Rocket has launched. The second named "Put Rewriter", a
 /// request fairing, rewrites the method of all requests to be `PUT`.
 ///
 /// ```rust
@@ -318,15 +318,15 @@
 /// use rocket::http::Method;
 ///
 /// rocket::build()
-///     .attach(AdHoc::on_liftoff(&quot;Liftoff Printer&quot;, |_| Box::pin(async move {
-///         println!(&quot;...annnddd we have liftoff!&quot;);
+///     .attach(AdHoc::on_liftoff("Liftoff Printer", |_| Box::pin(async move {
+///         println!("...annnddd we have liftoff!");
 ///     })))
-///     .attach(AdHoc::on_request(&quot;Put Rewriter&quot;, |req, _| Box::pin(async move {
+///     .attach(AdHoc::on_request("Put Rewriter", |req, _| Box::pin(async move {
 ///         req.set_method(Method::Put);
 ///     })));
 /// ```
 </span><span class="kw">pub struct </span>AdHoc {
-    name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
     kind: AdHocKind,
 }
 
@@ -337,28 +337,28 @@
 
     <span class="attr">#[track_caller]
     </span><span class="kw">fn </span>take(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;F&gt; {
-        <span class="self">self</span>.<span class="number">0</span>.lock().take().expect(<span class="string">&quot;Once::take() called once&quot;</span>)
+        <span class="self">self</span>.<span class="number">0</span>.lock().take().expect(<span class="string">"Once::take() called once"</span>)
     }
 }
 
 <span class="kw">enum </span>AdHocKind {
     <span class="doccomment">/// An ad-hoc **ignite** fairing. Called during ignition.
-    </span>Ignite(Once&lt;<span class="kw">dyn </span>FnOnce(Rocket&lt;Build&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;static</span>, <span class="prelude-ty">Result</span>&gt; + Send + <span class="lifetime">&#39;static</span>&gt;),
+    </span>Ignite(Once&lt;<span class="kw">dyn </span>FnOnce(Rocket&lt;Build&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'static</span>, <span class="prelude-ty">Result</span>&gt; + Send + <span class="lifetime">'static</span>&gt;),
 
     <span class="doccomment">/// An ad-hoc **liftoff** fairing. Called just after Rocket launches.
-    </span>Liftoff(Once&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">&#39;a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt; + Send + <span class="lifetime">&#39;static</span>&gt;),
+    </span>Liftoff(Once&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt; + Send + <span class="lifetime">'static</span>&gt;),
 
     <span class="doccomment">/// An ad-hoc **request** fairing. Called when a request is received.
-    </span>Request(Box&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">&#39;a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;)
-        -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt; + Send + Sync + <span class="lifetime">&#39;static</span>&gt;),
+    </span>Request(Box&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Data&lt;<span class="lifetime">'_</span>&gt;)
+        -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt; + Send + Sync + <span class="lifetime">'static</span>&gt;),
 
     <span class="doccomment">/// An ad-hoc **response** fairing. Called when a response is ready to be
     /// sent to a client.
-    </span>Response(Box&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;b</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;)
-        -&gt; BoxFuture&lt;<span class="lifetime">&#39;b</span>, ()&gt; + Send + Sync + <span class="lifetime">&#39;static</span>&gt;),
+    </span>Response(Box&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'b</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>Response&lt;<span class="lifetime">'r</span>&gt;)
+        -&gt; BoxFuture&lt;<span class="lifetime">'b</span>, ()&gt; + Send + Sync + <span class="lifetime">'static</span>&gt;),
 
     <span class="doccomment">/// An ad-hoc **shutdown** fairing. Called on shutdown.
-    </span>Shutdown(Once&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">&#39;a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt; + Send + <span class="lifetime">&#39;static</span>&gt;),
+    </span>Shutdown(Once&lt;<span class="kw">dyn for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt; + Send + <span class="lifetime">'static</span>&gt;),
 }
 
 <span class="kw">impl </span>AdHoc {
@@ -374,13 +374,13 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // The no-op ignite fairing.
-    /// let fairing = AdHoc::on_ignite(&quot;Boom!&quot;, |rocket| async move {
+    /// let fairing = AdHoc::on_ignite("Boom!", |rocket| async move {
     ///     rocket
     /// });
     /// ```
-    </span><span class="kw">pub fn </span>on_ignite&lt;F, Fut&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: FnOnce(Rocket&lt;Build&gt;) -&gt; Fut + Send + <span class="lifetime">&#39;static</span>,
-              Fut: Future&lt;Output = Rocket&lt;Build&gt;&gt; + Send + <span class="lifetime">&#39;static</span>,
+    </span><span class="kw">pub fn </span>on_ignite&lt;F, Fut&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: FnOnce(Rocket&lt;Build&gt;) -&gt; Fut + Send + <span class="lifetime">'static</span>,
+              Fut: Future&lt;Output = Rocket&lt;Build&gt;&gt; + Send + <span class="lifetime">'static</span>,
     {
         AdHoc::try_on_ignite(name, |rocket| f(rocket).map(<span class="prelude-val">Ok</span>))
     }
@@ -397,11 +397,11 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // The no-op try ignite fairing.
-    /// let fairing = AdHoc::try_on_ignite(&quot;No-Op&quot;, |rocket| async { Ok(rocket) });
+    /// let fairing = AdHoc::try_on_ignite("No-Op", |rocket| async { Ok(rocket) });
     /// ```
-    </span><span class="kw">pub fn </span>try_on_ignite&lt;F, Fut&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: FnOnce(Rocket&lt;Build&gt;) -&gt; Fut + Send + <span class="lifetime">&#39;static</span>,
-              Fut: Future&lt;Output = <span class="prelude-ty">Result</span>&gt; + Send + <span class="lifetime">&#39;static</span>,
+    </span><span class="kw">pub fn </span>try_on_ignite&lt;F, Fut&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: FnOnce(Rocket&lt;Build&gt;) -&gt; Fut + Send + <span class="lifetime">'static</span>,
+              Fut: Future&lt;Output = <span class="prelude-ty">Result</span>&gt; + Send + <span class="lifetime">'static</span>,
     {
         AdHoc { name, kind: AdHocKind::Ignite(Once::new(Box::new(|r| f(r).boxed()))) }
     }
@@ -415,12 +415,12 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // A fairing that prints a message just before launching.
-    /// let fairing = AdHoc::on_liftoff(&quot;Boom!&quot;, |_| Box::pin(async move {
-    ///     println!(&quot;Rocket has lifted off!&quot;);
+    /// let fairing = AdHoc::on_liftoff("Boom!", |_| Box::pin(async move {
+    ///     println!("Rocket has lifted off!");
     /// }));
     /// ```
-    </span><span class="kw">pub fn </span>on_liftoff&lt;F: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt;
+    </span><span class="kw">pub fn </span>on_liftoff&lt;F: Send + Sync + <span class="lifetime">'static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt;
     {
         AdHoc { name, kind: AdHocKind::Liftoff(Once::new(Box::new(f))) }
     }
@@ -435,20 +435,20 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // The no-op request fairing.
-    /// let fairing = AdHoc::on_request(&quot;Dummy&quot;, |req, data| {
+    /// let fairing = AdHoc::on_request("Dummy", |req, data| {
     ///     Box::pin(async move {
     ///         // do something with the request and data...
     /// #       let (_, _) = (req, data);
     ///     })
     /// });
     /// ```
-    </span><span class="kw">pub fn </span>on_request&lt;F: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt;
+    </span><span class="kw">pub fn </span>on_request&lt;F: Send + Sync + <span class="lifetime">'static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Data&lt;<span class="lifetime">'_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt;
     {
         AdHoc { name, kind: AdHocKind::Request(Box::new(f)) }
     }
 
-    <span class="comment">// FIXME(rustc): We&#39;d like to allow passing `async fn` to these methods...
+    <span class="comment">// FIXME(rustc): We'd like to allow passing `async fn` to these methods...
     // https://github.com/rust-lang/rust/issues/64552#issuecomment-666084589
 
     </span><span class="doccomment">/// Constructs an `AdHoc` response fairing named `name`. The function `f`
@@ -461,15 +461,15 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // The no-op response fairing.
-    /// let fairing = AdHoc::on_response(&quot;Dummy&quot;, |req, resp| {
+    /// let fairing = AdHoc::on_response("Dummy", |req, resp| {
     ///     Box::pin(async move {
     ///         // do something with the request and pending response...
     /// #       let (_, _) = (req, resp);
     ///     })
     /// });
     /// ```
-    </span><span class="kw">pub fn </span>on_response&lt;F: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;b</span>, <span class="lifetime">&#39;r</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;b</span>, ()&gt;
+    </span><span class="kw">pub fn </span>on_response&lt;F: Send + Sync + <span class="lifetime">'static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">'b</span>, <span class="lifetime">'r</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, <span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>Response&lt;<span class="lifetime">'r</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'b</span>, ()&gt;
     {
         AdHoc { name, kind: AdHocKind::Response(Box::new(f)) }
     }
@@ -485,12 +485,12 @@
     /// use rocket::fairing::AdHoc;
     ///
     /// // A fairing that prints a message just before launching.
-    /// let fairing = AdHoc::on_shutdown(&quot;Bye!&quot;, |_| Box::pin(async move {
-    ///     println!(&quot;Rocket is on its way back!&quot;);
+    /// let fairing = AdHoc::on_shutdown("Bye!", |_| Box::pin(async move {
+    ///     println!("Rocket is on its way back!");
     /// }));
     /// ```
-    </span><span class="kw">pub fn </span>on_shutdown&lt;F: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, f: F) -&gt; AdHoc
-        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">&#39;a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt;
+    </span><span class="kw">pub fn </span>on_shutdown&lt;F: Send + Sync + <span class="lifetime">'static</span>&gt;(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, f: F) -&gt; AdHoc
+        <span class="kw">where </span>F: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Rocket&lt;Orbit&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt;
     {
         AdHoc { name, kind: AdHocKind::Shutdown(Once::new(Box::new(f))) }
     }
@@ -518,8 +518,8 @@
     ///     rocket::build().attach(AdHoc::config::&lt;Config&gt;())
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>config&lt;<span class="lifetime">&#39;de</span>, T&gt;() -&gt; AdHoc
-        <span class="kw">where </span>T: serde::Deserialize&lt;<span class="lifetime">&#39;de</span>&gt; + Send + Sync + <span class="lifetime">&#39;static
+    </span><span class="kw">pub fn </span>config&lt;<span class="lifetime">'de</span>, T&gt;() -&gt; AdHoc
+        <span class="kw">where </span>T: serde::Deserialize&lt;<span class="lifetime">'de</span>&gt; + Send + Sync + <span class="lifetime">'static
     </span>{
         AdHoc::try_on_ignite(std::any::type_name::&lt;T&gt;(), |rocket| <span class="kw">async </span>{
             <span class="kw">let </span>app_config = <span class="kw">match </span>rocket.figment().extract::&lt;T&gt;() {
@@ -562,13 +562,13 @@
         </span>}
     }
 
-    <span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">'_</span>&gt;) {
         <span class="kw">if let </span>AdHocKind::Request(<span class="kw-2">ref </span>f) = <span class="self">self</span>.kind {
             f(req, data).<span class="kw">await
         </span>}
     }
 
-    <span class="kw">async fn </span>on_response&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    <span class="kw">async fn </span>on_response&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="kw">if let </span>AdHocKind::Response(<span class="kw-2">ref </span>f) = <span class="self">self</span>.kind {
             f(req, res).<span class="kw">await
         </span>}

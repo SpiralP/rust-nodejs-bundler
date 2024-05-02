@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/bang/uri_parsing.rs`."><title>uri_parsing.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/bang/uri_parsing.rs`."><title>uri_parsing.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -616,7 +616,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::attribute::param::{Parameter, Dynamic};
 <span class="kw">use </span><span class="kw">crate</span>::name::Name;
 
-<span class="comment">// TODO(diag): Use &#39;Diagnostic&#39; in place of syn::Error.
+<span class="comment">// TODO(diag): Use 'Diagnostic' in place of syn::Error.
 
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>ArgExpr {
@@ -638,7 +638,7 @@
 
 <span class="doccomment">/// A string literal parsed as a URI.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>UriLit(Uri&lt;<span class="lifetime">&#39;static</span>&gt;, Span);
+</span><span class="kw">pub struct </span>UriLit(Uri&lt;<span class="lifetime">'static</span>&gt;, Span);
 
 <span class="doccomment">/// An expression in a URI slot (prefix, suffix, or literal).
 </span><span class="attr">#[derive(Debug)]
@@ -667,12 +667,12 @@
 <span class="comment">// The macro can be invoked with 1, 2, or 3 arguments.
 //
 // As a `Literal`, with a single argument:
-//  uri!(&quot;/mount/point&quot;);
+//  uri!("/mount/point");
 //       ^-------------|
 //                 literal.0
 //
 // As `Routed`, with 1, 2, or 3 arguments: prefix/suffix optional.
-//  uri!(&quot;/mount/point&quot;, this::route(e1, e2, e3), &quot;?some#suffix&quot;);
+//  uri!("/mount/point", this::route(e1, e2, e3), "?some#suffix");
 //       ^-------------| ^---------|^----------|  |-----|------|
 //              routed.prefix      |           |   routed.suffix
 //                                 |   route.route.args
@@ -684,22 +684,22 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub enum </span>Validation&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub enum </span>Validation&lt;<span class="lifetime">'a</span>&gt; {
     <span class="comment">// Parameters that were ignored in a named argument setting.
-    </span>NamedIgnored(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Dynamic&gt;),
+    </span>NamedIgnored(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Dynamic&gt;),
     <span class="comment">// Number expected, what we actually got.
     </span>Unnamed(usize, usize),
     <span class="comment">// (Missing, Extra, Duplicate)
-    </span>Named(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Name&gt;, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Ident&gt;, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Ident&gt;),
+    </span>Named(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Name&gt;, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Ident&gt;, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Ident&gt;),
     <span class="comment">// Everything is okay; here are the expressions in the route decl order.
-    </span><span class="prelude-val">Ok</span>(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ArgExpr&gt;)
+    </span><span class="prelude-val">Ok</span>(Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>ArgExpr&gt;)
 }
 
 <span class="comment">// This is invoked by Rocket itself. The `uri!` macro expands to a call to a
 // route-specific macro which in-turn expands to a call to `internal_uri!`,
-// passing along the user&#39;s invocation (`uri_mac`) from the original `uri!`
+// passing along the user's invocation (`uri_mac`) from the original `uri!`
 // call. This is necessary so that we can converge the type information in the
-// route (from the route-specific macro) with the user&#39;s parameters (by
+// route (from the route-specific macro) with the user's parameters (by
 // forwarding them to the internal_uri! call).
 //
 // `fn_args` are the URI arguments (excluding request guards) from the original
@@ -708,13 +708,13 @@
 //
 // The syntax of `uri_mac` is that of `UriMacro`.
 //
-//  internal_uri!(&quot;/&lt;one&gt;/&lt;_&gt;?lang=en&amp;&lt;two&gt;&quot;, (one: ty, two: ty), $($tt)*);
+//  internal_uri!("/&lt;one&gt;/&lt;_&gt;?lang=en&amp;&lt;two&gt;", (one: ty, two: ty), $($tt)*);
 //                ^----/----^ ^-----\-----^    ^-------/------^   ^-----|
 //               path_params    query_params       fn_args          uri_mac
 //                ^------ route_uri ------^
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>InternalUriParams {
-    <span class="kw">pub </span>route_uri: Origin&lt;<span class="lifetime">&#39;static</span>&gt;,
+    <span class="kw">pub </span>route_uri: Origin&lt;<span class="lifetime">'static</span>&gt;,
     <span class="kw">pub </span>path_params: Vec&lt;Parameter&gt;,
     <span class="kw">pub </span>query_params: Vec&lt;Parameter&gt;,
     <span class="kw">pub </span>fn_args: Vec&lt;FnArg&gt;,
@@ -732,7 +732,7 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>ArgExpr {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">if </span>input.peek(<span class="macro">Token!</span>[<span class="kw">_</span>]) {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(ArgExpr::Ignored(input.parse::&lt;<span class="macro">Token!</span>[<span class="kw">_</span>]&gt;()<span class="question-mark">?</span>));
         }
@@ -742,7 +742,7 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>Arg {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>has_key = input.peek2(<span class="macro">Token!</span>[=]);
         <span class="kw">if </span>has_key {
             <span class="kw">let </span>ident = input.parse::&lt;Ident&gt;()<span class="question-mark">?</span>;
@@ -757,7 +757,7 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>Args {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
         <span class="comment">// If there are no arguments, finish early.
         </span><span class="kw">if </span>input.cursor().eof() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(Args::Unnamed(Punctuated::new()));
@@ -769,7 +769,7 @@
         <span class="kw">for </span>arg <span class="kw">in </span><span class="kw-2">&amp;</span>args {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(first_is_named) = first_is_named {
                 <span class="kw">if </span>first_is_named != arg.is_named() {
-                    <span class="kw">return </span>err(args.span(), <span class="string">&quot;named and unnamed parameters cannot be mixed&quot;</span>);
+                    <span class="kw">return </span>err(args.span(), <span class="string">"named and unnamed parameters cannot be mixed"</span>);
                 }
             } <span class="kw">else </span>{
                 first_is_named = <span class="prelude-val">Some</span>(arg.is_named());
@@ -785,7 +785,7 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>RouteInvocation {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>path = input.parse()<span class="question-mark">?</span>;
         <span class="kw">let </span>args = <span class="kw">if </span>input.peek(syn::token::Paren) {
             <span class="kw">let </span>args;
@@ -800,13 +800,13 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>UriLit {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">let </span>string = input.parse::&lt;StringLit&gt;()<span class="question-mark">?</span>;
         <span class="kw">let </span>uri = <span class="kw">match </span>Uri::parse_any(<span class="kw-2">&amp;</span>string) {
             <span class="prelude-val">Ok</span>(uri) =&gt; uri.into_owned(),
             <span class="prelude-val">Err</span>(e) =&gt; {
                 <span class="kw">let </span>span = string.subspan(e.index() + <span class="number">1</span>..(e.index() + <span class="number">2</span>));
-                <span class="kw">return </span>err(span, <span class="macro">format!</span>(<span class="string">&quot;invalid URI: {}&quot;</span>, e));
+                <span class="kw">return </span>err(span, <span class="macro">format!</span>(<span class="string">"invalid URI: {}"</span>, e));
             }
         };
 
@@ -815,7 +815,7 @@
 }
 
 <span class="kw">impl </span>UriMacro {
-    <span class="kw">fn </span>unary(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>unary(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">if </span>input.peek(LitStr) {
             <span class="prelude-val">Ok</span>(UriMacro::Literal(input.parse()<span class="question-mark">?</span>))
         } <span class="kw">else </span>{
@@ -845,17 +845,17 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>UriMacro {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">use </span>syn::buffer::Cursor;
         <span class="kw">use </span>parse::{StepCursor, <span class="prelude-ty">Result</span>};
 
-        <span class="kw">fn </span>stream&lt;<span class="lifetime">&#39;c</span>&gt;(cursor: StepCursor&lt;<span class="lifetime">&#39;c</span>, <span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="prelude-ty">Option</span>&lt;TokenStream&gt;, Cursor&lt;<span class="lifetime">&#39;c</span>&gt;)&gt; {
+        <span class="kw">fn </span>stream&lt;<span class="lifetime">'c</span>&gt;(cursor: StepCursor&lt;<span class="lifetime">'c</span>, <span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="prelude-ty">Option</span>&lt;TokenStream&gt;, Cursor&lt;<span class="lifetime">'c</span>&gt;)&gt; {
             <span class="kw">let </span><span class="kw-2">mut </span>stream = TokenStream::new();
             <span class="kw">let </span><span class="kw-2">mut </span>cursor = <span class="kw-2">*</span>cursor;
             <span class="kw">while let </span><span class="prelude-val">Some</span>((tt, next)) = cursor.token_tree() {
                 cursor = next;
                 <span class="kw">match </span>tt {
-                    TokenTree::Punct(p) <span class="kw">if </span>p.as_char() == <span class="string">&#39;,&#39; </span>=&gt; <span class="kw">break</span>,
+                    TokenTree::Punct(p) <span class="kw">if </span>p.as_char() == <span class="string">',' </span>=&gt; <span class="kw">break</span>,
                     <span class="kw">_ </span>=&gt;  stream.append(tt)
                 }
             }
@@ -873,27 +873,27 @@
         <span class="kw">let </span>(arg_count, <span class="kw-2">mut </span>iter) = (args.len(), args.into_iter());
         <span class="kw">let </span><span class="kw-2">mut </span>next = || iter.next().unwrap();
         <span class="kw">match </span>arg_count {
-            <span class="number">0 </span>=&gt; err(Span::call_site(), <span class="string">&quot;expected at least 1 argument, found none&quot;</span>),
+            <span class="number">0 </span>=&gt; err(Span::call_site(), <span class="string">"expected at least 1 argument, found none"</span>),
             <span class="number">1 </span>=&gt; UriMacro::unary.parse2(next()),
             <span class="number">2 </span>=&gt; UriMacro::binary(next(), next()),
             <span class="number">3 </span>=&gt; UriMacro::ternary(next(), next(), next()),
             n =&gt; err(iter.nth(<span class="number">3</span>).unwrap().span(),
-                <span class="macro">format!</span>(<span class="string">&quot;expected 1, 2, or 3 arguments, found {}&quot;</span>, n))
+                <span class="macro">format!</span>(<span class="string">"expected 1, 2, or 3 arguments, found {}"</span>, n))
         }
     }
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>RoutedUri {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="self">Self</span>&gt; {
         <span class="kw">match </span>UriMacro::parse(input)<span class="question-mark">? </span>{
             UriMacro::Routed(route) =&gt; <span class="prelude-val">Ok</span>(route),
-            UriMacro::Literal(uri) =&gt; err(uri.span(), <span class="string">&quot;expected route URI, found literal&quot;</span>)
+            UriMacro::Literal(uri) =&gt; err(uri.span(), <span class="string">"expected route URI, found literal"</span>)
         }
     }
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>FnArg {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;FnArg&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;FnArg&gt; {
         <span class="kw">let </span>ident = input.parse::&lt;Ident&gt;()<span class="question-mark">?</span>;
         input.parse::&lt;<span class="macro">Token!</span>[:]&gt;()<span class="question-mark">?</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>ty = input.parse::&lt;Type&gt;()<span class="question-mark">?</span>;
@@ -903,7 +903,7 @@
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>InternalUriParams {
-    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;InternalUriParams&gt; {
+    <span class="kw">fn </span>parse(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;InternalUriParams&gt; {
         <span class="kw">let </span>route_uri_str = input.parse::&lt;StringLit&gt;()<span class="question-mark">?</span>;
         input.parse::&lt;<span class="macro">Token!</span>[,]&gt;()<span class="question-mark">?</span>;
 
@@ -911,7 +911,7 @@
         // if the route attribute succeeded, implying a valid route URI.
         </span><span class="kw">let </span>route_uri = Origin::parse_route(<span class="kw-2">&amp;</span>route_uri_str)
             .map(|o| o.into_normalized().into_owned())
-            .map_err(|<span class="kw">_</span>| input.error(<span class="string">&quot;internal error: invalid route URI&quot;</span>))<span class="question-mark">?</span>;
+            .map_err(|<span class="kw">_</span>| input.error(<span class="string">"internal error: invalid route URI"</span>))<span class="question-mark">?</span>;
 
         <span class="kw">let </span>content;
         <span class="macro">syn::parenthesized!</span>(content <span class="kw">in </span>input);
@@ -923,7 +923,7 @@
 
         <span class="kw">let </span>span = route_uri_str.subspan(<span class="number">1</span>..route_uri.path().len() + <span class="number">1</span>);
         <span class="kw">let </span>path_params = Parameter::parse_many::&lt;fmt::Path&gt;(route_uri.path().as_str(), span)
-            .map(|p| p.expect(<span class="string">&quot;internal error: invalid path parameter&quot;</span>))
+            .map(|p| p.expect(<span class="string">"internal error: invalid path parameter"</span>))
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
         <span class="kw">let </span>query = route_uri.query();
@@ -931,7 +931,7 @@
             <span class="kw">let </span>i = route_uri.path().len() + <span class="number">2</span>;
             <span class="kw">let </span>span = route_uri_str.subspan(i..(i + query.len()));
             Parameter::parse_many::&lt;fmt::Query&gt;(query.as_str(), span)
-                .map(|p| p.expect(<span class="string">&quot;internal error: invalid query parameter&quot;</span>))
+                .map(|p| p.expect(<span class="string">"internal error: invalid query parameter"</span>))
                 .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
         }).unwrap_or_default();
 
@@ -952,10 +952,10 @@
                 <span class="kw">let </span>ty = ty.with_stripped_lifetimes();
                 <span class="kw">let </span>ty_str = <span class="macro">quote!</span>(#ty).to_string();
                 <span class="kw">let </span>ty_str: String = ty_str.chars().filter(|c| !c.is_whitespace()).collect();
-                <span class="macro">format!</span>(<span class="string">&quot;{}: {}&quot;</span>, ident, ty_str)
+                <span class="macro">format!</span>(<span class="string">"{}: {}"</span>, ident, ty_str)
             })
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-            .join(<span class="string">&quot;, &quot;</span>)
+            .join(<span class="string">", "</span>)
     }
 
     <span class="kw">pub fn </span>dynamic_path_params(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Dynamic&gt; + Clone {
@@ -967,7 +967,7 @@
         <span class="self">self</span>.query_params.iter().filter_map(|p| p.dynamic())
     }
 
-    <span class="kw">pub fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Validation&lt;<span class="lifetime">&#39;_</span>&gt; {
+    <span class="kw">pub fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Validation&lt;<span class="lifetime">'_</span>&gt; {
         <span class="kw">let </span>args = <span class="kw-2">&amp;</span><span class="self">self</span>.uri_mac.route.args;
         <span class="kw">let </span>all_params = <span class="self">self</span>.dynamic_path_params().chain(<span class="self">self</span>.dynamic_query_params());
         <span class="kw">match </span>args {
@@ -1037,14 +1037,14 @@
     <span class="kw">fn </span>unnamed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ArgExpr {
         <span class="kw">match </span><span class="self">self </span>{
             Arg::Unnamed(expr) =&gt; expr,
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Called Arg::unnamed() on an Arg::Named!&quot;</span>),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"Called Arg::unnamed() on an Arg::Named!"</span>),
         }
     }
 
     <span class="kw">fn </span>named(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span>Name, <span class="kw-2">&amp;</span>Ident, <span class="kw-2">&amp;</span>ArgExpr) {
         <span class="kw">match </span><span class="self">self </span>{
             Arg::Named(name, ident, <span class="kw">_</span>, expr) =&gt; (name, ident, expr),
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Called Arg::named() on an Arg::Unnamed!&quot;</span>),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"Called Arg::named() on an Arg::Unnamed!"</span>),
         }
     }
 }
@@ -1068,18 +1068,18 @@
     <span class="kw">pub fn </span>unwrap_expr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Expr {
         <span class="kw">match </span><span class="self">self </span>{
             ArgExpr::Expr(expr) =&gt; expr,
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Called ArgExpr::expr() on ArgExpr::Ignored!&quot;</span>),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"Called ArgExpr::expr() on ArgExpr::Ignored!"</span>),
         }
     }
 }
 
-<span class="kw">fn </span>uri_err&lt;T&gt;(lit: <span class="kw-2">&amp;</span>StringLit, error: Error&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; parse::Result&lt;T&gt; {
+<span class="kw">fn </span>uri_err&lt;T&gt;(lit: <span class="kw-2">&amp;</span>StringLit, error: Error&lt;<span class="lifetime">'_</span>&gt;) -&gt; parse::Result&lt;T&gt; {
     <span class="kw">let </span>span = lit.subspan(error.index() + <span class="number">1</span>..(error.index() + <span class="number">2</span>));
-    err(span, <span class="macro">format!</span>(<span class="string">&quot;invalid URI: {}&quot;</span>, error))
+    err(span, <span class="macro">format!</span>(<span class="string">"invalid URI: {}"</span>, error))
 }
 
 <span class="kw">impl </span>UriExpr {
-    <span class="kw">fn </span>parse_prefix(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;&gt; {
+    <span class="kw">fn </span>parse_prefix(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;&gt; {
         <span class="kw">if </span>input.parse::&lt;<span class="macro">Token!</span>[<span class="kw">_</span>]&gt;().is_ok() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }
@@ -1089,21 +1089,21 @@
         }
 
         <span class="kw">let </span>lit = input.parse::&lt;StringLit&gt;()<span class="question-mark">?</span>;
-        <span class="kw">let </span>uri = Uri::parse::&lt;Origin&lt;<span class="lifetime">&#39;_</span>&gt;&gt;(<span class="kw-2">&amp;</span>lit)
-            .or_else(|e| Uri::parse::&lt;Absolute&lt;<span class="lifetime">&#39;_</span>&gt;&gt;(<span class="kw-2">&amp;</span>lit).map_err(|e2| (e, e2)))
-            .map_err(|(e1, e2)| lit.starts_with(<span class="string">&#39;/&#39;</span>).then(|| e1).unwrap_or(e2))
+        <span class="kw">let </span>uri = Uri::parse::&lt;Origin&lt;<span class="lifetime">'_</span>&gt;&gt;(<span class="kw-2">&amp;</span>lit)
+            .or_else(|e| Uri::parse::&lt;Absolute&lt;<span class="lifetime">'_</span>&gt;&gt;(<span class="kw-2">&amp;</span>lit).map_err(|e2| (e, e2)))
+            .map_err(|(e1, e2)| lit.starts_with(<span class="string">'/'</span>).then(|| e1).unwrap_or(e2))
             .or_else(|e| uri_err(<span class="kw-2">&amp;</span>lit, e))<span class="question-mark">?</span>;
 
         <span class="kw">if </span><span class="macro">matches!</span>(<span class="kw-2">&amp;</span>uri, Uri::Origin(o) <span class="kw">if </span>o.query().is_some())
             || <span class="macro">matches!</span>(<span class="kw-2">&amp;</span>uri, Uri::Absolute(a) <span class="kw">if </span>a.query().is_some())
         {
-            <span class="kw">return </span>err(lit.span(), <span class="string">&quot;URI prefix cannot contain query part&quot;</span>);
+            <span class="kw">return </span>err(lit.span(), <span class="string">"URI prefix cannot contain query part"</span>);
         }
 
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(UriExpr::Uri(UriLit(uri.into_owned(), lit.span()))))
     }
 
-    <span class="kw">fn </span>parse_suffix(input: ParseStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; syn::Result&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;&gt; {
+    <span class="kw">fn </span>parse_suffix(input: ParseStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; syn::Result&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;&gt; {
         <span class="kw">if </span>input.parse::&lt;<span class="macro">Token!</span>[<span class="kw">_</span>]&gt;().is_ok() {
             <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }
@@ -1115,22 +1115,22 @@
         <span class="kw">let </span>lit = input.parse::&lt;StringLit&gt;()<span class="question-mark">?</span>;
         <span class="kw">let </span>uri = Reference::parse(<span class="kw-2">&amp;</span>lit).or_else(|e| uri_err(<span class="kw-2">&amp;</span>lit, e))<span class="question-mark">?</span>;
         <span class="kw">if </span>uri.scheme().is_some() || uri.authority().is_some() || !uri.path().is_empty() {
-            <span class="kw">return </span>err(lit.span(), <span class="string">&quot;URI suffix must contain only query and/or fragment&quot;</span>);
+            <span class="kw">return </span>err(lit.span(), <span class="string">"URI suffix must contain only query and/or fragment"</span>);
         }
 
-        <span class="comment">// This is a bit of finagling to get the types to match up how we&#39;d
-        // like. A URI like `?foo` will parse as a `Reference`, since that&#39;s
-        // what it is. But if we left this as is, we&#39;d convert Origins and
-        // Absolutes to References on suffix appendage when we don&#39;t need to.
+        <span class="comment">// This is a bit of finagling to get the types to match up how we'd
+        // like. A URI like `?foo` will parse as a `Reference`, since that's
+        // what it is. But if we left this as is, we'd convert Origins and
+        // Absolutes to References on suffix appendage when we don't need to.
         // This is because anything + a Reference _must_ result in a Reference
         // since the resulting URI could have a fragment. Since here we know
-        // that&#39;s not the case, we lie and say it&#39;s Absolute since an Absolute
-        // can&#39;t contain a fragment, so an Origin + Absolute suffix is still an
+        // that's not the case, we lie and say it's Absolute since an Absolute
+        // can't contain a fragment, so an Origin + Absolute suffix is still an
         // Origin, and likewise for an Absolute.
         </span><span class="kw">let </span>uri = <span class="kw">match </span>uri.fragment() {
             <span class="prelude-val">None </span>=&gt; {
                 <span class="kw">let </span>query = uri.query().map(|q| q.as_str());
-                Uri::Absolute(Absolute::const_new(<span class="string">&quot;&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;&quot;</span>, query))
+                Uri::Absolute(Absolute::const_new(<span class="string">""</span>, <span class="prelude-val">None</span>, <span class="string">""</span>, query))
             }
             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; Uri::Reference(uri)
         };
@@ -1140,7 +1140,7 @@
 }
 
 <span class="kw">impl </span>Deref <span class="kw">for </span>UriLit {
-    <span class="kw">type </span>Target = Uri&lt;<span class="lifetime">&#39;static</span>&gt;;
+    <span class="kw">type </span>Target = Uri&lt;<span class="lifetime">'static</span>&gt;;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0

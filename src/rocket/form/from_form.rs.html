@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/from_form.rs`."><title>from_form.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/from_form.rs`."><title>from_form.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -965,7 +965,7 @@
 /// use rocket::form::Form;
 ///
 /// # type FormGuard = String;
-/// #[post(&quot;/submit&quot;, data = &quot;&lt;var&gt;&quot;)]
+/// #[post("/submit", data = "&lt;var&gt;")]
 /// fn submit(var: Form&lt;FormGuard&gt;) { /* ... */ }
 /// ```
 ///
@@ -973,8 +973,8 @@
 ///
 /// This trait can, and largely _should_, be automatically derived. When
 /// deriving `FromForm`, every field in the structure must implement
-/// [`FromForm`]. Form fields with the struct field&#39;s name are [shifted] and
-/// then pushed to the struct field&#39;s `FromForm` parser.
+/// [`FromForm`]. Form fields with the struct field's name are [shifted] and
+/// then pushed to the struct field's `FromForm` parser.
 ///
 /// [shifted]: NameView::shift()
 ///
@@ -982,10 +982,10 @@
 /// use rocket::form::FromForm;
 ///
 /// #[derive(FromForm)]
-/// struct TodoTask&lt;&#39;r&gt; {
+/// struct TodoTask&lt;'r&gt; {
 ///     #[field(validate = len(1..))]
-///     description: &amp;&#39;r str,
-///     #[field(name = &quot;done&quot;)]
+///     description: &amp;'r str,
+///     #[field(name = "done")]
 ///     completed: bool
 /// }
 /// ```
@@ -998,7 +998,7 @@
 /// [FromFormField]: crate::form::FromFormField
 /// [`shift()`ed]: NameView::shift()
 /// [`key()`]: NameView::key()
-/// [forms guide]: https://rocket.rs/v0.5-rc/guide/requests/#forms
+/// [forms guide]: https://rocket.rs/v0.5/guide/requests/#forms
 ///
 /// # Parsing Strategy
 ///
@@ -1016,10 +1016,10 @@
 /// use rocket::form::{self, FromForm, Strict, Lenient};
 ///
 /// #[derive(FromForm)]
-/// struct TodoTask&lt;&#39;r&gt; {
+/// struct TodoTask&lt;'r&gt; {
 ///     strict_bool: Strict&lt;bool&gt;,
 ///     lenient_inner_option: Option&lt;Lenient&lt;bool&gt;&gt;,
-///     strict_inner_result: form::Result&lt;&#39;r, Strict&lt;bool&gt;&gt;,
+///     strict_inner_result: form::Result&lt;'r, Strict&lt;bool&gt;&gt;,
 /// }
 /// ```
 ///
@@ -1044,7 +1044,7 @@
 /// | `Vec&lt;T&gt;`           | _inherit_   | `vec![]`          | if `T` | if `T` | `T: FromForm`                                      |
 /// | [`HashMap&lt;K, V&gt;`]  | _inherit_   | `HashMap::new()`  | if `V` | if `V` | `K: FromForm + Eq + Hash`, `V: FromForm`           |
 /// | [`BTreeMap&lt;K, V&gt;`] | _inherit_   | `BTreeMap::new()` | if `V` | if `V` | `K: FromForm + Ord`, `V: FromForm`                 |
-/// | `bool`             | _inherit_   | `false`           | No     | Yes    | `&quot;yes&quot;/&quot;on&quot;/&quot;true&quot;`, `&quot;no&quot;/&quot;off&quot;/&quot;false&quot;`          |
+/// | `bool`             | _inherit_   | `false`           | No     | Yes    | `"yes"/"on"/"true"`, `"no"/"off"/"false"`          |
 /// | (un)signed int     | _inherit_   | **no default**    | No     | Yes    | `{u,i}{size,8,16,32,64,128}`                       |
 /// | _nonzero_ int      | _inherit_   | **no default**    | No     | Yes    | `NonZero{I,U}{size,8,16,32,64,128}`                |
 /// | float              | _inherit_   | **no default**    | No     | Yes    | `f{32,64}`                                         |
@@ -1055,7 +1055,7 @@
 /// | Socket Address     | _inherit_   | **no default**    | No     | Yes    | [`SocketAddr`], [`SocketAddrV4`], [`SocketAddrV6`] |
 /// | [`TempFile`]       | _inherit_   | **no default**    | Yes    | Yes    | Data limits apply. See [`TempFile`].               |
 /// | [`Capped&lt;C&gt;`]      | _inherit_   | **no default**    | Yes    | Yes    | `C` is `&amp;str`, `String`, `&amp;[u8]` or `TempFile`.    |
-/// | [`time::Date`]     | _inherit_   | **no default**    | No     | Yes    | `%F` (`YYYY-MM-DD`). HTML &quot;date&quot; input.            |
+/// | [`time::Date`]     | _inherit_   | **no default**    | No     | Yes    | `%F` (`YYYY-MM-DD`). HTML "date" input.            |
 /// | [`time::DateTime`] | _inherit_   | **no default**    | No     | Yes    | `%FT%R` or `%FT%T` (`YYYY-MM-DDTHH:MM[:SS]`)       |
 /// | [`time::Time`]     | _inherit_   | **no default**    | No     | Yes    | `%R` or `%T` (`HH:MM[:SS]`)                        |
 ///
@@ -1078,8 +1078,8 @@
 ///
 ///   * **`Vec&lt;T&gt;` where `T: FromForm`**
 ///
-///     Parses a sequence of `T`&#39;s. A new `T` is created whenever the field
-///     name&#39;s key changes or is empty; the previous `T` is finalized and errors
+///     Parses a sequence of `T`'s. A new `T` is created whenever the field
+///     name's key changes or is empty; the previous `T` is finalized and errors
 ///     are stored. While the key remains the same and non-empty, form values
 ///     are pushed to the current `T` after being shifted. All collected errors
 ///     are returned at finalization, if any, or the successfully created vector
@@ -1089,18 +1089,18 @@
 ///
 ///     **`BTreeMap&lt;K, V&gt;` where `K: FromForm + Ord`, `V: FromForm`**
 ///
-///     Parses a sequence of `(K, V)`&#39;s. A new pair is created for every unique
+///     Parses a sequence of `(K, V)`'s. A new pair is created for every unique
 ///     first index of the key.
 ///
 ///     If the key has only one index (`map[index]=value`), the index itself is
-///     pushed to `K`&#39;s parser and the remaining shifted field is pushed to
-///     `V`&#39;s parser.
+///     pushed to `K`'s parser and the remaining shifted field is pushed to
+///     `V`'s parser.
 ///
 ///     If the key has two indices (`map[k:index]=value` or
 ///     `map[v:index]=value`), the first index must start with `k` or `v`. If
-///     the first index starts with `k`, the shifted field is pushed to `K`&#39;s
+///     the first index starts with `k`, the shifted field is pushed to `K`'s
 ///     parser. If the first index starts with `v`, the shifted field is pushed
-///     to `V`&#39;s parser. If the first index is anything else, an error is
+///     to `V`'s parser. If the first index is anything else, an error is
 ///     created for the offending form field.
 ///
 ///     Errors are collected as they occur. Finalization finalizes all pairs and
@@ -1115,18 +1115,18 @@
 ///   * **[`time::DateTime`]**
 ///
 ///     Parses a date in `%FT%R` or `%FT%T` format, that is, `YYYY-MM-DDTHH:MM`
-///     or `YYYY-MM-DDTHH:MM:SS`. This is the `&quot;datetime-local&quot;` HTML input type
+///     or `YYYY-MM-DDTHH:MM:SS`. This is the `"datetime-local"` HTML input type
 ///     without support for the millisecond variant.
 ///
 ///   * **[`time::Time`]**
 ///
 ///     Parses a time in `%R` or `%T` format, that is, `HH:MM` or `HH:MM:SS`.
-///     This is the `&quot;time&quot;` HTML input type without support for the millisecond
+///     This is the `"time"` HTML input type without support for the millisecond
 ///     variant.
 ///
 /// # Push Parsing
 ///
-/// `FromForm` describes a push-based parser for Rocket&#39;s [field wire format].
+/// `FromForm` describes a push-based parser for Rocket's [field wire format].
 /// Fields are preprocessed into either [`ValueField`]s or [`DataField`]s which
 /// are then pushed to the parser in [`FromForm::push_value()`] or
 /// [`FromForm::push_data()`], respectively. Both url-encoded forms and
@@ -1147,14 +1147,14 @@
 ///      use rocket::form::Options;
 ///
 ///      # #[rocket::async_trait]
-///      # impl&lt;&#39;r&gt; FromForm&lt;&#39;r&gt; for Foo {
+///      # impl&lt;'r&gt; FromForm&lt;'r&gt; for Foo {
 ///          # type Context = std::convert::Infallible;
 ///      fn init(opts: Options) -&gt; Self::Context {
-///          todo!(&quot;return a context for storing parse state&quot;)
+///          todo!("return a context for storing parse state")
 ///      }
-///          # fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;&#39;r&gt;) { todo!() }
-///          # async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;&#39;r, &#39;_&gt;) { todo!() }
-///          # fn finalize(ctxt: Self::Context) -&gt; Result&lt;&#39;r, Self&gt; { todo!() }
+///          # fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;'r&gt;) { todo!() }
+///          # async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;'r, '_&gt;) { todo!() }
+///          # fn finalize(ctxt: Self::Context) -&gt; Result&lt;'r, Self&gt; { todo!() }
 ///      # }
 ///      ```
 ///
@@ -1171,17 +1171,17 @@
 ///      use rocket::form::{ValueField, DataField};
 ///
 ///      # #[rocket::async_trait]
-///      # impl&lt;&#39;r&gt; FromForm&lt;&#39;r&gt; for Foo {
+///      # impl&lt;'r&gt; FromForm&lt;'r&gt; for Foo {
 ///          # type Context = std::convert::Infallible;
 ///          # fn init(opts: Options) -&gt; Self::Context { todo!() }
-///      fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;&#39;r&gt;) {
-///          todo!(&quot;modify context as necessary for `field`&quot;)
+///      fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;'r&gt;) {
+///          todo!("modify context as necessary for `field`")
 ///      }
 ///
-///      async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;&#39;r, &#39;_&gt;) {
-///          todo!(&quot;modify context as necessary for `field`&quot;)
+///      async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;'r, '_&gt;) {
+///          todo!("modify context as necessary for `field`")
 ///      }
-///          # fn finalize(ctxt: Self::Context) -&gt; Result&lt;&#39;r, Self&gt; { todo!() }
+///          # fn finalize(ctxt: Self::Context) -&gt; Result&lt;'r, Self&gt; { todo!() }
 ///      # }
 ///      ```
 ///
@@ -1195,13 +1195,13 @@
 ///      use rocket::form::Result;
 ///
 ///      # #[rocket::async_trait]
-///      # impl&lt;&#39;r&gt; FromForm&lt;&#39;r&gt; for Foo {
+///      # impl&lt;'r&gt; FromForm&lt;'r&gt; for Foo {
 ///          # type Context = std::convert::Infallible;
 ///          # fn init(opts: Options) -&gt; Self::Context { todo!() }
-///          # fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;&#39;r&gt;) { todo!() }
-///          # async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;&#39;r, &#39;_&gt;) { todo!() }
-///      fn finalize(ctxt: Self::Context) -&gt; Result&lt;&#39;r, Self&gt; {
-///          todo!(&quot;inspect context to generate `Self` or `Errors`&quot;)
+///          # fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;'r&gt;) { todo!() }
+///          # async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;'r, '_&gt;) { todo!() }
+///      fn finalize(ctxt: Self::Context) -&gt; Result&lt;'r, Self&gt; {
+///          todo!("inspect context to generate `Self` or `Errors`")
 ///      }
 ///      # }
 ///      ```
@@ -1215,11 +1215,11 @@
 /// unique leaf of a structure. The value of the field typically represents the
 /// desired value of the leaf.
 ///
-/// A [`NameView`] captures and simplifies this &quot;left-to-right&quot; processing of a
-/// field&#39;s name by exposing a sliding-prefix view into a name. A [`shift()`]
+/// A [`NameView`] captures and simplifies this "left-to-right" processing of a
+/// field's name by exposing a sliding-prefix view into a name. A [`shift()`]
 /// shifts the view one key to the right. Thus, a `Name` of `a.b.c` when viewed
 /// through a new [`NameView`] is `a`. Shifted once, the view is `a.b`.
-/// [`key()`] returns the last (or &quot;current&quot;) key in the view. A nested
+/// [`key()`] returns the last (or "current") key in the view. A nested
 /// structure can thus handle a field with a `NameView`, operate on the
 /// [`key()`], [`shift()`] the `NameView`, and pass the field with the shifted
 /// `NameView` to the next processor which handles `b` and so on.
@@ -1231,7 +1231,7 @@
 ///
 /// The following example uses `f1=v1&amp;f2=v2` to illustrate field/value pairs
 /// `(f1, v2)` and `(f2, v2)`. This is the same encoding used to send HTML forms
-/// over HTTP, though Rocket&#39;s push-parsers are unaware of any specific
+/// over HTTP, though Rocket's push-parsers are unaware of any specific
 /// encoding, dealing only with logical `field`s, `index`es, and `value`s.
 ///
 /// ### A Single Field (`T: FormFormField`)
@@ -1246,13 +1246,13 @@
 ///      ```rust
 ///      use rocket::form::{self, FromFormField};
 ///
-///      struct Context&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; {
+///      struct Context&lt;'r, T: FromFormField&lt;'r&gt;&gt; {
 ///          opts: form::Options,
-///          result: Option&lt;form::Result&lt;&#39;r, T&gt;&gt;,
+///          result: Option&lt;form::Result&lt;'r, T&gt;&gt;,
 ///      }
 ///
-///      # impl&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; Context&lt;&#39;r, T&gt; {
-///      fn init(opts: form::Options) -&gt; Context&lt;&#39;r, T&gt; {
+///      # impl&lt;'r, T: FromFormField&lt;'r&gt;&gt; Context&lt;'r, T&gt; {
+///      fn init(opts: form::Options) -&gt; Context&lt;'r, T&gt; {
 ///         Context { opts, result: None }
 ///      }
 ///      # }
@@ -1264,12 +1264,12 @@
 ///
 ///      ```rust
 ///      # use rocket::form::{self, ValueField, FromFormField};
-///      # struct Context&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; {
+///      # struct Context&lt;'r, T: FromFormField&lt;'r&gt;&gt; {
 ///      #     opts: form::Options,
-///      #     result: Option&lt;form::Result&lt;&#39;r, T&gt;&gt;,
+///      #     result: Option&lt;form::Result&lt;'r, T&gt;&gt;,
 ///      # }
-///      # impl&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; Context&lt;&#39;r, T&gt; {
-///      fn push_value(ctxt: &amp;mut Context&lt;&#39;r, T&gt;, field: ValueField&lt;&#39;r&gt;) {
+///      # impl&lt;'r, T: FromFormField&lt;'r&gt;&gt; Context&lt;'r, T&gt; {
+///      fn push_value(ctxt: &amp;mut Context&lt;'r, T&gt;, field: ValueField&lt;'r&gt;) {
 ///          if ctxt.result.is_none() {
 ///              ctxt.result = Some(T::from_value(field));
 ///          }
@@ -1283,12 +1283,12 @@
 ///
 ///      ```rust
 ///      # use rocket::form::{self, FromFormField, error::{Errors, ErrorKind}};
-///      # struct Context&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; {
+///      # struct Context&lt;'r, T: FromFormField&lt;'r&gt;&gt; {
 ///      #     opts: form::Options,
-///      #     result: Option&lt;form::Result&lt;&#39;r, T&gt;&gt;,
+///      #     result: Option&lt;form::Result&lt;'r, T&gt;&gt;,
 ///      # }
-///      # impl&lt;&#39;r, T: FromFormField&lt;&#39;r&gt;&gt; Context&lt;&#39;r, T&gt; {
-///      fn finalize(ctxt: Context&lt;&#39;r, T&gt;) -&gt; form::Result&lt;&#39;r, T&gt; {
+///      # impl&lt;'r, T: FromFormField&lt;'r&gt;&gt; Context&lt;'r, T&gt; {
+///      fn finalize(ctxt: Context&lt;'r, T&gt;) -&gt; form::Result&lt;'r, T&gt; {
 ///          match ctxt.result {
 ///              Some(result) =&gt; result,
 ///              None if ctxt.opts.strict =&gt; Err(Errors::from(ErrorKind::Missing)),
@@ -1305,12 +1305,12 @@
 ///
 ///   * handling both `push_data` and `push_value`
 ///   * checking for duplicate pushes when parsing is `strict`
-///   * tracking the field&#39;s name and value to generate a complete [`Error`]
+///   * tracking the field's name and value to generate a complete [`Error`]
 ///
 /// # Implementing
 ///
 /// Implementing `FromForm` should be a rare occurrence. Prefer instead to use
-/// Rocket&#39;s built-in derivation or, for custom types, implementing
+/// Rocket's built-in derivation or, for custom types, implementing
 /// [`FromFormField`].
 ///
 /// An implementation of `FromForm` consists of implementing the three stages
@@ -1324,28 +1324,28 @@
 /// use rocket::form::{self, FromForm, DataField, ValueField};
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromForm&lt;&#39;r&gt; for MyType {
+/// impl&lt;'r&gt; FromForm&lt;'r&gt; for MyType {
 ///     type Context = MyContext;
 ///
 ///     fn init(opts: form::Options) -&gt; Self::Context {
 ///         todo!()
 ///     }
 ///
-///     fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;&#39;r&gt;) {
+///     fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;'r&gt;) {
 ///         todo!()
 ///     }
 ///
-///     async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;&#39;r, &#39;_&gt;) {
+///     async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;'r, '_&gt;) {
 ///         todo!()
 ///     }
 ///
-///     fn finalize(this: Self::Context) -&gt; form::Result&lt;&#39;r, Self&gt; {
+///     fn finalize(this: Self::Context) -&gt; form::Result&lt;'r, Self&gt; {
 ///         todo!()
 ///     }
 /// }
 /// ```
 ///
-/// The lifetime `&#39;r` corresponds to the lifetime of the request.
+/// The lifetime `'r` corresponds to the lifetime of the request.
 ///
 /// ## A More Involved Example
 ///
@@ -1374,17 +1374,17 @@
 /// /// A form guard parseable from fields `.0` and `.1`.
 /// struct Pair&lt;A, B&gt;(A, B);
 ///
-/// // The parsing context. We&#39;ll be pushing fields with key `.0` to `left`
-/// // and fields with `.1` to `right`. We&#39;ll collect errors along the way.
-/// struct PairContext&lt;&#39;v, A: FromForm&lt;&#39;v&gt;, B: FromForm&lt;&#39;v&gt;&gt; {
+/// // The parsing context. We'll be pushing fields with key `.0` to `left`
+/// // and fields with `.1` to `right`. We'll collect errors along the way.
+/// struct PairContext&lt;'v, A: FromForm&lt;'v&gt;, B: FromForm&lt;'v&gt;&gt; {
 ///     left: A::Context,
 ///     right: B::Context,
-///     errors: Errors&lt;&#39;v&gt;,
+///     errors: Errors&lt;'v&gt;,
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;v, A: FromForm&lt;&#39;v&gt;, B: FromForm&lt;&#39;v&gt;&gt; FromForm&lt;&#39;v&gt; for Pair&lt;A, B&gt; {
-///     type Context = PairContext&lt;&#39;v, A, B&gt;;
+/// impl&lt;'v, A: FromForm&lt;'v&gt;, B: FromForm&lt;'v&gt;&gt; FromForm&lt;'v&gt; for Pair&lt;A, B&gt; {
+///     type Context = PairContext&lt;'v, A, B&gt;;
 ///
 ///     // We initialize the `PairContext` as expected.
 ///     fn init(opts: form::Options) -&gt; Self::Context {
@@ -1399,7 +1399,7 @@
 ///     // (right) and push to the appropriate parser. If it was neither, we
 ///     // store the error for emission on finalization. The parsers for `A` and
 ///     // `B` will handle duplicate values and so on.
-///     fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;&#39;v&gt;) {
+///     fn push_value(ctxt: &amp;mut Self::Context, field: ValueField&lt;'v&gt;) {
 ///         match ctxt.context(field.name) {
 ///             Ok(Either::Left(ctxt)) =&gt; A::push_value(ctxt, field.shift()),
 ///             Ok(Either::Right(ctxt)) =&gt; B::push_value(ctxt, field.shift()),
@@ -1408,7 +1408,7 @@
 ///     }
 ///
 ///     // This is identical to `push_value` but for data fields.
-///     async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;&#39;v, &#39;_&gt;) {
+///     async fn push_data(ctxt: &amp;mut Self::Context, field: DataField&lt;'v, '_&gt;) {
 ///         match ctxt.context(field.name) {
 ///             Ok(Either::Left(ctxt)) =&gt; A::push_data(ctxt, field.shift()).await,
 ///             Ok(Either::Right(ctxt)) =&gt; B::push_data(ctxt, field.shift()).await,
@@ -1420,7 +1420,7 @@
 ///     // encountered no errors during the push phase, we return our pair. If
 ///     // there were errors, we return them. If `A` and/or `B` failed, we
 ///     // return the commutative errors.
-///     fn finalize(mut ctxt: Self::Context) -&gt; form::Result&lt;&#39;v, Self&gt; {
+///     fn finalize(mut ctxt: Self::Context) -&gt; form::Result&lt;'v, Self&gt; {
 ///         match (A::finalize(ctxt.left), B::finalize(ctxt.right)) {
 ///             (Ok(l), Ok(r)) if ctxt.errors.is_empty() =&gt; Ok(Pair(l, r)),
 ///             (Ok(_), Ok(_)) =&gt; Err(ctxt.errors),
@@ -1433,20 +1433,20 @@
 ///     }
 /// }
 ///
-/// impl&lt;&#39;v, A: FromForm&lt;&#39;v&gt;, B: FromForm&lt;&#39;v&gt;&gt; PairContext&lt;&#39;v, A, B&gt; {
+/// impl&lt;'v, A: FromForm&lt;'v&gt;, B: FromForm&lt;'v&gt;&gt; PairContext&lt;'v, A, B&gt; {
 ///     // Helper method used by `push_{value, data}`. Determines which context
-///     // we should push to based on the field name&#39;s key. If the key is
+///     // we should push to based on the field name's key. If the key is
 ///     // neither `0` nor `1`, we return an error.
 ///     fn context(
 ///         &amp;mut self,
-///         name: form::name::NameView&lt;&#39;v&gt;
-///     ) -&gt; Result&lt;Either&lt;&amp;mut A::Context, &amp;mut B::Context&gt;, Error&lt;&#39;v&gt;&gt; {
+///         name: form::name::NameView&lt;'v&gt;
+///     ) -&gt; Result&lt;Either&lt;&amp;mut A::Context, &amp;mut B::Context&gt;, Error&lt;'v&gt;&gt; {
 ///         use std::borrow::Cow;
 ///
 ///         match name.key().map(|k| k.as_str()) {
-///             Some(&quot;0&quot;) =&gt; Ok(Either::Left(&amp;mut self.left)),
-///             Some(&quot;1&quot;) =&gt; Ok(Either::Right(&amp;mut self.right)),
-///             _ =&gt; Err(Error::from(&amp;[Cow::Borrowed(&quot;0&quot;), Cow::Borrowed(&quot;1&quot;)])
+///             Some("0") =&gt; Ok(Either::Left(&amp;mut self.left)),
+///             Some("1") =&gt; Ok(Either::Right(&amp;mut self.right)),
+///             _ =&gt; Err(Error::from(&amp;[Cow::Borrowed("0"), Cow::Borrowed("1")])
 ///                 .with_entity(form::error::Entity::Index(0))
 ///                 .with_name(name)),
 ///         }
@@ -1454,27 +1454,27 @@
 /// }
 /// ```
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>FromForm&lt;<span class="lifetime">&#39;r</span>&gt;: Send + Sized {
-    <span class="doccomment">/// The form guard&#39;s parsing context.
+</span><span class="kw">pub trait </span>FromForm&lt;<span class="lifetime">'r</span>&gt;: Send + Sized {
+    <span class="doccomment">/// The form guard's parsing context.
     </span><span class="kw">type </span>Context: Send;
 
     <span class="doccomment">/// Initializes and returns the parsing context for `Self`.
     </span><span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context;
 
     <span class="doccomment">/// Processes the value field `field`.
-    </span><span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;r</span>&gt;);
+    </span><span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'r</span>&gt;);
 
     <span class="doccomment">/// Processes the data field `field`.
-    </span><span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;_</span>&gt;);
+    </span><span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'r</span>, <span class="lifetime">'_</span>&gt;);
 
     <span class="doccomment">/// Processes the external form or field error `_error`.
     ///
     /// The default implementation does nothing, which is always correct.
-    </span><span class="kw">fn </span>push_error(_ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, _error: Error&lt;<span class="lifetime">&#39;r</span>&gt;) { }
+    </span><span class="kw">fn </span>push_error(_ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, _error: Error&lt;<span class="lifetime">'r</span>&gt;) { }
 
     <span class="doccomment">/// Finalizes parsing. Returns the parsed value when successful or
     /// collection of [`Errors`] otherwise.
-    </span><span class="kw">fn </span>finalize(ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt;;
+    </span><span class="kw">fn </span>finalize(ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt;;
 
     <span class="doccomment">/// Returns a default value, if any, to use when a value is desired and
     /// parsing fails.
@@ -1489,15 +1489,15 @@
 }
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">pub struct </span>VecContext&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+</span><span class="kw">pub struct </span>VecContext&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; {
     opts: Options,
-    last_key: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Key&gt;,
+    last_key: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>Key&gt;,
     current: <span class="prelude-ty">Option</span>&lt;T::Context&gt;,
-    errors: Errors&lt;<span class="lifetime">&#39;v</span>&gt;,
+    errors: Errors&lt;<span class="lifetime">'v</span>&gt;,
     items: Vec&lt;T&gt;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; VecContext&lt;<span class="lifetime">&#39;v</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; VecContext&lt;<span class="lifetime">'v</span>, T&gt; {
     <span class="kw">fn </span>new(opts: Options) -&gt; <span class="self">Self </span>{
         VecContext {
             opts,
@@ -1517,7 +1517,7 @@
         }
     }
 
-    <span class="kw">fn </span>context(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>NameView&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>T::Context {
+    <span class="kw">fn </span>context(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>NameView&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>T::Context {
         <span class="kw">let </span>this_key = name.key();
         <span class="kw">let </span>keys_match = <span class="kw">match </span>(<span class="self">self</span>.last_key, this_key) {
             (<span class="prelude-val">Some</span>(k1), <span class="prelude-val">Some</span>(k2)) =&gt; k1 == k2,
@@ -1530,27 +1530,27 @@
         }
 
         <span class="self">self</span>.last_key = name.key();
-        <span class="self">self</span>.current.as_mut().expect(<span class="string">&quot;must have current if last == index&quot;</span>)
+        <span class="self">self</span>.current.as_mut().expect(<span class="string">"must have current if last == index"</span>)
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt; + <span class="lifetime">&#39;v</span>&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Vec&lt;T&gt; {
-    <span class="kw">type </span>Context = VecContext&lt;<span class="lifetime">&#39;v</span>, T&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt; + <span class="lifetime">'v</span>&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Vec&lt;T&gt; {
+    <span class="kw">type </span>Context = VecContext&lt;<span class="lifetime">'v</span>, T&gt;;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         VecContext::new(opts)
     }
 
-    <span class="kw">fn </span>push_value(this: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(this: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         T::push_value(this.context(<span class="kw-2">&amp;</span>field.name), field.shift());
     }
 
-    <span class="kw">async fn </span>push_data(this: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(this: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         T::push_data(this.context(<span class="kw-2">&amp;</span>field.name), field.shift()).<span class="kw">await
     </span>}
 
-    <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         this.shift();
         <span class="kw">if </span>!this.errors.is_empty() {
             <span class="prelude-val">Err</span>(this.errors)
@@ -1565,21 +1565,21 @@
 <span class="comment">// impl_strict_from_form_field_from_capped!(Vec&lt;u8&gt;);
 
 </span><span class="attr">#[doc(hidden)]
-</span><span class="kw">pub struct </span>MapContext&lt;<span class="lifetime">&#39;v</span>, K, V&gt; <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;, V: FromForm&lt;<span class="lifetime">&#39;v</span>&gt; {
+</span><span class="kw">pub struct </span>MapContext&lt;<span class="lifetime">'v</span>, K, V&gt; <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">'v</span>&gt;, V: FromForm&lt;<span class="lifetime">'v</span>&gt; {
     opts: Options,
     <span class="doccomment">/// Maps an index key (&amp;str, map.key=foo, map.k:key) to its entry.
     /// NOTE: `table`, `entries`, and `metadata` are always the same size.
-    </span>table: IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str, usize&gt;,
+    </span>table: IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str, usize&gt;,
     <span class="doccomment">/// The `FromForm` context for the (key, value) indexed by `table`.
     </span>entries: Vec&lt;(K::Context, V::Context)&gt;,
     <span class="doccomment">/// Recorded metadata for a given key/value pair.
-    </span>metadata: Vec&lt;NameView&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
+    </span>metadata: Vec&lt;NameView&lt;<span class="lifetime">'v</span>&gt;&gt;,
     <span class="doccomment">/// Errors collected while finalizing keys and values.
-    </span>errors: Errors&lt;<span class="lifetime">&#39;v</span>&gt;,
+    </span>errors: Errors&lt;<span class="lifetime">'v</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, K, V&gt; MapContext&lt;<span class="lifetime">&#39;v</span>, K, V&gt;
-    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;, V: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, K, V&gt; MapContext&lt;<span class="lifetime">'v</span>, K, V&gt;
+    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">'v</span>&gt;, V: FromForm&lt;<span class="lifetime">'v</span>&gt;
 {
     <span class="kw">fn </span>new(opts: Options) -&gt; <span class="self">Self </span>{
         MapContext {
@@ -1591,7 +1591,7 @@
         }
     }
 
-    <span class="kw">fn </span>ctxt(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str, name: NameView&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>(K::Context, V::Context) {
+    <span class="kw">fn </span>ctxt(<span class="kw-2">&amp;mut </span><span class="self">self</span>, key: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str, name: NameView&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="kw-2">&amp;mut </span>(K::Context, V::Context) {
         <span class="kw">match </span><span class="self">self</span>.table.get(key) {
             <span class="prelude-val">Some</span>(i) =&gt; <span class="kw-2">&amp;mut </span><span class="self">self</span>.entries[<span class="kw-2">*</span>i],
             <span class="prelude-val">None </span>=&gt; {
@@ -1604,7 +1604,7 @@
         }
     }
 
-    <span class="kw">fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: NameView&lt;<span class="lifetime">&#39;v</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;Either&lt;<span class="kw-2">&amp;mut </span>K::Context, <span class="kw-2">&amp;mut </span>V::Context&gt;&gt; {
+    <span class="kw">fn </span>push(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: NameView&lt;<span class="lifetime">'v</span>&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;Either&lt;<span class="kw-2">&amp;mut </span>K::Context, <span class="kw-2">&amp;mut </span>V::Context&gt;&gt; {
         <span class="kw">let </span>index_pair = name.key()
             .map(|k| k.indices())
             .map(|<span class="kw-2">mut </span>i| (i.next(), i.next()))
@@ -1621,12 +1621,12 @@
                 <span class="kw">return </span><span class="prelude-val">Some</span>(Either::Right(val_ctxt));
             },
             (<span class="prelude-val">Some</span>(kind), <span class="prelude-val">Some</span>(key)) =&gt; {
-                <span class="kw">if </span>kind.as_uncased().starts_with(<span class="string">&quot;k&quot;</span>) {
+                <span class="kw">if </span>kind.as_uncased().starts_with(<span class="string">"k"</span>) {
                     <span class="kw">return </span><span class="prelude-val">Some</span>(Either::Left(<span class="kw-2">&amp;mut </span><span class="self">self</span>.ctxt(key, name).<span class="number">0</span>));
-                } <span class="kw">else if </span>kind.as_uncased().starts_with(<span class="string">&quot;v&quot;</span>) {
+                } <span class="kw">else if </span>kind.as_uncased().starts_with(<span class="string">"v"</span>) {
                     <span class="kw">return </span><span class="prelude-val">Some</span>(Either::Right(<span class="kw-2">&amp;mut </span><span class="self">self</span>.ctxt(key, name).<span class="number">1</span>));
                 } <span class="kw">else </span>{
-                    <span class="kw">let </span>error = Error::from(<span class="kw-2">&amp;</span>[Cow::Borrowed(<span class="string">&quot;k&quot;</span>), Cow::Borrowed(<span class="string">&quot;v&quot;</span>)])
+                    <span class="kw">let </span>error = Error::from(<span class="kw-2">&amp;</span>[Cow::Borrowed(<span class="string">"k"</span>), Cow::Borrowed(<span class="string">"v"</span>)])
                         .with_entity(Entity::Index(<span class="number">0</span>))
                         .with_name(name);
 
@@ -1645,7 +1645,7 @@
         <span class="prelude-val">None
     </span>}
 
-    <span class="kw">fn </span>push_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(<span class="kw-2">&amp;mut </span><span class="self">self</span>, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         <span class="kw">match </span><span class="self">self</span>.push(field.name) {
             <span class="prelude-val">Some</span>(Either::Left(ctxt)) =&gt; K::push_value(ctxt, field.shift()),
             <span class="prelude-val">Some</span>(Either::Right(ctxt)) =&gt; V::push_value(ctxt, field.shift()),
@@ -1653,7 +1653,7 @@
         }
     }
 
-    <span class="kw">async fn </span>push_data(<span class="kw-2">&amp;mut </span><span class="self">self</span>, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(<span class="kw-2">&amp;mut </span><span class="self">self</span>, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         <span class="kw">match </span><span class="self">self</span>.push(field.name) {
             <span class="prelude-val">Some</span>(Either::Left(ctxt)) =&gt; K::push_data(ctxt, field.shift()).<span class="kw">await</span>,
             <span class="prelude-val">Some</span>(Either::Right(ctxt)) =&gt; V::push_data(ctxt, field.shift()).<span class="kw">await</span>,
@@ -1661,7 +1661,7 @@
         }
     }
 
-    <span class="kw">fn </span>finalize&lt;T: std::iter::FromIterator&lt;(K, V)&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt; {
+    <span class="kw">fn </span>finalize&lt;T: std::iter::FromIterator&lt;(K, V)&gt;&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, T&gt; {
         <span class="kw">let </span>map: T = <span class="self">self</span>.entries.into_iter()
             .zip(<span class="self">self</span>.metadata.iter())
             .zip(<span class="self">self</span>.table.keys())
@@ -1670,7 +1670,7 @@
                     .map_err(|e| {
                         <span class="comment">// FIXME: Fix `NameBuf` to take in `k` and add it.
                         // FIXME: Perhaps the `k` should come after: `map.0:k`.
-                        </span><span class="kw">let </span>form_key = <span class="macro">format!</span>(<span class="string">&quot;k:{}&quot;</span>, idx);
+                        </span><span class="kw">let </span>form_key = <span class="macro">format!</span>(<span class="string">"k:{}"</span>, idx);
                         <span class="self">self</span>.errors.extend(e.with_name((name.parent(), form_key)));
                     })
                     .ok();
@@ -1694,109 +1694,109 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, K, V&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>HashMap&lt;K, V&gt;
-    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">&#39;v</span>&gt; + Eq + Hash, V: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, K, V&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>HashMap&lt;K, V&gt;
+    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">'v</span>&gt; + Eq + Hash, V: FromForm&lt;<span class="lifetime">'v</span>&gt;
 {
-    <span class="kw">type </span>Context = MapContext&lt;<span class="lifetime">&#39;v</span>, K, V&gt;;
+    <span class="kw">type </span>Context = MapContext&lt;<span class="lifetime">'v</span>, K, V&gt;;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         MapContext::new(opts)
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         ctxt.push_value(field);
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         ctxt.push_data(field).<span class="kw">await</span>;
     }
 
-    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         this.finalize()
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, K, V&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>BTreeMap&lt;K, V&gt;
-    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">&#39;v</span>&gt; + Ord, V: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, K, V&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>BTreeMap&lt;K, V&gt;
+    <span class="kw">where </span>K: FromForm&lt;<span class="lifetime">'v</span>&gt; + Ord, V: FromForm&lt;<span class="lifetime">'v</span>&gt;
 {
-    <span class="kw">type </span>Context = MapContext&lt;<span class="lifetime">&#39;v</span>, K, V&gt;;
+    <span class="kw">type </span>Context = MapContext&lt;<span class="lifetime">'v</span>, K, V&gt;;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         MapContext::new(opts)
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         ctxt.push_value(field);
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         ctxt.push_data(field).<span class="kw">await</span>;
     }
 
-    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         this.finalize()
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
-    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt;::Context;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">'v</span>&gt;&gt;::Context;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         T::init(Options { strict: <span class="bool-val">true</span>, ..opts })
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         T::push_value(ctxt, field)
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         T::push_data(ctxt, field).<span class="kw">await
     </span>}
 
-    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Ok</span>(T::finalize(this).ok())
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt; {
-    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt;::Context;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, T&gt; {
+    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">'v</span>&gt;&gt;::Context;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         T::init(opts)
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         T::push_value(ctxt, field)
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         T::push_data(ctxt, field).<span class="kw">await
     </span>}
 
-    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="prelude-val">Ok</span>(T::finalize(this))
     }
 }
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">pub struct </span>PairContext&lt;<span class="lifetime">&#39;v</span>, A: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;, B: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+</span><span class="kw">pub struct </span>PairContext&lt;<span class="lifetime">'v</span>, A: FromForm&lt;<span class="lifetime">'v</span>&gt;, B: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; {
     left: A::Context,
     right: B::Context,
-    errors: Errors&lt;<span class="lifetime">&#39;v</span>&gt;,
+    errors: Errors&lt;<span class="lifetime">'v</span>&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, A: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;, B: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; PairContext&lt;<span class="lifetime">&#39;v</span>, A, B&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, A: FromForm&lt;<span class="lifetime">'v</span>&gt;, B: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; PairContext&lt;<span class="lifetime">'v</span>, A, B&gt; {
     <span class="kw">fn </span>context(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        name: NameView&lt;<span class="lifetime">&#39;v</span>&gt;
-    ) -&gt; std::result::Result&lt;Either&lt;<span class="kw-2">&amp;mut </span>A::Context, <span class="kw-2">&amp;mut </span>B::Context&gt;, Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+        name: NameView&lt;<span class="lifetime">'v</span>&gt;
+    ) -&gt; std::result::Result&lt;Either&lt;<span class="kw-2">&amp;mut </span>A::Context, <span class="kw-2">&amp;mut </span>B::Context&gt;, Error&lt;<span class="lifetime">'v</span>&gt;&gt; {
         <span class="kw">match </span>name.key().map(|k| k.as_str()) {
-            <span class="prelude-val">Some</span>(<span class="string">&quot;0&quot;</span>) =&gt; <span class="prelude-val">Ok</span>(Either::Left(<span class="kw-2">&amp;mut </span><span class="self">self</span>.left)),
-            <span class="prelude-val">Some</span>(<span class="string">&quot;1&quot;</span>) =&gt; <span class="prelude-val">Ok</span>(Either::Right(<span class="kw-2">&amp;mut </span><span class="self">self</span>.right)),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(Error::from(<span class="kw-2">&amp;</span>[Cow::Borrowed(<span class="string">&quot;0&quot;</span>), Cow::Borrowed(<span class="string">&quot;1&quot;</span>)])
+            <span class="prelude-val">Some</span>(<span class="string">"0"</span>) =&gt; <span class="prelude-val">Ok</span>(Either::Left(<span class="kw-2">&amp;mut </span><span class="self">self</span>.left)),
+            <span class="prelude-val">Some</span>(<span class="string">"1"</span>) =&gt; <span class="prelude-val">Ok</span>(Either::Right(<span class="kw-2">&amp;mut </span><span class="self">self</span>.right)),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(Error::from(<span class="kw-2">&amp;</span>[Cow::Borrowed(<span class="string">"0"</span>), Cow::Borrowed(<span class="string">"1"</span>)])
                 .with_entity(Entity::Index(<span class="number">0</span>))
                 .with_name(name)),
         }
@@ -1804,8 +1804,8 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, A: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;, B: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>(A, B) {
-    <span class="kw">type </span>Context = PairContext&lt;<span class="lifetime">&#39;v</span>, A, B&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, A: FromForm&lt;<span class="lifetime">'v</span>&gt;, B: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>(A, B) {
+    <span class="kw">type </span>Context = PairContext&lt;<span class="lifetime">'v</span>, A, B&gt;;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         PairContext {
@@ -1815,7 +1815,7 @@
         }
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         <span class="kw">match </span>ctxt.context(field.name) {
             <span class="prelude-val">Ok</span>(Either::Left(ctxt)) =&gt; A::push_value(ctxt, field.shift()),
             <span class="prelude-val">Ok</span>(Either::Right(ctxt)) =&gt; B::push_value(ctxt, field.shift()),
@@ -1823,7 +1823,7 @@
         }
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         <span class="kw">match </span>ctxt.context(field.name) {
             <span class="prelude-val">Ok</span>(Either::Left(ctxt)) =&gt; A::push_data(ctxt, field.shift()).<span class="kw">await</span>,
             <span class="prelude-val">Ok</span>(Either::Right(ctxt)) =&gt; B::push_data(ctxt, field.shift()).<span class="kw">await</span>,
@@ -1831,7 +1831,7 @@
         }
     }
 
-    <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>ctxt: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>(A::finalize(ctxt.left), B::finalize(ctxt.right)) {
             (<span class="prelude-val">Ok</span>(key), <span class="prelude-val">Ok</span>(val)) <span class="kw">if </span>ctxt.errors.is_empty() =&gt; <span class="prelude-val">Ok</span>((key, val)),
             (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(ctxt.errors)<span class="question-mark">?</span>,
@@ -1845,22 +1845,22 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt; + Sync&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Arc&lt;T&gt; {
-    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt;::Context;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt; + Sync&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Arc&lt;T&gt; {
+    <span class="kw">type </span>Context = &lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">'v</span>&gt;&gt;::Context;
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         T::init(opts)
     }
 
-    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         T::push_value(ctxt, field)
     }
 
-    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data(ctxt: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         T::push_data(ctxt, field).<span class="kw">await
     </span>}
 
-    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize(this: <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         T::finalize(this).map(Arc::new)
     }
 }

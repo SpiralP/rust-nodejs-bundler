@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ubyte-0.10.4/src/byte_unit.rs`."><title>byte_unit.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ubyte" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ubyte-0.10.4/src/byte_unit.rs`."><title>byte_unit.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ubyte" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../ubyte/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -473,29 +473,29 @@
 /// `ByteUnit`. The grammar accepted by the parser is:
 ///
 /// ```ebnf
-/// byte_unit := uint+ (&#39;.&#39; uint+)? WHITESPACE* suffix
+/// byte_unit := uint+ ('.' uint+)? WHITESPACE* suffix
 ///
-/// uint := &#39;0&#39;..&#39;9&#39;
-/// suffix := case insensitive SI byte unit suffix (&#39;b&#39; to &#39;eib&#39;)
-/// WHITESPACE := the &#39; &#39; character
+/// uint := '0'..'9'
+/// suffix := case insensitive SI byte unit suffix ('b' to 'eib')
+/// WHITESPACE := the ' ' character
 /// ```
 ///
 /// ```rust
 /// use ubyte::{ByteUnit, ToByteUnit};
 ///
-/// let one_gib: ByteUnit = &quot;1GiB&quot;.parse().unwrap();
+/// let one_gib: ByteUnit = "1GiB".parse().unwrap();
 /// assert_eq!(one_gib, 1.gibibytes());
 ///
-/// let quarter_mb: ByteUnit = &quot;256 kB&quot;.parse().unwrap();
+/// let quarter_mb: ByteUnit = "256 kB".parse().unwrap();
 /// assert_eq!(quarter_mb, 256.kilobytes());
 ///
-/// let half_mb: ByteUnit = &quot;0.5MB&quot;.parse().unwrap();
+/// let half_mb: ByteUnit = "0.5MB".parse().unwrap();
 /// assert_eq!(half_mb, 500.kilobytes());
 ///
-/// let half_mib: ByteUnit = &quot;0.500 mib&quot;.parse().unwrap();
+/// let half_mib: ByteUnit = "0.500 mib".parse().unwrap();
 /// assert_eq!(half_mib, 512.kibibytes());
 ///
-/// let some_mb: ByteUnit = &quot;20.5MB&quot;.parse().unwrap();
+/// let some_mb: ByteUnit = "20.5MB".parse().unwrap();
 /// assert_eq!(some_mb, 20.megabytes() + 500.kilobytes());
 /// ```
 ///
@@ -540,7 +540,7 @@
 #[derive(Debug, Default, Copy, Clone, Eq, Hash, Ord)]
 </span><span class="kw">pub struct </span>ByteUnit(<span class="kw">pub</span>(<span class="kw">crate</span>) u64);
 
-<span class="macro">macro_rules! </span>rem_and_suffix {
+<span class="macro">macro_rules!</span> rem_and_suffix {
     (<span class="macro-nonterminal">$n</span>:expr =&gt; $((<span class="macro-nonterminal">$isuffix</span>:ident, <span class="macro-nonterminal">$suffix</span>:ident)),+ <span class="macro-nonterminal">$or_else</span>:ident) =&gt; {
         <span class="kw">loop </span>{
             $(
@@ -563,13 +563,13 @@
     };
 }
 
-<span class="macro">macro_rules! </span>const_if {
+<span class="macro">macro_rules!</span> const_if {
     (<span class="macro-nonterminal">$cond</span>:expr, <span class="macro-nonterminal">$on_true</span>:expr, <span class="macro-nonterminal">$on_false</span>:expr) =&gt; (
         [<span class="macro-nonterminal">$on_false</span>, <span class="macro-nonterminal">$on_true</span>][<span class="macro-nonterminal">$cond </span><span class="kw">as </span>usize]
     )
 }
 
-<span class="macro">macro_rules! </span>constructor_fns {
+<span class="macro">macro_rules!</span> constructor_fns {
     ($(<span class="macro-nonterminal">$sstr</span>:expr, <span class="macro-nonterminal">$nstr</span>:expr, <span class="macro-nonterminal">$example</span>:expr, <span class="macro-nonterminal">$suffix</span>:ident, <span class="macro-nonterminal">$name</span>:ident = <span class="macro-nonterminal">$size</span>:expr),<span class="kw-2">*</span>) =&gt; (
         $(
             <span class="doccomment">/// Number of bytes in 1
@@ -608,15 +608,15 @@
     ($(<span class="macro-nonterminal">$suffix</span>:ident, <span class="macro-nonterminal">$name</span>:ident = <span class="macro-nonterminal">$size</span>:expr),* $(,)<span class="question-mark">?</span>) =&gt; (
         <span class="macro">constructor_fns!</span>($(
             <span class="macro">stringify!</span>(<span class="macro-nonterminal">$suffix</span>), <span class="macro">stringify!</span>(<span class="macro-nonterminal">$size</span>), <span class="macro">concat!</span>(
-                <span class="string">&quot;assert_eq!(ByteUnit::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>), <span class="string">&quot;(10), &quot;</span>,
-                <span class="string">&quot;10 * ByteUnit::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$suffix</span>), <span class="string">&quot;);&quot;
+                <span class="string">"assert_eq!(ByteUnit::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>), <span class="string">"(10), "</span>,
+                <span class="string">"10 * ByteUnit::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$suffix</span>), <span class="string">");"
             </span>), <span class="macro-nonterminal">$suffix</span>, <span class="macro-nonterminal">$name </span>= <span class="macro-nonterminal">$size
         </span>),<span class="kw-2">*</span>);
     )
 }
 
 <span class="kw">impl </span>ByteUnit {
-    <span class="macro">constructor_fns! </span>{
+    <span class="macro">constructor_fns!</span> {
         B, Byte = <span class="number">1</span>,
         kB, Kilobyte = <span class="number">1_000</span>,
         KiB, Kibibyte = <span class="number">1 </span>&lt;&lt; <span class="number">10</span>,
@@ -678,7 +678,7 @@
 
     <span class="doccomment">/// Returns the components of the minimal unit representation of `self`.
     ///
-    /// The &quot;minimal unit representation&quot; is the representation that maximizes
+    /// The "minimal unit representation" is the representation that maximizes
     /// the SI-unit while minimizing the whole part of the value. For example,
     /// `1024.bytes()` is minimally represented by `1KiB`, while `1023.bytes()`
     /// is minimally represented by `1.023kB`.
@@ -698,19 +698,19 @@
     /// use ubyte::{ByteUnit, ToByteUnit};
     ///
     /// let value = 2.mebibytes() + 512.kibibytes();
-    /// assert_eq!(value.to_string(), &quot;2.50MiB&quot;);
+    /// assert_eq!(value.to_string(), "2.50MiB");
     ///
     /// let (whole, frac, suffix, unit) = value.repr();
     /// assert_eq!(whole, 2);
     /// assert_eq!(frac, 0.5);
-    /// assert_eq!(suffix, &quot;MiB&quot;);
+    /// assert_eq!(suffix, "MiB");
     /// assert_eq!(unit, ByteUnit::MiB);
     ///
     /// let reconstructed = (whole as f64 + frac) * unit.as_u64() as f64;
     /// assert_eq!(reconstructed as u64, value);
     /// ```
-    </span><span class="kw">pub fn </span>repr(<span class="self">self</span>) -&gt; (u64, f64, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, ByteUnit) {
-        <span class="macro">rem_and_suffix! </span>{ <span class="self">self</span>.as_u64() =&gt;
+    </span><span class="kw">pub fn </span>repr(<span class="self">self</span>) -&gt; (u64, f64, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, ByteUnit) {
+        <span class="macro">rem_and_suffix!</span> { <span class="self">self</span>.as_u64() =&gt;
             (EiB, EB), (TiB, TB), (GiB, GB), (MiB, MB), (KiB, kB) B
         }
     }
@@ -730,7 +730,7 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_from_int_unknown {
+<span class="macro">macro_rules!</span> impl_from_int_unknown {
     (<span class="macro-nonterminal">$T</span>:ty) =&gt; (
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>ByteUnit {
             <span class="attr">#[inline(always)]
@@ -747,7 +747,7 @@
     )
 }
 
-<span class="macro">macro_rules! </span>impl_from_uint_unknown {
+<span class="macro">macro_rules!</span> impl_from_uint_unknown {
     (<span class="macro-nonterminal">$T</span>:ty) =&gt; (
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>ByteUnit {
             <span class="attr">#[inline(always)]
@@ -764,7 +764,7 @@
     )
 }
 
-<span class="macro">macro_rules! </span>impl_from_unsigned {
+<span class="macro">macro_rules!</span> impl_from_unsigned {
     (<span class="macro-nonterminal">$T</span>:ty) =&gt; (
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>ByteUnit {
             <span class="attr">#[inline(always)] </span><span class="kw">fn </span>from(v: <span class="macro-nonterminal">$T</span>) -&gt; <span class="self">Self </span>{ ByteUnit(v <span class="kw">as </span>u64) }
@@ -772,7 +772,7 @@
     )
 }
 
-<span class="macro">macro_rules! </span>impl_from_signed {
+<span class="macro">macro_rules!</span> impl_from_signed {
     (<span class="macro-nonterminal">$T</span>:ty) =&gt; (
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>ByteUnit {
             <span class="attr">#[inline(always)] </span><span class="kw">fn </span>from(v: <span class="macro-nonterminal">$T</span>) -&gt; <span class="self">Self </span>{
@@ -797,7 +797,7 @@
 <span class="macro">impl_from_int_unknown!</span>(isize);
 <span class="macro">impl_from_int_unknown!</span>(i128);
 
-<span class="macro">macro_rules! </span>helper_fn {
+<span class="macro">macro_rules!</span> helper_fn {
     (<span class="macro-nonterminal">$kindstr</span>:expr, <span class="macro-nonterminal">$name</span>:ident = <span class="macro-nonterminal">$kind</span>:ident) =&gt; (
         <span class="doccomment">/// Converts `self` to a `ByteUnit` representing `self`
         </span><span class="attr">#[doc = <span class="macro-nonterminal">$kindstr</span>]
@@ -872,43 +872,43 @@
 /// ```rust
 /// use ubyte::{ByteUnit, ToByteUnit};
 ///
-/// assert_eq!(323.kilobytes().to_string(), &quot;323kB&quot;);
-/// assert_eq!(3.megabytes().to_string(), &quot;3MB&quot;);
-/// assert_eq!(3.mebibytes().to_string(), &quot;3MiB&quot;);
+/// assert_eq!(323.kilobytes().to_string(), "323kB");
+/// assert_eq!(3.megabytes().to_string(), "3MB");
+/// assert_eq!(3.mebibytes().to_string(), "3MiB");
 ///
-/// assert_eq!((3.mebibytes() + 140.kilobytes()).to_string(), &quot;3.13MiB&quot;);
-/// assert_eq!((3.mebibytes() + 2.mebibytes()).to_string(), &quot;5MiB&quot;);
-/// assert_eq!((7.gigabytes() + 58.mebibytes() + 3.kilobytes()).to_string(), &quot;7.06GB&quot;);
-/// assert_eq!((7.gibibytes() + 920.mebibytes()).to_string(), &quot;7.90GiB&quot;);
-/// assert_eq!(7231.kilobytes().to_string(), &quot;6.90MiB&quot;);
+/// assert_eq!((3.mebibytes() + 140.kilobytes()).to_string(), "3.13MiB");
+/// assert_eq!((3.mebibytes() + 2.mebibytes()).to_string(), "5MiB");
+/// assert_eq!((7.gigabytes() + 58.mebibytes() + 3.kilobytes()).to_string(), "7.06GB");
+/// assert_eq!((7.gibibytes() + 920.mebibytes()).to_string(), "7.90GiB");
+/// assert_eq!(7231.kilobytes().to_string(), "6.90MiB");
 ///
-/// assert_eq!(format!(&quot;{:.0}&quot;, 7.gibibytes() + 920.mebibytes()), &quot;8GiB&quot;);
-/// assert_eq!(format!(&quot;{:.1}&quot;, 7.gibibytes() + 920.mebibytes()), &quot;7.9GiB&quot;);
-/// assert_eq!(format!(&quot;{:.2}&quot;, 7.gibibytes() + 920.mebibytes()), &quot;7.90GiB&quot;);
-/// assert_eq!(format!(&quot;{:.3}&quot;, 7.gibibytes() + 920.mebibytes()), &quot;7.898GiB&quot;);
-/// assert_eq!(format!(&quot;{:.4}&quot;, 7.gibibytes() + 920.mebibytes()), &quot;7.8984GiB&quot;);
-/// assert_eq!(format!(&quot;{:.4}&quot;, 7231.kilobytes()), &quot;6.8960MiB&quot;);
-/// assert_eq!(format!(&quot;{:.0}&quot;, 7231.kilobytes()), &quot;7MiB&quot;);
-/// assert_eq!(format!(&quot;{:.2}&quot;, 999.kilobytes() + 990.bytes()), &quot;976.55KiB&quot;);
-/// assert_eq!(format!(&quot;{:.0}&quot;, 999.kilobytes() + 990.bytes()), &quot;1MB&quot;);
+/// assert_eq!(format!("{:.0}", 7.gibibytes() + 920.mebibytes()), "8GiB");
+/// assert_eq!(format!("{:.1}", 7.gibibytes() + 920.mebibytes()), "7.9GiB");
+/// assert_eq!(format!("{:.2}", 7.gibibytes() + 920.mebibytes()), "7.90GiB");
+/// assert_eq!(format!("{:.3}", 7.gibibytes() + 920.mebibytes()), "7.898GiB");
+/// assert_eq!(format!("{:.4}", 7.gibibytes() + 920.mebibytes()), "7.8984GiB");
+/// assert_eq!(format!("{:.4}", 7231.kilobytes()), "6.8960MiB");
+/// assert_eq!(format!("{:.0}", 7231.kilobytes()), "7MiB");
+/// assert_eq!(format!("{:.2}", 999.kilobytes() + 990.bytes()), "976.55KiB");
+/// assert_eq!(format!("{:.0}", 999.kilobytes() + 990.bytes()), "1MB");
 ///
-/// assert_eq!(format!(&quot;{:04.2}&quot;, 999.kilobytes() + 990.bytes()), &quot;0976.55KiB&quot;);
-/// assert_eq!(format!(&quot;{:02.0}&quot;, 999.kilobytes() + 990.bytes()), &quot;01MB&quot;);
-/// assert_eq!(format!(&quot;{:04.0}&quot;, 999.kilobytes() + 990.bytes()), &quot;0001MB&quot;);
+/// assert_eq!(format!("{:04.2}", 999.kilobytes() + 990.bytes()), "0976.55KiB");
+/// assert_eq!(format!("{:02.0}", 999.kilobytes() + 990.bytes()), "01MB");
+/// assert_eq!(format!("{:04.0}", 999.kilobytes() + 990.bytes()), "0001MB");
 /// ```
 </span><span class="kw">impl </span>core::fmt::Display <span class="kw">for </span>ByteUnit {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; core::fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>core::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; core::fmt::Result {
         <span class="kw">let </span>(whole, rem, suffix, unit) = <span class="self">self</span>.repr();
         <span class="kw">let </span>width = f.width().unwrap_or(<span class="number">0</span>);
         <span class="kw">if </span>rem != <span class="number">0f64 </span>&amp;&amp; f.precision().map(|p| p &gt; <span class="number">0</span>).unwrap_or(<span class="bool-val">true</span>) {
             <span class="kw">let </span>p = f.precision().unwrap_or(<span class="number">2</span>);
             <span class="kw">let </span>k = <span class="number">10u64</span>.saturating_pow(p <span class="kw">as </span>u32) <span class="kw">as </span>f64;
-            <span class="macro">write!</span>(f, <span class="string">&quot;{:0width$}.{:0p$.0}{}&quot;</span>, whole, rem * k, suffix,
+            <span class="macro">write!</span>(f, <span class="string">"{:0width$}.{:0p$.0}{}"</span>, whole, rem * k, suffix,
                 p = p, width = width)
         } <span class="kw">else if </span>rem &gt; <span class="number">0.5f64 </span>{
             ((whole.bytes() + <span class="number">1</span>) * unit).fmt(f)
         } <span class="kw">else </span>{
-            <span class="macro">write!</span>(f, <span class="string">&quot;{:0width$}{}&quot;</span>, whole, suffix, width = width)
+            <span class="macro">write!</span>(f, <span class="string">"{:0width$}{}"</span>, whole, suffix, width = width)
         }
     }
 }

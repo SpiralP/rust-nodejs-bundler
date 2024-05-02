@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.12/src/value/value.rs`."><title>value.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.18/src/value/value.rs`."><title>value.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../figment/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -614,12 +614,165 @@
 <a href="#614" id="614">614</a>
 <a href="#615" id="615">615</a>
 <a href="#616" id="616">616</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>std::str::Split;
-<span class="kw">use </span>std::collections::BTreeMap;
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>std::collections::BTreeMap;
+<span class="kw">use </span>std::num::{ParseFloatError, ParseIntError};
+<span class="kw">use </span>std::str::{FromStr, Split};
 
 <span class="kw">use </span>serde::Serialize;
 
-<span class="kw">use </span><span class="kw">crate</span>::value::{Tag, ValueSerializer};
+<span class="kw">use </span><span class="kw">crate</span>::value::{Tag, ValueSerializer, magic::Either};
 <span class="kw">use </span><span class="kw">crate</span>::error::{Error, Actual};
 
 <span class="doccomment">/// An alias to the type of map used in [`Value::Dict`].
@@ -635,8 +788,8 @@
 /// ```
 /// use figment::value::Value;
 ///
-/// let v = Value::from(&quot;hello&quot;);
-/// assert_eq!(v.as_str(), Some(&quot;hello&quot;));
+/// let v = Value::from("hello");
+/// assert_eq!(v.as_str(), Some("hello"));
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">pub enum </span>Value {
@@ -656,18 +809,18 @@
     </span>Array(Tag, Vec&lt;Value&gt;),
 }
 
-<span class="macro">macro_rules! </span>conversion_fn {
+<span class="macro">macro_rules!</span> conversion_fn {
     (<span class="macro-nonterminal">$RT</span>:ty, $([<span class="macro-nonterminal">$star</span>:tt])<span class="question-mark">? </span><span class="macro-nonterminal">$Variant</span>:ident =&gt; <span class="macro-nonterminal">$T</span>:ty, <span class="macro-nonterminal">$fn_name</span>:ident) =&gt; {
         <span class="macro">conversion_fn!</span>(
             <span class="macro">concat!</span>(
-                <span class="string">&quot;Converts `self` into a `&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$T</span>), <span class="string">&quot;` if `self` is a \
-                `Value::&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$Variant</span>), <span class="string">&quot;`.\n\n&quot;</span>,
-                <span class="string">&quot;# Example\n\n&quot;</span>,
-                <span class="string">&quot;```\n&quot;</span>,
-                <span class="string">&quot;use figment::value::Value;\n\n&quot;</span>,
-                <span class="string">&quot;let value: Value = 123.into();\n&quot;</span>,
-                <span class="string">&quot;let converted = value.&quot;</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$fn_name</span>), <span class="string">&quot;();\n&quot;</span>,
-                <span class="string">&quot;```&quot;
+                <span class="string">"Converts `self` into a `"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$T</span>), <span class="string">"` if `self` is a \
+                `Value::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$Variant</span>), <span class="string">"`.\n\n"</span>,
+                <span class="string">"# Example\n\n"</span>,
+                <span class="string">"```\n"</span>,
+                <span class="string">"use figment::value::Value;\n\n"</span>,
+                <span class="string">"let value: Value = 123.into();\n"</span>,
+                <span class="string">"let converted = value."</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$fn_name</span>), <span class="string">"();\n"</span>,
+                <span class="string">"```"
             </span>),
             <span class="macro-nonterminal">$RT</span>, $([<span class="macro-nonterminal">$star</span>])<span class="question-mark">? </span><span class="macro-nonterminal">$Variant </span>=&gt; <span class="macro-nonterminal">$T</span>, <span class="macro-nonterminal">$fn_name
         </span>);
@@ -708,11 +861,11 @@
     /// ```
     /// use figment::value::Value;
     ///
-    /// let value = Value::from(&quot;hello&quot;);
+    /// let value = Value::from("hello");
     /// let string: String = value.deserialize().unwrap();
-    /// assert_eq!(string, &quot;hello&quot;);
+    /// assert_eq!(string, "hello");
     /// ```
-    </span><span class="kw">pub fn </span>deserialize&lt;<span class="lifetime">&#39;de</span>, T: serde::Deserialize&lt;<span class="lifetime">&#39;de</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, Error&gt; {
+    </span><span class="kw">pub fn </span>deserialize&lt;<span class="lifetime">'de</span>, T: serde::Deserialize&lt;<span class="lifetime">'de</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, Error&gt; {
         T::deserialize(<span class="self">self</span>)
     }
 
@@ -731,25 +884,25 @@
     /// use figment::{value::Value, util::map};
     ///
     /// let value = Value::from(map! {
-    ///     &quot;apple&quot; =&gt; map! {
-    ///         &quot;bat&quot; =&gt; map! {
-    ///             &quot;pie&quot; =&gt; 4usize,
+    ///     "apple" =&gt; map! {
+    ///         "bat" =&gt; map! {
+    ///             "pie" =&gt; 4usize,
     ///         },
-    ///         &quot;cake&quot; =&gt; map! {
-    ///             &quot;pumpkin&quot; =&gt; 10usize,
+    ///         "cake" =&gt; map! {
+    ///             "pumpkin" =&gt; 10usize,
     ///         }
     ///     }
     /// });
     ///
-    /// assert!(value.clone().find(&quot;apple&quot;).is_some());
-    /// assert!(value.clone().find(&quot;apple.bat&quot;).is_some());
-    /// assert!(value.clone().find(&quot;apple.cake&quot;).is_some());
+    /// assert!(value.clone().find("apple").is_some());
+    /// assert!(value.clone().find("apple.bat").is_some());
+    /// assert!(value.clone().find("apple.cake").is_some());
     ///
-    /// assert_eq!(value.clone().find(&quot;apple.bat.pie&quot;).unwrap().to_u128(), Some(4));
-    /// assert_eq!(value.clone().find(&quot;apple.cake.pumpkin&quot;).unwrap().to_u128(), Some(10));
+    /// assert_eq!(value.clone().find("apple.bat.pie").unwrap().to_u128(), Some(4));
+    /// assert_eq!(value.clone().find("apple.cake.pumpkin").unwrap().to_u128(), Some(10));
     ///
-    /// assert!(value.clone().find(&quot;apple.pie&quot;).is_none());
-    /// assert!(value.clone().find(&quot;pineapple&quot;).is_none());
+    /// assert!(value.clone().find("apple.pie").is_none());
+    /// assert!(value.clone().find("pineapple").is_none());
     /// ```
     </span><span class="kw">pub fn </span>find(<span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Value&gt; {
         <span class="kw">fn </span>find(<span class="kw-2">mut </span>keys: Split&lt;char&gt;, value: Value) -&gt; <span class="prelude-ty">Option</span>&lt;Value&gt; {
@@ -759,7 +912,7 @@
             }
         }
 
-        find(path.split(<span class="string">&#39;.&#39;</span>), <span class="self">self</span>)
+        find(path.split(<span class="string">'.'</span>), <span class="self">self</span>)
     }
 
     <span class="doccomment">/// Exactly like [`Value::find()`] but does not consume `self`,
@@ -771,35 +924,35 @@
     /// use figment::{value::Value, util::map};
     ///
     /// let value = Value::from(map! {
-    ///     &quot;apple&quot; =&gt; map! {
-    ///         &quot;bat&quot; =&gt; map! {
-    ///             &quot;pie&quot; =&gt; 4usize,
+    ///     "apple" =&gt; map! {
+    ///         "bat" =&gt; map! {
+    ///             "pie" =&gt; 4usize,
     ///         },
-    ///         &quot;cake&quot; =&gt; map! {
-    ///             &quot;pumpkin&quot; =&gt; 10usize,
+    ///         "cake" =&gt; map! {
+    ///             "pumpkin" =&gt; 10usize,
     ///         }
     ///     }
     /// });
     ///
-    /// assert!(value.find_ref(&quot;apple&quot;).is_some());
-    /// assert!(value.find_ref(&quot;apple.bat&quot;).is_some());
-    /// assert!(value.find_ref(&quot;apple.cake&quot;).is_some());
+    /// assert!(value.find_ref("apple").is_some());
+    /// assert!(value.find_ref("apple.bat").is_some());
+    /// assert!(value.find_ref("apple.cake").is_some());
     ///
-    /// assert_eq!(value.find_ref(&quot;apple.bat.pie&quot;).unwrap().to_u128(), Some(4));
-    /// assert_eq!(value.find_ref(&quot;apple.cake.pumpkin&quot;).unwrap().to_u128(), Some(10));
+    /// assert_eq!(value.find_ref("apple.bat.pie").unwrap().to_u128(), Some(4));
+    /// assert_eq!(value.find_ref("apple.cake.pumpkin").unwrap().to_u128(), Some(10));
     ///
-    /// assert!(value.find_ref(&quot;apple.pie&quot;).is_none());
-    /// assert!(value.find_ref(&quot;pineapple&quot;).is_none());
+    /// assert!(value.find_ref("apple.pie").is_none());
+    /// assert!(value.find_ref("pineapple").is_none());
     /// ```
-    </span><span class="kw">pub fn </span>find_ref&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Value&gt; {
-        <span class="kw">fn </span>find&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;v</span>&gt;(<span class="kw-2">mut </span>keys: Split&lt;<span class="lifetime">&#39;a</span>, char&gt;, value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Value&gt; {
+    </span><span class="kw">pub fn </span>find_ref&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Value&gt; {
+        <span class="kw">fn </span>find&lt;<span class="lifetime">'a</span>, <span class="lifetime">'v</span>&gt;(<span class="kw-2">mut </span>keys: Split&lt;<span class="lifetime">'a</span>, char&gt;, value: <span class="kw-2">&amp;</span><span class="lifetime">'v </span>Value) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>Value&gt; {
             <span class="kw">match </span>keys.next() {
                 <span class="prelude-val">Some</span>(k) <span class="kw">if </span>!k.is_empty() =&gt; find(keys, value.as_dict()<span class="question-mark">?</span>.get(k)<span class="question-mark">?</span>),
                 <span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Some</span>(value)
             }
         }
 
-        find(path.split(<span class="string">&#39;.&#39;</span>), <span class="self">self</span>)
+        find(path.split(<span class="string">'.'</span>), <span class="self">self</span>)
     }
 
     <span class="doccomment">/// Returns the [`Tag`] applied to this value.
@@ -807,14 +960,14 @@
     /// ```
     /// use figment::{Figment, Profile, value::Value, util::map};
     ///
-    /// let map: Value = Figment::from((&quot;key&quot;, &quot;value&quot;)).extract().unwrap();
-    /// let value = map.find_ref(&quot;key&quot;).expect(&quot;value&quot;);
-    /// assert_eq!(value.as_str(), Some(&quot;value&quot;));
+    /// let map: Value = Figment::from(("key", "value")).extract().unwrap();
+    /// let value = map.find_ref("key").expect("value");
+    /// assert_eq!(value.as_str(), Some("value"));
     /// assert!(!value.tag().is_default());
     /// assert_eq!(value.tag().profile(), Some(Profile::Global));
     ///
-    /// let map: Value = Figment::from((&quot;key&quot;, map![&quot;key2&quot; =&gt; 123])).extract().unwrap();
-    /// let value = map.find_ref(&quot;key.key2&quot;).expect(&quot;value&quot;);
+    /// let map: Value = Figment::from(("key", map!["key2" =&gt; 123])).extract().unwrap();
+    /// let value = map.find_ref("key.key2").expect("value");
     /// assert_eq!(value.to_i128(), Some(123));
     /// assert!(!value.tag().is_default());
     /// assert_eq!(value.tag().profile(), Some(Profile::Global));
@@ -896,6 +1049,94 @@
         <span class="self">self</span>.to_num()<span class="question-mark">?</span>.to_f64()
     }
 
+    <span class="doccomment">/// Converts `self` to a `bool` if it is a [`Value::Bool`], or if it is a
+    /// [`Value::String`] or a [`Value::Num`] with a boolean interpretation.
+    ///
+    /// The case-insensitive strings "true", "yes", "1", and "on", and the
+    /// signed or unsigned integers `1` are interpreted as `true`.
+    ///
+    /// The case-insensitive strings "false", "no", "0", and "off", and the
+    /// signed or unsigned integers `0` are interpreted as false.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use figment::value::Value;
+    ///
+    /// let value = Value::from(true);
+    /// assert_eq!(value.to_bool_lossy(), Some(true));
+    ///
+    /// let value = Value::from(1);
+    /// assert_eq!(value.to_bool_lossy(), Some(true));
+    ///
+    /// let value = Value::from("YES");
+    /// assert_eq!(value.to_bool_lossy(), Some(true));
+    ///
+    /// let value = Value::from(false);
+    /// assert_eq!(value.to_bool_lossy(), Some(false));
+    ///
+    /// let value = Value::from(0);
+    /// assert_eq!(value.to_bool_lossy(), Some(false));
+    ///
+    /// let value = Value::from("no");
+    /// assert_eq!(value.to_bool_lossy(), Some(false));
+    ///
+    /// let value = Value::from("hello");
+    /// assert_eq!(value.to_bool_lossy(), None);
+    /// ```
+    </span><span class="kw">pub fn </span>to_bool_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;bool&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Value::Bool(<span class="kw">_</span>, b) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>b),
+            Value::Num(<span class="kw">_</span>, num) =&gt; <span class="kw">match </span>num.to_u128_lossy() {
+                <span class="prelude-val">Some</span>(<span class="number">0</span>) =&gt; <span class="prelude-val">Some</span>(<span class="bool-val">false</span>),
+                <span class="prelude-val">Some</span>(<span class="number">1</span>) =&gt; <span class="prelude-val">Some</span>(<span class="bool-val">true</span>),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None
+            </span>}
+            Value::String(<span class="kw">_</span>, s) =&gt; {
+                <span class="kw">const </span>TRUE: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[<span class="string">"true"</span>, <span class="string">"yes"</span>, <span class="string">"1"</span>, <span class="string">"on"</span>];
+                <span class="kw">const </span>FALSE: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[<span class="string">"false"</span>, <span class="string">"no"</span>, <span class="string">"0"</span>, <span class="string">"off"</span>];
+
+                <span class="kw">if </span>TRUE.iter().any(|v| uncased::eq(v, s)) {
+                    <span class="prelude-val">Some</span>(<span class="bool-val">true</span>)
+                } <span class="kw">else if </span>FALSE.iter().any(|v| uncased::eq(v, s)) {
+                    <span class="prelude-val">Some</span>(<span class="bool-val">false</span>)
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">None
+                </span>}
+            },
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Converts `self` to a [`Num`] if it is a [`Value::Num`] or if it is a
+    /// [`Value::String`] that parses as a `usize` ([`Num::USize`]), `isize`
+    /// ([`Num::ISize`]), or `f64` ([`Num::F64`]), in that order of precendence.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use figment::value::{Value, Num};
+    ///
+    /// let value = Value::from(7_i32);
+    /// assert_eq!(value.to_num_lossy(), Some(Num::I32(7)));
+    ///
+    /// let value = Value::from("7");
+    /// assert_eq!(value.to_num_lossy(), Some(Num::U8(7)));
+    ///
+    /// let value = Value::from("-7000");
+    /// assert_eq!(value.to_num_lossy(), Some(Num::I16(-7000)));
+    ///
+    /// let value = Value::from("7000.5");
+    /// assert_eq!(value.to_num_lossy(), Some(Num::F64(7000.5)));
+    /// ```
+    </span><span class="kw">pub fn </span>to_num_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Num&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            Value::Num(<span class="kw">_</span>, num) =&gt; <span class="prelude-val">Some</span>(<span class="kw-2">*</span>num),
+            Value::String(<span class="kw">_</span>, s) =&gt; s.parse().ok(),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
     <span class="doccomment">/// Converts `self` into the corresponding [`Actual`].
     ///
     /// See also [`Num::to_actual()`] and [`Empty::to_actual()`], which are
@@ -906,7 +1147,7 @@
     /// ```rust
     /// use figment::{value::Value, error::Actual};
     ///
-    /// assert_eq!(Value::from(&#39;a&#39;).to_actual(), Actual::Char(&#39;a&#39;));
+    /// assert_eq!(Value::from('a').to_actual(), Actual::Char('a'));
     /// assert_eq!(Value::from(&amp;[1, 2, 3]).to_actual(), Actual::Seq);
     /// ```
     </span><span class="kw">pub fn </span>to_actual(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Actual {
@@ -963,12 +1204,12 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_from_array {
+<span class="macro">macro_rules!</span> impl_from_array {
     ($(<span class="macro-nonterminal">$N</span>:literal),<span class="kw-2">*</span>) =&gt; ($(<span class="macro">impl_from_array!</span>(@<span class="macro-nonterminal">$N</span>);)<span class="kw-2">*</span>);
     (@<span class="macro-nonterminal">$N</span>:literal) =&gt; (
-        <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Into&lt;Value&gt; + Clone&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T; <span class="macro-nonterminal">$N</span>]&gt; <span class="kw">for </span>Value {
+        <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: Into&lt;Value&gt; + Clone&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T; <span class="macro-nonterminal">$N</span>]&gt; <span class="kw">for </span>Value {
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T; <span class="macro-nonterminal">$N</span>]) -&gt; Value {
+            </span><span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T; <span class="macro-nonterminal">$N</span>]) -&gt; Value {
                 Value::from(<span class="kw-2">&amp;</span>value[..])
             }
         }
@@ -983,13 +1224,13 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Into&lt;Value&gt; + Clone&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T]&gt; <span class="kw">for </span>Value {
-    <span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[T]) -&gt; Value {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: Into&lt;Value&gt; + Clone&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T]&gt; <span class="kw">for </span>Value {
+    <span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T]) -&gt; Value {
         Value::Array(Tag::Default, value.iter().map(|v| v.clone().into()).collect())
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: Into&lt;Value&gt;&gt; From&lt;Vec&lt;T&gt;&gt; <span class="kw">for </span>Value {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: Into&lt;Value&gt;&gt; From&lt;Vec&lt;T&gt;&gt; <span class="kw">for </span>Value {
     <span class="kw">fn </span>from(vec: Vec&lt;T&gt;) -&gt; Value {
         <span class="kw">let </span>vector = vec.into_iter().map(|v| v.into()).collect();
         Value::Array(Tag::Default, vector)
@@ -1006,7 +1247,7 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_from_for_value {
+<span class="macro">macro_rules!</span> impl_from_for_value {
     ($(<span class="macro-nonterminal">$T</span>:ty: <span class="macro-nonterminal">$V</span>:ident),<span class="kw-2">*</span>) =&gt; ($(
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>Value {
             <span class="kw">fn </span>from(value: <span class="macro-nonterminal">$T</span>) -&gt; Value { Value::<span class="macro-nonterminal">$V</span>(Tag::Default, value.into()) }
@@ -1014,7 +1255,38 @@
     )<span class="kw-2">*</span>)
 }
 
-<span class="macro">impl_from_for_value! </span>{
+<span class="macro">macro_rules!</span> try_convert {
+    (<span class="macro-nonterminal">$n</span>:expr =&gt; $(<span class="macro-nonterminal">$T</span>:ty),<span class="kw-2">*</span>) =&gt; {$(
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(n) = &lt;<span class="macro-nonterminal">$T </span><span class="kw">as </span>std::convert::TryFrom&lt;<span class="kw">_</span>&gt;&gt;::try_from(<span class="macro-nonterminal">$n</span>) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(n.into());
+        }
+    )<span class="kw-2">*</span>}
+}
+
+<span class="kw">impl </span>FromStr <span class="kw">for </span>Num {
+    <span class="kw">type </span><span class="prelude-val">Err </span>= Either&lt;ParseIntError, ParseFloatError&gt;;
+
+    <span class="kw">fn </span>from_str(string: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Err&gt; {
+        <span class="kw">let </span>string = string.trim();
+        <span class="kw">if </span>string.contains(<span class="string">'.'</span>) {
+            <span class="kw">if </span>string.len() &lt;= (f32::DIGITS <span class="kw">as </span>usize + <span class="number">1</span>) {
+                <span class="prelude-val">Ok</span>(string.parse::&lt;f32&gt;().map_err(Either::Right)<span class="question-mark">?</span>.into())
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Ok</span>(string.parse::&lt;f64&gt;().map_err(Either::Right)<span class="question-mark">?</span>.into())
+            }
+        } <span class="kw">else if </span>string.starts_with(<span class="string">'-'</span>) {
+            <span class="kw">let </span>int = string.parse::&lt;i128&gt;().map_err(Either::Left)<span class="question-mark">?</span>;
+            <span class="macro">try_convert!</span>[int =&gt; i8, i16, i32, i64];
+            <span class="prelude-val">Ok</span>(int.into())
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>uint = string.parse::&lt;u128&gt;().map_err(Either::Left)<span class="question-mark">?</span>;
+            <span class="macro">try_convert!</span>[uint =&gt; u8, u16, u32, u64];
+            <span class="prelude-val">Ok</span>(uint.into())
+        }
+    }
+}
+
+<span class="macro">impl_from_for_value!</span> {
     String: String, char: Char, bool: Bool,
     u8: Num, u16: Num, u32: Num, u64: Num, u128: Num, usize: Num,
     i8: Num, i16: Num, i32: Num, i64: Num, i128: Num, isize: Num,
@@ -1096,6 +1368,38 @@
             Num::U64(v) =&gt; v <span class="kw">as </span>u128,
             Num::U128(v) =&gt; v <span class="kw">as </span>u128,
             Num::USize(v) =&gt; v <span class="kw">as </span>u128,
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        })
+    }
+
+    <span class="doccomment">/// Converts `self` into a `u128` if it is non-negative, even if `self` is
+    /// of a signed variant.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use figment::value::Num;
+    ///
+    /// let num: Num = 123u8.into();
+    /// assert_eq!(num.to_u128_lossy(), Some(123));
+    ///
+    /// let num: Num = 123i8.into();
+    /// assert_eq!(num.to_u128_lossy(), Some(123));
+    /// ```
+    </span><span class="kw">pub fn </span>to_u128_lossy(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u128&gt; {
+        <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self">self </span>{
+            Num::U8(v) =&gt; v <span class="kw">as </span>u128,
+            Num::U16(v) =&gt; v <span class="kw">as </span>u128,
+            Num::U32(v) =&gt; v <span class="kw">as </span>u128,
+            Num::U64(v) =&gt; v <span class="kw">as </span>u128,
+            Num::U128(v) =&gt; v <span class="kw">as </span>u128,
+            Num::USize(v) =&gt; v <span class="kw">as </span>u128,
+            Num::I8(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
+            Num::I16(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
+            Num::I32(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
+            Num::I64(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
+            Num::I128(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
+            Num::ISize(v) <span class="kw">if </span>v &gt;= <span class="number">0 </span>=&gt; v <span class="kw">as </span>u128,
             <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
         })
     }
@@ -1187,7 +1491,7 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_from_for_num_value {
+<span class="macro">macro_rules!</span> impl_from_for_num_value {
     ($(<span class="macro-nonterminal">$T</span>:ty: <span class="macro-nonterminal">$V</span>:ident),<span class="kw-2">*</span>) =&gt; ($(
         <span class="kw">impl </span>From&lt;<span class="macro-nonterminal">$T</span>&gt; <span class="kw">for </span>Num {
             <span class="kw">fn </span>from(value: <span class="macro-nonterminal">$T</span>) -&gt; Num {
@@ -1197,7 +1501,7 @@
     )<span class="kw-2">*</span>)
 }
 
-<span class="macro">impl_from_for_num_value! </span>{
+<span class="macro">impl_from_for_num_value!</span> {
     u8: U8, u16: U16, u32: U32, u64: U64, u128: U128, usize: USize,
     i8: I8, i16: I16, i32: I32, i64: I64, i128: I128, isize: ISize,
     f32: F32, f64: F64

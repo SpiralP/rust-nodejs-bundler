@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/trace.rs`."><title>trace.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/trace.rs`."><title>trace.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -321,7 +321,7 @@
 
 <span class="kw">use </span>std::net::SocketAddr;
 
-<span class="kw">use </span>http::{<span class="self">self</span>, header};
+<span class="kw">use </span>http::header;
 
 <span class="kw">use </span><span class="kw">crate</span>::filter::{Filter, WrapSealed};
 <span class="kw">use </span><span class="kw">crate</span>::reject::IsReject;
@@ -333,7 +333,7 @@
 <span class="doccomment">/// Create a wrapping filter that instruments every request with a `tracing`
 /// [`Span`] at the [`INFO`] level, containing a summary of the request.
 /// Additionally, if the [`DEBUG`] level is enabled, the span will contain an
-/// event recording the request&#39;s headers.
+/// event recording the request's headers.
 ///
 /// # Example
 ///
@@ -348,11 +348,11 @@
 /// [`Span`]: https://docs.rs/tracing/latest/tracing/#spans
 /// [`INFO`]: https://docs.rs/tracing/0.1.16/tracing/struct.Level.html#associatedconstant.INFO
 /// [`DEBUG`]: https://docs.rs/tracing/0.1.16/tracing/struct.Level.html#associatedconstant.DEBUG
-</span><span class="kw">pub fn </span>request() -&gt; Trace&lt;<span class="kw">impl </span>Fn(Info&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Span + Clone&gt; {
+</span><span class="kw">pub fn </span>request() -&gt; Trace&lt;<span class="kw">impl </span>Fn(Info&lt;<span class="lifetime">'_</span>&gt;) -&gt; Span + Clone&gt; {
     <span class="kw">use </span>tracing::field::{display, Empty};
-    trace(|info: Info&lt;<span class="lifetime">&#39;_</span>&gt;| {
+    trace(|info: Info&lt;<span class="lifetime">'_</span>&gt;| {
         <span class="kw">let </span>span = <span class="macro">tracing::info_span!</span>(
-            <span class="string">&quot;request&quot;</span>,
+            <span class="string">"request"</span>,
             remote.addr = Empty,
             method = %info.method(),
             path = %info.path(),
@@ -362,14 +362,14 @@
 
         <span class="comment">// Record optional fields.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(remote_addr) = info.remote_addr() {
-            span.record(<span class="string">&quot;remote.addr&quot;</span>, <span class="kw-2">&amp;</span>display(remote_addr));
+            span.record(<span class="string">"remote.addr"</span>, <span class="kw-2">&amp;</span>display(remote_addr));
         }
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(referer) = info.referer() {
-            span.record(<span class="string">&quot;referer&quot;</span>, <span class="kw-2">&amp;</span>display(referer));
+            span.record(<span class="string">"referer"</span>, <span class="kw-2">&amp;</span>display(referer));
         }
 
-        <span class="macro">tracing::debug!</span>(parent: <span class="kw-2">&amp;</span>span, <span class="string">&quot;received request&quot;</span>);
+        <span class="macro">tracing::debug!</span>(parent: <span class="kw-2">&amp;</span>span, <span class="string">"received request"</span>);
 
         span
     })
@@ -389,7 +389,7 @@
 ///     .with(warp::trace(|info| {
 ///         // Create a span using tracing macros
 ///         tracing::info_span!(
-///             &quot;request&quot;,
+///             "request",
 ///             method = %info.method(),
 ///             path = %info.path(),
 ///         )
@@ -399,7 +399,7 @@
 /// [`Span`]: https://docs.rs/tracing/latest/tracing/#spans
 </span><span class="kw">pub fn </span>trace&lt;F&gt;(func: F) -&gt; Trace&lt;F&gt;
 <span class="kw">where
-    </span>F: Fn(Info&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Span + Clone,
+    </span>F: Fn(Info&lt;<span class="lifetime">'_</span>&gt;) -&gt; Span + Clone,
 {
     Trace { func }
 }
@@ -415,21 +415,21 @@
 /// ```
 /// use warp::Filter;
 ///
-/// let hello = warp::path(&quot;hello&quot;)
+/// let hello = warp::path("hello")
 ///     .map(warp::reply)
-///     .with(warp::trace::named(&quot;hello&quot;));
+///     .with(warp::trace::named("hello"));
 ///
-/// let goodbye = warp::path(&quot;goodbye&quot;)
+/// let goodbye = warp::path("goodbye")
 ///     .map(warp::reply)
-///     .with(warp::trace::named(&quot;goodbye&quot;));
+///     .with(warp::trace::named("goodbye"));
 ///
 /// let routes = hello.or(goodbye);
 /// ```
 ///
 /// [`Span`]: https://docs.rs/tracing/latest/tracing/#spans
 /// [`DEBUG`]: https://docs.rs/tracing/0.1.16/tracing/struct.Level.html#associatedconstant.DEBUG
-</span><span class="kw">pub fn </span>named(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; Trace&lt;<span class="kw">impl </span>Fn(Info&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Span + Copy&gt; {
-    trace(<span class="kw">move </span>|<span class="kw">_</span>| <span class="macro">tracing::debug_span!</span>(<span class="string">&quot;context&quot;</span>, <span class="string">&quot;{}&quot;</span>, name,))
+</span><span class="kw">pub fn </span>named(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; Trace&lt;<span class="kw">impl </span>Fn(Info&lt;<span class="lifetime">'_</span>&gt;) -&gt; Span + Copy&gt; {
+    trace(<span class="kw">move </span>|<span class="kw">_</span>| <span class="macro">tracing::debug_span!</span>(<span class="string">"context"</span>, <span class="string">"{}"</span>, name,))
 }
 
 <span class="doccomment">/// Decorates a [`Filter`] to create a [`tracing`] [span] for
@@ -444,13 +444,13 @@
 
 <span class="doccomment">/// Information about the request/response that can be used to prepare log lines.
 </span><span class="attr">#[allow(missing_debug_implementations)]
-</span><span class="kw">pub struct </span>Info&lt;<span class="lifetime">&#39;a</span>&gt; {
-    route: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Route,
+</span><span class="kw">pub struct </span>Info&lt;<span class="lifetime">'a</span>&gt; {
+    route: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Route,
 }
 
 <span class="kw">impl</span>&lt;FN, F&gt; WrapSealed&lt;F&gt; <span class="kw">for </span>Trace&lt;FN&gt;
 <span class="kw">where
-    </span>FN: Fn(Info&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Span + Clone + Send,
+    </span>FN: Fn(Info&lt;<span class="lifetime">'_</span>&gt;) -&gt; Span + Clone + Send,
     F: Filter + Clone + Send,
     F::Extract: Reply,
     F::Error: IsReject,
@@ -465,7 +465,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Info&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Info&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// View the remote `SocketAddr` of the request.
     </span><span class="kw">pub fn </span>remote_addr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;SocketAddr&gt; {
         <span class="self">self</span>.route.remote_addr()
@@ -554,31 +554,31 @@
 
         <span class="kw">if </span>status.is_success() {
             <span class="macro">tracing::info!</span>(
-                target: <span class="string">&quot;warp::filters::trace&quot;</span>,
+                target: <span class="string">"warp::filters::trace"</span>,
                 status = status.as_u16(),
-                <span class="string">&quot;finished processing with success&quot;
+                <span class="string">"finished processing with success"
             </span>);
         } <span class="kw">else if </span>status.is_server_error() {
             <span class="macro">tracing::error!</span>(
-                target: <span class="string">&quot;warp::filters::trace&quot;</span>,
+                target: <span class="string">"warp::filters::trace"</span>,
                 status = status.as_u16(),
                 error = <span class="question-mark">?</span>error,
-                <span class="string">&quot;unable to process request (internal error)&quot;
+                <span class="string">"unable to process request (internal error)"
             </span>);
         } <span class="kw">else if </span>status.is_client_error() {
             <span class="macro">tracing::warn!</span>(
-                target: <span class="string">&quot;warp::filters::trace&quot;</span>,
+                target: <span class="string">"warp::filters::trace"</span>,
                 status = status.as_u16(),
                 error = <span class="question-mark">?</span>error,
-                <span class="string">&quot;unable to serve request (client error)&quot;
+                <span class="string">"unable to serve request (client error)"
             </span>);
         } <span class="kw">else </span>{
             <span class="comment">// Either informational or redirect
             </span><span class="macro">tracing::info!</span>(
-                target: <span class="string">&quot;warp::filters::trace&quot;</span>,
+                target: <span class="string">"warp::filters::trace"</span>,
                 status = status.as_u16(),
                 error = <span class="question-mark">?</span>error,
-                    <span class="string">&quot;finished processing with status&quot;
+                    <span class="string">"finished processing with status"
             </span>);
         }
     }
@@ -589,7 +589,7 @@
 
     <span class="kw">impl</span>&lt;FN, F&gt; FilterBase <span class="kw">for </span>WithTrace&lt;FN, F&gt;
     <span class="kw">where
-        </span>FN: Fn(Info&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Span + Clone + Send,
+        </span>FN: Fn(Info&lt;<span class="lifetime">'_</span>&gt;) -&gt; Span + Clone + Send,
         F: Filter + Clone + Send,
         F::Extract: Reply,
         F::Error: IsReject,
@@ -607,7 +607,7 @@
             <span class="kw">let </span>span = route::with(|route| (<span class="self">self</span>.trace.func)(Info { route }));
             <span class="kw">let </span>_entered = span.enter();
 
-            <span class="macro">tracing::info!</span>(target: <span class="string">&quot;warp::filters::trace&quot;</span>, <span class="string">&quot;processing request&quot;</span>);
+            <span class="macro">tracing::info!</span>(target: <span class="string">"warp::filters::trace"</span>, <span class="string">"processing request"</span>);
             <span class="self">self</span>.filter
                 .filter(Internal)
                 .map_ok(convert_reply <span class="kw">as fn</span>(F::Extract) -&gt; <span class="self">Self</span>::Extract)

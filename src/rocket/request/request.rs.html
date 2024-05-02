@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/request/request.rs`."><title>request.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/request/request.rs`."><title>request.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1145,34 +1145,34 @@
 /// should likely only be used when writing [`FromRequest`] implementations. It
 /// contains all of the information for a given web request except for the body
 /// data. This includes the HTTP method, URI, cookies, headers, and more.
-</span><span class="kw">pub struct </span>Request&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>Request&lt;<span class="lifetime">'r</span>&gt; {
     method: Atomic&lt;Method&gt;,
-    uri: Origin&lt;<span class="lifetime">&#39;r</span>&gt;,
-    headers: HeaderMap&lt;<span class="lifetime">&#39;r</span>&gt;,
+    uri: Origin&lt;<span class="lifetime">'r</span>&gt;,
+    headers: HeaderMap&lt;<span class="lifetime">'r</span>&gt;,
     <span class="kw">pub</span>(<span class="kw">crate</span>) connection: ConnectionMeta,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) state: RequestState&lt;<span class="lifetime">&#39;r</span>&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) state: RequestState&lt;<span class="lifetime">'r</span>&gt;,
 }
 
 <span class="doccomment">/// Information derived from an incoming connection, if any.
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ConnectionMeta {
     <span class="kw">pub </span>remote: <span class="prelude-ty">Option</span>&lt;SocketAddr&gt;,
-    <span class="attr">#[cfg_attr(not(feature = <span class="string">&quot;mtls&quot;</span>), allow(dead_code))]
+    <span class="attr">#[cfg_attr(not(feature = <span class="string">"mtls"</span>), allow(dead_code))]
     </span><span class="kw">pub </span>client_certificates: <span class="prelude-ty">Option</span>&lt;Certificates&gt;,
 }
 
 <span class="doccomment">/// Information derived from the request.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>RequestState&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">pub </span>rocket: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt;,
-    <span class="kw">pub </span>route: Atomic&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Route&gt;&gt;,
-    <span class="kw">pub </span>cookies: CookieJar&lt;<span class="lifetime">&#39;r</span>&gt;,
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>RequestState&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">pub </span>rocket: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Rocket&lt;Orbit&gt;,
+    <span class="kw">pub </span>route: Atomic&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>Route&gt;&gt;,
+    <span class="kw">pub </span>cookies: CookieJar&lt;<span class="lifetime">'r</span>&gt;,
     <span class="kw">pub </span>accept: InitCell&lt;<span class="prelude-ty">Option</span>&lt;Accept&gt;&gt;,
     <span class="kw">pub </span>content_type: InitCell&lt;<span class="prelude-ty">Option</span>&lt;ContentType&gt;&gt;,
     <span class="kw">pub </span>cache: Arc&lt;<span class="macro">TypeMap!</span>[Send + Sync]&gt;,
-    <span class="kw">pub </span>host: <span class="prelude-ty">Option</span>&lt;Host&lt;<span class="lifetime">&#39;r</span>&gt;&gt;,
+    <span class="kw">pub </span>host: <span class="prelude-ty">Option</span>&lt;Host&lt;<span class="lifetime">'r</span>&gt;&gt;,
 }
 
-<span class="kw">impl </span>Request&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Request&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         Request {
             method: Atomic::new(<span class="self">self</span>.method()),
@@ -1184,7 +1184,7 @@
     }
 }
 
-<span class="kw">impl </span>RequestState&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>RequestState&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         RequestState {
             rocket: <span class="self">self</span>.rocket,
@@ -1198,14 +1198,14 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Request&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Request&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Create a new `Request` with the given `method` and `uri`.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;<span class="lifetime">&#39;s</span>: <span class="lifetime">&#39;r</span>&gt;(
-        rocket: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;<span class="lifetime">'s</span>: <span class="lifetime">'r</span>&gt;(
+        rocket: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Rocket&lt;Orbit&gt;,
         method: Method,
-        uri: Origin&lt;<span class="lifetime">&#39;s</span>&gt;
-    ) -&gt; Request&lt;<span class="lifetime">&#39;r</span>&gt; {
+        uri: Origin&lt;<span class="lifetime">'s</span>&gt;
+    ) -&gt; Request&lt;<span class="lifetime">'r</span>&gt; {
         Request {
             uri,
             method: Atomic::new(method),
@@ -1236,8 +1236,8 @@
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
     /// # let post = |uri| c.post(uri);
-    /// assert_eq!(get(&quot;/&quot;).method(), Method::Get);
-    /// assert_eq!(post(&quot;/&quot;).method(), Method::Post);
+    /// assert_eq!(get("/").method(), Method::Get);
+    /// assert_eq!(post("/").method(), Method::Post);
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>method(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Method {
@@ -1251,7 +1251,7 @@
     /// ```rust
     /// use rocket::http::Method;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert_eq!(request.method(), Method::Get);
@@ -1271,11 +1271,11 @@
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert_eq!(get(&quot;/hello/rocketeer&quot;).uri().path(), &quot;/hello/rocketeer&quot;);
-    /// assert_eq!(get(&quot;/hello&quot;).uri().query(), None);
+    /// assert_eq!(get("/hello/rocketeer").uri().path(), "/hello/rocketeer");
+    /// assert_eq!(get("/hello").uri().query(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>uri(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>uri(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.uri
     }
 
@@ -1286,21 +1286,21 @@
     /// ```rust
     /// use rocket::http::uri::Origin;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
-    /// let uri = Origin::parse(&quot;/hello/Sergio?type=greeting&quot;).unwrap();
+    /// let uri = Origin::parse("/hello/Sergio?type=greeting").unwrap();
     /// request.set_uri(uri);
-    /// assert_eq!(request.uri().path(), &quot;/hello/Sergio&quot;);
-    /// assert_eq!(request.uri().query().unwrap(), &quot;type=greeting&quot;);
+    /// assert_eq!(request.uri().path(), "/hello/Sergio");
+    /// assert_eq!(request.uri().query().unwrap(), "type=greeting");
     ///
-    /// let new_uri = request.uri().map_path(|p| format!(&quot;/foo{}&quot;, p)).unwrap();
+    /// let new_uri = request.uri().map_path(|p| format!("/foo{}", p)).unwrap();
     /// request.set_uri(new_uri);
-    /// assert_eq!(request.uri().path(), &quot;/foo/hello/Sergio&quot;);
-    /// assert_eq!(request.uri().query().unwrap(), &quot;type=greeting&quot;);
+    /// assert_eq!(request.uri().path(), "/foo/hello/Sergio");
+    /// assert_eq!(request.uri().query().unwrap(), "type=greeting");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>set_uri(<span class="kw-2">&amp;mut </span><span class="self">self</span>, uri: Origin&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">pub fn </span>set_uri(<span class="kw-2">&amp;mut </span><span class="self">self</span>, uri: Origin&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="self">self</span>.uri = uri;
     }
 
@@ -1332,19 +1332,19 @@
     /// use rocket::http::uri::Host;
     /// # use rocket::uri;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert_eq!(request.host(), None);
     ///
-    /// request.set_host(Host::from(uri!(&quot;rocket.rs&quot;)));
+    /// request.set_host(Host::from(uri!("rocket.rs")));
     /// let host = request.host().unwrap();
-    /// assert_eq!(host.domain(), &quot;rocket.rs&quot;);
+    /// assert_eq!(host.domain(), "rocket.rs");
     /// assert_eq!(host.port(), None);
     ///
-    /// request.set_host(Host::from(uri!(&quot;rocket.rs:2392&quot;)));
+    /// request.set_host(Host::from(uri!("rocket.rs:2392")));
     /// let host = request.host().unwrap();
-    /// assert_eq!(host.domain(), &quot;rocket.rs&quot;);
+    /// assert_eq!(host.domain(), "rocket.rs");
     /// assert_eq!(host.port(), Some(2392));
     /// ```
     ///
@@ -1355,44 +1355,44 @@
     /// # #[macro_use] extern crate rocket;
     /// # type Token = String;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     /// use rocket::http::uri::Host;
     ///
     /// // A sensitive URI we want to prefix with safe hosts.
-    /// #[get(&quot;/token?&lt;secret&gt;&quot;)]
+    /// #[get("/token?&lt;secret&gt;")]
     /// fn token(secret: Token) { /* .. */ }
     ///
     /// // Whitelist of known hosts. In a real setting, you might retrieve this
     /// // list from config at ignite-time using tools like `AdHoc::config()`.
-    /// const WHITELIST: [Host&lt;&#39;static&gt;; 3] = [
-    ///     Host::new(uri!(&quot;rocket.rs&quot;)),
-    ///     Host::new(uri!(&quot;rocket.rs:443&quot;)),
-    ///     Host::new(uri!(&quot;guide.rocket.rs:443&quot;)),
+    /// const WHITELIST: [Host&lt;'static&gt;; 3] = [
+    ///     Host::new(uri!("rocket.rs")),
+    ///     Host::new(uri!("rocket.rs:443")),
+    ///     Host::new(uri!("guide.rocket.rs:443")),
     /// ];
     ///
-    /// // A request with a host of &quot;rocket.rs&quot;. Note the case-insensitivity.
-    /// request.set_host(Host::from(uri!(&quot;ROCKET.rs&quot;)));
-    /// let prefix = request.host().and_then(|h| h.to_absolute(&quot;https&quot;, &amp;WHITELIST));
+    /// // A request with a host of "rocket.rs". Note the case-insensitivity.
+    /// request.set_host(Host::from(uri!("ROCKET.rs")));
+    /// let prefix = request.host().and_then(|h| h.to_absolute("https", &amp;WHITELIST));
     ///
-    /// // `rocket.rs` is in the whitelist, so we&#39;ll get back a `Some`.
+    /// // `rocket.rs` is in the whitelist, so we'll get back a `Some`.
     /// assert!(prefix.is_some());
     /// if let Some(prefix) = prefix {
     ///     // We can use this prefix to safely construct URIs.
-    ///     let uri = uri!(prefix, token(&quot;some-secret-token&quot;));
-    ///     assert_eq!(uri, &quot;https://ROCKET.rs/token?secret=some-secret-token&quot;);
+    ///     let uri = uri!(prefix, token("some-secret-token"));
+    ///     assert_eq!(uri, "https://ROCKET.rs/token?secret=some-secret-token");
     /// }
     ///
-    /// // A request with a host of &quot;attacker-controlled.com&quot;.
-    /// request.set_host(Host::from(uri!(&quot;attacker-controlled.com&quot;)));
-    /// let prefix = request.host().and_then(|h| h.to_absolute(&quot;https&quot;, &amp;WHITELIST));
+    /// // A request with a host of "attacker-controlled.com".
+    /// request.set_host(Host::from(uri!("attacker-controlled.com")));
+    /// let prefix = request.host().and_then(|h| h.to_absolute("https", &amp;WHITELIST));
     ///
     /// // `attacker-controlled.come` is _not_ on the whitelist.
     /// assert!(prefix.is_none());
     /// assert!(request.host().is_some());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Host&lt;<span class="lifetime">&#39;r</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Host&lt;<span class="lifetime">'r</span>&gt;&gt; {
         <span class="self">self</span>.state.host.as_ref()
     }
 
@@ -1406,18 +1406,18 @@
     /// use rocket::http::uri::Host;
     /// # use rocket::uri;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert_eq!(request.host(), None);
     ///
-    /// request.set_host(Host::from(uri!(&quot;rocket.rs:443&quot;)));
+    /// request.set_host(Host::from(uri!("rocket.rs:443")));
     /// let host = request.host().unwrap();
-    /// assert_eq!(host.domain(), &quot;rocket.rs&quot;);
+    /// assert_eq!(host.domain(), "rocket.rs");
     /// assert_eq!(host.port(), Some(443));
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>set_host(<span class="kw-2">&amp;mut </span><span class="self">self</span>, host: Host&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">pub fn </span>set_host(<span class="kw-2">&amp;mut </span><span class="self">self</span>, host: Host&lt;<span class="lifetime">'r</span>&gt;) {
         <span class="self">self</span>.state.host = <span class="prelude-val">Some</span>(host);
     }
 
@@ -1427,8 +1427,8 @@
     ///
     /// Because it is common for proxies to forward connections for clients, the
     /// remote address may contain information about the proxy instead of the
-    /// client. For this reason, proxies typically set a &quot;X-Real-IP&quot; header
-    /// [`ip_header`](crate::Config::ip_header) with the client&#39;s true IP. To
+    /// client. For this reason, proxies typically set a "X-Real-IP" header
+    /// [`ip_header`](crate::Config::ip_header) with the client's true IP. To
     /// extract this IP from the request, use the [`real_ip()`] or
     /// [`client_ip()`] methods.
     ///
@@ -1440,7 +1440,7 @@
     /// ```rust
     /// use std::net::{SocketAddrV4, Ipv4Addr};
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert_eq!(request.remote(), None);
@@ -1463,7 +1463,7 @@
     /// ```rust
     /// use std::net::{SocketAddrV4, Ipv4Addr};
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert_eq!(request.remote(), None);
@@ -1488,11 +1488,11 @@
     /// use rocket::http::Header;
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let req = c.get(&quot;/&quot;);
+    /// # let req = c.get("/");
     /// assert_eq!(req.real_ip(), None);
     ///
     /// // `ip_header` defaults to `X-Real-IP`.
-    /// let req = req.header(Header::new(&quot;X-Real-IP&quot;, &quot;127.0.0.1&quot;));
+    /// let req = req.header(Header::new("X-Real-IP", "127.0.0.1"));
     /// assert_eq!(req.real_ip(), Some(Ipv4Addr::LOCALHOST.into()));
     /// ```
     </span><span class="kw">pub fn </span>real_ip(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;IpAddr&gt; {
@@ -1501,24 +1501,24 @@
             .get_one(ip_header)
             .and_then(|ip| {
                 ip.parse()
-                    .map_err(|<span class="kw">_</span>| <span class="macro">warn_!</span>(<span class="string">&quot;&#39;{}&#39; header is malformed: {}&quot;</span>, ip_header, ip))
+                    .map_err(|<span class="kw">_</span>| <span class="macro">warn_!</span>(<span class="string">"'{}' header is malformed: {}"</span>, ip_header, ip))
                     .ok()
             })
     }
 
-    <span class="doccomment">/// Attempts to return the client&#39;s IP address by first inspecting the
+    <span class="doccomment">/// Attempts to return the client's IP address by first inspecting the
     /// [`ip_header`](crate::Config::ip_header) and then using the remote
-    /// connection&#39;s IP address. Note that the built-in `IpAddr` request guard
+    /// connection's IP address. Note that the built-in `IpAddr` request guard
     /// can be used to retrieve the same information in a handler:
     ///
     /// ```rust
     /// # use rocket::get;
     /// use std::net::IpAddr;
     ///
-    /// #[get(&quot;/&quot;)]
+    /// #[get("/")]
     /// fn get_ip(client_ip: IpAddr) { /* ... */ }
     ///
-    /// #[get(&quot;/&quot;)]
+    /// #[get("/")]
     /// fn try_get_ip(client_ip: Option&lt;IpAddr&gt;) { /* ... */ }
     /// ````
     ///
@@ -1532,19 +1532,19 @@
     /// # use rocket::http::Header;
     /// # use std::net::{SocketAddr, IpAddr, Ipv4Addr};
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
-    /// // starting without an &quot;X-Real-IP&quot; header or remote address
+    /// // starting without an "X-Real-IP" header or remote address
     /// assert!(request.client_ip().is_none());
     ///
     /// // add a remote address; this is done by Rocket automatically
-    /// request.set_remote(&quot;127.0.0.1:8000&quot;.parse().unwrap());
-    /// assert_eq!(request.client_ip(), Some(&quot;127.0.0.1&quot;.parse().unwrap()));
+    /// request.set_remote("127.0.0.1:8000".parse().unwrap());
+    /// assert_eq!(request.client_ip(), Some("127.0.0.1".parse().unwrap()));
     ///
     /// // now with an X-Real-IP header, the default value for `ip_header`.
-    /// request.add_header(Header::new(&quot;X-Real-IP&quot;, &quot;8.8.8.8&quot;));
-    /// assert_eq!(request.client_ip(), Some(&quot;8.8.8.8&quot;.parse().unwrap()));
+    /// request.add_header(Header::new("X-Real-IP", "8.8.8.8"));
+    /// assert_eq!(request.client_ip(), Some("8.8.8.8".parse().unwrap()));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>client_ip(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;IpAddr&gt; {
@@ -1558,22 +1558,22 @@
     ///
     /// # Example
     ///
-    /// Add a new cookie to a request&#39;s cookies:
+    /// Add a new cookie to a request's cookies:
     ///
     /// ```rust
     /// use rocket::http::Cookie;
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// # let req = request.inner();
-    /// req.cookies().add((&quot;key&quot;, &quot;val&quot;));
-    /// req.cookies().add((&quot;ans&quot;, format!(&quot;life: {}&quot;, 38 + 4)));
+    /// req.cookies().add(("key", "val"));
+    /// req.cookies().add(("ans", format!("life: {}", 38 + 4)));
     ///
-    /// assert_eq!(req.cookies().get_pending(&quot;key&quot;).unwrap().value(), &quot;val&quot;);
-    /// assert_eq!(req.cookies().get_pending(&quot;ans&quot;).unwrap().value(), &quot;life: 42&quot;);
+    /// assert_eq!(req.cookies().get_pending("key").unwrap().value(), "val");
+    /// assert_eq!(req.cookies().get_pending("ans").unwrap().value(), "life: 42");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>cookies(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CookieJar&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>cookies(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CookieJar&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.state.cookies
     }
 
@@ -1586,17 +1586,17 @@
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert!(get(&quot;/&quot;).headers().is_empty());
+    /// assert!(get("/").headers().is_empty());
     ///
-    /// let req = get(&quot;/&quot;).header(Accept::HTML).header(ContentType::HTML);
+    /// let req = get("/").header(Accept::HTML).header(ContentType::HTML);
     /// assert_eq!(req.headers().len(), 2);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>headers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>HeaderMap&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">pub fn </span>headers(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>HeaderMap&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.headers
     }
 
-    <span class="doccomment">/// Add `header` to `self`&#39;s headers. The type of `header` can be any type
+    <span class="doccomment">/// Add `header` to `self`'s headers. The type of `header` can be any type
     /// that implements the `Into&lt;Header&gt;` trait. This includes common types
     /// such as [`ContentType`] and [`Accept`].
     ///
@@ -1605,17 +1605,17 @@
     /// ```rust
     /// use rocket::http::ContentType;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert!(request.headers().is_empty());
     ///
     /// request.add_header(ContentType::HTML);
-    /// assert!(request.headers().contains(&quot;Content-Type&quot;));
+    /// assert!(request.headers().contains("Content-Type"));
     /// assert_eq!(request.headers().len(), 1);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>add_header&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
+    </span><span class="kw">pub fn </span>add_header&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
         <span class="kw">let </span>header = header.into();
         <span class="self">self</span>.bust_header_cache(header.name(), <span class="bool-val">false</span>);
         <span class="self">self</span>.headers.add(header);
@@ -1630,21 +1630,21 @@
     /// ```rust
     /// use rocket::http::ContentType;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let mut req = c.get(&quot;/&quot;);
+    /// # let mut req = c.get("/");
     /// # let request = req.inner_mut();
     ///
     /// assert!(request.headers().is_empty());
     ///
     /// request.add_header(ContentType::Any);
-    /// assert_eq!(request.headers().get_one(&quot;Content-Type&quot;), Some(&quot;*/*&quot;));
+    /// assert_eq!(request.headers().get_one("Content-Type"), Some("*/*"));
     /// assert_eq!(request.content_type(), Some(&amp;ContentType::Any));
     ///
     /// request.replace_header(ContentType::PNG);
-    /// assert_eq!(request.headers().get_one(&quot;Content-Type&quot;), Some(&quot;image/png&quot;));
+    /// assert_eq!(request.headers().get_one("Content-Type"), Some("image/png"));
     /// assert_eq!(request.content_type(), Some(&amp;ContentType::PNG));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>replace_header&lt;<span class="lifetime">&#39;h</span>: <span class="lifetime">&#39;r</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
+    </span><span class="kw">pub fn </span>replace_header&lt;<span class="lifetime">'h</span>: <span class="lifetime">'r</span>, H: Into&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
         <span class="kw">let </span>header = header.into();
         <span class="self">self</span>.bust_header_cache(header.name(), <span class="bool-val">true</span>);
         <span class="self">self</span>.headers.replace(header);
@@ -1660,15 +1660,15 @@
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert_eq!(get(&quot;/&quot;).content_type(), None);
+    /// assert_eq!(get("/").content_type(), None);
     ///
-    /// let req = get(&quot;/&quot;).header(ContentType::JSON);
+    /// let req = get("/").header(ContentType::JSON);
     /// assert_eq!(req.content_type(), Some(&amp;ContentType::JSON));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>content_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>ContentType&gt; {
         <span class="self">self</span>.state.content_type.get_or_init(|| {
-            <span class="self">self</span>.headers().get_one(<span class="string">&quot;Content-Type&quot;</span>).and_then(|v| v.parse().ok())
+            <span class="self">self</span>.headers().get_one(<span class="string">"Content-Type"</span>).and_then(|v| v.parse().ok())
         }).as_ref()
     }
 
@@ -1682,19 +1682,19 @@
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert_eq!(get(&quot;/&quot;).accept(), None);
-    /// assert_eq!(get(&quot;/&quot;).header(Accept::JSON).accept(), Some(&amp;Accept::JSON));
+    /// assert_eq!(get("/").accept(), None);
+    /// assert_eq!(get("/").header(Accept::JSON).accept(), Some(&amp;Accept::JSON));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>accept(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Accept&gt; {
         <span class="self">self</span>.state.accept.get_or_init(|| {
-            <span class="self">self</span>.headers().get_one(<span class="string">&quot;Accept&quot;</span>).and_then(|v| v.parse().ok())
+            <span class="self">self</span>.headers().get_one(<span class="string">"Accept"</span>).and_then(|v| v.parse().ok())
         }).as_ref()
     }
 
-    <span class="doccomment">/// Returns the media type &quot;format&quot; of the request.
+    <span class="doccomment">/// Returns the media type "format" of the request.
     ///
-    /// The &quot;format&quot; of a request is either the Content-Type, if the request
+    /// The "format" of a request is either the Content-Type, if the request
     /// methods indicates support for a payload, or the preferred media type in
     /// the Accept header otherwise. If the method indicates no payload and no
     /// Accept header is specified, a media type of `Any` is returned.
@@ -1711,21 +1711,21 @@
     /// # let post = |uri| c.post(uri);
     ///
     /// // Non-payload-bearing: format is accept header.
-    /// let req = get(&quot;/&quot;).header(Accept::HTML);
+    /// let req = get("/").header(Accept::HTML);
     /// assert_eq!(req.format(), Some(&amp;MediaType::HTML));
     ///
-    /// let req = get(&quot;/&quot;).header(ContentType::JSON).header(Accept::HTML);
+    /// let req = get("/").header(ContentType::JSON).header(Accept::HTML);
     /// assert_eq!(req.format(), Some(&amp;MediaType::HTML));
     ///
     /// // Payload: format is content-type header.
-    /// let req = post(&quot;/&quot;).header(ContentType::HTML);
+    /// let req = post("/").header(ContentType::HTML);
     /// assert_eq!(req.format(), Some(&amp;MediaType::HTML));
     ///
-    /// let req = post(&quot;/&quot;).header(ContentType::JSON).header(Accept::HTML);
+    /// let req = post("/").header(ContentType::JSON).header(Accept::HTML);
     /// assert_eq!(req.format(), Some(&amp;MediaType::JSON));
     ///
     /// // Non-payload-bearing method and no accept header: `Any`.
-    /// assert_eq!(get(&quot;/&quot;).format(), Some(&amp;MediaType::Any));
+    /// assert_eq!(get("/").format(), Some(&amp;MediaType::Any));
     /// ```
     </span><span class="kw">pub fn </span>format(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>MediaType&gt; {
         <span class="kw">static </span>ANY: MediaType = MediaType::Any;
@@ -1747,7 +1747,7 @@
     ///
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// # type Pool = usize;
     /// // Retrieve the application config via `Rocket::config()`.
     /// let config = request.rocket().config();
@@ -1760,7 +1760,7 @@
     /// let catchers = request.rocket().catchers();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>rocket(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt; {
+    </span><span class="kw">pub fn </span>rocket(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Rocket&lt;Orbit&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.state.rocket
     }
 
@@ -1770,7 +1770,7 @@
     ///
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// &amp;request.rocket().config().limits
     /// # ;
     /// ```
@@ -1780,16 +1780,16 @@
     /// ```rust
     /// use rocket::data::ToByteUnit;
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     ///
     /// // This is the default `form` limit.
-    /// assert_eq!(request.limits().get(&quot;form&quot;), Some(32.kibibytes()));
+    /// assert_eq!(request.limits().get("form"), Some(32.kibibytes()));
     ///
     /// // Retrieve the limit for files with extension `.pdf`; etails to 1MiB.
-    /// assert_eq!(request.limits().get(&quot;file/pdf&quot;), Some(1.mebibytes()));
+    /// assert_eq!(request.limits().get("file/pdf"), Some(1.mebibytes()));
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>limits(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Limits {
+    </span><span class="kw">pub fn </span>limits(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Limits {
         <span class="kw-2">&amp;</span><span class="self">self</span>.rocket().config().limits
     }
 
@@ -1803,11 +1803,11 @@
     ///
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// let route = request.route();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>route(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Route&gt; {
+    </span><span class="kw">pub fn </span>route(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>Route&gt; {
         <span class="self">self</span>.state.route.load(Ordering::Acquire)
     }
 
@@ -1821,13 +1821,13 @@
     /// # type User = rocket::http::Method;
     /// # rocket::async_test(async move {
     /// # let c = rocket::local::asynchronous::Client::debug_with(vec![]).await.unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// let outcome = request.guard::&lt;User&gt;().await;
     /// # })
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>guard&lt;<span class="lifetime">&#39;z</span>, <span class="lifetime">&#39;a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>) -&gt; BoxFuture&lt;<span class="lifetime">&#39;z</span>, Outcome&lt;T, T::Error&gt;&gt;
-        <span class="kw">where </span>T: FromRequest&lt;<span class="lifetime">&#39;a</span>&gt; + <span class="lifetime">&#39;z</span>, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;z</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;z
+    </span><span class="kw">pub fn </span>guard&lt;<span class="lifetime">'z</span>, <span class="lifetime">'a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; BoxFuture&lt;<span class="lifetime">'z</span>, Outcome&lt;T, T::Error&gt;&gt;
+        <span class="kw">where </span>T: FromRequest&lt;<span class="lifetime">'a</span>&gt; + <span class="lifetime">'z</span>, <span class="lifetime">'a</span>: <span class="lifetime">'z</span>, <span class="lifetime">'r</span>: <span class="lifetime">'z
     </span>{
         T::from_request(<span class="self">self</span>)
     }
@@ -1849,18 +1849,18 @@
     ///
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// // The first store into local cache for a given type wins.
-    /// let value = request.local_cache(|| &quot;hello&quot;);
-    /// assert_eq!(*request.local_cache(|| &quot;hello&quot;), &quot;hello&quot;);
+    /// let value = request.local_cache(|| "hello");
+    /// assert_eq!(*request.local_cache(|| "hello"), "hello");
     ///
     /// // The following return the cached, previously stored value for the type.
-    /// assert_eq!(*request.local_cache(|| &quot;goodbye&quot;), &quot;hello&quot;);
+    /// assert_eq!(*request.local_cache(|| "goodbye"), "hello");
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>local_cache&lt;T, F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, f: F) -&gt; <span class="kw-2">&amp;</span>T
         <span class="kw">where </span>F: FnOnce() -&gt; T,
-              T: Send + Sync + <span class="lifetime">&#39;static
+              T: Send + Sync + <span class="lifetime">'static
     </span>{
         <span class="self">self</span>.state.cache.try_get()
             .unwrap_or_else(|| {
@@ -1879,22 +1879,22 @@
     /// ```rust
     /// # use rocket::Request;
     /// # type User = ();
-    /// async fn current_user&lt;&#39;r&gt;(request: &amp;Request&lt;&#39;r&gt;) -&gt; User {
+    /// async fn current_user&lt;'r&gt;(request: &amp;Request&lt;'r&gt;) -&gt; User {
     ///     // validate request for a given user, load from database, etc
     /// }
     ///
     /// # rocket::async_test(async move {
     /// # let c = rocket::local::asynchronous::Client::debug_with(vec![]).await.unwrap();
-    /// # let request = c.get(&quot;/&quot;);
+    /// # let request = c.get("/");
     /// let current_user = request.local_cache_async(async {
     ///     current_user(&amp;request).await
     /// }).await;
     /// # })
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub async fn </span>local_cache_async&lt;<span class="lifetime">&#39;a</span>, T, F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, fut: F) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T
+    </span><span class="kw">pub async fn </span>local_cache_async&lt;<span class="lifetime">'a</span>, T, F&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, fut: F) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span>T
         <span class="kw">where </span>F: Future&lt;Output = T&gt;,
-              T: Send + Sync + <span class="lifetime">&#39;static
+              T: Send + Sync + <span class="lifetime">'static
     </span>{
         <span class="kw">match </span><span class="self">self</span>.state.cache.try_get() {
             <span class="prelude-val">Some</span>(s) =&gt; s,
@@ -1915,27 +1915,27 @@
     /// parsed from the `n`th dynamic parameter.
     ///
     /// This method exists only to be used by manual routing. To retrieve
-    /// parameters from a request, use Rocket&#39;s code generation facilities.
+    /// parameters from a request, use Rocket's code generation facilities.
     ///
     /// # Example
     ///
     /// ```rust
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert_eq!(get(&quot;/a/b/c&quot;).param(0), Some(Ok(&quot;a&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).param(1), Some(Ok(&quot;b&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).param(2), Some(Ok(&quot;c&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).param::&lt;&amp;str&gt;(3), None);
+    /// assert_eq!(get("/a/b/c").param(0), Some(Ok("a")));
+    /// assert_eq!(get("/a/b/c").param(1), Some(Ok("b")));
+    /// assert_eq!(get("/a/b/c").param(2), Some(Ok("c")));
+    /// assert_eq!(get("/a/b/c").param::&lt;&amp;str&gt;(3), None);
     ///
-    /// assert_eq!(get(&quot;/1/b/3&quot;).param(0), Some(Ok(1)));
-    /// assert!(get(&quot;/1/b/3&quot;).param::&lt;usize&gt;(1).unwrap().is_err());
-    /// assert_eq!(get(&quot;/1/b/3&quot;).param(2), Some(Ok(3)));
+    /// assert_eq!(get("/1/b/3").param(0), Some(Ok(1)));
+    /// assert!(get("/1/b/3").param::&lt;usize&gt;(1).unwrap().is_err());
+    /// assert_eq!(get("/1/b/3").param(2), Some(Ok(3)));
     ///
-    /// assert_eq!(get(&quot;/&quot;).param::&lt;&amp;str&gt;(0), None);
+    /// assert_eq!(get("/").param::&lt;&amp;str&gt;(0), None);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>param&lt;<span class="lifetime">&#39;a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, n: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;T, T::Error&gt;&gt;
-        <span class="kw">where </span>T: FromParam&lt;<span class="lifetime">&#39;a</span>&gt;
+    </span><span class="kw">pub fn </span>param&lt;<span class="lifetime">'a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, n: usize) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;T, T::Error&gt;&gt;
+        <span class="kw">where </span>T: FromParam&lt;<span class="lifetime">'a</span>&gt;
     {
         <span class="self">self</span>.routed_segment(n).map(T::from_param)
     }
@@ -1951,7 +1951,7 @@
     /// will be empty.
     ///
     /// This method exists only to be used by manual routing. To retrieve
-    /// segments from a request, use Rocket&#39;s code generation facilities.
+    /// segments from a request, use Rocket's code generation facilities.
     ///
     /// # Example
     ///
@@ -1960,26 +1960,26 @@
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// assert_eq!(get(&quot;/&quot;).segments(0..), Ok(PathBuf::new()));
-    /// assert_eq!(get(&quot;/&quot;).segments(2..), Ok(PathBuf::new()));
+    /// assert_eq!(get("/").segments(0..), Ok(PathBuf::new()));
+    /// assert_eq!(get("/").segments(2..), Ok(PathBuf::new()));
     ///
     /// // Empty segments are skipped.
-    /// assert_eq!(get(&quot;///&quot;).segments(2..), Ok(PathBuf::new()));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).segments(0..), Ok(PathBuf::from(&quot;a/b/c&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).segments(1..), Ok(PathBuf::from(&quot;b/c&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).segments(2..), Ok(PathBuf::from(&quot;c&quot;)));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).segments(3..), Ok(PathBuf::new()));
-    /// assert_eq!(get(&quot;/a/b/c&quot;).segments(4..), Ok(PathBuf::new()));
+    /// assert_eq!(get("///").segments(2..), Ok(PathBuf::new()));
+    /// assert_eq!(get("/a/b/c").segments(0..), Ok(PathBuf::from("a/b/c")));
+    /// assert_eq!(get("/a/b/c").segments(1..), Ok(PathBuf::from("b/c")));
+    /// assert_eq!(get("/a/b/c").segments(2..), Ok(PathBuf::from("c")));
+    /// assert_eq!(get("/a/b/c").segments(3..), Ok(PathBuf::new()));
+    /// assert_eq!(get("/a/b/c").segments(4..), Ok(PathBuf::new()));
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>segments&lt;<span class="lifetime">&#39;a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, n: RangeFrom&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;T, T::Error&gt;
-        <span class="kw">where </span>T: FromSegments&lt;<span class="lifetime">&#39;a</span>&gt;
+    </span><span class="kw">pub fn </span>segments&lt;<span class="lifetime">'a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, n: RangeFrom&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;T, T::Error&gt;
+        <span class="kw">where </span>T: FromSegments&lt;<span class="lifetime">'a</span>&gt;
     {
         T::from_segments(<span class="self">self</span>.routed_segments(n))
     }
 
     <span class="doccomment">/// Retrieves and parses into `T` the query value with field name `name`.
-    /// `T` must implement [`FromForm`], which is used to parse the query&#39;s
+    /// `T` must implement [`FromForm`], which is used to parse the query's
     /// value. Key matching is performed case-sensitively.
     ///
     /// # Warning
@@ -1987,12 +1987,12 @@
     /// This method exists _only_ to be used by manual routing and should
     /// _never_ be used in a regular Rocket application. It is much more
     /// expensive to use this method than to retrieve query parameters via
-    /// Rocket&#39;s codegen. To retrieve query values from a request, _always_
-    /// prefer to use Rocket&#39;s code generation facilities.
+    /// Rocket's codegen. To retrieve query values from a request, _always_
+    /// prefer to use Rocket's code generation facilities.
     ///
     /// # Error
     ///
-    /// If a query segment with name `name` isn&#39;t present, returns `None`. If
+    /// If a query segment with name `name` isn't present, returns `None`. If
     /// parsing the value fails, returns `Some(Err(_))`.
     ///
     /// # Example
@@ -2001,28 +2001,28 @@
     /// use rocket::form::FromForm;
     ///
     /// #[derive(Debug, PartialEq, FromForm)]
-    /// struct Dog&lt;&#39;r&gt; {
-    ///     name: &amp;&#39;r str,
+    /// struct Dog&lt;'r&gt; {
+    ///     name: &amp;'r str,
     ///     age: usize
     /// }
     ///
     /// # let c = rocket::local::blocking::Client::debug_with(vec![]).unwrap();
     /// # let get = |uri| c.get(uri);
-    /// let req = get(&quot;/?a=apple&amp;z=zebra&amp;a=aardvark&quot;);
-    /// assert_eq!(req.query_value::&lt;&amp;str&gt;(&quot;a&quot;).unwrap(), Ok(&quot;apple&quot;));
-    /// assert_eq!(req.query_value::&lt;&amp;str&gt;(&quot;z&quot;).unwrap(), Ok(&quot;zebra&quot;));
-    /// assert_eq!(req.query_value::&lt;&amp;str&gt;(&quot;b&quot;), None);
+    /// let req = get("/?a=apple&amp;z=zebra&amp;a=aardvark");
+    /// assert_eq!(req.query_value::&lt;&amp;str&gt;("a").unwrap(), Ok("apple"));
+    /// assert_eq!(req.query_value::&lt;&amp;str&gt;("z").unwrap(), Ok("zebra"));
+    /// assert_eq!(req.query_value::&lt;&amp;str&gt;("b"), None);
     ///
-    /// let a_seq = req.query_value::&lt;Vec&lt;&amp;str&gt;&gt;(&quot;a&quot;);
-    /// assert_eq!(a_seq.unwrap().unwrap(), [&quot;apple&quot;, &quot;aardvark&quot;]);
+    /// let a_seq = req.query_value::&lt;Vec&lt;&amp;str&gt;&gt;("a");
+    /// assert_eq!(a_seq.unwrap().unwrap(), ["apple", "aardvark"]);
     ///
-    /// let req = get(&quot;/?dog.name=Max+Fido&amp;dog.age=3&quot;);
-    /// let dog = req.query_value::&lt;Dog&gt;(&quot;dog&quot;);
-    /// assert_eq!(dog.unwrap().unwrap(), Dog { name: &quot;Max Fido&quot;, age: 3 });
+    /// let req = get("/?dog.name=Max+Fido&amp;dog.age=3");
+    /// let dog = req.query_value::&lt;Dog&gt;("dog");
+    /// assert_eq!(dog.unwrap().unwrap(), Dog { name: "Max Fido", age: 3 });
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>query_value&lt;<span class="lifetime">&#39;a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;form::Result&lt;<span class="lifetime">&#39;a</span>, T&gt;&gt;
-        <span class="kw">where </span>T: FromForm&lt;<span class="lifetime">&#39;a</span>&gt;
+    </span><span class="kw">pub fn </span>query_value&lt;<span class="lifetime">'a</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;form::Result&lt;<span class="lifetime">'a</span>, T&gt;&gt;
+        <span class="kw">where </span>T: FromForm&lt;<span class="lifetime">'a</span>&gt;
     {
         <span class="kw">if </span><span class="self">self</span>.query_fields().find(|f| f.name == name).is_none() {
             <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -2039,16 +2039,16 @@
 }
 
 <span class="comment">// All of these methods only exist for internal, including codegen, purposes.
-// They _are not_ part of the stable API. Please, don&#39;t use these.
+// They _are not_ part of the stable API. Please, don't use these.
 </span><span class="attr">#[doc(hidden)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Request&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Request&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Resets the cached value (if any) for the header with name `name`.
     </span><span class="kw">fn </span>bust_header_cache(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>UncasedStr, replace: bool) {
-        <span class="kw">if </span>name == <span class="string">&quot;Content-Type&quot; </span>{
+        <span class="kw">if </span>name == <span class="string">"Content-Type" </span>{
             <span class="kw">if </span><span class="self">self</span>.content_type().is_none() || replace {
                 <span class="self">self</span>.state.content_type = InitCell::new();
             }
-        } <span class="kw">else if </span>name == <span class="string">&quot;Accept&quot; </span>{
+        } <span class="kw">else if </span>name == <span class="string">"Accept" </span>{
             <span class="kw">if </span><span class="self">self</span>.accept().is_none() || replace {
                 <span class="self">self</span>.state.accept = InitCell::new();
             }
@@ -2065,7 +2065,7 @@
     <span class="doccomment">/// Get the segments beginning at the `n`th, 0-indexed, after the mount
     /// point for the currently matched route, if they exist. Used by codegen.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>routed_segments(<span class="kw-2">&amp;</span><span class="self">self</span>, n: RangeFrom&lt;usize&gt;) -&gt; Segments&lt;<span class="lifetime">&#39;_</span>, Path&gt; {
+    </span><span class="kw">pub fn </span>routed_segments(<span class="kw-2">&amp;</span><span class="self">self</span>, n: RangeFrom&lt;usize&gt;) -&gt; Segments&lt;<span class="lifetime">'_</span>, Path&gt; {
         <span class="kw">let </span>mount_segments = <span class="self">self</span>.route()
             .map(|r| r.uri.metadata.base_segs.len())
             .unwrap_or(<span class="number">0</span>);
@@ -2075,17 +2075,17 @@
 
     <span class="comment">// Retrieves the pre-parsed query items. Used by matching and codegen.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>query_fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = ValueField&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>query_fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = ValueField&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.uri().query()
             .map(|q| q.segments().map(ValueField::from))
             .into_iter()
             .flatten()
     }
 
-    <span class="doccomment">/// Set `self`&#39;s parameters given that the route used to reach this request
+    <span class="doccomment">/// Set `self`'s parameters given that the route used to reach this request
     /// was `route`. Use during routing when attempting a given route.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_route(<span class="kw-2">&amp;</span><span class="self">self</span>, route: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Route) {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_route(<span class="kw-2">&amp;</span><span class="self">self</span>, route: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Route) {
         <span class="self">self</span>.state.route.store(<span class="prelude-val">Some</span>(route), Ordering::Release)
     }
 
@@ -2096,16 +2096,16 @@
         <span class="self">self</span>.method.store(method, Ordering::Release)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>cookies_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>CookieJar&lt;<span class="lifetime">&#39;r</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>cookies_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>CookieJar&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.state.cookies
     }
 
     <span class="doccomment">/// Convert from Hyper types into a Rocket Request.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_hyp(
-        rocket: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Rocket&lt;Orbit&gt;,
-        hyper: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::request::Parts,
+        rocket: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Rocket&lt;Orbit&gt;,
+        hyper: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>hyper::request::Parts,
         connection: <span class="prelude-ty">Option</span>&lt;ConnectionMeta&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Request&lt;<span class="lifetime">&#39;r</span>&gt;, BadRequest&lt;<span class="lifetime">&#39;r</span>&gt;&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Request&lt;<span class="lifetime">'r</span>&gt;, BadRequest&lt;<span class="lifetime">'r</span>&gt;&gt; {
         <span class="comment">// Keep track of parsing errors; emit a `BadRequest` if any exist.
         </span><span class="kw">let </span><span class="kw-2">mut </span>errors = <span class="macro">vec!</span>[];
 
@@ -2121,13 +2121,13 @@
             .map(|uri| {
                 <span class="comment">// In debug, make sure we agree with Hyper about URI validity.
                 // If we disagree, log a warning but continue anyway; if this is
-                // a security issue with Hyper, there isn&#39;t much we can do.
+                // a security issue with Hyper, there isn't much we can do.
                 </span><span class="attr">#[cfg(debug_assertions)]
                 </span><span class="kw">if </span>Origin::parse(uri.as_str()).is_err() {
-                    <span class="macro">warn!</span>(<span class="string">&quot;Hyper/Rocket URI validity discord: {:?}&quot;</span>, uri.as_str());
-                    <span class="macro">info_!</span>(<span class="string">&quot;Hyper believes the URI is valid while Rocket disagrees.&quot;</span>);
-                    <span class="macro">info_!</span>(<span class="string">&quot;This is likely a Hyper bug with potential security implications.&quot;</span>);
-                    <span class="macro">warn_!</span>(<span class="string">&quot;Please report this warning to Rocket&#39;s GitHub issue tracker.&quot;</span>);
+                    <span class="macro">warn!</span>(<span class="string">"Hyper/Rocket URI validity discord: {:?}"</span>, uri.as_str());
+                    <span class="macro">info_!</span>(<span class="string">"Hyper believes the URI is valid while Rocket disagrees."</span>);
+                    <span class="macro">info_!</span>(<span class="string">"This is likely a Hyper bug with potential security implications."</span>);
+                    <span class="macro">warn_!</span>(<span class="string">"Please report this warning to Rocket's GitHub issue tracker."</span>);
                 }
 
                 Origin::new(uri.path(), uri.query().map(Cow::Borrowed))
@@ -2148,19 +2148,19 @@
         <span class="comment">// Determine + set host. On HTTP &lt; 2, use the `HOST` header. Otherwise,
         // use the `:authority` pseudo-header which hyper makes part of the URI.
         </span>request.state.host = <span class="kw">if </span>hyper.version &lt; hyper::Version::HTTP_2 {
-            hyper.headers.get(<span class="string">&quot;host&quot;</span>).and_then(|h| Host::parse_bytes(h.as_bytes()).ok())
+            hyper.headers.get(<span class="string">"host"</span>).and_then(|h| Host::parse_bytes(h.as_bytes()).ok())
         } <span class="kw">else </span>{
             hyper.uri.host().map(|h| Host::new(Authority::new(<span class="prelude-val">None</span>, h, hyper.uri.port_u16())))
         };
 
         <span class="comment">// Set the request cookies, if they exist.
-        </span><span class="kw">for </span>header <span class="kw">in </span>hyper.headers.get_all(<span class="string">&quot;Cookie&quot;</span>) {
+        </span><span class="kw">for </span>header <span class="kw">in </span>hyper.headers.get_all(<span class="string">"Cookie"</span>) {
             <span class="kw">let </span>raw_str = <span class="kw">match </span>std::str::from_utf8(header.as_bytes()) {
                 <span class="prelude-val">Ok</span>(string) =&gt; string,
                 <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">continue
             </span>};
 
-            <span class="kw">for </span>cookie_str <span class="kw">in </span>raw_str.split(<span class="string">&#39;;&#39;</span>).map(|s| s.trim()) {
+            <span class="kw">for </span>cookie_str <span class="kw">in </span>raw_str.split(<span class="string">';'</span>).map(|s| s.trim()) {
                 <span class="kw">if let </span><span class="prelude-val">Ok</span>(cookie) = Cookie::parse_encoded(cookie_str) {
                     request.state.cookies.add_original(cookie.into_owned());
                 }
@@ -2169,12 +2169,12 @@
 
         <span class="comment">// Set the rest of the headers. This is rather unfortunate and slow.
         </span><span class="kw">for </span>(name, value) <span class="kw">in </span>hyper.headers.iter() {
-            <span class="comment">// FIXME: This is rather unfortunate. Header values needn&#39;t be UTF8.
+            <span class="comment">// FIXME: This is rather unfortunate. Header values needn't be UTF8.
             </span><span class="kw">let </span>value = <span class="kw">match </span>std::str::from_utf8(value.as_bytes()) {
                 <span class="prelude-val">Ok</span>(value) =&gt; value,
                 <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
-                    <span class="macro">warn!</span>(<span class="string">&quot;Header &#39;{}&#39; contains invalid UTF-8&quot;</span>, name);
-                    <span class="macro">warn_!</span>(<span class="string">&quot;Rocket only supports UTF-8 header values. Dropping header.&quot;</span>);
+                    <span class="macro">warn!</span>(<span class="string">"Header '{}' contains invalid UTF-8"</span>, name);
+                    <span class="macro">warn_!</span>(<span class="string">"Rocket only supports UTF-8 header values. Dropping header."</span>);
                     <span class="kw">continue</span>;
                 }
             };
@@ -2191,47 +2191,47 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BadRequest&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">pub </span>request: Request&lt;<span class="lifetime">&#39;r</span>&gt;,
-    <span class="kw">pub </span>errors: Vec&lt;Kind&lt;<span class="lifetime">&#39;r</span>&gt;&gt;,
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BadRequest&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">pub </span>request: Request&lt;<span class="lifetime">'r</span>&gt;,
+    <span class="kw">pub </span>errors: Vec&lt;Kind&lt;<span class="lifetime">'r</span>&gt;&gt;,
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Kind&lt;<span class="lifetime">&#39;r</span>&gt; {
-    InvalidUri(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Uri),
-    BadMethod(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>hyper::Method),
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Kind&lt;<span class="lifetime">'r</span>&gt; {
+    InvalidUri(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>hyper::Uri),
+    BadMethod(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>hyper::Method),
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Kind&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Kind&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            Kind::InvalidUri(u) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid origin URI: {}&quot;</span>, u),
-            Kind::BadMethod(m) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;invalid or unrecognized method: {}&quot;</span>, m),
+            Kind::InvalidUri(u) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid origin URI: {}"</span>, u),
+            Kind::BadMethod(m) =&gt; <span class="macro">write!</span>(f, <span class="string">"invalid or unrecognized method: {}"</span>, m),
         }
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Request&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        fmt.debug_struct(<span class="string">&quot;Request&quot;</span>)
-            .field(<span class="string">&quot;method&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.method)
-            .field(<span class="string">&quot;uri&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.uri)
-            .field(<span class="string">&quot;headers&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.headers())
-            .field(<span class="string">&quot;remote&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.remote())
-            .field(<span class="string">&quot;cookies&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.cookies())
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Request&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, fmt: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        fmt.debug_struct(<span class="string">"Request"</span>)
+            .field(<span class="string">"method"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.method)
+            .field(<span class="string">"uri"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.uri)
+            .field(<span class="string">"headers"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.headers())
+            .field(<span class="string">"remote"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.remote())
+            .field(<span class="string">"cookies"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.cookies())
             .finish()
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Request&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="doccomment">/// Pretty prints a Request. Primarily used by Rocket&#39;s logging.
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.method().green(), <span class="self">self</span>.uri.blue())<span class="question-mark">?</span>;
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Request&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="doccomment">/// Pretty prints a Request. Primarily used by Rocket's logging.
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{} {}"</span>, <span class="self">self</span>.method().green(), <span class="self">self</span>.uri.blue())<span class="question-mark">?</span>;
 
         <span class="comment">// Print the requests media type when the route specifies a format.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(mime) = <span class="self">self</span>.format() {
             <span class="kw">if </span>!mime.is_any() {
-                <span class="macro">write!</span>(f, <span class="string">&quot; {}/{}&quot;</span>, mime.top().yellow().linger(), mime.sub().clear())<span class="question-mark">?</span>;
+                <span class="macro">write!</span>(f, <span class="string">" {}/{}"</span>, mime.top().yellow().linger(), mime.sub().clear())<span class="question-mark">?</span>;
             }
         }
 

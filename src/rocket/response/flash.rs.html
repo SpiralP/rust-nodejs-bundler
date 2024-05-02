@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/flash.rs`."><title>flash.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/flash.rs`."><title>flash.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -281,16 +281,16 @@
 <span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 
 <span class="comment">// The name of the actual flash cookie.
-</span><span class="kw">const </span>FLASH_COOKIE_NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;_flash&quot;</span>;
+</span><span class="kw">const </span>FLASH_COOKIE_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"_flash"</span>;
 
-<span class="comment">// Character to use as a delimiter after the cookie&#39;s name&#39;s length.
-</span><span class="kw">const </span>FLASH_COOKIE_DELIM: char = <span class="string">&#39;:&#39;</span>;
+<span class="comment">// Character to use as a delimiter after the cookie's name's length.
+</span><span class="kw">const </span>FLASH_COOKIE_DELIM: char = <span class="string">':'</span>;
 
-<span class="doccomment">/// Sets a &quot;flash&quot; cookie that will be removed when it is accessed. The
+<span class="doccomment">/// Sets a "flash" cookie that will be removed when it is accessed. The
 /// analogous request type is [`FlashMessage`].
 ///
 /// This type makes it easy to send messages across requests. It is typically
-/// used for &quot;status&quot; messages after redirects. For instance, if a user attempts
+/// used for "status" messages after redirects. For instance, if a user attempts
 /// to visit a page he/she does not have access to, you may want to redirect the
 /// user to a safe place and show a message indicating what happened on the
 /// redirected page. The message should only persist for a single request. This
@@ -324,24 +324,24 @@
 /// use rocket::response::{Flash, Redirect};
 /// use rocket::request::FlashMessage;
 ///
-/// #[post(&quot;/login/&lt;name&gt;&quot;)]
-/// fn login(name: &amp;str) -&gt; Result&lt;&amp;&#39;static str, Flash&lt;Redirect&gt;&gt; {
-///     if name == &quot;special_user&quot; {
-///         Ok(&quot;Hello, special user!&quot;)
+/// #[post("/login/&lt;name&gt;")]
+/// fn login(name: &amp;str) -&gt; Result&lt;&amp;'static str, Flash&lt;Redirect&gt;&gt; {
+///     if name == "special_user" {
+///         Ok("Hello, special user!")
 ///     } else {
-///         Err(Flash::error(Redirect::to(uri!(index)), &quot;Invalid username.&quot;))
+///         Err(Flash::error(Redirect::to(uri!(index)), "Invalid username."))
 ///     }
 /// }
 ///
-/// #[get(&quot;/&quot;)]
-/// fn index(flash: Option&lt;FlashMessage&lt;&#39;_&gt;&gt;) -&gt; String {
-///     flash.map(|flash| format!(&quot;{}: {}&quot;, flash.kind(), flash.message()))
-///          .unwrap_or_else(|| &quot;Welcome!&quot;.to_string())
+/// #[get("/")]
+/// fn index(flash: Option&lt;FlashMessage&lt;'_&gt;&gt;) -&gt; String {
+///     flash.map(|flash| format!("{}: {}", flash.kind(), flash.message()))
+///          .unwrap_or_else(|| "Welcome!".to_string())
 /// }
 /// ```
 ///
 /// On the response side (in `login`), a `Flash` error message is set if some
-/// fictional authentication failed, and the user is redirected to `&quot;/&quot;`. On the
+/// fictional authentication failed, and the user is redirected to `"/"`. On the
 /// request side (in `index`), the handler emits the flash message if there is
 /// one and otherwise emits a standard welcome message. Note that if the user
 /// were to refresh the index page after viewing a flash message, the user would
@@ -367,7 +367,7 @@
 ///
 /// [`kind()`]: Flash::kind()
 /// [`message()`]: Flash::message()
-</span><span class="kw">pub type </span>FlashMessage&lt;<span class="lifetime">&#39;a</span>&gt; = <span class="kw">crate</span>::response::Flash&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>CookieJar&lt;<span class="lifetime">&#39;a</span>&gt;&gt;;
+</span><span class="kw">pub type </span>FlashMessage&lt;<span class="lifetime">'a</span>&gt; = <span class="kw">crate</span>::response::Flash&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>CookieJar&lt;<span class="lifetime">'a</span>&gt;&gt;;
 
 <span class="kw">impl</span>&lt;R&gt; Flash&lt;R&gt; {
     <span class="doccomment">/// Constructs a new `Flash` message with the given `kind`, `message`, and
@@ -375,14 +375,14 @@
     ///
     /// # Examples
     ///
-    /// Construct a &quot;suggestion&quot; message with contents &quot;Try this out!&quot; that
-    /// redirects to &quot;/&quot;.
+    /// Construct a "suggestion" message with contents "Try this out!" that
+    /// redirects to "/".
     ///
     /// ```rust
     /// use rocket::response::{Redirect, Flash};
     ///
     /// # #[allow(unused_variables)]
-    /// let message = Flash::new(Redirect::to(&quot;/&quot;), &quot;suggestion&quot;, &quot;Try this out!&quot;);
+    /// let message = Flash::new(Redirect::to("/"), "suggestion", "Try this out!");
     /// ```
     </span><span class="kw">pub fn </span>new&lt;K: Into&lt;String&gt;, M: Into&lt;String&gt;&gt;(res: R, kind: K, message: M) -&gt; Flash&lt;R&gt; {
         Flash {
@@ -393,62 +393,62 @@
         }
     }
 
-    <span class="doccomment">/// Constructs a &quot;success&quot; `Flash` message with the given `responder` and
+    <span class="doccomment">/// Constructs a "success" `Flash` message with the given `responder` and
     /// `message`.
     ///
     /// # Examples
     ///
-    /// Construct a &quot;success&quot; message with contents &quot;It worked!&quot; that redirects
-    /// to &quot;/&quot;.
+    /// Construct a "success" message with contents "It worked!" that redirects
+    /// to "/".
     ///
     /// ```rust
     /// use rocket::response::{Redirect, Flash};
     ///
     /// # #[allow(unused_variables)]
-    /// let message = Flash::success(Redirect::to(&quot;/&quot;), &quot;It worked!&quot;);
+    /// let message = Flash::success(Redirect::to("/"), "It worked!");
     /// ```
     </span><span class="kw">pub fn </span>success&lt;S: Into&lt;String&gt;&gt;(responder: R, message: S) -&gt; Flash&lt;R&gt; {
-        Flash::new(responder, <span class="string">&quot;success&quot;</span>, message.into())
+        Flash::new(responder, <span class="string">"success"</span>, message.into())
     }
 
-    <span class="doccomment">/// Constructs a &quot;warning&quot; `Flash` message with the given `responder` and
+    <span class="doccomment">/// Constructs a "warning" `Flash` message with the given `responder` and
     /// `message`.
     ///
     /// # Examples
     ///
-    /// Construct a &quot;warning&quot; message with contents &quot;Watch out!&quot; that redirects
-    /// to &quot;/&quot;.
+    /// Construct a "warning" message with contents "Watch out!" that redirects
+    /// to "/".
     ///
     /// ```rust
     /// use rocket::response::{Redirect, Flash};
     ///
     /// # #[allow(unused_variables)]
-    /// let message = Flash::warning(Redirect::to(&quot;/&quot;), &quot;Watch out!&quot;);
+    /// let message = Flash::warning(Redirect::to("/"), "Watch out!");
     /// ```
     </span><span class="kw">pub fn </span>warning&lt;S: Into&lt;String&gt;&gt;(responder: R, message: S) -&gt; Flash&lt;R&gt; {
-        Flash::new(responder, <span class="string">&quot;warning&quot;</span>, message.into())
+        Flash::new(responder, <span class="string">"warning"</span>, message.into())
     }
 
-    <span class="doccomment">/// Constructs an &quot;error&quot; `Flash` message with the given `responder` and
+    <span class="doccomment">/// Constructs an "error" `Flash` message with the given `responder` and
     /// `message`.
     ///
     /// # Examples
     ///
-    /// Construct an &quot;error&quot; message with contents &quot;Whoops!&quot; that redirects
-    /// to &quot;/&quot;.
+    /// Construct an "error" message with contents "Whoops!" that redirects
+    /// to "/".
     ///
     /// ```rust
     /// use rocket::response::{Redirect, Flash};
     ///
     /// # #[allow(unused_variables)]
-    /// let message = Flash::error(Redirect::to(&quot;/&quot;), &quot;Whoops!&quot;);
+    /// let message = Flash::error(Redirect::to("/"), "Whoops!");
     /// ```
     </span><span class="kw">pub fn </span>error&lt;S: Into&lt;String&gt;&gt;(responder: R, message: S) -&gt; Flash&lt;R&gt; {
-        Flash::new(responder, <span class="string">&quot;error&quot;</span>, message.into())
+        Flash::new(responder, <span class="string">"error"</span>, message.into())
     }
 
-    <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cookie&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="kw">let </span>content = <span class="macro">format!</span>(<span class="string">&quot;{}{}{}{}&quot;</span>,
+    <span class="kw">fn </span>cookie(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Cookie&lt;<span class="lifetime">'static</span>&gt; {
+        <span class="kw">let </span>content = <span class="macro">format!</span>(<span class="string">"{}{}{}{}"</span>,
             <span class="self">self</span>.kind.len(), FLASH_COOKIE_DELIM, <span class="self">self</span>.kind, <span class="self">self</span>.message);
 
         Cookie::build((FLASH_COOKIE_NAME, content))
@@ -461,17 +461,17 @@
 /// response. In other words, simply sets a cookie and delegates the rest of the
 /// response handling to the wrapped responder. As a result, the `Outcome` of
 /// the response is the `Outcome` of the wrapped `Responder`.
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>: <span class="lifetime">&#39;r</span>, R: Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Responder&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;o</span>&gt; <span class="kw">for </span>Flash&lt;R&gt; {
-    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">&#39;o</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>: <span class="lifetime">'r</span>, R: Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt;&gt; Responder&lt;<span class="lifetime">'r</span>, <span class="lifetime">'o</span>&gt; <span class="kw">for </span>Flash&lt;R&gt; {
+    <span class="kw">fn </span>respond_to(<span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; response::Result&lt;<span class="lifetime">'o</span>&gt; {
         req.cookies().add(<span class="self">self</span>.cookie());
         <span class="self">self</span>.inner.respond_to(req)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FlashMessage&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FlashMessage&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// Constructs a new message with the given name and message for the given
     /// request.
-    </span><span class="kw">fn </span>named&lt;S: Into&lt;String&gt;&gt;(kind: S, message: S, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>named&lt;S: Into&lt;String&gt;&gt;(kind: S, message: S, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="self">Self </span>{
         Flash {
             kind: kind.into(),
             message: message.into(),
@@ -480,9 +480,9 @@
         }
     }
 
-    <span class="comment">// Clears the request cookie if it hasn&#39;t already been cleared.
+    <span class="comment">// Clears the request cookie if it hasn't already been cleared.
     </span><span class="kw">fn </span>clear_cookie_if_needed(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="comment">// Remove the cookie if it hasn&#39;t already been removed.
+        <span class="comment">// Remove the cookie if it hasn't already been removed.
         </span><span class="kw">if </span>!<span class="self">self</span>.consumed.swap(<span class="bool-val">true</span>, Ordering::Relaxed) {
             <span class="self">self</span>.inner.remove(FLASH_COOKIE_NAME);
         }
@@ -513,13 +513,13 @@
 /// The suggested use is through an `Option` and the `FlashMessage` type alias
 /// in `request`: `Option&lt;FlashMessage&gt;`.
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromRequest&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>FlashMessage&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>FlashMessage&lt;<span class="lifetime">'r</span>&gt; {
     <span class="kw">type </span>Error = ();
 
-    <span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
-        <span class="macro">trace_!</span>(<span class="string">&quot;Flash: attempting to retrieve message.&quot;</span>);
+    <span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+        <span class="macro">trace_!</span>(<span class="string">"Flash: attempting to retrieve message."</span>);
         req.cookies().get(FLASH_COOKIE_NAME).ok_or(()).and_then(|cookie| {
-            <span class="macro">trace_!</span>(<span class="string">&quot;Flash: retrieving message: {:?}&quot;</span>, cookie);
+            <span class="macro">trace_!</span>(<span class="string">"Flash: retrieving message: {:?}"</span>, cookie);
 
             <span class="comment">// Parse the flash message.
             </span><span class="kw">let </span>content = cookie.value();
@@ -536,11 +536,11 @@
     }
 }
 
-<span class="kw">impl </span>Serialize <span class="kw">for </span>FlashMessage&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Serialize <span class="kw">for </span>FlashMessage&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>serialize&lt;S: Serializer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, ser: S) -&gt; <span class="prelude-ty">Result</span>&lt;S::Ok, S::Error&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>flash = ser.serialize_struct(<span class="string">&quot;Flash&quot;</span>, <span class="number">2</span>)<span class="question-mark">?</span>;
-        flash.serialize_field(<span class="string">&quot;kind&quot;</span>, <span class="self">self</span>.kind())<span class="question-mark">?</span>;
-        flash.serialize_field(<span class="string">&quot;message&quot;</span>, <span class="self">self</span>.message())<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>flash = ser.serialize_struct(<span class="string">"Flash"</span>, <span class="number">2</span>)<span class="question-mark">?</span>;
+        flash.serialize_field(<span class="string">"kind"</span>, <span class="self">self</span>.kind())<span class="question-mark">?</span>;
+        flash.serialize_field(<span class="string">"message"</span>, <span class="self">self</span>.message())<span class="question-mark">?</span>;
         flash.end()
     }
 }

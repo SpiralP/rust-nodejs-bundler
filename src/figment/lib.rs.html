@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.12/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/figment-0.10.18/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="figment" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../figment/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -602,7 +602,7 @@
 </pre></div><pre class="rust"><code><span class="attr">#![cfg_attr(nightly, feature(doc_cfg))]
 #![deny(missing_docs)]
 
-</span><span class="doccomment">//! Semi-hierarchical configuration so con-free, it&#39;s unreal.
+</span><span class="doccomment">//! Semi-hierarchical configuration so con-free, it's unreal.
 //!
 //! ```rust
 //! use serde::Deserialize;
@@ -626,17 +626,17 @@
 //! }
 //!
 //! # figment::Jail::expect_with(|jail| {
-//! # jail.create_file(&quot;Cargo.toml&quot;, r#&quot;
+//! # jail.create_file("Cargo.toml", r#"
 //! #   [package]
-//! #   name = &quot;test&quot;
-//! #   authors = [&quot;bob&quot;]
+//! #   name = "test"
+//! #   authors = ["bob"]
 //! #   publish = false
-//! # &quot;#)?;
+//! # "#)?;
 //! let config: Config = Figment::new()
-//!     .merge(Toml::file(&quot;Cargo.toml&quot;))
-//!     .merge(Env::prefixed(&quot;CARGO_&quot;))
-//!     .merge(Env::raw().only(&amp;[&quot;RUSTC&quot;, &quot;RUSTDOC&quot;]))
-//!     .join(Json::file(&quot;Cargo.json&quot;))
+//!     .merge(Toml::file("Cargo.toml"))
+//!     .merge(Env::prefixed("CARGO_"))
+//!     .merge(Env::raw().only(&amp;["RUSTC", "RUSTDOC"]))
+//!     .join(Json::file("Cargo.json"))
 //!     .extract()?;
 //! # Ok(())
 //! # });
@@ -645,9 +645,9 @@
 //! # Table of Contents
 //!
 //!   * [Overview](#overview) - A brief overview of the entire crate.
-//!   * [Metadata](#metadata) - Figment&#39;s value metadata tracking.
+//!   * [Metadata](#metadata) - Figment's value metadata tracking.
 //!   * [Extracting and Profiles](#extracting-and-profiles) - Semi-hierarchical
-//!     &quot;profiles&quot;, profile selection, nesting, and extraction.
+//!     "profiles", profile selection, nesting, and extraction.
 //!   * [Crate Feature Flags](#crate-feature-flags) - Feature flags and what
 //!     they enable.
 //!   * [Available Providers](#available-providers) - Table of providers
@@ -695,7 +695,7 @@
 //! ```
 //! use figment::{Figment, providers::Env};
 //!
-//! let figment = Figment::from(Env::prefixed(&quot;MY_APP_&quot;));
+//! let figment = Figment::from(Env::prefixed("MY_APP_"));
 //! ```
 //!
 //! Most figments will use more than one provider, merging and joining as
@@ -707,9 +707,9 @@
 //! use figment::{Figment, providers::{Format, Toml, Json, Env}};
 //!
 //! let figment = Figment::new()
-//!     .merge(Toml::file(&quot;App.toml&quot;))
-//!     .merge(Env::prefixed(&quot;APP_&quot;))
-//!     .join(Json::file(&quot;App.json&quot;));
+//!     .merge(Toml::file("App.toml"))
+//!     .merge(Env::prefixed("APP_"))
+//!     .join(Json::file("App.json"));
 //! ```
 //!
 //! Values can be [`extracted`](Figment::extract()) into any value that
@@ -729,32 +729,32 @@
 //! }
 //!
 //! figment::Jail::expect_with(|jail| {
-//!     jail.create_file(&quot;App.toml&quot;, r#&quot;
-//!         name = &quot;Just a TOML App!&quot;
+//!     jail.create_file("App.toml", r#"
+//!         name = "Just a TOML App!"
 //!         count = 100
-//!     &quot;#)?;
+//!     "#)?;
 //!
-//!     jail.create_file(&quot;App.json&quot;, r#&quot;
+//!     jail.create_file("App.json", r#"
 //!         {
-//!             &quot;name&quot;: &quot;Just a JSON App&quot;,
-//!             &quot;authors&quot;: [&quot;figment&quot;, &quot;developers&quot;]
+//!             "name": "Just a JSON App",
+//!             "authors": ["figment", "developers"]
 //!         }
-//!     &quot;#)?;
+//!     "#)?;
 //!
-//!     jail.set_env(&quot;APP_COUNT&quot;, 250);
+//!     jail.set_env("APP_COUNT", 250);
 //!
 //!     // Sources are read _eagerly_: sources are read as soon as they are
 //!     // merged/joined into a figment.
 //!     let figment = Figment::new()
-//!         .merge(Toml::file(&quot;App.toml&quot;))
-//!         .merge(Env::prefixed(&quot;APP_&quot;))
-//!         .join(Json::file(&quot;App.json&quot;));
+//!         .merge(Toml::file("App.toml"))
+//!         .merge(Env::prefixed("APP_"))
+//!         .join(Json::file("App.json"));
 //!
 //!     let config: AppConfig = figment.extract()?;
 //!     assert_eq!(config, AppConfig {
-//!         name: &quot;Just a TOML App!&quot;.into(),
+//!         name: "Just a TOML App!".into(),
 //!         count: 250,
-//!         authors: vec![&quot;figment&quot;.into(), &quot;developers&quot;.into()],
+//!         authors: vec!["figment".into(), "developers".into()],
 //!     });
 //!
 //!     Ok(())
@@ -768,29 +768,29 @@
 //! [tagged](crate::value::Tag) with the originating [`Metadata`] and
 //! [`Profile`]. The tag is preserved across merges, joins, and errors, which
 //! also include the [`path`](Error::path) of the offending key. Precise
-//! tracking allows for rich error messages as well as [&quot;magic&quot;] values like
+//! tracking allows for rich error messages as well as ["magic"] values like
 //! [`RelativePathBuf`], which automatically creates a path relative to the
 //! configuration file in which it was declared.
 //!
 //! A [`Metadata`] consists of:
 //!
 //!   * The name of the configuration source.
-//!   * An [&quot;interpolater&quot;](Metadata::interpolate()) that takes a path to a key
+//!   * An ["interpolater"](Metadata::interpolate()) that takes a path to a key
 //!     and converts it into a provider-native key.
 //!   * A [`Source`] specifying where the value was sourced from.
-//!   * A code source [`Location`] where the value&#39;s provider was added to a
+//!   * A code source [`Location`] where the value's provider was added to a
 //!   [`Figment`].
 //!
 //! Along with the information in an [`Error`], this means figment can produce
 //! rich error values and messages:
 //!
 //! ```text
-//! error: invalid type: found string &quot;hi&quot;, expected u16
+//! error: invalid type: found string "hi", expected u16
 //!  --&gt; key `debug.port` in TOML file App.toml
 //! ```
 //!
 //! [`RelativePathBuf`]: value::magic::RelativePathBuf
-//! [&quot;magic&quot;]: value::magic
+//! ["magic"]: value::magic
 //! [`Location`]: std::panic::Location
 //!
 //! # Extracting and Profiles
@@ -826,63 +826,63 @@
 //!     // top-level dictionary act as a profile.
 //!     fn figment() -&gt; Figment {
 //!         Figment::new()
-//!             .merge(Toml::file(&quot;Base.toml&quot;).nested())
-//!             .merge(Toml::file(&quot;App.toml&quot;).nested())
+//!             .merge(Toml::file("Base.toml").nested())
+//!             .merge(Toml::file("App.toml").nested())
 //!     }
 //! }
 //!
 //! figment::Jail::expect_with(|jail| {
-//!     jail.create_file(&quot;Base.toml&quot;, r#&quot;
+//!     jail.create_file("Base.toml", r#"
 //!         [default]
-//!         name = &quot;Base-Default&quot;
+//!         name = "Base-Default"
 //!
 //!         [debug]
-//!         name = &quot;Base-Debug&quot;
-//!     &quot;#)?;
+//!         name = "Base-Debug"
+//!     "#)?;
 //!
 //!     // The default profile is used...by default.
 //!     let config: Config = Config::figment().extract()?;
-//!     assert_eq!(config, Config { name: &quot;Base-Default&quot;.into(), });
+//!     assert_eq!(config, Config { name: "Base-Default".into(), });
 //!
 //!     // A different profile can be selected with `select`.
-//!     let config: Config = Config::figment().select(&quot;debug&quot;).extract()?;
-//!     assert_eq!(config, Config { name: &quot;Base-Debug&quot;.into(), });
+//!     let config: Config = Config::figment().select("debug").extract()?;
+//!     assert_eq!(config, Config { name: "Base-Debug".into(), });
 //!
 //!     // Selecting non-existent profiles is okay as long as we have defaults.
-//!     let config: Config = Config::figment().select(&quot;undefined&quot;).extract()?;
-//!     assert_eq!(config, Config { name: &quot;Base-Default&quot;.into(), });
+//!     let config: Config = Config::figment().select("undefined").extract()?;
+//!     assert_eq!(config, Config { name: "Base-Default".into(), });
 //!
 //!     // Replace the previous `Base.toml`. This one has a `global` profile.
-//!     jail.create_file(&quot;Base.toml&quot;, r#&quot;
+//!     jail.create_file("Base.toml", r#"
 //!         [default]
-//!         name = &quot;Base-Default&quot;
+//!         name = "Base-Default"
 //!
 //!         [debug]
-//!         name = &quot;Base-Debug&quot;
+//!         name = "Base-Debug"
 //!
 //!         [global]
-//!         name = &quot;Base-Global&quot;
-//!     &quot;#)?;
+//!         name = "Base-Global"
+//!     "#)?;
 //!
 //!     // Global values override all profile values.
 //!     let config_def: Config = Config::figment().extract()?;
-//!     let config_deb: Config = Config::figment().select(&quot;debug&quot;).extract()?;
-//!     assert_eq!(config_def, Config { name: &quot;Base-Global&quot;.into(), });
-//!     assert_eq!(config_deb, Config { name: &quot;Base-Global&quot;.into(), });
+//!     let config_deb: Config = Config::figment().select("debug").extract()?;
+//!     assert_eq!(config_def, Config { name: "Base-Global".into(), });
+//!     assert_eq!(config_deb, Config { name: "Base-Global".into(), });
 //!
 //!     // Merges from succeeding providers take precedence, even for globals.
-//!     jail.create_file(&quot;App.toml&quot;, r#&quot;
+//!     jail.create_file("App.toml", r#"
 //!         [debug]
-//!         name = &quot;App-Debug&quot;
+//!         name = "App-Debug"
 //!
 //!         [global]
-//!         name = &quot;App-Global&quot;
-//!     &quot;#)?;
+//!         name = "App-Global"
+//!     "#)?;
 //!
 //!     let config_def: Config = Config::figment().extract()?;
-//!     let config_deb: Config = Config::figment().select(&quot;debug&quot;).extract()?;
-//!     assert_eq!(config_def, Config { name: &quot;App-Global&quot;.into(), });
-//!     assert_eq!(config_deb, Config { name: &quot;App-Global&quot;.into(), });
+//!     let config_deb: Config = Config::figment().select("debug").extract()?;
+//!     assert_eq!(config_def, Config { name: "App-Global".into(), });
+//!     assert_eq!(config_deb, Config { name: "App-Global".into(), });
 //!
 //!     Ok(())
 //! });
@@ -912,12 +912,12 @@
 //! | provider                              | description                            |
 //! |---------------------------------------|----------------------------------------|
 //! | [`providers::Serialized`]             | Source from any [`Serialize`] type.    |
-//! | [`(impl AsRef&lt;str&gt;, impl Serialize)`] | Global source from a `(&quot;key&quot;, value)`. |
+//! | [`(impl AsRef&lt;str&gt;, impl Serialize)`] | Global source from a `("key", value)`. |
 //! | [`&amp;T` _where_ `T: Provider`]          | Source from `T` as a reference.        |
 //!
 //! &lt;small&gt;
 //!
-//! Note: `key` in `(key, value)` is a _key path_, e.g. `&quot;a&quot;` or `&quot;a.b.c&quot;`,
+//! Note: `key` in `(key, value)` is a _key path_, e.g. `"a"` or `"a.b.c"`,
 //! where the latter indicates a nested value `c` in `b` in `a`.
 //!
 //! See [`Figment#extraction`] and [Data
@@ -937,7 +937,7 @@
 //!
 //!    Wraps existing providers. For any key ending in `_FILE` (configurable),
 //!    emits a key without the `_FILE` suffix with a value corresponding to the
-//!    contents of the file whose path is the original key&#39;s value.
+//!    contents of the file whose path is the original key's value.
 //!
 //! # For Provider Authors
 //!
@@ -957,9 +957,9 @@
 //!
 //! use figment::{Figment, Provider, Error, Metadata, Profile};
 //!
-//! // The library&#39;s required configuration.
+//! // The library's required configuration.
 //! #[derive(Debug, Deserialize, Serialize)]
-//! struct Config { /* the library&#39;s required/expected values */ }
+//! struct Config { /* the library's required/expected values */ }
 //!
 //! // The default configuration.
 //! impl Default for Config {
@@ -979,7 +979,7 @@
 //!         use figment::providers::Env;
 //!
 //!         // In reality, whatever the library desires.
-//!         Figment::from(Config::default()).merge(Env::prefixed(&quot;APP_&quot;))
+//!         Figment::from(Config::default()).merge(Env::prefixed("APP_"))
 //!     }
 //! }
 //!
@@ -988,7 +988,7 @@
 //! // Make `Config` a provider itself for composability.
 //! impl Provider for Config {
 //!     fn metadata(&amp;self) -&gt; Metadata {
-//!         Metadata::named(&quot;Library Config&quot;)
+//!         Metadata::named("Library Config")
 //!     }
 //!
 //!     fn data(&amp;self) -&gt; Result&lt;Map&lt;Profile, Dict&gt;, Error&gt;  {
@@ -996,7 +996,7 @@
 //!     }
 //!
 //!     fn profile(&amp;self) -&gt; Option&lt;Profile&gt; {
-//!         // Optionally, a profile that&#39;s selected by default.
+//!         // Optionally, a profile that's selected by default.
 //!         # None
 //!     }
 //! }
@@ -1007,7 +1007,7 @@
 //!   * The library provides a `Config` structure that clearly indicates which
 //!     values the library requires.
 //!   * Users can completely customize configuration via their own [`Provider`].
-//!   * The library&#39;s `Config` is itself a [`Provider`] for composability.
+//!   * The library's `Config` is itself a [`Provider`] for composability.
 //!   * The library provides a `Figment` which it will use as the default
 //!     configuration provider.
 //!
@@ -1049,17 +1049,17 @@
 //!
 //! # For Application Authors
 //!
-//! As an application author, you&#39;ll need to make at least the following
+//! As an application author, you'll need to make at least the following
 //! decisions:
 //!
-//!   1. The sources you&#39;ll accept configuration from.
-//!   2. The precedence you&#39;ll apply to each source.
-//!   3. Whether you&#39;ll use profiles or not.
+//!   1. The sources you'll accept configuration from.
+//!   2. The precedence you'll apply to each source.
+//!   3. Whether you'll use profiles or not.
 //!
 //! For special sources, you may find yourself needing to implement a custom
-//! [`Provider`]. As with libraries, you&#39;ll likely want to provide default
+//! [`Provider`]. As with libraries, you'll likely want to provide default
 //! values where possible either by providing it to the figment or by using
-//! [serde&#39;s defaults](https://serde.rs/attr-default.html). Then, it&#39;s simply a
+//! [serde's defaults](https://serde.rs/attr-default.html). Then, it's simply a
 //! matter of declaring a figment and extracting the configuration from it.
 //!
 //! A reasonable starting point might be:
@@ -1077,15 +1077,15 @@
 //! impl Default for Config {
 //!     fn default() -&gt; Config {
 //!         Config {
-//!             key: &quot;default&quot;.into(),
+//!             key: "default".into(),
 //!             another: 100,
 //!         }
 //!     }
 //! }
 //!
 //! Figment::from(Serialized::defaults(Config::default()))
-//!     .merge(Toml::file(&quot;App.toml&quot;))
-//!     .merge(Env::prefixed(&quot;APP_&quot;));
+//!     .merge(Toml::file("App.toml"))
+//!     .merge(Env::prefixed("APP_"));
 //! ```
 //!
 //! # For CLI Application Authors
@@ -1102,7 +1102,7 @@
 //!
 //! If any of these conditions apply, Figment is a great choice.
 //!
-//! If you are already using a library like [`clap`], you&#39;ll likely have a
+//! If you are already using a library like [`clap`], you'll likely have a
 //! configuration structure defined:
 //!
 //! ```rust
@@ -1149,8 +1149,8 @@
 //! // `Config.toml` and `APP_`-prefixed environment variables.
 //! let config: Config = Figment::new()
 //!     .merge(Serialized::defaults(Config::parse()))
-//!     .merge(Toml::file(&quot;Config.toml&quot;))
-//!     .merge(Env::prefixed(&quot;APP_&quot;))
+//!     .merge(Toml::file("Config.toml"))
+//!     .merge(Env::prefixed("APP_"))
 //!     .extract()?;
 //! # Ok(())
 //! # });
@@ -1163,7 +1163,7 @@
 //!
 //! Some things to remember when working with Figment:
 //!
-//!   * Merging and joining are _eager_: sources are read immediately. It&#39;s
+//!   * Merging and joining are _eager_: sources are read immediately. It's
 //!     useful to define a function that returns a `Figment`.
 //!   * The [`util`] modules contains helpful serialize and deserialize
 //!     implementations for defining `Config` structures.
@@ -1175,7 +1175,7 @@
 //!     error-prone.
 //!   * [`Error`] may contain more than one error: iterate over it to retrieve
 //!     all errors.
-//!   * Using `#[serde(flatten)]` [can break error attribution], so it&#39;s best to
+//!   * Using `#[serde(flatten)]` [can break error attribution], so it's best to
 //!     avoid using it when possible.
 //!
 //! [can break error attribution]:
@@ -1191,11 +1191,11 @@
 <span class="kw">mod </span>metadata;
 <span class="kw">mod </span>provider;
 
-<span class="attr">#[cfg(any(test, feature = <span class="string">&quot;test&quot;</span>))] </span><span class="kw">mod </span>jail;
-<span class="attr">#[cfg(any(test, feature = <span class="string">&quot;test&quot;</span>))] </span><span class="kw">pub use </span>jail::Jail;
+<span class="attr">#[cfg(any(test, feature = <span class="string">"test"</span>))] </span><span class="kw">mod </span>jail;
+<span class="attr">#[cfg(any(test, feature = <span class="string">"test"</span>))] </span><span class="kw">pub use </span>jail::Jail;
 
 <span class="attr">#[doc(inline)]
-</span><span class="kw">pub use </span>error::Error;
+</span><span class="kw">pub use </span>error::{Error, <span class="prelude-ty">Result</span>};
 <span class="kw">pub use </span><span class="self">self</span>::figment::Figment;
 <span class="kw">pub use </span>profile::Profile;
 <span class="kw">pub use </span>provider::<span class="kw-2">*</span>;

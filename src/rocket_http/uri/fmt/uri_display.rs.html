@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/fmt/uri_display.rs`."><title>uri_display.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/fmt/uri_display.rs`."><title>uri_display.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -679,8 +679,8 @@
 /// Types implementing this trait can be displayed in a URI-safe manner. Unlike
 /// `Display`, the string written by a `UriDisplay` implementation must be
 /// URI-safe. In practice, this means that the string must either be
-/// percent-encoded or consist only of characters that are alphanumeric, &quot;-&quot;,
-/// &quot;.&quot;, &quot;_&quot;, or &quot;~&quot; - the &quot;unreserved&quot; characters.
+/// percent-encoded or consist only of characters that are alphanumeric, "-",
+/// ".", "_", or "~" - the "unreserved" characters.
 ///
 /// # Marker Generic: `Path`, `Query`
 ///
@@ -716,18 +716,18 @@
 /// # Code Generation
 ///
 /// When the [`uri!`] macro is used to generate a URI for a route, the types for
-/// the route&#39;s _path_ URI parameters must implement `UriDisplay&lt;Path&gt;`, while
-/// types in the route&#39;s query parameters must implement `UriDisplay&lt;Query&gt;`.
+/// the route's _path_ URI parameters must implement `UriDisplay&lt;Path&gt;`, while
+/// types in the route's query parameters must implement `UriDisplay&lt;Query&gt;`.
 /// Any parameters ignored with `_` must be of a type that implements
 /// [`Ignorable`]. The `UriDisplay` implementation for these types is used when
 /// generating the URI.
 ///
-/// To illustrate `UriDisplay`&#39;s role in code generation for `uri!`, consider
+/// To illustrate `UriDisplay`'s role in code generation for `uri!`, consider
 /// the following route:
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/item/&lt;id&gt;?&lt;track&gt;&quot;)]
+/// #[get("/item/&lt;id&gt;?&lt;track&gt;")]
 /// fn get_item(id: i32, track: Option&lt;String&gt;) { /* .. */ }
 /// ```
 ///
@@ -736,15 +736,15 @@
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// # type T = ();
-/// # #[get(&quot;/item/&lt;id&gt;?&lt;track&gt;&quot;)]
+/// # #[get("/item/&lt;id&gt;?&lt;track&gt;")]
 /// # fn get_item(id: i32, track: Option&lt;String&gt;) { /* .. */ }
 /// #
 /// // With unnamed parameters.
-/// uri!(get_item(100, Some(&quot;inbound&quot;)));
+/// uri!(get_item(100, Some("inbound")));
 ///
 /// // With named parameters.
-/// uri!(get_item(id = 100, track = Some(&quot;inbound&quot;)));
-/// uri!(get_item(track = Some(&quot;inbound&quot;), id = 100));
+/// uri!(get_item(id = 100, track = Some("inbound")));
+/// uri!(get_item(track = Some("inbound"), id = 100));
 ///
 /// // Ignoring `track`.
 /// uri!(get_item(100, _));
@@ -762,12 +762,12 @@
 /// # use rocket::http::uri::Origin;
 /// # use rocket::http::uri::fmt::{UriDisplay, Path, Query};
 /// #
-/// Origin::parse(&amp;format!(&quot;/item/{}?track={}&quot;,
-///     &amp;100 as &amp;dyn UriDisplay&lt;Path&gt;, &amp;&quot;inbound&quot; as &amp;dyn UriDisplay&lt;Query&gt;));
+/// Origin::parse(&amp;format!("/item/{}?track={}",
+///     &amp;100 as &amp;dyn UriDisplay&lt;Path&gt;, &amp;"inbound" as &amp;dyn UriDisplay&lt;Query&gt;));
 /// ```
 ///
 /// For this expression to typecheck, `i32` must implement `UriDisplay&lt;Path&gt;`
-/// and `&amp;str` must implement `UriDisplay&lt;Query&gt;`. What&#39;s more, when `track` is
+/// and `&amp;str` must implement `UriDisplay&lt;Query&gt;`. What's more, when `track` is
 /// ignored, `Option&lt;String&gt;` is required to implement [`Ignorable`]. As can be
 /// seen, the implementations will be used to display the value in a URI-safe
 /// manner.
@@ -820,7 +820,7 @@
 ///     Uses the implementation of `UriDisplay` for `T::Target`.
 ///
 ///     In general, when a type of `Form&lt;T&gt;` is to be displayed as part of a
-///     URI&#39;s query, it suffices to derive `UriDisplay` for `T`. Note that any
+///     URI's query, it suffices to derive `UriDisplay` for `T`. Note that any
 ///     type that can be converted into a `T` using [`FromUriParam`] can be used
 ///     in place of a `Form&lt;T&gt;` in a `uri!` invocation.
 ///
@@ -851,17 +851,17 @@
 ///     age: usize,
 /// }
 ///
-/// let user = User { name: &quot;Michael Smith&quot;.into(), age: 31 };
-/// let uri_string = format!(&quot;{}&quot;, &amp;user as &amp;dyn UriDisplay&lt;Query&gt;);
-/// assert_eq!(uri_string, &quot;name=Michael%20Smith&amp;age=31&quot;);
+/// let user = User { name: "Michael Smith".into(), age: 31 };
+/// let uri_string = format!("{}", &amp;user as &amp;dyn UriDisplay&lt;Query&gt;);
+/// assert_eq!(uri_string, "name=Michael%20Smith&amp;age=31");
 ///
 /// // Derives `UriDisplay&lt;Path&gt;`
 /// #[derive(UriDisplayPath)]
 /// struct Name(String);
 ///
-/// let name = Name(&quot;Bob Smith&quot;.into());
-/// let uri_string = format!(&quot;{}&quot;, &amp;name as &amp;dyn UriDisplay&lt;Path&gt;);
-/// assert_eq!(uri_string, &quot;Bob%20Smith&quot;);
+/// let name = Name("Bob Smith".into());
+/// let uri_string = format!("{}", &amp;name as &amp;dyn UriDisplay&lt;Path&gt;);
+/// assert_eq!(uri_string, "Bob%20Smith");
 /// ```
 ///
 /// As long as every field in the structure (or enum for [`UriDisplay&lt;Query&gt;`])
@@ -881,11 +881,11 @@
 /// [`Display`](std::fmt::Display) with the caveat that extra care must be
 /// taken to ensure that the written string is URI-safe. As mentioned before, in
 /// practice, this means that the string must either be percent-encoded or
-/// consist only of characters that are alphanumeric, &quot;-&quot;, &quot;.&quot;, &quot;_&quot;, or &quot;~&quot;.
+/// consist only of characters that are alphanumeric, "-", ".", "_", or "~".
 ///
 /// When manually implementing `UriDisplay` for your types, you should defer to
 /// existing implementations of `UriDisplay` as much as possible. In the example
-/// below, for instance, `Name`&#39;s implementation defers to `String`&#39;s
+/// below, for instance, `Name`'s implementation defers to `String`'s
 /// implementation. To percent-encode a string, use
 /// [`Uri::percent_encode()`](crate::uri::Uri::percent_encode()).
 ///
@@ -903,16 +903,16 @@
 /// # #[macro_use] extern crate rocket;
 /// use rocket::request::FromParam;
 ///
-/// struct Name&lt;&#39;r&gt;(&amp;&#39;r str);
+/// struct Name&lt;'r&gt;(&amp;'r str);
 ///
-/// const PREFIX: &amp;str = &quot;name:&quot;;
+/// const PREFIX: &amp;str = "name:";
 ///
-/// impl&lt;&#39;r&gt; FromParam&lt;&#39;r&gt; for Name&lt;&#39;r&gt; {
-///     type Error = &amp;&#39;r str;
+/// impl&lt;'r&gt; FromParam&lt;'r&gt; for Name&lt;'r&gt; {
+///     type Error = &amp;'r str;
 ///
-///     /// Validates parameters that start with &#39;name:&#39;, extracting the text
-///     /// after &#39;name:&#39; as long as there is at least one character.
-///     fn from_param(param: &amp;&#39;r str) -&gt; Result&lt;Self, Self::Error&gt; {
+///     /// Validates parameters that start with 'name:', extracting the text
+///     /// after 'name:' as long as there is at least one character.
+///     fn from_param(param: &amp;'r str) -&gt; Result&lt;Self, Self::Error&gt; {
 ///         if !param.starts_with(PREFIX) || param.len() &lt; (PREFIX.len() + 1) {
 ///             return Err(param);
 ///         }
@@ -927,41 +927,41 @@
 /// use rocket::http::uri::fmt::{Formatter, FromUriParam, UriDisplay, Path};
 /// use rocket::response::Redirect;
 ///
-/// impl UriDisplay&lt;Path&gt; for Name&lt;&#39;_&gt; {
+/// impl UriDisplay&lt;Path&gt; for Name&lt;'_&gt; {
 ///     // Writes the raw string `name:`, which is URI-safe, and then delegates
 ///     // to the `UriDisplay` implementation for `str` which ensures that
 ///     // string is written in a URI-safe manner. In this case, the string will
 ///     // be percent encoded.
 ///     fn fmt(&amp;self, f: &amp;mut Formatter&lt;Path&gt;) -&gt; fmt::Result {
-///         f.write_raw(&quot;name:&quot;)?;
+///         f.write_raw("name:")?;
 ///         UriDisplay::fmt(&amp;self.0, f)
 ///     }
 /// }
 ///
-/// impl_from_uri_param_identity!([Path] (&#39;a) Name&lt;&#39;a&gt;);
+/// impl_from_uri_param_identity!([Path] ('a) Name&lt;'a&gt;);
 ///
-/// #[get(&quot;/name/&lt;name&gt;&quot;)]
-/// fn redirector(name: Name&lt;&#39;_&gt;) -&gt; Redirect {
+/// #[get("/name/&lt;name&gt;")]
+/// fn redirector(name: Name&lt;'_&gt;) -&gt; Redirect {
 ///     Redirect::to(uri!(real(name)))
 /// }
 ///
-/// #[get(&quot;/&lt;name&gt;&quot;)]
-/// fn real(name: Name&lt;&#39;_&gt;) -&gt; String {
-///     format!(&quot;Hello, {}!&quot;, name.0)
+/// #[get("/&lt;name&gt;")]
+/// fn real(name: Name&lt;'_&gt;) -&gt; String {
+///     format!("Hello, {}!", name.0)
 /// }
 ///
-/// let uri = uri!(real(Name(&quot;Mike Smith&quot;.into())));
-/// assert_eq!(uri.path(), &quot;/name:Mike%20Smith&quot;);
+/// let uri = uri!(real(Name("Mike Smith".into())));
+/// assert_eq!(uri.path(), "/name:Mike%20Smith");
 /// ```
 </span><span class="kw">pub trait </span>UriDisplay&lt;P: Part&gt; {
     <span class="doccomment">/// Formats `self` in a URI-safe manner using the given formatter.
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result;
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result;
 }
 
 <span class="kw">impl</span>&lt;P: Part&gt; fmt::Display <span class="kw">for </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;P&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        UriDisplay::fmt(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">&amp;mut </span>&lt;Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;&gt;::new(f))
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        UriDisplay::fmt(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">&amp;mut </span>&lt;Formatter&lt;<span class="lifetime">'_</span>, P&gt;&gt;::new(f))
     }
 }
 
@@ -970,14 +970,14 @@
 </span><span class="doccomment">/// Percent-encodes the raw string.
 </span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span>str {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
         f.write_raw(RawStr::new(<span class="self">self</span>).percent_encode().as_str())
     }
 }
 
 <span class="doccomment">/// Percent-encodes each segment in the path and normalizes separators.
 </span><span class="kw">impl </span>UriDisplay&lt;Path&gt; <span class="kw">for </span>path::Path {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Path&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Path&gt;) -&gt; fmt::Result {
         <span class="kw">use </span>std::path::Component;
 
         <span class="kw">for </span>component <span class="kw">in </span><span class="self">self</span>.components() {
@@ -991,14 +991,14 @@
     }
 }
 
-<span class="macro">macro_rules! </span>impl_with_display {
+<span class="macro">macro_rules!</span> impl_with_display {
     ($(<span class="macro-nonterminal">$T</span>:ty),+ $(,)<span class="question-mark">?</span>) =&gt; {$(
         <span class="doccomment">/// This implementation is identical to the `Display` implementation.
         </span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span><span class="macro-nonterminal">$T  </span>{
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
                 <span class="kw">use </span>std::fmt::Write;
-                <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>)
+                <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>)
             }
         }
     )+}
@@ -1010,8 +1010,8 @@
     NonZeroUsize, NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128,
 };
 
-<span class="comment">// Keep in-sync with the &#39;FromUriParam&#39; impls.
-</span><span class="macro">impl_with_display! </span>{
+<span class="comment">// Keep in-sync with the 'FromUriParam' impls.
+</span><span class="macro">impl_with_display!</span> {
     i8, i16, i32, i64, i128, isize,
     u8, u16, u32, u64, u128, usize,
     f32, f64, bool,
@@ -1020,13 +1020,13 @@
     NonZeroUsize, NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128,
 }
 
-<span class="macro">macro_rules! </span>impl_with_string {
+<span class="macro">macro_rules!</span> impl_with_string {
     ($(<span class="macro-nonterminal">$T</span>:ty =&gt; <span class="macro-nonterminal">$f</span>:expr),+ $(,)<span class="question-mark">?</span>) =&gt; {$(
         <span class="doccomment">/// This implementation is identical to a percent-encoded version of the
         /// `Display` implementation.
         </span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span><span class="macro-nonterminal">$T  </span>{
             <span class="attr">#[inline(always)]
-            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+            </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
                 <span class="kw">let </span>func: <span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$T</span>) -&gt; <span class="prelude-ty">Result</span>&lt;String, fmt::Error&gt; = <span class="macro-nonterminal">$f</span>;
                 func(<span class="self">self</span>).and_then(|s| s.as_str().fmt(f))
             }
@@ -1036,14 +1036,14 @@
 
 <span class="kw">use </span>std::net::{SocketAddr, SocketAddrV4, SocketAddrV6};
 
-<span class="comment">// Keep formats in sync with &#39;FromFormField&#39; impls.
-</span><span class="kw">static </span>DATE_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">&quot;[year padding:none]-[month]-[day]&quot;</span>);
-<span class="kw">static </span>TIME_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">&quot;[hour padding:none]:[minute]:[second]&quot;</span>);
-<span class="kw">static </span>DATE_TIME_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">&#39;_</span>&gt;] =
-    <span class="macro">format_description!</span>(<span class="string">&quot;[year padding:none]-[month]-[day]T[hour padding:none]:[minute]:[second]&quot;</span>);
+<span class="comment">// Keep formats in sync with 'FromFormField' impls.
+</span><span class="kw">static </span>DATE_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">"[year padding:none]-[month]-[day]"</span>);
+<span class="kw">static </span>TIME_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] = <span class="macro">format_description!</span>(<span class="string">"[hour padding:none]:[minute]:[second]"</span>);
+<span class="kw">static </span>DATE_TIME_FMT: <span class="kw-2">&amp;</span>[FormatItem&lt;<span class="lifetime">'_</span>&gt;] =
+    <span class="macro">format_description!</span>(<span class="string">"[year padding:none]-[month]-[day]T[hour padding:none]:[minute]:[second]"</span>);
 
-<span class="comment">// Keep list in sync with the &#39;FromUriParam&#39; impls.
-</span><span class="macro">impl_with_string! </span>{
+<span class="comment">// Keep list in sync with the 'FromUriParam' impls.
+</span><span class="macro">impl_with_string!</span> {
     time::Date =&gt; |d| d.format(<span class="kw-2">&amp;</span>DATE_FMT).map_err(|<span class="kw">_</span>| fmt::Error),
     time::Time =&gt; |d| d.format(<span class="kw-2">&amp;</span>TIME_FMT).map_err(|<span class="kw">_</span>| fmt::Error),
     time::PrimitiveDateTime =&gt; |d| d.format(<span class="kw-2">&amp;</span>DATE_TIME_FMT).map_err(|<span class="kw">_</span>| fmt::Error),
@@ -1058,15 +1058,15 @@
 </span><span class="doccomment">/// Percent-encodes the raw string. Defers to `str`.
 </span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span>String {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.as_str().fmt(f)
     }
 }
 
 <span class="doccomment">/// Percent-encodes the raw string. Defers to `str`.
-</span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">&#39;_</span>, str&gt; {
+</span><span class="kw">impl</span>&lt;P: Part&gt; UriDisplay&lt;P&gt; <span class="kw">for </span>Cow&lt;<span class="lifetime">'_</span>, str&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.as_ref().fmt(f)
     }
 }
@@ -1074,7 +1074,7 @@
 <span class="doccomment">/// Percent-encodes each segment in the path and normalizes separators.
 </span><span class="kw">impl </span>UriDisplay&lt;Path&gt; <span class="kw">for </span>path::PathBuf {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Path&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Path&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.as_path().fmt(f)
     }
 }
@@ -1082,7 +1082,7 @@
 <span class="doccomment">/// Defers to the `UriDisplay&lt;P&gt;` implementation for `T`.
 </span><span class="kw">impl</span>&lt;P: Part, T: UriDisplay&lt;P&gt; + <span class="question-mark">?</span>Sized&gt; UriDisplay&lt;P&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>T {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
         UriDisplay::fmt(<span class="kw-2">*</span><span class="self">self</span>, f)
     }
 }
@@ -1090,7 +1090,7 @@
 <span class="doccomment">/// Defers to the `UriDisplay&lt;P&gt;` implementation for `T`.
 </span><span class="kw">impl</span>&lt;P: Part, T: UriDisplay&lt;P&gt; + <span class="question-mark">?</span>Sized&gt; UriDisplay&lt;P&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>T {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, P&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, P&gt;) -&gt; fmt::Result {
         UriDisplay::fmt(<span class="kw-2">*</span><span class="self">self</span>, f)
     }
 }
@@ -1098,7 +1098,7 @@
 <span class="doccomment">/// Defers to the `UriDisplay&lt;Query&gt;` implementation for `T`.
 </span><span class="kw">impl</span>&lt;T: UriDisplay&lt;Query&gt;&gt; UriDisplay&lt;Query&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Some</span>(v) =&gt; v.fmt(f),
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Ok</span>(())
@@ -1109,7 +1109,7 @@
 <span class="doccomment">/// Defers to the `UriDisplay&lt;Query&gt;` implementation for `T`.
 </span><span class="kw">impl</span>&lt;T: UriDisplay&lt;Query&gt;, E&gt; UriDisplay&lt;Query&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, E&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             <span class="prelude-val">Ok</span>(v) =&gt; v.fmt(f),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(())
@@ -1118,7 +1118,7 @@
 }
 
 <span class="kw">impl</span>&lt;T: UriDisplay&lt;Query&gt;&gt; UriDisplay&lt;Query&gt; <span class="kw">for </span>Vec&lt;T&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; fmt::Result {
         <span class="kw">for </span>value <span class="kw">in </span><span class="self">self </span>{
             f.write_value(value)<span class="question-mark">?</span>;
         }
@@ -1128,16 +1128,16 @@
 }
 
 <span class="kw">impl</span>&lt;K: UriDisplay&lt;Query&gt;, V: UriDisplay&lt;Query&gt;&gt; UriDisplay&lt;Query&gt; <span class="kw">for </span>HashMap&lt;K, V&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; fmt::Result {
         <span class="kw">use </span>std::fmt::Write;
 
         <span class="kw">let </span><span class="kw-2">mut </span>field_name = String::with_capacity(<span class="number">8</span>);
         <span class="kw">for </span>(i, (key, value)) <span class="kw">in </span><span class="self">self</span>.iter().enumerate() {
             field_name.truncate(<span class="number">0</span>);
-            <span class="macro">write!</span>(field_name, <span class="string">&quot;k:{}&quot;</span>, i)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(field_name, <span class="string">"k:{}"</span>, i)<span class="question-mark">?</span>;
             f.write_named_value(<span class="kw-2">&amp;</span>field_name, key)<span class="question-mark">?</span>;
 
-            field_name.replace_range(..<span class="number">1</span>, <span class="string">&quot;v&quot;</span>);
+            field_name.replace_range(..<span class="number">1</span>, <span class="string">"v"</span>);
             f.write_named_value(<span class="kw-2">&amp;</span>field_name, value)<span class="question-mark">?</span>;
         }
 
@@ -1146,16 +1146,16 @@
 }
 
 <span class="kw">impl</span>&lt;K: UriDisplay&lt;Query&gt;, V: UriDisplay&lt;Query&gt;&gt; UriDisplay&lt;Query&gt; <span class="kw">for </span>BTreeMap&lt;K, V&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">&#39;_</span>, Query&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>, Query&gt;) -&gt; fmt::Result {
         <span class="kw">use </span>std::fmt::Write;
 
         <span class="kw">let </span><span class="kw-2">mut </span>field_name = String::with_capacity(<span class="number">8</span>);
         <span class="kw">for </span>(i, (key, value)) <span class="kw">in </span><span class="self">self</span>.iter().enumerate() {
             field_name.truncate(<span class="number">0</span>);
-            <span class="macro">write!</span>(field_name, <span class="string">&quot;k:{}&quot;</span>, i)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(field_name, <span class="string">"k:{}"</span>, i)<span class="question-mark">?</span>;
             f.write_named_value(<span class="kw-2">&amp;</span>field_name, key)<span class="question-mark">?</span>;
 
-            field_name.replace_range(..<span class="number">1</span>, <span class="string">&quot;v&quot;</span>);
+            field_name.replace_range(..<span class="number">1</span>, <span class="string">"v"</span>);
             f.write_named_value(<span class="kw-2">&amp;</span>field_name, value)<span class="question-mark">?</span>;
         }
 
@@ -1163,8 +1163,8 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;uuid&quot;</span>)] </span><span class="macro">impl_with_display!</span>(uuid_::Uuid);
-<span class="attr">#[cfg(feature = <span class="string">&quot;uuid&quot;</span>)] </span><span class="macro">crate::impl_from_uri_param_identity!</span>(uuid_::Uuid);
+<span class="attr">#[cfg(feature = <span class="string">"uuid"</span>)] </span><span class="macro">impl_with_display!</span>(uuid_::Uuid);
+<span class="attr">#[cfg(feature = <span class="string">"uuid"</span>)] </span><span class="macro">crate::impl_from_uri_param_identity!</span>(uuid_::Uuid);
 
 <span class="comment">// And finally, the `Ignorable` trait, which has sugar of `_` in the `uri!`
 // macro, which expands to a typecheck.
@@ -1172,12 +1172,12 @@
 </span><span class="doccomment">/// Trait implemented by types that can be ignored in `uri!`.
 ///
 /// When a parameter is explicitly ignored in `uri!` by supplying `_` as the
-/// parameter&#39;s value, that parameter&#39;s type is required to implement this
+/// parameter's value, that parameter's type is required to implement this
 /// trait for the corresponding `Part`.
 ///
 /// ```rust
 /// # #[macro_use] extern crate rocket;
-/// #[get(&quot;/item/&lt;id&gt;?&lt;track&gt;&quot;)]
+/// #[get("/item/&lt;id&gt;?&lt;track&gt;")]
 /// fn get_item(id: i32, track: Option&lt;u8&gt;) { /* .. */ }
 ///
 /// // Ignore the `track` parameter: `Option&lt;u8&gt;` must be `Ignorable`.
@@ -1215,15 +1215,15 @@
     <span class="kw">use </span><span class="kw">crate</span>::uri::fmt::{FromUriParam, UriDisplay};
     <span class="kw">use </span><span class="kw">crate</span>::uri::fmt::{Query, Path};
 
-    <span class="macro">macro_rules! </span>uri_display {
+    <span class="macro">macro_rules!</span> uri_display {
         (&lt;<span class="macro-nonterminal">$P</span>:ident, <span class="macro-nonterminal">$Target</span>:ty&gt; <span class="macro-nonterminal">$source</span>:expr) =&gt; ({
             <span class="kw">let </span>tmp = <span class="macro-nonterminal">$source</span>;
             <span class="kw">let </span>target = &lt;<span class="macro-nonterminal">$Target </span><span class="kw">as </span>FromUriParam&lt;<span class="macro-nonterminal">$P</span>, <span class="kw">_</span>&gt;&gt;::from_uri_param(tmp);
-            <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span>target <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;<span class="macro-nonterminal">$P</span>&gt;)
+            <span class="macro">format!</span>(<span class="string">"{}"</span>, <span class="kw-2">&amp;</span>target <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>UriDisplay&lt;<span class="macro-nonterminal">$P</span>&gt;)
         })
     }
 
-    <span class="macro">macro_rules! </span>assert_display {
+    <span class="macro">macro_rules!</span> assert_display {
         (&lt;<span class="macro-nonterminal">$P</span>:ident, <span class="macro-nonterminal">$Target</span>:ty&gt; <span class="macro-nonterminal">$source</span>:expr, <span class="macro-nonterminal">$expected</span>:expr) =&gt; ({
             <span class="macro">assert_eq!</span>(<span class="macro">uri_display!</span>(&lt;<span class="macro-nonterminal">$P</span>, <span class="macro-nonterminal">$Target</span>&gt; <span class="macro-nonterminal">$source</span>), <span class="macro-nonterminal">$expected</span>);
         })
@@ -1231,59 +1231,59 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>uri_display_encoding() {
-        <span class="macro">assert_display!</span>(&lt;Query, String&gt; <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, String&gt; <span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, usize&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, u8&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, i32&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, isize&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, String&gt; <span class="string">"hello"</span>, <span class="string">"hello"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, String&gt; <span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, usize&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, u8&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, i32&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, isize&gt; <span class="number">10</span>, <span class="string">"10"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, String&gt; <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, String&gt; <span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi hi&quot;</span>, <span class="string">&quot;hi%20hi&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, usize&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, u8&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, i32&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, isize&gt; <span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, String&gt; <span class="string">"hello"</span>, <span class="string">"hello"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, String&gt; <span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">"hi hi"</span>, <span class="string">"hi%20hi"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, usize&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, u8&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, i32&gt; <span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, isize&gt; <span class="number">10</span>, <span class="string">"10"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, isize&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, u8&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, isize&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, u8&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, isize&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, u8&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="kw-2">&amp;</span>str&gt; <span class="kw-2">&amp;</span><span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, isize&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, u8&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;isize&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;u8&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>), <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;isize&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;u8&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;&gt; <span class="kw-2">&amp;</span><span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;isize&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;u8&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">"hi there"</span>), <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;isize&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;u8&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">"10"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, usize&gt;&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;isize, <span class="kw-2">&amp;</span>str&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;u8, String&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, usize&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>), <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;isize, <span class="kw-2">&amp;</span>str&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;u8, String&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">&quot;10&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, usize&gt;&gt; <span class="kw-2">&amp;</span><span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;isize, <span class="kw-2">&amp;</span>str&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;u8, String&gt;&gt; <span class="kw-2">&amp;</span><span class="number">10</span>, <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>str, usize&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="string">"hi there"</span>), <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;isize, <span class="kw-2">&amp;</span>str&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Result</span>&lt;u8, String&gt;&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="number">10</span>), <span class="string">"10"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>paths() {
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;hello&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hello/world&quot;</span>, <span class="string">&quot;hello/world&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hello//world&quot;</span>, <span class="string">&quot;hello/world&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hello/ world&quot;</span>, <span class="string">&quot;hello/%20world&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hello"</span>, <span class="string">"hello"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hello/world"</span>, <span class="string">"hello/world"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hello//world"</span>, <span class="string">"hello/world"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hello/ world"</span>, <span class="string">"hello/%20world"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">&quot;hi/wo rld&quot;</span>, <span class="string">&quot;hi/wo%20rld&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="string">"hi/wo rld"</span>, <span class="string">"hi/wo%20rld"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi/wo rld&quot;</span>, <span class="string">&quot;hi/wo%20rld&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>, <span class="string">&quot;hi%20there&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="kw-2">&amp;</span><span class="string">"hi/wo rld"</span>, <span class="string">"hi/wo%20rld"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, path::PathBuf&gt; <span class="kw-2">&amp;</span><span class="string">"hi there"</span>, <span class="string">"hi%20there"</span>);
     }
 
     <span class="kw">struct </span>Wrapper&lt;T&gt;(T);
@@ -1308,15 +1308,15 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>uri_display_encoding_wrapped() {
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;<span class="kw-2">&amp;</span>str&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">&quot;hi there&quot;</span>), <span class="string">&quot;hi%20there&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;<span class="kw-2">&amp;</span>str&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="string">&quot;hi there&quot;</span>), <span class="string">&quot;hi%20there&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;<span class="kw-2">&amp;</span>str&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">"hi there"</span>), <span class="string">"hi%20there"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;<span class="kw-2">&amp;</span>str&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="string">"hi there"</span>), <span class="string">"hi%20there"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;isize&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="number">10</span>), <span class="string">&quot;10&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="number">18</span>), <span class="string">&quot;18&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;&gt; <span class="number">238</span>, <span class="string">&quot;238&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;isize&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="number">10</span>), <span class="string">"10"</span>);
+        <span class="macro">assert_display!</span>(&lt;Query, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;&gt; <span class="prelude-val">Some</span>(<span class="number">18</span>), <span class="string">"18"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;&gt; <span class="number">238</span>, <span class="string">"238"</span>);
 
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;, usize&gt;&gt; <span class="number">238</span>, <span class="string">&quot;238&quot;</span>);
-        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;Wrapper&lt;usize&gt;, usize&gt;&gt;&gt; <span class="number">123</span>, <span class="string">&quot;123&quot;</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Wrapper&lt;usize&gt;&gt;, usize&gt;&gt; <span class="number">238</span>, <span class="string">"238"</span>);
+        <span class="macro">assert_display!</span>(&lt;Path, <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;Wrapper&lt;usize&gt;, usize&gt;&gt;&gt; <span class="number">123</span>, <span class="string">"123"</span>);
     }
 
     <span class="attr">#[test]

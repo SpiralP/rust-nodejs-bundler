@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/response/body.rs`."><title>body.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/response/body.rs`."><title>body.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -449,8 +449,8 @@
 ///
 /// # Sizing
 ///
-/// A response body may be sized or unsized (&quot;streamed&quot;). A &quot;sized&quot; body is
-/// transferred with a `Content-Length` equal to its size while an &quot;unsized&quot;
+/// A response body may be sized or unsized ("streamed"). A "sized" body is
+/// transferred with a `Content-Length` equal to its size while an "unsized"
 /// body is chunk-encoded. The body data is streamed in _all_ cases and is never
 /// buffered in memory beyond a minimal amount for efficient transmission.
 ///
@@ -464,8 +464,8 @@
 ///
 /// ## Unsized
 ///
-/// An unsized body&#39;s data is streamed as it arrives. In other words, as soon as
-/// the body&#39;s [`AsyncRead`] implementation returns bytes, the bytes are written
+/// An unsized body's data is streamed as it arrives. In other words, as soon as
+/// the body's [`AsyncRead`] implementation returns bytes, the bytes are written
 /// to the network. Individual unsized bodies may use an internal buffer to
 /// curtail writes to the network.
 ///
@@ -479,42 +479,42 @@
 /// # Reading
 ///
 /// The contents of a body, decoded, can be read through [`Body::to_bytes()`],
-/// [`Body::to_string()`], or directly though `Body`&#39;s [`AsyncRead`]
+/// [`Body::to_string()`], or directly though `Body`'s [`AsyncRead`]
 /// implementation.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Body&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>Body&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// The size of the body, if it is known.
     </span>size: <span class="prelude-ty">Option</span>&lt;usize&gt;,
     <span class="doccomment">/// The body itself.
-    </span>inner: Inner&lt;<span class="lifetime">&#39;r</span>&gt;,
+    </span>inner: Inner&lt;<span class="lifetime">'r</span>&gt;,
     <span class="doccomment">/// The maximum chunk size.
     </span>max_chunk: usize,
 }
 
-<span class="doccomment">/// A &quot;trait alias&quot; of sorts so we can use `AsyncRead + AsyncSeek` in `dyn`.
+<span class="doccomment">/// A "trait alias" of sorts so we can use `AsyncRead + AsyncSeek` in `dyn`.
 </span><span class="kw">pub trait </span>AsyncReadSeek: AsyncRead + AsyncSeek { }
 
 <span class="doccomment">/// Implemented for all `AsyncRead + AsyncSeek`, of course.
 </span><span class="kw">impl</span>&lt;T: AsyncRead + AsyncSeek&gt; AsyncReadSeek <span class="kw">for </span>T {  }
 
 <span class="doccomment">/// A pinned `AsyncRead + AsyncSeek` body type.
-</span><span class="kw">type </span>SizedBody&lt;<span class="lifetime">&#39;r</span>&gt; = Pin&lt;Box&lt;<span class="kw">dyn </span>AsyncReadSeek + Send + <span class="lifetime">&#39;r</span>&gt;&gt;;
+</span><span class="kw">type </span>SizedBody&lt;<span class="lifetime">'r</span>&gt; = Pin&lt;Box&lt;<span class="kw">dyn </span>AsyncReadSeek + Send + <span class="lifetime">'r</span>&gt;&gt;;
 
 <span class="doccomment">/// A pinned `AsyncRead` (not `AsyncSeek`) body type.
-</span><span class="kw">type </span>UnsizedBody&lt;<span class="lifetime">&#39;r</span>&gt; = Pin&lt;Box&lt;<span class="kw">dyn </span>AsyncRead + Send + <span class="lifetime">&#39;r</span>&gt;&gt;;
+</span><span class="kw">type </span>UnsizedBody&lt;<span class="lifetime">'r</span>&gt; = Pin&lt;Box&lt;<span class="kw">dyn </span>AsyncRead + Send + <span class="lifetime">'r</span>&gt;&gt;;
 
-<span class="kw">enum </span>Inner&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="doccomment">/// A body that can be seeked to determine it&#39;s size.
-    </span>Seekable(SizedBody&lt;<span class="lifetime">&#39;r</span>&gt;),
+<span class="kw">enum </span>Inner&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="doccomment">/// A body that can be seeked to determine it's size.
+    </span>Seekable(SizedBody&lt;<span class="lifetime">'r</span>&gt;),
     <span class="doccomment">/// A body that has no known size.
-    </span>Unsized(UnsizedBody&lt;<span class="lifetime">&#39;r</span>&gt;),
-    <span class="doccomment">/// A body that &quot;exists&quot; but only for metadata calculations.
-    </span>Phantom(SizedBody&lt;<span class="lifetime">&#39;r</span>&gt;),
+    </span>Unsized(UnsizedBody&lt;<span class="lifetime">'r</span>&gt;),
+    <span class="doccomment">/// A body that "exists" but only for metadata calculations.
+    </span>Phantom(SizedBody&lt;<span class="lifetime">'r</span>&gt;),
     <span class="doccomment">/// An empty body: no body at all.
     </span><span class="prelude-val">None</span>,
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span>Body&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Default <span class="kw">for </span>Body&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         Body {
             size: <span class="prelude-val">Some</span>(<span class="number">0</span>),
@@ -524,14 +524,14 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; Body&lt;<span class="lifetime">&#39;r</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; Body&lt;<span class="lifetime">'r</span>&gt; {
     <span class="doccomment">/// The default max size, in bytes, of chunks for streamed responses.
     ///
     /// The present value is `4096`.
     </span><span class="kw">pub const </span>DEFAULT_MAX_CHUNK: usize = <span class="number">4096</span>;
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_sized&lt;T&gt;(body: T, preset_size: <span class="prelude-ty">Option</span>&lt;usize&gt;) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>T: AsyncReadSeek + Send + <span class="lifetime">&#39;r
+        </span><span class="kw">where </span>T: AsyncReadSeek + Send + <span class="lifetime">'r
     </span>{
         Body {
             size: preset_size,
@@ -541,7 +541,7 @@
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>with_unsized&lt;T&gt;(body: T) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>T: AsyncRead + Send + <span class="lifetime">&#39;r
+        </span><span class="kw">where </span>T: AsyncRead + Send + <span class="lifetime">'r
     </span>{
         Body {
             size: <span class="prelude-val">None</span>,
@@ -590,7 +590,7 @@
     /// use std::io::Cursor;
     /// use rocket::response::Response;
     ///
-    /// let body = &quot;Brewing the best coffee!&quot;;
+    /// let body = "Brewing the best coffee!";
     /// let r = Response::build()
     ///     .sized_body(body.len(), Cursor::new(body))
     ///     .finalize();
@@ -602,7 +602,7 @@
         !<span class="self">self</span>.is_none()
     }
 
-    <span class="doccomment">/// A body&#39;s preset size, which may have been computed by a previous call to
+    <span class="doccomment">/// A body's preset size, which may have been computed by a previous call to
     /// [`Body::size()`].
     ///
     /// Unsized bodies _always_ return `None`, while sized bodies return `Some`
@@ -616,7 +616,7 @@
     /// use rocket::response::Response;
     ///
     /// # rocket::async_test(async {
-    /// let body = &quot;Brewing the best coffee!&quot;;
+    /// let body = "Brewing the best coffee!";
     /// let r = Response::build()
     ///     .sized_body(body.len(), Cursor::new(body))
     ///     .finalize();
@@ -655,7 +655,7 @@
     /// use std::io::Cursor;
     /// use rocket::response::{Response, Body};
     ///
-    /// let body = &quot;Brewing the best coffee!&quot;;
+    /// let body = "Brewing the best coffee!";
     /// let r = Response::build()
     ///     .sized_body(body.len(), Cursor::new(body))
     ///     .finalize();
@@ -673,7 +673,7 @@
         <span class="self">self</span>.max_chunk
     }
 
-    <span class="doccomment">/// Attempts to compute the body&#39;s size and returns it if the body is sized.
+    <span class="doccomment">/// Attempts to compute the body's size and returns it if the body is sized.
     ///
     /// If the size was preset (see [`Body::preset_size()`]), the value is
     /// returned immediately as `Some`. If the body is unsized or computing the
@@ -696,7 +696,7 @@
     /// use rocket::response::Response;
     ///
     /// # rocket::async_test(async {
-    /// let body = &quot;Hello, Rocketeers!&quot;;
+    /// let body = "Hello, Rocketeers!";
     /// let mut r = Response::build()
     ///     .sized_body(None, Cursor::new(body))
     ///     .finalize();
@@ -734,7 +734,7 @@
     /// use rocket::response::Response;
     ///
     /// let mut r = Response::build()
-    ///     .sized_body(None, Cursor::new(&quot;Hi&quot;))
+    ///     .sized_body(None, Cursor::new("Hi"))
     ///     .finalize();
     ///
     /// assert!(r.body().is_some());
@@ -751,7 +751,7 @@
     <span class="doccomment">/// Reads all of `self` into a vector of bytes, consuming the contents.
     ///
     /// If reading fails, returns `Err`. Otherwise, returns `Ok`. Calling this
-    /// method may partially or fully consume the body&#39;s content. As such,
+    /// method may partially or fully consume the body's content. As such,
     /// subsequent calls to `to_bytes()` will likely return different result.
     ///
     /// # Example
@@ -775,7 +775,7 @@
         <span class="kw">let </span>n = <span class="kw">match </span><span class="self">self</span>.read_to_end(<span class="kw-2">&amp;mut </span>vec).<span class="kw">await </span>{
             <span class="prelude-val">Ok</span>(n) =&gt; n,
             <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="macro">error_!</span>(<span class="string">&quot;Error reading body: {:?}&quot;</span>, e);
+                <span class="macro">error_!</span>(<span class="string">"Error reading body: {:?}"</span>, e);
                 <span class="kw">return </span><span class="prelude-val">Err</span>(e);
             }
         };
@@ -791,7 +791,7 @@
     ///
     /// If reading fails, or the body contains invalid UTF-8 characters, returns
     /// `Err`. Otherwise, returns `Ok`. Calling this method may partially or
-    /// fully consume the body&#39;s content. As such, subsequent calls to
+    /// fully consume the body's content. As such, subsequent calls to
     /// `to_string()` will likely return different result.
     ///
     /// # Example
@@ -802,27 +802,27 @@
     ///
     /// # let ok: io::Result&lt;()&gt; = rocket::async_test(async {
     /// let mut r = Response::build()
-    ///     .streamed_body(io::Cursor::new(&quot;Hello, Rocketeers!&quot;))
+    ///     .streamed_body(io::Cursor::new("Hello, Rocketeers!"))
     ///     .finalize();
     ///
-    /// assert_eq!(r.body_mut().to_string().await?, &quot;Hello, Rocketeers!&quot;);
+    /// assert_eq!(r.body_mut().to_string().await?, "Hello, Rocketeers!");
     /// # Ok(())
     /// # });
     /// # assert!(ok.is_ok());
     /// ```
     </span><span class="kw">pub async fn </span>to_string(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;String&gt; {
         String::from_utf8(<span class="self">self</span>.to_bytes().<span class="kw">await</span><span class="question-mark">?</span>).map_err(|e| {
-            <span class="macro">error_!</span>(<span class="string">&quot;Body is invalid UTF-8: {}&quot;</span>, e);
+            <span class="macro">error_!</span>(<span class="string">"Body is invalid UTF-8: {}"</span>, e);
             io::Error::new(io::ErrorKind::InvalidData, e)
         })
     }
 }
 
-<span class="kw">impl </span>AsyncRead <span class="kw">for </span>Body&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsyncRead <span class="kw">for </span>Body&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>poll_read(
         <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">&#39;_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
     ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
         <span class="kw">let </span>reader = <span class="kw">match </span><span class="self">self</span>.inner {
             Inner::Seekable(<span class="kw-2">ref mut </span>b) =&gt; b <span class="kw">as </span><span class="kw-2">&amp;mut </span>(<span class="kw">dyn </span>AsyncRead + Unpin),
@@ -834,13 +834,13 @@
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Inner&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Inner&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            Inner::Seekable(<span class="kw">_</span>) =&gt; <span class="string">&quot;seekable&quot;</span>.fmt(f),
-            Inner::Unsized(<span class="kw">_</span>) =&gt; <span class="string">&quot;unsized&quot;</span>.fmt(f),
-            Inner::Phantom(<span class="kw">_</span>) =&gt; <span class="string">&quot;phantom&quot;</span>.fmt(f),
-            Inner::None =&gt; <span class="string">&quot;none&quot;</span>.fmt(f),
+            Inner::Seekable(<span class="kw">_</span>) =&gt; <span class="string">"seekable"</span>.fmt(f),
+            Inner::Unsized(<span class="kw">_</span>) =&gt; <span class="string">"unsized"</span>.fmt(f),
+            Inner::Phantom(<span class="kw">_</span>) =&gt; <span class="string">"phantom"</span>.fmt(f),
+            Inner::None =&gt; <span class="string">"none"</span>.fmt(f),
         }
     }
 }

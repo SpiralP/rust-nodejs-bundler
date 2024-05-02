@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uncased-0.9.9/src/owned.rs`."><title>owned.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="uncased" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/uncased-0.9.10/src/owned.rs`."><title>owned.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="uncased" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../uncased/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -306,14 +306,14 @@
 
 <span class="doccomment">/// An uncased (case-insensitive, case-preserving), owned _or_ borrowed ASCII
 /// string.
-</span><span class="attr">#[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;alloc&quot;</span>)))]
+</span><span class="attr">#[cfg_attr(nightly, doc(cfg(feature = <span class="string">"alloc"</span>)))]
 #[derive(Clone, Debug)]
-</span><span class="kw">pub struct </span>Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+</span><span class="kw">pub struct </span>Uncased&lt;<span class="lifetime">'s</span>&gt; {
     <span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub </span>string: Cow&lt;<span class="lifetime">&#39;s</span>, str&gt;
+    </span><span class="kw">pub </span>string: Cow&lt;<span class="lifetime">'s</span>, str&gt;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;s</span>&gt; Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>&gt; Uncased&lt;<span class="lifetime">'s</span>&gt; {
     <span class="doccomment">/// Creates a new `Uncased` string from `string` without allocating.
     ///
     /// # Example
@@ -321,12 +321,12 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// let uncased = Uncased::new(&quot;Content-Type&quot;);
-    /// assert_eq!(uncased, &quot;content-type&quot;);
-    /// assert_eq!(uncased, &quot;CONTENT-Type&quot;);
+    /// let uncased = Uncased::new("Content-Type");
+    /// assert_eq!(uncased, "content-type");
+    /// assert_eq!(uncased, "CONTENT-Type");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>new&lt;S: Into&lt;Cow&lt;<span class="lifetime">&#39;s</span>, str&gt;&gt;&gt;(string: S) -&gt; Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+    </span><span class="kw">pub fn </span>new&lt;S: Into&lt;Cow&lt;<span class="lifetime">'s</span>, str&gt;&gt;&gt;(string: S) -&gt; Uncased&lt;<span class="lifetime">'s</span>&gt; {
         Uncased { string: string.into() }
     }
 
@@ -337,12 +337,12 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// const UNCASED: Uncased = Uncased::from_borrowed(&quot;Content-Type&quot;);
-    /// assert_eq!(UNCASED, &quot;content-type&quot;);
-    /// assert_eq!(UNCASED, &quot;CONTENT-Type&quot;);
+    /// const UNCASED: Uncased = Uncased::from_borrowed("Content-Type");
+    /// assert_eq!(UNCASED, "content-type");
+    /// assert_eq!(UNCASED, "CONTENT-Type");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub const fn </span>from_borrowed(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>str) -&gt; Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+    </span><span class="kw">pub const fn </span>from_borrowed(string: <span class="kw-2">&amp;</span><span class="lifetime">'s </span>str) -&gt; Uncased&lt;<span class="lifetime">'s</span>&gt; {
         Uncased { string: Cow::Borrowed(string) }
     }
 
@@ -355,16 +355,16 @@
     ///
     /// const UNCASED: Uncased = Uncased::from_owned(String::new());
     ///
-    /// let uncased = Uncased::from_owned(&quot;Content-Type&quot;.to_string());
-    /// assert_eq!(uncased, &quot;content-type&quot;);
-    /// assert_eq!(uncased, &quot;CONTENT-Type&quot;);
+    /// let uncased = Uncased::from_owned("Content-Type".to_string());
+    /// assert_eq!(uncased, "content-type");
+    /// assert_eq!(uncased, "CONTENT-Type");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub const fn </span>from_owned(string: String) -&gt; Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+    </span><span class="kw">pub const fn </span>from_owned(string: String) -&gt; Uncased&lt;<span class="lifetime">'s</span>&gt; {
         Uncased { string: Cow::Owned(string) }
     }
 
-    <span class="doccomment">/// Converts `self` into an owned `Uncased&lt;&#39;static&gt;`, allocating if
+    <span class="doccomment">/// Converts `self` into an owned `Uncased&lt;'static&gt;`, allocating if
     /// necessary.
     ///
     /// # Example
@@ -372,10 +372,10 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// let foo = &quot;foo&quot;.to_string();
+    /// let foo = "foo".to_string();
     /// let uncased = Uncased::from(foo.as_str());
-    /// let owned: Uncased&lt;&#39;static&gt; = uncased.into_owned();
-    /// assert_eq!(owned, &quot;foo&quot;);
+    /// let owned: Uncased&lt;'static&gt; = uncased.into_owned();
+    /// assert_eq!(owned, "foo");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>as_uncased_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -389,16 +389,16 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// let uncased = Uncased::new(&quot;Content-Type&quot;);
+    /// let uncased = Uncased::new("Content-Type");
     /// let string = uncased.into_string();
-    /// assert_eq!(string, &quot;Content-Type&quot;.to_string());
+    /// assert_eq!(string, "Content-Type".to_string());
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>into_string(<span class="self">self</span>) -&gt; String {
         <span class="self">self</span>.string.into_owned()
     }
 
-    <span class="doccomment">/// Converts `self` into an owned `Uncased&lt;&#39;static&gt;`, allocating if
+    <span class="doccomment">/// Converts `self` into an owned `Uncased&lt;'static&gt;`, allocating if
     /// necessary.
     ///
     /// # Example
@@ -406,13 +406,13 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// let foo = &quot;foo&quot;.to_string();
+    /// let foo = "foo".to_string();
     /// let uncased = Uncased::from(foo.as_str());
-    /// let owned: Uncased&lt;&#39;static&gt; = uncased.into_owned();
-    /// assert_eq!(owned, &quot;foo&quot;);
+    /// let owned: Uncased&lt;'static&gt; = uncased.into_owned();
+    /// assert_eq!(owned, "foo");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; Uncased&lt;<span class="lifetime">&#39;static</span>&gt; {
+    </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; Uncased&lt;<span class="lifetime">'static</span>&gt; {
         <span class="kw">match </span><span class="self">self</span>.string {
             Cow::Owned(string) =&gt; Uncased::new(string),
             Cow::Borrowed(str) =&gt; Uncased::new(String::from(str)),
@@ -426,8 +426,8 @@
     /// ```rust
     /// use uncased::Uncased;
     ///
-    /// let boxed = Uncased::new(&quot;Content-Type&quot;).into_boxed_uncased();
-    /// assert_eq!(&amp;*boxed, &quot;content-type&quot;);
+    /// let boxed = Uncased::new("Content-Type").into_boxed_uncased();
+    /// assert_eq!(&amp;*boxed, "content-type");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>into_boxed_uncased(<span class="self">self</span>) -&gt; Box&lt;UncasedStr&gt; {
@@ -443,12 +443,12 @@
     <span class="doccomment">/// Returns the inner `Cow`.
     </span><span class="attr">#[doc(hidden)]
     #[inline(always)]
-    </span><span class="kw">pub fn </span>into_cow(<span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;s</span>, str&gt; {
+    </span><span class="kw">pub fn </span>into_cow(<span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">'s</span>, str&gt; {
         <span class="self">self</span>.string
     }
 }
 
-<span class="kw">impl </span>Deref <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Deref <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">type </span>Target = UncasedStr;
 
     <span class="attr">#[inline(always)]
@@ -457,70 +457,70 @@
     }
 }
 
-<span class="kw">impl </span>AsRef&lt;UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsRef&lt;UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
         UncasedStr::new(<span class="self">self</span>.string.borrow())
     }
 }
 
-<span class="kw">impl </span>AsRef&lt;str&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsRef&lt;str&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="self">self</span>.as_str()
     }
 }
 
-<span class="kw">impl </span>AsRef&lt;[u8]&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsRef&lt;[u8]&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="self">self</span>.as_str().as_bytes()
     }
 }
 
-<span class="kw">impl </span>Borrow&lt;UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Borrow&lt;UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
         <span class="self">self</span>.as_str().into()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;c</span>: <span class="lifetime">&#39;s</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;c </span>UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>, <span class="lifetime">'c</span>: <span class="lifetime">'s</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'c </span>UncasedStr&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'s</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c </span>UncasedStr) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">'c </span>UncasedStr) -&gt; <span class="self">Self </span>{
         Uncased::new(string.as_str())
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;c</span>: <span class="lifetime">&#39;s</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;c </span>str&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>, <span class="lifetime">'c</span>: <span class="lifetime">'s</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'c </span>str&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'s</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;c </span>str) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(string: <span class="kw-2">&amp;</span><span class="lifetime">'c </span>str) -&gt; <span class="self">Self </span>{
         Uncased::new(string)
     }
 }
 
-<span class="kw">impl </span>From&lt;String&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;static</span>&gt; {
+<span class="kw">impl </span>From&lt;String&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'static</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>from(string: String) -&gt; <span class="self">Self </span>{
         Uncased::new(string)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;c</span>: <span class="lifetime">&#39;s</span>&gt; From&lt;Cow&lt;<span class="lifetime">&#39;c</span>, str&gt;&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;s</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'s</span>, <span class="lifetime">'c</span>: <span class="lifetime">'s</span>&gt; From&lt;Cow&lt;<span class="lifetime">'c</span>, str&gt;&gt; <span class="kw">for </span>Uncased&lt;<span class="lifetime">'s</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(string: Cow&lt;<span class="lifetime">&#39;c</span>, str&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(string: Cow&lt;<span class="lifetime">'c</span>, str&gt;) -&gt; <span class="self">Self </span>{
         Uncased::new(string)
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.string.fmt(f)
     }
 }
 
-<span class="macro">macro_rules! </span>impl_partial_eq {
+<span class="macro">macro_rules!</span> impl_partial_eq {
     (<span class="macro-nonterminal">$other</span>:ty $([<span class="macro-nonterminal">$o_i</span>:ident])<span class="question-mark">? </span>= <span class="macro-nonterminal">$this</span>:ty $([<span class="macro-nonterminal">$t_i</span>:ident])<span class="question-mark">?</span>) =&gt; (
         <span class="kw">impl </span>PartialEq&lt;<span class="macro-nonterminal">$other</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$this </span>{
             <span class="attr">#[inline(always)]
@@ -533,23 +533,23 @@
     )
 }
 
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(str [as_uncased] = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = str [as_uncased]);
-<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>str [as_uncased] = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = <span class="kw-2">&amp;</span>str [as_uncased]);
-<span class="macro">impl_partial_eq!</span>(String [as_uncased] = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = String [as_uncased]);
-<span class="macro">impl_partial_eq!</span>(String [as_uncased] = <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = String [as_uncased]);
-<span class="macro">impl_partial_eq!</span>(UncasedStr = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>UncasedStr = Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = UncasedStr);
-<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = <span class="kw-2">&amp;</span>UncasedStr);
-<span class="macro">impl_partial_eq!</span>(UncasedStr = <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] = UncasedStr);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(str [as_uncased] = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = str [as_uncased]);
+<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>str [as_uncased] = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = <span class="kw-2">&amp;</span>str [as_uncased]);
+<span class="macro">impl_partial_eq!</span>(String [as_uncased] = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = String [as_uncased]);
+<span class="macro">impl_partial_eq!</span>(String [as_uncased] = <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = String [as_uncased]);
+<span class="macro">impl_partial_eq!</span>(UncasedStr = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>UncasedStr = Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = UncasedStr);
+<span class="macro">impl_partial_eq!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = <span class="kw-2">&amp;</span>UncasedStr);
+<span class="macro">impl_partial_eq!</span>(UncasedStr = <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_eq!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] = UncasedStr);
 
-<span class="macro">macro_rules! </span>impl_partial_ord {
+<span class="macro">macro_rules!</span> impl_partial_ord {
     (<span class="macro-nonterminal">$other</span>:ty $([<span class="macro-nonterminal">$o_i</span>:ident])<span class="question-mark">? </span>&gt;&lt; <span class="macro-nonterminal">$this</span>:ty $([<span class="macro-nonterminal">$t_i</span>:ident])<span class="question-mark">?</span>) =&gt; (
         <span class="kw">impl </span>PartialOrd&lt;<span class="macro-nonterminal">$other</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$this </span>{
             <span class="attr">#[inline(always)]
@@ -562,29 +562,29 @@
     )
 }
 
-<span class="kw">impl </span>Ord <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Ord <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
         <span class="self">self</span>.as_uncased_str().cmp(other.as_uncased_str())
     }
 }
 
-<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(str [as_uncased] &gt;&lt; Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; str [as_uncased]);
-<span class="macro">impl_partial_ord!</span>(String [as_uncased] &gt;&lt; Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; String [as_uncased]);
-<span class="macro">impl_partial_ord!</span>(String [as_uncased] &gt;&lt; <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; String [as_uncased]);
-<span class="macro">impl_partial_ord!</span>(UncasedStr &gt;&lt; Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>UncasedStr &gt;&lt; Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; UncasedStr);
-<span class="macro">impl_partial_ord!</span>(UncasedStr &gt;&lt; <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str]);
-<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; <span class="kw-2">&amp;</span>UncasedStr);
-<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; [as_uncased_str] &gt;&lt; UncasedStr);
+<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(str [as_uncased] &gt;&lt; Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; str [as_uncased]);
+<span class="macro">impl_partial_ord!</span>(String [as_uncased] &gt;&lt; Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; String [as_uncased]);
+<span class="macro">impl_partial_ord!</span>(String [as_uncased] &gt;&lt; <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; String [as_uncased]);
+<span class="macro">impl_partial_ord!</span>(UncasedStr &gt;&lt; Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>UncasedStr &gt;&lt; Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; UncasedStr);
+<span class="macro">impl_partial_ord!</span>(UncasedStr &gt;&lt; <span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str]);
+<span class="macro">impl_partial_ord!</span>(Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; <span class="kw-2">&amp;</span>UncasedStr);
+<span class="macro">impl_partial_ord!</span>(<span class="kw-2">&amp;</span>Uncased&lt;<span class="lifetime">'_</span>&gt; [as_uncased_str] &gt;&lt; UncasedStr);
 
-<span class="kw">impl </span>Eq <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {  }
+<span class="kw">impl </span>Eq <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {  }
 
-<span class="kw">impl </span>Hash <span class="kw">for </span>Uncased&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Hash <span class="kw">for </span>Uncased&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, hasher: <span class="kw-2">&amp;mut </span>H) {
         <span class="self">self</span>.as_uncased_str().hash(hasher)

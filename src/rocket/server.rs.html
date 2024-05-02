@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/server.rs`."><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/server.rs`."><title>server.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -636,21 +636,21 @@
 {
     <span class="kw">use </span>std::panic::AssertUnwindSafe;
 
-    <span class="macro">macro_rules! </span>panic_info {
+    <span class="macro">macro_rules!</span> panic_info {
         (<span class="macro-nonterminal">$name</span>:expr, <span class="macro-nonterminal">$e</span>:expr) =&gt; {{
             <span class="kw">match </span><span class="macro-nonterminal">$name </span>{
-                <span class="prelude-val">Some</span>(name) =&gt; <span class="macro">error_!</span>(<span class="string">&quot;Handler {} panicked.&quot;</span>, name.primary()),
-                <span class="prelude-val">None </span>=&gt; <span class="macro">error_!</span>(<span class="string">&quot;A handler panicked.&quot;</span>)
+                <span class="prelude-val">Some</span>(name) =&gt; <span class="macro">error_!</span>(<span class="string">"Handler {} panicked."</span>, name.primary()),
+                <span class="prelude-val">None </span>=&gt; <span class="macro">error_!</span>(<span class="string">"A handler panicked."</span>)
             };
 
-            <span class="macro">info_!</span>(<span class="string">&quot;This is an application bug.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;A panic in Rust must be treated as an exceptional event.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Panicking is not a suitable error handling mechanism.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Unwinding, the result of a panic, is an expensive operation.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Panics will degrade application performance.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Instead of panicking, return `Option` and/or `Result`.&quot;</span>);
-            <span class="macro">info_!</span>(<span class="string">&quot;Values of either type can be returned directly from handlers.&quot;</span>);
-            <span class="macro">warn_!</span>(<span class="string">&quot;A panic is treated as an internal server error.&quot;</span>);
+            <span class="macro">info_!</span>(<span class="string">"This is an application bug."</span>);
+            <span class="macro">info_!</span>(<span class="string">"A panic in Rust must be treated as an exceptional event."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Panicking is not a suitable error handling mechanism."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Unwinding, the result of a panic, is an expensive operation."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Panics will degrade application performance."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Instead of panicking, return `Option` and/or `Result`."</span>);
+            <span class="macro">info_!</span>(<span class="string">"Values of either type can be returned directly from handlers."</span>);
+            <span class="macro">warn_!</span>(<span class="string">"A panic is treated as an internal server error."</span>);
             <span class="macro-nonterminal">$e
         </span>}}
     }
@@ -681,7 +681,7 @@
     // sends the response metadata (and a body channel) prior.
     </span><span class="kw">let </span>(tx, rx) = oneshot::channel();
 
-    <span class="macro">debug!</span>(<span class="string">&quot;Received request: {:#?}&quot;</span>, hyp_req);
+    <span class="macro">debug!</span>(<span class="string">"Received request: {:#?}"</span>, hyp_req);
     tokio::spawn(<span class="kw">async move </span>{
         <span class="comment">// We move the request next, so get the upgrade future now.
         </span><span class="kw">let </span>pending_upgrade = hyper::upgrade::on(<span class="kw-2">&amp;mut </span>hyp_req);
@@ -694,22 +694,22 @@
                 </span><span class="kw">let </span><span class="kw-2">mut </span>data = Data::from(<span class="kw-2">&amp;mut </span>h_body);
                 <span class="kw">let </span>token = rocket.preprocess_request(<span class="kw-2">&amp;mut </span>req, <span class="kw-2">&amp;mut </span>data).<span class="kw">await</span>;
                 <span class="kw">let </span><span class="kw-2">mut </span>response = rocket.dispatch(token, <span class="kw-2">&amp;</span>req, data).<span class="kw">await</span>;
-                <span class="kw">let </span>upgrade = response.take_upgrade(req.headers().get(<span class="string">&quot;upgrade&quot;</span>));
+                <span class="kw">let </span>upgrade = response.take_upgrade(req.headers().get(<span class="string">"upgrade"</span>));
                 <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((proto, handler))) = upgrade {
                     rocket.handle_upgrade(response, proto, handler, pending_upgrade, tx).<span class="kw">await</span>;
                 } <span class="kw">else </span>{
                     <span class="kw">if </span>upgrade.is_err() {
-                        <span class="macro">warn_!</span>(<span class="string">&quot;Request wants upgrade but no I/O handler matched.&quot;</span>);
-                        <span class="macro">info_!</span>(<span class="string">&quot;Request is not being upgraded.&quot;</span>);
+                        <span class="macro">warn_!</span>(<span class="string">"Request wants upgrade but no I/O handler matched."</span>);
+                        <span class="macro">info_!</span>(<span class="string">"Request is not being upgraded."</span>);
                     }
 
                     rocket.send_response(response, tx).<span class="kw">await</span>;
                 }
             },
             <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="macro">warn!</span>(<span class="string">&quot;Bad incoming HTTP request.&quot;</span>);
-                e.errors.iter().for_each(|e| <span class="macro">warn_!</span>(<span class="string">&quot;Error: {}.&quot;</span>, e));
-                <span class="macro">warn_!</span>(<span class="string">&quot;Dispatching salvaged request to catcher: {}.&quot;</span>, e.request);
+                <span class="macro">warn!</span>(<span class="string">"Bad incoming HTTP request."</span>);
+                e.errors.iter().for_each(|e| <span class="macro">warn_!</span>(<span class="string">"Error: {}."</span>, e));
+                <span class="macro">warn_!</span>(<span class="string">"Dispatching salvaged request to catcher: {}."</span>, e.request);
 
                 <span class="kw">let </span>response = rocket.handle_error(Status::BadRequest, <span class="kw-2">&amp;</span>e.request).<span class="kw">await</span>;
                 rocket.send_response(response, tx).<span class="kw">await</span>;
@@ -726,7 +726,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">async fn </span>send_response(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        response: Response&lt;<span class="lifetime">&#39;_</span>&gt;,
+        response: Response&lt;<span class="lifetime">'_</span>&gt;,
         tx: oneshot::Sender&lt;hyper::Response&lt;hyper::Body&gt;&gt;,
     ) {
         <span class="kw">let </span>remote_hungup = |e: <span class="kw-2">&amp;</span>io::Error| <span class="kw">match </span>e.kind() {
@@ -737,9 +737,9 @@
         };
 
         <span class="kw">match </span><span class="self">self</span>._send_response(response, tx).<span class="kw">await </span>{
-            <span class="prelude-val">Ok</span>(()) =&gt; <span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, <span class="string">&quot;Response succeeded.&quot;</span>.green()),
-            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>remote_hungup(<span class="kw-2">&amp;</span>e) =&gt; <span class="macro">warn_!</span>(<span class="string">&quot;Remote left: {}.&quot;</span>, e),
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">warn_!</span>(<span class="string">&quot;Failed to write response: {}.&quot;</span>, e),
+            <span class="prelude-val">Ok</span>(()) =&gt; <span class="macro">info_!</span>(<span class="string">"{}"</span>, <span class="string">"Response succeeded."</span>.green()),
+            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>remote_hungup(<span class="kw-2">&amp;</span>e) =&gt; <span class="macro">warn_!</span>(<span class="string">"Remote left: {}."</span>, e),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">warn_!</span>(<span class="string">"Failed to write response: {}."</span>, e),
         }
     }
 
@@ -747,7 +747,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">async fn </span>_send_response(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw-2">mut </span>response: Response&lt;<span class="lifetime">&#39;_</span>&gt;,
+        <span class="kw-2">mut </span>response: Response&lt;<span class="lifetime">'_</span>&gt;,
         tx: oneshot::Sender&lt;hyper::Response&lt;hyper::Body&gt;&gt;,
     ) -&gt; io::Result&lt;()&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>hyp_res = hyper::Response::builder();
@@ -768,9 +768,9 @@
         <span class="kw">let </span>hyp_response = hyp_res.body(hyp_body)
             .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))<span class="question-mark">?</span>;
 
-        <span class="macro">debug!</span>(<span class="string">&quot;sending response: {:#?}&quot;</span>, hyp_response);
+        <span class="macro">debug!</span>(<span class="string">"sending response: {:#?}"</span>, hyp_response);
         tx.send(hyp_response).map_err(|<span class="kw">_</span>| {
-            <span class="kw">let </span>msg = <span class="string">&quot;client disconnect before response started&quot;</span>;
+            <span class="kw">let </span>msg = <span class="string">"client disconnect before response started"</span>;
             io::Error::new(io::ErrorKind::BrokenPipe, msg)
         })<span class="question-mark">?</span>;
 
@@ -784,34 +784,34 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">async fn </span>handle_upgrade&lt;<span class="lifetime">&#39;r</span>&gt;(
+    <span class="kw">async fn </span>handle_upgrade&lt;<span class="lifetime">'r</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw-2">mut </span>response: Response&lt;<span class="lifetime">&#39;r</span>&gt;,
-        proto: uncased::Uncased&lt;<span class="lifetime">&#39;r</span>&gt;,
-        io_handler: Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">&#39;r</span>&gt;&gt;,
+        <span class="kw-2">mut </span>response: Response&lt;<span class="lifetime">'r</span>&gt;,
+        proto: uncased::Uncased&lt;<span class="lifetime">'r</span>&gt;,
+        io_handler: Pin&lt;Box&lt;<span class="kw">dyn </span>IoHandler + <span class="lifetime">'r</span>&gt;&gt;,
         pending_upgrade: hyper::upgrade::OnUpgrade,
         tx: oneshot::Sender&lt;hyper::Response&lt;hyper::Body&gt;&gt;,
     ) {
-        <span class="macro">info_!</span>(<span class="string">&quot;Upgrading connection to {}.&quot;</span>, Paint::white(<span class="kw-2">&amp;</span>proto).bold());
+        <span class="macro">info_!</span>(<span class="string">"Upgrading connection to {}."</span>, Paint::white(<span class="kw-2">&amp;</span>proto).bold());
         response.set_status(Status::SwitchingProtocols);
-        response.set_raw_header(<span class="string">&quot;Connection&quot;</span>, <span class="string">&quot;Upgrade&quot;</span>);
-        response.set_raw_header(<span class="string">&quot;Upgrade&quot;</span>, proto.clone().into_cow());
+        response.set_raw_header(<span class="string">"Connection"</span>, <span class="string">"Upgrade"</span>);
+        response.set_raw_header(<span class="string">"Upgrade"</span>, proto.clone().into_cow());
         <span class="self">self</span>.send_response(response, tx).<span class="kw">await</span>;
 
         <span class="kw">match </span>pending_upgrade.<span class="kw">await </span>{
             <span class="prelude-val">Ok</span>(io_stream) =&gt; {
-                <span class="macro">info_!</span>(<span class="string">&quot;Upgrade successful.&quot;</span>);
+                <span class="macro">info_!</span>(<span class="string">"Upgrade successful."</span>);
                 <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = io_handler.io(io_stream.into()).<span class="kw">await </span>{
                     <span class="kw">if </span>e.kind() == io::ErrorKind::BrokenPipe {
-                        <span class="macro">warn!</span>(<span class="string">&quot;Upgraded {} I/O handler was closed.&quot;</span>, proto);
+                        <span class="macro">warn!</span>(<span class="string">"Upgraded {} I/O handler was closed."</span>, proto);
                     } <span class="kw">else </span>{
-                        <span class="macro">error!</span>(<span class="string">&quot;Upgraded {} I/O handler failed: {}&quot;</span>, proto, e);
+                        <span class="macro">error!</span>(<span class="string">"Upgraded {} I/O handler failed: {}"</span>, proto, e);
                     }
                 }
             },
             <span class="prelude-val">Err</span>(e) =&gt; {
-                <span class="macro">warn!</span>(<span class="string">&quot;Response indicated upgrade, but upgrade failed.&quot;</span>);
-                <span class="macro">warn_!</span>(<span class="string">&quot;Upgrade error: {}&quot;</span>, e);
+                <span class="macro">warn!</span>(<span class="string">"Response indicated upgrade, but upgrade failed."</span>);
+                <span class="macro">warn_!</span>(<span class="string">"Upgrade error: {}"</span>, e);
             }
         }
     }
@@ -824,19 +824,19 @@
     /// Keep this in-sync with derive_form when preprocessing form fields.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>preprocess_request(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;,
-        data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;
+        req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'_</span>&gt;,
+        data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">'_</span>&gt;
     ) -&gt; RequestToken {
         <span class="comment">// Check if this is a form and if the form contains the special _method
-        // field which we use to reinterpret the request&#39;s method.
-        </span><span class="kw">let </span>(min_len, max_len) = (<span class="string">&quot;_method=get&quot;</span>.len(), <span class="string">&quot;_method=delete&quot;</span>.len());
+        // field which we use to reinterpret the request's method.
+        </span><span class="kw">let </span>(min_len, max_len) = (<span class="string">"_method=get"</span>.len(), <span class="string">"_method=delete"</span>.len());
         <span class="kw">let </span>peek_buffer = data.peek(max_len).<span class="kw">await</span>;
         <span class="kw">let </span>is_form = req.content_type().map_or(<span class="bool-val">false</span>, |ct| ct.is_form());
 
         <span class="kw">if </span>is_form &amp;&amp; req.method() == Method::Post &amp;&amp; peek_buffer.len() &gt;= min_len {
             <span class="kw">let </span>method = std::str::from_utf8(peek_buffer).ok()
                 .and_then(|raw_form| Form::values(raw_form).next())
-                .filter(|field| field.name == <span class="string">&quot;_method&quot;</span>)
+                .filter(|field| field.name == <span class="string">"_method"</span>)
                 .and_then(|field| field.value.parse().ok());
 
             <span class="kw">if let </span><span class="prelude-val">Some</span>(method) = method {
@@ -851,25 +851,25 @@
     }
 
     <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>dispatch&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>dispatch&lt;<span class="lifetime">'s</span>, <span class="lifetime">'r</span>: <span class="lifetime">'s</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>,
         _token: RequestToken,
-        request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;s</span>&gt;,
-        data: Data&lt;<span class="lifetime">&#39;r</span>&gt;
-    ) -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
-        <span class="macro">info!</span>(<span class="string">&quot;{}:&quot;</span>, request);
+        request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'s</span>&gt;,
+        data: Data&lt;<span class="lifetime">'r</span>&gt;
+    ) -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
+        <span class="macro">info!</span>(<span class="string">"{}:"</span>, request);
 
         <span class="comment">// Remember if the request is `HEAD` for later body stripping.
         </span><span class="kw">let </span>was_head_request = request.method() == Method::Head;
 
-        <span class="comment">// Route the request and run the user&#39;s handlers.
+        <span class="comment">// Route the request and run the user's handlers.
         </span><span class="kw">let </span><span class="kw-2">mut </span>response = <span class="self">self</span>.route_and_process(request, data).<span class="kw">await</span>;
 
-        <span class="comment">// Add a default &#39;Server&#39; header if it isn&#39;t already there.
+        <span class="comment">// Add a default 'Server' header if it isn't already there.
         // TODO: If removing Hyper, write out `Date` header too.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(ident) = request.rocket().config.ident.as_str() {
-            <span class="kw">if </span>!response.headers().contains(<span class="string">&quot;Server&quot;</span>) {
-                response.set_header(Header::new(<span class="string">&quot;Server&quot;</span>, ident));
+            <span class="kw">if </span>!response.headers().contains(<span class="string">"Server"</span>) {
+                response.set_header(Header::new(<span class="string">"Server"</span>, ident));
             }
         }
 
@@ -884,15 +884,15 @@
         response
     }
 
-    <span class="kw">async fn </span>route_and_process&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;s</span>&gt;,
-        data: Data&lt;<span class="lifetime">&#39;r</span>&gt;
-    ) -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+    <span class="kw">async fn </span>route_and_process&lt;<span class="lifetime">'s</span>, <span class="lifetime">'r</span>: <span class="lifetime">'s</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>,
+        request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'s</span>&gt;,
+        data: Data&lt;<span class="lifetime">'r</span>&gt;
+    ) -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>response = <span class="kw">match </span><span class="self">self</span>.route(request, data).<span class="kw">await </span>{
             Outcome::Success(response) =&gt; response,
             Outcome::Forward((data, <span class="kw">_</span>)) <span class="kw">if </span>request.method() == Method::Head =&gt; {
-                <span class="macro">info_!</span>(<span class="string">&quot;Autohandling {} request.&quot;</span>, <span class="string">&quot;HEAD&quot;</span>.primary().bold());
+                <span class="macro">info_!</span>(<span class="string">"Autohandling {} request."</span>, <span class="string">"HEAD"</span>.primary().bold());
 
                 <span class="comment">// Dispatch the request again with Method `GET`.
                 </span>request._set_method(Method::Get);
@@ -922,17 +922,17 @@
     /// additional routes to try (forward). The corresponding outcome for each
     /// condition is returned.
     </span><span class="attr">#[inline]
-    </span><span class="kw">async fn </span>route&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        request: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;s</span>&gt;,
-        <span class="kw-2">mut </span>data: Data&lt;<span class="lifetime">&#39;r</span>&gt;,
-    ) -&gt; route::Outcome&lt;<span class="lifetime">&#39;r</span>&gt; {
+    </span><span class="kw">async fn </span>route&lt;<span class="lifetime">'s</span>, <span class="lifetime">'r</span>: <span class="lifetime">'s</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>,
+        request: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'s</span>&gt;,
+        <span class="kw-2">mut </span>data: Data&lt;<span class="lifetime">'r</span>&gt;,
+    ) -&gt; route::Outcome&lt;<span class="lifetime">'r</span>&gt; {
         <span class="comment">// Go through all matching routes until we fail or succeed or run out of
         // routes to try, in which case we forward with the last status.
         </span><span class="kw">let </span><span class="kw-2">mut </span>status = Status::NotFound;
         <span class="kw">for </span>route <span class="kw">in </span><span class="self">self</span>.router.route(request) {
             <span class="comment">// Retrieve and set the requests parameters.
-            </span><span class="macro">info_!</span>(<span class="string">&quot;Matched: {}&quot;</span>, route);
+            </span><span class="macro">info_!</span>(<span class="string">"Matched: {}"</span>, route);
             request.set_route(route);
 
             <span class="kw">let </span>name = route.name.as_deref();
@@ -942,46 +942,46 @@
             <span class="comment">// Check if the request processing completed (Some) or if the
             // request needs to be forwarded. If it does, continue the loop
             // (None) to try again.
-            </span><span class="macro">info_!</span>(<span class="string">&quot;{}&quot;</span>, outcome.log_display());
+            </span><span class="macro">info_!</span>(<span class="string">"{}"</span>, outcome.log_display());
             <span class="kw">match </span>outcome {
                 o@Outcome::Success(<span class="kw">_</span>) | o@Outcome::Error(<span class="kw">_</span>) =&gt; <span class="kw">return </span>o,
                 Outcome::Forward(forwarded) =&gt; (data, status) = forwarded,
             }
         }
 
-        <span class="macro">error_!</span>(<span class="string">&quot;No matching routes for {}.&quot;</span>, request);
+        <span class="macro">error_!</span>(<span class="string">"No matching routes for {}."</span>, request);
         Outcome::Forward((data, status))
     }
 
     <span class="doccomment">/// Invokes the handler with `req` for catcher with status `status`.
     ///
     /// In order of preference, invoked handler is:
-    ///   * the user&#39;s registered handler for `status`
-    ///   * the user&#39;s registered `default` handler
-    ///   * Rocket&#39;s default handler for `status`
+    ///   * the user's registered handler for `status`
+    ///   * the user's registered `default` handler
+    ///   * Rocket's default handler for `status`
     ///
     /// Return `Ok(result)` if the handler succeeded. Returns `Ok(Some(Status))`
     /// if the handler ran to completion but failed. Returns `Ok(None)` if the
     /// handler panicked while executing.
-    </span><span class="kw">async fn </span>invoke_catcher&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
+    </span><span class="kw">async fn </span>invoke_catcher&lt;<span class="lifetime">'s</span>, <span class="lifetime">'r</span>: <span class="lifetime">'s</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>,
         status: Status,
-        req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;s</span>&gt;
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Response&lt;<span class="lifetime">&#39;r</span>&gt;, <span class="prelude-ty">Option</span>&lt;Status&gt;&gt; {
+        req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'s</span>&gt;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Response&lt;<span class="lifetime">'r</span>&gt;, <span class="prelude-ty">Option</span>&lt;Status&gt;&gt; {
         <span class="comment">// For now, we reset the delta state to prevent any modifications
         // from earlier, unsuccessful paths from being reflected in error
         // response. We may wish to relax this in the future.
         </span>req.cookies().reset_delta();
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(catcher) = <span class="self">self</span>.router.catch(status, req) {
-            <span class="macro">warn_!</span>(<span class="string">&quot;Responding with registered {} catcher.&quot;</span>, catcher);
+            <span class="macro">warn_!</span>(<span class="string">"Responding with registered {} catcher."</span>, catcher);
             <span class="kw">let </span>name = catcher.name.as_deref();
             handle(name, || catcher.handler.handle(status, req)).<span class="kw">await
                 </span>.map(|result| result.map_err(<span class="prelude-val">Some</span>))
                 .unwrap_or_else(|| <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>))
         } <span class="kw">else </span>{
             <span class="kw">let </span>code = status.code.blue().bold();
-            <span class="macro">warn_!</span>(<span class="string">&quot;No {} catcher registered. Using Rocket default.&quot;</span>, code);
+            <span class="macro">warn_!</span>(<span class="string">"No {} catcher registered. Using Rocket default."</span>, code);
             <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::catcher::default_handler(status, req))
         }
     }
@@ -990,42 +990,42 @@
     //
     // On catcher error, the 500 error catcher is attempted. If _that_ errors,
     // the (infallible) default 500 error cather is used.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>handle_error&lt;<span class="lifetime">&#39;s</span>, <span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>handle_error&lt;<span class="lifetime">'s</span>, <span class="lifetime">'r</span>: <span class="lifetime">'s</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>,
         <span class="kw-2">mut </span>status: Status,
-        req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;s</span>&gt;
-    ) -&gt; Response&lt;<span class="lifetime">&#39;r</span>&gt; {
+        req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'s</span>&gt;
+    ) -&gt; Response&lt;<span class="lifetime">'r</span>&gt; {
         <span class="comment">// Dispatch to the `status` catcher.
         </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(r) = <span class="self">self</span>.invoke_catcher(status, req).<span class="kw">await </span>{
             <span class="kw">return </span>r;
         }
 
-        <span class="comment">// If it fails and it&#39;s not a 500, try the 500 catcher.
+        <span class="comment">// If it fails and it's not a 500, try the 500 catcher.
         </span><span class="kw">if </span>status != Status::InternalServerError {
-            <span class="macro">error_!</span>(<span class="string">&quot;Catcher failed. Attempting 500 error catcher.&quot;</span>);
+            <span class="macro">error_!</span>(<span class="string">"Catcher failed. Attempting 500 error catcher."</span>);
             status = Status::InternalServerError;
             <span class="kw">if let </span><span class="prelude-val">Ok</span>(r) = <span class="self">self</span>.invoke_catcher(status, req).<span class="kw">await </span>{
                 <span class="kw">return </span>r;
             }
         }
 
-        <span class="comment">// If it failed again or if it was already a 500, use Rocket&#39;s default.
-        </span><span class="macro">error_!</span>(<span class="string">&quot;{} catcher failed. Using Rocket default 500.&quot;</span>, status.code);
+        <span class="comment">// If it failed again or if it was already a 500, use Rocket's default.
+        </span><span class="macro">error_!</span>(<span class="string">"{} catcher failed. Using Rocket default 500."</span>, status.code);
         <span class="kw">crate</span>::catcher::default_handler(Status::InternalServerError, req)
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>default_tcp_http_server&lt;C&gt;(<span class="kw-2">mut </span><span class="self">self</span>, ready: C) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt;
-        <span class="kw">where </span>C: <span class="kw">for</span>&lt;<span class="lifetime">&#39;a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">Self</span>) -&gt; BoxFuture&lt;<span class="lifetime">&#39;a</span>, ()&gt;
+        <span class="kw">where </span>C: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; Fn(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">Self</span>) -&gt; BoxFuture&lt;<span class="lifetime">'a</span>, ()&gt;
     {
         <span class="kw">use </span>std::net::ToSocketAddrs;
 
-        <span class="comment">// Determine the address we&#39;re going to serve on.
-        </span><span class="kw">let </span>addr = <span class="macro">format!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="self">self</span>.config.address, <span class="self">self</span>.config.port);
+        <span class="comment">// Determine the address we're going to serve on.
+        </span><span class="kw">let </span>addr = <span class="macro">format!</span>(<span class="string">"{}:{}"</span>, <span class="self">self</span>.config.address, <span class="self">self</span>.config.port);
         <span class="kw">let </span><span class="kw-2">mut </span>addr = addr.to_socket_addrs()
-            .map(|<span class="kw-2">mut </span>addrs| addrs.next().expect(<span class="string">&quot;&gt;= 1 socket addr&quot;</span>))
+            .map(|<span class="kw-2">mut </span>addrs| addrs.next().expect(<span class="string">"&gt;= 1 socket addr"</span>))
             .map_err(|e| Error::new(ErrorKind::Io(e)))<span class="question-mark">?</span>;
 
-        <span class="attr">#[cfg(feature = <span class="string">&quot;tls&quot;</span>)]
+        <span class="attr">#[cfg(feature = <span class="string">"tls"</span>)]
         </span><span class="kw">if </span><span class="self">self</span>.config.tls_enabled() {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>config) = <span class="self">self</span>.config.tls {
                 <span class="kw">use </span><span class="kw">crate</span>::http::tls::TlsListener;
@@ -1050,16 +1050,16 @@
 
     <span class="comment">// TODO.async: Solidify the Listener APIs and make this function public
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>http_server&lt;L&gt;(<span class="self">self</span>, listener: L) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&gt;
-        <span class="kw">where </span>L: Listener + Send, &lt;L <span class="kw">as </span>Listener&gt;::Connection: Send + Unpin + <span class="lifetime">&#39;static
+        <span class="kw">where </span>L: Listener + Send, &lt;L <span class="kw">as </span>Listener&gt;::Connection: Send + Unpin + <span class="lifetime">'static
     </span>{
-        <span class="comment">// Emit a warning if we&#39;re not running inside of Rocket&#39;s async runtime.
+        <span class="comment">// Emit a warning if we're not running inside of Rocket's async runtime.
         </span><span class="kw">if </span><span class="self">self</span>.config.profile == Config::DEBUG_PROFILE {
             tokio::task::spawn_blocking(|| {
                 <span class="kw">let </span>this  = std::thread::current();
-                <span class="kw">if </span>!this.name().map_or(<span class="bool-val">false</span>, |s| s.starts_with(<span class="string">&quot;rocket-worker&quot;</span>)) {
-                    <span class="macro">warn!</span>(<span class="string">&quot;Rocket is executing inside of a custom runtime.&quot;</span>);
-                    <span class="macro">info_!</span>(<span class="string">&quot;Rocket&#39;s runtime is enabled via `#[rocket::main]` or `#[launch]`.&quot;</span>);
-                    <span class="macro">info_!</span>(<span class="string">&quot;Forced shutdown is disabled. Runtime settings may be suboptimal.&quot;</span>);
+                <span class="kw">if </span>!this.name().map_or(<span class="bool-val">false</span>, |s| s.starts_with(<span class="string">"rocket-worker"</span>)) {
+                    <span class="macro">warn!</span>(<span class="string">"Rocket is executing inside of a custom runtime."</span>);
+                    <span class="macro">info_!</span>(<span class="string">"Rocket's runtime is enabled via `#[rocket::main]` or `#[launch]`."</span>);
+                    <span class="macro">info_!</span>(<span class="string">"Forced shutdown is disabled. Runtime settings may be suboptimal."</span>);
                 }
             });
         }
@@ -1079,9 +1079,9 @@
             tokio::spawn(<span class="kw">async move </span>{
                 <span class="kw">while let </span><span class="prelude-val">Some</span>(sig) = stream.next().<span class="kw">await </span>{
                     <span class="kw">if </span>shutdown.<span class="number">0</span>.tripped() {
-                        <span class="macro">warn!</span>(<span class="string">&quot;Received {}. Shutdown already in progress.&quot;</span>, sig);
+                        <span class="macro">warn!</span>(<span class="string">"Received {}. Shutdown already in progress."</span>, sig);
                     } <span class="kw">else </span>{
-                        <span class="macro">warn!</span>(<span class="string">&quot;Received {}. Requesting shutdown.&quot;</span>, sig);
+                        <span class="macro">warn!</span>(<span class="string">"Received {}. Requesting shutdown."</span>, sig);
                     }
 
                     shutdown.<span class="number">0</span>.trip();
@@ -1089,7 +1089,7 @@
             });
         }
 
-        <span class="comment">// Save the keep-alive value for later use; we&#39;re about to move `self`.
+        <span class="comment">// Save the keep-alive value for later use; we're about to move `self`.
         </span><span class="kw">let </span>keep_alive = <span class="self">self</span>.config.keep_alive;
 
         <span class="comment">// Create the Hyper `Service`.
@@ -1112,7 +1112,7 @@
         </span><span class="kw">let </span>listener = CancellableListener::new(shutdown.clone(), listener, grace, mercy);
         <span class="kw">let </span>builder = hyper::server::Server::builder(Incoming::new(listener).nodelay(<span class="bool-val">true</span>));
 
-        <span class="attr">#[cfg(feature = <span class="string">&quot;http2&quot;</span>)]
+        <span class="attr">#[cfg(feature = <span class="string">"http2"</span>)]
         </span><span class="kw">let </span>builder = builder.http2_keep_alive_interval(<span class="kw">match </span>keep_alive {
             <span class="number">0 </span>=&gt; <span class="prelude-val">None</span>,
             n =&gt; <span class="prelude-val">Some</span>(Duration::from_secs(n <span class="kw">as </span>u64))
@@ -1126,11 +1126,11 @@
 
         <span class="comment">// This deserves some explanation.
         //
-        // This is largely to deal with Hyper&#39;s dreadful and largely nonexistent
+        // This is largely to deal with Hyper's dreadful and largely nonexistent
         // handling of shutdown, in general, nevermind graceful.
         //
-        // When Hyper receives a &quot;graceful shutdown&quot; request, it stops accepting
-        // new requests. That&#39;s it. It continues to process existing requests
+        // When Hyper receives a "graceful shutdown" request, it stops accepting
+        // new requests. That's it. It continues to process existing requests
         // and outgoing responses forever and never cancels them. As a result,
         // Rocket must take it upon itself to cancel any existing I/O.
         //
@@ -1142,7 +1142,7 @@
         // `CancellableIo`, this eventually ends all I/O.
         //
         // At that point, unless a user spawned an infinite, stand-alone task
-        // that isn&#39;t monitoring `Shutdown`, all tasks should resolve. This
+        // that isn't monitoring `Shutdown`, all tasks should resolve. This
         // means that all instances of the shared `Arc&lt;Rocket&gt;` are dropped and
         // we can return the owned instance of `Rocket`.
         //
@@ -1156,26 +1156,26 @@
         // all references to `Arc&lt;Rocket&gt;` should be dropped and we can get a
         // unique reference.
         </span><span class="macro">tokio::pin!</span>(server);
-        <span class="macro">tokio::select! </span>{
+        <span class="macro">tokio::select!</span> {
             biased;
 
             <span class="kw">_ </span>= shutdown =&gt; {
                 <span class="comment">// Run shutdown fairings. We compute `sleep()` for grace periods
-                // beforehand to ensure we don&#39;t add shutdown fairing completion
+                // beforehand to ensure we don't add shutdown fairing completion
                 // time, which is arbitrary, to these periods.
-                </span><span class="macro">info!</span>(<span class="string">&quot;Shutdown requested. Waiting for pending I/O...&quot;</span>);
+                </span><span class="macro">info!</span>(<span class="string">"Shutdown requested. Waiting for pending I/O..."</span>);
                 <span class="kw">let </span>grace_timer = sleep(Duration::from_secs(grace));
                 <span class="kw">let </span>mercy_timer = sleep(Duration::from_secs(grace + mercy));
                 <span class="kw">let </span>shutdown_timer = sleep(Duration::from_secs(grace + mercy + <span class="number">1</span>));
                 rocket.fairings.handle_shutdown(<span class="kw-2">&amp;*</span>rocket).<span class="kw">await</span>;
 
                 <span class="macro">tokio::pin!</span>(grace_timer, mercy_timer, shutdown_timer);
-                <span class="macro">tokio::select! </span>{
+                <span class="macro">tokio::select!</span> {
                     biased;
 
                     result = <span class="kw-2">&amp;mut </span>server =&gt; {
                         <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = result {
-                            <span class="macro">warn!</span>(<span class="string">&quot;Server failed while shutting down: {}&quot;</span>, e);
+                            <span class="macro">warn!</span>(<span class="string">"Server failed while shutting down: {}"</span>, e);
                             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::shutdown(rocket.clone(), e));
                         }
 
@@ -1184,17 +1184,17 @@
                         <span class="kw">if </span>Arc::strong_count(<span class="kw-2">&amp;</span>rocket) != <span class="number">1 </span>{ shutdown_timer.<span class="kw">await</span>; }
                         <span class="kw">match </span>Arc::try_unwrap(rocket) {
                             <span class="prelude-val">Ok</span>(rocket) =&gt; {
-                                <span class="macro">info!</span>(<span class="string">&quot;Graceful shutdown completed successfully.&quot;</span>);
+                                <span class="macro">info!</span>(<span class="string">"Graceful shutdown completed successfully."</span>);
                                 <span class="prelude-val">Ok</span>(rocket)
                             }
                             <span class="prelude-val">Err</span>(rocket) =&gt; {
-                                <span class="macro">warn!</span>(<span class="string">&quot;Shutdown failed: outstanding background I/O.&quot;</span>);
+                                <span class="macro">warn!</span>(<span class="string">"Shutdown failed: outstanding background I/O."</span>);
                                 <span class="prelude-val">Err</span>(Error::shutdown(rocket, <span class="prelude-val">None</span>))
                             }
                         }
                     }
                     <span class="kw">_ </span>= <span class="kw-2">&amp;mut </span>shutdown_timer =&gt; {
-                        <span class="macro">warn!</span>(<span class="string">&quot;Shutdown failed: server executing after timeouts.&quot;</span>);
+                        <span class="macro">warn!</span>(<span class="string">"Shutdown failed: server executing after timeouts."</span>);
                         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::shutdown(rocket.clone(), <span class="prelude-val">None</span>));
                     },
                 }
@@ -1202,11 +1202,11 @@
             result = <span class="kw-2">&amp;mut </span>server =&gt; {
                 <span class="kw">match </span>result {
                     <span class="prelude-val">Ok</span>(()) =&gt; {
-                        <span class="macro">info!</span>(<span class="string">&quot;Server shutdown nominally.&quot;</span>);
+                        <span class="macro">info!</span>(<span class="string">"Server shutdown nominally."</span>);
                         <span class="prelude-val">Ok</span>(Arc::try_unwrap(rocket).map_err(|r| Error::shutdown(r, <span class="prelude-val">None</span>))<span class="question-mark">?</span>)
                     }
                     <span class="prelude-val">Err</span>(e) =&gt; {
-                        <span class="macro">info!</span>(<span class="string">&quot;Server failed prior to shutdown: {}:&quot;</span>, e);
+                        <span class="macro">info!</span>(<span class="string">"Server failed prior to shutdown: {}:"</span>, e);
                         <span class="prelude-val">Err</span>(Error::shutdown(rocket.clone(), e))
                     }
                 }

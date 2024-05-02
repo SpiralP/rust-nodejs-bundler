@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/form.rs`."><title>form.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/form.rs`."><title>form.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -352,7 +352,7 @@
 /// This type implements the [`FromData`] trait. It provides a generic means to
 /// parse arbitrary structures from incoming form data.
 ///
-/// See the [forms guide](https://rocket.rs/v0.5-rc/guide/requests#forms) for
+/// See the [forms guide](https://rocket.rs/v0.5/guide/requests#forms) for
 /// general form support documentation.
 ///
 /// # Leniency
@@ -360,8 +360,8 @@
 /// A `Form&lt;T&gt;` will parse successfully from an incoming form if the form
 /// contains a superset of the fields in `T`. Said another way, a `Form&lt;T&gt;`
 /// automatically discards extra fields without error. For instance, if an
-/// incoming form contains the fields &quot;a&quot;, &quot;b&quot;, and &quot;c&quot; while `T` only contains
-/// &quot;a&quot; and &quot;c&quot;, the form _will_ parse as `Form&lt;T&gt;`. To parse strictly, use the
+/// incoming form contains the fields "a", "b", and "c" while `T` only contains
+/// "a" and "c", the form _will_ parse as `Form&lt;T&gt;`. To parse strictly, use the
 /// [`Strict`](crate::form::Strict) form guard.
 ///
 /// # Usage
@@ -371,7 +371,7 @@
 /// for more information on deriving or implementing the trait.
 ///
 /// Because `Form` implements `FromData`, it can be used directly as a target of
-/// the `data = &quot;&lt;param&gt;&quot;` route parameter as long as its generic type
+/// the `data = "&lt;param&gt;"` route parameter as long as its generic type
 /// implements the `FromForm` trait:
 ///
 /// ```rust
@@ -380,13 +380,13 @@
 /// use rocket::http::RawStr;
 ///
 /// #[derive(FromForm)]
-/// struct UserInput&lt;&#39;r&gt; {
-///     value: &amp;&#39;r str
+/// struct UserInput&lt;'r&gt; {
+///     value: &amp;'r str
 /// }
 ///
-/// #[post(&quot;/submit&quot;, data = &quot;&lt;user_input&gt;&quot;)]
-/// fn submit_task(user_input: Form&lt;UserInput&lt;&#39;_&gt;&gt;) -&gt; String {
-///     format!(&quot;Your value: {}&quot;, user_input.value)
+/// #[post("/submit", data = "&lt;user_input&gt;")]
+/// fn submit_task(user_input: Form&lt;UserInput&lt;'_&gt;&gt;) -&gt; String {
+///     format!("Your value: {}", user_input.value)
 /// }
 /// ```
 ///
@@ -400,13 +400,13 @@
 ///
 /// A `Form&lt;T&gt;` data guard may fail, forward, or succeed.
 ///
-/// If a request&#39;s content-type is neither [`ContentType::Form`] nor
+/// If a request's content-type is neither [`ContentType::Form`] nor
 /// [`ContentType::FormData`], the guard **forwards**.
 ///
 /// If the request `ContentType` _does_ identify as a form but the form data
-/// does not parse as `T`, according to `T`&#39;s [`FromForm`] implementation, the
+/// does not parse as `T`, according to `T`'s [`FromForm`] implementation, the
 /// guard **fails**. The `Error` variant contains a vector of the [`Errors`]
-/// emitted by `T`&#39;s `FromForm` parser. If the error is not caught by a
+/// emitted by `T`'s `FromForm` parser. If the error is not caught by a
 /// [`form::Result&lt;T&gt;`](Result) or `Option&lt;Form&lt;T&gt;&gt;` data guard, the status code
 /// is set to [`Errors::status()`], and the corresponding error catcher is
 /// called.
@@ -452,7 +452,7 @@
 ///
 /// Individual fields _may_ have data limits as well. The type of the field
 /// determines whether there is a data limit. For instance, the `&amp;str` type
-/// imposes the `string` data limit. Consult the type&#39;s documentation or
+/// imposes the `string` data limit. Consult the type's documentation or
 /// [`FromFormField`] for details.
 ///
 /// ### Changing Limits
@@ -490,7 +490,7 @@
     ///     field: String,
     /// }
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
+    /// #[post("/submit", data = "&lt;form&gt;")]
     /// fn submit(form: Form&lt;MyForm&gt;) -&gt; String {
     ///     // We can read or mutate a value transparently:
     ///     let field: &amp;str = &amp;form.field;
@@ -511,7 +511,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt; Form&lt;T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromForm&lt;<span class="lifetime">'r</span>&gt;&gt; Form&lt;T&gt; {
     <span class="doccomment">/// Leniently parses a `T` from a **percent-decoded**
     /// `x-www-form-urlencoded` form string. Specifically, this method
     /// implements [§5.1 of the WHATWG URL Living Standard] with the exception
@@ -526,18 +526,18 @@
     /// use rocket::form::{Form, FromForm};
     ///
     /// #[derive(FromForm)]
-    /// struct Pet&lt;&#39;r&gt; {
-    ///     name: &amp;&#39;r str,
+    /// struct Pet&lt;'r&gt; {
+    ///     name: &amp;'r str,
     ///     wags: bool,
     /// }
     ///
-    /// let string = &quot;name=Benson Wagger!&amp;wags=true&quot;;
-    /// let pet: Pet&lt;&#39;_&gt; = Form::parse(string).unwrap();
-    /// assert_eq!(pet.name, &quot;Benson Wagger!&quot;);
+    /// let string = "name=Benson Wagger!&amp;wags=true";
+    /// let pet: Pet&lt;'_&gt; = Form::parse(string).unwrap();
+    /// assert_eq!(pet.name, "Benson Wagger!");
     /// assert_eq!(pet.wags, true);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>, T&gt; {
+    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>, T&gt; {
         <span class="comment">// WHATWG URL Living Standard 5.1 steps 1, 2, 3.1 - 3.3.
         </span><span class="self">Self</span>::parse_iter(Form::values(string))
     }
@@ -554,22 +554,22 @@
     /// use rocket::form::{Form, FromForm, ValueField};
     ///
     /// #[derive(FromForm)]
-    /// struct Pet&lt;&#39;r&gt; {
-    ///     name: &amp;&#39;r str,
+    /// struct Pet&lt;'r&gt; {
+    ///     name: &amp;'r str,
     ///     wags: bool,
     /// }
     ///
     /// let fields = vec![
-    ///     ValueField::parse(&quot;name=Bob, the cat. :)&quot;),
-    ///     ValueField::parse(&quot;wags=no&quot;),
+    ///     ValueField::parse("name=Bob, the cat. :)"),
+    ///     ValueField::parse("wags=no"),
     /// ];
     ///
-    /// let pet: Pet&lt;&#39;_&gt; = Form::parse_iter(fields).unwrap();
-    /// assert_eq!(pet.name, &quot;Bob, the cat. :)&quot;);
+    /// let pet: Pet&lt;'_&gt; = Form::parse_iter(fields).unwrap();
+    /// assert_eq!(pet.name, "Bob, the cat. :)");
     /// assert_eq!(pet.wags, false);
     /// ```
-    </span><span class="kw">pub fn </span>parse_iter&lt;I&gt;(fields: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>, T&gt;
-        <span class="kw">where </span>I: IntoIterator&lt;Item = ValueField&lt;<span class="lifetime">&#39;r</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>parse_iter&lt;I&gt;(fields: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>, T&gt;
+        <span class="kw">where </span>I: IntoIterator&lt;Item = ValueField&lt;<span class="lifetime">'r</span>&gt;&gt;
     {
         <span class="comment">// WHATWG URL Living Standard 5.1 steps 1, 2, 3.1 - 3.3.
         </span><span class="kw">let </span><span class="kw-2">mut </span>ctxt = T::init(Options::Lenient);
@@ -578,11 +578,11 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: <span class="kw">for</span>&lt;<span class="lifetime">&#39;a</span>&gt; FromForm&lt;<span class="lifetime">&#39;a</span>&gt; + <span class="lifetime">&#39;static</span>&gt; Form&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: <span class="kw">for</span>&lt;<span class="lifetime">'a</span>&gt; FromForm&lt;<span class="lifetime">'a</span>&gt; + <span class="lifetime">'static</span>&gt; Form&lt;T&gt; {
     <span class="doccomment">/// Leniently parses a `T` from a raw, `x-www-form-urlencoded` form string.
     /// Specifically, this method implements [§5.1 of the WHATWG URL Living
     /// Standard]. Because percent-decoding might modify the input string, the
-    /// output type `T` must be `&#39;static`.
+    /// output type `T` must be `'static`.
     ///
     /// [§5.1 of the WHATWG URL Living Standard]:https://url.spec.whatwg.org/#application/x-www-form-urlencoded
     ///
@@ -598,12 +598,12 @@
     ///     wags: bool,
     /// }
     ///
-    /// let string = RawStr::new(&quot;name=Benson+Wagger%21&amp;wags=true&quot;);
+    /// let string = RawStr::new("name=Benson+Wagger%21&amp;wags=true");
     /// let pet: Pet = Form::parse_encoded(string).unwrap();
-    /// assert_eq!(pet.name, &quot;Benson Wagger!&quot;);
+    /// assert_eq!(pet.name, "Benson Wagger!");
     /// assert_eq!(pet.wags, true);
     /// ```
-    </span><span class="kw">pub fn </span>parse_encoded(string: <span class="kw-2">&amp;</span>RawStr) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;static</span>, T&gt; {
+    </span><span class="kw">pub fn </span>parse_encoded(string: <span class="kw-2">&amp;</span>RawStr) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'static</span>, T&gt; {
         <span class="kw">let </span>buffer = SharedStack::new();
         <span class="kw">let </span><span class="kw-2">mut </span>ctxt = T::init(Options::Lenient);
         <span class="kw">for </span>field <span class="kw">in </span>RawStrParser::new(<span class="kw-2">&amp;</span>buffer, string) {
@@ -627,15 +627,15 @@
     /// ```rust
     /// use rocket::form::{Form, ValueField};
     ///
-    /// let string = &quot;name=Bobby Brown&amp;&amp;&amp;email=me@rocket.rs&quot;;
+    /// let string = "name=Bobby Brown&amp;&amp;&amp;email=me@rocket.rs";
     /// let mut values = Form::values(string);
-    /// assert_eq!(values.next().unwrap(), ValueField::parse(&quot;name=Bobby Brown&quot;));
-    /// assert_eq!(values.next().unwrap(), ValueField::parse(&quot;email=me@rocket.rs&quot;));
+    /// assert_eq!(values.next().unwrap(), ValueField::parse("name=Bobby Brown"));
+    /// assert_eq!(values.next().unwrap(), ValueField::parse("email=me@rocket.rs"));
     /// assert!(values.next().is_none());
     /// ```
-    </span><span class="kw">pub fn </span>values(string: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw">impl </span>Iterator&lt;Item = ValueField&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>values(string: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw">impl </span>Iterator&lt;Item = ValueField&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="comment">// WHATWG URL Living Standard 5.1 steps 1, 2, 3.1 - 3.3.
-        </span>string.split(<span class="string">&#39;&amp;&#39;</span>)
+        </span>string.split(<span class="string">'&amp;'</span>)
             .filter(|s| !s.is_empty())
             .map(ValueField::parse)
     }
@@ -656,10 +656,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromForm&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Form&lt;T&gt; {
-    <span class="kw">type </span>Error = Errors&lt;<span class="lifetime">&#39;r</span>&gt;;
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromForm&lt;<span class="lifetime">'r</span>&gt;&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Form&lt;T&gt; {
+    <span class="kw">type </span>Error = Errors&lt;<span class="lifetime">'r</span>&gt;;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">use </span>either::Either;
 
         <span class="kw">let </span><span class="kw-2">mut </span>parser = <span class="macro">try_outcome!</span>(Parser::new(req, data).<span class="kw">await</span>);

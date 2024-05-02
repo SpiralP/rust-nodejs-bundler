@@ -1,0 +1,1 @@
+searchState.loadedDescShard("pear_codegen", 0, "The core attribute macro. Can only be applied to free …\nInvoked much like match, except each condition must be a …")

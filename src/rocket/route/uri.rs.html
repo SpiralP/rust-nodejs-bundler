@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/route/uri.rs`."><title>uri.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/route/uri.rs`."><title>uri.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -342,7 +342,7 @@
 ///
 ///   * `base`
 ///
-///     Otherwise known as the route&#39;s &quot;mount point&quot;, the `base` is a static
+///     Otherwise known as the route's "mount point", the `base` is a static
 ///     [`Origin`] that prefixes the route URI. All route URIs have a `base`.
 ///     When routes are created manually with [`Route::new()`], the base
 ///     defaults to `/`. When mounted via [`Rocket::mount()`], the base is
@@ -353,17 +353,17 @@
 ///     use rocket::http::Method;
 ///     # use rocket::route::dummy_handler as handler;
 ///
-///     let route = Route::new(Method::Get, &quot;/foo/&lt;bar&gt;&quot;, handler);
-///     assert_eq!(route.uri.base(), &quot;/&quot;);
+///     let route = Route::new(Method::Get, "/foo/&lt;bar&gt;", handler);
+///     assert_eq!(route.uri.base(), "/");
 ///
-///     let rocket = rocket::build().mount(&quot;/base&quot;, vec![route]);
+///     let rocket = rocket::build().mount("/base", vec![route]);
 ///     let routes: Vec&lt;_&gt; = rocket.routes().collect();
-///     assert_eq!(routes[0].uri.base(), &quot;/base&quot;);
+///     assert_eq!(routes[0].uri.base(), "/base");
 ///     ```
 ///
 ///   * `origin`
 ///
-///     Otherwise known as the &quot;route URI&quot;, the `origin` is an [`Origin`] with
+///     Otherwise known as the "route URI", the `origin` is an [`Origin`] with
 ///     potentially dynamic (`&lt;dyn&gt;` or `&lt;dyn..&gt;`) segments. It is prefixed with
 ///     the `base`. This is the URI which is matched against incoming requests
 ///     for routing.
@@ -373,26 +373,26 @@
 ///     use rocket::http::Method;
 ///     # use rocket::route::dummy_handler as handler;
 ///
-///     let route = Route::new(Method::Get, &quot;/foo/&lt;bar&gt;&quot;, handler);
-///     assert_eq!(route.uri, &quot;/foo/&lt;bar&gt;&quot;);
+///     let route = Route::new(Method::Get, "/foo/&lt;bar&gt;", handler);
+///     assert_eq!(route.uri, "/foo/&lt;bar&gt;");
 ///
-///     let rocket = rocket::build().mount(&quot;/base&quot;, vec![route]);
+///     let rocket = rocket::build().mount("/base", vec![route]);
 ///     let routes: Vec&lt;_&gt; = rocket.routes().collect();
-///     assert_eq!(routes[0].uri, &quot;/base/foo/&lt;bar&gt;&quot;);
+///     assert_eq!(routes[0].uri, "/base/foo/&lt;bar&gt;");
 ///     ```
 ///
 /// [`Rocket::mount()`]: crate::Rocket::mount()
 /// [`Route::new()`]: crate::Route::new()
 </span><span class="attr">#[derive(Clone)]
-</span><span class="kw">pub struct </span>RouteUri&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span>RouteUri&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// The source string for this URI.
-    </span>source: Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;,
+    </span>source: Cow&lt;<span class="lifetime">'a</span>, str&gt;,
     <span class="doccomment">/// The mount point.
-    </span><span class="kw">pub </span>base: Origin&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>base: Origin&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// The URI _without_ the `base` mount point.
-    </span><span class="kw">pub </span>unmounted_origin: Origin&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>unmounted_origin: Origin&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// The URI _with_ the base mount point. This is the canonical route URI.
-    </span><span class="kw">pub </span>origin: Origin&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>origin: Origin&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Cached metadata about this URI.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) metadata: Metadata,
 }
@@ -415,22 +415,22 @@
     </span><span class="kw">pub </span>path_segs: Vec&lt;Segment&gt;,
     <span class="doccomment">/// `(name, value)` of the query segments that are static.
     </span><span class="kw">pub </span>static_query_fields: Vec&lt;(String, String)&gt;,
-    <span class="doccomment">/// The &quot;color&quot; of the route path.
+    <span class="doccomment">/// The "color" of the route path.
     </span><span class="kw">pub </span>path_color: Color,
-    <span class="doccomment">/// The &quot;color&quot; of the route query, if there is query.
+    <span class="doccomment">/// The "color" of the route query, if there is query.
     </span><span class="kw">pub </span>query_color: <span class="prelude-ty">Option</span>&lt;Color&gt;,
     <span class="doccomment">/// Whether the path has a `&lt;trailing..&gt;` parameter.
     </span><span class="kw">pub </span>trailing_path: bool,
 }
 
-<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;T, E = uri::Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt; = std::result::Result&lt;T, E&gt;;
+<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;T, E = uri::Error&lt;<span class="lifetime">'static</span>&gt;&gt; = std::result::Result&lt;T, E&gt;;
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; RouteUri&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; RouteUri&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Create a new `RouteUri`.
     ///
     /// This is a fallible variant of [`RouteUri::new`] which returns an `Err`
     /// if `base` or `uri` cannot be parsed as [`Origin`]s.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_new(base: <span class="kw-2">&amp;</span>str, uri: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;RouteUri&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_new(base: <span class="kw-2">&amp;</span>str, uri: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;RouteUri&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>base = Origin::parse(base)
             .map_err(|e| e.into_owned())<span class="question-mark">?
             </span>.into_normalized()
@@ -443,7 +443,7 @@
             </span>.into_normalized()
             .into_owned();
 
-        <span class="kw">let </span>origin = Origin::parse_route(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}/{}&quot;</span>, base, unmounted_origin))
+        <span class="kw">let </span>origin = Origin::parse_route(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"{}/{}"</span>, base, unmounted_origin))
             .map_err(|e| e.into_owned())<span class="question-mark">?
             </span>.into_normalized()
             .into_owned();
@@ -458,8 +458,8 @@
     ///
     /// Panics if  `base` or `uri` cannot be parsed as `Origin`s.
     </span><span class="attr">#[track_caller]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(base: <span class="kw-2">&amp;</span>str, uri: <span class="kw-2">&amp;</span>str) -&gt; RouteUri&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="self">Self</span>::try_new(base, uri).expect(<span class="string">&quot;Expected valid URIs&quot;</span>)
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(base: <span class="kw-2">&amp;</span>str, uri: <span class="kw-2">&amp;</span>str) -&gt; RouteUri&lt;<span class="lifetime">'static</span>&gt; {
+        <span class="self">Self</span>::try_new(base, uri).expect(<span class="string">"Expected valid URIs"</span>)
     }
 
     <span class="doccomment">/// The path of the base mount point of this route URI as an `&amp;str`.
@@ -471,10 +471,10 @@
     /// use rocket::http::Method;
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar?a=1&quot;, handler);
-    /// assert_eq!(index.uri.base(), &quot;/&quot;);
-    /// let index = index.map_base(|base| format!(&quot;{}{}&quot;, &quot;/boo&quot;, base)).unwrap();
-    /// assert_eq!(index.uri.base(), &quot;/boo&quot;);
+    /// let index = Route::new(Method::Get, "/foo/bar?a=1", handler);
+    /// assert_eq!(index.uri.base(), "/");
+    /// let index = index.map_base(|base| format!("{}{}", "/boo", base)).unwrap();
+    /// assert_eq!(index.uri.base(), "/boo");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>base(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -490,10 +490,10 @@
     /// use rocket::http::Method;
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar?a=1&quot;, handler);
-    /// assert_eq!(index.uri.path(), &quot;/foo/bar&quot;);
-    /// let index = index.map_base(|base| format!(&quot;{}{}&quot;, &quot;/boo&quot;, base)).unwrap();
-    /// assert_eq!(index.uri.path(), &quot;/boo/foo/bar&quot;);
+    /// let index = Route::new(Method::Get, "/foo/bar?a=1", handler);
+    /// assert_eq!(index.uri.path(), "/foo/bar");
+    /// let index = index.map_base(|base| format!("{}{}", "/boo", base)).unwrap();
+    /// assert_eq!(index.uri.path(), "/boo/foo/bar");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -509,18 +509,18 @@
     /// use rocket::http::Method;
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar&quot;, handler);
+    /// let index = Route::new(Method::Get, "/foo/bar", handler);
     /// assert!(index.uri.query().is_none());
     ///
-    /// // Normalization clears the empty &#39;?&#39;.
-    /// let index = Route::new(Method::Get, &quot;/foo/bar?&quot;, handler);
+    /// // Normalization clears the empty '?'.
+    /// let index = Route::new(Method::Get, "/foo/bar?", handler);
     /// assert!(index.uri.query().is_none());
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar?a=1&quot;, handler);
-    /// assert_eq!(index.uri.query().unwrap(), &quot;a=1&quot;);
+    /// let index = Route::new(Method::Get, "/foo/bar?a=1", handler);
+    /// assert_eq!(index.uri.query().unwrap(), "a=1");
     ///
-    /// let index = index.map_base(|base| format!(&quot;{}{}&quot;, &quot;/boo&quot;, base)).unwrap();
-    /// assert_eq!(index.uri.query().unwrap(), &quot;a=1&quot;);
+    /// let index = index.map_base(|base| format!("{}{}", "/boo", base)).unwrap();
+    /// assert_eq!(index.uri.query().unwrap(), "a=1");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
@@ -536,10 +536,10 @@
     /// use rocket::http::Method;
     /// # use rocket::route::dummy_handler as handler;
     ///
-    /// let index = Route::new(Method::Get, &quot;/foo/bar?a=1&quot;, handler);
-    /// assert_eq!(index.uri.as_str(), &quot;/foo/bar?a=1&quot;);
-    /// let index = index.map_base(|base| format!(&quot;{}{}&quot;, &quot;/boo&quot;, base)).unwrap();
-    /// assert_eq!(index.uri.as_str(), &quot;/boo/foo/bar?a=1&quot;);
+    /// let index = Route::new(Method::Get, "/foo/bar?a=1", handler);
+    /// assert_eq!(index.uri.as_str(), "/foo/bar?a=1");
+    /// let index = index.map_base(|base| format!("{}{}", "/boo", base)).unwrap();
+    /// assert_eq!(index.uri.as_str(), "/boo/foo/bar?a=1");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -548,7 +548,7 @@
 
     <span class="doccomment">/// Get the default rank of a route with this URI.
     ///
-    /// The route&#39;s default rank is determined based on the presence or absence
+    /// The route's default rank is determined based on the presence or absence
     /// of static and dynamic paths and queries. See the documentation for
     /// [`Route::new`][`crate::Route::new`] for a table summarizing the exact default ranks.
     ///
@@ -577,7 +577,7 @@
 }
 
 <span class="kw">impl </span>Metadata {
-    <span class="kw">fn </span>from(base: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;, origin: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>from(base: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'_</span>&gt;, origin: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>base_segs = base.path().raw_segments()
             .map(Segment::from)
             .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -622,40 +622,40 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::ops::Deref <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = Origin&lt;<span class="lifetime">&#39;a</span>&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; std::ops::Deref <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Target = Origin&lt;<span class="lifetime">'a</span>&gt;;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
         <span class="kw-2">&amp;</span><span class="self">self</span>.origin
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="self">self</span>.origin.fmt(f)
     }
 }
 
-<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_struct(<span class="string">&quot;RouteUri&quot;</span>)
-            .field(<span class="string">&quot;base&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.base)
-            .field(<span class="string">&quot;unmounted_origin&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.unmounted_origin)
-            .field(<span class="string">&quot;origin&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.origin)
-            .field(<span class="string">&quot;metadata&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.metadata)
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_struct(<span class="string">"RouteUri"</span>)
+            .field(<span class="string">"base"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.base)
+            .field(<span class="string">"unmounted_origin"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.unmounted_origin)
+            .field(<span class="string">"origin"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.origin)
+            .field(<span class="string">"metadata"</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.metadata)
             .finish()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>&gt; PartialEq&lt;Origin&lt;<span class="lifetime">&#39;b</span>&gt;&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">&#39;b</span>&gt;) -&gt; bool { <span class="kw-2">&amp;</span><span class="self">self</span>.origin == other }
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>&gt; PartialEq&lt;Origin&lt;<span class="lifetime">'b</span>&gt;&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Origin&lt;<span class="lifetime">'b</span>&gt;) -&gt; bool { <span class="kw-2">&amp;</span><span class="self">self</span>.origin == other }
 }
 
-<span class="kw">impl </span>PartialEq&lt;str&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>PartialEq&lt;str&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool { <span class="self">self</span>.as_str() == other }
 }
 
-<span class="kw">impl </span>PartialEq&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>PartialEq&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>RouteUri&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;str) -&gt; bool { <span class="self">self</span>.as_str() == <span class="kw-2">*</span>other }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/local/request.rs`."><title>request.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/local/request.rs`."><title>request.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -384,7 +384,7 @@
 <a href="#384" id="384">384</a>
 <a href="#385" id="385">385</a>
 <a href="#386" id="386">386</a>
-</pre></div><pre class="rust"><code><span class="macro">macro_rules! </span>pub_request_impl {
+</pre></div><pre class="rust"><code><span class="macro">macro_rules!</span> pub_request_impl {
     (<span class="macro-nonterminal">$import</span>:literal $(<span class="macro-nonterminal">$prefix</span>:tt <span class="macro-nonterminal">$suffix</span>:tt)<span class="question-mark">?</span>) =&gt;
 {
     <span class="doccomment">/// Borrows the inner `Request` as seen by Rocket.
@@ -404,7 +404,7 @@
     /// # });
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;c</span>&gt; {
+    </span><span class="kw">pub fn </span>inner(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'c</span>&gt; {
         <span class="self">self</span>._request()
     }
 
@@ -425,7 +425,7 @@
     /// # });
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>inner_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;c</span>&gt; {
+    </span><span class="kw">pub fn </span>inner_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'c</span>&gt; {
         <span class="self">self</span>._request_mut()
     }
 
@@ -450,12 +450,12 @@
     /// let request: LocalRequest = request;
     /// let req = request
     ///     .header(ContentType::JSON)
-    ///     .header(Header::new(&quot;X-Custom&quot;, &quot;custom-value&quot;));
+    ///     .header(Header::new("X-Custom", "custom-value"));
     /// # });
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>header&lt;H&gt;(<span class="kw-2">mut </span><span class="self">self</span>, header: H) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>H: Into&lt;<span class="kw">crate</span>::http::Header&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
+        </span><span class="kw">where </span>H: Into&lt;<span class="kw">crate</span>::http::Header&lt;<span class="lifetime">'static</span>&gt;&gt;
     {
         <span class="self">self</span>._request_mut().add_header(header.into());
         <span class="self">self
@@ -478,7 +478,7 @@
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>add_header&lt;H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H)
-        <span class="kw">where </span>H: Into&lt;<span class="kw">crate</span>::http::Header&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
+        <span class="kw">where </span>H: Into&lt;<span class="kw">crate</span>::http::Header&lt;<span class="lifetime">'static</span>&gt;&gt;
     {
         <span class="self">self</span>._request_mut().add_header(header.into());
     }
@@ -487,14 +487,14 @@
     ///
     /// # Examples
     ///
-    /// Set the remote address to &quot;8.8.8.8:80&quot;:
+    /// Set the remote address to "8.8.8.8:80":
     ///
     /// ```rust
     </span><span class="attr">#[doc = <span class="macro-nonterminal">$import</span>]
     </span><span class="doccomment">///
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
-    /// let address = &quot;8.8.8.8:80&quot;.parse().unwrap();
+    /// let address = "8.8.8.8:80".parse().unwrap();
     /// let req = request.remote(address);
     /// # });
     /// ```
@@ -517,13 +517,13 @@
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
     /// let req = request
-    ///     .cookie((&quot;username&quot;, &quot;sb&quot;))
-    ///     .cookie((&quot;user_id&quot;, &quot;12&quot;));
+    ///     .cookie(("username", "sb"))
+    ///     .cookie(("user_id", "12"));
     /// # });
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>cookie&lt;<span class="lifetime">&#39;a</span>, C&gt;(<span class="kw-2">mut </span><span class="self">self</span>, cookie: C) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">&#39;a</span>&gt;&gt;
+    </span><span class="kw">pub fn </span>cookie&lt;<span class="lifetime">'a</span>, C&gt;(<span class="kw-2">mut </span><span class="self">self</span>, cookie: C) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">'a</span>&gt;&gt;
     {
         <span class="self">self</span>._request_mut().cookies_mut().add_original(cookie.into().into_owned());
         <span class="self">self
@@ -539,17 +539,17 @@
     ///
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
-    /// let cookies = vec![(&quot;a&quot;, &quot;b&quot;), (&quot;c&quot;, &quot;d&quot;)];
+    /// let cookies = vec![("a", "b"), ("c", "d")];
     /// let req = request.cookies(cookies);
     /// # });
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>cookies&lt;<span class="lifetime">&#39;a</span>, C, I&gt;(<span class="kw-2">mut </span><span class="self">self</span>, cookies: I) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
+    </span><span class="kw">pub fn </span>cookies&lt;<span class="lifetime">'a</span>, C, I&gt;(<span class="kw-2">mut </span><span class="self">self</span>, cookies: I) -&gt; <span class="self">Self
+        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">'a</span>&gt;&gt;,
               I: IntoIterator&lt;Item = C&gt;
     {
         <span class="kw">for </span>cookie <span class="kw">in </span>cookies {
-            <span class="kw">let </span>cookie: <span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">&#39;_</span>&gt; = cookie.into();
+            <span class="kw">let </span>cookie: <span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">'_</span>&gt; = cookie.into();
             <span class="self">self</span>._request_mut().cookies_mut().add_original(cookie.into_owned());
         }
 
@@ -570,14 +570,14 @@
     ///
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
-    /// let req = request.private_cookie((&quot;user_id&quot;, &quot;sb&quot;));
+    /// let req = request.private_cookie(("user_id", "sb"));
     /// # });
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;secrets&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;secrets&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"secrets"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"secrets"</span>)))]
     #[inline]
     </span><span class="kw">pub fn </span>private_cookie&lt;C&gt;(<span class="kw-2">mut </span><span class="self">self</span>, cookie: C) -&gt; <span class="self">Self
-        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">&#39;static</span>&gt;&gt;
+        </span><span class="kw">where </span>C: Into&lt;<span class="kw">crate</span>::http::Cookie&lt;<span class="lifetime">'static</span>&gt;&gt;
     {
         <span class="self">self</span>._request_mut().cookies_mut().add_original_private(cookie.into());
         <span class="self">self
@@ -586,7 +586,7 @@
     <span class="doccomment">/// Set mTLS client certificates to send along with the request.
     ///
     /// If the request already contained certificates, they are replaced with
-    /// thsoe in `reader.`
+    /// those in `reader.`
     ///
     /// `reader` is expected to be PEM-formatted and contain X509 certificates.
     /// If it contains more than one certificate, the entire chain is set on the
@@ -607,12 +607,12 @@
     ///
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
-    /// let path = relative!(&quot;../../examples/tls/private/ed25519_cert.pem&quot;);
+    /// let path = relative!("../../examples/tls/private/ed25519_cert.pem");
     /// let req = request.identity(File::open(path).unwrap());
     /// # });
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;mtls&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;mtls&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"mtls"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"mtls"</span>)))]
     </span><span class="kw">pub fn </span>identity&lt;C: std::io::Read&gt;(<span class="kw-2">mut </span><span class="self">self</span>, reader: C) -&gt; <span class="self">Self </span>{
         <span class="kw">use </span><span class="kw">crate</span>::http::{tls::util::load_certs, private::Certificates};
 
@@ -634,7 +634,7 @@
     /// let request: LocalRequest = request;
     /// let req = request
     ///     .header(ContentType::Text)
-    ///     .body(&quot;Hello, world!&quot;);
+    ///     .body("Hello, world!");
     /// # });
     /// ```
     </span><span class="attr">#[inline]
@@ -675,8 +675,8 @@
     /// assert_eq!(req.content_type(), Some(&amp;ContentType::JSON));
     /// # });
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;json&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;json&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"json"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"json"</span>)))]
     </span><span class="kw">pub fn </span>json&lt;T: <span class="kw">crate</span>::serde::Serialize&gt;(<span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>json = serde_json::to_vec(<span class="kw-2">&amp;</span>value).unwrap_or_default();
         <span class="self">self</span>.header(<span class="kw">crate</span>::http::ContentType::JSON).body(json)
@@ -709,8 +709,8 @@
     /// assert_eq!(req.content_type(), Some(&amp;ContentType::MsgPack));
     /// # });
     /// ```
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;msgpack&quot;</span>)]
-    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;msgpack&quot;</span>)))]
+    </span><span class="attr">#[cfg(feature = <span class="string">"msgpack"</span>)]
+    #[cfg_attr(nightly, doc(cfg(feature = <span class="string">"msgpack"</span>)))]
     </span><span class="kw">pub fn </span>msgpack&lt;T: <span class="kw">crate</span>::serde::Serialize&gt;(<span class="self">self</span>, value: <span class="kw-2">&amp;</span>T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>msgpack = rmp_serde::to_vec(value).unwrap_or_default();
         <span class="self">self</span>.header(<span class="kw">crate</span>::http::ContentType::MsgPack).body(msgpack)
@@ -729,7 +729,7 @@
     /// # Client::_test(|_, request, _| {
     /// let request: LocalRequest = request;
     /// let mut request = request.header(ContentType::JSON);
-    /// request.set_body(r#&quot;{ &quot;key&quot;: &quot;value&quot;, &quot;array&quot;: [1, 2, 3] }&quot;#);
+    /// request.set_body(r#"{ "key": "value", "array": [1, 2, 3] }"#);
     /// # });
     /// ```
     </span><span class="attr">#[inline]
@@ -753,7 +753,7 @@
     /// # });
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub </span>$(<span class="macro-nonterminal">$prefix</span>)<span class="question-mark">? </span><span class="kw">fn </span>dispatch(<span class="self">self</span>) -&gt; LocalResponse&lt;<span class="lifetime">&#39;c</span>&gt; {
+    </span><span class="kw">pub </span>$(<span class="macro-nonterminal">$prefix</span>)<span class="question-mark">? </span><span class="kw">fn </span>dispatch(<span class="self">self</span>) -&gt; LocalResponse&lt;<span class="lifetime">'c</span>&gt; {
         <span class="self">self</span>._dispatch()$(.<span class="macro-nonterminal">$suffix</span>)<span class="question-mark">?
     </span>}
 
@@ -763,10 +763,10 @@
         <span class="kw">fn </span>is_clone_debug&lt;T: Clone + std::fmt::Debug&gt;() {}
         is_clone_debug::&lt;<span class="self">Self</span>&gt;();
 
-        <span class="kw">fn </span>is_deref_req&lt;<span class="lifetime">&#39;a</span>, T: std::ops::Deref&lt;Target = Request&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;() {}
+        <span class="kw">fn </span>is_deref_req&lt;<span class="lifetime">'a</span>, T: std::ops::Deref&lt;Target = Request&lt;<span class="lifetime">'a</span>&gt;&gt;&gt;() {}
         is_deref_req::&lt;<span class="self">Self</span>&gt;();
 
-        <span class="kw">fn </span>is_deref_mut_req&lt;<span class="lifetime">&#39;a</span>, T: std::ops::DerefMut&lt;Target = Request&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;() {}
+        <span class="kw">fn </span>is_deref_mut_req&lt;<span class="lifetime">'a</span>, T: std::ops::DerefMut&lt;Target = Request&lt;<span class="lifetime">'a</span>&gt;&gt;&gt;() {}
         is_deref_mut_req::&lt;<span class="self">Self</span>&gt;();
     }
 }}

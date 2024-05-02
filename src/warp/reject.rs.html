@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/reject.rs`."><title>reject.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/reject.rs`."><title>reject.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -868,20 +868,18 @@
 <a href="#868" id="868">868</a>
 <a href="#869" id="869">869</a>
 <a href="#870" id="870">870</a>
-<a href="#871" id="871">871</a>
-<a href="#872" id="872">872</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Rejections
 //!
 //! Part of the power of the [`Filter`](../trait.Filter.html) system is being able to
 //! reject a request from a filter chain. This allows for filters to be
 //! combined with `or`, so that if one side of the chain finds that a request
-//! doesn&#39;t fulfill its requirements, the other side can try to process
+//! doesn't fulfill its requirements, the other side can try to process
 //! the request.
 //!
 //! Many of the built-in [`filters`](../filters) will automatically reject
 //! the request with an appropriate rejection. However, you can also build
 //! new custom [`Filter`](../trait.Filter.html)s and still want other routes to be
-//! matchable in the case a predicate doesn&#39;t hold.
+//! matchable in the case a predicate doesn't hold.
 //!
 //! As a request is processed by a Filter chain, the rejections are accumulated into
 //! a list contained by the [`Rejection`](struct.Rejection.html) type. Rejections from
@@ -905,12 +903,12 @@
 //! // Custom rejection handler that maps rejections into responses.
 //! async fn handle_rejection(err: Rejection) -&gt; Result&lt;impl Reply, std::convert::Infallible&gt; {
 //!     if err.is_not_found() {
-//!         Ok(reply::with_status(&quot;NOT_FOUND&quot;, StatusCode::NOT_FOUND))
+//!         Ok(reply::with_status("NOT_FOUND", StatusCode::NOT_FOUND))
 //!     } else if let Some(e) = err.find::&lt;InvalidParameter&gt;() {
-//!         Ok(reply::with_status(&quot;BAD_REQUEST&quot;, StatusCode::BAD_REQUEST))
+//!         Ok(reply::with_status("BAD_REQUEST", StatusCode::BAD_REQUEST))
 //!     } else {
-//!         eprintln!(&quot;unhandled rejection: {:?}&quot;, err);
-//!         Ok(reply::with_status(&quot;INTERNAL_SERVER_ERROR&quot;, StatusCode::INTERNAL_SERVER_ERROR))
+//!         eprintln!("unhandled rejection: {:?}", err);
+//!         Ok(reply::with_status("INTERNAL_SERVER_ERROR", StatusCode::INTERNAL_SERVER_ERROR))
 //!     }
 //! }
 //!
@@ -922,7 +920,7 @@
 //!         if id == 0 {
 //!             Err(warp::reject::custom(InvalidParameter))
 //!         } else {
-//!             Ok(&quot;id is valid&quot;)
+//!             Ok("id is valid")
 //!         }
 //!     })
 //!     .recover(handle_rejection);
@@ -934,7 +932,6 @@
 <span class="kw">use </span>std::fmt;
 
 <span class="kw">use </span>http::{
-    <span class="self">self</span>,
     header::{HeaderValue, CONTENT_TYPE},
     StatusCode,
 };
@@ -964,19 +961,19 @@
 
 <span class="comment">// 400 Bad Request
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>missing_header(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; Rejection {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>missing_header(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; Rejection {
     known(MissingHeader { name })
 }
 
 <span class="comment">// 400 Bad Request
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>invalid_header(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; Rejection {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>invalid_header(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; Rejection {
     known(InvalidHeader { name })
 }
 
 <span class="comment">// 400 Bad Request
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>missing_cookie(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; Rejection {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>missing_cookie(name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; Rejection {
     known(MissingCookie { name })
 }
 
@@ -1000,7 +997,7 @@
 
 <span class="comment">// 415 Unsupported Media Type
 //
-// Used by the body filters if the request payload content-type doesn&#39;t match
+// Used by the body filters if the request payload content-type doesn't match
 // what can be deserialized.
 </span><span class="attr">#[inline]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>unsupported_media_type() -&gt; Rejection {
@@ -1045,16 +1042,16 @@
 /// });
 /// ```
 </span><span class="comment">// Require `Sized` for now to prevent passing a `Box&lt;dyn Reject&gt;`, since we
-// would be double-boxing it, and the downcasting wouldn&#39;t work as expected.
-</span><span class="kw">pub trait </span>Reject: fmt::Debug + Sized + Send + Sync + <span class="lifetime">&#39;static </span>{}
+// would be double-boxing it, and the downcasting wouldn't work as expected.
+</span><span class="kw">pub trait </span>Reject: fmt::Debug + Sized + Send + Sync + <span class="lifetime">'static </span>{}
 
-<span class="kw">trait </span>Cause: fmt::Debug + Send + Sync + <span class="lifetime">&#39;static </span>{
+<span class="kw">trait </span>Cause: fmt::Debug + Send + Sync + <span class="lifetime">'static </span>{
     <span class="kw">fn </span>as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any;
 }
 
 <span class="kw">impl</span>&lt;T&gt; Cause <span class="kw">for </span>T
 <span class="kw">where
-    </span>T: fmt::Debug + Send + Sync + <span class="lifetime">&#39;static</span>,
+    </span>T: fmt::Debug + Send + Sync + <span class="lifetime">'static</span>,
 {
     <span class="kw">fn </span>as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any {
         <span class="self">self
@@ -1089,7 +1086,7 @@
     Combined(Box&lt;Rejections&gt;, Box&lt;Rejections&gt;),
 }
 
-<span class="macro">macro_rules! </span>enum_known {
+<span class="macro">macro_rules!</span> enum_known {
      ($($(<span class="attr">#[<span class="macro-nonterminal">$attr</span>:meta]</span>)* <span class="macro-nonterminal">$var</span>:ident(<span class="macro-nonterminal">$ty</span>:path),)+) =&gt; (
         <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>Known {
             $(
@@ -1110,7 +1107,7 @@
         }
 
         <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Known {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
                     $(
                     $(<span class="attr">#[<span class="macro-nonterminal">$attr</span>]</span>)*
@@ -1121,7 +1118,7 @@
         }
 
         <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Known {
-            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+            <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
                 <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
                     $(
                     $(<span class="attr">#[<span class="macro-nonterminal">$attr</span>]</span>)*
@@ -1143,7 +1140,7 @@
     );
 }
 
-<span class="macro">enum_known! </span>{
+<span class="macro">enum_known!</span> {
     MethodNotAllowed(MethodNotAllowed),
     InvalidHeader(InvalidHeader),
     MissingHeader(MissingHeader),
@@ -1157,7 +1154,7 @@
     BodyReadError(<span class="kw">crate</span>::body::BodyReadError),
     BodyDeserializeError(<span class="kw">crate</span>::body::BodyDeserializeError),
     CorsForbidden(<span class="kw">crate</span>::cors::CorsForbidden),
-    <span class="attr">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+    <span class="attr">#[cfg(feature = <span class="string">"websocket"</span>)]
     </span>MissingConnectionUpgrade(<span class="kw">crate</span>::ws::MissingConnectionUpgrade),
     MissingExtension(<span class="kw">crate</span>::ext::MissingExtension),
     BodyConsumedMultipleTimes(<span class="kw">crate</span>::body::BodyConsumedMultipleTimes),
@@ -1192,10 +1189,10 @@
     /// let reject = warp::reject::custom(Nope);
     ///
     /// if let Some(nope) = reject.find::&lt;Nope&gt;() {
-    ///    println!(&quot;found it: {:?}&quot;, nope);
+    ///    println!("found it: {:?}", nope);
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>find&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    </span><span class="kw">pub fn </span>find&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="kw">if let </span>Reason::Other(<span class="kw-2">ref </span>rejections) = <span class="self">self</span>.reason {
             <span class="kw">return </span>rejections.find();
         }
@@ -1261,15 +1258,15 @@
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Rejection {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        f.debug_tuple(<span class="string">&quot;Rejection&quot;</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.reason).finish()
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        f.debug_tuple(<span class="string">"Rejection"</span>).field(<span class="kw-2">&amp;</span><span class="self">self</span>.reason).finish()
     }
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Reason {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            Reason::NotFound =&gt; f.write_str(<span class="string">&quot;NotFound&quot;</span>),
+            Reason::NotFound =&gt; f.write_str(<span class="string">"NotFound"</span>),
             Reason::Other(<span class="kw-2">ref </span>other) =&gt; <span class="kw">match </span><span class="kw-2">**</span>other {
                 Rejections::Known(<span class="kw-2">ref </span>e) =&gt; fmt::Debug::fmt(e, f),
                 Rejections::Custom(<span class="kw-2">ref </span>e) =&gt; fmt::Debug::fmt(e, f),
@@ -1297,7 +1294,7 @@
                 | Known::InvalidQuery(<span class="kw">_</span>)
                 | Known::BodyReadError(<span class="kw">_</span>)
                 | Known::BodyDeserializeError(<span class="kw">_</span>) =&gt; StatusCode::BAD_REQUEST,
-                <span class="attr">#[cfg(feature = <span class="string">&quot;websocket&quot;</span>)]
+                <span class="attr">#[cfg(feature = <span class="string">"websocket"</span>)]
                 </span>Known::MissingConnectionUpgrade(<span class="kw">_</span>) =&gt; StatusCode::BAD_REQUEST,
                 Known::LengthRequired(<span class="kw">_</span>) =&gt; StatusCode::LENGTH_REQUIRED,
                 Known::PayloadTooLarge(<span class="kw">_</span>) =&gt; StatusCode::PAYLOAD_TOO_LARGE,
@@ -1319,21 +1316,21 @@
                 <span class="kw-2">*</span>res.status_mut() = <span class="self">self</span>.status();
                 res.headers_mut().insert(
                     CONTENT_TYPE,
-                    HeaderValue::from_static(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
+                    HeaderValue::from_static(<span class="string">"text/plain; charset=utf-8"</span>),
                 );
                 res
             }
             Rejections::Custom(<span class="kw-2">ref </span>e) =&gt; {
                 <span class="macro">tracing::error!</span>(
-                    <span class="string">&quot;unhandled custom rejection, returning 500 response: {:?}&quot;</span>,
+                    <span class="string">"unhandled custom rejection, returning 500 response: {:?}"</span>,
                     e
                 );
-                <span class="kw">let </span>body = <span class="macro">format!</span>(<span class="string">&quot;Unhandled rejection: {:?}&quot;</span>, e);
+                <span class="kw">let </span>body = <span class="macro">format!</span>(<span class="string">"Unhandled rejection: {:?}"</span>, e);
                 <span class="kw">let </span><span class="kw-2">mut </span>res = http::Response::new(Body::from(body));
                 <span class="kw-2">*</span>res.status_mut() = <span class="self">self</span>.status();
                 res.headers_mut().insert(
                     CONTENT_TYPE,
-                    HeaderValue::from_static(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
+                    HeaderValue::from_static(<span class="string">"text/plain; charset=utf-8"</span>),
                 );
                 res
             }
@@ -1341,7 +1338,7 @@
         }
     }
 
-    <span class="kw">fn </span>find&lt;T: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
+    <span class="kw">fn </span>find&lt;T: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>T&gt; {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Rejections::Known(<span class="kw-2">ref </span>e) =&gt; e.inner_as_any().downcast_ref(),
             Rejections::Custom(<span class="kw-2">ref </span>e) =&gt; e.downcast_ref(),
@@ -1349,7 +1346,7 @@
         }
     }
 
-    <span class="kw">fn </span>debug_list(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::DebugList&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">fn </span>debug_list(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::DebugList&lt;<span class="lifetime">'_</span>, <span class="lifetime">'_</span>&gt;) {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Rejections::Known(<span class="kw-2">ref </span>e) =&gt; {
                 f.entry(e);
@@ -1390,35 +1387,35 @@
     }
 }
 
-<span class="macro">unit_error! </span>{
+<span class="macro">unit_error!</span> {
     <span class="doccomment">/// Invalid query
-    </span><span class="kw">pub </span>InvalidQuery: <span class="string">&quot;Invalid query string&quot;
+    </span><span class="kw">pub </span>InvalidQuery: <span class="string">"Invalid query string"
 </span>}
 
-<span class="macro">unit_error! </span>{
+<span class="macro">unit_error!</span> {
     <span class="doccomment">/// HTTP method not allowed
-    </span><span class="kw">pub </span>MethodNotAllowed: <span class="string">&quot;HTTP method not allowed&quot;
+    </span><span class="kw">pub </span>MethodNotAllowed: <span class="string">"HTTP method not allowed"
 </span>}
 
-<span class="macro">unit_error! </span>{
+<span class="macro">unit_error!</span> {
     <span class="doccomment">/// A content-length header is required
-    </span><span class="kw">pub </span>LengthRequired: <span class="string">&quot;A content-length header is required&quot;
+    </span><span class="kw">pub </span>LengthRequired: <span class="string">"A content-length header is required"
 </span>}
 
-<span class="macro">unit_error! </span>{
+<span class="macro">unit_error!</span> {
     <span class="doccomment">/// The request payload is too large
-    </span><span class="kw">pub </span>PayloadTooLarge: <span class="string">&quot;The request payload is too large&quot;
+    </span><span class="kw">pub </span>PayloadTooLarge: <span class="string">"The request payload is too large"
 </span>}
 
-<span class="macro">unit_error! </span>{
-    <span class="doccomment">/// The request&#39;s content-type is not supported
-    </span><span class="kw">pub </span>UnsupportedMediaType: <span class="string">&quot;The request&#39;s content-type is not supported&quot;
+<span class="macro">unit_error!</span> {
+    <span class="doccomment">/// The request's content-type is not supported
+    </span><span class="kw">pub </span>UnsupportedMediaType: <span class="string">"The request's content-type is not supported"
 </span>}
 
 <span class="doccomment">/// Missing request header
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>MissingHeader {
-    name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
 }
 
 <span class="kw">impl </span>MissingHeader {
@@ -1429,8 +1426,8 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>MissingHeader {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Missing request header {:?}&quot;</span>, <span class="self">self</span>.name)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Missing request header {:?}"</span>, <span class="self">self</span>.name)
     }
 }
 
@@ -1439,7 +1436,7 @@
 <span class="doccomment">/// Invalid request header
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>InvalidHeader {
-    name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
 }
 
 <span class="kw">impl </span>InvalidHeader {
@@ -1450,8 +1447,8 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>InvalidHeader {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Invalid request header {:?}&quot;</span>, <span class="self">self</span>.name)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Invalid request header {:?}"</span>, <span class="self">self</span>.name)
     }
 }
 
@@ -1460,7 +1457,7 @@
 <span class="doccomment">/// Missing cookie
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span>MissingCookie {
-    name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    name: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
 }
 
 <span class="kw">impl </span>MissingCookie {
@@ -1471,8 +1468,8 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>MissingCookie {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Missing request cookie {:?}&quot;</span>, <span class="self">self</span>.name)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Missing request cookie {:?}"</span>, <span class="self">self</span>.name)
     }
 }
 
@@ -1506,11 +1503,11 @@
     // happen, and no longer eliminate those branches.
     </span><span class="kw">pub trait </span>CombineRejection&lt;E&gt;: Send + Sized {
         <span class="doccomment">/// The type that should be returned when only 1 of the two
-        /// &quot;rejections&quot; occurs.
+        /// "rejections" occurs.
         ///
         /// # For example:
         ///
-        /// `warp::any().and(warp::path(&quot;foo&quot;))` has the following steps:
+        /// `warp::any().and(warp::path("foo"))` has the following steps:
         ///
         /// 1. Since this is `and`, only **one** of the rejections will occur,
         ///    and as soon as it does, it will be returned.
@@ -1579,7 +1576,6 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>http::StatusCode;
 
     <span class="attr">#[derive(Debug, PartialEq)]
     </span><span class="kw">struct </span>Left;
@@ -1616,7 +1612,7 @@
         <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
         <span class="macro">assert_eq!</span>(
             response_body_string(resp).<span class="kw">await</span>,
-            <span class="string">&quot;Unhandled rejection: Left&quot;
+            <span class="string">"Unhandled rejection: Left"
         </span>)
     }
 
@@ -1630,7 +1626,7 @@
         <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
         <span class="macro">assert_eq!</span>(
             response_body_string(resp).<span class="kw">await</span>,
-            <span class="string">&quot;Unhandled rejection: Right&quot;
+            <span class="string">"Unhandled rejection: Right"
         </span>)
     }
 
@@ -1642,10 +1638,10 @@
         <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
         <span class="macro">assert_eq!</span>(
             response_body_string(resp).<span class="kw">await</span>,
-            <span class="string">&quot;Unhandled rejection: Right&quot;
+            <span class="string">"Unhandled rejection: Right"
         </span>);
 
-        <span class="comment">// There&#39;s no real way to determine which is worse, since both are a 500,
+        <span class="comment">// There's no real way to determine which is worse, since both are a 500,
         // so pick the first one.
         </span><span class="kw">let </span>reject = custom(Left).combine(custom(Right));
 
@@ -1653,7 +1649,7 @@
         <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
         <span class="macro">assert_eq!</span>(
             response_body_string(resp).<span class="kw">await</span>,
-            <span class="string">&quot;Unhandled rejection: Left&quot;
+            <span class="string">"Unhandled rejection: Left"
         </span>);
 
         <span class="comment">// With many rejections, custom still is top priority.
@@ -1667,13 +1663,13 @@
         <span class="macro">assert_eq!</span>(resp.status(), StatusCode::INTERNAL_SERVER_ERROR);
         <span class="macro">assert_eq!</span>(
             response_body_string(resp).<span class="kw">await</span>,
-            <span class="string">&quot;Unhandled rejection: Right&quot;
+            <span class="string">"Unhandled rejection: Right"
         </span>);
     }
 
     <span class="kw">async fn </span>response_body_string(resp: <span class="kw">crate</span>::reply::Response) -&gt; String {
         <span class="kw">let </span>(<span class="kw">_</span>, body) = resp.into_parts();
-        <span class="kw">let </span>body_bytes = hyper::body::to_bytes(body).<span class="kw">await</span>.expect(<span class="string">&quot;failed concat&quot;</span>);
+        <span class="kw">let </span>body_bytes = hyper::body::to_bytes(body).<span class="kw">await</span>.expect(<span class="string">"failed concat"</span>);
         String::from_utf8_lossy(<span class="kw-2">&amp;</span>body_bytes).to_string()
     }
 
@@ -1686,7 +1682,7 @@
         <span class="kw">let </span>rej = rej.combine(method_not_allowed());
 
         <span class="macro">assert_eq!</span>(rej.find::&lt;Left&gt;(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Left));
-        <span class="macro">assert!</span>(rej.find::&lt;MethodNotAllowed&gt;().is_some(), <span class="string">&quot;MethodNotAllowed&quot;</span>);
+        <span class="macro">assert!</span>(rej.find::&lt;MethodNotAllowed&gt;().is_some(), <span class="string">"MethodNotAllowed"</span>);
     }
 
     <span class="attr">#[test]
@@ -1698,7 +1694,7 @@
     }
 
     <span class="attr">#[derive(Debug)]
-    </span><span class="kw">struct </span>X(u32);
+    </span><span class="kw">struct </span>X(<span class="attr">#[allow(unused)] </span>u32);
     <span class="kw">impl </span>Reject <span class="kw">for </span>X {}
 
     <span class="kw">fn </span>combine_n&lt;F, R&gt;(n: u32, new_reject: F) -&gt; Rejection
@@ -1719,8 +1715,8 @@
     </span><span class="kw">fn </span>test_debug() {
         <span class="kw">let </span>rej = combine_n(<span class="number">3</span>, X);
 
-        <span class="kw">let </span>s = <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, rej);
-        <span class="macro">assert_eq!</span>(s, <span class="string">&quot;Rejection([X(0), X(1), X(2)])&quot;</span>);
+        <span class="kw">let </span>s = <span class="macro">format!</span>(<span class="string">"{:?}"</span>, rej);
+        <span class="macro">assert_eq!</span>(s, <span class="string">"Rejection([X(0), X(1), X(2)])"</span>);
     }
 
     <span class="attr">#[test]

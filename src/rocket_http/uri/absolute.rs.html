@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/absolute.rs`."><title>absolute.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/absolute.rs`."><title>absolute.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -523,13 +523,13 @@
 /// # extern crate rocket;
 /// # use rocket::http::uri::Absolute;
 /// # let valid_uris = [
-/// &quot;http://rocket.rs&quot;,
-/// &quot;scheme:/foo/bar&quot;,
-/// &quot;scheme:/foo/bar?abc&quot;,
+/// "http://rocket.rs",
+/// "scheme:/foo/bar",
+/// "scheme:/foo/bar?abc",
 /// # ];
 /// # for uri in &amp;valid_uris {
 /// #     let uri = Absolute::parse(uri).unwrap();
-/// #     assert!(uri.is_normalized(), &quot;{} non-normal?&quot;, uri);
+/// #     assert!(uri.is_normalized(), "{} non-normal?", uri);
 /// # }
 /// ```
 ///
@@ -539,11 +539,11 @@
 /// # extern crate rocket;
 /// # use rocket::http::uri::Absolute;
 /// # let invalid = [
-/// &quot;http://rocket.rs/&quot;,    // trailing &#39;/&#39;
-/// &quot;ftp:/a/b/&quot;,            // trailing empty segment
-/// &quot;ftp:/a//c//d&quot;,         // two empty segments
-/// &quot;ftp:/a/b/?&quot;,           // empty path segment
-/// &quot;ftp:/?foo&amp;&quot;,           // trailing empty query segment
+/// "http://rocket.rs/",    // trailing '/'
+/// "ftp:/a/b/",            // trailing empty segment
+/// "ftp:/a//c//d",         // two empty segments
+/// "ftp:/a/b/?",           // empty path segment
+/// "ftp:/?foo&amp;",           // trailing empty query segment
 /// # ];
 /// # for uri in &amp;invalid {
 /// #   assert!(!Absolute::parse(uri).unwrap().is_normalized());
@@ -555,34 +555,34 @@
 /// `Absolute` is both `Serialize` and `Deserialize`:
 ///
 /// ```rust
-/// # #[cfg(feature = &quot;serde&quot;)] mod serde {
+/// # #[cfg(feature = "serde")] mod serde {
 /// # use serde_ as serde;
 /// use serde::{Serialize, Deserialize};
 /// use rocket::http::uri::Absolute;
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
+/// # #[serde(crate = "serde_")]
 /// struct UriOwned {
-///     uri: Absolute&lt;&#39;static&gt;,
+///     uri: Absolute&lt;'static&gt;,
 /// }
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
-/// struct UriBorrowed&lt;&#39;a&gt; {
-///     uri: Absolute&lt;&#39;a&gt;,
+/// # #[serde(crate = "serde_")]
+/// struct UriBorrowed&lt;'a&gt; {
+///     uri: Absolute&lt;'a&gt;,
 /// }
 /// # }
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) scheme: IndexedStr&lt;<span class="lifetime">&#39;a</span>&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) path: Data&lt;<span class="lifetime">&#39;a</span>, fmt::Path&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) query: <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">&#39;a</span>, fmt::Query&gt;&gt;,
+</span><span class="kw">pub struct </span>Absolute&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) scheme: IndexedStr&lt;<span class="lifetime">'a</span>&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) path: Data&lt;<span class="lifetime">'a</span>, fmt::Path&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) query: <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">'a</span>, fmt::Query&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Absolute&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Parses the string `string` into an `Absolute`. Parsing will never
     /// allocate. Returns an `Error` if `string` is not a valid absolute URI.
     ///
@@ -593,20 +593,20 @@
     /// use rocket::http::uri::Absolute;
     ///
     /// // Parse a valid authority URI.
-    /// let uri = Absolute::parse(&quot;https://rocket.rs&quot;).expect(&quot;valid URI&quot;);
-    /// assert_eq!(uri.scheme(), &quot;https&quot;);
-    /// assert_eq!(uri.authority().unwrap().host(), &quot;rocket.rs&quot;);
-    /// assert_eq!(uri.path(), &quot;&quot;);
+    /// let uri = Absolute::parse("https://rocket.rs").expect("valid URI");
+    /// assert_eq!(uri.scheme(), "https");
+    /// assert_eq!(uri.authority().unwrap().host(), "rocket.rs");
+    /// assert_eq!(uri.path(), "");
     /// assert!(uri.query().is_none());
     ///
     /// // Prefer to use `uri!()` when the input is statically known:
-    /// let uri = uri!(&quot;https://rocket.rs&quot;);
-    /// assert_eq!(uri.scheme(), &quot;https&quot;);
-    /// assert_eq!(uri.authority().unwrap().host(), &quot;rocket.rs&quot;);
-    /// assert_eq!(uri.path(), &quot;&quot;);
+    /// let uri = uri!("https://rocket.rs");
+    /// assert_eq!(uri.scheme(), "https");
+    /// assert_eq!(uri.authority().unwrap().host(), "rocket.rs");
+    /// assert_eq!(uri.path(), "");
     /// assert!(uri.query().is_none());
     /// ```
-    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Absolute&lt;<span class="lifetime">&#39;a</span>&gt;, Error&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Absolute&lt;<span class="lifetime">'a</span>&gt;, Error&lt;<span class="lifetime">'a</span>&gt;&gt; {
         <span class="kw">crate</span>::parse::uri::absolute_from_str(string)
     }
 
@@ -623,16 +623,16 @@
     /// # extern crate rocket;
     /// use rocket::http::uri::Absolute;
     ///
-    /// let source = format!(&quot;https://rocket.rs/foo/{}/three&quot;, 2);
-    /// let uri = Absolute::parse_owned(source).expect(&quot;valid URI&quot;);
-    /// assert_eq!(uri.authority().unwrap().host(), &quot;rocket.rs&quot;);
-    /// assert_eq!(uri.path(), &quot;/foo/2/three&quot;);
+    /// let source = format!("https://rocket.rs/foo/{}/three", 2);
+    /// let uri = Absolute::parse_owned(source).expect("valid URI");
+    /// assert_eq!(uri.authority().unwrap().host(), "rocket.rs");
+    /// assert_eq!(uri.path(), "/foo/2/three");
     /// assert!(uri.query().is_none());
     /// ```
     </span><span class="comment">// TODO: Avoid all allocations.
-    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Absolute&lt;<span class="lifetime">&#39;static</span>&gt;, Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Absolute&lt;<span class="lifetime">'static</span>&gt;, Error&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="kw">let </span>absolute = Absolute::parse(<span class="kw-2">&amp;</span>string).map_err(|e| e.into_owned())<span class="question-mark">?</span>;
-        <span class="macro">debug_assert!</span>(absolute.source.is_some(), <span class="string">&quot;Absolute parsed w/o source&quot;</span>);
+        <span class="macro">debug_assert!</span>(absolute.source.is_some(), <span class="string">"Absolute parsed w/o source"</span>);
 
         <span class="kw">let </span>absolute = Absolute {
             scheme: absolute.scheme.into_owned(),
@@ -651,8 +651,8 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;ftp://127.0.0.1&quot;);
-    /// assert_eq!(uri.scheme(), &quot;ftp&quot;);
+    /// let uri = uri!("ftp://127.0.0.1");
+    /// assert_eq!(uri.scheme(), "ftp");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>scheme(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -665,17 +665,17 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;https://rocket.rs:80&quot;);
-    /// assert_eq!(uri.scheme(), &quot;https&quot;);
+    /// let uri = uri!("https://rocket.rs:80");
+    /// assert_eq!(uri.scheme(), "https");
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host(), &quot;rocket.rs&quot;);
+    /// assert_eq!(authority.host(), "rocket.rs");
     /// assert_eq!(authority.port(), Some(80));
     ///
-    /// let uri = uri!(&quot;file:/web/home&quot;);
+    /// let uri = uri!("file:/web/home");
     /// assert_eq!(uri.authority(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>authority(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>authority(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Authority&lt;<span class="lifetime">'a</span>&gt;&gt; {
         <span class="self">self</span>.authority.as_ref()
     }
 
@@ -685,14 +685,14 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;ftp://rocket.rs/foo/bar&quot;);
-    /// assert_eq!(uri.path(), &quot;/foo/bar&quot;);
+    /// let uri = uri!("ftp://rocket.rs/foo/bar");
+    /// assert_eq!(uri.path(), "/foo/bar");
     ///
-    /// let uri = uri!(&quot;ftp://rocket.rs&quot;);
+    /// let uri = uri!("ftp://rocket.rs");
     /// assert!(uri.path().is_empty());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Path&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Path&lt;<span class="lifetime">'_</span>&gt; {
         Path { source: <span class="kw-2">&amp;</span><span class="self">self</span>.source, data: <span class="kw-2">&amp;</span><span class="self">self</span>.path }
     }
 
@@ -702,14 +702,14 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;ftp://rocket.rs/foo?bar&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;bar&quot;);
+    /// let uri = uri!("ftp://rocket.rs/foo?bar");
+    /// assert_eq!(uri.query().unwrap(), "bar");
     ///
-    /// let uri = uri!(&quot;ftp://rocket.rs&quot;);
+    /// let uri = uri!("ftp://rocket.rs");
     /// assert!(uri.query().is_none());
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Query&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Query&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.query.as_ref().map(|data| Query { source: <span class="kw-2">&amp;</span><span class="self">self</span>.source, data })
     }
 
@@ -719,8 +719,8 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let mut uri = uri!(&quot;ftp://rocket.rs/foo?bar&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;bar&quot;);
+    /// let mut uri = uri!("ftp://rocket.rs/foo?bar");
+    /// assert_eq!(uri.query().unwrap(), "bar");
     ///
     /// uri.clear_query();
     /// assert!(uri.query().is_none());
@@ -742,23 +742,23 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Absolute;
     ///
-    /// assert!(uri!(&quot;http://rocket.rs&quot;).is_normalized());
-    /// assert!(uri!(&quot;http://rocket.rs///foo////bar&quot;).is_normalized());
+    /// assert!(uri!("http://rocket.rs").is_normalized());
+    /// assert!(uri!("http://rocket.rs///foo////bar").is_normalized());
     ///
-    /// assert!(Absolute::parse(&quot;http:/&quot;).unwrap().is_normalized());
-    /// assert!(Absolute::parse(&quot;http://&quot;).unwrap().is_normalized());
-    /// assert!(Absolute::parse(&quot;http://foo.rs/foo/bar&quot;).unwrap().is_normalized());
-    /// assert!(Absolute::parse(&quot;foo:bar&quot;).unwrap().is_normalized());
+    /// assert!(Absolute::parse("http:/").unwrap().is_normalized());
+    /// assert!(Absolute::parse("http://").unwrap().is_normalized());
+    /// assert!(Absolute::parse("http://foo.rs/foo/bar").unwrap().is_normalized());
+    /// assert!(Absolute::parse("foo:bar").unwrap().is_normalized());
     ///
-    /// assert!(!Absolute::parse(&quot;git://rocket.rs/&quot;).unwrap().is_normalized());
-    /// assert!(!Absolute::parse(&quot;http:/foo//bar&quot;).unwrap().is_normalized());
-    /// assert!(!Absolute::parse(&quot;foo:bar?baz&amp;&amp;bop&quot;).unwrap().is_normalized());
+    /// assert!(!Absolute::parse("git://rocket.rs/").unwrap().is_normalized());
+    /// assert!(!Absolute::parse("http:/foo//bar").unwrap().is_normalized());
+    /// assert!(!Absolute::parse("foo:bar?baz&amp;&amp;bop").unwrap().is_normalized());
     /// ```
     </span><span class="kw">pub fn </span>is_normalized(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">let </span>normalized_query = <span class="self">self</span>.query().map_or(<span class="bool-val">true</span>, |q| q.is_normalized());
         <span class="kw">if </span><span class="self">self</span>.authority().is_some() &amp;&amp; !<span class="self">self</span>.path().is_empty() {
             <span class="self">self</span>.path().is_normalized(<span class="bool-val">true</span>)
-                &amp;&amp; <span class="self">self</span>.path() != <span class="string">&quot;/&quot;
+                &amp;&amp; <span class="self">self</span>.path() != <span class="string">"/"
                 </span>&amp;&amp; normalized_query
         } <span class="kw">else </span>{
             <span class="self">self</span>.path().is_normalized(<span class="bool-val">false</span>) &amp;&amp; normalized_query
@@ -773,25 +773,25 @@
     /// ```rust
     /// use rocket::http::uri::Absolute;
     ///
-    /// let mut uri = Absolute::parse(&quot;git://rocket.rs/&quot;).unwrap();
+    /// let mut uri = Absolute::parse("git://rocket.rs/").unwrap();
     /// assert!(!uri.is_normalized());
     /// uri.normalize();
     /// assert!(uri.is_normalized());
     ///
-    /// let mut uri = Absolute::parse(&quot;http:/foo//bar&quot;).unwrap();
+    /// let mut uri = Absolute::parse("http:/foo//bar").unwrap();
     /// assert!(!uri.is_normalized());
     /// uri.normalize();
     /// assert!(uri.is_normalized());
     ///
-    /// let mut uri = Absolute::parse(&quot;foo:bar?baz&amp;&amp;bop&quot;).unwrap();
+    /// let mut uri = Absolute::parse("foo:bar?baz&amp;&amp;bop").unwrap();
     /// assert!(!uri.is_normalized());
     /// uri.normalize();
     /// assert!(uri.is_normalized());
     /// ```
     </span><span class="kw">pub fn </span>normalize(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.authority().is_some() &amp;&amp; !<span class="self">self</span>.path().is_empty() {
-            <span class="kw">if </span><span class="self">self</span>.path() == <span class="string">&quot;/&quot; </span>{
-                <span class="self">self</span>.set_path(<span class="string">&quot;&quot;</span>);
+            <span class="kw">if </span><span class="self">self</span>.path() == <span class="string">"/" </span>{
+                <span class="self">self</span>.set_path(<span class="string">""</span>);
             } <span class="kw">else if </span>!<span class="self">self</span>.path().is_normalized(<span class="bool-val">true</span>) {
                 <span class="self">self</span>.path = <span class="self">self</span>.path().to_normalized(<span class="bool-val">true</span>);
             }
@@ -813,15 +813,15 @@
     /// ```rust
     /// use rocket::http::uri::Absolute;
     ///
-    /// let mut uri = Absolute::parse(&quot;git://rocket.rs/&quot;).unwrap();
+    /// let mut uri = Absolute::parse("git://rocket.rs/").unwrap();
     /// assert!(!uri.is_normalized());
     /// assert!(uri.into_normalized().is_normalized());
     ///
-    /// let mut uri = Absolute::parse(&quot;http:/foo//bar&quot;).unwrap();
+    /// let mut uri = Absolute::parse("http:/foo//bar").unwrap();
     /// assert!(!uri.is_normalized());
     /// assert!(uri.into_normalized().is_normalized());
     ///
-    /// let mut uri = Absolute::parse(&quot;foo:bar?baz&amp;&amp;bop&quot;).unwrap();
+    /// let mut uri = Absolute::parse("foo:bar?baz&amp;&amp;bop").unwrap();
     /// assert!(!uri.is_normalized());
     /// assert!(uri.into_normalized().is_normalized());
     /// ```
@@ -836,19 +836,19 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let mut uri = uri!(&quot;https://rocket.rs:80&quot;);
+    /// let mut uri = uri!("https://rocket.rs:80");
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host(), &quot;rocket.rs&quot;);
+    /// assert_eq!(authority.host(), "rocket.rs");
     /// assert_eq!(authority.port(), Some(80));
     ///
-    /// let new_authority = uri!(&quot;rocket.rs:443&quot;);
+    /// let new_authority = uri!("rocket.rs:443");
     /// uri.set_authority(new_authority);
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host(), &quot;rocket.rs&quot;);
+    /// assert_eq!(authority.host(), "rocket.rs");
     /// assert_eq!(authority.port(), Some(443));
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>set_authority(<span class="kw-2">&amp;mut </span><span class="self">self</span>, authority: Authority&lt;<span class="lifetime">&#39;a</span>&gt;) {
+    </span><span class="kw">pub fn </span>set_authority(<span class="kw-2">&amp;mut </span><span class="self">self</span>, authority: Authority&lt;<span class="lifetime">'a</span>&gt;) {
         <span class="self">self</span>.authority = <span class="prelude-val">Some</span>(authority);
     }
 
@@ -858,19 +858,19 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;https://rocket.rs:80&quot;);
+    /// let uri = uri!("https://rocket.rs:80");
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host(), &quot;rocket.rs&quot;);
+    /// assert_eq!(authority.host(), "rocket.rs");
     /// assert_eq!(authority.port(), Some(80));
     ///
-    /// let new_authority = uri!(&quot;rocket.rs&quot;);
+    /// let new_authority = uri!("rocket.rs");
     /// let uri = uri.with_authority(new_authority);
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host(), &quot;rocket.rs&quot;);
+    /// assert_eq!(authority.host(), "rocket.rs");
     /// assert_eq!(authority.port(), None);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>with_authority(<span class="kw-2">mut </span><span class="self">self</span>, authority: Authority&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>with_authority(<span class="kw-2">mut </span><span class="self">self</span>, authority: Authority&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.set_authority(authority);
         <span class="self">self
     </span>}
@@ -878,19 +878,19 @@
 
 <span class="doccomment">/// PRIVATE API.
 </span><span class="attr">#[doc(hidden)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Absolute&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// PRIVATE. Used by parser.
     ///
     /// SAFETY: `source` must be valid UTF-8.
     /// CORRECTNESS: `scheme` must be non-empty.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>raw(
-        source: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
-        scheme: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
-        authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
-        path: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
-        query: <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt;,
-    ) -&gt; Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+        source: Cow&lt;<span class="lifetime">'a</span>, [u8]&gt;,
+        scheme: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;,
+        authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;,
+        path: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;,
+        query: <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt;,
+    ) -&gt; Absolute&lt;<span class="lifetime">'a</span>&gt; {
         Absolute {
             source: <span class="prelude-val">Some</span>(as_utf8_unchecked(source)),
             scheme: scheme.into(),
@@ -903,11 +903,11 @@
     <span class="doccomment">/// PRIVATE. Used by tests.
     </span><span class="attr">#[cfg(test)]
     </span><span class="kw">pub fn </span>new(
-        scheme: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-        authority: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;,
-        path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-        query: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;,
-    ) -&gt; Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+        scheme: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+        authority: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;&gt;,
+        path: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+        query: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;,
+    ) -&gt; Absolute&lt;<span class="lifetime">'a</span>&gt; {
         <span class="macro">assert!</span>(!scheme.is_empty());
         Absolute::const_new(scheme, authority.into(), path, query.into())
     }
@@ -915,11 +915,11 @@
     <span class="doccomment">/// PRIVATE. Used by codegen and `Host`.
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub const fn </span>const_new(
-        scheme: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-        authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">&#39;a</span>&gt;&gt;,
-        path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
-        query: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
-    ) -&gt; Absolute&lt;<span class="lifetime">&#39;a</span>&gt; {
+        scheme: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+        authority: <span class="prelude-ty">Option</span>&lt;Authority&lt;<span class="lifetime">'a</span>&gt;&gt;,
+        path: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
+        query: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;,
+    ) -&gt; Absolute&lt;<span class="lifetime">'a</span>&gt; {
         Absolute {
             source: <span class="prelude-val">None</span>,
             scheme: IndexedStr::Concrete(Cow::Borrowed(scheme)),
@@ -940,31 +940,31 @@
 
     <span class="comment">// TODO: Have a way to get a validated `path` to do this. See `Path`?
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_path&lt;P&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: P)
-        <span class="kw">where </span>P: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;
+        <span class="kw">where </span>P: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;
     {
         <span class="self">self</span>.path = Data::new(path.into());
     }
 
     <span class="comment">// TODO: Have a way to get a validated `query` to do this. See `Query`?
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_query&lt;Q: Into&lt;<span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: Q) {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_query&lt;Q: Into&lt;<span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: Q) {
         <span class="self">self</span>.query = query.into().map(Data::new);
     }
 }
 
-<span class="macro">impl_serde!</span>(Absolute&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="string">&quot;an absolute-form URI&quot;</span>);
+<span class="macro">impl_serde!</span>(Absolute&lt;<span class="lifetime">'a</span>&gt;, <span class="string">"an absolute-form URI"</span>);
 
 <span class="macro">impl_traits!</span>(Absolute, scheme, authority, path, query);
 
-<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>Absolute&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}:&quot;</span>, <span class="self">self</span>.scheme())<span class="question-mark">?</span>;
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>Absolute&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}:"</span>, <span class="self">self</span>.scheme())<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(authority) = <span class="self">self</span>.authority() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;//{}&quot;</span>, authority)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"//{}"</span>, authority)<span class="question-mark">?</span>;
         }
 
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.path())<span class="question-mark">?</span>;
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.path())<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = <span class="self">self</span>.query() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;?{}&quot;</span>, query)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"?{}"</span>, query)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())

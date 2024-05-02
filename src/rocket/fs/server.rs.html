@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fs/server.rs`."><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fs/server.rs`."><title>server.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -473,7 +473,7 @@
 ///
 /// # Options
 ///
-/// The handler&#39;s functionality can be customized by passing an [`Options`] to
+/// The handler's functionality can be customized by passing an [`Options`] to
 /// [`FileServer::new()`].
 ///
 /// # Example
@@ -488,7 +488,7 @@
 ///
 /// #[launch]
 /// fn rocket() -&gt; _ {
-///     rocket::build().mount(&quot;/public&quot;, FileServer::from(&quot;/static&quot;))
+///     rocket::build().mount("/public", FileServer::from("/static"))
 /// }
 /// ```
 ///
@@ -502,7 +502,7 @@
 /// In the example above, `/static` is an absolute path. If your static files
 /// are stored relative to your crate and your project is managed by Rocket, use
 /// the [`relative!`] macro to obtain a path that is relative to your
-/// crate&#39;s root. For example, to serve files in the `static` subdirectory of
+/// crate's root. For example, to serve files in the `static` subdirectory of
 /// your crate at `/`, you might write:
 ///
 /// ```rust,no_run
@@ -511,7 +511,7 @@
 ///
 /// #[launch]
 /// fn rocket() -&gt; _ {
-///     rocket::build().mount(&quot;/&quot;, FileServer::from(relative!(&quot;static&quot;)))
+///     rocket::build().mount("/", FileServer::from(relative!("static")))
 /// }
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
@@ -546,7 +546,7 @@
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     rocket::build().mount(&quot;/static&quot;, FileServer::from(&quot;/www/public&quot;))
+    ///     rocket::build().mount("/static", FileServer::from("/www/public"))
     /// }
     /// ```
     ///
@@ -558,7 +558,7 @@
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     rocket::build().mount(&quot;/static&quot;, FileServer::from(&quot;/www/public&quot;).rank(30))
+    ///     rocket::build().mount("/static", FileServer::from("/www/public").rank(30))
     /// }
     /// ```
     </span><span class="attr">#[track_caller]
@@ -567,7 +567,7 @@
     }
 
     <span class="doccomment">/// Constructs a new `FileServer` that serves files from the file system
-    /// `path` with `options` enabled. By default, the handler&#39;s routes have a
+    /// `path` with `options` enabled. By default, the handler's routes have a
     /// rank of `10`. To choose a different rank, use [`FileServer::rank()`].
     ///
     /// # Panics
@@ -590,8 +590,8 @@
     /// fn rocket() -&gt; _ {
     ///     let options = Options::Index | Options::DotFiles;
     ///     rocket::build()
-    ///         .mount(&quot;/static&quot;, FileServer::from(&quot;/www/public&quot;))
-    ///         .mount(&quot;/pub&quot;, FileServer::new(&quot;/www/public&quot;, options).rank(-1))
+    ///         .mount("/static", FileServer::from("/www/public"))
+    ///         .mount("/pub", FileServer::new("/www/public", options).rank(-1))
     /// }
     /// ```
     </span><span class="attr">#[track_caller]
@@ -602,14 +602,14 @@
         <span class="kw">if </span>!options.contains(Options::Missing) {
             <span class="kw">if </span>!options.contains(Options::IndexFile) &amp;&amp; !path.is_dir() {
                 <span class="kw">let </span>path = path.display();
-                <span class="macro">error!</span>(<span class="string">&quot;FileServer path &#39;{}&#39; is not a directory.&quot;</span>, path.primary());
-                <span class="macro">warn_!</span>(<span class="string">&quot;Aborting early to prevent inevitable handler error.&quot;</span>);
-                <span class="macro">panic!</span>(<span class="string">&quot;invalid directory: refusing to continue&quot;</span>);
+                <span class="macro">error!</span>(<span class="string">"FileServer path '{}' is not a directory."</span>, path.primary());
+                <span class="macro">warn_!</span>(<span class="string">"Aborting early to prevent inevitable handler error."</span>);
+                <span class="macro">panic!</span>(<span class="string">"invalid directory: refusing to continue"</span>);
             } <span class="kw">else if </span>!path.exists() {
                 <span class="kw">let </span>path = path.display();
-                <span class="macro">error!</span>(<span class="string">&quot;FileServer path &#39;{}&#39; is not a file.&quot;</span>, path.primary());
-                <span class="macro">warn_!</span>(<span class="string">&quot;Aborting early to prevent inevitable handler error.&quot;</span>);
-                <span class="macro">panic!</span>(<span class="string">&quot;invalid file: refusing to continue&quot;</span>);
+                <span class="macro">error!</span>(<span class="string">"FileServer path '{}' is not a file."</span>, path.primary());
+                <span class="macro">warn_!</span>(<span class="string">"Aborting early to prevent inevitable handler error."</span>);
+                <span class="macro">panic!</span>(<span class="string">"invalid file: refusing to continue"</span>);
             }
         }
 
@@ -624,10 +624,10 @@
     /// use rocket::fs::{FileServer, Options};
     ///
     /// // A `FileServer` created with `from()` with routes of rank `3`.
-    /// FileServer::from(&quot;/public&quot;).rank(3);
+    /// FileServer::from("/public").rank(3);
     ///
     /// // A `FileServer` created with `new()` with routes of rank `-15`.
-    /// FileServer::new(&quot;/public&quot;, Options::Index).rank(-15);
+    /// FileServer::new("/public", Options::Index).rank(-15);
     /// ```
     </span><span class="kw">pub fn </span>rank(<span class="kw-2">mut </span><span class="self">self</span>, rank: isize) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.rank = rank;
@@ -638,21 +638,21 @@
 <span class="kw">impl </span>From&lt;FileServer&gt; <span class="kw">for </span>Vec&lt;Route&gt; {
     <span class="kw">fn </span>from(server: FileServer) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>source = figment::Source::File(server.root.clone());
-        <span class="kw">let </span><span class="kw-2">mut </span>route = Route::ranked(server.rank, Method::Get, <span class="string">&quot;/&lt;path..&gt;&quot;</span>, server);
-        route.name = <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">&quot;FileServer: {}&quot;</span>, source).into());
+        <span class="kw">let </span><span class="kw-2">mut </span>route = Route::ranked(server.rank, Method::Get, <span class="string">"/&lt;path..&gt;"</span>, server);
+        route.name = <span class="prelude-val">Some</span>(<span class="macro">format!</span>(<span class="string">"FileServer: {}"</span>, source).into());
         <span class="macro">vec!</span>[route]
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
 </span><span class="kw">impl </span>Handler <span class="kw">for </span>FileServer {
-    <span class="kw">async fn </span>handle&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>&gt; {
+    <span class="kw">async fn </span>handle&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::http::uri::fmt::Path;
 
         <span class="comment">// TODO: Should we reject dotfiles for `self.root` if !DotFiles?
         </span><span class="kw">let </span>options = <span class="self">self</span>.options;
         <span class="kw">if </span>options.contains(Options::IndexFile) &amp;&amp; <span class="self">self</span>.root.is_file() {
-            <span class="kw">let </span>segments = <span class="kw">match </span>req.segments::&lt;Segments&lt;<span class="lifetime">&#39;_</span>, Path&gt;&gt;(<span class="number">0</span>..) {
+            <span class="kw">let </span>segments = <span class="kw">match </span>req.segments::&lt;Segments&lt;<span class="lifetime">'_</span>, Path&gt;&gt;(<span class="number">0</span>..) {
                 <span class="prelude-val">Ok</span>(segments) =&gt; segments,
                 <span class="prelude-val">Err</span>(never) =&gt; <span class="kw">match </span>never {},
             };
@@ -667,16 +667,16 @@
 
         <span class="comment">// Get the segments as a `PathBuf`, allowing dotfiles requested.
         </span><span class="kw">let </span>allow_dotfiles = options.contains(Options::DotFiles);
-        <span class="kw">let </span>path = req.segments::&lt;Segments&lt;<span class="lifetime">&#39;_</span>, Path&gt;&gt;(<span class="number">0</span>..).ok()
+        <span class="kw">let </span>path = req.segments::&lt;Segments&lt;<span class="lifetime">'_</span>, Path&gt;&gt;(<span class="number">0</span>..).ok()
             .and_then(|segments| segments.to_path_buf(allow_dotfiles).ok())
             .map(|path| <span class="self">self</span>.root.join(path));
 
         <span class="kw">match </span>path {
             <span class="prelude-val">Some</span>(p) <span class="kw">if </span>p.is_dir() =&gt; {
-                <span class="comment">// Normalize &#39;/a/b/foo&#39; to &#39;/a/b/foo/&#39;.
-                </span><span class="kw">if </span>options.contains(Options::NormalizeDirs) &amp;&amp; !req.uri().path().ends_with(<span class="string">&#39;/&#39;</span>) {
-                    <span class="kw">let </span>normal = req.uri().map_path(|p| <span class="macro">format!</span>(<span class="string">&quot;{}/&quot;</span>, p))
-                        .expect(<span class="string">&quot;adding a trailing slash to a known good path =&gt; valid path&quot;</span>)
+                <span class="comment">// Normalize '/a/b/foo' to '/a/b/foo/'.
+                </span><span class="kw">if </span>options.contains(Options::NormalizeDirs) &amp;&amp; !req.uri().path().ends_with(<span class="string">'/'</span>) {
+                    <span class="kw">let </span>normal = req.uri().map_path(|p| <span class="macro">format!</span>(<span class="string">"{}/"</span>, p))
+                        .expect(<span class="string">"adding a trailing slash to a known good path =&gt; valid path"</span>)
                         .into_owned();
 
                     <span class="kw">return </span>Redirect::permanent(normal)
@@ -688,7 +688,7 @@
                     <span class="kw">return </span>Outcome::forward(data, Status::NotFound);
                 }
 
-                <span class="kw">let </span>index = NamedFile::open(p.join(<span class="string">&quot;index.html&quot;</span>)).<span class="kw">await</span>;
+                <span class="kw">let </span>index = NamedFile::open(p.join(<span class="string">"index.html"</span>)).<span class="kw">await</span>;
                 index.respond_to(req).or_forward((data, Status::NotFound))
             },
             <span class="prelude-val">Some</span>(p) =&gt; {
@@ -708,7 +708,7 @@
 ///   * [`Options::DotFiles`] - In addition to visible files, return dotfiles.
 ///   * [`Options::Index`] - Render `index.html` pages for directory requests.
 ///   * [`Options::IndexFile`] - Allow serving a single file as the index.
-///   * [`Options::Missing`] - Don&#39;t fail if the path to serve is missing.
+///   * [`Options::Missing`] - Don't fail if the path to serve is missing.
 ///   * [`Options::NormalizeDirs`] - Redirect directories without a trailing
 ///     slash to ones with a trailing slash.
 ///
@@ -767,7 +767,7 @@
     ///     └── index.html
     /// ```
     ///
-    /// ...with `FileServer::from(&quot;static&quot;)`, both requests to `/foo` and
+    /// ...with `FileServer::from("static")`, both requests to `/foo` and
     /// `/foo/` will serve `static/foo/index.html`. If `index.html` references
     /// `cat.jpeg` as a relative URL, the browser will request `/cat.jpeg`
     /// (`static/cat.jpeg`) when the request for `/foo` was handled and
@@ -802,12 +802,12 @@
     /// #[launch]
     /// fn rocket() -&gt; _ {
     ///     rocket::build()
-    ///         .mount(&quot;/cat&quot;, FileServer::new(&quot;static/cat.jpeg&quot;, Options::IndexFile))
+    ///         .mount("/cat", FileServer::new("static/cat.jpeg", Options::IndexFile))
     /// }
     /// ```
     </span><span class="kw">pub const </span>IndexFile: Options = Options(<span class="number">1 </span>&lt;&lt; <span class="number">3</span>);
 
-    <span class="doccomment">/// Don&#39;t fail if the file or directory to serve is missing.
+    <span class="doccomment">/// Don't fail if the file or directory to serve is missing.
     ///
     /// By default, `FileServer` will error if the path to serve is missing to
     /// prevent inevitable 404 errors. This option overrides that.
@@ -855,16 +855,16 @@
     }
 }
 
-<span class="macro">crate::export! </span>{
+<span class="macro">crate::export!</span> {
     <span class="doccomment">/// Generates a crate-relative version of a path.
     ///
     /// This macro is primarily intended for use with [`FileServer`] to serve
     /// files from a path relative to the crate root.
     ///
     /// The macro accepts one parameter, `$path`, an absolute or (preferably)
-    /// relative path. It returns a path as an `&amp;&#39;static str` prefixed with the
+    /// relative path. It returns a path as an `&amp;'static str` prefixed with the
     /// path to the crate root. Use `Path::new(relative!($path))` to retrieve an
-    /// `&amp;&#39;static Path`.
+    /// `&amp;'static Path`.
     ///
     /// # Example
     ///
@@ -876,7 +876,7 @@
     ///
     /// #[launch]
     /// fn rocket() -&gt; _ {
-    ///     rocket::build().mount(&quot;/&quot;, FileServer::from(relative!(&quot;static&quot;)))
+    ///     rocket::build().mount("/", FileServer::from(relative!("static")))
     /// }
     /// ```
     ///
@@ -887,19 +887,19 @@
     ///
     /// use rocket::fs::relative;
     ///
-    /// let manual = Path::new(env!(&quot;CARGO_MANIFEST_DIR&quot;)).join(&quot;static&quot;);
-    /// let automatic_1 = Path::new(relative!(&quot;static&quot;));
-    /// let automatic_2 = Path::new(relative!(&quot;/static&quot;));
+    /// let manual = Path::new(env!("CARGO_MANIFEST_DIR")).join("static");
+    /// let automatic_1 = Path::new(relative!("static"));
+    /// let automatic_2 = Path::new(relative!("/static"));
     /// assert_eq!(manual, automatic_1);
     /// assert_eq!(automatic_1, automatic_2);
     /// ```
     ///
-    </span><span class="macro">macro_rules! </span>relative {
+    </span><span class="macro">macro_rules!</span> relative {
         (<span class="macro-nonterminal">$path</span>:expr) =&gt; {
             <span class="kw">if </span><span class="macro">cfg!</span>(windows) {
-                <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>), <span class="string">&quot;\\&quot;</span>, <span class="macro-nonterminal">$path</span>)
+                <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">"CARGO_MANIFEST_DIR"</span>), <span class="string">"\\"</span>, <span class="macro-nonterminal">$path</span>)
             } <span class="kw">else </span>{
-                <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>), <span class="string">&quot;/&quot;</span>, <span class="macro-nonterminal">$path</span>)
+                <span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">"CARGO_MANIFEST_DIR"</span>), <span class="string">"/"</span>, <span class="macro-nonterminal">$path</span>)
             }
         };
     }

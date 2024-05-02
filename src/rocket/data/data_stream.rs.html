@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/data/data_stream.rs`."><title>data_stream.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/data/data_stream.rs`."><title>data_stream.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -344,7 +344,7 @@
 ///
 /// Reading from a `DataStream` is accomplished via the various methods on the
 /// structure. In general, methods exists in two variants: those that _check_
-/// whether the entire stream was read and those that don&#39;t. The former either
+/// whether the entire stream was read and those that don't. The former either
 /// directly or indirectly (via [`Capped`]) return an [`N`] which allows
 /// checking if the stream was read to completion while the latter do not.
 ///
@@ -363,14 +363,14 @@
 ///
 /// [`DataStream::stream_to(&amp;mut vec)`]: DataStream::stream_to()
 /// [`DataStream::stream_to(&amp;mut file)`]: DataStream::stream_to()
-</span><span class="kw">pub struct </span>DataStream&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) chain: Take&lt;Chain&lt;Cursor&lt;Vec&lt;u8&gt;&gt;, StreamReader&lt;<span class="lifetime">&#39;r</span>&gt;&gt;&gt;,
+</span><span class="kw">pub struct </span>DataStream&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) chain: Take&lt;Chain&lt;Cursor&lt;Vec&lt;u8&gt;&gt;, StreamReader&lt;<span class="lifetime">'r</span>&gt;&gt;&gt;,
 }
 
 <span class="doccomment">/// An adapter: turns a `T: Stream` (in `StreamKind`) into a `tokio::AsyncRead`.
-</span><span class="kw">pub struct </span>StreamReader&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub struct </span>StreamReader&lt;<span class="lifetime">'r</span>&gt; {
     state: State,
-    inner: StreamKind&lt;<span class="lifetime">&#39;r</span>&gt;,
+    inner: StreamKind&lt;<span class="lifetime">'r</span>&gt;,
 }
 
 <span class="doccomment">/// The current state of `StreamReader` `AsyncRead` adapter.
@@ -381,14 +381,14 @@
 }
 
 <span class="doccomment">/// The kinds of streams we accept as `Data`.
-</span><span class="kw">enum </span>StreamKind&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">enum </span>StreamKind&lt;<span class="lifetime">'r</span>&gt; {
     Empty,
-    Body(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span><span class="kw-2">mut </span>hyper::Body),
-    Multipart(multer::Field&lt;<span class="lifetime">&#39;r</span>&gt;)
+    Body(<span class="kw-2">&amp;</span><span class="lifetime">'r </span><span class="kw-2">mut </span>hyper::Body),
+    Multipart(multer::Field&lt;<span class="lifetime">'r</span>&gt;)
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; DataStream&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(buf: Vec&lt;u8&gt;, stream: StreamReader&lt;<span class="lifetime">&#39;r</span>&gt;, limit: u64) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; DataStream&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(buf: Vec&lt;u8&gt;, stream: StreamReader&lt;<span class="lifetime">'r</span>&gt;, limit: u64) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>chain = Chain::new(Cursor::new(buf), stream).take(limit).into();
         <span class="self">Self </span>{ chain }
     }
@@ -396,7 +396,7 @@
     <span class="doccomment">/// Whether a previous read exhausted the set limit _and then some_.
     </span><span class="kw">async fn </span>limit_exceeded(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; io::Result&lt;bool&gt; {
         <span class="attr">#[cold]
-        </span><span class="kw">async fn </span>_limit_exceeded(stream: <span class="kw-2">&amp;mut </span>DataStream&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; io::Result&lt;bool&gt; {
+        </span><span class="kw">async fn </span>_limit_exceeded(stream: <span class="kw-2">&amp;mut </span>DataStream&lt;<span class="lifetime">'_</span>&gt;) -&gt; io::Result&lt;bool&gt; {
             <span class="comment">// Read one more byte after reaching limit to see if we cut early.
             </span>stream.chain.set_limit(<span class="number">1</span>);
             <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0u8</span>; <span class="number">1</span>];
@@ -413,7 +413,7 @@
     /// ```rust
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn f(data: Data&lt;&#39;_&gt;) {
+    /// async fn f(data: Data&lt;'_&gt;) {
     ///     let definitely_have_n_bytes = data.open(1.kibibytes()).hint();
     /// }
     /// ```
@@ -437,12 +437,12 @@
     /// use std::io;
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn data_guard(mut data: Data&lt;&#39;_&gt;) -&gt; io::Result&lt;String&gt; {
+    /// async fn data_guard(mut data: Data&lt;'_&gt;) -&gt; io::Result&lt;String&gt; {
     ///     // write all of the data to stdout
     ///     let written = data.open(512.kibibytes())
     ///         .stream_to(tokio::io::stdout()).await?;
     ///
-    ///     Ok(format!(&quot;Wrote {} bytes.&quot;, written))
+    ///     Ok(format!("Wrote {} bytes.", written))
     /// }
     /// ```
     </span><span class="attr">#[inline(always)]
@@ -462,12 +462,12 @@
     /// use std::io;
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn data_guard(mut data: Data&lt;&#39;_&gt;) -&gt; io::Result&lt;String&gt; {
+    /// async fn data_guard(mut data: Data&lt;'_&gt;) -&gt; io::Result&lt;String&gt; {
     ///     // write all of the data to stdout
     ///     let written = data.open(512.kibibytes())
     ///         .stream_precise_to(tokio::io::stdout()).await?;
     ///
-    ///     Ok(format!(&quot;Wrote {} bytes.&quot;, written))
+    ///     Ok(format!("Wrote {} bytes.", written))
     /// }
     /// ```
     </span><span class="attr">#[inline(always)]
@@ -485,10 +485,10 @@
     /// use std::io;
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn data_guard(data: Data&lt;&#39;_&gt;) -&gt; io::Result&lt;Vec&lt;u8&gt;&gt; {
+    /// async fn data_guard(data: Data&lt;'_&gt;) -&gt; io::Result&lt;Vec&lt;u8&gt;&gt; {
     ///     let bytes = data.open(4.kibibytes()).into_bytes().await?;
     ///     if !bytes.is_complete() {
-    ///         println!(&quot;there are bytes remaining in the stream&quot;);
+    ///         println!("there are bytes remaining in the stream");
     ///     }
     ///
     ///     Ok(bytes.into_inner())
@@ -508,10 +508,10 @@
     /// use std::io;
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn data_guard(data: Data&lt;&#39;_&gt;) -&gt; io::Result&lt;String&gt; {
+    /// async fn data_guard(data: Data&lt;'_&gt;) -&gt; io::Result&lt;String&gt; {
     ///     let string = data.open(10.bytes()).into_string().await?;
     ///     if !string.is_complete() {
-    ///         println!(&quot;there are bytes remaining in the stream&quot;);
+    ///         println!("there are bytes remaining in the stream");
     ///     }
     ///
     ///     Ok(string.into_inner())
@@ -534,13 +534,13 @@
     /// use std::io;
     /// use rocket::data::{Data, ToByteUnit};
     ///
-    /// async fn data_guard(mut data: Data&lt;&#39;_&gt;) -&gt; io::Result&lt;String&gt; {
-    ///     let file = data.open(1.megabytes()).into_file(&quot;/static/file&quot;).await?;
+    /// async fn data_guard(mut data: Data&lt;'_&gt;) -&gt; io::Result&lt;String&gt; {
+    ///     let file = data.open(1.megabytes()).into_file("/static/file").await?;
     ///     if !file.is_complete() {
-    ///         println!(&quot;there are bytes remaining in the stream&quot;);
+    ///         println!("there are bytes remaining in the stream");
     ///     }
     ///
-    ///     Ok(format!(&quot;Wrote {} bytes to /static/file&quot;, file.n))
+    ///     Ok(format!("Wrote {} bytes to /static/file", file.n))
     /// }
     /// ```
     </span><span class="kw">pub async fn </span>into_file&lt;P: AsRef&lt;Path&gt;&gt;(<span class="self">self</span>, path: P) -&gt; io::Result&lt;Capped&lt;File&gt;&gt; {
@@ -552,52 +552,52 @@
 
 <span class="comment">// TODO.async: Consider implementing `AsyncBufRead`.
 
-</span><span class="kw">impl </span>StreamReader&lt;<span class="lifetime">&#39;_</span>&gt; {
+</span><span class="kw">impl </span>StreamReader&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">pub fn </span>empty() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ inner: StreamKind::Empty, state: State::Done }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span><span class="kw-2">mut </span>hyper::Body&gt; <span class="kw">for </span>StreamReader&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">fn </span>from(body: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span><span class="kw-2">mut </span>hyper::Body) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span><span class="kw-2">mut </span>hyper::Body&gt; <span class="kw">for </span>StreamReader&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">fn </span>from(body: <span class="kw-2">&amp;</span><span class="lifetime">'r </span><span class="kw-2">mut </span>hyper::Body) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ inner: StreamKind::Body(body), state: State::Pending }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; From&lt;multer::Field&lt;<span class="lifetime">&#39;r</span>&gt;&gt; <span class="kw">for </span>StreamReader&lt;<span class="lifetime">&#39;r</span>&gt; {
-    <span class="kw">fn </span>from(field: multer::Field&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; From&lt;multer::Field&lt;<span class="lifetime">'r</span>&gt;&gt; <span class="kw">for </span>StreamReader&lt;<span class="lifetime">'r</span>&gt; {
+    <span class="kw">fn </span>from(field: multer::Field&lt;<span class="lifetime">'r</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ inner: StreamKind::Multipart(field), state: State::Pending }
     }
 }
 
-<span class="kw">impl </span>AsyncRead <span class="kw">for </span>DataStream&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsyncRead <span class="kw">for </span>DataStream&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>poll_read(
         <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">&#39;_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
     ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
         <span class="kw">if </span><span class="self">self</span>.chain.limit() == <span class="number">0 </span>{
-            <span class="kw">let </span>stream: <span class="kw-2">&amp;</span>StreamReader&lt;<span class="lifetime">&#39;_</span>&gt; = <span class="kw-2">&amp;</span><span class="self">self</span>.chain.get_ref().get_ref().<span class="number">1</span>;
+            <span class="kw">let </span>stream: <span class="kw-2">&amp;</span>StreamReader&lt;<span class="lifetime">'_</span>&gt; = <span class="kw-2">&amp;</span><span class="self">self</span>.chain.get_ref().get_ref().<span class="number">1</span>;
             <span class="kw">let </span>kind = <span class="kw">match </span>stream.inner {
-                StreamKind::Empty =&gt; <span class="string">&quot;an empty stream (vacuous)&quot;</span>,
-                StreamKind::Body(<span class="kw">_</span>) =&gt; <span class="string">&quot;the request body&quot;</span>,
-                StreamKind::Multipart(<span class="kw">_</span>) =&gt; <span class="string">&quot;a multipart form field&quot;</span>,
+                StreamKind::Empty =&gt; <span class="string">"an empty stream (vacuous)"</span>,
+                StreamKind::Body(<span class="kw">_</span>) =&gt; <span class="string">"the request body"</span>,
+                StreamKind::Multipart(<span class="kw">_</span>) =&gt; <span class="string">"a multipart form field"</span>,
             };
 
-            <span class="macro">warn_!</span>(<span class="string">&quot;Data limit reached while reading {}.&quot;</span>, kind.primary().bold());
+            <span class="macro">warn_!</span>(<span class="string">"Data limit reached while reading {}."</span>, kind.primary().bold());
         }
 
         Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.chain).poll_read(cx, buf)
     }
 }
 
-<span class="kw">impl </span>Stream <span class="kw">for </span>StreamKind&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Stream <span class="kw">for </span>StreamKind&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">type </span>Item = io::Result&lt;hyper::body::Bytes&gt;;
 
     <span class="kw">fn </span>poll_next(
         <span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
     ) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
         <span class="kw">match </span><span class="self">self</span>.get_mut() {
             StreamKind::Body(body) =&gt; Pin::new(body).poll_next(cx)
@@ -617,11 +617,11 @@
     }
 }
 
-<span class="kw">impl </span>AsyncRead <span class="kw">for </span>StreamReader&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>AsyncRead <span class="kw">for </span>StreamReader&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>poll_read(
         <span class="kw-2">mut </span><span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;,
-        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;,
-        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">&#39;_</span>&gt;,
+        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;,
+        buf: <span class="kw-2">&amp;mut </span>ReadBuf&lt;<span class="lifetime">'_</span>&gt;,
     ) -&gt; Poll&lt;io::Result&lt;()&gt;&gt; {
         <span class="kw">loop </span>{
             <span class="self">self</span>.state = <span class="kw">match </span><span class="self">self</span>.state {

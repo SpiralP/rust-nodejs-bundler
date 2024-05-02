@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/router/collider.rs`."><title>collider.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/router/collider.rs`."><title>collider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -613,7 +613,7 @@
     <span class="kw">fn </span>collides_with(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>T) -&gt; bool;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span>, T: Collide&gt; Collide&lt;<span class="kw-2">&amp;</span>T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>T {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, <span class="lifetime">'b</span>, T: Collide&gt; Collide&lt;<span class="kw-2">&amp;</span>T&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>T {
     <span class="kw">fn </span>collides_with(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;T) -&gt; bool {
         T::collides_with(<span class="kw-2">*</span><span class="self">self</span>, <span class="kw-2">*</span>other)
     }
@@ -621,7 +621,7 @@
 
 <span class="kw">impl </span>Collide <span class="kw">for </span>MediaType {
     <span class="kw">fn </span>collides_with(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
-        <span class="kw">let </span>collide = |a, b| a == <span class="string">&quot;*&quot; </span>|| b == <span class="string">&quot;*&quot; </span>|| a == b;
+        <span class="kw">let </span>collide = |a, b| a == <span class="string">"*" </span>|| b == <span class="string">"*" </span>|| a == b;
         collide(<span class="self">self</span>.top(), other.top()) &amp;&amp; collide(<span class="self">self</span>.sub(), other.sub())
     }
 }
@@ -656,10 +656,10 @@
         <span class="kw">return </span><span class="bool-val">true</span>;
     }
 
-    <span class="comment">// When matching against the `Content-Type` header, we&#39;ll only consider
-    // requests as having a `Content-Type` if they&#39;re fully specified. If a
-    // route doesn&#39;t have a `format`, it accepts all `Content-Type`s. If a
-    // request doesn&#39;t have a format, it only matches routes without a format.
+    <span class="comment">// When matching against the `Content-Type` header, we'll only consider
+    // requests as having a `Content-Type` if they're fully specified. If a
+    // route doesn't have a `format`, it accepts all `Content-Type`s. If a
+    // request doesn't have a format, it only matches routes without a format.
     </span><span class="kw">match </span>(route.format.as_ref(), other.format.as_ref()) {
         (<span class="prelude-val">Some</span>(a), <span class="prelude-val">Some</span>(b)) =&gt; a.collides_with(b),
         <span class="kw">_ </span>=&gt; <span class="bool-val">true
@@ -675,7 +675,7 @@
     /// routes collide before launching. Format collisions works like this:
     ///
     ///   * If route specifies a format, it only gets requests for that format.
-    ///   * If route doesn&#39;t specify a format, it gets requests for any format.
+    ///   * If route doesn't specify a format, it gets requests for any format.
     ///
     /// Because query parsing is lenient, and dynamic query parameters can be
     /// missing, queries do not impact whether two routes collide.
@@ -692,16 +692,16 @@
     ///
     /// This means that:
     ///
-    ///   * The route&#39;s method matches that of the incoming request.
-    ///   * The route&#39;s format (if any) matches that of the incoming request.
+    ///   * The route's method matches that of the incoming request.
+    ///   * The route's format (if any) matches that of the incoming request.
     ///     - If route specifies format, it only gets requests for that format.
-    ///     - If route doesn&#39;t specify format, it gets requests for any format.
-    ///   * All static components in the route&#39;s path match the corresponding
+    ///     - If route doesn't specify format, it gets requests for any format.
+    ///   * All static components in the route's path match the corresponding
     ///     components in the same position in the incoming request.
-    ///   * All static components in the route&#39;s query string are also in the
+    ///   * All static components in the route's query string are also in the
     ///     request query string, though in any position. If there is no query
     ///     in the route, requests with/without queries match.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
         <span class="self">self</span>.method == req.method()
             &amp;&amp; paths_match(<span class="self">self</span>, req)
             &amp;&amp; queries_match(<span class="self">self</span>, req)
@@ -709,7 +709,7 @@
     }
 }
 
-<span class="kw">fn </span>paths_match(route: <span class="kw-2">&amp;</span>Route, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+<span class="kw">fn </span>paths_match(route: <span class="kw-2">&amp;</span>Route, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
     <span class="kw">let </span>route_segments = <span class="kw-2">&amp;</span>route.uri.metadata.path_segs;
     <span class="kw">let </span>req_segments = req.uri().path().segments();
 
@@ -741,7 +741,7 @@
     <span class="bool-val">true
 </span>}
 
-<span class="kw">fn </span>queries_match(route: <span class="kw-2">&amp;</span>Route, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+<span class="kw">fn </span>queries_match(route: <span class="kw-2">&amp;</span>Route, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
     <span class="kw">if </span><span class="macro">matches!</span>(route.uri.metadata.query_color, <span class="prelude-val">None </span>| <span class="prelude-val">Some</span>(Color::Wild)) {
         <span class="kw">return </span><span class="bool-val">true</span>;
     }
@@ -752,11 +752,11 @@
     <span class="kw">for </span>route_seg <span class="kw">in </span>route_query_fields {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = req.uri().query() {
             <span class="kw">if </span>!query.segments().any(|req_seg| req_seg == route_seg) {
-                <span class="macro">trace_!</span>(<span class="string">&quot;request {} missing static query {:?}&quot;</span>, req, route_seg);
+                <span class="macro">trace_!</span>(<span class="string">"request {} missing static query {:?}"</span>, req, route_seg);
                 <span class="kw">return </span><span class="bool-val">false</span>;
             }
         } <span class="kw">else </span>{
-            <span class="macro">trace_!</span>(<span class="string">&quot;query-less request {} missing static query {:?}&quot;</span>, req, route_seg);
+            <span class="macro">trace_!</span>(<span class="string">"query-less request {} missing static query {:?}"</span>, req, route_seg);
             <span class="kw">return </span><span class="bool-val">false</span>;
         }
     }
@@ -764,7 +764,7 @@
     <span class="bool-val">true
 </span>}
 
-<span class="kw">fn </span>formats_match(route: <span class="kw-2">&amp;</span>Route, request: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+<span class="kw">fn </span>formats_match(route: <span class="kw-2">&amp;</span>Route, request: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
     <span class="kw">if </span>!route.method.supports_payload() {
         route.format.as_ref()
             .and_then(|a| request.format().map(|b| (a, b)))
@@ -801,7 +801,7 @@
     ///
     ///  * It is a default catcher _or_ has a code of `status`.
     ///  * Its base is a prefix of the normalized/decoded `req.path()`.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; bool {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>matches(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; bool {
         <span class="self">self</span>.code.map_or(<span class="bool-val">true</span>, |code| code == status.code)
             &amp;&amp; <span class="self">self</span>.base.path().segments().prefix_of(req.uri().path().segments())
     }
@@ -817,21 +817,21 @@
     <span class="kw">use </span><span class="kw">crate</span>::http::{Method, Method::<span class="kw-2">*</span>, MediaType, ContentType, Accept};
     <span class="kw">use </span><span class="kw">crate</span>::http::uri::Origin;
 
-    <span class="kw">type </span>SimpleRoute = (Method, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str);
+    <span class="kw">type </span>SimpleRoute = (Method, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str);
 
     <span class="kw">fn </span>m_collide(a: SimpleRoute, b: SimpleRoute) -&gt; bool {
         <span class="kw">let </span>route_a = Route::new(a.<span class="number">0</span>, a.<span class="number">1</span>, dummy_handler);
         route_a.collides_with(<span class="kw-2">&amp;</span>Route::new(b.<span class="number">0</span>, b.<span class="number">1</span>, dummy_handler))
     }
 
-    <span class="kw">fn </span>unranked_collide(a: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; bool {
+    <span class="kw">fn </span>unranked_collide(a: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; bool {
         <span class="kw">let </span>route_a = Route::ranked(<span class="number">0</span>, Get, a, dummy_handler);
         <span class="kw">let </span>route_b = Route::ranked(<span class="number">0</span>, Get, b, dummy_handler);
-        <span class="macro">eprintln!</span>(<span class="string">&quot;Checking {} against {}.&quot;</span>, route_a, route_b);
+        <span class="macro">eprintln!</span>(<span class="string">"Checking {} against {}."</span>, route_a, route_b);
         route_a.collides_with(<span class="kw-2">&amp;</span>route_b)
     }
 
-    <span class="kw">fn </span>s_s_collide(a: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; bool {
+    <span class="kw">fn </span>s_s_collide(a: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; bool {
         <span class="kw">let </span>a = Route::new(Get, a, dummy_handler);
         <span class="kw">let </span>b = Route::new(Get, b, dummy_handler);
         paths_collide(<span class="kw-2">&amp;</span>a, <span class="kw-2">&amp;</span>b)
@@ -839,146 +839,146 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>simple_collisions() {
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/hello&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/hello/&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/there/how/ar&quot;</span>, <span class="string">&quot;/hello/there/how/ar&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/there&quot;</span>, <span class="string">&quot;/hello/there/&quot;</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello"</span>, <span class="string">"/hello"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello"</span>, <span class="string">"/hello/"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/there/how/ar"</span>, <span class="string">"/hello/there/how/ar"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/there"</span>, <span class="string">"/hello/there/"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>simple_param_collisions() {
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/&lt;name&gt;&quot;</span>, <span class="string">&quot;/hello/&lt;person&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/&lt;name&gt;/hi&quot;</span>, <span class="string">&quot;/hello/&lt;person&gt;/hi&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/&lt;name&gt;/hi/there&quot;</span>, <span class="string">&quot;/hello/&lt;person&gt;/hi/there&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;name&gt;/hi/there&quot;</span>, <span class="string">&quot;/&lt;person&gt;/hi/there&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;name&gt;/hi/there&quot;</span>, <span class="string">&quot;/dude/&lt;name&gt;/there&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;name&gt;/&lt;a&gt;/&lt;b&gt;&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;name&gt;/&lt;a&gt;/&lt;b&gt;/&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;/&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi/hey&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/&lt;b&gt;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/&lt;b&gt;/&lt;c&gt;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;b&gt;/&lt;c&gt;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;b&gt;/&lt;c&gt;/hey/hayo&quot;</span>, <span class="string">&quot;/a/hi/hey/hayo&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/foo&quot;</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/&lt;name&gt;"</span>, <span class="string">"/hello/&lt;person&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/&lt;name&gt;/hi"</span>, <span class="string">"/hello/&lt;person&gt;/hi"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/&lt;name&gt;/hi/there"</span>, <span class="string">"/hello/&lt;person&gt;/hi/there"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;name&gt;/hi/there"</span>, <span class="string">"/&lt;person&gt;/hi/there"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;name&gt;/hi/there"</span>, <span class="string">"/dude/&lt;name&gt;/there"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;name&gt;/&lt;a&gt;/&lt;b&gt;"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;name&gt;/&lt;a&gt;/&lt;b&gt;/"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;/&lt;c&gt;/"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hi"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hi/hey"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/&lt;a..&gt;"</span>, <span class="string">"/a/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/&lt;b&gt;/&lt;a..&gt;"</span>, <span class="string">"/a/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/&lt;b&gt;/&lt;c&gt;/&lt;a..&gt;"</span>, <span class="string">"/a/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;b&gt;/&lt;c&gt;/&lt;a..&gt;"</span>, <span class="string">"/a/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;b&gt;/&lt;c&gt;/hey/hayo"</span>, <span class="string">"/a/hi/hey/hayo"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/foo"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>medium_param_collisions() {
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hello/&lt;name&gt;&quot;</span>, <span class="string">&quot;/hello/bob&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;name&gt;&quot;</span>, <span class="string">&quot;//bob&quot;</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hello/&lt;name&gt;"</span>, <span class="string">"/hello/bob"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;name&gt;"</span>, <span class="string">"//bob"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>hard_param_collisions() {
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;///a///&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;//a/bcjdklfj//&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/&lt;a..&gt;&quot;</span>, <span class="string">&quot;//a/bcjdklfj//&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/&lt;b&gt;/&lt;c..&gt;&quot;</span>, <span class="string">&quot;//a/bcjdklfj//&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/&lt;_..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/b/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/b/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;/&lt;b..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hi/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/hi/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi/&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;//////&quot;</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"///a///"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"//a/bcjdklfj//&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/&lt;a..&gt;"</span>, <span class="string">"//a/bcjdklfj//&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/&lt;b&gt;/&lt;c..&gt;"</span>, <span class="string">"//a/bcjdklfj//&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/"</span>, <span class="string">"/&lt;_..&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/b/&lt;a..&gt;"</span>, <span class="string">"/a/&lt;b..&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/b/&lt;a..&gt;"</span>, <span class="string">"/a/&lt;b&gt;/&lt;b..&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hi/&lt;a..&gt;"</span>, <span class="string">"/hi"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/hi/&lt;a..&gt;"</span>, <span class="string">"/hi/"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"//////"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>query_collisions() {
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/?&lt;a&gt;&quot;</span>, <span class="string">&quot;/?&lt;a&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a/?&lt;a&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a?&lt;a&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;r&gt;?&lt;a&gt;&quot;</span>, <span class="string">&quot;/&lt;r&gt;?&lt;a&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/b/c?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a/b/c?&lt;a&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/&lt;a&gt;/b/c?&lt;d&gt;&quot;</span>, <span class="string">&quot;/a/b/&lt;c&gt;?&lt;d&gt;&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/?&lt;a&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/b?&lt;a&gt;&quot;</span>, <span class="string">&quot;/a/b&quot;</span>));
-        <span class="macro">assert!</span>(unranked_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/?&lt;a&gt;"</span>, <span class="string">"/?&lt;a&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/?&lt;a&gt;"</span>, <span class="string">"/a/?&lt;a&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a?&lt;a&gt;"</span>, <span class="string">"/a?&lt;a&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;r&gt;?&lt;a&gt;"</span>, <span class="string">"/&lt;r&gt;?&lt;a&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/b/c?&lt;a&gt;"</span>, <span class="string">"/a/b/c?&lt;a&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/&lt;a&gt;/b/c?&lt;d&gt;"</span>, <span class="string">"/a/b/&lt;c&gt;?&lt;d&gt;"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/?&lt;a&gt;"</span>, <span class="string">"/"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a?&lt;a&gt;"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a?&lt;a&gt;"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/b?&lt;a&gt;"</span>, <span class="string">"/a/b"</span>));
+        <span class="macro">assert!</span>(unranked_collide(<span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>non_collisions() {
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/&lt;a&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/hello/there&quot;</span>, <span class="string">&quot;/hello/there/guy&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/t&quot;</span>, <span class="string">&quot;/test&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/aa&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/aaa&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/a&quot;</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/&lt;a&gt;"</span>, <span class="string">"/"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/b"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/b"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/hello/there"</span>, <span class="string">"/hello/there/guy"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/b/&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/t"</span>, <span class="string">"/test"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a"</span>, <span class="string">"/aa"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a"</span>, <span class="string">"/aaa"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/"</span>, <span class="string">"/a"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>query_non_collisions() {
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a?&lt;b&gt;&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a?&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/b/c?&lt;d&gt;&quot;</span>, <span class="string">&quot;/a/b/c/d&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/a/hello&quot;</span>, <span class="string">&quot;/a/?&lt;hello&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!unranked_collide(<span class="string">&quot;/?&lt;a&gt;&quot;</span>, <span class="string">&quot;/hi&quot;</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a?&lt;b&gt;"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/b"</span>, <span class="string">"/a?&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/b/c?&lt;d&gt;"</span>, <span class="string">"/a/b/c/d"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/a/hello"</span>, <span class="string">"/a/?&lt;hello&gt;"</span>));
+        <span class="macro">assert!</span>(!unranked_collide(<span class="string">"/?&lt;a&gt;"</span>, <span class="string">"/hi"</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>method_dependent_non_collisions() {
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/&quot;</span>), (Post, <span class="string">&quot;/&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Post, <span class="string">&quot;/&quot;</span>), (Put, <span class="string">&quot;/&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Put, <span class="string">&quot;/a&quot;</span>), (Put, <span class="string">&quot;/&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Post, <span class="string">&quot;/a&quot;</span>), (Put, <span class="string">&quot;/&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/a&quot;</span>), (Put, <span class="string">&quot;/&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/hello&quot;</span>), (Put, <span class="string">&quot;/hello&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/&lt;foo..&gt;&quot;</span>), (Post, <span class="string">&quot;/&quot;</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/"</span>), (Post, <span class="string">"/"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Post, <span class="string">"/"</span>), (Put, <span class="string">"/"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Put, <span class="string">"/a"</span>), (Put, <span class="string">"/"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Post, <span class="string">"/a"</span>), (Put, <span class="string">"/"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/a"</span>), (Put, <span class="string">"/"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/hello"</span>), (Put, <span class="string">"/hello"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/&lt;foo..&gt;"</span>), (Post, <span class="string">"/"</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>query_dependent_non_collisions() {
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/&quot;</span>), (Get, <span class="string">&quot;/?a&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/&quot;</span>), (Get, <span class="string">&quot;/?&lt;a&gt;&quot;</span>)));
-        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">&quot;/a/&lt;b&gt;&quot;</span>), (Get, <span class="string">&quot;/a/&lt;b&gt;?d&quot;</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/"</span>), (Get, <span class="string">"/?a"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/"</span>), (Get, <span class="string">"/?&lt;a&gt;"</span>)));
+        <span class="macro">assert!</span>(!m_collide((Get, <span class="string">"/a/&lt;b&gt;"</span>), (Get, <span class="string">"/a/&lt;b&gt;?d"</span>)));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_str_non_collisions() {
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello/there&quot;</span>, <span class="string">&quot;/hello/there/guy&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello/there&quot;</span>, <span class="string">&quot;/hello/there/guy&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/b&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello&quot;</span>, <span class="string">&quot;/a/c&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/hello/there&quot;</span>, <span class="string">&quot;/hello/there/guy&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a/&lt;b&gt;&quot;</span>, <span class="string">&quot;/b/&lt;b&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/t&quot;</span>, <span class="string">&quot;/test&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/aa&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/aaa&quot;</span>));
-        <span class="macro">assert!</span>(!s_s_collide(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;/a&quot;</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello/there"</span>, <span class="string">"/hello/there/guy"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/b/&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello/there"</span>, <span class="string">"/hello/there/guy"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/b/&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a"</span>, <span class="string">"/b"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/b"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello"</span>, <span class="string">"/a/c"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/hello/there"</span>, <span class="string">"/hello/there/guy"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a/&lt;b&gt;"</span>, <span class="string">"/b/&lt;b&gt;"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/t"</span>, <span class="string">"/test"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a"</span>, <span class="string">"/aa"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/a"</span>, <span class="string">"/aaa"</span>));
+        <span class="macro">assert!</span>(!s_s_collide(<span class="string">"/"</span>, <span class="string">"/a"</span>));
 
-        <span class="macro">assert!</span>(s_s_collide(<span class="string">&quot;/a/hi/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/a/hi/&quot;</span>));
-        <span class="macro">assert!</span>(s_s_collide(<span class="string">&quot;/hi/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/hi/&quot;</span>));
-        <span class="macro">assert!</span>(s_s_collide(<span class="string">&quot;/&lt;a..&gt;&quot;</span>, <span class="string">&quot;/&quot;</span>));
+        <span class="macro">assert!</span>(s_s_collide(<span class="string">"/a/hi/&lt;a..&gt;"</span>, <span class="string">"/a/hi/"</span>));
+        <span class="macro">assert!</span>(s_s_collide(<span class="string">"/hi/&lt;a..&gt;"</span>, <span class="string">"/hi/"</span>));
+        <span class="macro">assert!</span>(s_s_collide(<span class="string">"/&lt;a..&gt;"</span>, <span class="string">"/"</span>));
     }
 
     <span class="kw">fn </span>mt_mt_collide(mt1: <span class="kw-2">&amp;</span>str, mt2: <span class="kw-2">&amp;</span>str) -&gt; bool {
@@ -989,31 +989,31 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_content_type_collisions() {
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;*/*&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;application/*&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;application/*&quot;</span>, <span class="string">&quot;*/json&quot;</span>));
-        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">&quot;something/random&quot;</span>, <span class="string">&quot;something/random&quot;</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"application/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"*/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"*/*"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"application/*"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"application/*"</span>, <span class="string">"*/json"</span>));
+        <span class="macro">assert!</span>(mt_mt_collide(<span class="string">"something/random"</span>, <span class="string">"something/random"</span>));
 
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;text/*&quot;</span>, <span class="string">&quot;application/*&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;*/text&quot;</span>, <span class="string">&quot;*/json&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;*/text&quot;</span>, <span class="string">&quot;application/test&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;something/random&quot;</span>, <span class="string">&quot;something_else/random&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;something/random&quot;</span>, <span class="string">&quot;*/else&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;*/random&quot;</span>, <span class="string">&quot;*/else&quot;</span>));
-        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">&quot;something/*&quot;</span>, <span class="string">&quot;random/else&quot;</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"text/*"</span>, <span class="string">"application/*"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"*/text"</span>, <span class="string">"*/json"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"*/text"</span>, <span class="string">"application/test"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"something/random"</span>, <span class="string">"something_else/random"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"something/random"</span>, <span class="string">"*/else"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"*/random"</span>, <span class="string">"*/else"</span>));
+        <span class="macro">assert!</span>(!mt_mt_collide(<span class="string">"something/*"</span>, <span class="string">"random/else"</span>));
     }
 
     <span class="kw">fn </span>r_mt_mt_collide&lt;S1, S2&gt;(m: Method, mt1: S1, mt2: S2) -&gt; bool
-        <span class="kw">where </span>S1: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;&gt;, S2: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;&gt;
+        <span class="kw">where </span>S1: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;&gt;, S2: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;&gt;
     {
-        <span class="kw">let </span><span class="kw-2">mut </span>route_a = Route::new(m, <span class="string">&quot;/&quot;</span>, dummy_handler);
+        <span class="kw">let </span><span class="kw-2">mut </span>route_a = Route::new(m, <span class="string">"/"</span>, dummy_handler);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(mt_str) = mt1.into() {
             route_a.format = <span class="prelude-val">Some</span>(mt_str.parse::&lt;MediaType&gt;().unwrap());
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>route_b = Route::new(m, <span class="string">&quot;/&quot;</span>, dummy_handler);
+        <span class="kw">let </span><span class="kw-2">mut </span>route_b = Route::new(m, <span class="string">"/"</span>, dummy_handler);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(mt_str) = mt2.into() {
             route_b.format = <span class="prelude-val">Some</span>(mt_str.parse::&lt;MediaType&gt;().unwrap());
         }
@@ -1024,50 +1024,50 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_route_content_type_collisions() {
         <span class="comment">// non-payload bearing routes always collide
-        </span><span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;application/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;any/thing&quot;</span>, <span class="string">&quot;*/*&quot;</span>));
+        </span><span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"*/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"*/json"</span>, <span class="string">"application/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"text/html"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"any/thing"</span>, <span class="string">"*/*"</span>));
 
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;*/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;*/*&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"*/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"text/html"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"*/*"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"application/json"</span>, <span class="prelude-val">None</span>));
 
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;application/*&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"application/*"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Get, <span class="string">"text/html"</span>, <span class="string">"text/html"</span>));
 
         <span class="comment">// payload bearing routes collide if the media types collide
-        </span><span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;application/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;any/thing&quot;</span>, <span class="string">&quot;*/*&quot;</span>));
+        </span><span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"*/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"*/json"</span>, <span class="string">"application/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"text/html"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"any/thing"</span>, <span class="string">"*/*"</span>));
 
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;*/*&quot;</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;*/*&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"*/*"</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"text/html"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"*/*"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(r_mt_mt_collide(Post, <span class="string">"application/json"</span>, <span class="prelude-val">None</span>));
 
-        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;application/*&quot;</span>));
-        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">&quot;application/html&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">&quot;*/json&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;text/css&quot;</span>));
-        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">&quot;other/html&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
+        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">"text/html"</span>, <span class="string">"application/*"</span>));
+        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">"application/html"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">"*/json"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">"text/html"</span>, <span class="string">"text/css"</span>));
+        <span class="macro">assert!</span>(!r_mt_mt_collide(Post, <span class="string">"other/html"</span>, <span class="string">"text/html"</span>));
     }
 
     <span class="kw">fn </span>req_route_mt_collide&lt;S1, S2&gt;(m: Method, mt1: S1, mt2: S2) -&gt; bool
-        <span class="kw">where </span>S1: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;&gt;, S2: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt;&gt;
+        <span class="kw">where </span>S1: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;&gt;, S2: Into&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;&gt;
     {
-        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">&quot;client&quot;</span>);
-        <span class="kw">let </span><span class="kw-2">mut </span>req = client.req(m, <span class="string">&quot;/&quot;</span>);
+        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">"client"</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>req = client.req(m, <span class="string">"/"</span>);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(mt_str) = mt1.into() {
             <span class="kw">if </span>m.supports_payload() {
                 req.replace_header(mt_str.parse::&lt;ContentType&gt;().unwrap());
@@ -1076,7 +1076,7 @@
             }
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>route = Route::new(m, <span class="string">&quot;/&quot;</span>, dummy_handler);
+        <span class="kw">let </span><span class="kw-2">mut </span>route = Route::new(m, <span class="string">"/"</span>, dummy_handler);
         <span class="kw">if let </span><span class="prelude-val">Some</span>(mt_str) = mt2.into() {
             route.format = <span class="prelude-val">Some</span>(mt_str.parse::&lt;MediaType&gt;().unwrap());
         }
@@ -1086,93 +1086,93 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_req_route_mt_collisions() {
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/*&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;*/json&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;*/*&quot;</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"application/*"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"*/json"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"text/html"</span>, <span class="string">"*/*"</span>));
 
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="string">&quot;*/*&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;*/*&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"application/json"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"text/html"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"text/html"</span>, <span class="string">"*/*"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"*/*"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"application/json"</span>));
 
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;text/html&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">&quot;x-custom/anything&quot;</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"text/html"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="string">"x-custom/anything"</span>, <span class="prelude-val">None</span>));
         <span class="macro">assert!</span>(req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>));
 
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;text/html&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;x-custom/anything&quot;</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"text/html"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"application/json"</span>, <span class="prelude-val">None</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"x-custom/anything"</span>, <span class="prelude-val">None</span>));
         <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="prelude-val">None</span>, <span class="string">"application/json"</span>));
 
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;text/html, text/plain&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">&quot;text/html; q=0.5, text/xml&quot;</span>, <span class="string">&quot;text/xml&quot;</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"text/html, text/plain"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(req_route_mt_collide(Get, <span class="string">"text/html; q=0.5, text/xml"</span>, <span class="string">"text/xml"</span>));
 
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;*/text&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;*/*&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"*/text"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"*/*"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"application/json"</span>));
 
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;*/xml&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;text/*&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">&quot;application/json&quot;</span>, <span class="string">&quot;*/xml&quot;</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="string">"application/json"</span>, <span class="string">"*/xml"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"text/*"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Get, <span class="string">"application/json"</span>, <span class="string">"*/xml"</span>));
 
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;text/html&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"text/html"</span>));
+        <span class="macro">assert!</span>(!req_route_mt_collide(Post, <span class="prelude-val">None</span>, <span class="string">"application/json"</span>));
     }
 
-    <span class="kw">fn </span>req_route_path_match(a: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str) -&gt; bool {
-        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">&quot;client&quot;</span>);
-        <span class="kw">let </span>req = client.get(Origin::parse(a).expect(<span class="string">&quot;valid URI&quot;</span>));
+    <span class="kw">fn </span>req_route_path_match(a: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, b: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) -&gt; bool {
+        <span class="kw">let </span>client = Client::debug_with(<span class="macro">vec!</span>[]).expect(<span class="string">"client"</span>);
+        <span class="kw">let </span>req = client.get(Origin::parse(a).expect(<span class="string">"valid URI"</span>));
         <span class="kw">let </span>route = Route::ranked(<span class="number">0</span>, Get, b, dummy_handler);
         route.matches(<span class="kw-2">&amp;</span>req)
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_req_route_query_collisions() {
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?a=b&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?a=b&quot;</span>, <span class="string">&quot;/&lt;a&gt;/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?a=b&quot;</span>, <span class="string">&quot;/&lt;a&gt;/&lt;b&gt;?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?a=b&quot;</span>, <span class="string">&quot;/a/&lt;b&gt;?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/?b=c&quot;</span>, <span class="string">&quot;/?&lt;b&gt;&quot;</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?a=b"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?a=b"</span>, <span class="string">"/&lt;a&gt;/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?a=b"</span>, <span class="string">"/&lt;a&gt;/&lt;b&gt;?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?a=b"</span>, <span class="string">"/a/&lt;b&gt;?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/?b=c"</span>, <span class="string">"/?&lt;b&gt;"</span>));
 
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?a=b&quot;</span>, <span class="string">&quot;/a/b&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b/c/d?&quot;</span>, <span class="string">&quot;/a/b/c/d&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b/c/d?v=1&amp;v=2&quot;</span>, <span class="string">&quot;/a/b/c/d&quot;</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?a=b"</span>, <span class="string">"/a/b"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b/c/d?"</span>, <span class="string">"/a/b/c/d"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b/c/d?v=1&amp;v=2"</span>, <span class="string">"/a/b/c/d"</span>));
 
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;c..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c&quot;</span>, <span class="string">&quot;/a/b?c&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?&lt;c..&gt;&quot;</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;c..&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c"</span>, <span class="string">"/a/b?c"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?&lt;c..&gt;"</span>));
 
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?c=foo&amp;&lt;c..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?d=z&amp;&lt;c..&gt;&quot;</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?c=foo&amp;&lt;c..&gt;"</span>));
+        <span class="macro">assert!</span>(req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?d=z&amp;&lt;c..&gt;"</span>));
 
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b/c&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a?b=c&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/?b=c&quot;</span>, <span class="string">&quot;/a/b?&lt;c&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/?b=c&quot;</span>, <span class="string">&quot;/a?&lt;c&gt;&quot;</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b/c"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a?b=c"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/?b=c"</span>, <span class="string">"/a/b?&lt;c&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/?b=c"</span>, <span class="string">"/a?&lt;c&gt;"</span>));
 
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?a=b&amp;&lt;c..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b?c=foo&amp;d=z&quot;</span>, <span class="string">&quot;/a/b?d=b&amp;&lt;c..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?c&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?foo&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?foo&amp;&lt;rest..&gt;&quot;</span>));
-        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">&quot;/a/b&quot;</span>, <span class="string">&quot;/a/b?&lt;a&gt;&amp;b&amp;&lt;rest..&gt;&quot;</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?a=b&amp;&lt;c..&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b?c=foo&amp;d=z"</span>, <span class="string">"/a/b?d=b&amp;&lt;c..&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?c"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?foo"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?foo&amp;&lt;rest..&gt;"</span>));
+        <span class="macro">assert!</span>(!req_route_path_match(<span class="string">"/a/b"</span>, <span class="string">"/a/b?&lt;a&gt;&amp;b&amp;&lt;rest..&gt;"</span>));
     }
 
 
@@ -1188,7 +1188,7 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>catcher_collisions() {
-        <span class="kw">for </span>path <span class="kw">in </span><span class="kw-2">&amp;</span>[<span class="string">&quot;/a&quot;</span>, <span class="string">&quot;/foo&quot;</span>, <span class="string">&quot;/a/b/c&quot;</span>, <span class="string">&quot;/a/b/c/d/e&quot;</span>] {
+        <span class="kw">for </span>path <span class="kw">in </span><span class="kw-2">&amp;</span>[<span class="string">"/a"</span>, <span class="string">"/foo"</span>, <span class="string">"/a/b/c"</span>, <span class="string">"/a/b/c/d/e"</span>] {
             <span class="macro">assert!</span>(catchers_collide(<span class="number">404</span>, path, <span class="number">404</span>, path));
             <span class="macro">assert!</span>(catchers_collide(<span class="number">500</span>, path, <span class="number">500</span>, path));
             <span class="macro">assert!</span>(catchers_collide(<span class="prelude-val">None</span>, path, <span class="prelude-val">None</span>, path));
@@ -1197,15 +1197,15 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>catcher_non_collisions() {
-        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">&quot;/foo&quot;</span>, <span class="number">405</span>, <span class="string">&quot;/foo&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">&quot;/&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/foo&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">&quot;/&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="number">404</span>, <span class="string">&quot;/a/b/c&quot;</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">"/foo"</span>, <span class="number">405</span>, <span class="string">"/foo"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">"/"</span>, <span class="prelude-val">None</span>, <span class="string">"/foo"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">"/"</span>, <span class="prelude-val">None</span>, <span class="string">"/"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">"/a/b"</span>, <span class="prelude-val">None</span>, <span class="string">"/a/b"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="number">404</span>, <span class="string">"/a/b"</span>, <span class="number">404</span>, <span class="string">"/a/b/c"</span>));
 
-        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">&quot;/a/b&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/a/b/c&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">&quot;/b&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/a/b/c&quot;</span>));
-        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">&quot;/&quot;</span>, <span class="prelude-val">None</span>, <span class="string">&quot;/a/b/c&quot;</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">"/a/b"</span>, <span class="prelude-val">None</span>, <span class="string">"/a/b/c"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">"/b"</span>, <span class="prelude-val">None</span>, <span class="string">"/a/b/c"</span>));
+        <span class="macro">assert!</span>(!catchers_collide(<span class="prelude-val">None</span>, <span class="string">"/"</span>, <span class="prelude-val">None</span>, <span class="string">"/a/b/c"</span>));
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/uri/origin.rs`."><title>origin.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/uri/origin.rs`."><title>origin.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -630,11 +630,11 @@
 /// # extern crate rocket;
 /// # use rocket::http::uri::Origin;
 /// # let valid_uris = [
-/// &quot;/&quot;,
-/// &quot;/a/b/c&quot;,
-/// &quot;/a/b/c?q&quot;,
-/// &quot;/hello?lang=en&quot;,
-/// &quot;/some%20thing?q=foo&amp;lang=fr&quot;,
+/// "/",
+/// "/a/b/c",
+/// "/a/b/c?q",
+/// "/hello?lang=en",
+/// "/some%20thing?q=foo&amp;lang=fr",
 /// # ];
 /// # for uri in &amp;valid_uris {
 /// #   assert!(Origin::parse(uri).unwrap().is_normalized());
@@ -647,11 +647,11 @@
 /// # extern crate rocket;
 /// # use rocket::http::uri::Origin;
 /// # let invalid = [
-/// &quot;//&quot;,               // one empty segment
-/// &quot;/a/b/&quot;,            // trailing empty segment
-/// &quot;/a/ab//c//d&quot;,      // two empty segments
-/// &quot;/?a&amp;&amp;b&quot;,           // empty query segment
-/// &quot;/?foo&amp;&quot;,           // trailing empty query segment
+/// "//",               // one empty segment
+/// "/a/b/",            // trailing empty segment
+/// "/a/ab//c//d",      // two empty segments
+/// "/?a&amp;&amp;b",           // empty query segment
+/// "/?foo&amp;",           // trailing empty query segment
 /// # ];
 /// # for uri in &amp;invalid {
 /// #   assert!(!Origin::parse(uri).unwrap().is_normalized());
@@ -666,10 +666,10 @@
 /// # use rocket::http::uri::Origin;
 /// # let invalid = [
 /// // non-normal versions
-/// &quot;//&quot;, &quot;/a/b/&quot;, &quot;/a/ab//c//d&quot;, &quot;/a?a&amp;&amp;b&amp;&quot;,
+/// "//", "/a/b/", "/a/ab//c//d", "/a?a&amp;&amp;b&amp;",
 ///
 /// // normalized versions
-/// &quot;/&quot;,  &quot;/a/b&quot;,  &quot;/a/ab/c/d&quot;, &quot;/a?a&amp;b&quot;,
+/// "/",  "/a/b",  "/a/ab/c/d", "/a?a&amp;b",
 /// # ];
 /// # for i in 0..(invalid.len() / 2) {
 /// #     let abnormal = Origin::parse(invalid[i]).unwrap();
@@ -683,43 +683,43 @@
 /// `Origin` is both `Serialize` and `Deserialize`:
 ///
 /// ```rust
-/// # #[cfg(feature = &quot;serde&quot;)] mod serde {
+/// # #[cfg(feature = "serde")] mod serde {
 /// # use serde_ as serde;
 /// use serde::{Serialize, Deserialize};
 /// use rocket::http::uri::Origin;
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
+/// # #[serde(crate = "serde_")]
 /// struct UriOwned {
-///     uri: Origin&lt;&#39;static&gt;,
+///     uri: Origin&lt;'static&gt;,
 /// }
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
-/// struct UriBorrowed&lt;&#39;a&gt; {
-///     uri: Origin&lt;&#39;a&gt;,
+/// # #[serde(crate = "serde_")]
+/// struct UriBorrowed&lt;'a&gt; {
+///     uri: Origin&lt;'a&gt;,
 /// }
 /// # }
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) path: Data&lt;<span class="lifetime">&#39;a</span>, fmt::Path&gt;,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) query: <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">&#39;a</span>, fmt::Query&gt;&gt;,
+</span><span class="kw">pub struct </span>Origin&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) source: <span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) path: Data&lt;<span class="lifetime">'a</span>, fmt::Path&gt;,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) query: <span class="prelude-ty">Option</span>&lt;Data&lt;<span class="lifetime">'a</span>, fmt::Query&gt;&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// The root: `&#39;/&#39;`.
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Origin&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="doccomment">/// The root: `'/'`.
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub const </span>ROOT: Origin&lt;<span class="lifetime">&#39;static</span>&gt; = Origin::const_new(<span class="string">&quot;/&quot;</span>, <span class="prelude-val">None</span>);
+    </span><span class="kw">pub const </span>ROOT: Origin&lt;<span class="lifetime">'static</span>&gt; = Origin::const_new(<span class="string">"/"</span>, <span class="prelude-val">None</span>);
 
     <span class="doccomment">/// SAFETY: `source` must be UTF-8.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>raw(
-        source: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
-        path: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;,
-        query: <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt;
-    ) -&gt; Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
+        source: Cow&lt;<span class="lifetime">'a</span>, [u8]&gt;,
+        path: Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;,
+        query: <span class="prelude-ty">Option</span>&lt;Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]&gt;&gt;
+    ) -&gt; Origin&lt;<span class="lifetime">'a</span>&gt; {
         Origin {
             source: <span class="prelude-val">Some</span>(as_utf8_unchecked(source)),
             path: Data::raw(path),
@@ -729,10 +729,10 @@
 
     <span class="comment">// Used mostly for testing and to construct known good URIs from other parts
     // of Rocket. This should _really_ not be used outside of Rocket because the
-    // resulting `Origin&#39;s` are not guaranteed to be valid origin URIs!
+    // resulting `Origin's` are not guaranteed to be valid origin URIs!
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new&lt;P, Q&gt;(path: P, query: <span class="prelude-ty">Option</span>&lt;Q&gt;) -&gt; Origin&lt;<span class="lifetime">&#39;a</span>&gt;
-        <span class="kw">where </span>P: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, Q: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>new&lt;P, Q&gt;(path: P, query: <span class="prelude-ty">Option</span>&lt;Q&gt;) -&gt; Origin&lt;<span class="lifetime">'a</span>&gt;
+        <span class="kw">where </span>P: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, Q: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;
     {
         Origin {
             source: <span class="prelude-val">None</span>,
@@ -743,17 +743,17 @@
 
     <span class="comment">// Used mostly for testing and to construct known good URIs from other parts
     // of Rocket. This should _really_ not be used outside of Rocket because the
-    // resulting `Origin&#39;s` are not guaranteed to be valid origin URIs!
+    // resulting `Origin's` are not guaranteed to be valid origin URIs!
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>path_only&lt;P: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(path: P) -&gt; Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
-        Origin::new(path, <span class="prelude-val">None</span>::&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;)
+    </span><span class="kw">pub fn </span>path_only&lt;P: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;&gt;(path: P) -&gt; Origin&lt;<span class="lifetime">'a</span>&gt; {
+        Origin::new(path, <span class="prelude-val">None</span>::&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;)
     }
 
     <span class="comment">// Used mostly for testing and to construct known good URIs from other parts
     // of Rocket. This should _really_ not be used outside of Rocket because the
-    // resulting `Origin&#39;s` are not guaranteed to be valid origin URIs!
+    // resulting `Origin's` are not guaranteed to be valid origin URIs!
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub const fn </span>const_new(path: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, query: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;) -&gt; Origin&lt;<span class="lifetime">&#39;a</span>&gt; {
+    </span><span class="kw">pub const fn </span>const_new(path: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, query: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;) -&gt; Origin&lt;<span class="lifetime">'a</span>&gt; {
         Origin {
             source: <span class="prelude-val">None</span>,
             path: Data {
@@ -770,7 +770,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_query&lt;Q: Into&lt;<span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: Q) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>set_query&lt;Q: Into&lt;<span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, query: Q) {
         <span class="self">self</span>.query = query.into().map(Data::new);
     }
 
@@ -784,36 +784,36 @@
     /// use rocket::http::uri::Origin;
     ///
     /// // Parse a valid origin URI.
-    /// let uri = Origin::parse(&quot;/a/b/c?query&quot;).expect(&quot;valid URI&quot;);
-    /// assert_eq!(uri.path(), &quot;/a/b/c&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;query&quot;);
+    /// let uri = Origin::parse("/a/b/c?query").expect("valid URI");
+    /// assert_eq!(uri.path(), "/a/b/c");
+    /// assert_eq!(uri.query().unwrap(), "query");
     ///
     /// // Invalid URIs fail to parse.
-    /// Origin::parse(&quot;foo bar&quot;).expect_err(&quot;invalid URI&quot;);
+    /// Origin::parse("foo bar").expect_err("invalid URI");
     ///
     /// // Prefer to use `uri!()` when the input is statically known:
-    /// let uri = uri!(&quot;/a/b/c?query&quot;);
-    /// assert_eq!(uri.path(), &quot;/a/b/c&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;query&quot;);
+    /// let uri = uri!("/a/b/c?query");
+    /// assert_eq!(uri.path(), "/a/b/c");
+    /// assert_eq!(uri.query().unwrap(), "query");
     /// ```
-    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;, Error&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">'a</span>&gt;, Error&lt;<span class="lifetime">'a</span>&gt;&gt; {
         <span class="kw">crate</span>::parse::uri::origin_from_str(string)
     }
 
     <span class="comment">// Parses an `Origin` which is allowed to contain _any_ `UTF-8` character.
-    // The path must still be absolute `/..`. Don&#39;t use this outside of Rocket!
+    // The path must still be absolute `/..`. Don't use this outside of Rocket!
     </span><span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>parse_route(string: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">&#39;a</span>&gt;, Error&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse_route(string: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">'a</span>&gt;, Error&lt;<span class="lifetime">'a</span>&gt;&gt; {
         <span class="kw">use </span>pear::error::Expected;
 
-        <span class="kw">if </span>!string.starts_with(<span class="string">&#39;/&#39;</span>) {
+        <span class="kw">if </span>!string.starts_with(<span class="string">'/'</span>) {
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error {
-                expected: Expected::token(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b&#39;/&#39;</span>), string.as_bytes().get(<span class="number">0</span>).cloned()),
+                expected: Expected::token(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="string">b'/'</span>), string.as_bytes().get(<span class="number">0</span>).cloned()),
                 index: <span class="number">0</span>,
             });
         }
 
-        <span class="kw">let </span>(path, query) = RawStr::new(string).split_at_byte(<span class="string">b&#39;?&#39;</span>);
+        <span class="kw">let </span>(path, query) = RawStr::new(string).split_at_byte(<span class="string">b'?'</span>);
         <span class="kw">let </span>query = (!query.is_empty()).then(|| query.as_str());
         <span class="prelude-val">Ok</span>(Origin::new(path.as_str(), query))
     }
@@ -831,14 +831,14 @@
     /// # extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let source = format!(&quot;/foo/{}/three&quot;, 2);
-    /// let uri = Origin::parse_owned(source).expect(&quot;valid URI&quot;);
-    /// assert_eq!(uri.path(), &quot;/foo/2/three&quot;);
+    /// let source = format!("/foo/{}/three", 2);
+    /// let uri = Origin::parse_owned(source).expect("valid URI");
+    /// assert_eq!(uri.path(), "/foo/2/three");
     /// assert!(uri.query().is_none());
     /// ```
-    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">&#39;static</span>&gt;, Error&lt;<span class="lifetime">&#39;static</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>parse_owned(string: String) -&gt; <span class="prelude-ty">Result</span>&lt;Origin&lt;<span class="lifetime">'static</span>&gt;, Error&lt;<span class="lifetime">'static</span>&gt;&gt; {
         <span class="kw">let </span>origin = Origin::parse(<span class="kw-2">&amp;</span>string).map_err(|e| e.into_owned())<span class="question-mark">?</span>;
-        <span class="macro">debug_assert!</span>(origin.source.is_some(), <span class="string">&quot;Origin parsed w/o source&quot;</span>);
+        <span class="macro">debug_assert!</span>(origin.source.is_some(), <span class="string">"Origin parsed w/o source"</span>);
 
         <span class="prelude-val">Ok</span>(Origin {
             path: origin.path.into_owned(),
@@ -853,14 +853,14 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/a/b/c&quot;);
-    /// assert_eq!(uri.path(), &quot;/a/b/c&quot;);
+    /// let uri = uri!("/a/b/c");
+    /// assert_eq!(uri.path(), "/a/b/c");
     ///
-    /// let uri = uri!(&quot;/a/b/c?name=bob&quot;);
-    /// assert_eq!(uri.path(), &quot;/a/b/c&quot;);
+    /// let uri = uri!("/a/b/c?name=bob");
+    /// assert_eq!(uri.path(), "/a/b/c");
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Path&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Path&lt;<span class="lifetime">'_</span>&gt; {
         Path { source: <span class="kw-2">&amp;</span><span class="self">self</span>.source, data: <span class="kw-2">&amp;</span><span class="self">self</span>.path }
     }
 
@@ -871,14 +871,14 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/a/b/c?alphabet=true&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;alphabet=true&quot;);
+    /// let uri = uri!("/a/b/c?alphabet=true");
+    /// assert_eq!(uri.query().unwrap(), "alphabet=true");
     ///
-    /// let uri = uri!(&quot;/a/b/c&quot;);
+    /// let uri = uri!("/a/b/c");
     /// assert!(uri.query().is_none());
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Query&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Query&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.query.as_ref().map(|data| Query { source: <span class="kw-2">&amp;</span><span class="self">self</span>.source, data })
     }
 
@@ -889,35 +889,35 @@
     ///
     /// ### Examples
     ///
-    /// Affix a trailing slash if one isn&#39;t present.
+    /// Affix a trailing slash if one isn't present.
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let uri = uri!(&quot;/a/b/c&quot;);
-    /// let expected_uri = uri!(&quot;/a/b/c/d&quot;);
-    /// assert_eq!(uri.map_path(|p| format!(&quot;{}/d&quot;, p)), Some(expected_uri));
+    /// let uri = uri!("/a/b/c");
+    /// let expected_uri = uri!("/a/b/c/d");
+    /// assert_eq!(uri.map_path(|p| format!("{}/d", p)), Some(expected_uri));
     ///
-    /// let uri = uri!(&quot;/a/b/c&quot;);
-    /// let abnormal_map = uri.map_path(|p| format!(&quot;{}///d&quot;, p));
-    /// assert_eq!(abnormal_map.unwrap(), &quot;/a/b/c///d&quot;);
+    /// let uri = uri!("/a/b/c");
+    /// let abnormal_map = uri.map_path(|p| format!("{}///d", p));
+    /// assert_eq!(abnormal_map.unwrap(), "/a/b/c///d");
     ///
-    /// let uri = uri!(&quot;/a/b/c&quot;);
-    /// let expected = uri!(&quot;/b/c&quot;);
-    /// let mapped = uri.map_path(|p| p.strip_prefix(&quot;/a&quot;).unwrap_or(p));
+    /// let uri = uri!("/a/b/c");
+    /// let expected = uri!("/b/c");
+    /// let mapped = uri.map_path(|p| p.strip_prefix("/a").unwrap_or(p));
     /// assert_eq!(mapped, Some(expected));
     ///
-    /// let uri = uri!(&quot;/a&quot;);
-    /// assert_eq!(uri.map_path(|p| p.strip_prefix(&quot;/a&quot;).unwrap_or(p)), None);
+    /// let uri = uri!("/a");
+    /// assert_eq!(uri.map_path(|p| p.strip_prefix("/a").unwrap_or(p)), None);
     ///
-    /// let uri = uri!(&quot;/a/b/c&quot;);
-    /// assert_eq!(uri.map_path(|p| format!(&quot;hi/{}&quot;, p)), None);
+    /// let uri = uri!("/a/b/c");
+    /// assert_eq!(uri.map_path(|p| format!("hi/{}", p)), None);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>map_path&lt;<span class="lifetime">&#39;s</span>, F, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>, f: F) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
-        <span class="kw">where </span>F: FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>RawStr) -&gt; P, P: Into&lt;RawStrBuf&gt; + <span class="lifetime">&#39;s
+    </span><span class="kw">pub fn </span>map_path&lt;<span class="lifetime">'s</span>, F, P&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>, f: F) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+        <span class="kw">where </span>F: FnOnce(<span class="kw-2">&amp;</span><span class="lifetime">'s </span>RawStr) -&gt; P, P: Into&lt;RawStrBuf&gt; + <span class="lifetime">'s
     </span>{
         <span class="kw">let </span>path = f(<span class="self">self</span>.path().raw()).into();
-        <span class="kw">if </span>!path.starts_with(<span class="string">&#39;/&#39;</span>) || !path.as_bytes().iter().all(is_pchar) {
+        <span class="kw">if </span>!path.starts_with(<span class="string">'/'</span>) || !path.as_bytes().iter().all(is_pchar) {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
 
@@ -934,8 +934,8 @@
     ///
     /// ```rust
     /// # #[macro_use] extern crate rocket;
-    /// let mut uri = uri!(&quot;/a/b/c?query=some&quot;);
-    /// assert_eq!(uri.query().unwrap(), &quot;query=some&quot;);
+    /// let mut uri = uri!("/a/b/c?query=some");
+    /// assert_eq!(uri.query().unwrap(), "query=some");
     ///
     /// uri.clear_query();
     /// assert!(uri.query().is_none());
@@ -956,15 +956,15 @@
     /// # #[macro_use] extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// assert!(Origin::parse(&quot;/&quot;).unwrap().is_normalized());
-    /// assert!(Origin::parse(&quot;/a/b/c&quot;).unwrap().is_normalized());
-    /// assert!(Origin::parse(&quot;/a/b/c?a=b&amp;c&quot;).unwrap().is_normalized());
+    /// assert!(Origin::parse("/").unwrap().is_normalized());
+    /// assert!(Origin::parse("/a/b/c").unwrap().is_normalized());
+    /// assert!(Origin::parse("/a/b/c?a=b&amp;c").unwrap().is_normalized());
     ///
-    /// assert!(!Origin::parse(&quot;/a/b/c//d&quot;).unwrap().is_normalized());
-    /// assert!(!Origin::parse(&quot;/a?q&amp;&amp;b&quot;).unwrap().is_normalized());
+    /// assert!(!Origin::parse("/a/b/c//d").unwrap().is_normalized());
+    /// assert!(!Origin::parse("/a?q&amp;&amp;b").unwrap().is_normalized());
     ///
-    /// assert!(uri!(&quot;/a/b/c//d&quot;).is_normalized());
-    /// assert!(uri!(&quot;/a?q&amp;&amp;b&quot;).is_normalized());
+    /// assert!(uri!("/a/b/c//d").is_normalized());
+    /// assert!(uri!("/a?q&amp;&amp;b").is_normalized());
     /// ```
     </span><span class="kw">pub fn </span>is_normalized(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.path().is_normalized(<span class="bool-val">true</span>) &amp;&amp; <span class="self">self</span>.query().map_or(<span class="bool-val">true</span>, |q| q.is_normalized())
@@ -981,7 +981,7 @@
     /// # extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let mut abnormal = Origin::parse(&quot;/a/b/c//d&quot;).unwrap();
+    /// let mut abnormal = Origin::parse("/a/b/c//d").unwrap();
     /// assert!(!abnormal.is_normalized());
     /// abnormal.normalize();
     /// assert!(abnormal.is_normalized());
@@ -1010,7 +1010,7 @@
     /// # extern crate rocket;
     /// use rocket::http::uri::Origin;
     ///
-    /// let abnormal = Origin::parse(&quot;/a/b/c//d&quot;).unwrap();
+    /// let abnormal = Origin::parse("/a/b/c//d").unwrap();
     /// assert!(!abnormal.is_normalized());
     /// assert!(abnormal.into_normalized().is_normalized());
     /// ```
@@ -1020,15 +1020,15 @@
     </span>}
 }
 
-<span class="macro">impl_serde!</span>(Origin&lt;<span class="lifetime">&#39;a</span>&gt;, <span class="string">&quot;an origin-form URI&quot;</span>);
+<span class="macro">impl_serde!</span>(Origin&lt;<span class="lifetime">'a</span>&gt;, <span class="string">"an origin-form URI"</span>);
 
 <span class="macro">impl_traits!</span>(Origin, path, query);
 
-<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>Origin&lt;<span class="lifetime">&#39;_</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.path())<span class="question-mark">?</span>;
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>Origin&lt;<span class="lifetime">'_</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}"</span>, <span class="self">self</span>.path())<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(query) = <span class="self">self</span>.query() {
-            <span class="macro">write!</span>(f, <span class="string">&quot;?{}&quot;</span>, query)<span class="question-mark">?</span>;
+            <span class="macro">write!</span>(f, <span class="string">"?{}"</span>, query)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -1044,11 +1044,11 @@
         <span class="kw">let </span>segments = origin.path().segments();
         <span class="kw">let </span>actual = segments.len();
         <span class="kw">if </span>actual != expected {
-            <span class="macro">eprintln!</span>(<span class="string">&quot;Count mismatch: expected {}, got {}.&quot;</span>, expected, actual);
-            <span class="macro">eprintln!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw">if </span>actual != expected { <span class="string">&quot;lifetime&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;buf&quot; </span>});
-            <span class="macro">eprintln!</span>(<span class="string">&quot;Segments (for {}):&quot;</span>, path);
+            <span class="macro">eprintln!</span>(<span class="string">"Count mismatch: expected {}, got {}."</span>, expected, actual);
+            <span class="macro">eprintln!</span>(<span class="string">"{}"</span>, <span class="kw">if </span>actual != expected { <span class="string">"lifetime" </span>} <span class="kw">else </span>{ <span class="string">"buf" </span>});
+            <span class="macro">eprintln!</span>(<span class="string">"Segments (for {}):"</span>, path);
             <span class="kw">for </span>(i, segment) <span class="kw">in </span>segments.enumerate() {
-                <span class="macro">eprintln!</span>(<span class="string">&quot;{}: {}&quot;</span>, i, segment);
+                <span class="macro">eprintln!</span>(<span class="string">"{}: {}"</span>, i, segment);
             }
         }
 
@@ -1058,7 +1058,7 @@
     <span class="kw">fn </span>eq_segments(path: <span class="kw-2">&amp;</span>str, expected: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str]) -&gt; bool {
         <span class="kw">let </span>uri = <span class="kw">match </span>Origin::parse(path) {
             <span class="prelude-val">Ok</span>(uri) =&gt; uri,
-            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;failed to parse {}: {}&quot;</span>, path, e)
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">"failed to parse {}: {}"</span>, path, e)
         };
 
         <span class="kw">let </span>actual: Vec&lt;<span class="kw-2">&amp;</span>str&gt; = uri.path().segments().collect();
@@ -1068,80 +1068,80 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>send_and_sync() {
         <span class="kw">fn </span>assert&lt;T: Send + Sync&gt;() {}
-        assert::&lt;Origin&lt;<span class="lifetime">&#39;_</span>&gt;&gt;();
+        assert::&lt;Origin&lt;<span class="lifetime">'_</span>&gt;&gt;();
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>simple_segment_count() {
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/&quot;</span>, <span class="number">0</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a&quot;</span>, <span class="number">1</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/&quot;</span>, <span class="number">1</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/&quot;</span>, <span class="number">1</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b&quot;</span>, <span class="number">2</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/&quot;</span>, <span class="number">2</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/&quot;</span>, <span class="number">2</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/ab/&quot;</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/"</span>, <span class="number">0</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a"</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/"</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/"</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b"</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/"</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/"</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/ab/"</span>, <span class="number">1</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>segment_count() {
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;////&quot;</span>, <span class="number">0</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;//a//&quot;</span>, <span class="number">1</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;//abc//&quot;</span>, <span class="number">1</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;//abc/def/&quot;</span>, <span class="number">2</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;//////abc///def//////////&quot;</span>, <span class="number">2</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/c/d/e/f/g&quot;</span>, <span class="number">7</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/c/d/e/f/g&quot;</span>, <span class="number">7</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/c/d/e/f/g/&quot;</span>, <span class="number">7</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b/cdjflk/d/e/f/g&quot;</span>, <span class="number">7</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;//aaflja/b/cdjflk/d/e/f/g&quot;</span>, <span class="number">7</span>));
-        <span class="macro">assert!</span>(seg_count(<span class="string">&quot;/a/b&quot;</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"////"</span>, <span class="number">0</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"//a//"</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"//abc//"</span>, <span class="number">1</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"//abc/def/"</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"//////abc///def//////////"</span>, <span class="number">2</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/c/d/e/f/g"</span>, <span class="number">7</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/c/d/e/f/g"</span>, <span class="number">7</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/c/d/e/f/g/"</span>, <span class="number">7</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b/cdjflk/d/e/f/g"</span>, <span class="number">7</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"//aaflja/b/cdjflk/d/e/f/g"</span>, <span class="number">7</span>));
+        <span class="macro">assert!</span>(seg_count(<span class="string">"/a/b"</span>, <span class="number">2</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>single_segments_match() {
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/&quot;</span>, <span class="kw-2">&amp;</span>[]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///a/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///a///////&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a///////&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;//a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/abc&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/abc/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///abc/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///abc///////&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/abc///////&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;//abc&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/"</span>, <span class="kw-2">&amp;</span>[]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///a/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///a///////"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a///////"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"//a"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/abc"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/abc/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///abc/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///abc///////"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/abc///////"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"//abc"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>multi_segments_match() {
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a/b/c&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a/b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a///b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a/b/c/d&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///a///////d////c&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;c&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/abc/abc&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/abc/abc/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;///abc///////a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/////abc/b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;b&quot;</span>]));
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;//abc//c////////d&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a/b/c"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a/b"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a///b"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a/b/c/d"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///a///////d////c"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"d"</span>, <span class="string">"c"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/abc/abc"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/abc/abc/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"abc"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"///abc///////a"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/////abc/b"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"b"</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"//abc//c////////d"</span>, <span class="kw-2">&amp;</span>[<span class="string">"abc"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>multi_segments_match_funky_chars() {
-        <span class="macro">assert!</span>(eq_segments(<span class="string">&quot;/a/b/c!!!&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c!!!&quot;</span>]));
+        <span class="macro">assert!</span>(eq_segments(<span class="string">"/a/b/c!!!"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c!!!"</span>]));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>segment_mismatch() {
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;/&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;/a&quot;</span>, <span class="kw-2">&amp;</span>[]));
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;/a/a&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;/a/b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;b&quot;</span>, <span class="string">&quot;a&quot;</span>]));
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;/a/a/b&quot;</span>, <span class="kw-2">&amp;</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>]));
-        <span class="macro">assert!</span>(!eq_segments(<span class="string">&quot;///a/&quot;</span>, <span class="kw-2">&amp;</span>[]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"/"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"/a"</span>, <span class="kw-2">&amp;</span>[]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"/a/a"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"/a/b"</span>, <span class="kw-2">&amp;</span>[<span class="string">"b"</span>, <span class="string">"a"</span>]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"/a/a/b"</span>, <span class="kw-2">&amp;</span>[<span class="string">"a"</span>, <span class="string">"b"</span>]));
+        <span class="macro">assert!</span>(!eq_segments(<span class="string">"///a/"</span>, <span class="kw-2">&amp;</span>[]));
     }
 
     <span class="kw">fn </span>test_query(uri: <span class="kw-2">&amp;</span>str, query: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;) {
@@ -1151,23 +1151,23 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>query_does_not_exist() {
-        test_query(<span class="string">&quot;/test&quot;</span>, <span class="prelude-val">None</span>);
-        test_query(<span class="string">&quot;/a/b/c/d/e&quot;</span>, <span class="prelude-val">None</span>);
-        test_query(<span class="string">&quot;/////&quot;</span>, <span class="prelude-val">None</span>);
-        test_query(<span class="string">&quot;//a///&quot;</span>, <span class="prelude-val">None</span>);
-        test_query(<span class="string">&quot;/a/b/c&quot;</span>, <span class="prelude-val">None</span>);
-        test_query(<span class="string">&quot;/&quot;</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"/test"</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"/a/b/c/d/e"</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"/////"</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"//a///"</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"/a/b/c"</span>, <span class="prelude-val">None</span>);
+        test_query(<span class="string">"/"</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>query_exists() {
-        test_query(<span class="string">&quot;/test?abc&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;abc&quot;</span>));
-        test_query(<span class="string">&quot;/a/b/c?abc&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;abc&quot;</span>));
-        test_query(<span class="string">&quot;/a/b/c/d/e/f/g/?abc&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;abc&quot;</span>));
-        test_query(<span class="string">&quot;/?123&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;123&quot;</span>));
-        test_query(<span class="string">&quot;/?&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>));
-        test_query(<span class="string">&quot;/?&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;&quot;</span>));
-        test_query(<span class="string">&quot;/?hi&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;hi&quot;</span>));
+        test_query(<span class="string">"/test?abc"</span>, <span class="prelude-val">Some</span>(<span class="string">"abc"</span>));
+        test_query(<span class="string">"/a/b/c?abc"</span>, <span class="prelude-val">Some</span>(<span class="string">"abc"</span>));
+        test_query(<span class="string">"/a/b/c/d/e/f/g/?abc"</span>, <span class="prelude-val">Some</span>(<span class="string">"abc"</span>));
+        test_query(<span class="string">"/?123"</span>, <span class="prelude-val">Some</span>(<span class="string">"123"</span>));
+        test_query(<span class="string">"/?"</span>, <span class="prelude-val">Some</span>(<span class="string">""</span>));
+        test_query(<span class="string">"/?"</span>, <span class="prelude-val">Some</span>(<span class="string">""</span>));
+        test_query(<span class="string">"/?hi"</span>, <span class="prelude-val">Some</span>(<span class="string">"hi"</span>));
     }
 
     <span class="attr">#[test]
@@ -1177,13 +1177,13 @@
             .into_normalized()
             .to_string();
 
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;/&quot;</span>), <span class="string">&quot;/&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;//&quot;</span>), <span class="string">&quot;/&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;//////a/&quot;</span>), <span class="string">&quot;/a&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;//ab&quot;</span>), <span class="string">&quot;/ab&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;//a&quot;</span>), <span class="string">&quot;/a&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;/a/b///c&quot;</span>), <span class="string">&quot;/a/b/c&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">&quot;/a///b/c/d///&quot;</span>), <span class="string">&quot;/a/b/c/d&quot;</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"/"</span>), <span class="string">"/"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"//"</span>), <span class="string">"/"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"//////a/"</span>), <span class="string">"/a"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"//ab"</span>), <span class="string">"/ab"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"//a"</span>), <span class="string">"/a"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"/a/b///c"</span>), <span class="string">"/a/b/c"</span>.to_string());
+        <span class="macro">assert_eq!</span>(uri_to_string(<span class="string">"/a///b/c/d///"</span>), <span class="string">"/a/b/c/d"</span>.to_string());
     }
 }
 </code></pre></div></section></main></body></html>

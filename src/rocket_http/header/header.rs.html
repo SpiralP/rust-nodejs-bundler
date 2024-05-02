@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/header/header.rs`."><title>header.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/header/header.rs`."><title>header.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -799,14 +799,14 @@
 
 <span class="doccomment">/// Simple representation of an HTTP header.
 </span><span class="attr">#[derive(Debug, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>Header&lt;<span class="lifetime">&#39;h</span>&gt; {
+</span><span class="kw">pub struct </span>Header&lt;<span class="lifetime">'h</span>&gt; {
     <span class="doccomment">/// The name of the header.
-    </span><span class="kw">pub </span>name: Uncased&lt;<span class="lifetime">&#39;h</span>&gt;,
+    </span><span class="kw">pub </span>name: Uncased&lt;<span class="lifetime">'h</span>&gt;,
     <span class="doccomment">/// The value of the header.
-    </span><span class="kw">pub </span>value: Cow&lt;<span class="lifetime">&#39;h</span>, str&gt;,
+    </span><span class="kw">pub </span>value: Cow&lt;<span class="lifetime">'h</span>, str&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;h</span>&gt; Header&lt;<span class="lifetime">&#39;h</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'h</span>&gt; Header&lt;<span class="lifetime">'h</span>&gt; {
     <span class="doccomment">/// Constructs a new header. This method should be used rarely and only for
     /// non-standard headers. Instead, prefer to use the `Into&lt;Header&gt;`
     /// implementations of many types, including
@@ -822,8 +822,8 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// let header = Header::new(&quot;X-Custom-Header&quot;, &quot;custom value&quot;);
-    /// assert_eq!(header.to_string(), &quot;X-Custom-Header: custom value&quot;);
+    /// let header = Header::new("X-Custom-Header", "custom value");
+    /// assert_eq!(header.to_string(), "X-Custom-Header: custom value");
     /// ```
     ///
     /// Use a `String` as a value to do the same.
@@ -832,13 +832,13 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// let value = format!(&quot;{} value&quot;, &quot;custom&quot;);
-    /// let header = Header::new(&quot;X-Custom-Header&quot;, value);
-    /// assert_eq!(header.to_string(), &quot;X-Custom-Header: custom value&quot;);
+    /// let value = format!("{} value", "custom");
+    /// let header = Header::new("X-Custom-Header", value);
+    /// assert_eq!(header.to_string(), "X-Custom-Header: custom value");
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>new&lt;<span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;h</span>, N, V&gt;(name: N, value: V) -&gt; Header&lt;<span class="lifetime">&#39;h</span>&gt;
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>new&lt;<span class="lifetime">'a</span>: <span class="lifetime">'h</span>, <span class="lifetime">'b</span>: <span class="lifetime">'h</span>, N, V&gt;(name: N, value: V) -&gt; Header&lt;<span class="lifetime">'h</span>&gt;
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;
     {
         Header {
             name: Uncased::new(name),
@@ -849,14 +849,14 @@
     <span class="doccomment">/// Returns `true` if `name` is a valid header name.
     ///
     /// This implements a simple (i.e, correct but not particularly performant)
-    /// header &quot;field-name&quot; checker as defined in RFC 7230.
+    /// header "field-name" checker as defined in RFC 7230.
     ///
     /// ```text
-    ///     header-field   = field-name &quot;:&quot; OWS field-value OWS
+    ///     header-field   = field-name ":" OWS field-value OWS
     ///     field-name     = token
     ///     token          = 1*tchar
-    ///     tchar          = &quot;!&quot; / &quot;#&quot; / &quot;$&quot; / &quot;%&quot; / &quot;&amp;&quot; / &quot;&#39;&quot; / &quot;*&quot;
-    ///                    / &quot;+&quot; / &quot;-&quot; / &quot;.&quot; / &quot;^&quot; / &quot;_&quot; / &quot;`&quot; / &quot;|&quot; / &quot;~&quot;
+    ///     tchar          = "!" / "#" / "$" / "%" / "&amp;" / "'" / "*"
+    ///                    / "+" / "-" / "." / "^" / "_" / "`" / "|" / "~"
     ///                    / DIGIT / ALPHA
     ///                    ; any VCHAR, except delimiters
     /// ```
@@ -867,24 +867,24 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// assert!(!Header::is_valid_name(&quot;&quot;));
-    /// assert!(!Header::is_valid_name(&quot;some header&quot;));
-    /// assert!(!Header::is_valid_name(&quot;some()&quot;));
-    /// assert!(!Header::is_valid_name(&quot;[SomeHeader]&quot;));
-    /// assert!(!Header::is_valid_name(&quot;&lt;&quot;));
-    /// assert!(!Header::is_valid_name(&quot;&quot;));
-    /// assert!(!Header::is_valid_name(&quot;header,here&quot;));
+    /// assert!(!Header::is_valid_name(""));
+    /// assert!(!Header::is_valid_name("some header"));
+    /// assert!(!Header::is_valid_name("some()"));
+    /// assert!(!Header::is_valid_name("[SomeHeader]"));
+    /// assert!(!Header::is_valid_name("&lt;"));
+    /// assert!(!Header::is_valid_name(""));
+    /// assert!(!Header::is_valid_name("header,here"));
     ///
-    /// assert!(Header::is_valid_name(&quot;Some#Header&quot;));
-    /// assert!(Header::is_valid_name(&quot;Some-Header&quot;));
-    /// assert!(Header::is_valid_name(&quot;This-Is_A~Header&quot;));
+    /// assert!(Header::is_valid_name("Some#Header"));
+    /// assert!(Header::is_valid_name("Some-Header"));
+    /// assert!(Header::is_valid_name("This-Is_A~Header"));
     /// ```
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub const fn </span>is_valid_name(name: <span class="kw-2">&amp;</span>str) -&gt; bool {
         <span class="kw">const fn </span>is_tchar(b: <span class="kw-2">&amp;</span>u8) -&gt; bool {
             b.is_ascii_alphanumeric() || <span class="kw">match </span><span class="kw-2">*</span>b {
-                <span class="string">b&#39;!&#39; </span>| <span class="string">b&#39;#&#39; </span>| <span class="string">b&#39;$&#39; </span>| <span class="string">b&#39;%&#39; </span>| <span class="string">b&#39;&amp;&#39; </span>| <span class="string">b&#39;\&#39;&#39; </span>| <span class="string">b&#39;*&#39; </span>| <span class="string">b&#39;+&#39; </span>| <span class="string">b&#39;-&#39; </span>|
-                    <span class="string">b&#39;.&#39; </span>| <span class="string">b&#39;^&#39; </span>| <span class="string">b&#39;_&#39; </span>| <span class="string">b&#39;`&#39; </span>| <span class="string">b&#39;|&#39; </span>| <span class="string">b&#39;~&#39; </span>=&gt; <span class="bool-val">true</span>,
+                <span class="string">b'!' </span>| <span class="string">b'#' </span>| <span class="string">b'$' </span>| <span class="string">b'%' </span>| <span class="string">b'&amp;' </span>| <span class="string">b'\'' </span>| <span class="string">b'*' </span>| <span class="string">b'+' </span>| <span class="string">b'-' </span>|
+                    <span class="string">b'.' </span>| <span class="string">b'^' </span>| <span class="string">b'_' </span>| <span class="string">b'`' </span>| <span class="string">b'|' </span>| <span class="string">b'~' </span>=&gt; <span class="bool-val">true</span>,
                 <span class="kw">_ </span>=&gt; <span class="bool-val">false
             </span>}
         }
@@ -908,7 +908,7 @@
     /// values. Otherwise, this function returns `false` for empty values.
     ///
     /// This implements a simple (i.e, correct but not particularly performant)
-    /// header &quot;field-content&quot; checker as defined in RFC 7230 without support
+    /// header "field-content" checker as defined in RFC 7230 without support
     /// for obsolete (`obs-`) syntax:
     ///
     ///   field-value    = *(field-content)
@@ -926,24 +926,24 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// assert!(!Header::is_valid_value(&quot;&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot; &quot; , false));
-    /// assert!(!Header::is_valid_value(&quot; hi&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;a\nbc&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;\nbc&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;\n&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;\t&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;\r&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;a\nb\nc&quot;, false));
-    /// assert!(!Header::is_valid_value(&quot;a\rb\rc&quot;, false));
+    /// assert!(!Header::is_valid_value("", false));
+    /// assert!(!Header::is_valid_value(" " , false));
+    /// assert!(!Header::is_valid_value(" hi", false));
+    /// assert!(!Header::is_valid_value("a\nbc", false));
+    /// assert!(!Header::is_valid_value("\nbc", false));
+    /// assert!(!Header::is_valid_value("\n", false));
+    /// assert!(!Header::is_valid_value("\t", false));
+    /// assert!(!Header::is_valid_value("\r", false));
+    /// assert!(!Header::is_valid_value("a\nb\nc", false));
+    /// assert!(!Header::is_valid_value("a\rb\rc", false));
     ///
-    /// assert!(Header::is_valid_value(&quot;&quot;, true));
-    /// assert!(Header::is_valid_value(&quot;a&quot;, false));
-    /// assert!(Header::is_valid_value(&quot;a&quot;, true));
-    /// assert!(Header::is_valid_value(&quot;abc&quot;, false));
-    /// assert!(Header::is_valid_value(&quot;abc&quot;, true));
-    /// assert!(Header::is_valid_value(&quot;a b c&quot;, false));
-    /// assert!(Header::is_valid_value(&quot;a b c&quot;, true));
+    /// assert!(Header::is_valid_value("", true));
+    /// assert!(Header::is_valid_value("a", false));
+    /// assert!(Header::is_valid_value("a", true));
+    /// assert!(Header::is_valid_value("abc", false));
+    /// assert!(Header::is_valid_value("abc", true));
+    /// assert!(Header::is_valid_value("a b c", false));
+    /// assert!(Header::is_valid_value("a b c", true));
     /// ```
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub const fn </span>is_valid_value(val: <span class="kw-2">&amp;</span>str, allow_empty: bool) -&gt; bool {
@@ -952,7 +952,7 @@
         }
 
         <span class="kw">const fn </span>is_valid_continue(b: <span class="kw-2">&amp;</span>u8) -&gt; bool {
-            is_valid_start(b) || <span class="kw-2">*</span>b == <span class="string">b&#39; &#39; </span>|| <span class="kw-2">*</span>b == <span class="string">b&#39;\t&#39;
+            is_valid_start(b) || <span class="kw-2">*</span>b == <span class="string">b' ' </span>|| <span class="kw-2">*</span>b == <span class="string">b'\t'
         </span>}
 
         <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
@@ -980,10 +980,10 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// let value = format!(&quot;{} value&quot;, &quot;custom&quot;);
-    /// let header = Header::new(&quot;X-Custom-Header&quot;, value);
-    /// assert_eq!(header.name().as_str(), &quot;X-Custom-Header&quot;);
-    /// assert_ne!(header.name().as_str(), &quot;X-CUSTOM-HEADER&quot;);
+    /// let value = format!("{} value", "custom");
+    /// let header = Header::new("X-Custom-Header", value);
+    /// assert_eq!(header.name().as_str(), "X-Custom-Header");
+    /// assert_ne!(header.name().as_str(), "X-CUSTOM-HEADER");
     /// ```
     ///
     /// A case-insensitive equality check:
@@ -992,9 +992,9 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// let header = Header::new(&quot;X-Custom-Header&quot;, &quot;custom value&quot;);
-    /// assert_eq!(header.name(), &quot;X-Custom-Header&quot;);
-    /// assert_eq!(header.name(), &quot;X-CUSTOM-HEADER&quot;);
+    /// let header = Header::new("X-Custom-Header", "custom value");
+    /// assert_eq!(header.name(), "X-Custom-Header");
+    /// assert_eq!(header.name(), "X-CUSTOM-HEADER");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>UncasedStr {
@@ -1011,8 +1011,8 @@
     /// # extern crate rocket;
     /// use rocket::http::Header;
     ///
-    /// let header = Header::new(&quot;X-Custom-Header&quot;, &quot;custom value&quot;);
-    /// assert_eq!(header.value(), &quot;custom value&quot;);
+    /// let header = Header::new("X-Custom-Header", "custom value");
+    /// assert_eq!(header.value(), "custom value");
     /// ```
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -1020,10 +1020,10 @@
     }
 }
 
-<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>Header&lt;<span class="lifetime">'_</span>&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}: {}&quot;</span>, <span class="self">self</span>.name, <span class="self">self</span>.value)
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{}: {}"</span>, <span class="self">self</span>.name, <span class="self">self</span>.value)
     }
 }
 
@@ -1033,14 +1033,14 @@
 ///
 /// All header names, including those passed in to `HeaderMap` methods and those
 /// stored in an existing `HeaderMap`, are treated case-insensitively. This
-/// means that, for instance, a look for a header by the name of &quot;aBC&quot; will
-/// returns values for headers of names &quot;AbC&quot;, &quot;ABC&quot;, &quot;abc&quot;, and so on.
+/// means that, for instance, a look for a header by the name of "aBC" will
+/// returns values for headers of names "AbC", "ABC", "abc", and so on.
 </span><span class="attr">#[derive(Clone, Debug, PartialEq, Default)]
-</span><span class="kw">pub struct </span>HeaderMap&lt;<span class="lifetime">&#39;h</span>&gt; {
-    headers: IndexMap&lt;Uncased&lt;<span class="lifetime">&#39;h</span>&gt;, Vec&lt;Cow&lt;<span class="lifetime">&#39;h</span>, str&gt;&gt;&gt;
+</span><span class="kw">pub struct </span>HeaderMap&lt;<span class="lifetime">'h</span>&gt; {
+    headers: IndexMap&lt;Uncased&lt;<span class="lifetime">'h</span>&gt;, Vec&lt;Cow&lt;<span class="lifetime">'h</span>, str&gt;&gt;&gt;
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;h</span>&gt; HeaderMap&lt;<span class="lifetime">&#39;h</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'h</span>&gt; HeaderMap&lt;<span class="lifetime">'h</span>&gt; {
     <span class="doccomment">/// Returns an empty header collection.
     ///
     /// # Example
@@ -1052,7 +1052,7 @@
     /// let map = HeaderMap::new();
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>new() -&gt; HeaderMap&lt;<span class="lifetime">&#39;h</span>&gt; {
+    </span><span class="kw">pub fn </span>new() -&gt; HeaderMap&lt;<span class="lifetime">'h</span>&gt; {
         HeaderMap { headers: IndexMap::new() }
     }
 
@@ -1067,8 +1067,8 @@
     /// let mut map = HeaderMap::new();
     /// map.add(ContentType::HTML);
     ///
-    /// assert!(map.contains(&quot;Content-Type&quot;));
-    /// assert!(!map.contains(&quot;Accepts&quot;));
+    /// assert!(map.contains("Content-Type"));
+    /// assert!(!map.contains("Accepts"));
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>contains&lt;N: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; bool {
@@ -1086,13 +1086,13 @@
     /// let mut map = HeaderMap::new();
     /// assert_eq!(map.len(), 0);
     ///
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
+    /// map.add_raw("X-Custom", "value_1");
     /// assert_eq!(map.len(), 1);
     ///
-    /// map.replace_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
+    /// map.replace_raw("X-Custom", "value_2");
     /// assert_eq!(map.len(), 1);
     ///
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
+    /// map.add_raw("X-Custom", "value_1");
     /// assert_eq!(map.len(), 2);
     /// ```
     </span><span class="attr">#[inline]
@@ -1127,14 +1127,14 @@
     /// use rocket::http::HeaderMap;
     ///
     /// let mut map = HeaderMap::new();
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
+    /// map.add_raw("X-Custom", "value_1");
+    /// map.add_raw("X-Custom", "value_2");
     ///
     /// assert_eq!(map.len(), 2);
     ///
-    /// let mut values = map.get(&quot;X-Custom&quot;);
-    /// assert_eq!(values.next(), Some(&quot;value_1&quot;));
-    /// assert_eq!(values.next(), Some(&quot;value_2&quot;));
+    /// let mut values = map.get("X-Custom");
+    /// assert_eq!(values.next(), Some("value_1"));
+    /// assert_eq!(values.next(), Some("value_2"));
     /// assert_eq!(values.next(), None);
     /// ```
     </span><span class="attr">#[inline]
@@ -1157,29 +1157,29 @@
     /// use rocket::http::HeaderMap;
     ///
     /// let mut map = HeaderMap::new();
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
+    /// map.add_raw("X-Custom", "value_1");
+    /// map.add_raw("X-Custom", "value_2");
     ///
     /// assert_eq!(map.len(), 2);
     ///
-    /// let first_value = map.get_one(&quot;X-Custom&quot;);
-    /// assert_eq!(first_value, Some(&quot;value_1&quot;));
+    /// let first_value = map.get_one("X-Custom");
+    /// assert_eq!(first_value, Some("value_1"));
     /// ```
     ///
-    /// Attempt to retrieve a value that doesn&#39;t exist:
+    /// Attempt to retrieve a value that doesn't exist:
     ///
     /// ```rust
     /// # extern crate rocket;
     /// use rocket::http::HeaderMap;
     ///
     /// let mut map = HeaderMap::new();
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
+    /// map.add_raw("X-Custom", "value_1");
     ///
-    /// let first_value = map.get_one(&quot;X-Other&quot;);
+    /// let first_value = map.get_one("X-Other");
     /// assert_eq!(first_value, None);
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>get_one&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    </span><span class="kw">pub fn </span>get_one&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt; {
         <span class="self">self</span>.headers.get(UncasedStr::new(name))
             .and_then(|values| {
                 <span class="kw">if </span>!values.is_empty() { <span class="prelude-val">Some</span>(values[<span class="number">0</span>].borrow()) }
@@ -1194,7 +1194,7 @@
     ///
     /// # Example
     ///
-    /// Replace a header that doesn&#39;t yet exist:
+    /// Replace a header that doesn't yet exist:
     ///
     /// ```rust
     /// # extern crate rocket;
@@ -1203,7 +1203,7 @@
     /// let mut map = HeaderMap::new();
     /// map.replace(ContentType::JSON);
     ///
-    /// assert!(map.get_one(&quot;Content-Type&quot;).is_some());
+    /// assert!(map.get_one("Content-Type").is_some());
     /// ```
     ///
     /// Replace a header that already exists:
@@ -1215,10 +1215,10 @@
     /// let mut map = HeaderMap::new();
     ///
     /// map.replace(ContentType::JSON);
-    /// assert_eq!(map.get_one(&quot;Content-Type&quot;), Some(&quot;application/json&quot;));
+    /// assert_eq!(map.get_one("Content-Type"), Some("application/json"));
     ///
     /// map.replace(ContentType::GIF);
-    /// assert_eq!(map.get_one(&quot;Content-Type&quot;), Some(&quot;image/gif&quot;));
+    /// assert_eq!(map.get_one("Content-Type"), Some("image/gif"));
     /// assert_eq!(map.len(), 1);
     /// ```
     ///
@@ -1231,14 +1231,14 @@
     /// let mut map = HeaderMap::new();
     ///
     /// map.replace(ContentType::JSON);
-    /// assert_eq!(map.get_one(&quot;Content-Type&quot;), Some(&quot;application/json&quot;));
+    /// assert_eq!(map.get_one("Content-Type"), Some("application/json"));
     ///
-    /// map.replace(Header::new(&quot;CONTENT-type&quot;, &quot;image/gif&quot;));
-    /// assert_eq!(map.get_one(&quot;Content-Type&quot;), Some(&quot;image/gif&quot;));
+    /// map.replace(Header::new("CONTENT-type", "image/gif"));
+    /// assert_eq!(map.get_one("Content-Type"), Some("image/gif"));
     /// assert_eq!(map.len(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>replace&lt;<span class="lifetime">&#39;p</span>: <span class="lifetime">&#39;h</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;p</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; bool {
+    </span><span class="kw">pub fn </span>replace&lt;<span class="lifetime">'p</span>: <span class="lifetime">'h</span>, H: Into&lt;Header&lt;<span class="lifetime">'p</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) -&gt; bool {
         <span class="kw">let </span>header = header.into();
         <span class="self">self</span>.headers.insert(header.name, <span class="macro">vec!</span>[header.value]).is_some()
     }
@@ -1254,16 +1254,16 @@
     ///
     /// let mut map = HeaderMap::new();
     ///
-    /// map.replace_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// assert_eq!(map.get_one(&quot;X-Custom&quot;), Some(&quot;value_1&quot;));
+    /// map.replace_raw("X-Custom", "value_1");
+    /// assert_eq!(map.get_one("X-Custom"), Some("value_1"));
     ///
-    /// map.replace_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
-    /// assert_eq!(map.get_one(&quot;X-Custom&quot;), Some(&quot;value_2&quot;));
+    /// map.replace_raw("X-Custom", "value_2");
+    /// assert_eq!(map.get_one("X-Custom"), Some("value_2"));
     /// assert_eq!(map.len(), 1);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>replace_raw&lt;<span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;h</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; bool
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>replace_raw&lt;<span class="lifetime">'a</span>: <span class="lifetime">'h</span>, <span class="lifetime">'b</span>: <span class="lifetime">'h</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V) -&gt; bool
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;
     {
         <span class="self">self</span>.replace(Header::new(name, value))
     }
@@ -1279,19 +1279,19 @@
     /// use rocket::http::HeaderMap;
     ///
     /// let mut map = HeaderMap::new();
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
+    /// map.add_raw("X-Custom", "value_1");
+    /// map.add_raw("X-Custom", "value_2");
     ///
-    /// let vals: Vec&lt;_&gt; = map.get(&quot;X-Custom&quot;).map(|s| s.to_string()).collect();
-    /// assert_eq!(vals, vec![&quot;value_1&quot;, &quot;value_2&quot;]);
+    /// let vals: Vec&lt;_&gt; = map.get("X-Custom").map(|s| s.to_string()).collect();
+    /// assert_eq!(vals, vec!["value_1", "value_2"]);
     ///
-    /// map.replace_all(&quot;X-Custom&quot;, vec![&quot;value_3&quot;.into(), &quot;value_4&quot;.into()]);
-    /// let vals: Vec&lt;_&gt; = map.get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(vals, vec![&quot;value_3&quot;, &quot;value_4&quot;]);
+    /// map.replace_all("X-Custom", vec!["value_3".into(), "value_4".into()]);
+    /// let vals: Vec&lt;_&gt; = map.get("X-Custom").collect();
+    /// assert_eq!(vals, vec!["value_3", "value_4"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>replace_all&lt;<span class="lifetime">&#39;n</span>, <span class="lifetime">&#39;v</span>: <span class="lifetime">&#39;h</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: H, values: Vec&lt;Cow&lt;<span class="lifetime">&#39;v</span>, str&gt;&gt;)
-        <span class="kw">where </span><span class="lifetime">&#39;n</span>: <span class="lifetime">&#39;h</span>, H: Into&lt;Cow&lt;<span class="lifetime">&#39;n</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>replace_all&lt;<span class="lifetime">'n</span>, <span class="lifetime">'v</span>: <span class="lifetime">'h</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: H, values: Vec&lt;Cow&lt;<span class="lifetime">'v</span>, str&gt;&gt;)
+        <span class="kw">where </span><span class="lifetime">'n</span>: <span class="lifetime">'h</span>, H: Into&lt;Cow&lt;<span class="lifetime">'n</span>, str&gt;&gt;
     {
         <span class="self">self</span>.headers.insert(Uncased::new(name), values);
     }
@@ -1305,14 +1305,14 @@
     ///
     /// let mut map = HeaderMap::new();
     ///
-    /// map.add(&amp;Cookie::new(&quot;a&quot;, &quot;b&quot;));
-    /// assert_eq!(map.get(&quot;Set-Cookie&quot;).count(), 1);
+    /// map.add(&amp;Cookie::new("a", "b"));
+    /// assert_eq!(map.get("Set-Cookie").count(), 1);
     ///
-    /// map.add(&amp;Cookie::new(&quot;c&quot;, &quot;d&quot;));
-    /// assert_eq!(map.get(&quot;Set-Cookie&quot;).count(), 2);
+    /// map.add(&amp;Cookie::new("c", "d"));
+    /// assert_eq!(map.get("Set-Cookie").count(), 2);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>add&lt;<span class="lifetime">&#39;p</span>: <span class="lifetime">&#39;h</span>, H: Into&lt;Header&lt;<span class="lifetime">&#39;p</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
+    </span><span class="kw">pub fn </span>add&lt;<span class="lifetime">'p</span>: <span class="lifetime">'h</span>, H: Into&lt;Header&lt;<span class="lifetime">'p</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, header: H) {
         <span class="kw">let </span>header = header.into();
         <span class="self">self</span>.headers.entry(header.name).or_insert(<span class="macro">vec!</span>[]).push(header.value);
     }
@@ -1328,16 +1328,16 @@
     ///
     /// let mut map = HeaderMap::new();
     ///
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// assert_eq!(map.get(&quot;X-Custom&quot;).count(), 1);
+    /// map.add_raw("X-Custom", "value_1");
+    /// assert_eq!(map.get("X-Custom").count(), 1);
     ///
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
-    /// let values: Vec&lt;_&gt; = map.get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(values, vec![&quot;value_1&quot;, &quot;value_2&quot;]);
+    /// map.add_raw("X-Custom", "value_2");
+    /// let values: Vec&lt;_&gt; = map.get("X-Custom").collect();
+    /// assert_eq!(values, vec!["value_1", "value_2"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>add_raw&lt;<span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;h</span>, <span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;h</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V)
-        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">&#39;b</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>add_raw&lt;<span class="lifetime">'a</span>: <span class="lifetime">'h</span>, <span class="lifetime">'b</span>: <span class="lifetime">'h</span>, N, V&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: N, value: V)
+        <span class="kw">where </span>N: Into&lt;Cow&lt;<span class="lifetime">'a</span>, str&gt;&gt;, V: Into&lt;Cow&lt;<span class="lifetime">'b</span>, str&gt;&gt;
     {
         <span class="self">self</span>.add(Header::new(name, value))
     }
@@ -1354,22 +1354,22 @@
     ///
     /// let mut map = HeaderMap::new();
     ///
-    /// let mut values = vec![&quot;value_1&quot;.into(), &quot;value_2&quot;.into()];
-    /// map.add_all(&quot;X-Custom&quot;, &amp;mut values);
-    /// assert_eq!(map.get(&quot;X-Custom&quot;).count(), 2);
+    /// let mut values = vec!["value_1".into(), "value_2".into()];
+    /// map.add_all("X-Custom", &amp;mut values);
+    /// assert_eq!(map.get("X-Custom").count(), 2);
     /// assert_eq!(values.len(), 0);
     ///
-    /// let mut values = vec![&quot;value_3&quot;.into(), &quot;value_4&quot;.into()];
-    /// map.add_all(&quot;X-Custom&quot;, &amp;mut values);
-    /// assert_eq!(map.get(&quot;X-Custom&quot;).count(), 4);
+    /// let mut values = vec!["value_3".into(), "value_4".into()];
+    /// map.add_all("X-Custom", &amp;mut values);
+    /// assert_eq!(map.get("X-Custom").count(), 4);
     /// assert_eq!(values.len(), 0);
     ///
-    /// let values: Vec&lt;_&gt; = map.get(&quot;X-Custom&quot;).collect();
-    /// assert_eq!(values, vec![&quot;value_1&quot;, &quot;value_2&quot;, &quot;value_3&quot;, &quot;value_4&quot;]);
+    /// let values: Vec&lt;_&gt; = map.get("X-Custom").collect();
+    /// assert_eq!(values, vec!["value_1", "value_2", "value_3", "value_4"]);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>add_all&lt;<span class="lifetime">&#39;n</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: H, values: <span class="kw-2">&amp;mut </span>Vec&lt;Cow&lt;<span class="lifetime">&#39;h</span>, str&gt;&gt;)
-        <span class="kw">where </span><span class="lifetime">&#39;n</span>:<span class="lifetime">&#39;h</span>, H: Into&lt;Cow&lt;<span class="lifetime">&#39;n</span>, str&gt;&gt;
+    </span><span class="kw">pub fn </span>add_all&lt;<span class="lifetime">'n</span>, H&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: H, values: <span class="kw-2">&amp;mut </span>Vec&lt;Cow&lt;<span class="lifetime">'h</span>, str&gt;&gt;)
+        <span class="kw">where </span><span class="lifetime">'n</span>:<span class="lifetime">'h</span>, H: Into&lt;Cow&lt;<span class="lifetime">'n</span>, str&gt;&gt;
     {
         <span class="self">self</span>.headers.entry(Uncased::new(name))
             .or_insert(<span class="macro">vec!</span>[])
@@ -1385,13 +1385,13 @@
     /// use rocket::http::HeaderMap;
     ///
     /// let mut map = HeaderMap::new();
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_1&quot;);
-    /// map.add_raw(&quot;X-Custom&quot;, &quot;value_2&quot;);
-    /// map.add_raw(&quot;X-Other&quot;, &quot;other&quot;);
+    /// map.add_raw("X-Custom", "value_1");
+    /// map.add_raw("X-Custom", "value_2");
+    /// map.add_raw("X-Other", "other");
     ///
     /// assert_eq!(map.len(), 3);
     ///
-    /// map.remove(&quot;X-Custom&quot;);
+    /// map.remove("X-Custom");
     /// assert_eq!(map.len(), 1);
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>remove(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>str) {
@@ -1410,11 +1410,11 @@
     /// use rocket::http::{HeaderMap, Header};
     /// use std::collections::HashSet;
     ///
-    /// // The headers we&#39;ll be storing.
+    /// // The headers we'll be storing.
     /// let all_headers = vec![
-    ///     Header::new(&quot;X-Custom&quot;, &quot;value_1&quot;),
-    ///     Header::new(&quot;X-Custom&quot;, &quot;value_2&quot;),
-    ///     Header::new(&quot;X-Other&quot;, &quot;other&quot;)
+    ///     Header::new("X-Custom", "value_1"),
+    ///     Header::new("X-Custom", "value_2"),
+    ///     Header::new("X-Other", "other")
     /// ];
     ///
     /// // Create a map, store all of the headers.
@@ -1429,13 +1429,13 @@
     /// let removed_headers = map.remove_all();
     /// assert!(map.is_empty());
     ///
-    /// // Create two sets: what we expect and got. Ensure they&#39;re equal.
+    /// // Create two sets: what we expect and got. Ensure they're equal.
     /// let expected_set: HashSet&lt;_&gt; = all_headers.into_iter().collect();
     /// let actual_set: HashSet&lt;_&gt; = removed_headers.into_iter().collect();
     /// assert_eq!(expected_set, actual_set);
     /// ```
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>remove_all(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Vec&lt;Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>remove_all(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; Vec&lt;Header&lt;<span class="lifetime">'h</span>&gt;&gt; {
         <span class="kw">let </span>old_map = std::mem::replace(<span class="self">self</span>, HeaderMap::new());
         old_map.into_iter().collect()
     }
@@ -1450,11 +1450,11 @@
     /// # extern crate rocket;
     /// use rocket::http::{HeaderMap, Header};
     ///
-    /// // The headers we&#39;ll be storing.
+    /// // The headers we'll be storing.
     /// let all_headers = vec![
-    ///     Header::new(&quot;X-Custom&quot;, &quot;value_1&quot;),
-    ///     Header::new(&quot;X-Other&quot;, &quot;other&quot;),
-    ///     Header::new(&quot;X-Third&quot;, &quot;third&quot;),
+    ///     Header::new("X-Custom", "value_1"),
+    ///     Header::new("X-Other", "other"),
+    ///     Header::new("X-Third", "third"),
     /// ];
     ///
     /// // Create a map, store all of the headers.
@@ -1469,14 +1469,14 @@
     /// // Actually iterate through them.
     /// for header in map.iter() {
     ///     match header.name().as_str() {
-    ///         &quot;X-Custom&quot; =&gt; assert_eq!(header.value(), &quot;value_1&quot;),
-    ///         &quot;X-Other&quot; =&gt; assert_eq!(header.value(), &quot;other&quot;),
-    ///         &quot;X-Third&quot; =&gt; assert_eq!(header.value(), &quot;third&quot;),
-    ///         _ =&gt; unreachable!(&quot;there are only three headers&quot;)
+    ///         "X-Custom" =&gt; assert_eq!(header.value(), "value_1"),
+    ///         "X-Other" =&gt; assert_eq!(header.value(), "other"),
+    ///         "X-Third" =&gt; assert_eq!(header.value(), "third"),
+    ///         _ =&gt; unreachable!("there are only three headers")
     ///     }
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=Header&lt;<span class="lifetime">&#39;_</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=Header&lt;<span class="lifetime">'_</span>&gt;&gt; {
         <span class="self">self</span>.headers.iter().flat_map(|(key, values)| {
             values.iter().map(<span class="kw">move </span>|val| {
                 Header::new(key.as_str(), <span class="kw-2">&amp;**</span>val)
@@ -1495,11 +1495,11 @@
     /// # extern crate rocket;
     /// use rocket::http::{HeaderMap, Header};
     ///
-    /// // The headers we&#39;ll be storing.
+    /// // The headers we'll be storing.
     /// let all_headers = vec![
-    ///     Header::new(&quot;X-Custom&quot;, &quot;value_1&quot;),
-    ///     Header::new(&quot;X-Other&quot;, &quot;other&quot;),
-    ///     Header::new(&quot;X-Third&quot;, &quot;third&quot;),
+    ///     Header::new("X-Custom", "value_1"),
+    ///     Header::new("X-Other", "other"),
+    ///     Header::new("X-Third", "third"),
     /// ];
     ///
     /// // Create a map, store all of the headers.
@@ -1514,16 +1514,16 @@
     /// // Actually iterate through them.
     /// for header in map.into_iter() {
     ///     match header.name().as_str() {
-    ///         &quot;X-Custom&quot; =&gt; assert_eq!(header.value(), &quot;value_1&quot;),
-    ///         &quot;X-Other&quot; =&gt; assert_eq!(header.value(), &quot;other&quot;),
-    ///         &quot;X-Third&quot; =&gt; assert_eq!(header.value(), &quot;third&quot;),
-    ///         _ =&gt; unreachable!(&quot;there are only three headers&quot;)
+    ///         "X-Custom" =&gt; assert_eq!(header.value(), "value_1"),
+    ///         "X-Other" =&gt; assert_eq!(header.value(), "other"),
+    ///         "X-Third" =&gt; assert_eq!(header.value(), "third"),
+    ///         _ =&gt; unreachable!("there are only three headers")
     ///     }
     /// }
     /// ```
     </span><span class="comment">// TODO: Implement IntoIterator.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=Header&lt;<span class="lifetime">&#39;h</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item=Header&lt;<span class="lifetime">'h</span>&gt;&gt; {
         <span class="self">self</span>.headers.into_iter().flat_map(|(name, value)| {
             value.into_iter().map(<span class="kw">move </span>|value| {
                 Header { name: name.clone(), value }
@@ -1538,20 +1538,20 @@
     </span><span class="attr">#[doc(hidden)]
     #[inline]
     </span><span class="kw">pub fn </span>into_iter_raw(<span class="self">self</span>)
-            -&gt; <span class="kw">impl </span>Iterator&lt;Item=(Uncased&lt;<span class="lifetime">&#39;h</span>&gt;, Vec&lt;Cow&lt;<span class="lifetime">&#39;h</span>, str&gt;&gt;)&gt; {
+            -&gt; <span class="kw">impl </span>Iterator&lt;Item=(Uncased&lt;<span class="lifetime">'h</span>&gt;, Vec&lt;Cow&lt;<span class="lifetime">'h</span>, str&gt;&gt;)&gt; {
         <span class="self">self</span>.headers.into_iter()
     }
 }
 
-<span class="kw">impl </span>From&lt;cookie::Cookie&lt;<span class="lifetime">&#39;_</span>&gt;&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
-    <span class="kw">fn </span>from(cookie: cookie::Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
-        Header::new(<span class="string">&quot;Set-Cookie&quot;</span>, cookie.encoded().to_string())
+<span class="kw">impl </span>From&lt;cookie::Cookie&lt;<span class="lifetime">'_</span>&gt;&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>from(cookie: cookie::Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Header&lt;<span class="lifetime">'static</span>&gt; {
+        Header::new(<span class="string">"Set-Cookie"</span>, cookie.encoded().to_string())
     }
 }
 
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>cookie::Cookie&lt;<span class="lifetime">&#39;_</span>&gt;&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">&#39;static</span>&gt; {
-    <span class="kw">fn </span>from(cookie: <span class="kw-2">&amp;</span>cookie::Cookie&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Header&lt;<span class="lifetime">&#39;static</span>&gt; {
-        Header::new(<span class="string">&quot;Set-Cookie&quot;</span>, cookie.encoded().to_string())
+<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>cookie::Cookie&lt;<span class="lifetime">'_</span>&gt;&gt; <span class="kw">for </span>Header&lt;<span class="lifetime">'static</span>&gt; {
+    <span class="kw">fn </span>from(cookie: <span class="kw-2">&amp;</span>cookie::Cookie&lt;<span class="lifetime">'_</span>&gt;) -&gt; Header&lt;<span class="lifetime">'static</span>&gt; {
+        Header::new(<span class="string">"Set-Cookie"</span>, cookie.encoded().to_string())
     }
 }
 
@@ -1562,24 +1562,24 @@
     <span class="attr">#[test]
     </span><span class="kw">fn </span>case_insensitive_add_get() {
         <span class="kw">let </span><span class="kw-2">mut </span>map = HeaderMap::new();
-        map.add_raw(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>);
+        map.add_raw(<span class="string">"content-type"</span>, <span class="string">"application/json"</span>);
 
-        <span class="kw">let </span>ct = map.get_one(<span class="string">&quot;Content-Type&quot;</span>);
-        <span class="macro">assert_eq!</span>(ct, <span class="prelude-val">Some</span>(<span class="string">&quot;application/json&quot;</span>));
+        <span class="kw">let </span>ct = map.get_one(<span class="string">"Content-Type"</span>);
+        <span class="macro">assert_eq!</span>(ct, <span class="prelude-val">Some</span>(<span class="string">"application/json"</span>));
 
-        <span class="kw">let </span>ct2 = map.get_one(<span class="string">&quot;CONTENT-TYPE&quot;</span>);
-        <span class="macro">assert_eq!</span>(ct2, <span class="prelude-val">Some</span>(<span class="string">&quot;application/json&quot;</span>))
+        <span class="kw">let </span>ct2 = map.get_one(<span class="string">"CONTENT-TYPE"</span>);
+        <span class="macro">assert_eq!</span>(ct2, <span class="prelude-val">Some</span>(<span class="string">"application/json"</span>))
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>case_insensitive_multiadd() {
         <span class="kw">let </span><span class="kw-2">mut </span>map = HeaderMap::new();
-        map.add_raw(<span class="string">&quot;x-custom&quot;</span>, <span class="string">&quot;a&quot;</span>);
-        map.add_raw(<span class="string">&quot;X-Custom&quot;</span>, <span class="string">&quot;b&quot;</span>);
-        map.add_raw(<span class="string">&quot;x-CUSTOM&quot;</span>, <span class="string">&quot;c&quot;</span>);
+        map.add_raw(<span class="string">"x-custom"</span>, <span class="string">"a"</span>);
+        map.add_raw(<span class="string">"X-Custom"</span>, <span class="string">"b"</span>);
+        map.add_raw(<span class="string">"x-CUSTOM"</span>, <span class="string">"c"</span>);
 
-        <span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = map.get(<span class="string">&quot;x-CuStOm&quot;</span>).collect();
-        <span class="macro">assert_eq!</span>(vals, <span class="macro">vec!</span>[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]);
+        <span class="kw">let </span>vals: Vec&lt;<span class="kw">_</span>&gt; = map.get(<span class="string">"x-CuStOm"</span>).collect();
+        <span class="macro">assert_eq!</span>(vals, <span class="macro">vec!</span>[<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]);
     }
 }
 </code></pre></div></section></main></body></html>

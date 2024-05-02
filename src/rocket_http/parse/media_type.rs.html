@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/parse/media_type.rs`."><title>media_type.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/parse/media_type.rs`."><title>media_type.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -252,44 +252,44 @@
 <span class="kw">use </span><span class="kw">crate</span>::header::{MediaType, Source};
 <span class="kw">use </span><span class="kw">crate</span>::parse::checkers::{is_whitespace, is_valid_token};
 
-<span class="kw">type </span>Input&lt;<span class="lifetime">&#39;a</span>&gt; = pear::input::Pear&lt;pear::input::Cursor&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt;;
-<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, T&gt; = pear::input::Result&lt;T, Input&lt;<span class="lifetime">&#39;a</span>&gt;&gt;;
+<span class="kw">type </span>Input&lt;<span class="lifetime">'a</span>&gt; = pear::input::Pear&lt;pear::input::Cursor&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt;;
+<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, T&gt; = pear::input::Result&lt;T, Input&lt;<span class="lifetime">'a</span>&gt;&gt;;
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>quoted_string&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;&gt; {
-    eat(<span class="string">&#39;&quot;&#39;</span>)<span class="question-mark">?</span>;
+</span><span class="kw">fn </span>quoted_string&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;&gt; {
+    eat(<span class="string">'"'</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let </span><span class="kw-2">mut </span>is_escaped = <span class="bool-val">false</span>;
     <span class="kw">let </span>inner = take_while(|<span class="kw-2">&amp;</span>c| {
         <span class="kw">if </span>is_escaped { is_escaped = <span class="bool-val">false</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
-        <span class="kw">if </span>c == <span class="string">&#39;\\&#39; </span>{ is_escaped = <span class="bool-val">true</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
-        c != <span class="string">&#39;&quot;&#39;
+        <span class="kw">if </span>c == <span class="string">'\\' </span>{ is_escaped = <span class="bool-val">true</span>; <span class="kw">return </span><span class="bool-val">true</span>; }
+        c != <span class="string">'"'
     </span>})<span class="question-mark">?</span>;
 
-    eat(<span class="string">&#39;&quot;&#39;</span>)<span class="question-mark">?</span>;
+    eat(<span class="string">'"'</span>)<span class="question-mark">?</span>;
     inner
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">fn </span>media_param&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, (Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;)&gt; {
-    <span class="kw">let </span>key = (take_some_while_until(is_valid_token, <span class="string">&#39;=&#39;</span>)<span class="question-mark">?</span>, eat(<span class="string">&#39;=&#39;</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
-    <span class="kw">let </span>value = <span class="macro">switch! </span>{
-        peek(<span class="string">&#39;&quot;&#39;</span>) =&gt; quoted_string()<span class="question-mark">?</span>,
-        <span class="kw">_ </span>=&gt; take_some_while_until(is_valid_token, <span class="string">&#39;;&#39;</span>)<span class="question-mark">?
+</span><span class="kw">fn </span>media_param&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, (Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;, Extent&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;)&gt; {
+    <span class="kw">let </span>key = (take_some_while_until(is_valid_token, <span class="string">'='</span>)<span class="question-mark">?</span>, eat(<span class="string">'='</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
+    <span class="kw">let </span>value = <span class="macro">switch!</span> {
+        peek(<span class="string">'"'</span>) =&gt; quoted_string()<span class="question-mark">?</span>,
+        <span class="kw">_ </span>=&gt; take_some_while_until(is_valid_token, <span class="string">';'</span>)<span class="question-mark">?
     </span>};
 
     (key, value)
 }
 
 <span class="attr">#[parser]
-</span><span class="kw">pub fn </span>media_type&lt;<span class="lifetime">&#39;a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;a</span>, MediaType&gt; {
+</span><span class="kw">pub fn </span>media_type&lt;<span class="lifetime">'a</span>&gt;(input: <span class="kw-2">&amp;mut </span>Input&lt;<span class="lifetime">'a</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'a</span>, MediaType&gt; {
     <span class="kw">let </span>(top, sub, params) = {
-        <span class="kw">let </span>top = (take_some_while_until(is_valid_token, <span class="string">&#39;/&#39;</span>)<span class="question-mark">?</span>, eat(<span class="string">&#39;/&#39;</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
-        <span class="kw">let </span>sub = take_some_while_until(is_valid_token, <span class="string">&#39;;&#39;</span>)<span class="question-mark">?</span>;
-        <span class="kw">let </span>params = prefixed_series(<span class="string">&#39;;&#39;</span>, |i| {
+        <span class="kw">let </span>top = (take_some_while_until(is_valid_token, <span class="string">'/'</span>)<span class="question-mark">?</span>, eat(<span class="string">'/'</span>)<span class="question-mark">?</span>).<span class="number">0</span>;
+        <span class="kw">let </span>sub = take_some_while_until(is_valid_token, <span class="string">';'</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>params = prefixed_series(<span class="string">';'</span>, |i| {
             <span class="kw">let </span>param = surrounded(i, media_param, is_whitespace)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>((param.<span class="number">0</span>.into(), param.<span class="number">1</span>.into()))
-        }, <span class="string">&#39;;&#39;</span>)<span class="question-mark">?</span>;
+        }, <span class="string">';'</span>)<span class="question-mark">?</span>;
 
         (top, sub, params)
     };
@@ -302,7 +302,7 @@
     }
 }
 
-<span class="kw">pub fn </span>parse_media_type(input: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;_</span>, MediaType&gt; {
+<span class="kw">pub fn </span>parse_media_type(input: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'_</span>, MediaType&gt; {
     <span class="macro">parse!</span>(media_type: Input::new(input))
 }
 
@@ -311,25 +311,25 @@
     <span class="kw">use </span><span class="kw">crate</span>::MediaType;
     <span class="kw">use </span><span class="kw">super</span>::parse_media_type;
 
-    <span class="macro">macro_rules! </span>assert_no_parse {
+    <span class="macro">macro_rules!</span> assert_no_parse {
         (<span class="macro-nonterminal">$string</span>:expr) =&gt; ({
             <span class="kw">let </span>result: <span class="prelude-ty">Result</span>&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt; = parse_media_type(<span class="macro-nonterminal">$string</span>).into();
             <span class="kw">if </span>result.is_ok() {
-                <span class="macro">panic!</span>(<span class="string">&quot;{:?} parsed unexpectedly.&quot;</span>, <span class="macro-nonterminal">$string</span>)
+                <span class="macro">panic!</span>(<span class="string">"{:?} parsed unexpectedly."</span>, <span class="macro-nonterminal">$string</span>)
             }
         });
     }
 
-    <span class="macro">macro_rules! </span>assert_parse {
+    <span class="macro">macro_rules!</span> assert_parse {
         (<span class="macro-nonterminal">$string</span>:expr) =&gt; ({
             <span class="kw">match </span>parse_media_type(<span class="macro-nonterminal">$string</span>) {
                 <span class="prelude-val">Ok</span>(media_type) =&gt; media_type,
-                <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;{:?} failed to parse: {}&quot;</span>, <span class="macro-nonterminal">$string</span>, e)
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">"{:?} failed to parse: {}"</span>, <span class="macro-nonterminal">$string</span>, e)
             }
         });
     }
 
-    <span class="macro">macro_rules! </span>assert_parse_eq {
+    <span class="macro">macro_rules!</span> assert_parse_eq {
         (@full <span class="macro-nonterminal">$string</span>:expr, <span class="macro-nonterminal">$result</span>:expr, $((<span class="macro-nonterminal">$k</span>:expr, <span class="macro-nonterminal">$v</span>:expr)),<span class="kw-2">*</span>) =&gt; ({
             <span class="kw">let </span>result = <span class="macro">assert_parse!</span>(<span class="macro-nonterminal">$string</span>);
             <span class="macro">assert_eq!</span>(result, <span class="macro-nonterminal">$result</span>);
@@ -353,137 +353,137 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>check_does_parse() {
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;text/html&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;a/b&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*&quot;</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"text/html"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"a/b"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*"</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>check_parse_eq() {
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;text/html&quot;</span>, into: MediaType::HTML);
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;text/html; charset=utf-8&quot;</span>, into: MediaType::HTML);
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;text/html&quot;</span>, into: MediaType::HTML);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"text/html"</span>, into: MediaType::HTML);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"text/html; charset=utf-8"</span>, into: MediaType::HTML);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"text/html"</span>, into: MediaType::HTML);
 
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;a/b&quot;</span>, into: MediaType::new(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>));
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;*/*&quot;</span>, into: MediaType::Any);
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;application/pdf&quot;</span>, into: MediaType::PDF);
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;application/json&quot;</span>, into: MediaType::JSON);
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;image/svg+xml&quot;</span>, into: MediaType::SVG);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"a/b"</span>, into: MediaType::new(<span class="string">"a"</span>, <span class="string">"b"</span>));
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"*/*"</span>, into: MediaType::Any);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"application/pdf"</span>, into: MediaType::PDF);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"application/json"</span>, into: MediaType::JSON);
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"image/svg+xml"</span>, into: MediaType::SVG);
 
-        <span class="macro">assert_parse_eq!</span>(from: <span class="string">&quot;*/json&quot;</span>, into: MediaType::new(<span class="string">&quot;*&quot;</span>, <span class="string">&quot;json&quot;</span>));
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;application/*; param=1&quot;</span>,
-            into: MediaType::new(<span class="string">&quot;application&quot;</span>, <span class="string">&quot;*&quot;</span>)
+        <span class="macro">assert_parse_eq!</span>(from: <span class="string">"*/json"</span>, into: MediaType::new(<span class="string">"*"</span>, <span class="string">"json"</span>));
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"application/*; param=1"</span>,
+            into: MediaType::new(<span class="string">"application"</span>, <span class="string">"*"</span>)
         };
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>check_param_eq() {
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;text/html; a=b; b=c; c=d&quot;</span>,
-            into: MediaType::new(<span class="string">&quot;text&quot;</span>, <span class="string">&quot;html&quot;</span>),
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>), (<span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>)
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"text/html; a=b; b=c; c=d"</span>,
+            into: MediaType::new(<span class="string">"text"</span>, <span class="string">"html"</span>),
+            params: (<span class="string">"a"</span>, <span class="string">"b"</span>), (<span class="string">"b"</span>, <span class="string">"c"</span>), (<span class="string">"c"</span>, <span class="string">"d"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;text/html;a=b;b=c;     c=d; d=e&quot;</span>,
-            into: MediaType::new(<span class="string">&quot;text&quot;</span>, <span class="string">&quot;html&quot;</span>),
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>), (<span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>), (<span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>)
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"text/html;a=b;b=c;     c=d; d=e"</span>,
+            into: MediaType::new(<span class="string">"text"</span>, <span class="string">"html"</span>),
+            params: (<span class="string">"a"</span>, <span class="string">"b"</span>), (<span class="string">"b"</span>, <span class="string">"c"</span>), (<span class="string">"c"</span>, <span class="string">"d"</span>), (<span class="string">"d"</span>, <span class="string">"e"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;text/html; charset=utf-8&quot;</span>,
-            into: MediaType::new(<span class="string">&quot;text&quot;</span>, <span class="string">&quot;html&quot;</span>),
-            params: (<span class="string">&quot;charset&quot;</span>, <span class="string">&quot;utf-8&quot;</span>)
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"text/html; charset=utf-8"</span>,
+            into: MediaType::new(<span class="string">"text"</span>, <span class="string">"html"</span>),
+            params: (<span class="string">"charset"</span>, <span class="string">"utf-8"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;application/*; param=1&quot;</span>,
-            into: MediaType::new(<span class="string">&quot;application&quot;</span>, <span class="string">&quot;*&quot;</span>),
-            params: (<span class="string">&quot;param&quot;</span>, <span class="string">&quot;1&quot;</span>)
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"application/*; param=1"</span>,
+            into: MediaType::new(<span class="string">"application"</span>, <span class="string">"*"</span>),
+            params: (<span class="string">"param"</span>, <span class="string">"1"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;*/*;q=0.5;b=c;c=d&quot;</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"*/*;q=0.5;b=c;c=d"</span>,
             into: MediaType::Any,
-            params: (<span class="string">&quot;q&quot;</span>, <span class="string">&quot;0.5&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>), (<span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>)
+            params: (<span class="string">"q"</span>, <span class="string">"0.5"</span>), (<span class="string">"b"</span>, <span class="string">"c"</span>), (<span class="string">"c"</span>, <span class="string">"d"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">&quot;multipart/form-data; boundary=----WebKitFormBoundarypRshfItmvaC3aEuq&quot;</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">"multipart/form-data; boundary=----WebKitFormBoundarypRshfItmvaC3aEuq"</span>,
             into: MediaType::FormData,
-            params: (<span class="string">&quot;boundary&quot;</span>, <span class="string">&quot;----WebKitFormBoundarypRshfItmvaC3aEuq&quot;</span>)
+            params: (<span class="string">"boundary"</span>, <span class="string">"----WebKitFormBoundarypRshfItmvaC3aEuq"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">r#&quot;*/*; a=&quot;hello, world!@#$%^&amp;*();;hi&quot;&quot;#</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">r#"*/*; a="hello, world!@#$%^&amp;*();;hi""#</span>,
             into: MediaType::Any,
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;hello, world!@#$%^&amp;*();;hi&quot;</span>)
+            params: (<span class="string">"a"</span>, <span class="string">"hello, world!@#$%^&amp;*();;hi"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">r#&quot;application/json; a=&quot;;,;&quot;&quot;#</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">r#"application/json; a=";,;""#</span>,
             into: MediaType::JSON,
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;;,;&quot;</span>)
+            params: (<span class="string">"a"</span>, <span class="string">";,;"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">r#&quot;application/json; a=&quot;;,;&quot;; b=c&quot;#</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">r#"application/json; a=";,;"; b=c"#</span>,
             into: MediaType::JSON,
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;;,;&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>)
+            params: (<span class="string">"a"</span>, <span class="string">";,;"</span>), (<span class="string">"b"</span>, <span class="string">"c"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">r#&quot;application/json; b=c; a=&quot;;.,.;&quot;&quot;#</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">r#"application/json; b=c; a=";.,.;""#</span>,
             into: MediaType::JSON,
-            params: (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>), (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;;.,.;&quot;</span>)
+            params: (<span class="string">"b"</span>, <span class="string">"c"</span>), (<span class="string">"a"</span>, <span class="string">";.,.;"</span>)
         };
 
-        <span class="macro">assert_parse_eq! </span>{
-            from: <span class="string">r#&quot;*/*; a=&quot;a&quot;; b=&quot;b&quot;; a=a; b=b; c=c&quot;#</span>,
+        <span class="macro">assert_parse_eq!</span> {
+            from: <span class="string">r#"*/*; a="a"; b="b"; a=a; b=b; c=c"#</span>,
             into: MediaType::Any,
-            params: (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;b&quot;</span>), (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>), (<span class="string">&quot;b&quot;</span>, <span class="string">&quot;b&quot;</span>), (<span class="string">&quot;c&quot;</span>, <span class="string">&quot;c&quot;</span>)
+            params: (<span class="string">"a"</span>, <span class="string">"a"</span>), (<span class="string">"b"</span>, <span class="string">"b"</span>), (<span class="string">"a"</span>, <span class="string">"a"</span>), (<span class="string">"b"</span>, <span class="string">"b"</span>), (<span class="string">"c"</span>, <span class="string">"c"</span>)
         };
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>check_params_do_parse() {
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1; q=2&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1;q=2;q=3;a=v;c=1;da=1;sdlkldsadasd=uhisdcb89&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1; q=2&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1; q=2; a=b;c=d;    e=f; a=s;a=e&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1; q=2 ; a=b&quot;</span>);
-        <span class="macro">assert_parse!</span>(<span class="string">&quot;*/*; q=1; q=2; hello=\&quot;world !\&quot;&quot;</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1; q=2"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1;q=2;q=3;a=v;c=1;da=1;sdlkldsadasd=uhisdcb89"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1; q=2"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1; q=2; a=b;c=d;    e=f; a=s;a=e"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1; q=2 ; a=b"</span>);
+        <span class="macro">assert_parse!</span>(<span class="string">"*/*; q=1; q=2; hello=\"world !\""</span>);
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_bad_parses() {
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*&amp;_/*)()&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;/json&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;text/&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;text//&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;/&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;/*&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;///&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;application//json&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;application///json&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;a/b;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a=b;;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a=b;a&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a=b; &quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a=b;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a = b&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a= b&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*; a =b&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">r#&quot;*/*; a=&quot;b&quot;#</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">r#&quot;*/*; a=&quot;b; c=d&quot;#</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">r#&quot;*/*; a=&quot;b; c=d&quot;#</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*;a=@#$%^&amp;*()&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*;;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*;=;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*=;&quot;</span>);
-        <span class="macro">assert_no_parse!</span>(<span class="string">&quot;*/*=;=&quot;</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*&amp;_/*)()"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"/json"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"text/"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"text//"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"/"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"/*"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"///"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"application//json"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"application///json"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"a/b;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a=b;;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a=b;a"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a=b; "</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a=b;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a = b"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a= b"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*; a =b"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">r#"*/*; a="b"#</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">r#"*/*; a="b; c=d"#</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">r#"*/*; a="b; c=d"#</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*;a=@#$%^&amp;*()"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*;;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*;=;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*=;"</span>);
+        <span class="macro">assert_no_parse!</span>(<span class="string">"*/*=;="</span>);
     }
 }
 </code></pre></div></section></main></body></html>

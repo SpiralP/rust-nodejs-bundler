@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/bang/uri.rs`."><title>uri.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/bang/uri.rs`."><title>uri.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -258,18 +258,18 @@
 <span class="kw">use </span><span class="kw">crate</span>::exports::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::URI_MACRO_PREFIX;
 
-<span class="macro">macro_rules! </span>p {
+<span class="macro">macro_rules!</span> p {
     (@go <span class="macro-nonterminal">$num</span>:expr, <span class="macro-nonterminal">$singular</span>:expr, <span class="macro-nonterminal">$plural</span>:expr) =&gt; (
         <span class="kw">if </span><span class="macro-nonterminal">$num </span>== <span class="number">1 </span>{ <span class="macro-nonterminal">$singular</span>.into() } <span class="kw">else </span>{ <span class="macro-nonterminal">$plural </span>}
     );
 
-    (<span class="string">&quot;parameter&quot;</span>, <span class="macro-nonterminal">$n</span>:expr) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">&quot;parameter&quot;</span>, <span class="string">&quot;parameters&quot;</span>));
-    (<span class="macro-nonterminal">$n</span>:expr, <span class="string">&quot;was&quot;</span>) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">&quot;1 was&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{} were&quot;</span>, <span class="macro-nonterminal">$n</span>)));
-    (<span class="macro-nonterminal">$n</span>:expr, <span class="string">&quot;parameter&quot;</span>) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">&quot;1 parameter&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{} parameters&quot;</span>, <span class="macro-nonterminal">$n</span>)));
+    (<span class="string">"parameter"</span>, <span class="macro-nonterminal">$n</span>:expr) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">"parameter"</span>, <span class="string">"parameters"</span>));
+    (<span class="macro-nonterminal">$n</span>:expr, <span class="string">"was"</span>) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">"1 was"</span>, <span class="macro">format!</span>(<span class="string">"{} were"</span>, <span class="macro-nonterminal">$n</span>)));
+    (<span class="macro-nonterminal">$n</span>:expr, <span class="string">"parameter"</span>) =&gt; (<span class="macro">p!</span>(@go <span class="macro-nonterminal">$n</span>, <span class="string">"1 parameter"</span>, <span class="macro">format!</span>(<span class="string">"{} parameters"</span>, <span class="macro-nonterminal">$n</span>)));
 }
 
 <span class="kw">pub fn </span>prefix_last_segment(path: <span class="kw-2">&amp;mut </span>syn::Path, prefix: <span class="kw-2">&amp;</span>str) {
-    <span class="kw">let </span>last_seg = path.segments.last_mut().expect(<span class="string">&quot;syn::Path has segments&quot;</span>);
+    <span class="kw">let </span>last_seg = path.segments.last_mut().expect(<span class="string">"syn::Path has segments"</span>);
     last_seg.ident = last_seg.ident.prepend(prefix);
 }
 
@@ -298,7 +298,7 @@
             <span class="kw">let </span>path_param_count = path_params.clone().count();
             <span class="kw">for </span>expr <span class="kw">in </span>exprs.iter().take(path_param_count) {
                 <span class="kw">if </span>expr.as_expr().is_none() {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(expr.span().error(<span class="string">&quot;path parameters cannot be ignored&quot;</span>));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(expr.span().error(<span class="string">"path parameters cannot be ignored"</span>));
                 }
             }
 
@@ -312,8 +312,8 @@
             route_name.retain(|c| !c.is_whitespace());
 
             <span class="kw">let </span>diag = internal.uri_mac.args_span()
-                .error(<span class="string">&quot;expected unnamed arguments due to ignored parameters&quot;</span>)
-                .note(<span class="macro">format!</span>(<span class="string">&quot;uri for route `{}` ignores path parameters: \&quot;{}\&quot;&quot;</span>,
+                .error(<span class="string">"expected unnamed arguments due to ignored parameters"</span>)
+                .note(<span class="macro">format!</span>(<span class="string">"uri for route `{}` ignores path parameters: \"{}\""</span>,
                         route_name, internal.route_uri));
 
             <span class="prelude-val">Err</span>(diag)
@@ -323,38 +323,38 @@
             route_name.retain(|c| !c.is_whitespace());
 
             <span class="kw">let </span>diag = internal.uri_mac.args_span()
-                .error(<span class="macro">format!</span>(<span class="string">&quot;route expects {} but {} supplied&quot;</span>,
-                         <span class="macro">p!</span>(expected, <span class="string">&quot;parameter&quot;</span>), <span class="macro">p!</span>(actual, <span class="string">&quot;was&quot;</span>)))
-                .note(<span class="macro">format!</span>(<span class="string">&quot;route `{}` has uri \&quot;{}\&quot;&quot;</span>, route_name, internal.route_uri));
+                .error(<span class="macro">format!</span>(<span class="string">"route expects {} but {} supplied"</span>,
+                         <span class="macro">p!</span>(expected, <span class="string">"parameter"</span>), <span class="macro">p!</span>(actual, <span class="string">"was"</span>)))
+                .note(<span class="macro">format!</span>(<span class="string">"route `{}` has uri \"{}\""</span>, route_name, internal.route_uri));
 
             <span class="prelude-val">Err</span>(diag)
         }
         Validation::Named(missing, extra, dup) =&gt; {
-            <span class="kw">let </span>e = <span class="macro">format!</span>(<span class="string">&quot;invalid parameters for `{}` route uri&quot;</span>, <span class="macro">quote!</span>(#route_name));
+            <span class="kw">let </span>e = <span class="macro">format!</span>(<span class="string">"invalid parameters for `{}` route uri"</span>, <span class="macro">quote!</span>(#route_name));
             <span class="kw">let </span><span class="kw-2">mut </span>diag = internal.uri_mac.args_span().error(e)
-                .note(<span class="macro">format!</span>(<span class="string">&quot;uri parameters are: {}&quot;</span>, internal.fn_args_str()));
+                .note(<span class="macro">format!</span>(<span class="string">"uri parameters are: {}"</span>, internal.fn_args_str()));
 
-            <span class="kw">fn </span>join&lt;S: Display, T: Iterator&lt;Item = S&gt;&gt;(iter: T) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str, String) {
-                <span class="kw">let </span><span class="kw-2">mut </span>items: Vec&lt;<span class="kw">_</span>&gt; = iter.map(|i| <span class="macro">format!</span>(<span class="string">&quot;`{}`&quot;</span>, i)).collect();
+            <span class="kw">fn </span>join&lt;S: Display, T: Iterator&lt;Item = S&gt;&gt;(iter: T) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str, String) {
+                <span class="kw">let </span><span class="kw-2">mut </span>items: Vec&lt;<span class="kw">_</span>&gt; = iter.map(|i| <span class="macro">format!</span>(<span class="string">"`{}`"</span>, i)).collect();
                 items.dedup();
-                (<span class="macro">p!</span>(<span class="string">&quot;parameter&quot;</span>, items.len()), items.join(<span class="string">&quot;, &quot;</span>))
+                (<span class="macro">p!</span>(<span class="string">"parameter"</span>, items.len()), items.join(<span class="string">", "</span>))
             }
 
             <span class="kw">if </span>!missing.is_empty() {
                 <span class="kw">let </span>(ps, msg) = join(missing.iter());
-                diag = diag.help(<span class="macro">format!</span>(<span class="string">&quot;missing {}: {}&quot;</span>, ps, msg));
+                diag = diag.help(<span class="macro">format!</span>(<span class="string">"missing {}: {}"</span>, ps, msg));
             }
 
             <span class="kw">if </span>!extra.is_empty() {
                 <span class="kw">let </span>(ps, msg) = join(extra.iter());
                 <span class="kw">let </span>spans: Vec&lt;<span class="kw">_</span>&gt; = extra.iter().map(|ident| ident.span()).collect();
-                diag = diag.span_help(spans, <span class="macro">format!</span>(<span class="string">&quot;unknown {}: {}&quot;</span>, ps, msg));
+                diag = diag.span_help(spans, <span class="macro">format!</span>(<span class="string">"unknown {}: {}"</span>, ps, msg));
             }
 
             <span class="kw">if </span>!dup.is_empty() {
                 <span class="kw">let </span>(ps, msg) = join(dup.iter());
                 <span class="kw">let </span>spans: Vec&lt;<span class="kw">_</span>&gt; = dup.iter().map(|ident| ident.span()).collect();
-                diag = diag.span_help(spans, <span class="macro">format!</span>(<span class="string">&quot;duplicate {}: {}&quot;</span>, ps, msg));
+                diag = diag.span_help(spans, <span class="macro">format!</span>(<span class="string">"duplicate {}: {}"</span>, ps, msg));
             }
 
             <span class="prelude-val">Err</span>(diag)
@@ -378,11 +378,11 @@
     ));
 }
 
-<span class="kw">fn </span>explode_path&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="kw">fn </span>explode_path&lt;<span class="lifetime">'a</span>&gt;(
     internal: <span class="kw-2">&amp;</span>InternalUriParams,
     bindings: <span class="kw-2">&amp;mut </span>Vec&lt;TokenStream&gt;,
-    <span class="kw-2">mut </span>exprs: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Expr&gt;,
-    <span class="kw-2">mut </span>args: <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Ident, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Type)&gt;,
+    <span class="kw-2">mut </span>exprs: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Expr&gt;,
+    <span class="kw-2">mut </span>args: <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Ident, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Type)&gt;,
 ) -&gt; TokenStream {
     <span class="kw">if </span>internal.dynamic_path_params().count() == <span class="number">0 </span>{
         <span class="kw">let </span>path = internal.route_uri.path().as_str();
@@ -395,13 +395,13 @@
                     <span class="macro">quote!</span>(<span class="kw-2">&amp;</span>#name <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>#uri_display)
                 },
                 Parameter::Dynamic(<span class="kw">_</span>) | Parameter::Guard(<span class="kw">_</span>) =&gt; {
-                    <span class="kw">let </span>(ident, ty) = args.next().expect(<span class="string">&quot;ident/ty for non-ignored&quot;</span>);
-                    <span class="kw">let </span>expr = exprs.next().expect(<span class="string">&quot;one expr per dynamic arg&quot;</span>);
+                    <span class="kw">let </span>(ident, ty) = args.next().expect(<span class="string">"ident/ty for non-ignored"</span>);
+                    <span class="kw">let </span>expr = exprs.next().expect(<span class="string">"one expr per dynamic arg"</span>);
                     add_binding::&lt;fmt::Path&gt;(bindings, <span class="kw-2">&amp;</span>ident, <span class="kw-2">&amp;</span>ty, <span class="kw-2">&amp;</span>expr);
                     <span class="macro">quote_spanned!</span>(expr.span() =&gt; <span class="kw-2">&amp;</span>#ident <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>#uri_display)
                 }
                 Parameter::Ignored(<span class="kw">_</span>) =&gt; {
-                    <span class="kw">let </span>expr = exprs.next().expect(<span class="string">&quot;one expr per dynamic arg&quot;</span>);
+                    <span class="kw">let </span>expr = exprs.next().expect(<span class="string">"one expr per dynamic arg"</span>);
                     <span class="macro">quote_spanned!</span>(expr.span() =&gt; <span class="kw-2">&amp;</span>#expr <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>#uri_display)
                 }
             }
@@ -411,11 +411,11 @@
     }
 }
 
-<span class="kw">fn </span>explode_query&lt;<span class="lifetime">&#39;a</span>&gt;(
+<span class="kw">fn </span>explode_query&lt;<span class="lifetime">'a</span>&gt;(
     internal: <span class="kw-2">&amp;</span>InternalUriParams,
     bindings: <span class="kw-2">&amp;mut </span>Vec&lt;TokenStream&gt;,
-    <span class="kw-2">mut </span>arg_exprs: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>ArgExpr&gt;,
-    <span class="kw-2">mut </span>args: <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Ident, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Type)&gt;,
+    <span class="kw-2">mut </span>arg_exprs: <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ArgExpr&gt;,
+    <span class="kw-2">mut </span>args: <span class="kw">impl </span>Iterator&lt;Item = (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Ident, <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Type)&gt;,
 ) -&gt; <span class="prelude-ty">Option</span>&lt;TokenStream&gt; {
     <span class="kw">let </span>query = internal.route_uri.query()<span class="question-mark">?</span>.as_str();
     <span class="kw">if </span>internal.dynamic_query_params().count() == <span class="number">0 </span>{
@@ -435,16 +435,16 @@
             },
             Parameter::Dynamic(<span class="kw-2">ref </span>seg) =&gt; seg,
             Parameter::Guard(<span class="kw-2">ref </span>seg) =&gt; seg,
-            Parameter::Ignored(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;invariant: unignorable q&quot;</span>)
+            Parameter::Ignored(<span class="kw">_</span>) =&gt; <span class="macro">unreachable!</span>(<span class="string">"invariant: unignorable q"</span>)
         };
 
-        <span class="kw">let </span>(ident, ty) = args.next().expect(<span class="string">&quot;ident/ty for query&quot;</span>);
-        <span class="kw">let </span>arg_expr = arg_exprs.next().expect(<span class="string">&quot;one expr per query&quot;</span>);
+        <span class="kw">let </span>(ident, ty) = args.next().expect(<span class="string">"ident/ty for query"</span>);
+        <span class="kw">let </span>arg_expr = arg_exprs.next().expect(<span class="string">"one expr per query"</span>);
         <span class="kw">let </span>expr = <span class="kw">match </span>arg_expr.as_expr() {
             <span class="prelude-val">Some</span>(expr) =&gt; expr,
             <span class="prelude-val">None </span>=&gt; {
                 <span class="comment">// Force a typecheck for the `Ignoreable` trait.
-                </span>bindings.push(<span class="macro">quote_respanned! </span>{ arg_expr.span() =&gt;
+                </span>bindings.push(<span class="macro">quote_respanned!</span> { arg_expr.span() =&gt;
                     #_fmt::assert_ignorable::&lt;#_fmt::Query, #ty&gt;();
                 });
 
@@ -455,10 +455,10 @@
         <span class="kw">let </span>name = <span class="kw-2">&amp;</span>dynamic.name;
         add_binding::&lt;fmt::Query&gt;(bindings, <span class="kw-2">&amp;</span>ident, <span class="kw-2">&amp;</span>ty, <span class="kw-2">&amp;</span>expr);
         <span class="prelude-val">Some</span>(<span class="kw">match </span>dynamic.trailing {
-            <span class="bool-val">false </span>=&gt; <span class="macro">quote_spanned! </span>{ expr.span() =&gt;
+            <span class="bool-val">false </span>=&gt; <span class="macro">quote_spanned!</span> { expr.span() =&gt;
                 #query_arg::NameValue(#name, <span class="kw-2">&amp;</span>#ident <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>#uri_display)
             },
-            <span class="bool-val">true </span>=&gt; <span class="macro">quote_spanned! </span>{ expr.span() =&gt;
+            <span class="bool-val">true </span>=&gt; <span class="macro">quote_spanned!</span> { expr.span() =&gt;
                 #query_arg::Value(<span class="kw-2">&amp;</span>#ident <span class="kw">as </span><span class="kw-2">&amp;</span><span class="kw">dyn </span>#uri_display)
             },
         })
@@ -468,7 +468,7 @@
 }
 
 <span class="kw">pub fn </span>_uri_internal_macro(input: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
-    <span class="comment">// Parse the internal invocation and the user&#39;s URI param expressions.
+    <span class="comment">// Parse the internal invocation and the user's URI param expressions.
     </span><span class="kw">let </span>internal = syn::parse2::&lt;InternalUriParams&gt;(input)<span class="question-mark">?</span>;
     <span class="kw">let </span>(path_exprs, query_exprs, <span class="kw-2">mut </span>fn_args) = extract_exprs(<span class="kw-2">&amp;</span>internal)<span class="question-mark">?</span>;
 

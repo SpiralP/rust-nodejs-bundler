@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.6/src/filters/body.rs`."><title>body.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/warp-0.3.7/src/filters/body.rs`."><title>body.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="warp" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../warp/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -342,9 +342,6 @@
 <a href="#342" id="342">342</a>
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Body filters
 //!
 //! Filters that extract a body for a route.
@@ -359,10 +356,7 @@
 <span class="kw">use </span>headers::ContentLength;
 <span class="kw">use </span>http::header::CONTENT_TYPE;
 <span class="kw">use </span>hyper::Body;
-<span class="kw">use </span>mime;
 <span class="kw">use </span>serde::de::DeserializeOwned;
-<span class="kw">use </span>serde_json;
-<span class="kw">use </span>serde_urlencoded;
 
 <span class="kw">use </span><span class="kw">crate</span>::filter::{filter_fn, filter_fn_one, Filter, FilterBase};
 <span class="kw">use </span><span class="kw">crate</span>::reject::{<span class="self">self</span>, Rejection};
@@ -375,7 +369,7 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>body() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (Body,), Error = Rejection&gt; + Copy {
     filter_fn_one(|route| {
         future::ready(route.take_body().ok_or_else(|| {
-            <span class="macro">tracing::error!</span>(<span class="string">&quot;request body already taken in previous filter&quot;</span>);
+            <span class="macro">tracing::error!</span>(<span class="string">"request body already taken in previous filter"</span>);
             reject::known(BodyConsumedMultipleTimes { _p: () })
         }))
     })
@@ -398,14 +392,14 @@
 </span><span class="kw">pub fn </span>content_length_limit(limit: u64) -&gt; <span class="kw">impl </span>Filter&lt;Extract = (), Error = Rejection&gt; + Copy {
     <span class="kw">crate</span>::filters::header::header2()
         .map_err(<span class="kw">crate</span>::filter::Internal, |<span class="kw">_</span>| {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;content-length missing&quot;</span>);
+            <span class="macro">tracing::debug!</span>(<span class="string">"content-length missing"</span>);
             reject::length_required()
         })
         .and_then(<span class="kw">move </span>|ContentLength(length)| {
             <span class="kw">if </span>length &lt;= limit {
                 future::ok(())
             } <span class="kw">else </span>{
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;content-length: {} is over limit {}&quot;</span>, length, limit);
+                <span class="macro">tracing::debug!</span>(<span class="string">"content-length: {} is over limit {}"</span>, length, limit);
                 future::err(reject::payload_too_large())
             }
         })
@@ -433,7 +427,7 @@
 /// concatenated body.
 ///
 /// The contents of the body will be flattened into a single contiguous
-/// `Bytes`, which may require memory copies. If you don&#39;t require a
+/// `Bytes`, which may require memory copies. If you don't require a
 /// contiguous buffer, using `aggregate` can be give better performance.
 ///
 /// # Warning
@@ -449,13 +443,13 @@
 /// let route = warp::body::content_length_limit(1024 * 32)
 ///     .and(warp::body::bytes())
 ///     .map(|bytes: bytes::Bytes| {
-///         println!(&quot;bytes = {:?}&quot;, bytes);
+///         println!("bytes = {:?}", bytes);
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>bytes() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (Bytes,), Error = Rejection&gt; + Copy {
     body().and_then(|body: hyper::Body| {
         hyper::body::to_bytes(body).map_err(|err| {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;to_bytes error: {}&quot;</span>, err);
+            <span class="macro">tracing::debug!</span>(<span class="string">"to_bytes error: {}"</span>, err);
             reject::known(BodyReadError(err))
         })
     })
@@ -480,7 +474,7 @@
 /// fn full_body(mut body: impl Buf) {
 ///     // It could have several non-contiguous slices of memory...
 ///     while body.has_remaining() {
-///         println!(&quot;slice = {:?}&quot;, body.chunk());
+///         println!("slice = {:?}", body.chunk());
 ///         let cnt = body.chunk().len();
 ///         body.advance(cnt);
 ///     }
@@ -493,7 +487,7 @@
 </span><span class="kw">pub fn </span>aggregate() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (<span class="kw">impl </span>Buf,), Error = Rejection&gt; + Copy {
     body().and_then(|body: ::hyper::Body| {
         hyper::body::aggregate(body).map_err(|err| {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;aggregate error: {}&quot;</span>, err);
+            <span class="macro">tracing::debug!</span>(<span class="string">"aggregate error: {}"</span>, err);
             reject::known(BodyReadError(err))
         })
     })
@@ -516,7 +510,7 @@
 /// let route = warp::body::content_length_limit(1024 * 32)
 ///     .and(warp::body::json())
 ///     .map(|simple_map: HashMap&lt;String, String&gt;| {
-///         &quot;Got a JSON body!&quot;
+///         "Got a JSON body!"
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>json&lt;T: DeserializeOwned + Send&gt;() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (T,), Error = Rejection&gt; + Copy {
@@ -524,7 +518,7 @@
         .and(bytes())
         .and_then(|buf| <span class="kw">async move </span>{
             Json::decode(buf).map_err(|err| {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;request json body error: {}&quot;</span>, err);
+                <span class="macro">tracing::debug!</span>(<span class="string">"request json body error: {}"</span>, err);
                 reject::known(BodyDeserializeError { cause: err })
             })
         })
@@ -551,7 +545,7 @@
 /// let route = warp::body::content_length_limit(1024 * 32)
 ///     .and(warp::body::form())
 ///     .map(|simple_map: HashMap&lt;String, String&gt;| {
-///         &quot;Got a urlencoded body!&quot;
+///         "Got a urlencoded body!"
 ///     });
 /// ```
 </span><span class="kw">pub fn </span>form&lt;T: DeserializeOwned + Send&gt;() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (T,), Error = Rejection&gt; + Copy {
@@ -559,7 +553,7 @@
         .and(aggregate())
         .and_then(|buf| <span class="kw">async move </span>{
             Form::decode(buf).map_err(|err| {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;request form body error: {}&quot;</span>, err);
+                <span class="macro">tracing::debug!</span>(<span class="string">"request form body error: {}"</span>, err);
                 reject::known(BodyDeserializeError { cause: err })
             })
         })
@@ -568,7 +562,7 @@
 <span class="comment">// ===== Decoders =====
 
 </span><span class="kw">trait </span>Decode {
-    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;, mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;);
+    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">'static</span>&gt;, mime::Name&lt;<span class="lifetime">'static</span>&gt;);
     <span class="kw">const </span>WITH_NO_CONTENT_TYPE: bool;
 
     <span class="kw">fn </span>decode&lt;B: Buf, T: DeserializeOwned&gt;(buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;T, BoxError&gt;;
@@ -577,7 +571,7 @@
 <span class="kw">struct </span>Json;
 
 <span class="kw">impl </span>Decode <span class="kw">for </span>Json {
-    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;, mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;) = (mime::APPLICATION, mime::JSON);
+    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">'static</span>&gt;, mime::Name&lt;<span class="lifetime">'static</span>&gt;) = (mime::APPLICATION, mime::JSON);
     <span class="kw">const </span>WITH_NO_CONTENT_TYPE: bool = <span class="bool-val">true</span>;
 
     <span class="kw">fn </span>decode&lt;B: Buf, T: DeserializeOwned&gt;(<span class="kw-2">mut </span>buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;T, BoxError&gt; {
@@ -588,7 +582,7 @@
 <span class="kw">struct </span>Form;
 
 <span class="kw">impl </span>Decode <span class="kw">for </span>Form {
-    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;, mime::Name&lt;<span class="lifetime">&#39;static</span>&gt;) =
+    <span class="kw">const </span>MIME: (mime::Name&lt;<span class="lifetime">'static</span>&gt;, mime::Name&lt;<span class="lifetime">'static</span>&gt;) =
         (mime::APPLICATION, mime::WWW_FORM_URLENCODED);
     <span class="kw">const </span>WITH_NO_CONTENT_TYPE: bool = <span class="bool-val">true</span>;
 
@@ -597,13 +591,13 @@
     }
 }
 
-<span class="comment">// Require the `content-type` header to be this type (or, if there&#39;s no `content-type`
-// header at all, optimistically hope it&#39;s the right type).
+<span class="comment">// Require the `content-type` header to be this type (or, if there's no `content-type`
+// header at all, optimistically hope it's the right type).
 </span><span class="kw">fn </span>is_content_type&lt;D: Decode&gt;() -&gt; <span class="kw">impl </span>Filter&lt;Extract = (), Error = Rejection&gt; + Copy {
     filter_fn(<span class="kw">move </span>|route| {
         <span class="kw">let </span>(type_, subtype) = D::MIME;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(value) = route.headers().get(CONTENT_TYPE) {
-            <span class="macro">tracing::trace!</span>(<span class="string">&quot;is_content_type {}/{}? {:?}&quot;</span>, type_, subtype, value);
+            <span class="macro">tracing::trace!</span>(<span class="string">"is_content_type {}/{}? {:?}"</span>, type_, subtype, value);
             <span class="kw">let </span>ct = value
                 .to_str()
                 .ok()
@@ -613,7 +607,7 @@
                     future::ok(())
                 } <span class="kw">else </span>{
                     <span class="macro">tracing::debug!</span>(
-                        <span class="string">&quot;content-type {:?} doesn&#39;t match {}/{}&quot;</span>,
+                        <span class="string">"content-type {:?} doesn't match {}/{}"</span>,
                         value,
                         type_,
                         subtype
@@ -621,15 +615,15 @@
                     future::err(reject::unsupported_media_type())
                 }
             } <span class="kw">else </span>{
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;content-type {:?} couldn&#39;t be parsed&quot;</span>, value);
+                <span class="macro">tracing::debug!</span>(<span class="string">"content-type {:?} couldn't be parsed"</span>, value);
                 future::err(reject::unsupported_media_type())
             }
         } <span class="kw">else if </span>D::WITH_NO_CONTENT_TYPE {
             <span class="comment">// Optimistically assume its correct!
-            </span><span class="macro">tracing::trace!</span>(<span class="string">&quot;no content-type header, assuming {}/{}&quot;</span>, type_, subtype);
+            </span><span class="macro">tracing::trace!</span>(<span class="string">"no content-type header, assuming {}/{}"</span>, type_, subtype);
             future::ok(())
         } <span class="kw">else </span>{
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;no content-type found&quot;</span>);
+            <span class="macro">tracing::debug!</span>(<span class="string">"no content-type found"</span>);
             future::err(reject::unsupported_media_type())
         }
     })
@@ -644,7 +638,7 @@
 <span class="kw">impl </span>Stream <span class="kw">for </span>BodyStream {
     <span class="kw">type </span>Item = <span class="prelude-ty">Result</span>&lt;Bytes, <span class="kw">crate</span>::Error&gt;;
 
-    <span class="kw">fn </span>poll_next(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
+    <span class="kw">fn </span>poll_next(<span class="self">self</span>: Pin&lt;<span class="kw-2">&amp;mut </span><span class="self">Self</span>&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;) -&gt; Poll&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt;&gt; {
         <span class="kw">let </span>opt_item = <span class="macro">ready!</span>(Pin::new(<span class="kw-2">&amp;mut </span><span class="self">self</span>.get_mut().body).poll_next(cx));
 
         <span class="kw">match </span>opt_item {
@@ -667,13 +661,13 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>BodyDeserializeError {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Request body deserialize error: {}&quot;</span>, <span class="self">self</span>.cause)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Request body deserialize error: {}"</span>, <span class="self">self</span>.cause)
     }
 }
 
 <span class="kw">impl </span>StdError <span class="kw">for </span>BodyDeserializeError {
-    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>StdError + <span class="lifetime">&#39;static</span>)&gt; {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>StdError + <span class="lifetime">'static</span>)&gt; {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.cause.as_ref())
     }
 }
@@ -682,14 +676,14 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BodyReadError(::hyper::Error);
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>BodyReadError {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;Request body read error: {}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"Request body read error: {}"</span>, <span class="self">self</span>.<span class="number">0</span>)
     }
 }
 
 <span class="kw">impl </span>StdError <span class="kw">for </span>BodyReadError {}
 
-<span class="macro">unit_error! </span>{
-    <span class="kw">pub</span>(<span class="kw">crate</span>) BodyConsumedMultipleTimes: <span class="string">&quot;Request body consumed multiple times&quot;
+<span class="macro">unit_error!</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) BodyConsumedMultipleTimes: <span class="string">"Request body consumed multiple times"
 </span>}
 </code></pre></div></section></main></body></html>

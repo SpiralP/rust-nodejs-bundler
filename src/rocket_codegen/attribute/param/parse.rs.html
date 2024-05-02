@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/attribute/param/parse.rs`."><title>parse.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/attribute/param/parse.rs`."><title>parse.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -253,10 +253,10 @@
 <span class="kw">use </span><span class="kw">crate</span>::http::uri::fmt::{Part, Kind, Path};
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Error&lt;<span class="lifetime">&#39;a</span>&gt; {
-    segment: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+</span><span class="kw">pub struct </span>Error&lt;<span class="lifetime">'a</span>&gt; {
+    segment: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
     span: Span,
-    source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+    source: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str,
     source_span: Span,
     kind: ErrorKind,
 }
@@ -275,7 +275,7 @@
     <span class="kw">pub fn </span>parse&lt;P: Part&gt;(
         segment: <span class="kw-2">&amp;</span>str,
         span: Span,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">&#39;_</span>&gt;&gt;  {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">'_</span>&gt;&gt;  {
         <span class="kw">match </span>Parameter::parse::&lt;P&gt;(<span class="kw-2">&amp;</span>segment, span)<span class="question-mark">? </span>{
             Parameter::Dynamic(d) | Parameter::Ignored(d) =&gt; <span class="prelude-val">Ok</span>(d),
             Parameter::Guard(g) =&gt; <span class="prelude-val">Ok</span>(g.source),
@@ -288,13 +288,13 @@
     <span class="kw">pub fn </span>parse&lt;P: Part&gt;(
         segment: <span class="kw-2">&amp;</span>str,
         source_span: Span,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">&#39;_</span>&gt;&gt;  {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">'_</span>&gt;&gt;  {
         <span class="kw">let </span><span class="kw-2">mut </span>trailing = <span class="bool-val">false</span>;
 
         <span class="comment">// Check if this is a dynamic param. If so, check its well-formedness.
-        </span><span class="kw">if </span>segment.starts_with(<span class="string">&#39;&lt;&#39;</span>) &amp;&amp; segment.ends_with(<span class="string">&#39;&gt;&#39;</span>) {
+        </span><span class="kw">if </span>segment.starts_with(<span class="string">'&lt;'</span>) &amp;&amp; segment.ends_with(<span class="string">'&gt;'</span>) {
             <span class="kw">let </span><span class="kw-2">mut </span>name = <span class="kw-2">&amp;</span>segment[<span class="number">1</span>..(segment.len() - <span class="number">1</span>)];
-            <span class="kw">if </span>name.ends_with(<span class="string">&quot;..&quot;</span>) {
+            <span class="kw">if </span>name.ends_with(<span class="string">".."</span>) {
                 trailing = <span class="bool-val">true</span>;
                 name = <span class="kw-2">&amp;</span>name[..(name.len() - <span class="number">2</span>)];
             }
@@ -316,13 +316,13 @@
             }
         } <span class="kw">else if </span>segment.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::new(segment, source_span, ErrorKind::Empty));
-        } <span class="kw">else if </span>segment.starts_with(<span class="string">&#39;&lt;&#39;</span>) {
+        } <span class="kw">else if </span>segment.starts_with(<span class="string">'&lt;'</span>) {
             <span class="kw">let </span>candidate = candidate_from_malformed(segment);
-            source_span.warning(<span class="string">&quot;`segment` starts with `&lt;` but does not end with `&gt;`&quot;</span>)
-                .help(<span class="macro">format!</span>(<span class="string">&quot;perhaps you meant the dynamic parameter `&lt;{}&gt;`?&quot;</span>, candidate))
+            source_span.warning(<span class="string">"`segment` starts with `&lt;` but does not end with `&gt;`"</span>)
+                .help(<span class="macro">format!</span>(<span class="string">"perhaps you meant the dynamic parameter `&lt;{}&gt;`?"</span>, candidate))
                 .emit_as_item_tokens();
-        } <span class="kw">else if </span>segment.contains(<span class="string">&#39;&gt;&#39;</span>) || segment.contains(<span class="string">&#39;&lt;&#39;</span>) {
-            source_span.warning(<span class="string">&quot;`segment` contains `&lt;` or `&gt;` but is not a dynamic parameter&quot;</span>)
+        } <span class="kw">else if </span>segment.contains(<span class="string">'&gt;'</span>) || segment.contains(<span class="string">'&lt;'</span>) {
+            source_span.warning(<span class="string">"`segment` contains `&lt;` or `&gt;` but is not a dynamic parameter"</span>)
                 .emit_as_item_tokens();
         }
 
@@ -332,7 +332,7 @@
     <span class="kw">pub fn </span>parse_many&lt;P: Part&gt;(
         source: <span class="kw-2">&amp;</span>str,
         source_span: Span,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">&#39;_</span>&gt;&gt;&gt; {
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, Error&lt;<span class="lifetime">'_</span>&gt;&gt;&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>trailing: <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span>str, Span)&gt; = <span class="prelude-val">None</span>;
 
         <span class="comment">// We check for empty segments when we parse an `Origin` in `FromMeta`.
@@ -365,59 +365,59 @@
 }
 
 <span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>ErrorKind {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            ErrorKind::Empty =&gt; <span class="string">&quot;parameters cannot be empty&quot;</span>.fmt(f),
-            ErrorKind::BadIdent =&gt; <span class="string">&quot;invalid identifier&quot;</span>.fmt(f),
-            ErrorKind::Ignored =&gt; <span class="string">&quot;parameter must be named&quot;</span>.fmt(f),
-            ErrorKind::NoTrailing =&gt; <span class="string">&quot;parameter cannot be trailing&quot;</span>.fmt(f),
-            ErrorKind::EarlyTrailing =&gt; <span class="string">&quot;unexpected text after trailing parameter&quot;</span>.fmt(f),
-            ErrorKind::Static =&gt; <span class="string">&quot;unexpected static parameter&quot;</span>.fmt(f),
+            ErrorKind::Empty =&gt; <span class="string">"parameters cannot be empty"</span>.fmt(f),
+            ErrorKind::BadIdent =&gt; <span class="string">"invalid identifier"</span>.fmt(f),
+            ErrorKind::Ignored =&gt; <span class="string">"parameter must be named"</span>.fmt(f),
+            ErrorKind::NoTrailing =&gt; <span class="string">"parameter cannot be trailing"</span>.fmt(f),
+            ErrorKind::EarlyTrailing =&gt; <span class="string">"unexpected text after trailing parameter"</span>.fmt(f),
+            ErrorKind::Static =&gt; <span class="string">"unexpected static parameter"</span>.fmt(f),
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Error&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub fn </span>new(segment: <span class="kw-2">&amp;</span>str, span: Span, kind: ErrorKind) -&gt; Error&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Error&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub fn </span>new(segment: <span class="kw-2">&amp;</span>str, span: Span, kind: ErrorKind) -&gt; Error&lt;<span class="lifetime">'_</span>&gt; {
         Error { segment, source: segment, span, source_span: span, kind }
     }
 
-    <span class="kw">pub fn </span>source(<span class="kw-2">mut </span><span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, span: Span) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub fn </span>source(<span class="kw-2">mut </span><span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str, span: Span) -&gt; <span class="self">Self </span>{
         <span class="self">self</span>.source = source;
         <span class="self">self</span>.source_span = span;
         <span class="self">self
     </span>}
 }
 
-<span class="kw">impl </span>From&lt;Error&lt;<span class="lifetime">&#39;_</span>&gt;&gt; <span class="kw">for </span>Diagnostic {
-    <span class="kw">fn </span>from(error: Error&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl </span>From&lt;Error&lt;<span class="lifetime">'_</span>&gt;&gt; <span class="kw">for </span>Diagnostic {
+    <span class="kw">fn </span>from(error: Error&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span>error.kind {
             ErrorKind::Empty =&gt; error.span.error(error.kind.to_string()),
             ErrorKind::BadIdent =&gt; {
                 <span class="kw">let </span>candidate = candidate_from_malformed(error.segment);
-                error.span.error(<span class="macro">format!</span>(<span class="string">&quot;{}: `{}`&quot;</span>, error.kind, error.segment))
-                    .help(<span class="string">&quot;dynamic parameters must be valid identifiers&quot;</span>)
-                    .help(<span class="macro">format!</span>(<span class="string">&quot;did you mean `&lt;{}&gt;`?&quot;</span>, candidate))
+                error.span.error(<span class="macro">format!</span>(<span class="string">"{}: `{}`"</span>, error.kind, error.segment))
+                    .help(<span class="string">"dynamic parameters must be valid identifiers"</span>)
+                    .help(<span class="macro">format!</span>(<span class="string">"did you mean `&lt;{}&gt;`?"</span>, candidate))
             }
             ErrorKind::Ignored =&gt; {
                 error.span.error(error.kind.to_string())
-                    .help(<span class="string">&quot;use a name such as `_guard` or `_param`&quot;</span>)
+                    .help(<span class="string">"use a name such as `_guard` or `_param`"</span>)
             }
             ErrorKind::EarlyTrailing =&gt; {
                 trailspan(error.segment, error.source, error.source_span)
                     .error(error.kind.to_string())
-                    .help(<span class="string">&quot;a trailing parameter must be the final component&quot;</span>)
-                    .span_note(error.span, <span class="string">&quot;trailing param is here&quot;</span>)
+                    .help(<span class="string">"a trailing parameter must be the final component"</span>)
+                    .span_note(error.span, <span class="string">"trailing param is here"</span>)
             }
             ErrorKind::NoTrailing =&gt; {
                 <span class="kw">let </span>candidate = candidate_from_malformed(error.segment);
                 error.span.error(error.kind.to_string())
-                    .help(<span class="macro">format!</span>(<span class="string">&quot;did you mean `&lt;{}&gt;`?&quot;</span>, candidate))
+                    .help(<span class="macro">format!</span>(<span class="string">"did you mean `&lt;{}&gt;`?"</span>, candidate))
             }
             ErrorKind::Static =&gt; {
                 <span class="kw">let </span>candidate = candidate_from_malformed(error.segment);
                 error.span.error(error.kind.to_string())
-                    .help(<span class="macro">format!</span>(<span class="string">&quot;parameter must be dynamic: `&lt;{}&gt;`&quot;</span>, candidate))
+                    .help(<span class="macro">format!</span>(<span class="string">"parameter must be dynamic: `&lt;{}&gt;`"</span>, candidate))
             }
         }
     }
@@ -461,7 +461,7 @@
         .collect::&lt;String&gt;();
 
     <span class="kw">if </span>candidate.is_empty() {
-        <span class="string">&quot;param&quot;</span>.into()
+        <span class="string">"param"</span>.into()
     } <span class="kw">else </span>{
         candidate
     }
@@ -470,15 +470,15 @@
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>is_ident_start(c: char) -&gt; bool {
     c.is_ascii_alphabetic()
-        || c == <span class="string">&#39;_&#39;
-        </span>|| (c &gt; <span class="string">&#39;\x7f&#39; </span>&amp;&amp; UnicodeXID::is_xid_start(c))
+        || c == <span class="string">'_'
+        </span>|| (c &gt; <span class="string">'\x7f' </span>&amp;&amp; UnicodeXID::is_xid_start(c))
 }
 
 <span class="attr">#[inline]
 </span><span class="kw">fn </span>is_ident_continue(c: char) -&gt; bool {
     c.is_ascii_alphanumeric()
-        || c == <span class="string">&#39;_&#39;
-        </span>|| (c &gt; <span class="string">&#39;\x7f&#39; </span>&amp;&amp; UnicodeXID::is_xid_continue(c))
+        || c == <span class="string">'_'
+        </span>|| (c &gt; <span class="string">'\x7f' </span>&amp;&amp; UnicodeXID::is_xid_continue(c))
 }
 
 <span class="kw">fn </span>is_valid_ident(string: <span class="kw-2">&amp;</span>str) -&gt; bool {

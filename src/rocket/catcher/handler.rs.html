@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/catcher/handler.rs`."><title>handler.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/catcher/handler.rs`."><title>handler.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -153,17 +153,17 @@
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{Request, Response};
 <span class="kw">use </span><span class="kw">crate</span>::http::Status;
 
-<span class="doccomment">/// Type alias for the return type of a [`Catcher`](crate::Catcher)&#39;s
+<span class="doccomment">/// Type alias for the return type of a [`Catcher`](crate::Catcher)'s
 /// [`Handler::handle()`].
-</span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>&gt; = std::result::Result&lt;Response&lt;<span class="lifetime">&#39;r</span>&gt;, <span class="kw">crate</span>::http::Status&gt;;
+</span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>&gt; = std::result::Result&lt;Response&lt;<span class="lifetime">'r</span>&gt;, <span class="kw">crate</span>::http::Status&gt;;
 
-<span class="doccomment">/// Type alias for the return type of a _raw_ [`Catcher`](crate::Catcher)&#39;s
+<span class="doccomment">/// Type alias for the return type of a _raw_ [`Catcher`](crate::Catcher)'s
 /// [`Handler`].
-</span><span class="kw">pub type </span>BoxFuture&lt;<span class="lifetime">&#39;r</span>, T = <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>&gt;&gt; = futures::future::BoxFuture&lt;<span class="lifetime">&#39;r</span>, T&gt;;
+</span><span class="kw">pub type </span>BoxFuture&lt;<span class="lifetime">'r</span>, T = <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>&gt;&gt; = futures::future::BoxFuture&lt;<span class="lifetime">'r</span>, T&gt;;
 
 <span class="doccomment">/// Trait implemented by [`Catcher`](crate::Catcher) error handlers.
 ///
-/// This trait is exactly like a [`Route`](crate::Route)&#39;s
+/// This trait is exactly like a [`Route`](crate::Route)'s
 /// [`Handler`](crate::route::Handler) except it handles errors instead of
 /// requests. Thus, the documentation for
 /// [`route::Handler`](crate::route::Handler) applies to this trait as well. We
@@ -176,7 +176,7 @@
 ///
 /// # Example
 ///
-/// Say you&#39;d like to write a handler that changes its functionality based on a
+/// Say you'd like to write a handler that changes its functionality based on a
 /// `Kind` enum value that the user provides. Such a handler might be written
 /// and used as follows:
 ///
@@ -197,11 +197,11 @@
 ///
 /// #[rocket::async_trait]
 /// impl catcher::Handler for CustomHandler {
-///     async fn handle&lt;&#39;r&gt;(&amp;self, status: Status, req: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; catcher::Result&lt;&#39;r&gt; {
+///     async fn handle&lt;'r&gt;(&amp;self, status: Status, req: &amp;'r Request&lt;'_&gt;) -&gt; catcher::Result&lt;'r&gt; {
 ///         let inner = match self.0 {
-///             Kind::Simple =&gt; &quot;simple&quot;.respond_to(req)?,
-///             Kind::Intermediate =&gt; &quot;intermediate&quot;.respond_to(req)?,
-///             Kind::Complex =&gt; &quot;complex&quot;.respond_to(req)?,
+///             Kind::Simple =&gt; "simple".respond_to(req)?,
+///             Kind::Intermediate =&gt; "intermediate".respond_to(req)?,
+///             Kind::Complex =&gt; "complex".respond_to(req)?,
 ///         };
 ///
 ///         Response::build_from(inner).status(status).ok()
@@ -224,9 +224,9 @@
 /// fn rocket() -&gt; _ {
 ///     rocket::build()
 ///         // to handle only `404`
-///         .register(&quot;/&quot;, CustomHandler::catch(Status::NotFound, Kind::Simple))
+///         .register("/", CustomHandler::catch(Status::NotFound, Kind::Simple))
 ///         // or to register as the default
-///         .register(&quot;/&quot;, CustomHandler::default(Kind::Simple))
+///         .register("/", CustomHandler::default(Kind::Simple))
 /// }
 /// ```
 ///
@@ -236,42 +236,42 @@
 ///      `CustomHandler` implements `Cloneable` automatically. The `Cloneable`
 ///      trait serves no other purpose but to ensure that every `Handler`
 ///      can be cloned, allowing `Catcher`s to be cloned.
-///   2. `CustomHandler`&#39;s methods return `Vec&lt;Route&gt;`, allowing for use
-///      directly as the parameter to `rocket.register(&quot;/&quot;, )`.
+///   2. `CustomHandler`'s methods return `Vec&lt;Route&gt;`, allowing for use
+///      directly as the parameter to `rocket.register("/", )`.
 ///   3. Unlike static-function-based handlers, this custom handler can make use
 ///      of internal state.
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>Handler: Cloneable + Send + Sync + <span class="lifetime">&#39;static </span>{
+</span><span class="kw">pub trait </span>Handler: Cloneable + Send + Sync + <span class="lifetime">'static </span>{
     <span class="doccomment">/// Called by Rocket when an error with `status` for a given `Request`
     /// should be handled by this handler.
     ///
     /// Error handlers _should not_ fail and thus _should_ always return `Ok`.
     /// Nevertheless, failure is allowed, both for convenience and necessity. If
-    /// an error handler fails, Rocket&#39;s default `500` catcher is invoked. If it
+    /// an error handler fails, Rocket's default `500` catcher is invoked. If it
     /// succeeds, the returned `Response` is used to respond to the client.
-    </span><span class="kw">async fn </span>handle&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;r</span>&gt;;
+    </span><span class="kw">async fn </span>handle&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, status: Status, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'r</span>&gt;;
 }
 
 <span class="comment">// We write this manually to avoid double-boxing.
-</span><span class="kw">impl</span>&lt;F: Clone + Sync + Send + <span class="lifetime">&#39;static</span>&gt; Handler <span class="kw">for </span>F
-    <span class="kw">where for</span>&lt;<span class="lifetime">&#39;x</span>&gt; F: Fn(Status, <span class="kw-2">&amp;</span><span class="lifetime">&#39;x </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;x</span>&gt;,
+</span><span class="kw">impl</span>&lt;F: Clone + Sync + Send + <span class="lifetime">'static</span>&gt; Handler <span class="kw">for </span>F
+    <span class="kw">where for</span>&lt;<span class="lifetime">'x</span>&gt; F: Fn(Status, <span class="kw-2">&amp;</span><span class="lifetime">'x </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'x</span>&gt;,
 {
-    <span class="kw">fn </span>handle&lt;<span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;life0</span>, <span class="lifetime">&#39;life1</span>, <span class="lifetime">&#39;async_trait</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;life0 </span><span class="self">self</span>,
+    <span class="kw">fn </span>handle&lt;<span class="lifetime">'r</span>, <span class="lifetime">'life0</span>, <span class="lifetime">'life1</span>, <span class="lifetime">'async_trait</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'life0 </span><span class="self">self</span>,
         status: Status,
-        req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;life1</span>&gt;,
-    ) -&gt; BoxFuture&lt;<span class="lifetime">&#39;r</span>&gt;
-        <span class="kw">where </span><span class="lifetime">&#39;r</span>: <span class="lifetime">&#39;async_trait</span>,
-              <span class="lifetime">&#39;life0</span>: <span class="lifetime">&#39;async_trait</span>,
-              <span class="lifetime">&#39;life1</span>: <span class="lifetime">&#39;async_trait</span>,
-              <span class="self">Self</span>: <span class="lifetime">&#39;async_trait</span>,
+        req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'life1</span>&gt;,
+    ) -&gt; BoxFuture&lt;<span class="lifetime">'r</span>&gt;
+        <span class="kw">where </span><span class="lifetime">'r</span>: <span class="lifetime">'async_trait</span>,
+              <span class="lifetime">'life0</span>: <span class="lifetime">'async_trait</span>,
+              <span class="lifetime">'life1</span>: <span class="lifetime">'async_trait</span>,
+              <span class="self">Self</span>: <span class="lifetime">'async_trait</span>,
     {
         <span class="self">self</span>(status, req)
     }
 }
 
 <span class="attr">#[cfg(test)]
-</span><span class="kw">pub fn </span>dummy_handler&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw">_</span>: Status, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">pub fn </span>dummy_handler&lt;<span class="lifetime">'r</span>&gt;(<span class="kw">_</span>: Status, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; BoxFuture&lt;<span class="lifetime">'r</span>&gt; {
    Box::pin(<span class="kw">async move </span>{ <span class="prelude-val">Ok</span>(Response::new()) })
 }
 
@@ -280,7 +280,7 @@
     <span class="kw">impl</span>&lt;T: <span class="kw">super</span>::Handler + Clone&gt; Sealed <span class="kw">for </span>T {}
 }
 
-<span class="doccomment">/// Helper trait to make a [`Catcher`](crate::Catcher)&#39;s `Box&lt;dyn Handler&gt;`
+<span class="doccomment">/// Helper trait to make a [`Catcher`](crate::Catcher)'s `Box&lt;dyn Handler&gt;`
 /// `Clone`.
 ///
 /// This trait cannot be implemented directly. Instead, implement `Clone` and

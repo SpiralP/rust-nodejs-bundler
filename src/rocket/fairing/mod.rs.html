@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/fairing/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/fairing/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -569,7 +569,7 @@
 //!
 //! Fairings allow for structured interposition at various points in the
 //! application lifetime. Fairings can be seen as a restricted form of
-//! &quot;middleware&quot;. A fairing is an arbitrary structure with methods representing
+//! "middleware". A fairing is an arbitrary structure with methods representing
 //! callbacks that Rocket will run at requested points in a program. You can use
 //! fairings to rewrite or record information about requests and responses, or
 //! to perform an action once a Rocket application has launched.
@@ -581,15 +581,15 @@
 //! ## Attaching
 //!
 //! You must inform Rocket about fairings that you wish to be active by calling
-//! [`Rocket::attach()`] method on the application&#39;s [`Rocket`] instance and
+//! [`Rocket::attach()`] method on the application's [`Rocket`] instance and
 //! passing in the appropriate [`Fairing`]. For instance, to attach fairings
 //! named `req_fairing` and `res_fairing` to a new Rocket instance, you might
 //! write:
 //!
 //! ```rust
 //! # use rocket::fairing::AdHoc;
-//! # let req_fairing = AdHoc::on_request(&quot;Request&quot;, |_, _| Box::pin(async move {}));
-//! # let res_fairing = AdHoc::on_response(&quot;Response&quot;, |_, _| Box::pin(async move {}));
+//! # let req_fairing = AdHoc::on_request("Request", |_, _| Box::pin(async move {}));
+//! # let res_fairing = AdHoc::on_response("Response", |_, _| Box::pin(async move {}));
 //! let rocket = rocket::build()
 //!     .attach(req_fairing)
 //!     .attach(res_fairing);
@@ -632,18 +632,18 @@
 </span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;T = Rocket&lt;Build&gt;, E = Rocket&lt;Build&gt;&gt; = std::result::Result&lt;T, E&gt;;
 
 <span class="comment">// We might imagine that a request fairing returns an `Outcome`. If it returns
-// `Success`, we don&#39;t do any routing and use that response directly. Same if it
-// returns `Error`. We only route if it returns `Forward`. I&#39;ve chosen not to
+// `Success`, we don't do any routing and use that response directly. Same if it
+// returns `Error`. We only route if it returns `Forward`. I've chosen not to
 // go this direction because I feel like request guards are the correct
 // mechanism to use here. In other words, enabling this at the fairing level
 // encourages implicit handling, a bad practice. Fairings can still, however,
 // return a default `Response` if routing fails via a response fairing. For
 // instance, to automatically handle preflight in CORS, a response fairing can
-// check that the user didn&#39;t handle the `OPTIONS` request (404) and return an
+// check that the user didn't handle the `OPTIONS` request (404) and return an
 // appropriate response. This allows the users to handle `OPTIONS` requests
-// when they&#39;d like but default to the fairing when they don&#39;t want to.
+// when they'd like but default to the fairing when they don't want to.
 
-</span><span class="doccomment">/// Trait implemented by fairings: Rocket&#39;s structured middleware.
+</span><span class="doccomment">/// Trait implemented by fairings: Rocket's structured middleware.
 ///
 /// # Considerations
 ///
@@ -672,11 +672,11 @@
 /// response, and shutdown. A fairing can request any combination of these
 /// callbacks through the `kind` field of the [`Info`] structure returned from
 /// the `info` method. Rocket will only invoke the callbacks identified in the
-/// fairing&#39;s [`Kind`].
+/// fairing's [`Kind`].
 ///
 /// The callback kinds are as follows:
 ///
-///   * **&lt;a name=&quot;ignite&quot;&gt;Ignite&lt;/a&gt; (`on_ignite`)**
+///   * **&lt;a name="ignite"&gt;Ignite&lt;/a&gt; (`on_ignite`)**
 ///
 ///     An ignite callback, represented by the [`Fairing::on_ignite()`] method,
 ///     is called just prior to liftoff, during ignition. The state of the
@@ -694,7 +694,7 @@
 ///     ignite fairing returns `Err`, launch will be aborted. All ignite
 ///     fairings are executed even if one or more signal an error.
 ///
-///   * **&lt;a name=&quot;liftoff&quot;&gt;Liftoff&lt;/a&gt; (`on_liftoff`)**
+///   * **&lt;a name="liftoff"&gt;Liftoff&lt;/a&gt; (`on_liftoff`)**
 ///
 ///     A liftoff callback, represented by the [`Fairing::on_liftoff()`] method,
 ///     is called immediately after a Rocket application has launched. At this
@@ -707,7 +707,7 @@
 ///     Liftoff fairings are run concurrently; resolution of all fairings is
 ///     awaited before resuming request serving.
 ///
-///   * **&lt;a name=&quot;request&quot;&gt;Request&lt;/a&gt; (`on_request`)**
+///   * **&lt;a name="request"&gt;Request&lt;/a&gt; (`on_request`)**
 ///
 ///     A request callback, represented by the [`Fairing::on_request()`] method,
 ///     is called just after a request is received, immediately after
@@ -720,7 +720,7 @@
 ///     via response callbacks. Any modifications to a request are persisted and
 ///     can potentially alter how a request is routed.
 ///
-///   * **&lt;a name=&quot;response&quot;&gt;Response&lt;/a&gt; (`on_response`)**
+///   * **&lt;a name="response"&gt;Response&lt;/a&gt; (`on_response`)**
 ///
 ///     A response callback, represented by the [`Fairing::on_response()`]
 ///     method, is called when a response is ready to be sent to the client. At
@@ -735,7 +735,7 @@
 ///     request. Additionally, Rocket will automatically strip the body for
 ///     `HEAD` requests _after_ response fairings have run.
 ///
-///   * **&lt;a name=&quot;shutdown&quot;&gt;Shutdown&lt;/a&gt; (`on_shutdown`)**
+///   * **&lt;a name="shutdown"&gt;Shutdown&lt;/a&gt; (`on_shutdown`)**
 ///
 ///     A shutdown callback, represented by the [`Fairing::on_shutdown()`]
 ///     method, is called when [shutdown is triggered]. At this point, graceful
@@ -789,7 +789,7 @@
 ///
 ///      This is the `name` field, which can be any arbitrary string. Name your
 ///      fairing something illustrative. The name will be logged during the
-///      application&#39;s ignition procedures.
+///      application's ignition procedures.
 ///
 ///   2. Determine which callbacks to actually issue on the `Fairing`.
 ///
@@ -804,9 +804,9 @@
 ///
 /// ## Restrictions
 ///
-/// A `Fairing` must be [`Send`] + [`Sync`] + `&#39;static`. This means that the
+/// A `Fairing` must be [`Send`] + [`Sync`] + `'static`. This means that the
 /// fairing must be sendable across thread boundaries (`Send`), thread-safe
-/// (`Sync`), and have only `&#39;static` references, if any (`&#39;static`). Note that
+/// (`Sync`), and have only `'static` references, if any (`'static`). Note that
 /// these bounds _do not_ prohibit a `Fairing` from holding state: the state
 /// need simply be thread-safe and statically available or heap allocated.
 ///
@@ -837,12 +837,12 @@
 ///         # unimplemented!()
 ///     }
 ///
-///     async fn on_request(&amp;self, req: &amp;mut Request&lt;&#39;_&gt;, data: &amp;mut Data&lt;&#39;_&gt;) {
+///     async fn on_request(&amp;self, req: &amp;mut Request&lt;'_&gt;, data: &amp;mut Data&lt;'_&gt;) {
 ///         /* ... */
 ///         # unimplemented!()
 ///     }
 ///
-///     async fn on_response&lt;&#39;r&gt;(&amp;self, req: &amp;&#39;r Request&lt;&#39;_&gt;, res: &amp;mut Response&lt;&#39;r&gt;) {
+///     async fn on_response&lt;'r&gt;(&amp;self, req: &amp;'r Request&lt;'_&gt;, res: &amp;mut Response&lt;'r&gt;) {
 ///         /* ... */
 ///         # unimplemented!()
 ///     }
@@ -863,7 +863,7 @@
 /// signatures. Instead, we can create a simple fairing that acts globally.
 ///
 /// The `Counter` fairing below records the number of all `GET` and `POST`
-/// requests received. It makes these counts available at a special `&#39;/counts&#39;`
+/// requests received. It makes these counts available at a special `'/counts'`
 /// path.
 ///
 /// ```rust
@@ -886,12 +886,12 @@
 /// impl Fairing for Counter {
 ///     fn info(&amp;self) -&gt; Info {
 ///         Info {
-///             name: &quot;GET/POST Counter&quot;,
+///             name: "GET/POST Counter",
 ///             kind: Kind::Request | Kind::Response
 ///         }
 ///     }
 ///
-///     async fn on_request(&amp;self, req: &amp;mut Request&lt;&#39;_&gt;, _: &amp;mut Data&lt;&#39;_&gt;) {
+///     async fn on_request(&amp;self, req: &amp;mut Request&lt;'_&gt;, _: &amp;mut Data&lt;'_&gt;) {
 ///         if req.method() == Method::Get {
 ///             self.get.fetch_add(1, Ordering::Relaxed);
 ///         } else if req.method() == Method::Post {
@@ -899,17 +899,17 @@
 ///         }
 ///     }
 ///
-///     async fn on_response&lt;&#39;r&gt;(&amp;self, req: &amp;&#39;r Request&lt;&#39;_&gt;, res: &amp;mut Response&lt;&#39;r&gt;) {
-///         // Don&#39;t change a successful user&#39;s response, ever.
+///     async fn on_response&lt;'r&gt;(&amp;self, req: &amp;'r Request&lt;'_&gt;, res: &amp;mut Response&lt;'r&gt;) {
+///         // Don't change a successful user's response, ever.
 ///         if res.status() != Status::NotFound {
 ///             return
 ///         }
 ///
-///         if req.method() == Method::Get &amp;&amp; req.uri().path() == &quot;/counts&quot; {
+///         if req.method() == Method::Get &amp;&amp; req.uri().path() == "/counts" {
 ///             let get_count = self.get.load(Ordering::Relaxed);
 ///             let post_count = self.post.load(Ordering::Relaxed);
 ///
-///             let body = format!(&quot;Get: {}\nPost: {}&quot;, get_count, post_count);
+///             let body = format!("Get: {}\nPost: {}", get_count, post_count);
 ///             res.set_status(Status::Ok);
 ///             res.set_header(ContentType::Plain);
 ///             res.set_sized_body(body.len(), Cursor::new(body));
@@ -948,26 +948,26 @@
 /// impl Fairing for RequestTimer {
 ///     fn info(&amp;self) -&gt; Info {
 ///         Info {
-///             name: &quot;Request Timer&quot;,
+///             name: "Request Timer",
 ///             kind: Kind::Request | Kind::Response
 ///         }
 ///     }
 ///
 ///     /// Stores the start time of the request in request-local state.
-///     async fn on_request(&amp;self, request: &amp;mut Request&lt;&#39;_&gt;, _: &amp;mut Data&lt;&#39;_&gt;) {
+///     async fn on_request(&amp;self, request: &amp;mut Request&lt;'_&gt;, _: &amp;mut Data&lt;'_&gt;) {
 ///         // Store a `TimerStart` instead of directly storing a `SystemTime`
-///         // to ensure that this usage doesn&#39;t conflict with anything else
+///         // to ensure that this usage doesn't conflict with anything else
 ///         // that might store a `SystemTime` in request-local cache.
 ///         request.local_cache(|| TimerStart(Some(SystemTime::now())));
 ///     }
 ///
 ///     /// Adds a header to the response indicating how long the server took to
 ///     /// process the request.
-///     async fn on_response&lt;&#39;r&gt;(&amp;self, req: &amp;&#39;r Request&lt;&#39;_&gt;, res: &amp;mut Response&lt;&#39;r&gt;) {
+///     async fn on_response&lt;'r&gt;(&amp;self, req: &amp;'r Request&lt;'_&gt;, res: &amp;mut Response&lt;'r&gt;) {
 ///         let start_time = req.local_cache(|| TimerStart(None));
 ///         if let Some(Ok(duration)) = start_time.0.map(|st| st.elapsed()) {
 ///             let ms = duration.as_secs() * 1000 + duration.subsec_millis() as u64;
-///             res.set_raw_header(&quot;X-Response-Time&quot;, format!(&quot;{} ms&quot;, ms));
+///             res.set_raw_header("X-Response-Time", format!("{} ms", ms));
 ///         }
 ///     }
 /// }
@@ -978,10 +978,10 @@
 ///
 /// // Allows a route to access the time a request was initiated.
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromRequest&lt;&#39;r&gt; for StartTime {
+/// impl&lt;'r&gt; FromRequest&lt;'r&gt; for StartTime {
 ///     type Error = ();
 ///
-///     async fn from_request(request: &amp;&#39;r Request&lt;&#39;_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
+///     async fn from_request(request: &amp;'r Request&lt;'_&gt;) -&gt; request::Outcome&lt;Self, ()&gt; {
 ///         match *request.local_cache(|| TimerStart(None)) {
 ///             TimerStart(Some(time)) =&gt; request::Outcome::Success(StartTime(time)),
 ///             TimerStart(None) =&gt; request::Outcome::Error((Status::InternalServerError, ())),
@@ -990,9 +990,9 @@
 /// }
 /// ```
 ///
-/// [request-local state]: https://rocket.rs/v0.5-rc/guide/state/#request-local-state
+/// [request-local state]: https://rocket.rs/v0.5/guide/state/#request-local-state
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>Fairing: Send + Sync + Any + <span class="lifetime">&#39;static </span>{
+</span><span class="kw">pub trait </span>Fairing: Send + Sync + Any + <span class="lifetime">'static </span>{
     <span class="doccomment">/// Returns an [`Info`] structure containing the `name` and [`Kind`] of this
     /// fairing. The `name` can be any arbitrary string. `Kind` must be an `or`d
     /// set of `Kind` variants.
@@ -1009,8 +1009,8 @@
     ///
     /// # Example
     ///
-    /// An `info` implementation for `MyFairing`: a fairing named &quot;My Custom
-    /// Fairing&quot; that is both an ignite and response fairing.
+    /// An `info` implementation for `MyFairing`: a fairing named "My Custom
+    /// Fairing" that is both an ignite and response fairing.
     ///
     /// ```rust
     /// use rocket::fairing::{Fairing, Info, Kind};
@@ -1020,7 +1020,7 @@
     /// impl Fairing for MyFairing {
     ///     fn info(&amp;self) -&gt; Info {
     ///         Info {
-    ///             name: &quot;My Custom Fairing&quot;,
+    ///             name: "My Custom Fairing",
     ///             kind: Kind::Ignite | Kind::Response
     ///         }
     ///     }
@@ -1068,7 +1068,7 @@
     /// ## Default Implementation
     ///
     /// The default implementation of this method does nothing.
-    </span><span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, _req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, _data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;) {}
+    </span><span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, _req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, _data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">'_</span>&gt;) {}
 
     <span class="doccomment">/// The response callback.
     ///
@@ -1082,7 +1082,7 @@
     /// ## Default Implementation
     ///
     /// The default implementation of this method does nothing.
-    </span><span class="kw">async fn </span>on_response&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, _res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;) {}
+    </span><span class="kw">async fn </span>on_response&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, _req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, _res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">'r</span>&gt;) {}
 
     <span class="doccomment">/// The shutdown callback.
     ///
@@ -1118,12 +1118,12 @@
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">&#39;_</span>&gt;) {
+    </span><span class="kw">async fn </span>on_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;mut </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: <span class="kw-2">&amp;mut </span>Data&lt;<span class="lifetime">'_</span>&gt;) {
         (<span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span>T).on_request(req, data).<span class="kw">await
     </span>}
 
     <span class="attr">#[inline]
-    </span><span class="kw">async fn </span>on_response&lt;<span class="lifetime">&#39;r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">&#39;r</span>&gt;) {
+    </span><span class="kw">async fn </span>on_response&lt;<span class="lifetime">'r</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, res: <span class="kw-2">&amp;mut </span>Response&lt;<span class="lifetime">'r</span>&gt;) {
         (<span class="self">self </span><span class="kw">as </span><span class="kw-2">&amp;</span>T).on_response(req, res).<span class="kw">await
     </span>}
 

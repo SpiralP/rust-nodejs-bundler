@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0-rc.4/src/attribute/route/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../rocket_codegen/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket_codegen"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/attribute/route/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -485,9 +485,9 @@
     <span class="comment">// Record all of the static parameters for later filtering.
     </span><span class="kw">let </span>(raw_name, raw_value) = route.query_params.iter()
         .filter_map(|s| s.r#static())
-        .map(|name| <span class="kw">match </span>name.find(<span class="string">&#39;=&#39;</span>) {
+        .map(|name| <span class="kw">match </span>name.find(<span class="string">'='</span>) {
             <span class="prelude-val">Some</span>(i) =&gt; (<span class="kw-2">&amp;</span>name[..i], <span class="kw-2">&amp;</span>name[i + <span class="number">1</span>..]),
-            <span class="prelude-val">None </span>=&gt; (name.as_str(), <span class="string">&quot;&quot;</span>)
+            <span class="prelude-val">None </span>=&gt; (name.as_str(), <span class="string">""</span>)
         })
         .split2();
 
@@ -516,7 +516,7 @@
         .split6();
 
     <span class="attr">#[allow(non_snake_case)]
-    </span><span class="prelude-val">Some</span>(<span class="macro">quote! </span>{
+    </span><span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
         <span class="kw">let </span>(#(#ident),<span class="kw-2">*</span>) = {
             <span class="kw">let </span><span class="kw-2">mut </span>__e = #_form::Errors::new();
             #(<span class="kw">let </span><span class="kw-2">mut </span>#ident = #init_expr;)*
@@ -525,7 +525,7 @@
                 <span class="kw">let </span>_raw = (_f.name.source().as_str(), _f.value);
                 <span class="kw">let </span>_key = _f.name.key_lossy().as_str();
                 <span class="kw">match </span>(_raw, _key) {
-                    <span class="comment">// Skip static parameters so &lt;param..&gt; doesn&#39;t see them.
+                    <span class="comment">// Skip static parameters so &lt;param..&gt; doesn't see them.
                     </span>#(((#raw_name, #raw_value), <span class="kw">_</span>) =&gt; { <span class="comment">/* skip */ </span>},)*
                     #((<span class="kw">_</span>, #matcher) =&gt; #push_expr,)*
                     <span class="kw">_ </span>=&gt; { <span class="comment">/* in case we have no trailing, ignore all else */ </span>},
@@ -543,8 +543,8 @@
             )*
 
             <span class="kw">if </span>!__e.is_empty() {
-                #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Query string failed to match route declaration.&quot;</span>);
-                <span class="kw">for </span>_err <span class="kw">in </span>__e { #<span class="macro">_log::warn_!</span>(<span class="string">&quot;{}&quot;</span>, _err); }
+                #<span class="macro">_log::warn_!</span>(<span class="string">"Query string failed to match route declaration."</span>);
+                <span class="kw">for </span>_err <span class="kw">in </span>__e { #<span class="macro">_log::warn_!</span>(<span class="string">"{}"</span>, _err); }
                 <span class="kw">return </span>#Outcome::Forward((#__data, #Status::UnprocessableEntity));
             }
 
@@ -559,15 +559,15 @@
         __req, __data, _request, _log, FromRequest, Outcome
     );
 
-    <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
+    <span class="macro">quote_spanned!</span> { ty.span() =&gt;
         <span class="kw">let </span>#ident: #ty = <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromRequest&gt;::from_request(#__req).<span class="kw">await </span>{
             #Outcome::Success(__v) =&gt; __v,
             #Outcome::Forward(__e) =&gt; {
-                #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Request guard `{}` is forwarding.&quot;</span>, <span class="macro">stringify!</span>(#ty));
+                #<span class="macro">_log::warn_!</span>(<span class="string">"Request guard `{}` is forwarding."</span>, <span class="macro">stringify!</span>(#ty));
                 <span class="kw">return </span>#Outcome::Forward((#__data, __e));
             },
             #Outcome::Error((__c, __e)) =&gt; {
-                #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Request guard `{}` failed: {:?}.&quot;</span>, <span class="macro">stringify!</span>(#ty), __e);
+                #<span class="macro">_log::warn_!</span>(<span class="string">"Request guard `{}` failed: {:?}."</span>, <span class="macro">stringify!</span>(#ty), __e);
                 <span class="kw">return </span>#Outcome::Error(__c);
             }
         };
@@ -583,30 +583,30 @@
 
     <span class="comment">// Returned when a dynamic parameter fails to parse.
     </span><span class="kw">let </span>parse_error = <span class="macro">quote!</span>({
-        #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Parameter guard `{}: {}` is forwarding: {:?}.&quot;</span>,
+        #<span class="macro">_log::warn_!</span>(<span class="string">"Parameter guard `{}: {}` is forwarding: {:?}."</span>,
             #name, <span class="macro">stringify!</span>(#ty), __error);
 
         #Outcome::Forward((#__data, #Status::UnprocessableEntity))
     });
 
     <span class="comment">// All dynamic parameters should be found if this function is being called;
-    // that&#39;s the point of statically checking the URI parameters.
+    // that's the point of statically checking the URI parameters.
     </span><span class="kw">let </span>expr = <span class="kw">match </span>guard.trailing {
-        <span class="bool-val">false </span>=&gt; <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
+        <span class="bool-val">false </span>=&gt; <span class="macro">quote_spanned!</span> { ty.span() =&gt;
             <span class="kw">match </span>#__req.routed_segment(#i) {
                 #_Some(__s) =&gt; <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromParam&gt;::from_param(__s) {
                     #_Ok(__v) =&gt; __v,
                     #_Err(__error) =&gt; <span class="kw">return </span>#parse_error,
                 },
                 #_None =&gt; {
-                    #<span class="macro">_log::error_!</span>(<span class="string">&quot;Internal invariant broken: dyn param not found.&quot;</span>);
-                    #<span class="macro">_log::error_!</span>(<span class="string">&quot;Please report this to the Rocket issue tracker.&quot;</span>);
-                    #<span class="macro">_log::error_!</span>(<span class="string">&quot;https://github.com/SergioBenitez/Rocket/issues&quot;</span>);
+                    #<span class="macro">_log::error_!</span>(<span class="string">"Internal invariant broken: dyn param not found."</span>);
+                    #<span class="macro">_log::error_!</span>(<span class="string">"Please report this to the Rocket issue tracker."</span>);
+                    #<span class="macro">_log::error_!</span>(<span class="string">"https://github.com/SergioBenitez/Rocket/issues"</span>);
                     <span class="kw">return </span>#Outcome::Forward((#__data, #Status::InternalServerError));
                 }
             }
         },
-        <span class="bool-val">true </span>=&gt; <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
+        <span class="bool-val">true </span>=&gt; <span class="macro">quote_spanned!</span> { ty.span() =&gt;
             <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromSegments&gt;::from_segments(#__req.routed_segments(#i..)) {
                 #_Ok(__v) =&gt; __v,
                 #_Err(__error) =&gt; <span class="kw">return </span>#parse_error,
@@ -622,15 +622,15 @@
     <span class="kw">let </span>(ident, ty) = (guard.fn_ident.rocketized(), <span class="kw-2">&amp;</span>guard.ty);
     <span class="macro">define_spanned_export!</span>(ty.span() =&gt; _log, __req, __data, FromData, Outcome);
 
-    <span class="macro">quote_spanned! </span>{ ty.span() =&gt;
+    <span class="macro">quote_spanned!</span> { ty.span() =&gt;
         <span class="kw">let </span>#ident: #ty = <span class="kw">match </span>&lt;#ty <span class="kw">as </span>#FromData&gt;::from_data(#__req, #__data).<span class="kw">await </span>{
             #Outcome::Success(__d) =&gt; __d,
             #Outcome::Forward((__d, __e)) =&gt; {
-                #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Data guard `{}` is forwarding.&quot;</span>, <span class="macro">stringify!</span>(#ty));
+                #<span class="macro">_log::warn_!</span>(<span class="string">"Data guard `{}` is forwarding."</span>, <span class="macro">stringify!</span>(#ty));
                 <span class="kw">return </span>#Outcome::Forward((__d, __e));
             }
             #Outcome::Error((__c, __e)) =&gt; {
-                #<span class="macro">_log::warn_!</span>(<span class="string">&quot;Data guard `{}` failed: {:?}.&quot;</span>, <span class="macro">stringify!</span>(#ty), __e);
+                #<span class="macro">_log::warn_!</span>(<span class="string">"Data guard `{}` failed: {:?}."</span>, <span class="macro">stringify!</span>(#ty), __e);
                 <span class="kw">return </span>#Outcome::Error(__c);
             }
         };
@@ -644,7 +644,7 @@
         .map(|guard| (<span class="kw-2">&amp;</span>guard.fn_ident, <span class="kw-2">&amp;</span>guard.ty))
         .map(|(ident, ty)| <span class="macro">quote!</span>(#ident: #ty));
 
-    <span class="comment">// Generate a unique macro name based on the route&#39;s metadata.
+    <span class="comment">// Generate a unique macro name based on the route's metadata.
     </span><span class="kw">let </span>macro_name = route.handler.sig.ident.prepend(<span class="kw">crate</span>::URI_MACRO_PREFIX);
     <span class="kw">let </span>inner_macro_name = macro_name.uniqueify_with(|<span class="kw-2">mut </span>hasher| {
         route.handler.sig.ident.hash(<span class="kw-2">&amp;mut </span>hasher);
@@ -654,11 +654,11 @@
 
     <span class="kw">let </span>route_uri = route.attr.uri.to_string();
 
-    <span class="macro">quote_spanned! </span>{ Span::call_site() =&gt;
+    <span class="macro">quote_spanned!</span> { Span::call_site() =&gt;
         <span class="attr">#[doc(hidden)]
         #[macro_export]
         </span><span class="doccomment">/// Rocket generated URI macro.
-        </span><span class="macro">macro_rules! </span>#inner_macro_name {
+        </span><span class="macro">macro_rules!</span> #inner_macro_name {
             ($(<span class="macro-nonterminal">$token</span>:tt)<span class="kw-2">*</span>) =&gt; {{
                 <span class="macro">rocket::rocket_internal_uri!</span>(#route_uri, (#(#uri_args),<span class="kw-2">*</span>), $(<span class="macro-nonterminal">$token</span>)<span class="kw-2">*</span>)
             }};
@@ -684,7 +684,7 @@
         .map(|a| <span class="macro">quote_spanned!</span>(a.span() =&gt; .<span class="kw">await</span>));
 
     <span class="macro">define_spanned_export!</span>(ret_span =&gt; __req, _route);
-    <span class="macro">quote_spanned! </span>{ mixed(ret_span) =&gt;
+    <span class="macro">quote_spanned!</span> { mixed(ret_span) =&gt;
         <span class="kw">let </span>___responder = #user_handler_fn_name(#(#parameter_names),<span class="kw-2">*</span>) #_await;
         #_route::Outcome::from(#__req, ___responder)
     }
@@ -702,11 +702,11 @@
         .collect();
 
     <span class="comment">// Note: for a given route, we need to emit a valid graph of eligible
-    // sentinels. This means that we don&#39;t have broken links, where a child
-    // points to a parent that doesn&#39;t exist. The concern is that the
+    // sentinels. This means that we don't have broken links, where a child
+    // points to a parent that doesn't exist. The concern is that the
     // `is_concrete()` filter will cause a break in the graph.
     //
-    // Here&#39;s a proof by cases for why this can&#39;t happen:
+    // Here's a proof by cases for why this can't happen:
     //    1. if `is_concrete()` returns `false` for a (valid) type, it returns
     //       false for all of its parents. we consider this an axiom; this is
     //       the point of `is_concrete()`. the type is filtered out, so the
@@ -720,7 +720,7 @@
     //      the theorem holds.
     //    3. these are all the cases. QED.
 
-    </span><span class="kw">const </span>TY_MACS: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[<span class="string">&quot;ReaderStream&quot;</span>, <span class="string">&quot;TextStream&quot;</span>, <span class="string">&quot;ByteStream&quot;</span>, <span class="string">&quot;EventStream&quot;</span>];
+    </span><span class="kw">const </span>TY_MACS: <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>str] = <span class="kw-2">&amp;</span>[<span class="string">"ReaderStream"</span>, <span class="string">"TextStream"</span>, <span class="string">"ByteStream"</span>, <span class="string">"EventStream"</span>];
 
     <span class="kw">fn </span>ty_mac_mapper(tokens: <span class="kw-2">&amp;</span>TokenStream) -&gt; <span class="prelude-ty">Option</span>&lt;syn::Type&gt; {
         <span class="kw">use </span><span class="kw">crate</span>::bang::typed_stream::Input;
@@ -766,7 +766,7 @@
 
     <span class="comment">// Gather info about the function.
     </span><span class="kw">let </span>(vis, handler_fn) = (<span class="kw-2">&amp;</span>route.handler.vis, <span class="kw-2">&amp;</span>route.handler);
-    <span class="kw">let </span>deprecated = handler_fn.attrs.iter().find(|a| a.path().is_ident(<span class="string">&quot;deprecated&quot;</span>));
+    <span class="kw">let </span>deprecated = handler_fn.attrs.iter().find(|a| a.path().is_ident(<span class="string">"deprecated"</span>));
     <span class="kw">let </span>handler_fn_name = <span class="kw-2">&amp;</span>handler_fn.sig.ident;
     <span class="kw">let </span>internal_uri_macro = internal_uri_macro_decl(<span class="kw-2">&amp;</span>route);
     <span class="kw">let </span>responder_outcome = responder_outcome_expr(<span class="kw-2">&amp;</span>route);
@@ -776,7 +776,7 @@
     <span class="kw">let </span>rank = Optional(route.attr.rank);
     <span class="kw">let </span>format = Optional(route.attr.format.as_ref());
 
-    <span class="prelude-val">Ok</span>(<span class="macro">quote! </span>{
+    <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
         #handler_fn
 
         <span class="attr">#[doc(hidden)]
@@ -788,10 +788,10 @@
         </span><span class="attr">#[allow(nonstandard_style, deprecated, clippy::style)]
         </span><span class="kw">impl </span>#handler_fn_name {
             <span class="kw">fn </span>into_info(<span class="self">self</span>) -&gt; #_route::StaticInfo {
-                <span class="kw">fn </span>monomorphized_function&lt;<span class="lifetime">&#39;__r</span>&gt;(
-                    #__req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;__r </span>#Request&lt;<span class="lifetime">&#39;_</span>&gt;,
-                    #__data: #Data&lt;<span class="lifetime">&#39;__r</span>&gt;
-                ) -&gt; #_route::BoxFuture&lt;<span class="lifetime">&#39;__r</span>&gt; {
+                <span class="kw">fn </span>monomorphized_function&lt;<span class="lifetime">'__r</span>&gt;(
+                    #__req: <span class="kw-2">&amp;</span><span class="lifetime">'__r </span>#Request&lt;<span class="lifetime">'_</span>&gt;,
+                    #__data: #Data&lt;<span class="lifetime">'__r</span>&gt;
+                ) -&gt; #_route::BoxFuture&lt;<span class="lifetime">'__r</span>&gt; {
                     #_Box::pin(<span class="kw">async move </span>{
                         #(#request_guards)*
                         #(#param_guards)*
@@ -827,7 +827,7 @@
 <span class="kw">fn </span>complete_route(args: TokenStream, input: TokenStream) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
     <span class="kw">let </span>function: syn::ItemFn = syn::parse2(input)
         .map_err(Diagnostic::from)
-        .map_err(|diag| diag.help(<span class="string">&quot;`#[route]` can only be used on functions&quot;</span>))<span class="question-mark">?</span>;
+        .map_err(|diag| diag.help(<span class="string">"`#[route]` can only be used on functions"</span>))<span class="question-mark">?</span>;
 
     <span class="kw">let </span>attr_tokens = <span class="macro">quote!</span>(route(#args));
     <span class="kw">let </span>attribute = Attribute::from_meta(<span class="kw-2">&amp;</span>syn::parse2(attr_tokens)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -841,14 +841,14 @@
 ) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt; {
     <span class="kw">let </span>method_str = method.to_string().to_lowercase();
     <span class="comment">// FIXME(proc_macro): there should be a way to get this `Span`.
-    </span><span class="kw">let </span>method_span = StringLit::new(<span class="macro">format!</span>(<span class="string">&quot;#[{}]&quot;</span>, method), Span::call_site())
+    </span><span class="kw">let </span>method_span = StringLit::new(<span class="macro">format!</span>(<span class="string">"#[{}]"</span>, method), Span::call_site())
         .subspan(<span class="number">2</span>..<span class="number">2 </span>+ method_str.len());
 
     <span class="kw">let </span>method_ident = syn::Ident::new(<span class="kw-2">&amp;</span>method_str, method_span);
 
     <span class="kw">let </span>function: syn::ItemFn = syn::parse2(input)
         .map_err(Diagnostic::from)
-        .map_err(|d| d.help(<span class="macro">format!</span>(<span class="string">&quot;#[{}] can only be used on functions&quot;</span>, method_str)))<span class="question-mark">?</span>;
+        .map_err(|d| d.help(<span class="macro">format!</span>(<span class="string">"#[{}] can only be used on functions"</span>, method_str)))<span class="question-mark">?</span>;
 
     <span class="kw">let </span>full_attr = <span class="macro">quote!</span>(#method_ident(#args));
     <span class="kw">let </span>method_attribute = MethodAttribute::from_meta(<span class="kw-2">&amp;</span>syn::parse2(full_attr)<span class="question-mark">?</span>)<span class="question-mark">?</span>;

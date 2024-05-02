@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -359,11 +359,11 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
-</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">&quot;256&quot;</span>]
+</pre></div><pre class="rust"><code><span class="attr">#![recursion_limit=<span class="string">"256"</span>]
 
-#![doc(html_root_url = <span class="string">&quot;https://api.rocket.rs/v0.5-rc&quot;</span>)]
-#![doc(html_favicon_url = <span class="string">&quot;https://rocket.rs/images/favicon.ico&quot;</span>)]
-#![doc(html_logo_url = <span class="string">&quot;https://rocket.rs/images/logo-boxed.png&quot;</span>)]
+#![doc(html_root_url = <span class="string">"https://api.rocket.rs/v0.5"</span>)]
+#![doc(html_favicon_url = <span class="string">"https://rocket.rs/images/favicon.ico"</span>)]
+#![doc(html_logo_url = <span class="string">"https://rocket.rs/images/logo-boxed.png"</span>)]
 #![cfg_attr(nightly, feature(doc_cfg))]
 #![cfg_attr(nightly, feature(decl_macro))]
 
@@ -375,14 +375,14 @@
 //! Hello, and welcome to the core Rocket API documentation!
 //!
 //! This API documentation is highly technical and is purely a reference.
-//! There&#39;s an [overview] of Rocket on the main site as well as a [full,
-//! detailed guide]. If you&#39;d like pointers on getting started, see the
+//! There's an [overview] of Rocket on the main site as well as a [full,
+//! detailed guide]. If you'd like pointers on getting started, see the
 //! [quickstart] or [getting started] chapters of the guide.
 //!
-//! [overview]: https://rocket.rs/v0.5-rc/overview
-//! [full, detailed guide]: https://rocket.rs/v0.5-rc/guide
-//! [quickstart]: https://rocket.rs/v0.5-rc/guide/quickstart
-//! [getting started]: https://rocket.rs/v0.5-rc/guide/getting-started
+//! [overview]: https://rocket.rs/v0.5/overview
+//! [full, detailed guide]: https://rocket.rs/v0.5/guide
+//! [quickstart]: https://rocket.rs/v0.5/guide/quickstart
+//! [getting started]: https://rocket.rs/v0.5/guide/getting-started
 //!
 //! ## Usage
 //!
@@ -390,28 +390,28 @@
 //!
 //! ```toml
 //! [dependencies]
-//! rocket = &quot;=0.5.0-rc.4&quot;
+//! rocket = "0.5.0"
 //! ```
 //!
 //! &lt;small&gt;Note that development versions, tagged with `-dev`, are not published
 //! and need to be specified as [git dependencies].&lt;/small&gt;
 //!
-//! See the [guide](https://rocket.rs/v0.5-rc/guide) for more information on how
-//! to write Rocket applications. Here&#39;s a simple example to get you started:
+//! See the [guide](https://rocket.rs/v0.5/guide) for more information on how
+//! to write Rocket applications. Here's a simple example to get you started:
 //!
 //! [git dependencies]: https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories
 //!
 //! ```rust,no_run
 //! #[macro_use] extern crate rocket;
 //!
-//! #[get(&quot;/&quot;)]
-//! fn hello() -&gt; &amp;&#39;static str {
-//!     &quot;Hello, world!&quot;
+//! #[get("/")]
+//! fn hello() -&gt; &amp;'static str {
+//!     "Hello, world!"
 //! }
 //!
 //! #[launch]
 //! fn rocket() -&gt; _ {
-//!     rocket::build().mount(&quot;/&quot;, routes![hello])
+//!     rocket::build().mount("/", routes![hello])
 //! }
 //! ```
 //!
@@ -434,21 +434,21 @@
 //!
 //! ```toml
 //! [dependencies]
-//! rocket = { version = &quot;=0.5.0-rc.4&quot;, features = [&quot;secrets&quot;, &quot;tls&quot;, &quot;json&quot;] }
+//! rocket = { version = "0.5.0", features = ["secrets", "tls", "json"] }
 //! ```
 //!
 //! Conversely, HTTP/2 can be disabled:
 //!
 //! ```toml
 //! [dependencies]
-//! rocket = { version = &quot;=0.5.0-rc.4&quot;, default-features = false }
+//! rocket = { version = "0.5.0", default-features = false }
 //! ```
 //!
 //! [JSON (de)serialization]: crate::serde::json
 //! [MessagePack (de)serialization]: crate::serde::msgpack
 //! [UUID value parsing and (de)serialization]: crate::serde::uuid
-//! [private cookies]: https://rocket.rs/v0.5-rc/guide/requests/#private-cookies
-//! [TLS]: https://rocket.rs/v0.5-rc/guide/configuration/#tls
+//! [private cookies]: https://rocket.rs/v0.5/guide/requests/#private-cookies
+//! [TLS]: https://rocket.rs/v0.5/guide/configuration/#tls
 //! [mutual TLS]: crate::mtls
 //!
 //! ## Configuration
@@ -464,12 +464,12 @@
 //! integration testing of a Rocket application. The top-level [`local`] module
 //! documentation and the [testing guide] include detailed examples.
 //!
-//! [configuration guide]: https://rocket.rs/v0.5-rc/guide/configuration/
-//! [testing guide]: https://rocket.rs/v0.5-rc/guide/testing/#testing
+//! [configuration guide]: https://rocket.rs/v0.5/guide/configuration/
+//! [testing guide]: https://rocket.rs/v0.5/guide/testing/#testing
 //! [Figment]: https://docs.rs/figment
 
 /// These are public dependencies! Update docs if these are changed, especially
-/// figment&#39;s version number in docs.
+/// figment's version number in docs.
 </span><span class="attr">#[doc(hidden)] </span><span class="kw">pub use </span>yansi;
 <span class="attr">#[doc(hidden)] </span><span class="kw">pub use </span>async_stream;
 <span class="kw">pub use </span>futures;
@@ -521,8 +521,8 @@
     </span><span class="kw">pub use </span><span class="kw">crate</span>::cookies::<span class="kw-2">*</span>;
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;mtls&quot;</span>)]
-#[cfg_attr(nightly, doc(cfg(feature = <span class="string">&quot;mtls&quot;</span>)))]
+<span class="attr">#[cfg(feature = <span class="string">"mtls"</span>)]
+#[cfg_attr(nightly, doc(cfg(feature = <span class="string">"mtls"</span>)))]
 </span><span class="kw">pub mod </span>mtls;
 
 <span class="doccomment">/// TODO: We need a futures mod or something.
@@ -582,7 +582,7 @@
 /// ```
 ///
 /// All `impl`s for a trait declared with `#[async_trait]` must themselves be
-/// decorated with `#[async_trait]`. Many of Rocket&#39;s traits, such as
+/// decorated with `#[async_trait]`. Many of Rocket's traits, such as
 /// [`FromRequest`](crate::request::FromRequest) and
 /// [`Fairing`](crate::fairing::Fairing) are `async`. As such, implementations
 /// of said traits must be decorated with `#[async_trait]`. See the individual
@@ -603,7 +603,7 @@
         .max_blocking_threads(sync)
         .enable_all()
         .build()
-        .expect(<span class="string">&quot;create tokio runtime&quot;</span>);
+        .expect(<span class="string">"create tokio runtime"</span>);
 
     <span class="kw">let </span>result = runtime.block_on(fut);
     <span class="kw">if </span>force_end {
@@ -616,19 +616,19 @@
 <span class="doccomment">/// WARNING: This is unstable! Do not use this method outside of Rocket!
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub fn </span>async_test&lt;R&gt;(fut: <span class="kw">impl </span>std::future::Future&lt;Output = R&gt;) -&gt; R {
-    async_run(fut, <span class="number">1</span>, <span class="number">32</span>, <span class="bool-val">true</span>, <span class="string">&quot;rocket-worker-test-thread&quot;</span>)
+    async_run(fut, <span class="number">1</span>, <span class="number">32</span>, <span class="bool-val">true</span>, <span class="string">"rocket-worker-test-thread"</span>)
 }
 
 <span class="doccomment">/// WARNING: This is unstable! Do not use this method outside of Rocket!
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub fn </span>async_main&lt;R&gt;(fut: <span class="kw">impl </span>std::future::Future&lt;Output = R&gt; + Send) -&gt; R {
-    <span class="comment">// FIXME: We need to run `fut` to get the user&#39;s `Figment` to properly set
-    // up the async env, but we need the async env to run `fut`. So we&#39;re stuck.
-    // Tokio doesn&#39;t let us take the state from one async env and migrate it to
+    <span class="comment">// FIXME: We need to run `fut` to get the user's `Figment` to properly set
+    // up the async env, but we need the async env to run `fut`. So we're stuck.
+    // Tokio doesn't let us take the state from one async env and migrate it to
     // another, so we need to use one, making this impossible.
     //
-    // So as a result, we only use values from Rocket&#39;s figment. These
-    // values won&#39;t reflect swaps of `Rocket` in attach fairings with different
+    // So as a result, we only use values from Rocket's figment. These
+    // values won't reflect swaps of `Rocket` in attach fairings with different
     // config values, or values from non-Rocket configs. See tokio-rs/tokio#3329
     // for a necessary resolution in `tokio`.
     </span><span class="kw">use </span>config::bail_with_config_error <span class="kw">as </span>bail;
@@ -636,13 +636,13 @@
     <span class="kw">let </span>fig = Config::figment();
     <span class="kw">let </span>workers = fig.extract_inner(Config::WORKERS).unwrap_or_else(bail);
     <span class="kw">let </span>max_blocking = fig.extract_inner(Config::MAX_BLOCKING).unwrap_or_else(bail);
-    <span class="kw">let </span>force = fig.focus(Config::SHUTDOWN).extract_inner(<span class="string">&quot;force&quot;</span>).unwrap_or_else(bail);
-    async_run(fut, workers, max_blocking, force, <span class="string">&quot;rocket-worker-thread&quot;</span>)
+    <span class="kw">let </span>force = fig.focus(Config::SHUTDOWN).extract_inner(<span class="string">"force"</span>).unwrap_or_else(bail);
+    async_run(fut, workers, max_blocking, force, <span class="string">"rocket-worker-thread"</span>)
 }
 
 <span class="doccomment">/// Executes a `future` to completion on a new tokio-based Rocket async runtime.
 ///
-/// The runtime is terminated on shutdown, and the future&#39;s resolved value is
+/// The runtime is terminated on shutdown, and the future's resolved value is
 /// returned.
 ///
 /// # Considerations
@@ -682,10 +682,10 @@
 /// use rocket::fairing::AdHoc;
 ///
 /// let rocket = rocket::build()
-///     .attach(AdHoc::on_liftoff(&quot;Liftoff Printer&quot;, |_| Box::pin(async move {
-///         println!(&quot;Stalling liftoff for a second...&quot;);
+///     .attach(AdHoc::on_liftoff("Liftoff Printer", |_| Box::pin(async move {
+///         println!("Stalling liftoff for a second...");
 ///         rocket::tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-///         println!(&quot;And we&#39;re off!&quot;);
+///         println!("And we're off!");
 ///     })));
 ///
 /// rocket::execute(rocket.launch());

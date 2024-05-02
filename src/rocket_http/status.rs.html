@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/status.rs`."><title>status.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/status.rs`."><title>status.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -449,7 +449,7 @@
     </span>Unknown
 }
 
-<span class="macro">macro_rules! </span>class_check_fn {
+<span class="macro">macro_rules!</span> class_check_fn {
     (<span class="macro-nonterminal">$func</span>:ident, <span class="macro-nonterminal">$</span><span class="kw">type</span>:<span class="macro-nonterminal">expr</span>, <span class="macro-nonterminal">$variant</span>:ident) =&gt; (
         <span class="doccomment">/// Returns `true` if `self` is a `StatusClass` of
         </span><span class="attr">#[doc=<span class="macro-nonterminal">$</span><span class="kw">type</span>]
@@ -462,12 +462,12 @@
 }
 
 <span class="kw">impl </span>StatusClass {
-    <span class="macro">class_check_fn!</span>(is_informational, <span class="string">&quot;`Informational` (1XX).&quot;</span>, Informational);
-    <span class="macro">class_check_fn!</span>(is_success, <span class="string">&quot;`Success` (2XX).&quot;</span>, Success);
-    <span class="macro">class_check_fn!</span>(is_redirection, <span class="string">&quot;`Redirection` (3XX).&quot;</span>, Redirection);
-    <span class="macro">class_check_fn!</span>(is_client_error, <span class="string">&quot;`ClientError` (4XX).&quot;</span>, ClientError);
-    <span class="macro">class_check_fn!</span>(is_server_error, <span class="string">&quot;`ServerError` (5XX).&quot;</span>, ServerError);
-    <span class="macro">class_check_fn!</span>(is_unknown, <span class="string">&quot;`Unknown`.&quot;</span>, Unknown);
+    <span class="macro">class_check_fn!</span>(is_informational, <span class="string">"`Informational` (1XX)."</span>, Informational);
+    <span class="macro">class_check_fn!</span>(is_success, <span class="string">"`Success` (2XX)."</span>, Success);
+    <span class="macro">class_check_fn!</span>(is_redirection, <span class="string">"`Redirection` (3XX)."</span>, Redirection);
+    <span class="macro">class_check_fn!</span>(is_client_error, <span class="string">"`ClientError` (4XX)."</span>, ClientError);
+    <span class="macro">class_check_fn!</span>(is_server_error, <span class="string">"`ServerError` (5XX)."</span>, ServerError);
+    <span class="macro">class_check_fn!</span>(is_unknown, <span class="string">"`Unknown`."</span>, Unknown);
 }
 
 <span class="doccomment">/// Structure representing an HTTP status: an integer code.
@@ -484,16 +484,16 @@
 /// // Create a status from a known constant.
 /// let ok = Status::Ok;
 /// assert_eq!(ok.code, 200);
-/// assert_eq!(ok.reason(), Some(&quot;OK&quot;));
+/// assert_eq!(ok.reason(), Some("OK"));
 ///
 /// let not_found = Status::NotFound;
 /// assert_eq!(not_found.code, 404);
-/// assert_eq!(not_found.reason(), Some(&quot;Not Found&quot;));
+/// assert_eq!(not_found.reason(), Some("Not Found"));
 ///
 /// // Or from a status code: `reason()` returns the phrase when known.
 /// let gone = Status::new(410);
 /// assert_eq!(gone.code, 410);
-/// assert_eq!(gone.reason(), Some(&quot;Gone&quot;));
+/// assert_eq!(gone.reason(), Some("Gone"));
 ///
 /// // `reason()` returns `None` when unknown.
 /// let custom = Status::new(599);
@@ -513,9 +513,9 @@
 /// # use rocket::get;
 /// use rocket::http::Status;
 ///
-/// #[get(&quot;/&quot;)]
-/// fn index() -&gt; (Status, &amp;&#39;static str) {
-///     (Status::NotFound, &quot;Hey, there&#39;s no index!&quot;)
+/// #[get("/")]
+/// fn index() -&gt; (Status, &amp;'static str) {
+///     (Status::NotFound, "Hey, there's no index!")
 /// }
 /// ```
 ///
@@ -528,13 +528,13 @@
 /// range `[100, 600)` is allowed to deserialize into a `Status`.`
 ///
 /// ```rust
-/// # #[cfg(feature = &quot;serde&quot;)] mod serde {
+/// # #[cfg(feature = "serde")] mod serde {
 /// # use serde_ as serde;
 /// use serde::{Serialize, Deserialize};
 /// use rocket::http::Status;
 ///
 /// #[derive(Deserialize, Serialize)]
-/// # #[serde(crate = &quot;serde_&quot;)]
+/// # #[serde(crate = "serde_")]
 /// struct Foo {
 ///     status: Status,
 /// }
@@ -552,12 +552,12 @@
     }
 }
 
-<span class="macro">macro_rules! </span>ctrs {
+<span class="macro">macro_rules!</span> ctrs {
     ($(<span class="macro-nonterminal">$code</span>:expr, <span class="macro-nonterminal">$code_str</span>:expr, <span class="macro-nonterminal">$name</span>:ident =&gt; <span class="macro-nonterminal">$reason</span>:expr),+) =&gt; {
         $(
-            <span class="attr">#[doc=<span class="string">&quot;[`Status`] with code &lt;b&gt;&quot;</span>]
+            <span class="attr">#[doc=<span class="string">"[`Status`] with code &lt;b&gt;"</span>]
             #[doc=<span class="macro-nonterminal">$code_str</span>]
-            #[doc=<span class="string">&quot;&lt;/b&gt;.&quot;</span>]
+            #[doc=<span class="string">"&lt;/b&gt;."</span>]
             #[allow(non_upper_case_globals)]
             </span><span class="kw">pub const </span><span class="macro-nonterminal">$name</span>: Status = Status { code: <span class="macro-nonterminal">$code </span>};
         )+
@@ -660,8 +660,8 @@
         /// # extern crate rocket;
         /// use rocket::http::Status;
         ///
-        /// assert_eq!(Status::Created.reason(), Some(&quot;Created&quot;));
-        /// assert_eq!(Status::new(200).reason(), Some(&quot;OK&quot;));
+        /// assert_eq!(Status::Created.reason(), Some("Created"));
+        /// assert_eq!(Status::new(200).reason(), Some("OK"));
         /// ```
         ///
         /// Absent phrase from an unknown `code`:
@@ -672,7 +672,7 @@
         ///
         /// assert_eq!(Status::new(499).reason(), None);
         /// ```
-        </span><span class="kw">pub const fn </span>reason(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
+        </span><span class="kw">pub const fn </span>reason(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; {
             <span class="kw">match </span><span class="self">self</span>.code {
                 $(<span class="macro-nonterminal">$code </span>=&gt; <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$reason</span>),)+
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None
@@ -689,96 +689,96 @@
         /// # extern crate rocket;
         /// use rocket::http::Status;
         ///
-        /// assert_eq!(Status::NotFound.reason_lossy(), &quot;Not Found&quot;);
-        /// assert_eq!(Status::new(100).reason_lossy(), &quot;Continue&quot;);
+        /// assert_eq!(Status::NotFound.reason_lossy(), "Not Found");
+        /// assert_eq!(Status::new(100).reason_lossy(), "Continue");
         /// assert!(!Status::new(699).reason_lossy().is_empty());
         /// ```
-        </span><span class="kw">pub const fn </span>reason_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str {
+        </span><span class="kw">pub const fn </span>reason_lossy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(lossless) = <span class="self">self</span>.reason() {
                 <span class="kw">return </span>lossless;
             }
 
             <span class="kw">match </span><span class="self">self</span>.class() {
-                StatusClass::Informational =&gt; <span class="string">&quot;Informational&quot;</span>,
-                StatusClass::Success =&gt; <span class="string">&quot;Success&quot;</span>,
-                StatusClass::Redirection =&gt; <span class="string">&quot;Redirection&quot;</span>,
-                StatusClass::ClientError =&gt; <span class="string">&quot;Client Error&quot;</span>,
-                StatusClass::ServerError =&gt; <span class="string">&quot;Server Error&quot;</span>,
-                StatusClass::Unknown =&gt; <span class="string">&quot;Unknown&quot;
+                StatusClass::Informational =&gt; <span class="string">"Informational"</span>,
+                StatusClass::Success =&gt; <span class="string">"Success"</span>,
+                StatusClass::Redirection =&gt; <span class="string">"Redirection"</span>,
+                StatusClass::ClientError =&gt; <span class="string">"Client Error"</span>,
+                StatusClass::ServerError =&gt; <span class="string">"Server Error"</span>,
+                StatusClass::Unknown =&gt; <span class="string">"Unknown"
             </span>}
         }
     };
 }
 
 <span class="kw">impl </span>Status {
-    <span class="macro">ctrs! </span>{
-        <span class="number">100</span>, <span class="string">&quot;100&quot;</span>, Continue =&gt; <span class="string">&quot;Continue&quot;</span>,
-        <span class="number">101</span>, <span class="string">&quot;101&quot;</span>, SwitchingProtocols =&gt; <span class="string">&quot;Switching Protocols&quot;</span>,
-        <span class="number">102</span>, <span class="string">&quot;102&quot;</span>, Processing =&gt; <span class="string">&quot;Processing&quot;</span>,
-        <span class="number">200</span>, <span class="string">&quot;200&quot;</span>, <span class="prelude-val">Ok </span>=&gt; <span class="string">&quot;OK&quot;</span>,
-        <span class="number">201</span>, <span class="string">&quot;201&quot;</span>, Created =&gt; <span class="string">&quot;Created&quot;</span>,
-        <span class="number">202</span>, <span class="string">&quot;202&quot;</span>, Accepted =&gt; <span class="string">&quot;Accepted&quot;</span>,
-        <span class="number">203</span>, <span class="string">&quot;203&quot;</span>, NonAuthoritativeInformation =&gt; <span class="string">&quot;Non-Authoritative Information&quot;</span>,
-        <span class="number">204</span>, <span class="string">&quot;204&quot;</span>, NoContent =&gt; <span class="string">&quot;No Content&quot;</span>,
-        <span class="number">205</span>, <span class="string">&quot;205&quot;</span>, ResetContent =&gt; <span class="string">&quot;Reset Content&quot;</span>,
-        <span class="number">206</span>, <span class="string">&quot;206&quot;</span>, PartialContent =&gt; <span class="string">&quot;Partial Content&quot;</span>,
-        <span class="number">207</span>, <span class="string">&quot;207&quot;</span>, MultiStatus =&gt; <span class="string">&quot;Multi-Status&quot;</span>,
-        <span class="number">208</span>, <span class="string">&quot;208&quot;</span>, AlreadyReported =&gt; <span class="string">&quot;Already Reported&quot;</span>,
-        <span class="number">226</span>, <span class="string">&quot;226&quot;</span>, ImUsed =&gt; <span class="string">&quot;IM Used&quot;</span>,
-        <span class="number">300</span>, <span class="string">&quot;300&quot;</span>, MultipleChoices =&gt; <span class="string">&quot;Multiple Choices&quot;</span>,
-        <span class="number">301</span>, <span class="string">&quot;301&quot;</span>, MovedPermanently =&gt; <span class="string">&quot;Moved Permanently&quot;</span>,
-        <span class="number">302</span>, <span class="string">&quot;302&quot;</span>, Found =&gt; <span class="string">&quot;Found&quot;</span>,
-        <span class="number">303</span>, <span class="string">&quot;303&quot;</span>, SeeOther =&gt; <span class="string">&quot;See Other&quot;</span>,
-        <span class="number">304</span>, <span class="string">&quot;304&quot;</span>, NotModified =&gt; <span class="string">&quot;Not Modified&quot;</span>,
-        <span class="number">305</span>, <span class="string">&quot;305&quot;</span>, UseProxy =&gt; <span class="string">&quot;Use Proxy&quot;</span>,
-        <span class="number">307</span>, <span class="string">&quot;307&quot;</span>, TemporaryRedirect =&gt; <span class="string">&quot;Temporary Redirect&quot;</span>,
-        <span class="number">308</span>, <span class="string">&quot;308&quot;</span>, PermanentRedirect =&gt; <span class="string">&quot;Permanent Redirect&quot;</span>,
-        <span class="number">400</span>, <span class="string">&quot;400&quot;</span>, BadRequest =&gt; <span class="string">&quot;Bad Request&quot;</span>,
-        <span class="number">401</span>, <span class="string">&quot;401&quot;</span>, Unauthorized =&gt; <span class="string">&quot;Unauthorized&quot;</span>,
-        <span class="number">402</span>, <span class="string">&quot;402&quot;</span>, PaymentRequired =&gt; <span class="string">&quot;Payment Required&quot;</span>,
-        <span class="number">403</span>, <span class="string">&quot;403&quot;</span>, Forbidden =&gt; <span class="string">&quot;Forbidden&quot;</span>,
-        <span class="number">404</span>, <span class="string">&quot;404&quot;</span>, NotFound =&gt; <span class="string">&quot;Not Found&quot;</span>,
-        <span class="number">405</span>, <span class="string">&quot;405&quot;</span>, MethodNotAllowed =&gt; <span class="string">&quot;Method Not Allowed&quot;</span>,
-        <span class="number">406</span>, <span class="string">&quot;406&quot;</span>, NotAcceptable =&gt; <span class="string">&quot;Not Acceptable&quot;</span>,
-        <span class="number">407</span>, <span class="string">&quot;407&quot;</span>, ProxyAuthenticationRequired =&gt; <span class="string">&quot;Proxy Authentication Required&quot;</span>,
-        <span class="number">408</span>, <span class="string">&quot;408&quot;</span>, RequestTimeout =&gt; <span class="string">&quot;Request Timeout&quot;</span>,
-        <span class="number">409</span>, <span class="string">&quot;409&quot;</span>, Conflict =&gt; <span class="string">&quot;Conflict&quot;</span>,
-        <span class="number">410</span>, <span class="string">&quot;410&quot;</span>, Gone =&gt; <span class="string">&quot;Gone&quot;</span>,
-        <span class="number">411</span>, <span class="string">&quot;411&quot;</span>, LengthRequired =&gt; <span class="string">&quot;Length Required&quot;</span>,
-        <span class="number">412</span>, <span class="string">&quot;412&quot;</span>, PreconditionFailed =&gt; <span class="string">&quot;Precondition Failed&quot;</span>,
-        <span class="number">413</span>, <span class="string">&quot;413&quot;</span>, PayloadTooLarge =&gt; <span class="string">&quot;Payload Too Large&quot;</span>,
-        <span class="number">414</span>, <span class="string">&quot;414&quot;</span>, UriTooLong =&gt; <span class="string">&quot;URI Too Long&quot;</span>,
-        <span class="number">415</span>, <span class="string">&quot;415&quot;</span>, UnsupportedMediaType =&gt; <span class="string">&quot;Unsupported Media Type&quot;</span>,
-        <span class="number">416</span>, <span class="string">&quot;416&quot;</span>, RangeNotSatisfiable =&gt; <span class="string">&quot;Range Not Satisfiable&quot;</span>,
-        <span class="number">417</span>, <span class="string">&quot;417&quot;</span>, ExpectationFailed =&gt; <span class="string">&quot;Expectation Failed&quot;</span>,
-        <span class="number">418</span>, <span class="string">&quot;418&quot;</span>, ImATeapot =&gt; <span class="string">&quot;I&#39;m a teapot&quot;</span>,
-        <span class="number">421</span>, <span class="string">&quot;421&quot;</span>, MisdirectedRequest =&gt; <span class="string">&quot;Misdirected Request&quot;</span>,
-        <span class="number">422</span>, <span class="string">&quot;422&quot;</span>, UnprocessableEntity =&gt; <span class="string">&quot;Unprocessable Entity&quot;</span>,
-        <span class="number">423</span>, <span class="string">&quot;423&quot;</span>, Locked =&gt; <span class="string">&quot;Locked&quot;</span>,
-        <span class="number">424</span>, <span class="string">&quot;424&quot;</span>, FailedDependency =&gt; <span class="string">&quot;Failed Dependency&quot;</span>,
-        <span class="number">426</span>, <span class="string">&quot;426&quot;</span>, UpgradeRequired =&gt; <span class="string">&quot;Upgrade Required&quot;</span>,
-        <span class="number">428</span>, <span class="string">&quot;428&quot;</span>, PreconditionRequired =&gt; <span class="string">&quot;Precondition Required&quot;</span>,
-        <span class="number">429</span>, <span class="string">&quot;429&quot;</span>, TooManyRequests =&gt; <span class="string">&quot;Too Many Requests&quot;</span>,
-        <span class="number">431</span>, <span class="string">&quot;431&quot;</span>, RequestHeaderFieldsTooLarge =&gt; <span class="string">&quot;Request Header Fields Too Large&quot;</span>,
-        <span class="number">451</span>, <span class="string">&quot;451&quot;</span>, UnavailableForLegalReasons =&gt; <span class="string">&quot;Unavailable For Legal Reasons&quot;</span>,
-        <span class="number">500</span>, <span class="string">&quot;500&quot;</span>, InternalServerError =&gt; <span class="string">&quot;Internal Server Error&quot;</span>,
-        <span class="number">501</span>, <span class="string">&quot;501&quot;</span>, NotImplemented =&gt; <span class="string">&quot;Not Implemented&quot;</span>,
-        <span class="number">502</span>, <span class="string">&quot;502&quot;</span>, BadGateway =&gt; <span class="string">&quot;Bad Gateway&quot;</span>,
-        <span class="number">503</span>, <span class="string">&quot;503&quot;</span>, ServiceUnavailable =&gt; <span class="string">&quot;Service Unavailable&quot;</span>,
-        <span class="number">504</span>, <span class="string">&quot;504&quot;</span>, GatewayTimeout =&gt; <span class="string">&quot;Gateway Timeout&quot;</span>,
-        <span class="number">505</span>, <span class="string">&quot;505&quot;</span>, HttpVersionNotSupported =&gt; <span class="string">&quot;HTTP Version Not Supported&quot;</span>,
-        <span class="number">506</span>, <span class="string">&quot;506&quot;</span>, VariantAlsoNegotiates =&gt; <span class="string">&quot;Variant Also Negotiates&quot;</span>,
-        <span class="number">507</span>, <span class="string">&quot;507&quot;</span>, InsufficientStorage =&gt; <span class="string">&quot;Insufficient Storage&quot;</span>,
-        <span class="number">508</span>, <span class="string">&quot;508&quot;</span>, LoopDetected =&gt; <span class="string">&quot;Loop Detected&quot;</span>,
-        <span class="number">510</span>, <span class="string">&quot;510&quot;</span>, NotExtended =&gt; <span class="string">&quot;Not Extended&quot;</span>,
-        <span class="number">511</span>, <span class="string">&quot;511&quot;</span>, NetworkAuthenticationRequired =&gt; <span class="string">&quot;Network Authentication Required&quot;
+    <span class="macro">ctrs!</span> {
+        <span class="number">100</span>, <span class="string">"100"</span>, Continue =&gt; <span class="string">"Continue"</span>,
+        <span class="number">101</span>, <span class="string">"101"</span>, SwitchingProtocols =&gt; <span class="string">"Switching Protocols"</span>,
+        <span class="number">102</span>, <span class="string">"102"</span>, Processing =&gt; <span class="string">"Processing"</span>,
+        <span class="number">200</span>, <span class="string">"200"</span>, <span class="prelude-val">Ok </span>=&gt; <span class="string">"OK"</span>,
+        <span class="number">201</span>, <span class="string">"201"</span>, Created =&gt; <span class="string">"Created"</span>,
+        <span class="number">202</span>, <span class="string">"202"</span>, Accepted =&gt; <span class="string">"Accepted"</span>,
+        <span class="number">203</span>, <span class="string">"203"</span>, NonAuthoritativeInformation =&gt; <span class="string">"Non-Authoritative Information"</span>,
+        <span class="number">204</span>, <span class="string">"204"</span>, NoContent =&gt; <span class="string">"No Content"</span>,
+        <span class="number">205</span>, <span class="string">"205"</span>, ResetContent =&gt; <span class="string">"Reset Content"</span>,
+        <span class="number">206</span>, <span class="string">"206"</span>, PartialContent =&gt; <span class="string">"Partial Content"</span>,
+        <span class="number">207</span>, <span class="string">"207"</span>, MultiStatus =&gt; <span class="string">"Multi-Status"</span>,
+        <span class="number">208</span>, <span class="string">"208"</span>, AlreadyReported =&gt; <span class="string">"Already Reported"</span>,
+        <span class="number">226</span>, <span class="string">"226"</span>, ImUsed =&gt; <span class="string">"IM Used"</span>,
+        <span class="number">300</span>, <span class="string">"300"</span>, MultipleChoices =&gt; <span class="string">"Multiple Choices"</span>,
+        <span class="number">301</span>, <span class="string">"301"</span>, MovedPermanently =&gt; <span class="string">"Moved Permanently"</span>,
+        <span class="number">302</span>, <span class="string">"302"</span>, Found =&gt; <span class="string">"Found"</span>,
+        <span class="number">303</span>, <span class="string">"303"</span>, SeeOther =&gt; <span class="string">"See Other"</span>,
+        <span class="number">304</span>, <span class="string">"304"</span>, NotModified =&gt; <span class="string">"Not Modified"</span>,
+        <span class="number">305</span>, <span class="string">"305"</span>, UseProxy =&gt; <span class="string">"Use Proxy"</span>,
+        <span class="number">307</span>, <span class="string">"307"</span>, TemporaryRedirect =&gt; <span class="string">"Temporary Redirect"</span>,
+        <span class="number">308</span>, <span class="string">"308"</span>, PermanentRedirect =&gt; <span class="string">"Permanent Redirect"</span>,
+        <span class="number">400</span>, <span class="string">"400"</span>, BadRequest =&gt; <span class="string">"Bad Request"</span>,
+        <span class="number">401</span>, <span class="string">"401"</span>, Unauthorized =&gt; <span class="string">"Unauthorized"</span>,
+        <span class="number">402</span>, <span class="string">"402"</span>, PaymentRequired =&gt; <span class="string">"Payment Required"</span>,
+        <span class="number">403</span>, <span class="string">"403"</span>, Forbidden =&gt; <span class="string">"Forbidden"</span>,
+        <span class="number">404</span>, <span class="string">"404"</span>, NotFound =&gt; <span class="string">"Not Found"</span>,
+        <span class="number">405</span>, <span class="string">"405"</span>, MethodNotAllowed =&gt; <span class="string">"Method Not Allowed"</span>,
+        <span class="number">406</span>, <span class="string">"406"</span>, NotAcceptable =&gt; <span class="string">"Not Acceptable"</span>,
+        <span class="number">407</span>, <span class="string">"407"</span>, ProxyAuthenticationRequired =&gt; <span class="string">"Proxy Authentication Required"</span>,
+        <span class="number">408</span>, <span class="string">"408"</span>, RequestTimeout =&gt; <span class="string">"Request Timeout"</span>,
+        <span class="number">409</span>, <span class="string">"409"</span>, Conflict =&gt; <span class="string">"Conflict"</span>,
+        <span class="number">410</span>, <span class="string">"410"</span>, Gone =&gt; <span class="string">"Gone"</span>,
+        <span class="number">411</span>, <span class="string">"411"</span>, LengthRequired =&gt; <span class="string">"Length Required"</span>,
+        <span class="number">412</span>, <span class="string">"412"</span>, PreconditionFailed =&gt; <span class="string">"Precondition Failed"</span>,
+        <span class="number">413</span>, <span class="string">"413"</span>, PayloadTooLarge =&gt; <span class="string">"Payload Too Large"</span>,
+        <span class="number">414</span>, <span class="string">"414"</span>, UriTooLong =&gt; <span class="string">"URI Too Long"</span>,
+        <span class="number">415</span>, <span class="string">"415"</span>, UnsupportedMediaType =&gt; <span class="string">"Unsupported Media Type"</span>,
+        <span class="number">416</span>, <span class="string">"416"</span>, RangeNotSatisfiable =&gt; <span class="string">"Range Not Satisfiable"</span>,
+        <span class="number">417</span>, <span class="string">"417"</span>, ExpectationFailed =&gt; <span class="string">"Expectation Failed"</span>,
+        <span class="number">418</span>, <span class="string">"418"</span>, ImATeapot =&gt; <span class="string">"I'm a teapot"</span>,
+        <span class="number">421</span>, <span class="string">"421"</span>, MisdirectedRequest =&gt; <span class="string">"Misdirected Request"</span>,
+        <span class="number">422</span>, <span class="string">"422"</span>, UnprocessableEntity =&gt; <span class="string">"Unprocessable Entity"</span>,
+        <span class="number">423</span>, <span class="string">"423"</span>, Locked =&gt; <span class="string">"Locked"</span>,
+        <span class="number">424</span>, <span class="string">"424"</span>, FailedDependency =&gt; <span class="string">"Failed Dependency"</span>,
+        <span class="number">426</span>, <span class="string">"426"</span>, UpgradeRequired =&gt; <span class="string">"Upgrade Required"</span>,
+        <span class="number">428</span>, <span class="string">"428"</span>, PreconditionRequired =&gt; <span class="string">"Precondition Required"</span>,
+        <span class="number">429</span>, <span class="string">"429"</span>, TooManyRequests =&gt; <span class="string">"Too Many Requests"</span>,
+        <span class="number">431</span>, <span class="string">"431"</span>, RequestHeaderFieldsTooLarge =&gt; <span class="string">"Request Header Fields Too Large"</span>,
+        <span class="number">451</span>, <span class="string">"451"</span>, UnavailableForLegalReasons =&gt; <span class="string">"Unavailable For Legal Reasons"</span>,
+        <span class="number">500</span>, <span class="string">"500"</span>, InternalServerError =&gt; <span class="string">"Internal Server Error"</span>,
+        <span class="number">501</span>, <span class="string">"501"</span>, NotImplemented =&gt; <span class="string">"Not Implemented"</span>,
+        <span class="number">502</span>, <span class="string">"502"</span>, BadGateway =&gt; <span class="string">"Bad Gateway"</span>,
+        <span class="number">503</span>, <span class="string">"503"</span>, ServiceUnavailable =&gt; <span class="string">"Service Unavailable"</span>,
+        <span class="number">504</span>, <span class="string">"504"</span>, GatewayTimeout =&gt; <span class="string">"Gateway Timeout"</span>,
+        <span class="number">505</span>, <span class="string">"505"</span>, HttpVersionNotSupported =&gt; <span class="string">"HTTP Version Not Supported"</span>,
+        <span class="number">506</span>, <span class="string">"506"</span>, VariantAlsoNegotiates =&gt; <span class="string">"Variant Also Negotiates"</span>,
+        <span class="number">507</span>, <span class="string">"507"</span>, InsufficientStorage =&gt; <span class="string">"Insufficient Storage"</span>,
+        <span class="number">508</span>, <span class="string">"508"</span>, LoopDetected =&gt; <span class="string">"Loop Detected"</span>,
+        <span class="number">510</span>, <span class="string">"510"</span>, NotExtended =&gt; <span class="string">"Not Extended"</span>,
+        <span class="number">511</span>, <span class="string">"511"</span>, NetworkAuthenticationRequired =&gt; <span class="string">"Network Authentication Required"
     </span>}
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>Status {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-        <span class="macro">write!</span>(f, <span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.code, <span class="self">self</span>.reason_lossy())
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">"{} {}"</span>, <span class="self">self</span>.code, <span class="self">self</span>.reason_lossy())
     }
 }
 
@@ -808,7 +808,7 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;serde&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"serde"</span>)]
 </span><span class="kw">mod </span>serde {
     <span class="kw">use </span>std::fmt;
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -816,7 +816,7 @@
     <span class="kw">use </span>serde_::ser::{Serialize, Serializer};
     <span class="kw">use </span>serde_::de::{Deserialize, Deserializer, Error, Visitor, Unexpected};
 
-    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Serialize <span class="kw">for </span>Status {
+    <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Serialize <span class="kw">for </span>Status {
         <span class="kw">fn </span>serialize&lt;S: Serializer&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, serializer: S) -&gt; <span class="prelude-ty">Result</span>&lt;S::Ok, S::Error&gt; {
             serializer.serialize_u16(<span class="self">self</span>.code)
         }
@@ -824,11 +824,11 @@
 
     <span class="kw">struct </span>DeVisitor;
 
-    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; Visitor&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>DeVisitor {
+    <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; Visitor&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>DeVisitor {
         <span class="kw">type </span>Value = Status;
 
-        <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
-            <span class="macro">write!</span>(formatter, <span class="string">&quot;HTTP status code integer in range [100, 600)&quot;</span>)
+        <span class="kw">fn </span>expecting(<span class="kw-2">&amp;</span><span class="self">self</span>, formatter: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+            <span class="macro">write!</span>(formatter, <span class="string">"HTTP status code integer in range [100, 600)"</span>)
         }
 
         <span class="kw">fn </span>visit_i64&lt;E: Error&gt;(<span class="self">self</span>, v: i64) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Value, E&gt; {
@@ -848,8 +848,8 @@
         }
     }
 
-    <span class="kw">impl</span>&lt;<span class="lifetime">&#39;de</span>&gt; Deserialize&lt;<span class="lifetime">&#39;de</span>&gt; <span class="kw">for </span>Status {
-        <span class="kw">fn </span>deserialize&lt;D: Deserializer&lt;<span class="lifetime">&#39;de</span>&gt;&gt;(deserializer: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt; {
+    <span class="kw">impl</span>&lt;<span class="lifetime">'de</span>&gt; Deserialize&lt;<span class="lifetime">'de</span>&gt; <span class="kw">for </span>Status {
+        <span class="kw">fn </span>deserialize&lt;D: Deserializer&lt;<span class="lifetime">'de</span>&gt;&gt;(deserializer: D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, D::Error&gt; {
             deserializer.deserialize_u16(DeVisitor)
         }
     }

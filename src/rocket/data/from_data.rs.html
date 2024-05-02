@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/data/from_data.rs`."><title>from_data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/data/from_data.rs`."><title>from_data.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -432,14 +432,14 @@
 <span class="doccomment">/// Type alias for the `Outcome` of [`FromData`].
 ///
 /// [`FromData`]: crate::data::FromData
-</span><span class="kw">pub type </span>Outcome&lt;<span class="lifetime">&#39;r</span>, T, E = &lt;T <span class="kw">as </span>FromData&lt;<span class="lifetime">&#39;r</span>&gt;&gt;::Error&gt;
-    = outcome::Outcome&lt;T, (Status, E), (Data&lt;<span class="lifetime">&#39;r</span>&gt;, Status)&gt;;
+</span><span class="kw">pub type </span>Outcome&lt;<span class="lifetime">'r</span>, T, E = &lt;T <span class="kw">as </span>FromData&lt;<span class="lifetime">'r</span>&gt;&gt;::Error&gt;
+    = outcome::Outcome&lt;T, (Status, E), (Data&lt;<span class="lifetime">'r</span>&gt;, Status)&gt;;
 
 <span class="doccomment">/// Trait implemented by data guards to derive a value from request body data.
 ///
 /// # Data Guards
 ///
-/// A data guard is a guard that operates on a request&#39;s body data. Data guards
+/// A data guard is a guard that operates on a request's body data. Data guards
 /// validate and parse request body data via implementations of `FromData`. In
 /// other words, a type is a data guard _iff_ it implements `FromData`.
 ///
@@ -448,7 +448,7 @@
 /// ```rust
 /// # #[macro_use] extern crate rocket;
 /// # type DataGuard = String;
-/// #[post(&quot;/submit&quot;, data = &quot;&lt;var&gt;&quot;)]
+/// #[post("/submit", data = "&lt;var&gt;")]
 /// fn submit(var: DataGuard) { /* ... */ }
 /// ```
 ///
@@ -519,7 +519,7 @@
 ///     _Limited by the `json`, `msgpack` [data limit], respectively._
 ///
 ///     Reads up to the configured limit and deserializes the read data into `T`
-///     using the respective format&#39;s parser.
+///     using the respective format's parser.
 ///
 ///     - **Fails:** On I/O errors while reading the data, or if the data fails
 ///     to parse as a `T` according to the deserializer. The error type for
@@ -535,8 +535,8 @@
 ///
 ///     _Limited by the `form` or `data-form` [data limit]._
 ///
-///     Parses the incoming data stream into fields according to Rocket&#39;s [field
-///     wire format], pushes each field to `T`&#39;s [`FromForm`] [push parser], and
+///     Parses the incoming data stream into fields according to Rocket's [field
+///     wire format], pushes each field to `T`'s [`FromForm`] [push parser], and
 ///     finalizes the form. Parsing is done on the stream without reading the
 ///     data into memory. If the request has as a [`ContentType::Form`], the
 ///     `form` limit is applied, otherwise if the request has a
@@ -549,16 +549,16 @@
 ///     - **Succeeds:** As long as no I/O error occurs and the (limited) body
 ///     data was successfully parsed as a `T`.
 ///
-///     - **Forwards:** If the request&#39;s `Content-Type` is neither
+///     - **Forwards:** If the request's `Content-Type` is neither
 ///     [`ContentType::Form`] nor [`ContentType::FormData`].
 ///
 ///   * `Option&lt;T&gt;`
 ///
-///     Forwards to `T`&#39;s `FromData` implementation, capturing the outcome.
+///     Forwards to `T`'s `FromData` implementation, capturing the outcome.
 ///
 ///     - **Fails:** Never.
 ///
-///     - **Succeeds:** Always. If `T`&#39;s `FromData` implementation succeeds, the
+///     - **Succeeds:** Always. If `T`'s `FromData` implementation succeeds, the
 ///     parsed value is returned in `Some`. If its implementation forwards or
 ///     fails, `None` is returned.
 ///
@@ -566,24 +566,24 @@
 ///
 ///   * `Result&lt;T, T::Error&gt;`
 ///
-///     Forwards to `T`&#39;s `FromData` implementation, capturing the outcome.
+///     Forwards to `T`'s `FromData` implementation, capturing the outcome.
 ///
 ///     - **Fails:** Never.
 ///
-///     - **Succeeds:** If `T`&#39;s `FromData` implementation succeeds or fails. If
+///     - **Succeeds:** If `T`'s `FromData` implementation succeeds or fails. If
 ///     it succeeds, the value is returned in `Ok`. If it fails, the error value
 ///     is returned in `Err`.
 ///
-///     - **Forwards:** If `T`&#39;s implementation forwards.
+///     - **Forwards:** If `T`'s implementation forwards.
 ///
 ///   * [`Capped&lt;T&gt;`]
 ///
-///     Forwards to `T`&#39;s `FromData` implementation, recording whether the data
-///     was truncated (a.k.a. capped) due to `T`&#39;s limit being exceeded.
+///     Forwards to `T`'s `FromData` implementation, recording whether the data
+///     was truncated (a.k.a. capped) due to `T`'s limit being exceeded.
 ///
-///     - **Fails:** If `T`&#39;s implementation fails.
-///     - **Succeeds:** If `T`&#39;s implementation succeeds.
-///     - **Forwards:** If `T`&#39;s implementation forwards.
+///     - **Fails:** If `T`'s implementation fails.
+///     - **Succeeds:** If `T`'s implementation succeeds.
+///     - **Forwards:** If `T`'s implementation forwards.
 ///
 /// [data limit]: crate::data::Limits#built-in-limits
 /// [`DataStream::into_string()`]: crate::data::DataStream::into_string()
@@ -610,10 +610,10 @@
 /// # type MyError = String;
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromData&lt;&#39;r&gt; for MyType {
+/// impl&lt;'r&gt; FromData&lt;'r&gt; for MyType {
 ///     type Error = MyError;
 ///
-///     async fn from_data(req: &amp;&#39;r Request&lt;&#39;_&gt;, data: Data&lt;&#39;r&gt;) -&gt; data::Outcome&lt;&#39;r, Self&gt; {
+///     async fn from_data(req: &amp;'r Request&lt;'_&gt;, data: Data&lt;'r&gt;) -&gt; data::Outcome&lt;'r, Self&gt; {
 ///         /* .. */
 ///         # unimplemented!()
 ///     }
@@ -625,23 +625,23 @@
 /// Say that you have a custom type, `Person`:
 ///
 /// ```rust
-/// struct Person&lt;&#39;r&gt; {
-///     name: &amp;&#39;r str,
+/// struct Person&lt;'r&gt; {
+///     name: &amp;'r str,
 ///     age: u16
 /// }
 /// ```
 ///
 /// `Person` has a custom serialization format, so the built-in `Json` type
-/// doesn&#39;t suffice. The format is `&lt;name&gt;:&lt;age&gt;` with `Content-Type:
-/// application/x-person`. You&#39;d like to use `Person` as a data guard, so that
-/// you can retrieve it directly from a client&#39;s request body:
+/// doesn't suffice. The format is `&lt;name&gt;:&lt;age&gt;` with `Content-Type:
+/// application/x-person`. You'd like to use `Person` as a data guard, so that
+/// you can retrieve it directly from a client's request body:
 ///
 /// ```rust
 /// # use rocket::post;
-/// # type Person&lt;&#39;r&gt; = &amp;&#39;r rocket::http::RawStr;
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person(person: Person&lt;&#39;_&gt;) -&gt; &amp;&#39;static str {
-///     &quot;Saved the new person to the database!&quot;
+/// # type Person&lt;'r&gt; = &amp;'r rocket::http::RawStr;
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person(person: Person&lt;'_&gt;) -&gt; &amp;'static str {
+///     "Saved the new person to the database!"
 /// }
 /// ```
 ///
@@ -651,7 +651,7 @@
 /// # #[macro_use] extern crate rocket;
 /// #
 /// # #[derive(Debug)]
-/// # struct Person&lt;&#39;r&gt; { name: &amp;&#39;r str, age: u16 }
+/// # struct Person&lt;'r&gt; { name: &amp;'r str, age: u16 }
 /// #
 /// use rocket::request::{self, Request};
 /// use rocket::data::{self, Data, FromData, ToByteUnit};
@@ -667,20 +667,20 @@
 /// }
 ///
 /// #[rocket::async_trait]
-/// impl&lt;&#39;r&gt; FromData&lt;&#39;r&gt; for Person&lt;&#39;r&gt; {
+/// impl&lt;'r&gt; FromData&lt;'r&gt; for Person&lt;'r&gt; {
 ///     type Error = Error;
 ///
-///     async fn from_data(req: &amp;&#39;r Request&lt;&#39;_&gt;, data: Data&lt;&#39;r&gt;) -&gt; data::Outcome&lt;&#39;r, Self&gt; {
+///     async fn from_data(req: &amp;'r Request&lt;'_&gt;, data: Data&lt;'r&gt;) -&gt; data::Outcome&lt;'r, Self&gt; {
 ///         use Error::*;
 ///
 ///         // Ensure the content type is correct before opening the data.
-///         let person_ct = ContentType::new(&quot;application&quot;, &quot;x-person&quot;);
+///         let person_ct = ContentType::new("application", "x-person");
 ///         if req.content_type() != Some(&amp;person_ct) {
 ///             return Outcome::Forward((data, Status::UnsupportedMediaType));
 ///         }
 ///
-///         // Use a configured limit with name &#39;person&#39; or fallback to default.
-///         let limit = req.limits().get(&quot;person&quot;).unwrap_or(256.bytes());
+///         // Use a configured limit with name 'person' or fallback to default.
+///         let limit = req.limits().get("person").unwrap_or(256.bytes());
 ///
 ///         // Read the data into a string.
 ///         let string = match data.open(limit).into_string().await {
@@ -692,8 +692,8 @@
 ///         // We store `string` in request-local cache for long-lived borrows.
 ///         let string = request::local_cache!(req, string);
 ///
-///         // Split the string into two pieces at &#39;:&#39;.
-///         let (name, age) = match string.find(&#39;:&#39;) {
+///         // Split the string into two pieces at ':'.
+///         let (name, age) = match string.find(':') {
 ///             Some(i) =&gt; (&amp;string[..i], &amp;string[(i + 1)..]),
 ///             None =&gt; return Outcome::Error((Status::UnprocessableEntity, NoColon)),
 ///         };
@@ -710,24 +710,24 @@
 ///
 /// // The following routes now typecheck...
 ///
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person(person: Person&lt;&#39;_&gt;) { /* .. */ }
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person(person: Person&lt;'_&gt;) { /* .. */ }
 ///
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person2(person: Result&lt;Person&lt;&#39;_&gt;, Error&gt;) { /* .. */ }
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person2(person: Result&lt;Person&lt;'_&gt;, Error&gt;) { /* .. */ }
 ///
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person3(person: Option&lt;Person&lt;&#39;_&gt;&gt;) { /* .. */ }
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person3(person: Option&lt;Person&lt;'_&gt;&gt;) { /* .. */ }
 ///
-/// #[post(&quot;/person&quot;, data = &quot;&lt;person&gt;&quot;)]
-/// fn person4(person: Person&lt;&#39;_&gt;) -&gt; &amp;str {
+/// #[post("/person", data = "&lt;person&gt;")]
+/// fn person4(person: Person&lt;'_&gt;) -&gt; &amp;str {
 ///     // Note that this is only possible because the data in `person` live
 ///     // as long as the request through request-local cache.
 ///     person.name
 /// }
 /// ```
 </span><span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">pub trait </span>FromData&lt;<span class="lifetime">&#39;r</span>&gt;: Sized {
+</span><span class="kw">pub trait </span>FromData&lt;<span class="lifetime">'r</span>&gt;: Sized {
     <span class="doccomment">/// The associated error to be returned when the guard fails.
     </span><span class="kw">type </span>Error: Send + std::fmt::Debug;
 
@@ -737,17 +737,17 @@
     /// If validation and parsing succeeds, an outcome of `Success` is returned.
     /// If the data is not appropriate given the type of `Self`, `Forward` is
     /// returned. If parsing fails, `Error` is returned.
-    </span><span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt;;
+    </span><span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt;;
 }
 
 <span class="kw">use </span><span class="kw">crate</span>::data::Capped;
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;String&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;String&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
-        <span class="kw">let </span>limit = req.limits().get(<span class="string">&quot;string&quot;</span>).unwrap_or(Limits::STRING);
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
+        <span class="kw">let </span>limit = req.limits().get(<span class="string">"string"</span>).unwrap_or(Limits::STRING);
         data.open(limit).into_string().<span class="kw">await</span>.or_error(Status::BadRequest)
     }
 }
@@ -755,62 +755,62 @@
 <span class="macro">impl_strict_from_data_from_capped!</span>(String);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>str&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>str&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>capped = <span class="macro">try_outcome!</span>(&lt;Capped&lt;String&gt;&gt;::from_data(req, data).<span class="kw">await</span>);
         <span class="kw">let </span>string = capped.map(|s| <span class="macro">local_cache!</span>(req, s));
         Success(string)
     }
 }
 
-<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>str);
+<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>str);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>RawStr&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>RawStr&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>capped = <span class="macro">try_outcome!</span>(&lt;Capped&lt;String&gt;&gt;::from_data(req, data).<span class="kw">await</span>);
         <span class="kw">let </span>raw = capped.map(|s| RawStr::new(<span class="macro">local_cache!</span>(req, s)));
         Success(raw)
     }
 }
 
-<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>RawStr);
+<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>RawStr);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;std::borrow::Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;std::borrow::Cow&lt;<span class="lifetime">'_</span>, str&gt;&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>capped = <span class="macro">try_outcome!</span>(&lt;Capped&lt;String&gt;&gt;::from_data(req, data).<span class="kw">await</span>);
         Success(capped.map(|s| s.into()))
     }
 }
 
-<span class="macro">impl_strict_from_data_from_capped!</span>(std::borrow::Cow&lt;<span class="lifetime">&#39;_</span>, str&gt;);
+<span class="macro">impl_strict_from_data_from_capped!</span>(std::borrow::Cow&lt;<span class="lifetime">'_</span>, str&gt;);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>[u8]&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;<span class="kw-2">&amp;</span><span class="lifetime">'r </span>[u8]&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>capped = <span class="macro">try_outcome!</span>(&lt;Capped&lt;Vec&lt;u8&gt;&gt;&gt;::from_data(req, data).<span class="kw">await</span>);
         <span class="kw">let </span>raw = capped.map(|b| <span class="macro">local_cache!</span>(req, b));
         Success(raw)
     }
 }
 
-<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>[u8]);
+<span class="macro">impl_strict_from_data_from_capped!</span>(<span class="kw-2">&amp;</span><span class="lifetime">'r </span>[u8]);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Capped&lt;Vec&lt;u8&gt;&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Capped&lt;Vec&lt;u8&gt;&gt; {
     <span class="kw">type </span>Error = std::io::Error;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
-        <span class="kw">let </span>limit = req.limits().get(<span class="string">&quot;bytes&quot;</span>).unwrap_or(Limits::BYTES);
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
+        <span class="kw">let </span>limit = req.limits().get(<span class="string">"bytes"</span>).unwrap_or(Limits::BYTES);
         data.open(limit).into_bytes().<span class="kw">await</span>.or_error(Status::BadRequest)
     }
 }
@@ -818,19 +818,19 @@
 <span class="macro">impl_strict_from_data_from_capped!</span>(Vec&lt;u8&gt;);
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span>Data&lt;<span class="lifetime">&#39;r</span>&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Data&lt;<span class="lifetime">'r</span>&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
-    <span class="kw">async fn </span>from_data(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         Success(data)
     }
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromData&lt;<span class="lifetime">&#39;r</span>&gt; + <span class="lifetime">&#39;r</span>&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromData&lt;<span class="lifetime">'r</span>&gt; + <span class="lifetime">'r</span>&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, T::Error&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>T::from_data(req, data).<span class="kw">await </span>{
             Success(v) =&gt; Success(<span class="prelude-val">Ok</span>(v)),
             Error((<span class="kw">_</span>, e)) =&gt; Success(<span class="prelude-val">Err</span>(e)),
@@ -840,10 +840,10 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;r</span>, T: FromData&lt;<span class="lifetime">&#39;r</span>&gt;&gt; FromData&lt;<span class="lifetime">&#39;r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>, T: FromData&lt;<span class="lifetime">'r</span>&gt;&gt; FromData&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span><span class="prelude-ty">Option</span>&lt;T&gt; {
     <span class="kw">type </span>Error = std::convert::Infallible;
 
-    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r </span>Request&lt;<span class="lifetime">&#39;_</span>&gt;, data: Data&lt;<span class="lifetime">&#39;r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">&#39;r</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">async fn </span>from_data(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;, data: Data&lt;<span class="lifetime">'r</span>&gt;) -&gt; Outcome&lt;<span class="lifetime">'r</span>, <span class="self">Self</span>&gt; {
         <span class="kw">match </span>T::from_data(req, data).<span class="kw">await </span>{
             Success(v) =&gt; Success(<span class="prelude-val">Some</span>(v)),
             Error(..) | Forward(..) =&gt; Success(<span class="prelude-val">None</span>),

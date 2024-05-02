@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0-rc.4/src/parse/indexed.rs`."><title>indexed.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/parse/indexed.rs`."><title>indexed.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -258,8 +258,8 @@
 
 <span class="kw">pub use </span>pear::input::Extent;
 
-<span class="kw">pub type </span>IndexedStr&lt;<span class="lifetime">&#39;a</span>&gt; = Indexed&lt;<span class="lifetime">&#39;a</span>, str&gt;;
-<span class="kw">pub type </span>IndexedBytes&lt;<span class="lifetime">&#39;a</span>&gt; = Indexed&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;;
+<span class="kw">pub type </span>IndexedStr&lt;<span class="lifetime">'a</span>&gt; = Indexed&lt;<span class="lifetime">'a</span>, str&gt;;
+<span class="kw">pub type </span>IndexedBytes&lt;<span class="lifetime">'a</span>&gt; = Indexed&lt;<span class="lifetime">'a</span>, [u8]&gt;;
 
 <span class="kw">pub trait </span>AsPtr {
     <span class="kw">fn </span>as_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>u8;
@@ -281,59 +281,59 @@
 
 <span class="doccomment">/// Either a concrete string or indices to the start and end of a string.
 </span><span class="attr">#[derive(PartialEq)]
-</span><span class="kw">pub enum </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + ToOwned&gt; {
+</span><span class="kw">pub enum </span>Indexed&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + ToOwned&gt; {
     <span class="doccomment">/// The start and end index of a string.
     </span>Indexed(usize, usize),
     <span class="doccomment">/// A concrete string.
-    </span>Concrete(Cow&lt;<span class="lifetime">&#39;a</span>, T&gt;)
+    </span>Concrete(Cow&lt;<span class="lifetime">'a</span>, T&gt;)
 }
 
-<span class="kw">impl</span>&lt;A, T: <span class="question-mark">?</span>Sized + ToOwned&gt; From&lt;Extent&lt;A&gt;&gt; <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;_</span>, T&gt; {
+<span class="kw">impl</span>&lt;A, T: <span class="question-mark">?</span>Sized + ToOwned&gt; From&lt;Extent&lt;A&gt;&gt; <span class="kw">for </span>Indexed&lt;<span class="lifetime">'_</span>, T&gt; {
     <span class="kw">fn </span>from(e: Extent&lt;A&gt;) -&gt; <span class="self">Self </span>{
         Indexed::Indexed(e.start, e.end)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">&#39;a</span>&gt; From&lt;Cow&lt;<span class="lifetime">&#39;a</span>, T&gt;&gt; <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">'a</span>&gt; From&lt;Cow&lt;<span class="lifetime">'a</span>, T&gt;&gt; <span class="kw">for </span>Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
     <span class="attr">#[inline(always)]
-    </span><span class="kw">fn </span>from(value: Cow&lt;<span class="lifetime">&#39;a</span>, T&gt;) -&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    </span><span class="kw">fn </span>from(value: Cow&lt;<span class="lifetime">'a</span>, T&gt;) -&gt; Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
         Indexed::Concrete(value)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">&#39;a</span>&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">'a</span>&gt; Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
     <span class="doccomment">/// Panics if `self` is not an `Indexed`.
     </span><span class="attr">#[inline(always)]
     </span><span class="kw">pub fn </span>indices(<span class="self">self</span>) -&gt; (usize, usize) {
         <span class="kw">match </span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; (a, b),
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;cannot convert indexed T to U unless indexed&quot;</span>)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"cannot convert indexed T to U unless indexed"</span>)
         }
     }
 
     <span class="doccomment">/// Panics if `self` is not an `Indexed`.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>coerce&lt;U: <span class="question-mark">?</span>Sized + ToOwned&gt;(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, U&gt; {
+    </span><span class="kw">pub fn </span>coerce&lt;U: <span class="question-mark">?</span>Sized + ToOwned&gt;(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">'a</span>, U&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; Indexed::Indexed(a, b),
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;cannot convert indexed T to U unless indexed&quot;</span>)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"cannot convert indexed T to U unless indexed"</span>)
         }
     }
 
     <span class="doccomment">/// Panics if `self` is not an `Indexed`.
     </span><span class="attr">#[inline(always)]
-    </span><span class="kw">pub fn </span>coerce_lifetime&lt;<span class="lifetime">&#39;b</span>&gt;(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">&#39;b</span>, T&gt; {
+    </span><span class="kw">pub fn </span>coerce_lifetime&lt;<span class="lifetime">'b</span>&gt;(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">'b</span>, T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; Indexed::Indexed(a, b),
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;cannot coerce lifetime unless indexed&quot;</span>)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"cannot coerce lifetime unless indexed"</span>)
         }
     }
 }
 
-<span class="kw">impl</span>&lt;T: <span class="lifetime">&#39;static </span>+ <span class="question-mark">?</span>Sized + ToOwned&gt; IntoOwned <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;_</span>, T&gt; {
-    <span class="kw">type </span>Owned = Indexed&lt;<span class="lifetime">&#39;static</span>, T&gt;;
+<span class="kw">impl</span>&lt;T: <span class="lifetime">'static </span>+ <span class="question-mark">?</span>Sized + ToOwned&gt; IntoOwned <span class="kw">for </span>Indexed&lt;<span class="lifetime">'_</span>, T&gt; {
+    <span class="kw">type </span>Owned = Indexed&lt;<span class="lifetime">'static</span>, T&gt;;
 
-    <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">&#39;static</span>, T&gt; {
+    <span class="kw">fn </span>into_owned(<span class="self">self</span>) -&gt; Indexed&lt;<span class="lifetime">'static</span>, T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; Indexed::Indexed(a, b),
             Indexed::Concrete(cow) =&gt; Indexed::Concrete(IntoOwned::into_owned(cow))
@@ -343,27 +343,27 @@
 
 <span class="kw">use </span>std::ops::Add;
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">&#39;a</span>&gt; Add <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
-    <span class="kw">type </span>Output = Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt;;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">'a</span>&gt; Add <span class="kw">for </span>Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
+    <span class="kw">type </span>Output = Indexed&lt;<span class="lifetime">'a</span>, T&gt;;
 
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>add(<span class="self">self</span>, other: Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt;) -&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    </span><span class="kw">fn </span>add(<span class="self">self</span>, other: Indexed&lt;<span class="lifetime">'a</span>, T&gt;) -&gt; Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; <span class="kw">match </span>other {
                 Indexed::Indexed(c, d) <span class="kw">if </span>b == c &amp;&amp; a &lt; d =&gt; Indexed::Indexed(a, d),
-                <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;+ requires indexed&quot;</span>)
+                <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"+ requires indexed"</span>)
             }
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;+ requires indexed&quot;</span>)
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"+ requires indexed"</span>)
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">&#39;a</span>&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + ToOwned + <span class="lifetime">'a</span>&gt; Indexed&lt;<span class="lifetime">'a</span>, T&gt;
     <span class="kw">where </span>T: Length + AsPtr + Index&lt;Range&lt;usize&gt;, Output = T&gt;
 {
     <span class="doccomment">/// Returns `None` if `needle` is not a substring of `haystack`. Otherwise
     /// returns an `Indexed` with the indices of `needle` in `haystack`.
-    </span><span class="kw">pub fn </span>checked_from(needle: <span class="kw-2">&amp;</span>T, haystack: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Option</span>&lt;Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt;&gt; {
+    </span><span class="kw">pub fn </span>checked_from(needle: <span class="kw-2">&amp;</span>T, haystack: <span class="kw-2">&amp;</span>T) -&gt; <span class="prelude-ty">Option</span>&lt;Indexed&lt;<span class="lifetime">'a</span>, T&gt;&gt; {
         <span class="kw">let </span>needle_start = needle.as_ptr() <span class="kw">as </span>usize;
         <span class="kw">let </span>haystack_start = haystack.as_ptr() <span class="kw">as </span>usize;
         <span class="kw">if </span>needle_start &lt; haystack_start {
@@ -388,7 +388,7 @@
     ///
     /// The caller must ensure that `needle` is indeed a substring of
     /// `haystack`.
-    </span><span class="kw">pub unsafe fn </span>unchecked_from(needle: <span class="kw-2">&amp;</span>T, haystack: <span class="kw-2">&amp;</span>T) -&gt; Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    </span><span class="kw">pub unsafe fn </span>unchecked_from(needle: <span class="kw-2">&amp;</span>T, haystack: <span class="kw-2">&amp;</span>T) -&gt; Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
         <span class="kw">let </span>haystack_start = haystack.as_ptr() <span class="kw">as </span>usize;
         <span class="kw">let </span>needle_start = needle.as_ptr() <span class="kw">as </span>usize;
 
@@ -417,9 +417,9 @@
     /// # Panics
     ///
     /// Panics if `self` is an indexed string and `source` is None.
-    </span><span class="kw">pub fn </span>into_concrete(<span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, T&gt;&gt;) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+    </span><span class="kw">pub fn </span>into_concrete(<span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'_</span>, T&gt;&gt;) -&gt; Cow&lt;<span class="lifetime">'a</span>, T&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_indexed() &amp;&amp; source.is_none() {
-            <span class="macro">panic!</span>(<span class="string">&quot;cannot concretize indexed str to str without base string!&quot;</span>)
+            <span class="macro">panic!</span>(<span class="string">"cannot concretize indexed str to str without base string!"</span>)
         }
 
         <span class="kw">match </span><span class="self">self </span>{
@@ -435,9 +435,9 @@
     /// # Panics
     ///
     /// Panics if `self` is an indexed string and `source` is None.
-    </span><span class="kw">pub fn </span>from_cow_source&lt;<span class="lifetime">&#39;s</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, T&gt;&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T {
+    </span><span class="kw">pub fn </span>from_cow_source&lt;<span class="lifetime">'s</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>, source: <span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="prelude-ty">Option</span>&lt;Cow&lt;<span class="lifetime">'_</span>, T&gt;&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'s </span>T {
         <span class="kw">if </span><span class="self">self</span>.is_indexed() &amp;&amp; source.is_none() {
-            <span class="macro">panic!</span>(<span class="string">&quot;cannot convert indexed str to str without base string!&quot;</span>)
+            <span class="macro">panic!</span>(<span class="string">"cannot convert indexed str to str without base string!"</span>)
         }
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
@@ -453,9 +453,9 @@
     /// # Panics
     ///
     /// Panics if `self` is an indexed string and `string` is None.
-    </span><span class="kw">pub fn </span>from_source&lt;<span class="lifetime">&#39;s</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>, source: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span>T {
+    </span><span class="kw">pub fn </span>from_source&lt;<span class="lifetime">'s</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'s </span><span class="self">self</span>, source: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'s </span>T&gt;) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'s </span>T {
         <span class="kw">if </span><span class="self">self</span>.is_indexed() &amp;&amp; source.is_none() {
-            <span class="macro">panic!</span>(<span class="string">&quot;Cannot convert indexed str to str without base string!&quot;</span>)
+            <span class="macro">panic!</span>(<span class="string">"Cannot convert indexed str to str without base string!"</span>)
         }
 
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
@@ -465,7 +465,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: ToOwned + <span class="question-mark">?</span>Sized + <span class="lifetime">&#39;a</span>&gt; Clone <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: ToOwned + <span class="question-mark">?</span>Sized + <span class="lifetime">'a</span>&gt; Clone <span class="kw">for </span>Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
     <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; Indexed::Indexed(a, b),
@@ -474,10 +474,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + <span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + <span class="lifetime">'a</span>&gt; Debug <span class="kw">for </span>Indexed&lt;<span class="lifetime">'a</span>, T&gt;
     <span class="kw">where </span>T: ToOwned + Debug, T::Owned: Debug
 {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
             Indexed::Indexed(a, b) =&gt; fmt::Debug::fmt(<span class="kw-2">&amp;</span>(a, b), f),
             Indexed::Concrete(<span class="kw-2">ref </span>cow) =&gt; fmt::Debug::fmt(cow, f),
@@ -485,7 +485,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T: <span class="question-mark">?</span>Sized + Length + ToOwned + <span class="lifetime">&#39;a</span>&gt; Length <span class="kw">for </span>Indexed&lt;<span class="lifetime">&#39;a</span>, T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T: <span class="question-mark">?</span>Sized + Length + ToOwned + <span class="lifetime">'a</span>&gt; Length <span class="kw">for </span>Indexed&lt;<span class="lifetime">'a</span>, T&gt; {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{

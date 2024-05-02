@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/context.rs`."><title>context.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/context.rs`."><title>context.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -413,37 +413,37 @@
 /// field name. `Contextual` is particularly useful for rendering forms with
 /// previously submitted values and errors associated with form input.
 ///
-/// To retrieve the context for a form, use `Form&lt;Contextual&lt;&#39;_, T&gt;&gt;` as a data
+/// To retrieve the context for a form, use `Form&lt;Contextual&lt;'_, T&gt;&gt;` as a data
 /// guard, where `T` implements `FromForm`. The `context` field contains the
-/// form&#39;s [`Context`]:
+/// form's [`Context`]:
 ///
 /// ```rust
 /// # use rocket::post;
 /// # type T = String;
 /// use rocket::form::{Form, Contextual};
 ///
-/// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-/// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
+/// #[post("/submit", data = "&lt;form&gt;")]
+/// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
 ///     if let Some(ref value) = form.value {
 ///         // The form parsed successfully. `value` is the `T`.
 ///     }
 ///
 ///     // We can retrieve raw field values and errors.
-///     let raw_id_value = form.context.field_value(&quot;id&quot;);
-///     let id_errors = form.context.field_errors(&quot;id&quot;);
+///     let raw_id_value = form.context.field_value("id");
+///     let id_errors = form.context.field_errors("id");
 /// }
 /// ```
 ///
 /// `Context` serializes as a map, so it can be rendered in templates that
 /// require `Serialize` types. See the [forms guide] for further usage details.
 ///
-/// [forms guide]: https://rocket.rs/v0.5-rc/guide/requests/#context
+/// [forms guide]: https://rocket.rs/v0.5/guide/requests/#context
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>Contextual&lt;<span class="lifetime">&#39;v</span>, T&gt; {
+</span><span class="kw">pub struct </span>Contextual&lt;<span class="lifetime">'v</span>, T&gt; {
     <span class="doccomment">/// The value, if it was successfully parsed, or `None` otherwise.
     </span><span class="kw">pub </span>value: <span class="prelude-ty">Option</span>&lt;T&gt;,
     <span class="doccomment">/// The context with all submitted fields and associated values and errors.
-    </span><span class="kw">pub </span>context: Context&lt;<span class="lifetime">&#39;v</span>&gt;,
+    </span><span class="kw">pub </span>context: Context&lt;<span class="lifetime">'v</span>&gt;,
 }
 
 <span class="doccomment">/// A form context containing received fields, values, and encountered errors.
@@ -476,16 +476,16 @@
 ///
 /// See [`Error`](Error#serialization) for `Error` serialization details.
 </span><span class="attr">#[derive(Debug, Default, Serialize)]
-</span><span class="kw">pub struct </span>Context&lt;<span class="lifetime">&#39;v</span>&gt; {
-    errors: IndexMap&lt;NameBuf&lt;<span class="lifetime">&#39;v</span>&gt;, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt;,
-    values: IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Name, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt;&gt;,
-    data_fields: IndexSet&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Name&gt;,
-    form_errors: Errors&lt;<span class="lifetime">&#39;v</span>&gt;,
+</span><span class="kw">pub struct </span>Context&lt;<span class="lifetime">'v</span>&gt; {
+    errors: IndexMap&lt;NameBuf&lt;<span class="lifetime">'v</span>&gt;, Errors&lt;<span class="lifetime">'v</span>&gt;&gt;,
+    values: IndexMap&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>Name, Vec&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt;&gt;,
+    data_fields: IndexSet&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>Name&gt;,
+    form_errors: Errors&lt;<span class="lifetime">'v</span>&gt;,
     <span class="attr">#[serde(skip)]
     </span>status: Status,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>&gt; Context&lt;<span class="lifetime">&#39;v</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'v</span>&gt; Context&lt;<span class="lifetime">'v</span>&gt; {
     <span class="doccomment">/// Returns the names of all submitted form fields, both _value_ and _data_
     /// fields.
     ///
@@ -496,12 +496,12 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
     ///     let field_names = form.context.fields();
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>Name&gt; + <span class="lifetime">&#39;_ </span>{
+    </span><span class="kw">pub fn </span>fields(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'v </span>Name&gt; + <span class="lifetime">'_ </span>{
         <span class="self">self</span>.values.iter()
             .map(|(name, <span class="kw">_</span>)| <span class="kw-2">*</span>name)
             .chain(<span class="self">self</span>.data_fields.iter().copied())
@@ -520,13 +520,13 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
-    ///     let first_value_for_id = form.context.field_value(&quot;id&quot;);
-    ///     let first_value_for_foo_bar = form.context.field_value(&quot;foo.bar&quot;);
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
+    ///     let first_value_for_id = form.context.field_value("id");
+    ///     let first_value_for_foo_bar = form.context.field_value("foo.bar");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>field_value&lt;N: AsRef&lt;Name&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt; {
+    </span><span class="kw">pub fn </span>field_value&lt;N: AsRef&lt;Name&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt; {
         <span class="self">self</span>.values.get(name.as_ref())<span class="question-mark">?</span>.get(<span class="number">0</span>).cloned()
     }
 
@@ -543,13 +543,13 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
-    ///     let values_for_id = form.context.field_values(&quot;id&quot;);
-    ///     let values_for_foo_bar = form.context.field_values(&quot;foo.bar&quot;);
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
+    ///     let values_for_id = form.context.field_values("id");
+    ///     let values_for_foo_bar = form.context.field_values("foo.bar");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>field_values&lt;N&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;v </span>str&gt; + <span class="lifetime">&#39;_
+    </span><span class="kw">pub fn </span>field_values&lt;N&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">'v </span>str&gt; + <span class="lifetime">'_
         </span><span class="kw">where </span>N: AsRef&lt;Name&gt;
     {
         <span class="self">self</span>.values
@@ -569,12 +569,12 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
     ///     let errors = form.context.errors();
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>errors(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt; {
+    </span><span class="kw">pub fn </span>errors(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">'v</span>&gt;&gt; {
         <span class="self">self</span>.errors.values()
             .map(|e| e.iter())
             .flatten()
@@ -587,7 +587,7 @@
     /// ```rust
     /// # use rocket::form::{Context, name::Name};
     /// # let context = Context::default();
-    /// # let name = Name::new(&quot;foo&quot;);
+    /// # let name = Name::new("foo");
     /// context.errors().filter(|e| e.is_for(name))
     /// # ;
     /// ```
@@ -596,7 +596,7 @@
     /// associated with the field named `name`. This considers all errors whose
     /// associated field name is a prefix of `name` to be an error for the field
     /// named `name`. In other words, it associates parent field errors with
-    /// their children: `a.b`&#39;s errors apply to `a.b.c`, `a.b.d` and so on but
+    /// their children: `a.b`'s errors apply to `a.b.c`, `a.b.d` and so on but
     /// not `a.c`.
     ///
     /// Lookup is case-sensitive but key-separator (`.` or `[]`) insensitive.
@@ -608,17 +608,17 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
     ///     // Get all errors for field `id`.
-    ///     let id = form.context.field_errors(&quot;id&quot;);
+    ///     let id = form.context.field_errors("id");
     ///
     ///     // Get all errors for `foo.bar` or `foo` if `foo` failed first.
-    ///     let foo_bar = form.context.field_errors(&quot;foo.bar&quot;);
+    ///     let foo_bar = form.context.field_errors("foo.bar");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>field_errors&lt;<span class="lifetime">&#39;a</span>, N&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt; + <span class="lifetime">&#39;_
-        </span><span class="kw">where </span>N: AsRef&lt;Name&gt; + <span class="lifetime">&#39;a
+    </span><span class="kw">pub fn </span>field_errors&lt;<span class="lifetime">'a</span>, N&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">'v</span>&gt;&gt; + <span class="lifetime">'_
+        </span><span class="kw">where </span>N: AsRef&lt;Name&gt; + <span class="lifetime">'a
     </span>{
         <span class="self">self</span>.errors.values()
             .map(|e| e.iter())
@@ -634,7 +634,7 @@
     /// ```rust
     /// # use rocket::form::{Context, name::Name};
     /// # let context = Context::default();
-    /// # let name = Name::new(&quot;foo&quot;);
+    /// # let name = Name::new("foo");
     /// context.errors().filter(|e| e.is_for_exactly(name))
     /// # ;
     /// ```
@@ -656,18 +656,18 @@
     /// # type T = String;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
     ///     // Get all errors for field `id`.
-    ///     let id = form.context.exact_field_errors(&quot;id&quot;);
+    ///     let id = form.context.exact_field_errors("id");
     ///
     ///     // Get all errors exactly for `foo.bar`. If `foo` failed, we will
     ///     // this will return no errors. Use `Context::field_errors()`.
-    ///     let foo_bar = form.context.exact_field_errors(&quot;foo.bar&quot;);
+    ///     let foo_bar = form.context.exact_field_errors("foo.bar");
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>exact_field_errors&lt;<span class="lifetime">&#39;a</span>, N&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">&#39;v</span>&gt;&gt; + <span class="lifetime">&#39;_
-        </span><span class="kw">where </span>N: AsRef&lt;Name&gt; + <span class="lifetime">&#39;a
+    </span><span class="kw">pub fn </span>exact_field_errors&lt;<span class="lifetime">'a</span>, N&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>, name: N) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="kw-2">&amp;</span>Error&lt;<span class="lifetime">'v</span>&gt;&gt; + <span class="lifetime">'_
+        </span><span class="kw">where </span>N: AsRef&lt;Name&gt; + <span class="lifetime">'a
     </span>{
         <span class="self">self</span>.errors.values()
             .map(|e| e.iter())
@@ -687,9 +687,9 @@
     /// use rocket::http::Status;
     /// use rocket::form::{Form, Contextual};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) -&gt; (Status, &amp;&#39;static str) {
-    ///     (form.context.status(), &quot;Thanks!&quot;)
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(form: Form&lt;Contextual&lt;'_, T&gt;&gt;) -&gt; (Status, &amp;'static str) {
+    ///     (form.context.status(), "Thanks!")
     /// }
     /// ```
     </span><span class="kw">pub fn </span>status(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Status {
@@ -706,16 +706,16 @@
     /// use rocket::http::Status;
     /// use rocket::form::{Form, Contextual, Error};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(mut form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
-    ///     let error = Error::validation(&quot;a good error message&quot;)
-    ///         .with_name(&quot;field_name&quot;)
-    ///         .with_value(&quot;some field value&quot;);
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(mut form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
+    ///     let error = Error::validation("a good error message")
+    ///         .with_name("field_name")
+    ///         .with_value("some field value");
     ///
     ///     form.context.push_error(error);
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>push_error(<span class="kw-2">&amp;mut </span><span class="self">self</span>, error: Error&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    </span><span class="kw">pub fn </span>push_error(<span class="kw-2">&amp;mut </span><span class="self">self</span>, error: Error&lt;<span class="lifetime">'v</span>&gt;) {
         <span class="self">self</span>.status = std::cmp::max(<span class="self">self</span>.status, error.status());
         <span class="kw">match </span>error.name {
             <span class="prelude-val">Some</span>(<span class="kw-2">ref </span>name) =&gt; <span class="kw">match </span><span class="self">self</span>.errors.get_mut(name) {
@@ -736,22 +736,22 @@
     /// use rocket::http::Status;
     /// use rocket::form::{Form, Contextual, Error};
     ///
-    /// #[post(&quot;/submit&quot;, data = &quot;&lt;form&gt;&quot;)]
-    /// fn submit(mut form: Form&lt;Contextual&lt;&#39;_, T&gt;&gt;) {
-    ///     let error = Error::validation(&quot;a good error message&quot;)
-    ///         .with_name(&quot;field_name&quot;)
-    ///         .with_value(&quot;some field value&quot;);
+    /// #[post("/submit", data = "&lt;form&gt;")]
+    /// fn submit(mut form: Form&lt;Contextual&lt;'_, T&gt;&gt;) {
+    ///     let error = Error::validation("a good error message")
+    ///         .with_name("field_name")
+    ///         .with_value("some field value");
     ///
     ///     form.context.push_errors(vec![error]);
     /// }
     /// ```
-    </span><span class="kw">pub fn </span>push_errors&lt;E: Into&lt;Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, errors: E) {
+    </span><span class="kw">pub fn </span>push_errors&lt;E: Into&lt;Errors&lt;<span class="lifetime">'v</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, errors: E) {
         errors.into().into_iter().for_each(|e| <span class="self">self</span>.push_error(e))
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;f</span>&gt; From&lt;Errors&lt;<span class="lifetime">&#39;f</span>&gt;&gt; <span class="kw">for </span>Context&lt;<span class="lifetime">&#39;f</span>&gt; {
-    <span class="kw">fn </span>from(errors: Errors&lt;<span class="lifetime">&#39;f</span>&gt;) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'f</span>&gt; From&lt;Errors&lt;<span class="lifetime">'f</span>&gt;&gt; <span class="kw">for </span>Context&lt;<span class="lifetime">'f</span>&gt; {
+    <span class="kw">fn </span>from(errors: Errors&lt;<span class="lifetime">'f</span>&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>context = Context::default();
         context.push_errors(errors);
         context
@@ -759,28 +759,28 @@
 }
 
 <span class="attr">#[<span class="kw">crate</span>::async_trait]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;v</span>, T: FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt; FromForm&lt;<span class="lifetime">&#39;v</span>&gt; <span class="kw">for </span>Contextual&lt;<span class="lifetime">&#39;v</span>, T&gt; {
-    <span class="kw">type </span>Context = (&lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">&#39;v</span>&gt;&gt;::Context, Context&lt;<span class="lifetime">&#39;v</span>&gt;);
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'v</span>, T: FromForm&lt;<span class="lifetime">'v</span>&gt;&gt; FromForm&lt;<span class="lifetime">'v</span>&gt; <span class="kw">for </span>Contextual&lt;<span class="lifetime">'v</span>, T&gt; {
+    <span class="kw">type </span>Context = (&lt;T <span class="kw">as </span>FromForm&lt;<span class="lifetime">'v</span>&gt;&gt;::Context, Context&lt;<span class="lifetime">'v</span>&gt;);
 
     <span class="kw">fn </span>init(opts: Options) -&gt; <span class="self">Self</span>::Context {
         (T::init(opts), Context::default())
     }
 
-    <span class="kw">fn </span>push_value((<span class="kw-2">ref mut </span>val_ctxt, ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_value((<span class="kw-2">ref mut </span>val_ctxt, ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: ValueField&lt;<span class="lifetime">'v</span>&gt;) {
         ctxt.values.entry(field.name.source()).or_default().push(field.value);
         T::push_value(val_ctxt, field);
     }
 
-    <span class="kw">async fn </span>push_data((<span class="kw-2">ref mut </span>val_ctxt, ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">&#39;v</span>, <span class="lifetime">&#39;_</span>&gt;) {
+    <span class="kw">async fn </span>push_data((<span class="kw-2">ref mut </span>val_ctxt, ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, field: DataField&lt;<span class="lifetime">'v</span>, <span class="lifetime">'_</span>&gt;) {
         ctxt.data_fields.insert(field.name.source());
         T::push_data(val_ctxt, field).<span class="kw">await</span>;
     }
 
-    <span class="kw">fn </span>push_error((<span class="kw">_</span>, <span class="kw-2">ref mut </span>ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, e: Error&lt;<span class="lifetime">&#39;v</span>&gt;) {
+    <span class="kw">fn </span>push_error((<span class="kw">_</span>, <span class="kw-2">ref mut </span>ctxt): <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, e: Error&lt;<span class="lifetime">'v</span>&gt;) {
         ctxt.push_error(e);
     }
 
-    <span class="kw">fn </span>finalize((val_ctxt, <span class="kw-2">mut </span>context): <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, <span class="self">Self</span>&gt; {
+    <span class="kw">fn </span>finalize((val_ctxt, <span class="kw-2">mut </span>context): <span class="self">Self</span>::Context) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, <span class="self">Self</span>&gt; {
         <span class="kw">let </span>value = <span class="kw">match </span>T::finalize(val_ctxt) {
             <span class="prelude-val">Ok</span>(value) =&gt; <span class="prelude-val">Some</span>(value),
             <span class="prelude-val">Err</span>(errors) =&gt; {

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0-rc.4/src/form/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (edf0b1db0 2023-11-10)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="rocket"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/form/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -406,27 +406,27 @@
 <a href="#406" id="406">406</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Parsing and validation of HTTP forms and fields.
 //!
-//! See the [forms guide](https://rocket.rs/v0.5-rc/guide/requests#forms) for
+//! See the [forms guide](https://rocket.rs/v0.5/guide/requests#forms) for
 //! general form support documentation.
 //!
 //! # Field Wire Format
 //!
-//! Rocket&#39;s field wire format is a flexible, non-self-descriptive, text-based
+//! Rocket's field wire format is a flexible, non-self-descriptive, text-based
 //! encoding of arbitrarily nested structure keys and their corresponding
 //! values. The general grammar is:
 //!
 //! ```ebnf
-//! field := name (&#39;=&#39; value)?
+//! field := name ('=' value)?
 //!
 //! name := key*
 //!
 //! key := indices
-//!       | &#39;[&#39; indices &#39;]&#39;
-//!       | &#39;.&#39; indices
+//!       | '[' indices ']'
+//!       | '.' indices
 //!
-//! indices := index (&#39;:&#39; index)*
+//! indices := index (':' index)*
 //!
-//! index := STRING except &#39;:&#39;, &#39;]&#39;
+//! index := STRING except ':', ']'
 //!
 //! value := STRING
 //! ```
@@ -468,13 +468,13 @@
 //
 //   * `name=Fido&amp;barks=0`
 //
-//     `Dog { &quot;Fido&quot;, false }`
+//     `Dog { "Fido", false }`
 //
 //   * `name=Fido&amp;barks=1&amp;friends[0]name=Sally&amp;friends[0]meows=0`
 //     `name=Fido&amp;barks=1&amp;friends[0].name=Sally&amp;friends[0].meows=0`
 //     `name=Fido&amp;barks=1&amp;friends.0.name=Sally&amp;friends.0.meows=0`
 //
-//     `Dog { &quot;Fido&quot;, true, vec![Cat { &quot;Sally&quot;, false }] }`
+//     `Dog { "Fido", true, vec![Cat { "Sally", false }] }`
 //
 // Parsers for structs are code-generated to proceed as follows:
 //
@@ -482,12 +482,12 @@
 //      for each field of type `T`, and a vector called `extra`.
 //
 //      ```rust,ignore
-//      struct Context&lt;&#39;v&gt; {
+//      struct Context&lt;'v&gt; {
 //          opts: FormOptions,
 //          field_a: A::Context,
 //          field_b: B::Context,
 //          /* ... */
-//          extra: Vec&lt;FormField&lt;&#39;v&gt;&gt;
+//          extra: Vec&lt;FormField&lt;'v&gt;&gt;
 //      }
 //      ```
 //
@@ -496,10 +496,10 @@
 //      stripped from the field, and the remaining field is pushed to `T`.
 //
 //      ```rust,ignore
-//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;'v&gt;) {
 //          match field.key() {
-//              &quot;field_a&quot; =&gt; A::push(&amp;mut this.field_a, field.next()),
-//              &quot;field_b&quot; =&gt; B::push(&amp;mut this.field_b, field.next()),
+//              "field_a" =&gt; A::push(&amp;mut this.field_a, field.next()),
+//              "field_b" =&gt; B::push(&amp;mut this.field_b, field.next()),
 //              /* ... */
 //              _ =&gt; this.extra.push(field)
 //          }
@@ -520,7 +520,7 @@
 //             .map_err(|e| errors.push(e))
 //             .map(Some).unwrap_or(None);
 //
-//          let field_b = B::finblize(&amp;mut this.field_b)
+//          let field_b = B::finalize(&amp;mut this.field_b)
 //             .map_err(|e| errors.push(e))
 //             .map(Some).unwrap_or(None);
 //
@@ -543,7 +543,7 @@
 //
 // ## Sequences: (`Vec&lt;T: FromForm&gt;`)
 //
-// A `Vec&lt;T: FromForm&gt;` invokes `T`&#39;s push-parser on every push, adding instances
+// A `Vec&lt;T: FromForm&gt;` invokes `T`'s push-parser on every push, adding instances
 // of `T` to an internal vector. The instance of `T` whose parser is invoked
 // depends on the index of the first key:
 //
@@ -555,10 +555,10 @@
 // For instance, the sequentially pushed values `=1`, `=2`, and `=3` for a
 // `Vec&lt;usize&gt;` (or any other integer) is expected to parse as `vec![1, 2, 3]`. The
 // same is true for `[]=1&amp;[]=2&amp;[]=3`. In the first example (`=1&amp;..`), the fields
-// passed to `Vec`&#39;s push-parser (`=1`, ..) have no key and thus no index. In the
+// passed to `Vec`'s push-parser (`=1`, ..) have no key and thus no index. In the
 // second example (`[]=1&amp;..`), the key is `[]` (`[]=1`) without an index. In both
 // cases, there is no index. The `Vec` parser takes this to mean that a _new_ `T`
-// should be parsed using the field&#39;s value.
+// should be parsed using the field's value.
 //
 // If, instead, the index was non-empty and equal to the index of the field in the
 // _previous_ push, `Vec` pushes the value to the parser of the previously parsed
@@ -566,7 +566,7 @@
 // in `vec![1, 3]` (see [`FromFormValue`]).
 //
 // This generalizes. Consider a `Vec&lt;Vec&lt;usize&gt;&gt;` named `x`, so `x` and an
-// optional `=` are stripped before being passed to `Vec`&#39;s push-parser:
+// optional `=` are stripped before being passed to `Vec`'s push-parser:
 //
 //   * `x=1&amp;x=2&amp;x=3` parses as `vec![vec![1], vec![2], vec![3]]`
 //
@@ -608,9 +608,9 @@
 //      finally a `Vec&lt;T&gt;` of already parsed `items`.
 //
 //      ```rust,ignore
-//      struct VecContext&lt;&#39;v, T: FromForm&lt;&#39;v&gt;&gt; {
+//      struct VecContext&lt;'v, T: FromForm&lt;'v&gt;&gt; {
 //          opts: FormOptions,
-//          last_index: Index&lt;&#39;v&gt;,
+//          last_index: Index&lt;'v&gt;,
 //          current: Option&lt;T::Context&gt;,
 //          errors: Vec&lt;T::Error&gt;,
 //          items: Vec&lt;T&gt;
@@ -625,7 +625,7 @@
 //      pushed to `T`. `last_index` is updated.
 //
 //      ```rust,ignore
-//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;'v&gt;) {
 //          if this.last_index != field.index() {
 //              this.shift(); // finalize `current`, add to `items`, `errors`
 //              let mut context = T::init(this.opts);
@@ -665,7 +665,7 @@
 // A non-composite value can be described by a single field with no indices.
 // Strings and integers are examples of non-composite values. The push-parser
 // for `HashMap&lt;K, V&gt;` for a non-composite `K` uses the index of the first key
-// as the value of `K`; the remainder of the field is pushed to `V`&#39;s parser:
+// as the value of `K`; the remainder of the field is pushed to `V`'s parser:
 //
 //   1. **Initialization.** The context stores a column-based representation of
 //      `keys` and `values`, a `key_map` from a string key to the column index,
@@ -673,23 +673,23 @@
 //      options.
 //
 //      ```rust,ignore
-//      struct MapContext&lt;&#39;v, K: FromForm&lt;&#39;v&gt;, V: FromForm&lt;&#39;v&gt;&gt; {
+//      struct MapContext&lt;'v, K: FromForm&lt;'v&gt;, V: FromForm&lt;'v&gt;&gt; {
 //          opts: FormOptions,
-//          key_map: HashMap&lt;&amp;&#39;v str, usize&gt;,
+//          key_map: HashMap&lt;&amp;'v str, usize&gt;,
 //          keys: Vec&lt;K::Context&gt;,
 //          values: Vec&lt;V::Context&gt;,
-//          errors: Vec&lt;MapError&lt;&#39;v, K::Error, V::Error&gt;&gt;,
+//          errors: Vec&lt;MapError&lt;'v, K::Error, V::Error&gt;&gt;,
 //      }
 //      ```
 //
 //   2. **Push.** The `key_map` index for the key associated with the index of
 //      the first key in the field is retrieved. If such a key has not yet been
 //      seen, a new key and value context are created, the key is pushed to
-//      `K`&#39;s parser, and the field minus the first key is pushed to `V`&#39;s
+//      `K`'s parser, and the field minus the first key is pushed to `V`'s
 //      parser.
 //
 //      ```rust,ignore
-//      fn push(this: &amp;mut Self::Context, field: FormField&lt;&#39;v&gt;) {
+//      fn push(this: &amp;mut Self::Context, field: FormField&lt;'v&gt;) {
 //          let key = field.index();
 //          let value_context = match this.key_map.get(Key) {
 //              Some(i) =&gt; &amp;mut this.values[i],
@@ -727,11 +727,11 @@
 // Examples of forms parseable via this parser are:
 //
 //   * `x[0].name=Bob&amp;x[0].meows=true`as a `HashMap&lt;usize, Cat&gt;` parses with
-//     `0` mapping to `Cat { name: &quot;Bob&quot;, meows: true }`
+//     `0` mapping to `Cat { name: "Bob", meows: true }`
 //   * `x[0]name=Bob&amp;x[0]meows=true`as a `HashMap&lt;usize, Cat&gt;` parses just as
 //      above.
 //   * `x[0]=Bob&amp;x[0]=Sally&amp;x[1]=Craig`as a `HashMap&lt;usize, Vec&lt;String&gt;&gt;`
-//      just as `{ 0 =&gt; vec![&quot;Bob&quot;, &quot;Sally&quot;], 1 =&gt; vec![&quot;Craig&quot;] }`.
+//      just as `{ 0 =&gt; vec!["Bob", "Sally"], 1 =&gt; vec!["Craig"] }`.
 //
 // A `HashMap&lt;K, V&gt;` can be thought of as a vector of key-value pairs: `Vec&lt;(K,
 // V)` (row-based) or equivalently, as two vectors of keys and values: `Vec&lt;K&gt;`
@@ -748,7 +748,7 @@
 //      Vec&lt;V::Context&gt;`, a `mapping` from a string index to an integer index
 //      into the `contexts`, and a vector of `errors`.
 //   2. **Push.** An index is required; an error is emitted and `push` returns
-//      if they field&#39;s first key does not contain an index. If the first key
+//      if they field's first key does not contain an index. If the first key
 //      contains _one_ index, a new `K::Context` and `V::Context` are created.
 //      The key is pushed as the value to `K` and the remaining field as the
 //      value to `V`. The key and value are finalized; if both succeed, the key
@@ -760,8 +760,8 @@
 //      `second`; the integer is retrieved. If none exists, new contexts are
 //      created an added to `{key,value}_contexts`, and their index is mapped
 //      to `second` in `mapping`. If the first index is `k`, the field,
-//      stripped of the first key, is pushed to the key&#39;s context; the same is
-//      done for the value&#39;s context is the first index is `v`.
+//      stripped of the first key, is pushed to the key's context; the same is
+//      done for the value's context is the first index is `v`.
 //   3. **Finalization.** Every context is finalized; errors and `Ok` values
 //      are collected. TODO: FINISH. Split this into two: one for single-index,
 //      another for two-indices.
@@ -784,7 +784,7 @@
 </span><span class="kw">mod </span>tests;
 
 <span class="doccomment">/// Type alias for `Result` with an error type of [`Errors`].
-</span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">&#39;v</span>, T&gt; = std::result::Result&lt;T, Errors&lt;<span class="lifetime">&#39;v</span>&gt;&gt;;
+</span><span class="kw">pub type </span><span class="prelude-ty">Result</span>&lt;<span class="lifetime">'v</span>, T&gt; = std::result::Result&lt;T, Errors&lt;<span class="lifetime">'v</span>&gt;&gt;;
 
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">pub use </span>rocket_codegen::{FromForm, FromFormField};
