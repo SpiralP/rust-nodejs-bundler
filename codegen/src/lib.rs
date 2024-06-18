@@ -13,6 +13,7 @@ use crate::utils::{command, is_dir, is_file, rerun_if_changed, run};
 
 pub enum PackageManager {
     Npm,
+    Pnpm,
     Yarn,
 }
 
@@ -20,6 +21,7 @@ impl PackageManager {
     fn install(&self) -> bool {
         match self {
             Self::Npm => run(command("npm").arg("install")),
+            Self::Pnpm => run(command("pnpm").arg("install")),
             Self::Yarn => run(command("yarn").arg("install")),
         }
     }
@@ -28,6 +30,10 @@ impl PackageManager {
         match self {
             Self::Npm => run(command("npm")
                 .arg("run-script")
+                .arg(script_name)
+                .env("NODE_ENV", node_env)),
+            Self::Pnpm => run(command("npm")
+                .arg("run")
                 .arg(script_name)
                 .env("NODE_ENV", node_env)),
             Self::Yarn => run(command("yarn")
@@ -113,6 +119,8 @@ impl Builder {
         let package_manager = self.package_manager.unwrap_or_else(|| {
             if is_file("package-lock.json") {
                 PackageManager::Npm
+            } else if is_file("pnpm-lock.yaml") {
+                PackageManager::Pnpm
             } else if is_file("yarn.lock") {
                 PackageManager::Yarn
             } else {
@@ -123,6 +131,9 @@ impl Builder {
         match package_manager {
             PackageManager::Npm => {
                 rerun_if_changed(current_dir.join("package-lock.json"));
+            }
+            PackageManager::Pnpm => {
+                rerun_if_changed(current_dir.join("pnpm-lock.yaml"));
             }
             PackageManager::Yarn => {
                 rerun_if_changed(current_dir.join("yarn.lock"));
@@ -151,7 +162,7 @@ impl Builder {
         );
 
         let path = Path::new(&out_dir).join("nodejs_bundle.rs");
-        let mut rust_code_file = File::create(&path).unwrap();
+        let mut rust_code_file = File::create(path).unwrap();
 
         let mut phf = phf_codegen::Map::new();
         phf.phf_path("::nodejs_bundler::phf");
