@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.0/src/header/content_type.rs`."><title>content_type.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_http/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_http-0.5.1/src/header/content_type.rs`."><title>content_type.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_http" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -391,6 +391,7 @@
 <a href="#391" id="391">391</a>
 <a href="#392" id="392">392</a>
 <a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::borrow::Cow;
 <span class="kw">use </span>std::ops::Deref;
 <span class="kw">use </span>std::str::FromStr;
@@ -437,34 +438,38 @@
 </span><span class="kw">pub struct </span>ContentType(<span class="kw">pub </span>MediaType);
 
 <span class="macro">macro_rules!</span> content_types {
-    ($(<span class="macro-nonterminal">$name</span>:ident (<span class="macro-nonterminal">$check</span>:ident): <span class="macro-nonterminal">$str</span>:expr, <span class="macro-nonterminal">$t</span>:expr,
-        <span class="macro-nonterminal">$s</span>:expr $(; <span class="macro-nonterminal">$k</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr)<span class="kw-2">*</span>,)+) =&gt; {
+    (
+        $(
+            <span class="macro-nonterminal">$name</span>:ident (<span class="macro-nonterminal">$check</span>:ident): <span class="macro-nonterminal">$str</span>:expr,
+            <span class="macro-nonterminal">$t</span>:expr, <span class="macro-nonterminal">$s</span>:expr $(; <span class="macro-nonterminal">$k</span>:expr =&gt; <span class="macro-nonterminal">$v</span>:expr)<span class="kw-2">*</span>,
+        )+
+    ) =&gt; {
     $(
-        <span class="macro">docify!</span>([
-            Content Type <span class="kw">for </span>@{<span class="string">"**"</span>}! @{<span class="macro-nonterminal">$str</span>}! @{<span class="string">"**"</span>}!: @{<span class="string">"`"</span>} @{<span class="macro-nonterminal">$t</span>}! @[/]! @{<span class="macro-nonterminal">$s</span>}!
-            $(; @{<span class="macro-nonterminal">$k</span>}! @[=]! @{<span class="macro-nonterminal">$v</span>}!)* @{<span class="string">"`"</span>}!.
-        ];
-            <span class="attr">#[allow(non_upper_case_globals)]
-            </span><span class="kw">pub const </span><span class="macro-nonterminal">$name</span>: ContentType = ContentType(MediaType::<span class="macro-nonterminal">$name</span>);
-        );
+
+        <span class="doccomment">/// Content Type for
+        </span><span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"**"</span>, <span class="macro-nonterminal">$str</span>, <span class="string">"**: "</span>)]
+        #[doc = <span class="macro">concat!</span>(<span class="string">"`"</span>, <span class="macro-nonterminal">$t</span>, <span class="string">"/"</span>, <span class="macro-nonterminal">$s</span>, $(<span class="string">"; "</span>, <span class="macro-nonterminal">$k</span>, <span class="string">"="</span>, <span class="macro-nonterminal">$v</span>,)* <span class="string">"`"</span>)]
+
+        #[allow(non_upper_case_globals)]
+        </span><span class="kw">pub const </span><span class="macro-nonterminal">$name</span>: ContentType = ContentType(MediaType::<span class="macro-nonterminal">$name</span>);
     )+
 }}
 
 <span class="macro">macro_rules!</span> from_extension {
     ($(<span class="macro-nonterminal">$ext</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
-    <span class="macro">docify!</span>([
-        Returns the @[Content-Type] associated with the extension @code{ext}.
-        Not all extensions are recognized. If an extensions is not recognized,
-        @code{<span class="prelude-val">None</span>} is returned. The currently recognized extensions are:
-
-        @nl
-        $(* @{<span class="macro-nonterminal">$ext</span>} - @{<span class="string">"`ContentType::"</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">"`"</span>} @nl)*
-        @nl
-
-        This list is likely to grow. Extensions are matched
-        @[case-insensitively.]
-    ];
-        <span class="doccomment">/// # Example
+        <span class="doccomment">/// Returns the Content-Type associated with the extension `ext`.
+        ///
+        /// Extensions are matched case-insensitively. Not all extensions are
+        /// recognized. If an extensions is not recognized, `None` is returned.
+        /// The currently recognized extensions are:
+        ///
+        </span>$(
+            <span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"* "</span>, <span class="macro-nonterminal">$ext</span>, <span class="string">" - [`ContentType::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>), <span class="string">"`]"</span>)]
+        </span>)*
+        <span class="doccomment">///
+        /// This list is likely to grow.
+        ///
+        /// # Example
         ///
         /// Recognized content types:
         ///
@@ -492,20 +497,20 @@
         </span><span class="kw">pub fn </span>from_extension(ext: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;ContentType&gt; {
             MediaType::from_extension(ext).map(ContentType)
         }
-    );)
+    )
 }
 
 <span class="macro">macro_rules!</span> extension {
     ($(<span class="macro-nonterminal">$ext</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
-    <span class="macro">docify!</span>([
-        Returns the most common file extension associated with the
-        @[Content-Type] @code{<span class="self">self</span>} <span class="kw">if </span>it is known. Otherwise, returns
-        @code{<span class="prelude-val">None</span>}. The currently recognized extensions are identical to those
-        <span class="kw">in </span>@{<span class="string">"[`ContentType::from_extension()`]"</span>} with the @{<span class="string">"most common"</span>}
-        extension being the first extension appearing <span class="kw">in </span>the list <span class="kw">for </span>a given
-        @[Content-Type].
-    ];
-        <span class="doccomment">/// # Example
+        <span class="doccomment">/// Returns the most common file extension associated with the
+        /// Content-Type `self` if it is known. Otherwise, returns `None`.
+        ///
+        /// The currently recognized extensions are identical to those in
+        /// [`ContentType::from_extension()`] with the most common extension
+        /// being the first extension appearing in the list for a given
+        /// Content-Type.
+        ///
+        /// # Example
         ///
         /// Known extension:
         ///
@@ -533,23 +538,20 @@
             $(<span class="kw">if </span><span class="self">self </span>== <span class="kw-2">&amp;</span>ContentType::<span class="macro-nonterminal">$name </span>{ <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="macro-nonterminal">$ext</span>.into()) })*
             <span class="prelude-val">None
         </span>}
-    );)
+    )
 }
 
 <span class="macro">macro_rules!</span> parse_flexible {
     ($(<span class="macro-nonterminal">$short</span>:expr =&gt; <span class="macro-nonterminal">$name</span>:ident,)<span class="kw-2">*</span>) =&gt; (
-    <span class="macro">docify!</span>([
-        Flexibly parses @code{name} into a @code{ContentType}. The parse is
-        @[_flexible_] because, <span class="kw">in </span>addition to strictly correct content types, it
-        recognizes the following shorthands:
-
-        @nl
-        $(* <span class="macro-nonterminal">$short </span>- @{<span class="string">"`ContentType::"</span>}! @[<span class="macro-nonterminal">$name</span>]! @{<span class="string">"`"</span>} @nl)*
-        @nl
-    ];
+        <span class="doccomment">/// Flexibly parses `name` into a [`ContentType`]. The parse is
+        /// _flexible_ because, in addition to strictly correct content types,
+        /// it recognizes the following shorthands:
+        ///
+        </span>$(
+            <span class="attr">#[doc = <span class="macro">concat!</span>(<span class="string">"* "</span>, <span class="macro-nonterminal">$short</span>, <span class="string">" - [`ContentType::"</span>, <span class="macro">stringify!</span>(<span class="macro-nonterminal">$name</span>), <span class="string">"`]"</span>)]
+        </span>)*
         <span class="doccomment">///
-        /// For regular parsing, use the
-        /// [`ContentType::from_str()`](#impl-FromStr) method.
+        /// For regular parsing, use [`ContentType::from_str()`].
         ///
         /// # Example
         ///
@@ -598,7 +600,7 @@
         </span><span class="kw">pub fn </span>parse_flexible(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;ContentType&gt; {
             MediaType::parse_flexible(name).map(ContentType)
         }
-    );)
+    )
 }
 
 <span class="kw">impl </span>ContentType {

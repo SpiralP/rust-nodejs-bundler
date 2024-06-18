@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-3.5.0/src/enc/compress_fragment_two_pass.rs`."><title>compress_fragment_two_pass.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../brotli/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-6.0.0/src/enc/compress_fragment_two_pass.rs`."><title>compress_fragment_two_pass.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -901,61 +901,19 @@
 <a href="#901" id="901">901</a>
 <a href="#902" id="902">902</a>
 <a href="#903" id="903">903</a>
-<a href="#904" id="904">904</a>
-<a href="#905" id="905">905</a>
-<a href="#906" id="906">906</a>
-<a href="#907" id="907">907</a>
-<a href="#908" id="908">908</a>
-<a href="#909" id="909">909</a>
-<a href="#910" id="910">910</a>
-<a href="#911" id="911">911</a>
-<a href="#912" id="912">912</a>
-<a href="#913" id="913">913</a>
-<a href="#914" id="914">914</a>
-<a href="#915" id="915">915</a>
-<a href="#916" id="916">916</a>
-<a href="#917" id="917">917</a>
-<a href="#918" id="918">918</a>
-<a href="#919" id="919">919</a>
-<a href="#920" id="920">920</a>
-<a href="#921" id="921">921</a>
-<a href="#922" id="922">922</a>
-<a href="#923" id="923">923</a>
-<a href="#924" id="924">924</a>
-<a href="#925" id="925">925</a>
-<a href="#926" id="926">926</a>
-<a href="#927" id="927">927</a>
-<a href="#928" id="928">928</a>
-<a href="#929" id="929">929</a>
-<a href="#930" id="930">930</a>
-<a href="#931" id="931">931</a>
-<a href="#932" id="932">932</a>
-<a href="#933" id="933">933</a>
-<a href="#934" id="934">934</a>
-<a href="#935" id="935">935</a>
-<a href="#936" id="936">936</a>
-<a href="#937" id="937">937</a>
-<a href="#938" id="938">938</a>
-<a href="#939" id="939">939</a>
-<a href="#940" id="940">940</a>
-<a href="#941" id="941">941</a>
-<a href="#942" id="942">942</a>
-<a href="#943" id="943">943</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(dead_code)]
 </span><span class="kw">use </span><span class="kw">super</span>::backward_references::kHashMul32;
-<span class="comment">//use super::super::alloc::{SliceWrapper, SliceWrapperMut};
-</span><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::alloc;
 <span class="kw">use </span><span class="kw">super</span>::bit_cost::BitsEntropy;
 <span class="kw">use </span><span class="kw">super</span>::brotli_bit_stream::{BrotliBuildAndStoreHuffmanTreeFast, BrotliStoreHuffmanTree};
 <span class="kw">use </span><span class="kw">super</span>::entropy_encode::{
-    BrotliConvertBitDepthsToSymbols, BrotliCreateHuffmanTree, HuffmanTree, NewHuffmanTree,
+    BrotliConvertBitDepthsToSymbols, BrotliCreateHuffmanTree, HuffmanTree,
 };
 <span class="kw">use </span><span class="kw">super</span>::static_dict::{
     FindMatchLengthWithLimit, BROTLI_UNALIGNED_LOAD32, BROTLI_UNALIGNED_LOAD64,
     BROTLI_UNALIGNED_STORE64,
 };
-<span class="kw">use </span><span class="kw">super</span>::util::{brotli_min_size_t, Log2FloorNonZero};
-<span class="kw">use </span>core;
+<span class="kw">use </span><span class="kw">super</span>::util::Log2FloorNonZero;
+<span class="kw">use </span>core::cmp::min;
 <span class="kw">static </span>kCompressFragmentTwoPassBlockSize: usize = (<span class="number">1i32 </span>&lt;&lt; <span class="number">17</span>) <span class="kw">as </span>usize;
 
 <span class="comment">// returns number of commands inserted
@@ -1057,12 +1015,8 @@
     </span>}
 }
 <span class="kw">fn </span>HashBytesAtOffset(v: u64, offset: i32, shift: usize, length: usize) -&gt; u32 {
-    <span class="number">0i32</span>;
-    <span class="number">0i32</span>;
-    {
-        <span class="kw">let </span>h: u64 = (v &gt;&gt; (<span class="number">8i32 </span>* offset) &lt;&lt; ((<span class="number">8 </span>- length) * <span class="number">8</span>)).wrapping_mul(kHashMul32 <span class="kw">as </span>(u64));
-        (h &gt;&gt; shift) <span class="kw">as </span>u32
-    }
+    <span class="kw">let </span>h: u64 = (v &gt;&gt; (<span class="number">8i32 </span>* offset) &lt;&lt; ((<span class="number">8 </span>- length) * <span class="number">8</span>)).wrapping_mul(kHashMul32 <span class="kw">as </span>(u64));
+    (h &gt;&gt; shift) <span class="kw">as </span>u32
 }
 
 <span class="kw">fn </span>EmitCopyLen(copylen: usize, commands: <span class="kw-2">&amp;mut &amp;mut </span>[u32]) -&gt; usize {
@@ -1122,7 +1076,7 @@
     <span class="kw">let </span>kInputMarginBytes: usize = <span class="number">16usize</span>;
 
     <span class="kw">if </span>block_size &gt;= kInputMarginBytes {
-        <span class="kw">let </span>len_limit: usize = brotli_min_size_t(
+        <span class="kw">let </span>len_limit: usize = min(
             block_size.wrapping_sub(min_match),
             input_size.wrapping_sub(kInputMarginBytes),
         );
@@ -1141,7 +1095,6 @@
             <span class="kw">let </span><span class="kw-2">mut </span>skip: u32 = <span class="number">32u32</span>;
             <span class="kw">let </span><span class="kw-2">mut </span>next_ip: usize = ip_index;
             <span class="kw">let </span><span class="kw-2">mut </span>candidate: usize = <span class="number">0</span>;
-            <span class="number">0i32</span>;
             <span class="kw">loop </span>{
                 {
                     <span class="lifetime">'break3</span>: <span class="kw">loop </span>{
@@ -1150,32 +1103,24 @@
                             <span class="kw">let </span>bytes_between_hash_lookups: u32 = skip &gt;&gt; <span class="number">5</span>;
                             skip = skip.wrapping_add(<span class="number">1</span>);
                             ip_index = next_ip;
-                            <span class="number">0i32</span>;
                             next_ip = ip_index.wrapping_add(bytes_between_hash_lookups <span class="kw">as </span>usize);
                             <span class="kw">if </span>next_ip &gt; ip_limit {
                                 goto_emit_remainder = <span class="number">1i32</span>;
                                 {
-                                    {
-                                        <span class="kw">break </span><span class="lifetime">'break3</span>;
-                                    }
+                                    <span class="kw">break </span><span class="lifetime">'break3</span>;
                                 }
                             }
                             next_hash = Hash(<span class="kw-2">&amp;</span>base_ip[next_ip..], shift, min_match);
-                            <span class="number">0i32</span>;
                             candidate = ip_index.wrapping_sub(last_distance <span class="kw">as </span>usize);
                             <span class="kw">if </span>IsMatch(<span class="kw-2">&amp;</span>base_ip[ip_index..], <span class="kw-2">&amp;</span>base_ip[candidate..], min_match)
                                 &amp;&amp; candidate &lt; ip_index
                             {
                                 table[(hash <span class="kw">as </span>usize)] = ip_index.wrapping_sub(<span class="number">0</span>) <span class="kw">as </span>i32;
                                 {
-                                    {
-                                        <span class="kw">break </span><span class="lifetime">'break3</span>;
-                                    }
+                                    <span class="kw">break </span><span class="lifetime">'break3</span>;
                                 }
                             }
                             candidate = table[(hash <span class="kw">as </span>usize)] <span class="kw">as </span>usize;
-                            <span class="number">0i32</span>;
-                            <span class="number">0i32</span>;
                             table[(hash <span class="kw">as </span>usize)] = ip_index.wrapping_sub(<span class="number">0</span>) <span class="kw">as </span>i32;
                         }
                         <span class="kw">if </span>IsMatch(<span class="kw-2">&amp;</span>base_ip[ip_index..], <span class="kw-2">&amp;</span>base_ip[candidate..], min_match) {
@@ -1191,9 +1136,7 @@
                 }
             }
             <span class="kw">if </span>goto_emit_remainder != <span class="number">0 </span>{
-                {
-                    <span class="kw">break</span>;
-                }
+                <span class="kw">break</span>;
             }
             {
                 <span class="kw">let </span>base: usize = ip_index;
@@ -1205,7 +1148,6 @@
                 <span class="kw">let </span>distance: i32 = base.wrapping_sub(candidate) <span class="kw">as </span>i32;
                 <span class="kw">let </span>insert: i32 = base.wrapping_sub(next_emit) <span class="kw">as </span>i32;
                 ip_index = ip_index.wrapping_add(matched);
-                <span class="number">0i32</span>;
                 <span class="kw-2">*</span>num_commands += EmitInsertLen(insert <span class="kw">as </span>u32, commands);
                 (<span class="kw-2">*</span>literals)[..(insert <span class="kw">as </span>usize)]
                     .clone_from_slice(<span class="kw-2">&amp;</span>base_ip[next_emit..(next_emit + insert <span class="kw">as </span>usize)]);
@@ -1226,9 +1168,7 @@
                 <span class="kw">if </span>ip_index &gt;= ip_limit {
                     goto_emit_remainder = <span class="number">1i32</span>;
                     {
-                        {
-                            <span class="kw">break</span>;
-                        }
+                        <span class="kw">break</span>;
                     }
                 }
                 {
@@ -1278,16 +1218,13 @@
                 ));
                 ip_index = ip_index.wrapping_add(matched);
                 last_distance = base_index.wrapping_sub(candidate) <span class="kw">as </span>i32;
-                <span class="number">0i32</span>;
                 <span class="kw-2">*</span>num_commands += EmitCopyLen(matched, commands);
                 <span class="kw-2">*</span>num_commands += EmitDistance(last_distance <span class="kw">as </span>u32, commands);
                 next_emit = ip_index;
                 <span class="kw">if </span>ip_index &gt;= ip_limit {
                     goto_emit_remainder = <span class="number">1i32</span>;
                     {
-                        {
-                            <span class="kw">break</span>;
-                        }
+                        <span class="kw">break</span>;
                     }
                 }
                 {
@@ -1337,7 +1274,6 @@
             }
         }
     }
-    <span class="number">0i32</span>;
     <span class="kw">if </span>next_emit &lt; ip_end {
         <span class="kw">let </span>insert: u32 = ip_end.wrapping_sub(next_emit) <span class="kw">as </span>u32;
         <span class="kw-2">*</span>num_commands += EmitInsertLen(insert, commands);
@@ -1419,7 +1355,7 @@
     storage_ix: <span class="kw-2">&amp;mut </span>usize,
     storage: <span class="kw-2">&amp;mut </span>[u8],
 ) {
-    <span class="kw">let </span><span class="kw-2">mut </span>tree: [HuffmanTree; <span class="number">129</span>] = [NewHuffmanTree(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="number">129</span>];
+    <span class="kw">let </span><span class="kw-2">mut </span>tree = [HuffmanTree::new(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="number">129</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>cmd_depth: [u8; <span class="number">704</span>] = [<span class="number">0</span>; <span class="number">704</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>cmd_bits: [u16; <span class="number">64</span>] = [<span class="number">0</span>; <span class="number">64</span>];
     BrotliCreateHuffmanTree(histogram, <span class="number">64usize</span>, <span class="number">15i32</span>, <span class="kw-2">&amp;mut </span>tree[..], depth);
@@ -1450,7 +1386,6 @@
     memcpy(bits, (<span class="number">56usize</span>), <span class="kw-2">&amp;</span>cmd_bits[..], <span class="number">48usize</span>, <span class="number">8usize</span>);
     BrotliConvertBitDepthsToSymbols(<span class="kw-2">&amp;mut </span>depth[<span class="number">64</span>..], <span class="number">64usize</span>, <span class="kw-2">&amp;mut </span>bits[<span class="number">64</span>..]);
     {
-        <span class="kw">let </span><span class="kw-2">mut </span>i: usize;
         <span class="kw">for </span>item <span class="kw">in </span>cmd_depth[..<span class="number">64</span>].iter_mut() {
             <span class="kw-2">*</span>item = <span class="number">0</span>;
         }
@@ -1460,16 +1395,11 @@
         memcpy(<span class="kw-2">&amp;mut </span>cmd_depth[..], <span class="number">128usize</span>, depth, (<span class="number">40usize</span>), <span class="number">8usize</span>);
         memcpy(<span class="kw-2">&amp;mut </span>cmd_depth[..], <span class="number">192usize</span>, depth, (<span class="number">48usize</span>), <span class="number">8usize</span>);
         memcpy(<span class="kw-2">&amp;mut </span>cmd_depth[..], <span class="number">384usize</span>, depth, (<span class="number">56usize</span>), <span class="number">8usize</span>);
-        i = <span class="number">0usize</span>;
-        <span class="kw">while </span>i &lt; <span class="number">8usize </span>{
-            {
-                cmd_depth[(<span class="number">128usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] = depth[i];
-                cmd_depth[(<span class="number">256usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] =
-                    depth[i.wrapping_add(<span class="number">8</span>)];
-                cmd_depth[(<span class="number">448usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] =
-                    depth[i.wrapping_add(<span class="number">16</span>)];
-            }
-            i = i.wrapping_add(<span class="number">1</span>);
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0usize</span>..<span class="number">8usize </span>{
+            cmd_depth[(<span class="number">128usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] = depth[i];
+            cmd_depth[(<span class="number">256usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] = depth[i.wrapping_add(<span class="number">8</span>)];
+            cmd_depth[(<span class="number">448usize</span>).wrapping_add((<span class="number">8usize</span>).wrapping_mul(i))] =
+                depth[i.wrapping_add(<span class="number">16</span>)];
         }
         BrotliStoreHuffmanTree(
             <span class="kw-2">&amp;mut </span>cmd_depth[..],
@@ -1515,14 +1445,10 @@
     <span class="kw">let </span><span class="kw-2">mut </span>cmd_bits: [u16; <span class="number">128</span>] = [<span class="number">0</span>; <span class="number">128</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>cmd_histo: [u32; <span class="number">128</span>] = [<span class="number">0</span>; <span class="number">128</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>i: usize;
-    i = <span class="number">0usize</span>;
-    <span class="kw">while </span>i &lt; num_literals {
-        {
-            <span class="kw">let </span>_rhs = <span class="number">1</span>;
-            <span class="kw">let </span>_lhs = <span class="kw-2">&amp;mut </span>lit_histo[literals[i] <span class="kw">as </span>usize];
-            <span class="kw-2">*</span>_lhs = (<span class="kw-2">*</span>_lhs).wrapping_add(_rhs <span class="kw">as </span>u32);
-        }
-        i = i.wrapping_add(<span class="number">1</span>);
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0usize</span>..num_literals {
+        <span class="kw">let </span>_rhs = <span class="number">1</span>;
+        <span class="kw">let </span>_lhs = <span class="kw-2">&amp;mut </span>lit_histo[literals[i] <span class="kw">as </span>usize];
+        <span class="kw-2">*</span>_lhs = (<span class="kw-2">*</span>_lhs).wrapping_add(_rhs <span class="kw">as </span>u32);
     }
     BrotliBuildAndStoreHuffmanTreeFast(
         mht,
@@ -1538,7 +1464,6 @@
     <span class="kw">while </span>i &lt; num_commands {
         {
             <span class="kw">let </span>code: u32 = commands[i] &amp; <span class="number">0xffu32</span>;
-            <span class="number">0i32</span>;
             {
                 <span class="kw">let </span>_rhs = <span class="number">1</span>;
                 <span class="kw">let </span>_lhs = <span class="kw-2">&amp;mut </span>cmd_histo[code <span class="kw">as </span>usize];
@@ -1574,40 +1499,35 @@
         storage_ix,
         storage,
     );
-    i = <span class="number">0usize</span>;
-    <span class="kw">while </span>i &lt; num_commands {
-        {
-            <span class="kw">let </span>cmd: u32 = commands[i];
-            <span class="kw">let </span>code: u32 = cmd &amp; <span class="number">0xffu32</span>;
-            <span class="kw">let </span>extra: u32 = cmd &gt;&gt; <span class="number">8</span>;
-            <span class="number">0i32</span>;
-            BrotliWriteBits(
-                cmd_depths[code <span class="kw">as </span>usize] <span class="kw">as </span>usize,
-                cmd_bits[code <span class="kw">as </span>usize] <span class="kw">as </span>(u64),
-                storage_ix,
-                storage,
-            );
-            BrotliWriteBits(
-                kNumExtraBits[code <span class="kw">as </span>usize] <span class="kw">as </span>usize,
-                extra <span class="kw">as </span>(u64),
-                storage_ix,
-                storage,
-            );
-            <span class="kw">if </span>code &lt; <span class="number">24u32 </span>{
-                <span class="kw">let </span>insert: u32 = kInsertOffset[code <span class="kw">as </span>usize].wrapping_add(extra);
-                <span class="kw">for </span>literal <span class="kw">in </span>literals[..(insert <span class="kw">as </span>usize)].iter() {
-                    <span class="kw">let </span>lit: u8 = <span class="kw-2">*</span>literal;
-                    BrotliWriteBits(
-                        lit_depths[lit <span class="kw">as </span>usize] <span class="kw">as </span>usize,
-                        lit_bits[lit <span class="kw">as </span>usize] <span class="kw">as </span>(u64),
-                        storage_ix,
-                        storage,
-                    );
-                }
-                literals = <span class="kw-2">&amp;</span>literals[insert <span class="kw">as </span>usize..];
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0usize</span>..num_commands {
+        <span class="kw">let </span>cmd: u32 = commands[i];
+        <span class="kw">let </span>code: u32 = cmd &amp; <span class="number">0xffu32</span>;
+        <span class="kw">let </span>extra: u32 = cmd &gt;&gt; <span class="number">8</span>;
+        BrotliWriteBits(
+            cmd_depths[code <span class="kw">as </span>usize] <span class="kw">as </span>usize,
+            cmd_bits[code <span class="kw">as </span>usize] <span class="kw">as </span>(u64),
+            storage_ix,
+            storage,
+        );
+        BrotliWriteBits(
+            kNumExtraBits[code <span class="kw">as </span>usize] <span class="kw">as </span>usize,
+            extra <span class="kw">as </span>(u64),
+            storage_ix,
+            storage,
+        );
+        <span class="kw">if </span>code &lt; <span class="number">24u32 </span>{
+            <span class="kw">let </span>insert: u32 = kInsertOffset[code <span class="kw">as </span>usize].wrapping_add(extra);
+            <span class="kw">for </span>literal <span class="kw">in </span>literals[..(insert <span class="kw">as </span>usize)].iter() {
+                <span class="kw">let </span>lit: u8 = <span class="kw-2">*</span>literal;
+                BrotliWriteBits(
+                    lit_depths[lit <span class="kw">as </span>usize] <span class="kw">as </span>usize,
+                    lit_bits[lit <span class="kw">as </span>usize] <span class="kw">as </span>(u64),
+                    storage_ix,
+                    storage,
+                );
             }
+            literals = <span class="kw-2">&amp;</span>literals[insert <span class="kw">as </span>usize..];
         }
-        i = i.wrapping_add(<span class="number">1</span>);
     }
 }
 <span class="kw">fn </span>EmitUncompressedMetaBlock(
@@ -1639,7 +1559,7 @@
 ) {
     <span class="kw">let </span><span class="kw-2">mut </span>input_index: usize = <span class="number">0usize</span>;
     <span class="kw">while </span>input_size &gt; <span class="number">0usize </span>{
-        <span class="kw">let </span>block_size: usize = brotli_min_size_t(input_size, kCompressFragmentTwoPassBlockSize);
+        <span class="kw">let </span>block_size: usize = min(input_size, kCompressFragmentTwoPassBlockSize);
         <span class="kw">let </span><span class="kw-2">mut </span>num_literals: usize = <span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>num_commands: usize = <span class="number">0</span>;
         {

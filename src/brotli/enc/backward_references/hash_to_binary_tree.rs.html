@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-3.5.0/src/enc/backward_references/hash_to_binary_tree.rs`."><title>hash_to_binary_tree.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../brotli/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-6.0.0/src/enc/backward_references/hash_to_binary_tree.rs`."><title>hash_to_binary_tree.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -509,6 +509,7 @@
 <a href="#509" id="509">509</a>
 <a href="#510" id="510">510</a>
 <a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(dead_code, unused_imports)]
 </span><span class="kw">use super</span>::{
     kDistanceCacheIndex, kDistanceCacheOffset, kHashMul32, kHashMul64, kHashMul64Long,
@@ -518,9 +519,10 @@
 <span class="kw">use </span>alloc;
 <span class="kw">use </span>alloc::{Allocator, SliceWrapper, SliceWrapperMut};
 <span class="kw">use </span>core;
+<span class="kw">use </span>core::cmp::{max, min};
 <span class="kw">use </span>enc::command::{
-    CombineLengthCodes, Command, CommandCopyLen, ComputeDistanceCode, GetCopyLengthCode,
-    GetInsertLengthCode, InitCommand, PrefixEncodeCopyDistance,
+    CombineLengthCodes, Command, ComputeDistanceCode, GetCopyLengthCode, GetInsertLengthCode,
+    PrefixEncodeCopyDistance,
 };
 <span class="kw">use </span>enc::constants::{kCopyExtra, kInsExtra};
 <span class="kw">use </span>enc::dictionary_hash::kStaticDictionaryHash;
@@ -531,7 +533,7 @@
 <span class="kw">use </span>enc::static_dict::{
     FindMatchLengthWithLimit, BROTLI_UNALIGNED_LOAD32, BROTLI_UNALIGNED_LOAD64,
 };
-<span class="kw">use </span>enc::util::{brotli_max_size_t, floatX, FastLog2, Log2FloorNonZero};
+<span class="kw">use </span>enc::util::{floatX, FastLog2, Log2FloorNonZero};
 
 <span class="kw">pub const </span>kInfinity: floatX = <span class="number">1.7e38 </span><span class="kw">as </span>floatX;
 <span class="attr">#[derive(Clone, Copy, Debug)]
@@ -887,12 +889,16 @@
     </span><span class="kw">pub fn </span>set_length_and_code(<span class="kw-2">&amp;mut </span><span class="self">self</span>, data: u32) {
         <span class="kw-2">*</span><span class="self">self</span>.<span class="number">0 </span>= u64::from((<span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>) <span class="kw">as </span>u32) | (u64::from(data) &lt;&lt; <span class="number">32</span>);
     }
-}
-
-<span class="attr">#[inline(always)]
-</span><span class="kw">pub fn </span>InitBackwardMatch(xself: <span class="kw-2">&amp;mut </span>BackwardMatchMut, dist: usize, len: usize) {
-    xself.set_distance(dist <span class="kw">as </span>u32);
-    xself.set_length_and_code((len &lt;&lt; <span class="number">5</span>) <span class="kw">as </span>u32);
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">pub fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dist: usize, len: usize) {
+        <span class="self">self</span>.set_distance(dist <span class="kw">as </span>u32);
+        <span class="self">self</span>.set_length_and_code((len &lt;&lt; <span class="number">5</span>) <span class="kw">as </span>u32);
+    }
+    <span class="attr">#[inline(always)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>init_dictionary(<span class="kw-2">&amp;mut </span><span class="self">self</span>, dist: usize, len: usize, len_code: usize) {
+        <span class="self">self</span>.set_distance(dist <span class="kw">as </span>u32);
+        <span class="self">self</span>.set_length_and_code((len &lt;&lt; <span class="number">5 </span>| <span class="kw">if </span>len == len_code { <span class="number">0 </span>} <span class="kw">else </span>{ len_code }) <span class="kw">as </span>u32);
+    }
 }
 
 <span class="macro">macro_rules!</span> LeftChildIndexH10 {
@@ -948,7 +954,7 @@ fn RightChildIndexH10&lt;AllocU32: Allocator&lt;u32&gt;,
 {
     <span class="kw">let </span><span class="kw-2">mut </span>matches_offset = <span class="number">0usize</span>;
     <span class="kw">let </span>cur_ix_masked: usize = cur_ix &amp; ring_buffer_mask;
-    <span class="kw">let </span>max_comp_len: usize = core::cmp::min(max_length, <span class="number">128usize</span>);
+    <span class="kw">let </span>max_comp_len: usize = min(max_length, <span class="number">128usize</span>);
     <span class="kw">let </span>should_reroot_tree = max_length &gt;= <span class="number">128</span>;
     <span class="kw">let </span>key = xself.HashBytes(<span class="kw-2">&amp;</span>data[cur_ix_masked..]);
     <span class="kw">let </span>forest: <span class="kw-2">&amp;mut </span>[u32] = xself.forest.slice_mut();
@@ -974,7 +980,7 @@ fn RightChildIndexH10&lt;AllocU32: Allocator&lt;u32&gt;,
                 <span class="kw">break </span><span class="lifetime">'break16</span>;
             }
             {
-                <span class="kw">let </span>cur_len: usize = core::cmp::min(best_len_left, best_len_right);
+                <span class="kw">let </span>cur_len: usize = min(best_len_left, best_len_right);
 
                 <span class="kw">let </span>len: usize = cur_len.wrapping_add(FindMatchLengthWithLimit(
                     <span class="kw-2">&amp;</span>data[cur_ix_masked.wrapping_add(cur_len)..],
@@ -983,11 +989,7 @@ fn RightChildIndexH10&lt;AllocU32: Allocator&lt;u32&gt;,
                 ));
                 <span class="kw">if </span>matches_offset != matches.len() &amp;&amp; (len &gt; <span class="kw-2">*</span>best_len) {
                     <span class="kw-2">*</span>best_len = len;
-                    InitBackwardMatch(
-                        <span class="kw-2">&amp;mut </span>BackwardMatchMut(<span class="kw-2">&amp;mut </span>matches[matches_offset]),
-                        backward,
-                        len,
-                    );
+                    BackwardMatchMut(<span class="kw-2">&amp;mut </span>matches[matches_offset]).init(backward, len);
                     matches_offset += <span class="number">1</span>;
                 }
                 <span class="kw">if </span>len &gt;= max_comp_len {

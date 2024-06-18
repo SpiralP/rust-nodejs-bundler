@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.6.7/src/stream/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../winnow/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/winnow-0.6.13/src/stream/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="winnow" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3702,6 +3702,47 @@
 <a href="#3702" id="3702">3702</a>
 <a href="#3703" id="3703">3703</a>
 <a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
+<a href="#3717" id="3717">3717</a>
+<a href="#3718" id="3718">3718</a>
+<a href="#3719" id="3719">3719</a>
+<a href="#3720" id="3720">3720</a>
+<a href="#3721" id="3721">3721</a>
+<a href="#3722" id="3722">3722</a>
+<a href="#3723" id="3723">3723</a>
+<a href="#3724" id="3724">3724</a>
+<a href="#3725" id="3725">3725</a>
+<a href="#3726" id="3726">3726</a>
+<a href="#3727" id="3727">3727</a>
+<a href="#3728" id="3728">3728</a>
+<a href="#3729" id="3729">3729</a>
+<a href="#3730" id="3730">3730</a>
+<a href="#3731" id="3731">3731</a>
+<a href="#3732" id="3732">3732</a>
+<a href="#3733" id="3733">3733</a>
+<a href="#3734" id="3734">3734</a>
+<a href="#3735" id="3735">3735</a>
+<a href="#3736" id="3736">3736</a>
+<a href="#3737" id="3737">3737</a>
+<a href="#3738" id="3738">3738</a>
+<a href="#3739" id="3739">3739</a>
+<a href="#3740" id="3740">3740</a>
+<a href="#3741" id="3741">3741</a>
+<a href="#3742" id="3742">3742</a>
+<a href="#3743" id="3743">3743</a>
+<a href="#3744" id="3744">3744</a>
+<a href="#3745" id="3745">3745</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Stream capability for combinators to parse
 //!
 //! Stream types include:
@@ -3718,6 +3759,7 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::ascii::Caseless <span class="kw">as </span>AsciiCaseless;
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::error::FromRecoverableError;
 <span class="kw">use </span><span class="kw">crate</span>::error::Needed;
 <span class="kw">use </span><span class="kw">crate</span>::lib::std::iter::{Cloned, Enumerate};
@@ -3751,7 +3793,7 @@
 </span><span class="kw">pub type </span>Str&lt;<span class="lifetime">'i</span>&gt; = <span class="kw-2">&amp;</span><span class="lifetime">'i </span>str;
 
 <span class="doccomment">/// Improved `Debug` experience for `&amp;[u8]` byte streams
-</span><span class="attr">#[allow(clippy::derive_hash_xor_eq)]
+</span><span class="attr">#[allow(clippy::derived_hash_with_manual_eq)]
 #[derive(Hash)]
 #[repr(transparent)]
 </span><span class="kw">pub struct </span>Bytes([u8]);
@@ -3775,7 +3817,7 @@
 }
 
 <span class="doccomment">/// Improved `Debug` experience for `&amp;[u8]` UTF-8-ish streams
-</span><span class="attr">#[allow(clippy::derive_hash_xor_eq)]
+</span><span class="attr">#[allow(clippy::derived_hash_with_manual_eq)]
 #[derive(Hash)]
 #[repr(transparent)]
 </span><span class="kw">pub struct </span>BStr([u8]);
@@ -3867,6 +3909,7 @@
 /// [`RecoverableParser::recoverable_parse`][crate::RecoverableParser::recoverable_parse].
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
 #[derive(Clone)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">pub struct </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -3877,6 +3920,18 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl</span>&lt;I, E&gt; Default <span class="kw">for </span>Recoverable&lt;I, E&gt;
+<span class="kw">where
+    </span>I: Default + Stream,
+{
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::new(I::default())
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -3906,6 +3961,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; AsRef&lt;I&gt; <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -3917,6 +3973,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; <span class="kw">crate</span>::lib::std::ops::Deref <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -3930,6 +3987,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I: <span class="kw">crate</span>::lib::std::fmt::Display, E&gt; <span class="kw">crate</span>::lib::std::fmt::Display <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -3940,6 +3998,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I: Stream + <span class="kw">crate</span>::lib::std::fmt::Debug, E: <span class="kw">crate</span>::lib::std::fmt::Debug&gt;
     <span class="kw">crate</span>::lib::std::fmt::Debug <span class="kw">for </span>Recoverable&lt;I, E&gt;
 {
@@ -3995,7 +4054,7 @@
 /// let output = word.parse(input).unwrap();
 /// assert_eq!(state.get(), 1);
 /// ```
-</span><span class="attr">#[derive(Clone, Copy, Eq, PartialEq)]
+</span><span class="attr">#[derive(Clone, Copy, Default, Eq, PartialEq)]
 #[doc(alias = <span class="string">"LocatedSpan"</span>)]
 </span><span class="kw">pub struct </span>Stateful&lt;I, S&gt; {
     <span class="doccomment">/// Inner input being wrapped in state
@@ -4262,6 +4321,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; SliceLen <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: SliceLen,
@@ -4841,6 +4901,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E: <span class="kw">crate</span>::lib::std::fmt::Debug&gt; Stream <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -5022,6 +5083,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Location <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Location,
@@ -5057,6 +5119,7 @@
 ///
 /// See [`Recoverable`] for adding error recovery tracking to your [`Stream`]
 </span><span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">pub trait </span>Recover&lt;E&gt;: Stream {
     <span class="doccomment">/// Capture a top-level error
     ///
@@ -5074,6 +5137,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, T, E&gt; Recover&lt;E&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T]
 <span class="kw">where
     </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>[T]: Stream,
@@ -5096,6 +5160,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, E&gt; Recover&lt;E&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>str {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>record_err(
@@ -5115,6 +5180,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, E&gt; Recover&lt;E&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>Bytes {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>record_err(
@@ -5134,6 +5200,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, E&gt; Recover&lt;E&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">'a </span>BStr {
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>record_err(
@@ -5153,6 +5220,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Recover&lt;E&gt; <span class="kw">for </span>(I, usize)
 <span class="kw">where
     </span>I: Recover&lt;E&gt;,
@@ -5176,6 +5244,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Recover&lt;E&gt; <span class="kw">for </span>Located&lt;I&gt;
 <span class="kw">where
     </span>I: Recover&lt;E&gt;,
@@ -5199,6 +5268,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E, R&gt; Recover&lt;E&gt; <span class="kw">for </span>Recoverable&lt;I, R&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -5233,6 +5303,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E, S&gt; Recover&lt;E&gt; <span class="kw">for </span>Stateful&lt;I, S&gt;
 <span class="kw">where
     </span>I: Recover&lt;E&gt;,
@@ -5257,6 +5328,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Recover&lt;E&gt; <span class="kw">for </span>Partial&lt;I&gt;
 <span class="kw">where
     </span>I: Recover&lt;E&gt;,
@@ -5412,6 +5484,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; StreamIsPartial <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: StreamIsPartial,
@@ -5604,6 +5677,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Offset <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -5616,6 +5690,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; Offset&lt;&lt;Recoverable&lt;I, E&gt; <span class="kw">as </span>Stream&gt;::Checkpoint&gt; <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -5710,6 +5785,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; AsBytes <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -5779,6 +5855,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; AsBStr <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -6000,6 +6077,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E, U&gt; Compare&lt;U&gt; <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -6273,6 +6351,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E, T&gt; FindSlice&lt;T&gt; <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -6376,6 +6455,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">"unstable-recover"</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl</span>&lt;I, E&gt; UpdateSlice <span class="kw">for </span>Recoverable&lt;I, E&gt;
 <span class="kw">where
     </span>I: Stream,
@@ -6450,6 +6530,7 @@
 ///
 /// This is flexible in what can be converted to a [Range]:
 /// ```rust
+/// # #[cfg(feature = "std")] {
 /// # use winnow::prelude::*;
 /// # use winnow::token::any;
 /// # use winnow::combinator::repeat;
@@ -6471,6 +6552,7 @@
 /// # let mut input = "0123456789012345678901234567890123456789";
 /// # let input = &amp;mut input;
 /// let parser: Vec&lt;_&gt; = repeat(5..=8, inner).parse_next(input).unwrap();
+/// # }
 /// ```
 </span><span class="attr">#[derive(PartialEq, Eq)]
 </span><span class="kw">pub struct </span>Range {

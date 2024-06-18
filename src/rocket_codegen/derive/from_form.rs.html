@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.0/src/derive/from_form.rs`."><title>from_form.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../rocket_codegen/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket_codegen-0.5.1/src/derive/from_form.rs`."><title>from_form.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -282,16 +282,41 @@
 <a href="#282" id="282">282</a>
 <a href="#283" id="283">283</a>
 <a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>proc_macro2::TokenStream;
 <span class="kw">use </span>devise::ext::{TypeExt, SpanDiagnosticExt, GenericsExt, quote_respanned};
 <span class="kw">use </span>syn::parse::Parser;
 <span class="kw">use </span>devise::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::exports::<span class="kw-2">*</span>;
-<span class="kw">use </span><span class="kw">crate</span>::derive::form_field::{<span class="kw-2">*</span>, FieldName::<span class="kw-2">*</span>};
+<span class="kw">use </span><span class="kw">crate</span>::derive::form_field::FieldName::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::derive::form_field::{FieldExt, default, first_duplicate, validators};
 <span class="kw">use </span><span class="kw">crate</span>::syn_ext::{GenericsExt <span class="kw">as _</span>, TypeExt <span class="kw">as _</span>};
 
 <span class="kw">type </span>WherePredicates = syn::punctuated::Punctuated&lt;syn::WherePredicate, <span class="macro">syn::Token!</span>[,]&gt;;
+
+<span class="macro">macro_rules!</span> quote_spanned {
+    (<span class="macro-nonterminal">$span</span>:expr =&gt; $(<span class="macro-nonterminal">$token</span>:tt)<span class="kw-2">*</span>) =&gt; (
+        <span class="macro">quote::quote_spanned!</span>(
+            proc_macro2::Span::call_site().located_at(<span class="macro-nonterminal">$span</span>) =&gt; $(<span class="macro-nonterminal">$token</span>)*
+        )
+    )
+}
 
 <span class="comment">// F: fn(field_ty: Ty, field_context: Expr)
 </span><span class="kw">fn </span>fields_map&lt;F&gt;(fields: Fields&lt;<span class="lifetime">'_</span>&gt;, map_f: F) -&gt; <span class="prelude-ty">Result</span>&lt;TokenStream&gt;
@@ -316,8 +341,8 @@
         }
 
         matchers.extend(field.field_names()<span class="question-mark">?</span>.into_iter().map(|f| <span class="kw">match </span>f {
-            Cased(name) =&gt; <span class="macro">quote!</span>(#name =&gt; { #push }),
-            Uncased(name) =&gt; <span class="macro">quote!</span>(__n <span class="kw">if </span>__n.as_uncased() == #name =&gt; { #push }),
+            Cased(f) =&gt; <span class="macro">quote_spanned!</span>(ty.span() =&gt; #f =&gt; { #push }),
+            Uncased(f) =&gt; <span class="macro">quote_spanned!</span>(ty.span() =&gt; __n <span class="kw">if </span>__n.as_uncased() == #f =&gt; { #push }),
         }));
     }
 
@@ -404,12 +429,13 @@
                 <span class="kw">let </span>(ctxt_ty, gen) = context_type(input)<span class="question-mark">?</span>;
                 <span class="kw">let </span>(impl_gen, <span class="kw">_</span>, where_clause)  = gen.split_for_impl();
                 <span class="kw">let </span>output = mapper::input_default(mapper, input)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { input.span() =&gt;
+                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { mixed(input.span()) =&gt;
                     <span class="doccomment">/// Rocket generated FormForm context.
                     </span><span class="attr">#[doc(hidden)]
                     #[allow(unknown_lints)]
                     #[allow(renamed_and_removed_lints)]
-                    #[allow(private_in_public, private_bounds)]
+                    #[allow(private_in_public)]
+                    #[allow(private_bounds)]
                     </span>#vis <span class="kw">struct </span>#ctxt_ty #impl_gen #where_clause {
                         __opts: #_form::Options,
                         __errors: #_form::Errors&lt;<span class="lifetime">'r</span>&gt;,
@@ -434,6 +460,7 @@
             <span class="attr">#[allow(unused_imports)]
             </span><span class="kw">use </span>#_http::uncased::AsUncased;
         })
+        .outer_mapper(<span class="macro">quote!</span>(<span class="attr">#[allow(clippy::all, clippy::pedantic, clippy::nursery)]</span>))
         .outer_mapper(<span class="macro">quote!</span>(<span class="attr">#[allow(renamed_and_removed_lints)]</span>))
         .outer_mapper(<span class="macro">quote!</span>(<span class="attr">#[allow(private_in_public)]</span>))
         .outer_mapper(<span class="macro">quote!</span>(<span class="attr">#[rocket::async_trait]</span>))
@@ -477,7 +504,7 @@
                 <span class="kw">let </span>(ctxt_ty, gen) = context_type(input)<span class="question-mark">?</span>;
                 <span class="kw">let </span>(<span class="kw">_</span>, ty_gen, <span class="kw">_</span>) = gen.split_for_impl();
                 <span class="kw">let </span>output = mapper::input_default(mapper, input)<span class="question-mark">?</span>;
-                <span class="prelude-val">Ok</span>(<span class="macro">quote!</span> {
+                <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { ctxt_ty.span() =&gt;
                     <span class="kw">async fn </span>push_data(
                         __c: <span class="kw-2">&amp;mut </span>#ctxt_ty #ty_gen,
                         __f: #_form::DataField&lt;<span class="lifetime">'r</span>, <span class="lifetime">'_</span>&gt;
@@ -489,10 +516,16 @@
             <span class="comment">// Without the `let _fut`, we get a wild lifetime error. It don't
             // make no sense, Rust async/await: it don't make no sense.
             </span>.try_fields_map(|<span class="kw">_</span>, f| fields_map(f, |ty, ctxt| <span class="macro">quote_spanned!</span>(ty.span() =&gt; {
-                <span class="kw">let </span>_fut = &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::push_data(#ctxt, __f.shift());
-                _fut.<span class="kw">await</span>;
+                <span class="kw">let </span>__fut = &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::push_data(#ctxt, __f.shift());
+                __fut.<span class="kw">await</span>;
             })))
         )
+        .inner_mapper(MapperBuild::new()
+            .with_output(|<span class="kw">_</span>, <span class="kw">_</span>| <span class="macro">quote!</span> {
+                <span class="kw">fn </span>push_error(__c: <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Context, __e: #_form::Error&lt;<span class="lifetime">'r</span>&gt;) {
+                    __c.__errors.push(__e);
+                }
+            }))
         .inner_mapper(MapperBuild::new()
             .with_output(|<span class="kw">_</span>, output| <span class="macro">quote!</span> {
                 <span class="kw">fn </span>finalize(<span class="kw-2">mut </span>__c: <span class="self">Self</span>::Context) -&gt; #_Result&lt;<span class="self">Self</span>, #_form::Errors&lt;<span class="lifetime">'r</span>&gt;&gt; {
@@ -513,7 +546,7 @@
                 <span class="kw">let </span>ident = fields.iter().map(|f| f.context_ident());
                 <span class="kw">let </span>builder = fields.builder(|f| {
                     <span class="kw">let </span>ident = f.context_ident();
-                    <span class="macro">quote!</span>(#ident.unwrap())
+                    <span class="macro">quote_spanned!</span>(ident.span() =&gt; #ident.unwrap())
                 });
 
                 <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span>(fields.span() =&gt;
@@ -545,7 +578,6 @@
                         &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::default(__opts)
                     }));
 
-                <span class="kw">let </span>_err = _Err;
                 <span class="prelude-val">Ok</span>(<span class="macro">quote_spanned!</span> { ty.span() =&gt; {
                     <span class="kw">let </span>__opts = __c.__opts;
                     <span class="kw">let </span>__name = #name_buf_opt;
@@ -555,8 +587,8 @@
                             &lt;#ty <span class="kw">as </span>#_form::FromForm&lt;<span class="lifetime">'r</span>&gt;&gt;::finalize
                         )
                         .map_err(|__e| <span class="kw">match </span>__name {
-                            <span class="prelude-val">Some</span>(__name) =&gt; __e.with_name(__name),
-                            <span class="prelude-val">None </span>=&gt; __e,
+                            #_Some(__name) =&gt; __e.with_name(__name),
+                            #_None =&gt; __e,
                         })
                         .map_err(|__e| __e.is_empty()
                             .then(|| #_form::ErrorKind::Unknown.into())

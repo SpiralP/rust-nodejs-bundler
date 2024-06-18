@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-3.5.0/src/enc/backward_references/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-b21aa549bf6d91ff.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.0-nightly (c987ad527 2024-05-01)" data-channel="nightly" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../brotli/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/brotli-6.0.0/src/enc/backward_references/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="brotli" data-themes="" data-resource-suffix="" data-rustdoc-version="1.81.0-nightly (59e2c01c2 2024-06-17)" data-channel="nightly" data-search-js="search-0fe7219eb170c82e.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2759,25 +2759,6 @@
 <a href="#2759" id="2759">2759</a>
 <a href="#2760" id="2760">2760</a>
 <a href="#2761" id="2761">2761</a>
-<a href="#2762" id="2762">2762</a>
-<a href="#2763" id="2763">2763</a>
-<a href="#2764" id="2764">2764</a>
-<a href="#2765" id="2765">2765</a>
-<a href="#2766" id="2766">2766</a>
-<a href="#2767" id="2767">2767</a>
-<a href="#2768" id="2768">2768</a>
-<a href="#2769" id="2769">2769</a>
-<a href="#2770" id="2770">2770</a>
-<a href="#2771" id="2771">2771</a>
-<a href="#2772" id="2772">2772</a>
-<a href="#2773" id="2773">2773</a>
-<a href="#2774" id="2774">2774</a>
-<a href="#2775" id="2775">2775</a>
-<a href="#2776" id="2776">2776</a>
-<a href="#2777" id="2777">2777</a>
-<a href="#2778" id="2778">2778</a>
-<a href="#2779" id="2779">2779</a>
-<a href="#2780" id="2780">2780</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(dead_code)]
 </span><span class="kw">mod </span>benchmark;
 <span class="kw">pub mod </span>hash_to_binary_tree;
@@ -2785,7 +2766,7 @@
 <span class="kw">mod </span>test;
 
 <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::alloc::{Allocator, SliceWrapper, SliceWrapperMut};
-<span class="kw">use </span><span class="kw">super</span>::command::{BrotliDistanceParams, Command, ComputeDistanceCode, InitCommand};
+<span class="kw">use </span><span class="kw">super</span>::command::{BrotliDistanceParams, Command, ComputeDistanceCode};
 <span class="kw">use </span><span class="kw">super</span>::dictionary_hash::kStaticDictionaryHash;
 <span class="kw">use </span><span class="kw">super</span>::hash_to_binary_tree::{H10Buckets, H10DefaultParams, ZopfliNode, H10};
 <span class="kw">use </span><span class="kw">super</span>::static_dict::BrotliDictionary;
@@ -2793,23 +2774,17 @@
     FindMatchLengthWithLimit, FindMatchLengthWithLimitMin4, BROTLI_UNALIGNED_LOAD32,
     BROTLI_UNALIGNED_LOAD64,
 };
-<span class="kw">use </span><span class="kw">super</span>::util::{brotli_max_size_t, floatX, Log2FloorNonZero};
+<span class="kw">use </span><span class="kw">super</span>::util::{floatX, Log2FloorNonZero};
+<span class="kw">use </span>core::cmp::{max, min};
 
-<span class="kw">static </span>kBrotliMinWindowBits: i32 = <span class="number">10i32</span>;
-
-<span class="kw">static </span>kBrotliMaxWindowBits: i32 = <span class="number">24i32</span>;
-
-<span class="kw">pub static </span>kInvalidMatch: u32 = <span class="number">0xfffffffu32</span>;
-
-<span class="kw">static </span>kCutoffTransformsCount: u32 = <span class="number">10u32</span>;
-
-<span class="kw">static </span>kCutoffTransforms: u64 = <span class="number">0x71b520au64 </span>&lt;&lt; <span class="number">32 </span>| <span class="number">0xda2d3200u32 </span><span class="kw">as </span>(u64);
-
-<span class="kw">pub static </span>kHashMul32: u32 = <span class="number">0x1e35a7bdu32</span>;
-
-<span class="kw">pub static </span>kHashMul64: u64 = <span class="number">0x1e35a7bdu64 </span>&lt;&lt; <span class="number">32 </span>| <span class="number">0x1e35a7bdu64</span>;
-
-<span class="kw">pub static </span>kHashMul64Long: u64 = <span class="number">0x1fe35a7bu32 </span><span class="kw">as </span>(u64) &lt;&lt; <span class="number">32 </span>| <span class="number">0xd3579bd3u32 </span><span class="kw">as </span>(u64);
+<span class="kw">static </span>kBrotliMinWindowBits: i32 = <span class="number">10</span>;
+<span class="kw">static </span>kBrotliMaxWindowBits: i32 = <span class="number">24</span>;
+<span class="kw">pub static </span>kInvalidMatch: u32 = <span class="number">0x0fff_ffff</span>;
+<span class="kw">static </span>kCutoffTransformsCount: u32 = <span class="number">10</span>;
+<span class="kw">static </span>kCutoffTransforms: u64 = <span class="number">0x071b_520a_da2d_3200</span>;
+<span class="kw">pub static </span>kHashMul32: u32 = <span class="number">0x1e35_a7bd</span>;
+<span class="kw">pub static </span>kHashMul64: u64 = <span class="number">0x1e35_a7bd_1e35_a7bd</span>;
+<span class="kw">pub static </span>kHashMul64Long: u64 = <span class="number">0x1fe3_5a7b_d357_9bd3</span>;
 
 <span class="attr">#[derive(PartialEq, Eq, Copy, Clone, Debug)]
 #[repr(C)]
@@ -2912,14 +2887,6 @@
 
 <span class="kw">fn </span>LiteralSpreeLengthForSparseSearch(params: <span class="kw-2">&amp;</span>BrotliEncoderParams) -&gt; usize {
     (<span class="kw">if </span>params.quality &lt; <span class="number">9 </span>{ <span class="number">64i32 </span>} <span class="kw">else </span>{ <span class="number">512i32 </span>}) <span class="kw">as </span>usize
-}
-
-<span class="kw">fn </span>brotli_min_size_t(a: usize, b: usize) -&gt; usize {
-    <span class="kw">if </span>a &lt; b {
-        a
-    } <span class="kw">else </span>{
-        b
-    }
 }
 
 <span class="kw">pub struct </span>HasherSearchResult {
@@ -3733,8 +3700,8 @@
     </span>}
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>get_hash_mask(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
-        <span class="comment">//return 0xffffffffffffffffu64;
-        </span><span class="number">0xffffffffu64 </span><span class="comment">// make it 32 bit
+        <span class="comment">//return 0xffff_ffff_ffff_ffff;
+        </span><span class="number">0xffff_ffff </span><span class="comment">// make it 32 bit
     </span>}
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>get_k_hash_mul(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
@@ -3780,8 +3747,8 @@
     </span>}
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>get_hash_mask(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
-        <span class="comment">//return 0xffffffffffffffffu64;
-        </span><span class="number">0xffffffffu64 </span><span class="comment">// make it 32 bit
+        <span class="comment">//return 0xffff_ffff_ffff_ffff;
+        </span><span class="number">0xffff_ffff </span><span class="comment">// make it 32 bit
     </span>}
     <span class="attr">#[inline(always)]
     </span><span class="kw">fn </span>get_k_hash_mul(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
@@ -3828,8 +3795,8 @@
         <span class="self">self</span>.block_mask_
     }
     <span class="kw">fn </span>get_hash_mask(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
-        <span class="comment">//return 0xffffffffffffffffu64;
-        </span><span class="number">0xffffffffu64 </span><span class="comment">// make it 32 bit
+        <span class="comment">//return 0xffff_ffff_ffff_ffff;
+        </span><span class="number">0xffff_ffff </span><span class="comment">// make it 32 bit
     </span>}
     <span class="kw">fn </span>get_k_hash_mul(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
         kHashMul32 <span class="kw">as </span>u64
@@ -3902,7 +3869,8 @@
 }
 
 <span class="kw">fn </span>BackwardReferencePenaltyUsingLastDistance(distance_short_code: usize) -&gt; u64 {
-    (<span class="number">39u64</span>).wrapping_add((<span class="number">0x1ca10u64 </span>&gt;&gt; (distance_short_code &amp; <span class="number">0xeusize</span>) &amp; <span class="number">0xeu64</span>))
+    <span class="comment">// FIXME?: double bitwise AND with the same value?
+    </span>(<span class="number">39u64</span>).wrapping_add((<span class="number">0x0001_ca10_u64 </span>&gt;&gt; (distance_short_code &amp; <span class="number">0x0e</span>) &amp; <span class="number">0x0e</span>))
 }
 
 <span class="kw">impl</span>&lt;
@@ -3933,7 +3901,7 @@
             <span class="kw">let </span>chunk_count = (ix_end - ix_start) / <span class="number">4</span>;
             <span class="kw">for </span>chunk_id <span class="kw">in </span><span class="number">0</span>..chunk_count {
                 <span class="kw">let </span>i = (ix_start + chunk_id * <span class="number">4</span>) &amp; mask;
-                <span class="kw">let </span>ffffffff = <span class="number">0xffffffff</span>;
+                <span class="kw">let </span>ffffffff = <span class="number">0xffff_ffff</span>;
                 <span class="kw">let </span>word = u64::from(data[i])
                     | (u64::from(data[i + <span class="number">1</span>]) &lt;&lt; <span class="number">8</span>)
                     | (u64::from(data[i + <span class="number">2</span>]) &lt;&lt; <span class="number">16</span>)
@@ -4016,7 +3984,7 @@
                 );
                 <span class="kw">for </span>quad_index <span class="kw">in </span><span class="number">0</span>..(REG_SIZE &gt;&gt; <span class="number">2</span>) {
                     <span class="kw">let </span>i = quad_index &lt;&lt; <span class="number">2</span>;
-                    <span class="kw">let </span>ffffffff = <span class="number">0xffffffff</span>;
+                    <span class="kw">let </span>ffffffff = <span class="number">0xffff_ffff</span>;
                     <span class="kw">let </span>word = u64::from(data64[i])
                         | (u64::from(data64[i + <span class="number">1</span>]) &lt;&lt; <span class="number">8</span>)
                         | (u64::from(data64[i + <span class="number">2</span>]) &lt;&lt; <span class="number">16</span>)
@@ -4098,7 +4066,7 @@
                     .clone_from_slice(data.split_at(ix_offset).<span class="number">1</span>.split_at(REG_SIZE + lookahead4).<span class="number">0</span>);
                 <span class="kw">for </span>quad_index <span class="kw">in </span><span class="number">0</span>..(REG_SIZE &gt;&gt; <span class="number">2</span>) {
                     <span class="kw">let </span>i = quad_index &lt;&lt; <span class="number">2</span>;
-                    <span class="kw">let </span>ffffffff = <span class="number">0xffffffff</span>;
+                    <span class="kw">let </span>ffffffff = <span class="number">0xffff_ffff</span>;
                     <span class="kw">let </span>word = u64::from(data64[i])
                         | (u64::from(data64[i + <span class="number">1</span>]) &lt;&lt; <span class="number">8</span>)
                         | (u64::from(data64[i + <span class="number">2</span>]) &lt;&lt; <span class="number">16</span>)
@@ -4292,13 +4260,13 @@
             | (u64::from(data[li + <span class="number">7</span>]) &lt;&lt; <span class="number">56</span>);
         <span class="kw">let </span>hi = (ix + <span class="number">8</span>) &amp; mask;
         <span class="kw">let </span>hword = u64::from(data[hi]) | (u64::from(data[hi + <span class="number">1</span>]) &lt;&lt; <span class="number">8</span>);
-        <span class="kw">let </span>mixed0 = ((((lword &amp; <span class="number">0xffffffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
+        <span class="kw">let </span>mixed0 = ((((lword &amp; <span class="number">0xffff_ffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
             &amp; <span class="self">self</span>.specialization.get_hash_mask())
             &gt;&gt; shift) <span class="kw">as </span>usize;
-        <span class="kw">let </span>mixed1 = (((((lword &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xffffffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
+        <span class="kw">let </span>mixed1 = (((((lword &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xffff_ffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
             &amp; <span class="self">self</span>.specialization.get_hash_mask())
             &gt;&gt; shift) <span class="kw">as </span>usize;
-        <span class="kw">let </span>mixed2 = (((((lword &gt;&gt; <span class="number">32</span>) &amp; <span class="number">0xffffffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
+        <span class="kw">let </span>mixed2 = (((((lword &gt;&gt; <span class="number">32</span>) &amp; <span class="number">0xffff_ffff</span>) * <span class="self">self</span>.specialization.get_k_hash_mul())
             &amp; <span class="self">self</span>.specialization.get_hash_mask())
             &gt;&gt; shift) <span class="kw">as </span>usize;
         <span class="kw">let </span>mixed3 = ((((((hword &amp; <span class="number">0xffff</span>) &lt;&lt; <span class="number">16</span>) | ((lword &gt;&gt; <span class="number">48</span>) &amp; <span class="number">0xffff</span>))
@@ -4510,7 +4478,7 @@
                 .<span class="number">0</span>;
             <span class="macro">assert!</span>(bucket.len() &gt; <span class="self">self</span>.specialization.block_mask() <span class="kw">as </span>usize);
             <span class="kw">if </span>num_copy != <span class="number">0 </span>{
-                <span class="kw">let </span>down: usize = core::cmp::max(
+                <span class="kw">let </span>down: usize = max(
                     i32::from(num_copy) - <span class="self">self</span>.specialization.block_size() <span class="kw">as </span>i32,
                     <span class="number">0</span>,
                 ) <span class="kw">as </span>usize;
@@ -5175,7 +5143,7 @@ buckets_:[0;65537],
     hasher.PrepareDistanceCache(dist_cache);
     <span class="kw">while </span>position.wrapping_add(hasher.HashTypeLength()) &lt; pos_end {
         <span class="kw">let </span><span class="kw-2">mut </span>max_length: usize = pos_end.wrapping_sub(position);
-        <span class="kw">let </span><span class="kw-2">mut </span>max_distance: usize = brotli_min_size_t(position, max_backward_limit);
+        <span class="kw">let </span><span class="kw-2">mut </span>max_distance: usize = min(position, max_backward_limit);
         <span class="kw">let </span><span class="kw-2">mut </span>sr = HasherSearchResult {
             len: <span class="number">0</span>,
             len_x_code: <span class="number">0</span>,
@@ -5212,14 +5180,14 @@ buckets_:[0;65537],
                         score: <span class="number">0</span>,
                     };
                     sr2.len = <span class="kw">if </span>params.quality &lt; <span class="number">5 </span>{
-                        brotli_min_size_t(sr.len.wrapping_sub(<span class="number">1</span>), max_length)
+                        min(sr.len.wrapping_sub(<span class="number">1</span>), max_length)
                     } <span class="kw">else </span>{
                         <span class="number">0usize
                     </span>};
                     sr2.len_x_code = <span class="number">0usize</span>;
                     sr2.distance = <span class="number">0usize</span>;
                     sr2.score = kMinScore;
-                    max_distance = brotli_min_size_t(position.wrapping_add(<span class="number">1</span>), max_backward_limit);
+                    max_distance = min(position.wrapping_add(<span class="number">1</span>), max_backward_limit);
                     <span class="kw">let </span>is_match_found: bool = hasher.FindLongestMatch(
                         dictionary,
                         dictionary_hash,
@@ -5243,9 +5211,7 @@ buckets_:[0;65537],
                         } &lt; <span class="number">4i32
                             </span>&amp;&amp; (position.wrapping_add(hasher.HashTypeLength()) &lt; pos_end)
                         {
-                            {
-                                <span class="kw">break </span><span class="lifetime">'continue7</span>;
-                            }
+                            <span class="kw">break </span><span class="lifetime">'continue7</span>;
                         }
                     }
                     <span class="kw">break </span><span class="lifetime">'break6</span>;
@@ -5255,7 +5221,7 @@ buckets_:[0;65537],
             apply_random_heuristics = position
                 .wrapping_add((<span class="number">2usize</span>).wrapping_mul(sr.len))
                 .wrapping_add(random_heuristics_window_size);
-            max_distance = brotli_min_size_t(position, max_backward_limit);
+            max_distance = min(position, max_backward_limit);
             {
                 <span class="kw">let </span>distance_code: usize =
                     ComputeDistanceCode(sr.distance, max_distance, dist_cache);
@@ -5267,13 +5233,10 @@ buckets_:[0;65537],
                     hasher.PrepareDistanceCache(dist_cache);
                 }
                 new_commands_count += <span class="number">1</span>;
-                InitCommand(
-                    {
-                        <span class="kw">let </span>(<span class="kw-2">mut </span>_old, new_commands) =
-                            core::mem::take(<span class="kw-2">&amp;mut </span>commands).split_at_mut(<span class="number">1</span>);
-                        commands = new_commands;
-                        <span class="kw-2">&amp;mut </span>_old[<span class="number">0</span>]
-                    },
+
+                <span class="kw">let </span>(old, new_commands) = core::mem::take(<span class="kw-2">&amp;mut </span>commands).split_at_mut(<span class="number">1</span>);
+                commands = new_commands;
+                old[<span class="number">0</span>].init(
                     <span class="kw-2">&amp;</span>params.dist,
                     insert_length,
                     sr.len,
@@ -5287,7 +5250,7 @@ buckets_:[0;65537],
                 ringbuffer,
                 ringbuffer_mask,
                 position.wrapping_add(<span class="number">2</span>),
-                brotli_min_size_t(position.wrapping_add(sr.len), store_end),
+                min(position.wrapping_add(sr.len), store_end),
             );
             position = position.wrapping_add(sr.len);
         } <span class="kw">else </span>{
@@ -5295,8 +5258,7 @@ buckets_:[0;65537],
             position = position.wrapping_add(<span class="number">1</span>);
 
             <span class="kw">if </span>position &gt; apply_random_heuristics {
-                <span class="kw">let </span>kMargin: usize =
-                    brotli_max_size_t(hasher.StoreLookahead().wrapping_sub(<span class="number">1</span>), <span class="number">4usize</span>);
+                <span class="kw">let </span>kMargin: usize = max(hasher.StoreLookahead().wrapping_sub(<span class="number">1</span>), <span class="number">4</span>);
                 <span class="kw">if </span>position.wrapping_add(<span class="number">16</span>) &gt;= pos_end.wrapping_sub(kMargin) {
                     insert_length = insert_length.wrapping_add(pos_end - position);
                     position = pos_end;
