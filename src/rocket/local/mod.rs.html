@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rocket-0.5.1/src/local/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../../../static.files/storage-4e99c027.js"></script><script defer src="../../../static.files/src-script-63605ae7.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">rocket/local/</div>mod.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! Structures for local dispatching of requests, primarily for testing.
+<a href=#2 id=2 data-nosnippet>2</a>//!
+<a href=#3 id=3 data-nosnippet>3</a>//! This module allows for simple request dispatching against a local,
+<a href=#4 id=4 data-nosnippet>4</a>//! non-networked instance of Rocket. The primary use of this module is to unit
+<a href=#5 id=5 data-nosnippet>5</a>//! and integration test Rocket applications by crafting requests, dispatching
+<a href=#6 id=6 data-nosnippet>6</a>//! them, and verifying the response.
+<a href=#7 id=7 data-nosnippet>7</a>//!
+<a href=#8 id=8 data-nosnippet>8</a>//! # Async. vs. Blocking
+<a href=#9 id=9 data-nosnippet>9</a>//!
+<a href=#10 id=10 data-nosnippet>10</a>//! This module contains two variants, in its two submodules, of the same local
+<a href=#11 id=11 data-nosnippet>11</a>//! API: [`asynchronous`], and [`blocking`]. As their names imply, the
+<a href=#12 id=12 data-nosnippet>12</a>//! `asynchronous` API is `async`, returning a `Future` for operations that
+<a href=#13 id=13 data-nosnippet>13</a>//! would otherwise block, while `blocking` blocks for the same operations.
+<a href=#14 id=14 data-nosnippet>14</a>//!
+<a href=#15 id=15 data-nosnippet>15</a>//! Unless your request handling requires concurrency to make progress, or
+<a href=#16 id=16 data-nosnippet>16</a>//! you're making use of a `Client` in an environment that necessitates or would
+<a href=#17 id=17 data-nosnippet>17</a>//! benefit from concurrency, you should use the `blocking` set of APIs due
+<a href=#18 id=18 data-nosnippet>18</a>//! their ease-of-use. If your request handling _does_ require concurrency to
+<a href=#19 id=19 data-nosnippet>19</a>//! make progress, for instance by having one handler `await` a response
+<a href=#20 id=20 data-nosnippet>20</a>//! generated from a request to another handler, use the `asynchronous` set of
+<a href=#21 id=21 data-nosnippet>21</a>//! APIs.
+<a href=#22 id=22 data-nosnippet>22</a>//!
+<a href=#23 id=23 data-nosnippet>23</a>//! Both APIs include a `Client` structure that is used to create `LocalRequest`
+<a href=#24 id=24 data-nosnippet>24</a>//! structures that can be dispatched against a given [`Rocket`](crate::Rocket)
+<a href=#25 id=25 data-nosnippet>25</a>//! instance to yield a `LocalResponse` structure. The APIs are identical except
+<a href=#26 id=26 data-nosnippet>26</a>//! in that the `asynchronous` APIs return `Future`s for otherwise blocking
+<a href=#27 id=27 data-nosnippet>27</a>//! operations.
+<a href=#28 id=28 data-nosnippet>28</a>//!
+<a href=#29 id=29 data-nosnippet>29</a>//! # Unit/Integration Testing
+<a href=#30 id=30 data-nosnippet>30</a>//!
+<a href=#31 id=31 data-nosnippet>31</a>//! This module is primarily intended to be used to test a Rocket application by
+<a href=#32 id=32 data-nosnippet>32</a>//! constructing requests via `Client`, dispatching them, and validating the
+<a href=#33 id=33 data-nosnippet>33</a>//! resulting response. As a complete example, consider the following "Hello,
+<a href=#34 id=34 data-nosnippet>34</a>//! world!" application, with testing.
+<a href=#35 id=35 data-nosnippet>35</a>//!
+<a href=#36 id=36 data-nosnippet>36</a>//! ```rust
+<a href=#37 id=37 data-nosnippet>37</a>//! #[macro_use] extern crate rocket;
+<a href=#38 id=38 data-nosnippet>38</a>//!
+<a href=#39 id=39 data-nosnippet>39</a>//! #[get("/")]
+<a href=#40 id=40 data-nosnippet>40</a>//! fn hello() -&gt; &amp;'static str {
+<a href=#41 id=41 data-nosnippet>41</a>//!     "Hello, world!"
+<a href=#42 id=42 data-nosnippet>42</a>//! }
+<a href=#43 id=43 data-nosnippet>43</a>//!
+<a href=#44 id=44 data-nosnippet>44</a>//! #[launch]
+<a href=#45 id=45 data-nosnippet>45</a>//! fn rocket() -&gt; _ {
+<a href=#46 id=46 data-nosnippet>46</a>//!     rocket::build().mount("/", routes![hello])
+<a href=#47 id=47 data-nosnippet>47</a>//! }
+<a href=#48 id=48 data-nosnippet>48</a>//!
+<a href=#49 id=49 data-nosnippet>49</a>//! #[cfg(test)]
+<a href=#50 id=50 data-nosnippet>50</a>//! mod test {
+<a href=#51 id=51 data-nosnippet>51</a>//!     // Using the preferred `blocking` API.
+<a href=#52 id=52 data-nosnippet>52</a>//!     #[test]
+<a href=#53 id=53 data-nosnippet>53</a>//!     fn test_hello_world_blocking() {
+<a href=#54 id=54 data-nosnippet>54</a>//!         use rocket::local::blocking::Client;
+<a href=#55 id=55 data-nosnippet>55</a>//!
+<a href=#56 id=56 data-nosnippet>56</a>//!         // Construct a client to use for dispatching requests.
+<a href=#57 id=57 data-nosnippet>57</a>//!         let client = Client::tracked(super::rocket())
+<a href=#58 id=58 data-nosnippet>58</a>//!             .expect("valid `Rocket`");
+<a href=#59 id=59 data-nosnippet>59</a>//!
+<a href=#60 id=60 data-nosnippet>60</a>//!         // Dispatch a request to 'GET /' and validate the response.
+<a href=#61 id=61 data-nosnippet>61</a>//!         let response = client.get("/").dispatch();
+<a href=#62 id=62 data-nosnippet>62</a>//!         assert_eq!(response.into_string().unwrap(), "Hello, world!");
+<a href=#63 id=63 data-nosnippet>63</a>//!     }
+<a href=#64 id=64 data-nosnippet>64</a>//!
+<a href=#65 id=65 data-nosnippet>65</a>//!     // Using the `asynchronous` API.
+<a href=#66 id=66 data-nosnippet>66</a>//!     #[rocket::async_test]
+<a href=#67 id=67 data-nosnippet>67</a>//!     async fn test_hello_world_async() {
+<a href=#68 id=68 data-nosnippet>68</a>//!         use rocket::local::asynchronous::Client;
+<a href=#69 id=69 data-nosnippet>69</a>//!
+<a href=#70 id=70 data-nosnippet>70</a>//!         // Construct a client to use for dispatching requests.
+<a href=#71 id=71 data-nosnippet>71</a>//!         let client = Client::tracked(super::rocket()).await
+<a href=#72 id=72 data-nosnippet>72</a>//!             .expect("valid `Rocket`");
+<a href=#73 id=73 data-nosnippet>73</a>//!
+<a href=#74 id=74 data-nosnippet>74</a>//!         // Dispatch a request to 'GET /' and validate the response.
+<a href=#75 id=75 data-nosnippet>75</a>//!         let response = client.get("/").dispatch().await;
+<a href=#76 id=76 data-nosnippet>76</a>//!         assert_eq!(response.into_string().await.unwrap(), "Hello, world!");
+<a href=#77 id=77 data-nosnippet>77</a>//!     }
+<a href=#78 id=78 data-nosnippet>78</a>//! }
+<a href=#79 id=79 data-nosnippet>79</a>//! ```
+<a href=#80 id=80 data-nosnippet>80</a>//!
+<a href=#81 id=81 data-nosnippet>81</a>//! For more details on testing, see the [testing guide].
+<a href=#82 id=82 data-nosnippet>82</a>//!
+<a href=#83 id=83 data-nosnippet>83</a>//! [testing guide]: https://rocket.rs/v0.5/guide/testing/
+<a href=#84 id=84 data-nosnippet>84</a>//! [`Client`]: crate::local::asynchronous::Client
+<a href=#85 id=85 data-nosnippet>85</a>//!
+<a href=#86 id=86 data-nosnippet>86</a>//! # `Client`
+<a href=#87 id=87 data-nosnippet>87</a>//!
+<a href=#88 id=88 data-nosnippet>88</a>//! A `Client`, either [`blocking::Client`] or [`asynchronous::Client`],
+<a href=#89 id=89 data-nosnippet>89</a>//! referred to as simply [`Client`] and [`async` `Client`], respectively,
+<a href=#90 id=90 data-nosnippet>90</a>//! constructs requests for local dispatching.
+<a href=#91 id=91 data-nosnippet>91</a>//!
+<a href=#92 id=92 data-nosnippet>92</a>//! **Usage**
+<a href=#93 id=93 data-nosnippet>93</a>//!
+<a href=#94 id=94 data-nosnippet>94</a>//! A `Client` is constructed via the [`tracked()`] ([`async` `tracked()`]) or
+<a href=#95 id=95 data-nosnippet>95</a>//! [`untracked()`] ([`async` `untracked()`]) methods from an already
+<a href=#96 id=96 data-nosnippet>96</a>//! constructed `Rocket` instance. Once a value of `Client` has been
+<a href=#97 id=97 data-nosnippet>97</a>//! constructed, [`get()`], [`put()`], [`post()`], and so on ([`async` `get()`],
+<a href=#98 id=98 data-nosnippet>98</a>//! [`async` `put()`], [`async` `post()`]) can be called to create a
+<a href=#99 id=99 data-nosnippet>99</a>//! [`LocalRequest`] ([`async` `LocalRequest`]) for dispatching.
+<a href=#100 id=100 data-nosnippet>100</a>//!
+<a href=#101 id=101 data-nosnippet>101</a>//! **Cookie Tracking**
+<a href=#102 id=102 data-nosnippet>102</a>//!
+<a href=#103 id=103 data-nosnippet>103</a>//! A `Client` constructed using `tracked()` propagates cookie changes made by
+<a href=#104 id=104 data-nosnippet>104</a>//! responses to previously dispatched requests. In other words, if a previously
+<a href=#105 id=105 data-nosnippet>105</a>//! dispatched request resulted in a response that adds a cookie, any future
+<a href=#106 id=106 data-nosnippet>106</a>//! requests will contain that cookie. Similarly, cookies removed by a response
+<a href=#107 id=107 data-nosnippet>107</a>//! won't be propagated further.
+<a href=#108 id=108 data-nosnippet>108</a>//!
+<a href=#109 id=109 data-nosnippet>109</a>//! This is typically the desired mode of operation for a `Client` as it removes
+<a href=#110 id=110 data-nosnippet>110</a>//! the burden of manually tracking cookies. Under some circumstances, however,
+<a href=#111 id=111 data-nosnippet>111</a>//! disabling this tracking may be desired. In these cases, use the
+<a href=#112 id=112 data-nosnippet>112</a>//! `untracked()` constructor to create a `Client` that _will not_ track
+<a href=#113 id=113 data-nosnippet>113</a>//! cookies.
+<a href=#114 id=114 data-nosnippet>114</a>//!
+<a href=#115 id=115 data-nosnippet>115</a>//! [`Client`]: blocking::Client
+<a href=#116 id=116 data-nosnippet>116</a>//! [`async` `Client`]: asynchronous::Client
+<a href=#117 id=117 data-nosnippet>117</a>//! [`LocalRequest`]: blocking::LocalRequest
+<a href=#118 id=118 data-nosnippet>118</a>//! [`async` `LocalRequest`]: asynchronous::LocalRequest
+<a href=#119 id=119 data-nosnippet>119</a>//!
+<a href=#120 id=120 data-nosnippet>120</a>//! [`tracked()`]: blocking::Client::tracked()
+<a href=#121 id=121 data-nosnippet>121</a>//! [`untracked()`]: blocking::Client::untracked()
+<a href=#122 id=122 data-nosnippet>122</a>//! [`async` `tracked()`]: asynchronous::Client::tracked()
+<a href=#123 id=123 data-nosnippet>123</a>//! [`async` `untracked()`]: asynchronous::Client::untracked()
+<a href=#124 id=124 data-nosnippet>124</a>//!
+<a href=#125 id=125 data-nosnippet>125</a>//! [`get()`]: blocking::Client::get()
+<a href=#126 id=126 data-nosnippet>126</a>//! [`put()`]: blocking::Client::put()
+<a href=#127 id=127 data-nosnippet>127</a>//! [`post()`]: blocking::Client::post()
+<a href=#128 id=128 data-nosnippet>128</a>//! [`async` `get()`]: asynchronous::Client::get()
+<a href=#129 id=129 data-nosnippet>129</a>//! [`async` `put()`]: asynchronous::Client::put()
+<a href=#130 id=130 data-nosnippet>130</a>//! [`async` `post()`]: asynchronous::Client::post()
+<a href=#131 id=131 data-nosnippet>131</a>//!
+<a href=#132 id=132 data-nosnippet>132</a>//! **Example**
+<a href=#133 id=133 data-nosnippet>133</a>//!
+<a href=#134 id=134 data-nosnippet>134</a>//! For a usage example, see [`Client`] or [`async` `Client`].
+<a href=#135 id=135 data-nosnippet>135</a>//!
+<a href=#136 id=136 data-nosnippet>136</a>//! # `LocalRequest`
+<a href=#137 id=137 data-nosnippet>137</a>//!
+<a href=#138 id=138 data-nosnippet>138</a>//! A [`LocalRequest`] ([`async` `LocalRequest`]) is constructed via a `Client`.
+<a href=#139 id=139 data-nosnippet>139</a>//! Once obtained, headers, cookies, including private cookies, the remote IP
+<a href=#140 id=140 data-nosnippet>140</a>//! address, and the request body can all be set via methods on the
+<a href=#141 id=141 data-nosnippet>141</a>//! `LocalRequest` structure.
+<a href=#142 id=142 data-nosnippet>142</a>//!
+<a href=#143 id=143 data-nosnippet>143</a>//! **Dispatching**
+<a href=#144 id=144 data-nosnippet>144</a>//!
+<a href=#145 id=145 data-nosnippet>145</a>//! A `LocalRequest` is dispatched by calling [`dispatch()`] ([`async`
+<a href=#146 id=146 data-nosnippet>146</a>//! `dispatch()`]). The `LocalRequest` is consumed and a [`LocalResponse`]
+<a href=#147 id=147 data-nosnippet>147</a>//! ([`async` `LocalResponse`]) is returned.
+<a href=#148 id=148 data-nosnippet>148</a>//!
+<a href=#149 id=149 data-nosnippet>149</a>//! Note that `LocalRequest` implements [`Clone`]. As such, if the same request
+<a href=#150 id=150 data-nosnippet>150</a>//! needs to be dispatched multiple times, the request can first be cloned and
+<a href=#151 id=151 data-nosnippet>151</a>//! then dispatched: `request.clone().dispatch()`.
+<a href=#152 id=152 data-nosnippet>152</a>//!
+<a href=#153 id=153 data-nosnippet>153</a>//! **Example**
+<a href=#154 id=154 data-nosnippet>154</a>//!
+<a href=#155 id=155 data-nosnippet>155</a>//! For a usage example, see [`LocalRequest`] or [`async` `LocalRequest`].
+<a href=#156 id=156 data-nosnippet>156</a>//!
+<a href=#157 id=157 data-nosnippet>157</a>//! [`LocalResponse`]: blocking::LocalResponse
+<a href=#158 id=158 data-nosnippet>158</a>//! [`async` `LocalResponse`]: asynchronous::LocalResponse
+<a href=#159 id=159 data-nosnippet>159</a>//! [`dispatch()`]: blocking::LocalRequest::dispatch()
+<a href=#160 id=160 data-nosnippet>160</a>//! [`async` `dispatch()`]: asynchronous::LocalRequest::dispatch()
+<a href=#161 id=161 data-nosnippet>161</a>//!
+<a href=#162 id=162 data-nosnippet>162</a>//! # `LocalResponse`
+<a href=#163 id=163 data-nosnippet>163</a>//!
+<a href=#164 id=164 data-nosnippet>164</a>//! The result of `dispatch()`ing a `LocalRequest` is a [`LocalResponse`]
+<a href=#165 id=165 data-nosnippet>165</a>//! ([`async` `LocalResponse`]). A `LocalResponse` can be queried for response
+<a href=#166 id=166 data-nosnippet>166</a>//! metadata, including the HTTP status, headers, and cookies, via its getter
+<a href=#167 id=167 data-nosnippet>167</a>//! methods. Additionally, the body of the response can be read into a string
+<a href=#168 id=168 data-nosnippet>168</a>//! ([`into_string()`] or [`async` `into_string()`]) or a vector
+<a href=#169 id=169 data-nosnippet>169</a>//! ([`into_bytes()`] or [`async` `into_bytes()`]).
+<a href=#170 id=170 data-nosnippet>170</a>//!
+<a href=#171 id=171 data-nosnippet>171</a>//! The response body must also be read directly using standard I/O mechanisms:
+<a href=#172 id=172 data-nosnippet>172</a>//! the `blocking` `LocalResponse` implements `Read` while the `async`
+<a href=#173 id=173 data-nosnippet>173</a>//! `LocalResponse` implements `AsyncRead`.
+<a href=#174 id=174 data-nosnippet>174</a>//!
+<a href=#175 id=175 data-nosnippet>175</a>//! For a usage example, see [`LocalResponse`] or [`async` `LocalResponse`].
+<a href=#176 id=176 data-nosnippet>176</a>//!
+<a href=#177 id=177 data-nosnippet>177</a>//! [`into_string()`]: blocking::LocalResponse::into_string()
+<a href=#178 id=178 data-nosnippet>178</a>//! [`async` `into_string()`]: asynchronous::LocalResponse::into_string()
+<a href=#179 id=179 data-nosnippet>179</a>//! [`into_bytes()`]: blocking::LocalResponse::into_bytes()
+<a href=#180 id=180 data-nosnippet>180</a>//! [`async` `into_bytes()`]: asynchronous::LocalResponse::into_bytes()
+<a href=#181 id=181 data-nosnippet>181</a>
+<a href=#182 id=182 data-nosnippet>182</a></span><span class="attr">#[macro_use] </span><span class="kw">mod </span>client;
+<a href=#183 id=183 data-nosnippet>183</a><span class="attr">#[macro_use] </span><span class="kw">mod </span>request;
+<a href=#184 id=184 data-nosnippet>184</a><span class="attr">#[macro_use] </span><span class="kw">mod </span>response;
+<a href=#185 id=185 data-nosnippet>185</a>
+<a href=#186 id=186 data-nosnippet>186</a><span class="kw">pub mod </span>asynchronous;
+<a href=#187 id=187 data-nosnippet>187</a><span class="kw">pub mod </span>blocking;</code></pre></div></section></main></body></html>

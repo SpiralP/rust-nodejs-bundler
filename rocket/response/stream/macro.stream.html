@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Retrofitted support for `Stream`s with `yield`, `for await` syntax."><title>stream in rocket::response::stream - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../../../static.files/storage-4e99c027.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../../../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">stream</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">Examples</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In rocket::<wbr>response::<wbr>stream</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">rocket</a>::<wbr><a href="../index.html">response</a>::<wbr><a href="index.html">stream</a></div><h1>Macro <span class="macro">stream</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/rocket/response/stream/mod.rs.html#206-288">Source</a> </span></div><pre class="rust item-decl"><code>pub macro stream($($t:tt)*) {
+    ...
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Retrofitted support for <a href="https://docs.rs/futures/0.3/futures/stream/trait.Stream.html"><code>Stream</code></a>s with <code>yield</code>, <code>for await</code> syntax.</p>
+<p>This macro takes any series of statements and expands them into an
+expression of type <code>impl Stream&lt;Item = T&gt;</code>, a stream that <code>yield</code>s
+elements of type <code>T</code>. It supports any Rust statement syntax with the
+following extensions:</p>
+<ul>
+<li>
+<p><code>yield expr</code></p>
+<p>Yields the result of evaluating <code>expr</code> to the caller (the stream
+consumer). <code>expr</code> must be of type <code>T</code>.</p>
+</li>
+<li>
+<p><code>for await x in stream { .. }</code></p>
+<p><code>await</code>s the next element in <code>stream</code>, binds it to <code>x</code>, and
+executes the block with the binding. <code>stream</code> must implement
+<code>Stream&lt;Item = T&gt;</code>; the type of <code>x</code> is <code>T</code>.</p>
+</li>
+<li>
+<p><code>?</code> short-circuits stream termination on <code>Err</code></p>
+</li>
+</ul>
+<h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::response::stream::stream;
+<span class="kw">use </span>rocket::futures::stream::Stream;
+
+<span class="kw">fn </span>f(stream: <span class="kw">impl </span>Stream&lt;Item = u8&gt;) -&gt; <span class="kw">impl </span>Stream&lt;Item = String&gt; {
+    <span class="macro">stream!</span> {
+        <span class="kw">for </span>s <span class="kw">in </span><span class="kw-2">&amp;</span>[<span class="string">"hi"</span>, <span class="string">"there"</span>]{
+            <span class="kw">yield </span>s.to_string();
+        }
+
+        <span class="kw">for await </span>n <span class="kw">in </span>stream {
+            <span class="kw">yield </span><span class="macro">format!</span>(<span class="string">"n: {}"</span>, n);
+        }
+    }
+}
+
+<span class="kw">use </span>rocket::futures::stream::{<span class="self">self</span>, StreamExt};
+
+<span class="kw">let </span>stream = f(stream::iter(<span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">7</span>, <span class="number">11</span>]));
+<span class="kw">let </span>strings: Vec&lt;<span class="kw">_</span>&gt; = stream.collect().<span class="kw">await</span>;
+<span class="macro">assert_eq!</span>(strings, [<span class="string">"hi"</span>, <span class="string">"there"</span>, <span class="string">"n: 3"</span>, <span class="string">"n: 7"</span>, <span class="string">"n: 11"</span>]);</code></pre></div>
+<p>Using <code>?</code> on an <code>Err</code> short-circuits stream termination:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::io;
+
+<span class="kw">use </span>rocket::response::stream::stream;
+<span class="kw">use </span>rocket::futures::stream::Stream;
+
+<span class="kw">fn </span>g&lt;S&gt;(stream: S) -&gt; <span class="kw">impl </span>Stream&lt;Item = io::Result&lt;u8&gt;&gt;
+    <span class="kw">where </span>S: Stream&lt;Item = io::Result&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt;&gt;
+{
+    <span class="macro">stream!</span> {
+        <span class="kw">for await </span>s <span class="kw">in </span>stream {
+            <span class="kw">let </span>num = s<span class="question-mark">?</span>.parse();
+            <span class="kw">let </span>num = num.map_err(|e| io::Error::new(io::ErrorKind::Other, e))<span class="question-mark">?</span>;
+            <span class="kw">yield </span><span class="prelude-val">Ok</span>(num);
+        }
+    }
+}
+
+<span class="kw">use </span>rocket::futures::stream::{<span class="self">self</span>, StreamExt};
+
+<span class="kw">let </span>e = io::Error::last_os_error();
+<span class="kw">let </span>stream = g(stream::iter(<span class="macro">vec!</span>[<span class="prelude-val">Ok</span>(<span class="string">"3"</span>), <span class="prelude-val">Ok</span>(<span class="string">"four"</span>), <span class="prelude-val">Err</span>(e), <span class="prelude-val">Ok</span>(<span class="string">"2"</span>)]));
+<span class="kw">let </span>results: Vec&lt;<span class="kw">_</span>&gt; = stream.collect().<span class="kw">await</span>;
+<span class="macro">assert!</span>(<span class="macro">matches!</span>(results.as_slice(), <span class="kw-2">&amp;</span>[<span class="prelude-val">Ok</span>(<span class="number">3</span>), <span class="prelude-val">Err</span>(<span class="kw">_</span>)]));</code></pre></div>
+</div></details></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["TempFile"],"macro":["relative"],"struct":["FileName","FileServer","NamedFile","Options"]};

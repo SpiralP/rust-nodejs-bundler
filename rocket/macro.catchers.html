@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Generates a `Vec` of `Catcher`s from a set of catcher paths."><title>catchers in rocket - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../static.files/storage-4e99c027.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">rocket</a></div><h1>Macro <span class="macro">catchers</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rocket_codegen/lib.rs.html#1173">Source</a> </span></div><pre class="rust item-decl"><code>catchers!() { <span class="comment">/* proc-macro */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Generates a <code>Vec</code> of <a href="../rocket/struct.Catcher.html"><code>Catcher</code></a>s from a set of catcher paths.</p>
+<p>The <code>catchers!</code> macro expands a list of catcher paths into a <code>Vec</code> of
+their corresponding <a href="../rocket/struct.Catcher.html"><code>Catcher</code></a> structures. For example, given the following
+catchers:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[catch(<span class="number">404</span>)]
+</span><span class="kw">fn </span>not_found() { <span class="comment">/* .. */ </span>}
+
+<span class="kw">mod </span>inner {
+    <span class="attr">#[catch(<span class="number">400</span>)]
+    </span><span class="kw">pub fn </span>unauthorized() { <span class="comment">/* .. */ </span>}
+}
+
+<span class="attr">#[catch(default)]
+</span><span class="kw">fn </span>default_catcher() { <span class="comment">/* .. */ </span>}</code></pre></div>
+<p>The <code>catchers!</code> macro can be used as:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>my_catchers = <span class="macro">catchers!</span>[not_found, inner::unauthorized, default_catcher];
+<span class="macro">assert_eq!</span>(my_catchers.len(), <span class="number">3</span>);
+
+<span class="kw">let </span>not_found = <span class="kw-2">&amp;</span>my_catchers[<span class="number">0</span>];
+<span class="macro">assert_eq!</span>(not_found.code, <span class="prelude-val">Some</span>(<span class="number">404</span>));
+
+<span class="kw">let </span>unauthorized = <span class="kw-2">&amp;</span>my_catchers[<span class="number">1</span>];
+<span class="macro">assert_eq!</span>(unauthorized.code, <span class="prelude-val">Some</span>(<span class="number">400</span>));
+
+<span class="kw">let </span>default = <span class="kw-2">&amp;</span>my_catchers[<span class="number">2</span>];
+<span class="macro">assert_eq!</span>(default.code, <span class="prelude-val">None</span>);</code></pre></div>
+<p>The grammar for <code>catchers!</code> is defined as:</p>
+<div class="example-wrap"><pre class="language-text"><code>catchers := PATH (&#39;,&#39; PATH)*
+
+PATH := a path, as defined by Rust</code></pre></div></div></details></section></div></main></body></html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A set of builders to generate Rust source for PHF data structures at compile time."><title>phf_codegen - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="phf_codegen" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../static.files/storage-4e99c027.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../phf_codegen/index.html">phf_<wbr>codegen</a><span class="version">0.11.3</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#examples" title="Examples">Examples</a><ul><li><a href="#byte-string-keys" title="Byte-String Keys">Byte-String Keys</a></li></ul></li><li><a href="#note" title="Note">Note</a></li></ul><h3><a href="#structs">Crate Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>phf_codegen</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/phf_codegen/lib.rs.html#1-502">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A set of builders to generate Rust source for PHF data structures at
+compile time.</p>
+<p>The provided builders are intended to be used in a Cargo build script to
+generate a Rust source file that will be included in a library at build
+time.</p>
+<p>For more information about <code>rust-phf</code> crates, see <a href="https://docs.rs/phf">the <code>phf</code> crate’s documentation</a>.</p>
+<h3 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h3>
+<p>To use <code>phf_codegen</code> on build.rs, you have to add dependencies under <code>[build-dependencies]</code>:</p>
+<div class="example-wrap"><pre class="language-toml"><code>[build-dependencies]
+phf = { version = &quot;0.11.1&quot;, default-features = false }
+phf_codegen = &quot;0.11.1&quot;</code></pre></div>
+<p>Then put code on build.rs:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::env;
+<span class="kw">use </span>std::fs::File;
+<span class="kw">use </span>std::io::{BufWriter, Write};
+<span class="kw">use </span>std::path::Path;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>path = Path::new(<span class="kw-2">&amp;</span>env::var(<span class="string">"OUT_DIR"</span>).unwrap()).join(<span class="string">"codegen.rs"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>file = BufWriter::new(File::create(<span class="kw-2">&amp;</span>path).unwrap());
+
+    <span class="macro">write!</span>(
+        <span class="kw-2">&amp;mut </span>file,
+        <span class="string">"static KEYWORDS: phf::Map&lt;&amp;'static str, Keyword&gt; = {}"</span>,
+        phf_codegen::Map::new()
+            .entry(<span class="string">"loop"</span>, <span class="string">"Keyword::Loop"</span>)
+            .entry(<span class="string">"continue"</span>, <span class="string">"Keyword::Continue"</span>)
+            .entry(<span class="string">"break"</span>, <span class="string">"Keyword::Break"</span>)
+            .entry(<span class="string">"fn"</span>, <span class="string">"Keyword::Fn"</span>)
+            .entry(<span class="string">"extern"</span>, <span class="string">"Keyword::Extern"</span>)
+            .build()
+    )
+    .unwrap();
+    <span class="macro">write!</span>(<span class="kw-2">&amp;mut </span>file, <span class="string">";\n"</span>).unwrap();
+}</code></pre></div>
+<p>and lib.rs:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[derive(Clone)]
+</span><span class="kw">enum </span>Keyword {
+    Loop,
+    Continue,
+    Break,
+    Fn,
+    Extern,
+}
+
+<span class="macro">include!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">"OUT_DIR"</span>), <span class="string">"/codegen.rs"</span>));
+
+<span class="kw">pub fn </span>parse_keyword(keyword: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Keyword&gt; {
+    KEYWORDS.get(keyword).cloned()
+}</code></pre></div>
+<h4 id="byte-string-keys"><a class="doc-anchor" href="#byte-string-keys">§</a>Byte-String Keys</h4>
+<p>Byte strings by default produce references to fixed-size arrays; the compiler needs a hint
+to coerce them to slices:</p>
+<p>build.rs:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::env;
+<span class="kw">use </span>std::fs::File;
+<span class="kw">use </span>std::io::{BufWriter, Write};
+<span class="kw">use </span>std::path::Path;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>path = Path::new(<span class="kw-2">&amp;</span>env::var(<span class="string">"OUT_DIR"</span>).unwrap()).join(<span class="string">"codegen.rs"</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>file = BufWriter::new(File::create(<span class="kw-2">&amp;</span>path).unwrap());
+
+    <span class="macro">writeln!</span>(
+        <span class="kw-2">&amp;mut </span>file,
+         <span class="string">"static KEYWORDS: phf::Map&lt;&amp;'static [u8], Keyword&gt; = \n{};\n"</span>,
+         phf_codegen::Map::&lt;<span class="kw-2">&amp;</span>[u8]&gt;::new()
+             .entry(<span class="string">b"loop"</span>, <span class="string">"Keyword::Loop"</span>)
+             .entry(<span class="string">b"continue"</span>, <span class="string">"Keyword::Continue"</span>)
+             .entry(<span class="string">b"break"</span>, <span class="string">"Keyword::Break"</span>)
+             .entry(<span class="string">b"fn"</span>, <span class="string">"Keyword::Fn"</span>)
+             .entry(<span class="string">b"extern"</span>, <span class="string">"Keyword::Extern"</span>)
+             .build()
+    ).unwrap();
+}</code></pre></div>
+<p>lib.rs:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[derive(Clone)]
+</span><span class="kw">enum </span>Keyword {
+    Loop,
+    Continue,
+    Break,
+    Fn,
+    Extern,
+}
+
+<span class="macro">include!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">"OUT_DIR"</span>), <span class="string">"/codegen.rs"</span>));
+
+<span class="kw">pub fn </span>parse_keyword(keyword: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;Keyword&gt; {
+    KEYWORDS.get(keyword).cloned()
+}</code></pre></div>
+<h3 id="note"><a class="doc-anchor" href="#note">§</a>Note</h3>
+<p>The compiler’s stack will overflow when processing extremely long method
+chains (500+ calls). When generating large PHF data structures, consider
+looping over the entries or making each call a separate statement:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>entries = [(<span class="string">"hello"</span>, <span class="string">"1"</span>), (<span class="string">"world"</span>, <span class="string">"2"</span>)];
+
+<span class="kw">let </span><span class="kw-2">mut </span>builder = phf_codegen::Map::new();
+<span class="kw">for </span><span class="kw-2">&amp;</span>(key, value) <span class="kw">in </span><span class="kw-2">&amp;</span>entries {
+    builder.entry(key, value);
+}
+<span class="comment">// ...</span></code></pre></div>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>builder = phf_codegen::Map::new();
+builder.entry(<span class="string">"hello"</span>, <span class="string">"1"</span>);
+builder.entry(<span class="string">"world"</span>, <span class="string">"2"</span>);
+<span class="comment">// ...</span></code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.DisplayMap.html" title="struct phf_codegen::DisplayMap">Display<wbr>Map</a></dt><dd>An adapter for printing a <a href="struct.Map.html" title="struct phf_codegen::Map"><code>Map</code></a>.</dd><dt><a class="struct" href="struct.DisplayOrderedMap.html" title="struct phf_codegen::DisplayOrderedMap">Display<wbr>Ordered<wbr>Map</a></dt><dd>An adapter for printing a <a href="struct.OrderedMap.html" title="struct phf_codegen::OrderedMap"><code>OrderedMap</code></a>.</dd><dt><a class="struct" href="struct.DisplayOrderedSet.html" title="struct phf_codegen::DisplayOrderedSet">Display<wbr>Ordered<wbr>Set</a></dt><dd>An adapter for printing a <a href="struct.OrderedSet.html" title="struct phf_codegen::OrderedSet"><code>OrderedSet</code></a>.</dd><dt><a class="struct" href="struct.DisplaySet.html" title="struct phf_codegen::DisplaySet">Display<wbr>Set</a></dt><dd>An adapter for printing a <a href="struct.Set.html" title="struct phf_codegen::Set"><code>Set</code></a>.</dd><dt><a class="struct" href="struct.Map.html" title="struct phf_codegen::Map">Map</a></dt><dd>A builder for the <code>phf::Map</code> type.</dd><dt><a class="struct" href="struct.OrderedMap.html" title="struct phf_codegen::OrderedMap">Ordered<wbr>Map</a></dt><dd>A builder for the <code>phf::OrderedMap</code> type.</dd><dt><a class="struct" href="struct.OrderedSet.html" title="struct phf_codegen::OrderedSet">Ordered<wbr>Set</a></dt><dd>A builder for the <code>phf::OrderedSet</code> type.</dd><dt><a class="struct" href="struct.Set.html" title="struct phf_codegen::Set">Set</a></dt><dd>A builder for the <code>phf::Set</code> type.</dd></dl></section></div></main></body></html>

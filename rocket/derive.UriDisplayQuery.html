@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Derive for the `UriDisplay&#60;Query&#62;` trait."><title>UriDisplayQuery in rocket - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../static.files/storage-4e99c027.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc derive"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">rocket</a></div><h1>Derive Macro <span class="derive">UriDisplayQuery</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rocket_codegen/lib.rs.html#1033">Source</a> </span></div><pre class="rust item-decl"><code>#[derive(UriDisplayQuery)]
+{
+    <span class="comment">// Attributes available to this derive:</span>
+    #[field]
+}
+</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Derive for the <a href="../rocket/http/uri/fmt/trait.UriDisplay.html"><code>UriDisplay&lt;Query&gt;</code></a> trait.</p>
+<p>The <a href="../rocket/http/uri/fmt/trait.UriDisplay.html"><code>UriDisplay&lt;Query&gt;</code></a> derive can be applied to enums and structs. When
+applied to an enum, the enum must have at least one variant. When applied to
+a struct, the struct must have at least one field.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[derive(UriDisplayQuery)]
+</span><span class="kw">enum </span>Kind {
+    A(String),
+    B(usize),
+}
+
+<span class="attr">#[derive(UriDisplayQuery)]
+</span><span class="kw">struct </span>MyStruct {
+    name: String,
+    id: usize,
+    kind: Kind,
+}</code></pre></div>
+<p>Each field’s type is required to implement <a href="../rocket/http/uri/fmt/trait.UriDisplay.html"><code>UriDisplay&lt;Query&gt;</code></a>.</p>
+<p>The derive generates an implementation of the <a href="../rocket/http/uri/fmt/trait.UriDisplay.html"><code>UriDisplay&lt;Query&gt;</code></a> trait.
+The implementation calls <a href="../rocket/http/uri/fmt/struct.Formatter.html#method.write_named_value"><code>Formatter::write_named_value()</code></a> for every named
+field, using the field’s name (unless overridden, explained next) as the
+<code>name</code> parameter, and <a href="../rocket/http/uri/fmt/struct.Formatter.html#method.write_value"><code>Formatter::write_value()</code></a> for every unnamed field
+in the order the fields are declared.</p>
+<p>The derive accepts one field attribute: <code>field</code>, with the following syntax:</p>
+<div class="example-wrap"><pre class="language-text"><code>field := &#39;name&#39; &#39;=&#39; &#39;&quot;&#39; FIELD_NAME &#39;&quot;&#39;
+       | &#39;value&#39; &#39;=&#39; &#39;&quot;&#39; FIELD_VALUE &#39;&quot;&#39;
+
+FIELD_NAME := valid HTTP field name
+FIELD_VALUE := valid HTTP field value</code></pre></div>
+<p>When applied to a struct, the attribute can only contain <code>name</code> and looks
+as follows:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[derive(UriDisplayQuery)]
+</span><span class="kw">struct </span>MyStruct {
+    name: String,
+    id: usize,
+    <span class="attr">#[field(name = <span class="string">"type"</span>)]
+    #[field(name = <span class="string">"kind"</span>)]
+    </span>kind: Kind,
+}</code></pre></div>
+<p>The field attribute directs that a different field name be used when calling
+<a href="../rocket/http/uri/fmt/struct.Formatter.html#method.write_named_value"><code>Formatter::write_named_value()</code></a> for the given field. The value of the
+<code>name</code> attribute is used instead of the structure’s actual field name. If
+more than one <code>field</code> attribute is applied to a field, the <em>first</em> name is
+used. In the example above, the field <code>MyStruct::kind</code> is rendered with a
+name of <code>type</code>.</p>
+<p>The attribute can also be applied to variants of C-like enums; it may only
+contain <code>value</code> and looks as follows:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[derive(UriDisplayQuery)]
+</span><span class="kw">enum </span>Kind {
+    File,
+    <span class="attr">#[field(value = <span class="string">"str"</span>)]
+    #[field(value = <span class="string">"string"</span>)]
+    </span>String,
+    Other
+}</code></pre></div>
+<p>The field attribute directs that a different value be used when calling
+<a href="../rocket/http/uri/fmt/struct.Formatter.html#method.write_named_value"><code>Formatter::write_named_value()</code></a> for the given variant. The value of the
+<code>value</code> attribute is used instead of the variant’s actual name. If more than
+one <code>field</code> attribute is applied to a variant, the <em>first</em> value is used. In
+the example above, the variant <code>Kind::String</code> will render with a value of
+<code>str</code>.</p>
+</div></details></section></div></main></body></html>

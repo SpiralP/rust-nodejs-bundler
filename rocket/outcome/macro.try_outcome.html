@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Unwraps a `Success` or propagates a `Forward` or `Error` by returning early."><title>try_outcome in rocket::outcome - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../../static.files/storage-4e99c027.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">try_<wbr>outcome</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#syntax" title="Syntax">Syntax</a><ul><li><a href="#example" title="Example">Example</a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In rocket::<wbr>outcome</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">rocket</a>::<wbr><a href="index.html">outcome</a></div><h1>Macro <span class="macro">try_outcome</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/rocket/outcome.rs.html#630-711">Source</a> </span></div><pre class="rust item-decl"><code>pub macro try_outcome($expr:expr $(,)?) {
+    ...
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Unwraps a <a href="enum.Outcome.html#variant.Success" title="variant rocket::outcome::Outcome::Success"><code>Success</code></a> or propagates a <code>Forward</code> or
+<code>Error</code> by returning early.</p>
+<h2 id="syntax"><a class="doc-anchor" href="#syntax">§</a>Syntax</h2>
+<p>The macro has the following “signature”:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::outcome::Outcome;
+
+<span class="comment">// Returns the inner `S` if `outcome` is `Outcome::Success`. Otherwise
+// returns from the caller with `Outcome&lt;impl From&lt;E&gt;, impl From&lt;F&gt;&gt;`.
+</span><span class="kw">fn </span>try_outcome&lt;S, E, F&gt;(outcome: Outcome&lt;S, E, F&gt;) -&gt; S</code></pre></div>
+<p>This is just like <code>?</code> (or previously, <code>try!</code>), but for <code>Outcome</code>. In the
+case of a <code>Forward</code> or <code>Error</code> variant, the inner type is passed to
+<a href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From"><code>From</code></a>, allowing for the conversion between
+specific and more general types. The resulting forward/error is
+immediately returned. Because of the early return, <code>try_outcome!</code> can
+only be used in methods that return <a href="enum.Outcome.html" title="enum rocket::outcome::Outcome"><code>Outcome</code></a>.</p>
+<h3 id="example"><a class="doc-anchor" href="#example">§</a>Example</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::sync::atomic::{AtomicUsize, Ordering};
+
+<span class="kw">use </span>rocket::State;
+<span class="kw">use </span>rocket::request::{<span class="self">self</span>, Request, FromRequest};
+<span class="kw">use </span>rocket::outcome::{try_outcome, Outcome::<span class="kw-2">*</span>};
+
+<span class="attr">#[derive(Default)]
+</span><span class="kw">struct </span>Atomics {
+    uncached: AtomicUsize,
+    cached: AtomicUsize,
+}
+
+<span class="kw">struct </span>Guard1;
+<span class="kw">struct </span>Guard2;
+
+<span class="attr">#[rocket::async_trait]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Guard1 {
+    <span class="kw">type </span>Error = ();
+
+    <span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, ()&gt; {
+        <span class="comment">// Attempt to fetch the guard, passing through any error or forward.
+        </span><span class="kw">let </span>atomics = <span class="macro">try_outcome!</span>(req.guard::&lt;<span class="kw-2">&amp;</span>State&lt;Atomics&gt;&gt;().<span class="kw">await</span>);
+        atomics.uncached.fetch_add(<span class="number">1</span>, Ordering::Relaxed);
+        req.local_cache(|| atomics.cached.fetch_add(<span class="number">1</span>, Ordering::Relaxed));
+
+        Success(Guard1)
+    }
+}
+
+<span class="attr">#[rocket::async_trait]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'r</span>&gt; FromRequest&lt;<span class="lifetime">'r</span>&gt; <span class="kw">for </span>Guard2 {
+    <span class="kw">type </span>Error = ();
+
+    <span class="kw">async fn </span>from_request(req: <span class="kw-2">&amp;</span><span class="lifetime">'r </span>Request&lt;<span class="lifetime">'_</span>&gt;) -&gt; request::Outcome&lt;<span class="self">Self</span>, ()&gt; {
+        <span class="comment">// Attempt to fetch the guard, passing through any error or forward.
+        </span><span class="kw">let </span>guard1: Guard1 = <span class="macro">try_outcome!</span>(req.guard::&lt;Guard1&gt;().<span class="kw">await</span>);
+        Success(Guard2)
+    }
+}</code></pre></div>
+</div></details></section></div></main></body></html>

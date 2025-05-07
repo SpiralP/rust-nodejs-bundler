@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["PackageManager"],"fn":["build"],"struct":["Builder"]};

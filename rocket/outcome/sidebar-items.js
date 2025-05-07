@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Outcome"],"macro":["try_outcome"],"trait":["IntoOutcome"]};

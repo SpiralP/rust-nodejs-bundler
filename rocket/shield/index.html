@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Security and privacy headers for all outgoing responses."><title>rocket::shield - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../../static.files/storage-4e99c027.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module shield</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#supported-headers" title="Supported Headers">Supported Headers</a></li><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#faq" title="FAQ">FAQ</a></li></ul><h3><a href="#structs">Module Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#traits" title="Traits">Traits</a></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="../index.html">In crate rocket</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">rocket</a></div><h1>Module <span>shield</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/rocket/shield/mod.rs.html#1-104">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Security and privacy headers for all outgoing responses.</p>
+<p>The <a href="struct.Shield.html" title="struct rocket::shield::Shield"><code>Shield</code></a> fairing provides a typed interface for injecting HTTP
+security and privacy headers into all outgoing responses. It takes some
+inspiration from <a href="https://helmetjs.github.io/">helmetjs</a>, a similar piece of middleware for <a href="https://expressjs.com">express</a>.</p>
+<h2 id="supported-headers"><a class="doc-anchor" href="#supported-headers">§</a>Supported Headers</h2><div><table><thead><tr><th>HTTP Header</th><th>Description</th><th>Policy</th><th>Default?</th></tr></thead><tbody>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a></td><td>Prevents some reflected XSS attacks.</td><td><a href="enum.XssFilter.html" title="enum rocket::shield::XssFilter"><code>XssFilter</code></a></td><td>✗</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a></td><td>Prevents client sniffing of MIME type.</td><td><a href="enum.NoSniff.html" title="enum rocket::shield::NoSniff"><code>NoSniff</code></a></td><td>✔</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a></td><td>Prevents <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking</a>.</td><td><a href="enum.Frame.html" title="enum rocket::shield::Frame"><code>Frame</code></a></td><td>✔</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a></td><td>Enforces strict use of HTTPS.</td><td><a href="enum.Hsts.html" title="enum rocket::shield::Hsts"><code>Hsts</code></a></td><td>?</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT">Expect-CT</a></td><td>Enables certificate transparency.</td><td><a href="enum.ExpectCt.html" title="enum rocket::shield::ExpectCt"><code>ExpectCt</code></a></td><td>✗</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a></td><td>Enables referrer policy.</td><td><a href="enum.Referrer.html" title="enum rocket::shield::Referrer"><code>Referrer</code></a></td><td>✗</td></tr>
+<tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control">X-DNS-Prefetch-Control</a></td><td>Controls browser DNS prefetching.</td><td><a href="enum.Prefetch.html" title="enum rocket::shield::Prefetch"><code>Prefetch</code></a></td><td>✗</td></tr>
+<tr><td><a href="https://github.com/w3c/webappsec-permissions-policy/blob/a45df7b237e2a85e1909d7f226ca4eb4ce5095ba/permissions-policy-explainer.md">Permissions-Policy</a></td><td>Allows or block browser features.</td><td><a href="struct.Permission.html" title="struct rocket::shield::Permission"><code>Permission</code></a></td><td>✔</td></tr>
+</tbody></table>
+</div>
+<p><small>? If TLS is enabled in a non-debug profile, HSTS is automatically
+enabled with its default policy and a warning is logged at liftoff.</small></p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p>By default, <a href="struct.Shield.html#method.default" title="associated function rocket::shield::Shield::default"><code>Shield::default()</code></a> is attached to all instances Rocket. To
+change the default, including removing all <code>Shield</code> headers, attach a
+configured instance of <a href="struct.Shield.html" title="struct rocket::shield::Shield"><code>Shield</code></a>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::shield::Shield;
+
+<span class="attr">#[launch]
+</span><span class="kw">fn </span>rocket() -&gt; <span class="kw">_ </span>{
+    <span class="comment">// Remove all `Shield` headers.
+    </span>rocket::build().attach(Shield::new())
+}</code></pre></div>
+<p>Each header can be configured individually. To enable a particular header,
+call the chainable <a href="struct.Shield.html#method.enable" title="method rocket::shield::Shield::enable"><code>enable()</code></a> method
+on an instance of <code>Shield</code>, passing in the configured policy type.
+Similarly, to disable a header, call the chainable
+<a href="struct.Shield.html#method.disable" title="method rocket::shield::Shield::disable"><code>disable()</code></a> method on an instance of
+<code>Shield</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>time::Duration;
+
+<span class="kw">use </span>rocket::http::uri::Uri;
+<span class="kw">use </span>rocket::shield::{Shield, Referrer, Prefetch, ExpectCt, NoSniff};
+
+<span class="kw">let </span>report_uri = <span class="macro">uri!</span>(<span class="string">"https://report.rocket.rs"</span>);
+<span class="kw">let </span>shield = Shield::default()
+    .enable(Referrer::NoReferrer)
+    .enable(Prefetch::Off)
+    .enable(ExpectCt::ReportAndEnforce(Duration::days(<span class="number">30</span>), report_uri))
+    .disable::&lt;NoSniff&gt;();</code></pre></div>
+<h2 id="faq"><a class="doc-anchor" href="#faq">§</a>FAQ</h2>
+<ul>
+<li>
+<p><strong>Which policies should I choose?</strong></p>
+<p>See the links in the table above for individual header documentation. The
+<a href="https://helmetjs.github.io/">helmetjs</a> docs are also a good resource, and <a href="https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#tab=Headers">OWASP</a> has a collection of
+references on these headers.</p>
+</li>
+<li>
+<p><strong>Do I need any headers beyond what <code>Shield</code> enables by default?</strong></p>
+<p>Maybe! The other headers may protect against many important
+vulnerabilities. Please consult their documentation and other resources to
+determine if they are needed for your project.</p>
+</li>
+</ul>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Permission.html" title="struct rocket::shield::Permission">Permission</a></dt><dd>The <a href="https://github.com/w3c/webappsec-permissions-policy/blob/a45df7b237e2a85e1909d7f226ca4eb4ce5095ba/permissions-policy-explainer.md">Permissions-Policy</a> header: allow or block the use of browser features.</dd><dt><a class="struct" href="struct.Shield.html" title="struct rocket::shield::Shield">Shield</a></dt><dd>A <a href="../fairing/trait.Fairing.html" title="trait rocket::fairing::Fairing"><code>Fairing</code></a> that injects browser security and privacy headers into all
+outgoing responses.</dd></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Allow.html" title="enum rocket::shield::Allow">Allow</a></dt><dd>Specifies the origin(s) allowed to access a browser <a href="enum.Feature.html" title="enum rocket::shield::Feature"><code>Feature</code></a> via
+<a href="struct.Permission.html" title="struct rocket::shield::Permission"><code>Permission</code></a>.</dd><dt><a class="enum" href="enum.ExpectCt.html" title="enum rocket::shield::ExpectCt">Expect<wbr>Ct</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT">Expect-CT</a> header: enables reporting and/or enforcement of <a href="http://www.certificate-transparency.org/what-is-ct">Certificate
+Transparency</a>.</dd><dt><a class="enum" href="enum.Feature.html" title="enum rocket::shield::Feature">Feature</a></dt><dd>A browser feature that can be enabled or blocked via <a href="struct.Permission.html" title="struct rocket::shield::Permission"><code>Permission</code></a>.</dd><dt><a class="enum" href="enum.Frame.html" title="enum rocket::shield::Frame">Frame</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options">X-Frame-Options</a> header: helps prevent <a href="https://en.wikipedia.org/wiki/Clickjacking">clickjacking</a> attacks.</dd><dt><a class="enum" href="enum.Hsts.html" title="enum rocket::shield::Hsts">Hsts</a></dt><dd>The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security">Strict-Transport-Security</a> (HSTS) header: enforces strict HTTPS
+usage.</dd><dt><a class="enum" href="enum.NoSniff.html" title="enum rocket::shield::NoSniff">NoSniff</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options">X-Content-Type-Options</a> header: turns off <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#MIME_sniffing">mime sniffing</a> which can
+prevent certain <a href="https://blog.mozilla.org/security/2016/08/26/mitigating-mime-confusion-attacks-in-firefox/">attacks</a>.</dd><dt><a class="enum" href="enum.Prefetch.html" title="enum rocket::shield::Prefetch">Prefetch</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control">X-DNS-Prefetch-Control</a> header: controls browser DNS prefetching.</dd><dt><a class="enum" href="enum.Referrer.html" title="enum rocket::shield::Referrer">Referrer</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy">Referrer-Policy</a> header: controls the value set by the browser for the
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer">Referer</a> header.</dd><dt><a class="enum" href="enum.XssFilter.html" title="enum rocket::shield::XssFilter">XssFilter</a></dt><dd>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection">X-XSS-Protection</a> header: filters some forms of reflected <a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting">XSS</a>
+attacks. Modern browsers do not support or enforce this header.</dd></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.Policy.html" title="trait rocket::shield::Policy">Policy</a></dt><dd>Trait implemented by security and privacy policy headers.</dd></dl></section></div></main></body></html>

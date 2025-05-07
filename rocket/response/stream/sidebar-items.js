@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["ByteStream","EventStream","ReaderStream","TextStream","stream"],"struct":["ByteStream","Event","EventStream","One","ReaderStream","TextStream"]};

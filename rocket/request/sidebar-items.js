@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["local_cache","local_cache_once"],"struct":["Request"],"trait":["FromParam","FromRequest","FromSegments"],"type":["FlashMessage","Outcome"]};

@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Contains types that set the Content-Type of a response."><title>rocket::response::content - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-1a91846b.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="rocket" data-themes="" data-resource-suffix="" data-rustdoc-version="1.88.0-nightly (27d6200a7 2025-05-06)" data-channel="nightly" data-search-js="search-f7877310.js" data-settings-js="settings-5514c975.js" ><script src="../../../static.files/storage-4e99c027.js"></script><script defer src="../sidebar-items.js"></script><script defer src="../../../static.files/main-7ef8a74a.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://rocket.rs/images/favicon.ico"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../../../rocket/index.html"><img src="https://rocket.rs/images/logo-boxed.png" alt="logo"></a><h2><a href="../../../rocket/index.html">rocket</a><span class="version">0.5.1</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Module content</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#usage" title="Usage">Usage</a></li><li><a href="#example" title="Example">Example</a></li></ul><h3><a href="#structs">Module Items</a></h3><ul class="block"><li><a href="#structs" title="Structs">Structs</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="../index.html">In rocket::<wbr>response</a></h2></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../../index.html">rocket</a>::<wbr><a href="../index.html">response</a></div><h1>Module <span>content</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../../src/rocket/response/content.rs.html#1-87">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Contains types that set the Content-Type of a response.</p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<p>Each type in this module is a <code>Responder</code> that wraps an existing
+<code>Responder</code>, overwriting the <code>Content-Type</code> of the response but otherwise
+delegating the response to the wrapped responder. As a convenience,
+<code>(ContentType, R)</code> where <code>R: Responder</code> is <em>also</em> a <code>Responder</code> that
+overrides the <code>Content-Type</code> to the value in <code>.0</code>:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::http::ContentType;
+
+<span class="attr">#[get(<span class="string">"/"</span>)]
+</span><span class="kw">fn </span>index() -&gt; (ContentType, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str) {
+    (ContentType::HTML, <span class="string">"Is this HTML? &lt;p&gt;Sure, why not!&lt;/p&gt;"</span>)
+}</code></pre></div>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<p>The following snippet creates a <code>RawHtml</code> response from a string. Normally,
+raw strings set their response Content-Type to <code>text/plain</code>. By using the
+<code>RawHtml</code> content response, the Content-Type will be set to <code>text/html</code>
+instead:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rocket::response::content;
+
+<span class="kw">let </span>response = content::RawHtml(<span class="string">"&lt;h1&gt;Hello, world!&lt;/h1&gt;"</span>);</code></pre></div>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.RawCss.html" title="struct rocket::response::content::RawCss">RawCss</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+CSS
+</b>, or <i>
+text/css
+</i>.</dd><dt><a class="struct" href="struct.RawHtml.html" title="struct rocket::response::content::RawHtml">RawHtml</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+HTML
+</b>, or <i>
+text/html
+</i>.</dd><dt><a class="struct" href="struct.RawJavaScript.html" title="struct rocket::response::content::RawJavaScript">RawJava<wbr>Script</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+JavaScript
+</b>, or <i>
+application/javascript
+</i>.</dd><dt><a class="struct" href="struct.RawJson.html" title="struct rocket::response::content::RawJson">RawJson</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+JSON
+</b>, or <i>
+application/json
+</i>.</dd><dt><a class="struct" href="struct.RawMsgPack.html" title="struct rocket::response::content::RawMsgPack">RawMsg<wbr>Pack</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+MessagePack
+</b>, or <i>
+application/msgpack
+</i>.</dd><dt><a class="struct" href="struct.RawText.html" title="struct rocket::response::content::RawText">RawText</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+plain text
+</b>, or <i>
+text/plain
+</i>.</dd><dt><a class="struct" href="struct.RawXml.html" title="struct rocket::response::content::RawXml">RawXml</a></dt><dd>Override the <code>Content-Type</code> of the response to <b>
+XML
+</b>, or <i>
+text/xml
+</i>.</dd></dl></section></div></main></body></html>
