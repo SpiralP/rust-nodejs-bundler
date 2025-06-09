@@ -1,6 +1,6 @@
 [package]
 name = "nodejs-bundler-codegen"
-version = "1.0.0"
+version = "0.0.0-semantic-release"
 edition = "2021"
 publish = false
 
