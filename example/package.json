@@ -1,7 +1,7 @@
 {
   "name": "rust-nodejs-bundler-example",
+  "version": "0.0.0-semantic-release",
   "private": true,
-  "version": "1.0.0",
   "scripts": {
     "build": "cd web && esbuild ./src/index.ts --outfile=./dist/index.js --bundle --sourcemap --target=chrome94",
     "build:prod": "npm run build --minify"
