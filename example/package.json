@@ -7,7 +7,7 @@
     "build:prod": "npm run build --minify"
   },
   "devDependencies": {
-    "@types/node": "22.15.32",
+    "@types/node": "22.15.33",
     "esbuild": "0.25.5",
     "typescript": "5.8.3"
   }
