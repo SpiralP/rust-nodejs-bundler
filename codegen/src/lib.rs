@@ -202,7 +202,7 @@ impl Builder {
             let relative_path = relative_path.as_str();
             phf.entry(
                 relative_path,
-                &format!("include_bytes!({encoded_path:?}) as &'static [u8]"),
+                format!("include_bytes!({encoded_path:?}) as &'static [u8]"),
             );
         }
 
