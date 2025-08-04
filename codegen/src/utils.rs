@@ -13,6 +13,7 @@ pub fn is_file<P: AsRef<Path>>(path: P) -> bool {
 }
 
 pub fn run(command: &mut Command) -> bool {
+    println!("Running command: {:?}", command);
     command.status().unwrap().success()
 }
 

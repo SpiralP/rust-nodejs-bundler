@@ -1,15 +1,24 @@
-name: Rust
+name: Build
 
-on: [push]
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: ["*"]
+    tags: ["*"]
+  workflow_dispatch:
 
 concurrency:
-  group: ${{ github.ref }}
+  group: build-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read # for checkout
 
 jobs:
+  linux_nix:
+    uses: SpiralP/github-reusable-workflows/.github/workflows/build.yml@0a15f23a008b830fa2064835dde84b3961cac24d # main
+
   linux:
     runs-on: ubuntu-latest
     permissions:
