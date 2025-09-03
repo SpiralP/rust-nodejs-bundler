@@ -1,7 +1,7 @@
 [package]
 name = "nodejs-bundler-codegen"
 version = "0.0.0-semantic-release"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [dependencies]

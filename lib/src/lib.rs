@@ -1,5 +1,6 @@
-pub use phf;
 use std::path::Path;
+
+pub use phf;
 
 pub type Files = phf::Map<&'static str, &'static [u8]>;
 
@@ -54,7 +55,7 @@ impl NodeJsBundle {
     ) -> impl actix_web::Handler<(actix_web::HttpRequest,), Output = actix_web::HttpResponse> {
         use std::future;
 
-        use actix_web::{http::header::ContentType, HttpRequest, HttpResponse};
+        use actix_web::{HttpRequest, HttpResponse, http::header::ContentType};
 
         |req: HttpRequest| -> future::Ready<HttpResponse> {
             let path = req.path();
@@ -103,7 +104,10 @@ impl NodeJsBundle {
 
     #[cfg(feature = "warp")]
     #[must_use]
-    pub fn as_warp_reply(&'static self, path: &warp::filters::path::FullPath) -> impl warp::Reply {
+    pub fn as_warp_reply(
+        &'static self,
+        path: &warp::filters::path::FullPath,
+    ) -> impl warp::Reply + use<> {
         use warp::http::Response;
 
         let path = path.as_str();
@@ -122,9 +126,9 @@ impl NodeJsBundle {
     #[must_use]
     pub fn as_rocket_route(&'static self) -> rocket::Route {
         use rocket::{
+            Data, Request, Route,
             http::{ContentType, Method, Status},
             route::{Handler, Outcome},
-            Data, Request, Route,
         };
 
         #[derive(Clone)]
