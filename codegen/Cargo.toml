@@ -1,10 +1,10 @@
 [package]
 name = "nodejs-bundler-codegen"
 version = "0.0.0-semantic-release"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [dependencies]
-phf_codegen = "0.12"
+phf_codegen = "0.13"
 walkdir = "2"
 zstd = "0.13"

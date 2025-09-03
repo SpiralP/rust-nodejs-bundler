@@ -1,14 +1,14 @@
 [package]
 name = "nodejs-bundler-example"
 version = "0.0.0-semantic-release"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [features]
 with_actix = ["actix-rt", "actix-web", "nodejs-bundler/actix"]
 with_rocket = ["nodejs-bundler/rocket", "rocket"]
 with_rouille = ["nodejs-bundler/rouille", "rouille"]
-with_warp = ["nodejs-bundler/warp", "tokio", "warp"]
+with_warp = ["nodejs-bundler/warp", "tokio", "warp", "warp/server"]
 
 [dependencies]
 actix-rt = { version = "2", optional = true }
@@ -17,7 +17,7 @@ nodejs-bundler = { path = "../lib" }
 rocket = { version = "0.5.0", optional = true }
 rouille = { version = "3", optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
-warp = { version = "0.3", optional = true }
+warp = { version = "0.4", optional = true }
 
 [build-dependencies]
 nodejs-bundler-codegen = { path = "../codegen" }
